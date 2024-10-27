@@ -37,7 +37,7 @@ const Redirect = () => {
     const navigate = useNavigate()
 
     useEffect(() => {
-        navigate('/account/account')
+        navigate('/settings/account')
     }, [])
 
     return null

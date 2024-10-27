@@ -45,7 +45,7 @@ const Footer = () => {
                             className="text-white justify-start weight-400"
                             variant="link"
                             label="Account"
-                            to="/account/account"
+                            to="/settings/account"
                         />
                         <Button
                             muted
@@ -97,7 +97,7 @@ const Footer = () => {
                                 className="text-white justify-start weight-400"
                                 variant="link"
                                 label="Account"
-                                to="/account/account"
+                                to="/settings/account"
                             />
                             <Button
                                 muted

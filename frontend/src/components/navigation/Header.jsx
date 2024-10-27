@@ -96,6 +96,7 @@ const Header = () => {
                                             <div className="d-sm-none">
                                                 <div className="flex gap-2 flex-grow-1">
                                                     <Button
+                                                        muted
                                                         to="/"
                                                         label="Home"
                                                         variant="text"
@@ -103,6 +104,7 @@ const Header = () => {
                                                         type="secondary"
                                                     />
                                                     <Button
+                                                        muted
                                                         to="/browse"
                                                         label="Browse"
                                                         variant="text"
@@ -110,6 +112,7 @@ const Header = () => {
                                                         type="secondary"
                                                     />
                                                     <Button
+                                                        muted
                                                         to="/library"
                                                         label="Your library"
                                                         variant="text"
@@ -117,6 +120,7 @@ const Header = () => {
                                                         type="secondary"
                                                     />
                                                     <Button
+                                                        muted
                                                         to="/crew"
                                                         label="Crew"
                                                         variant="text"

@@ -13,6 +13,8 @@ import HomePage from "./pages/HomePage";
 import Settings from "./pages/Settings";
 import LoginWithEmail from "./pages/auth/LoginWithEmail";
 import Navbar from "./components/navigation/Navbar";
+import LibraryPage from "./pages/LibraryPage";
+import BrowsePage from "./pages/BrowsePage";
 
 function App() {
   const { user } = useSelector(state => state.auth);
@@ -39,6 +41,8 @@ function App() {
           <div className="flex-grow-1 h-min-100">
               <Routes>
                 <Route path="/" element={<ErrBoundary><HomePage /></ErrBoundary>} />
+                <Route path="/browse" element={<ErrBoundary><BrowsePage /></ErrBoundary>} />
+                <Route path="/library" element={<ErrBoundary><LibraryPage /></ErrBoundary>} />
                 {user ?
                   <Route path="/account/:tab" element={<ErrBoundary><Settings/></ErrBoundary>} />
                 :

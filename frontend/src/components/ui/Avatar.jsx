@@ -1,7 +1,6 @@
 import { useEffect, useState, useRef, memo } from 'react'
 import './styles/Avatar.css'
 import { createPortal } from 'react-dom';
-import { imgPlaceholder } from '../../assets/constants';
 
 const Avatar = ({
     img,
@@ -105,7 +104,7 @@ const Avatar = ({
             >
                 <div className="img-big-display-container max-width">
                     <img
-                        src={imgErr ? imgPlaceholder : img} 
+                        src={imgErr ? '' : img} 
                         alt={alt}
                     />
                 </div>
@@ -127,7 +126,7 @@ const Avatar = ({
             <img
                 className={`${contain ? ' avatar-contain' : ''}${imgClassName ? ` ${imgClassName}` : ''} animation-fade-in`}
                 ref={imgRef}
-                src={imgErr ? imgPlaceholder : img} 
+                src={imgErr ? '' : img} 
                 onClick={() => {
                     if(bigDisplay) {setIsBigDisplay(true);}
                     if(onClick) {onClick()}

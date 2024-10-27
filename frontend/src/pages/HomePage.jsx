@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { Button, HorizontalScroll, Icon, InputSearch } from '../components'
 import { useSelector } from 'react-redux'
-import { businessTypeEnum } from '../assets/constants'
 import { Link, useNavigate } from 'react-router-dom'
 import { arrowRightShortIcon, lockIcon, rightArrowIcon, searchIcon, targetIcon, userCardIcon } from '../assets/img/icons'
 
@@ -24,22 +23,6 @@ const BusinessType = () => {
                         </div>
                     </div>
                 </Link>
-            {businessTypeEnum.map((type) => (
-                <Link
-                    key={type.label}
-                    to={`/jobs?businessType=${type.label.replaceAll(' ', '+').toLocaleLowerCase()}`}
-                    className="flex-shrink-0 border-radius-md text-capitalize box-shadow-hover-sm p-4 fs-24 weight-600 pointer bg-main"
-                >
-                    <div className="flex flex-col gap-4">
-                        <div>
-                        {`${type.icon}`}
-                        </div>
-                        <div>
-                        {`${type.label}`}
-                        </div>
-                    </div>
-                </Link>
-            ))}
         </section>
     )
 }
@@ -342,192 +325,16 @@ const HomePage = () => {
 
     return (
         <div>
-            <section className="animation-slide-in bg-main">
-                <div className="mx-auto w-max-md">
-                    <div className="container px-sm-2">
-                        <div className="h-min-100 flex justify-center flex-col">
-                            <div className="flex flex-col gap-6 justify-center w-100 pt-5">
-                                <div className="py-sm-5 bold fs-sm-48 line-height-1 text-center"
-                                    style={{
-                                        fontSize: '74px'
-                                    }}
-                                >
-                                    Top Food & Hospitality Jobs Near You
-                                </div>
-                            </div>
-                            <div className="flex flex-col gap-4 pt-6 pt-sm-5 px-sm-2">
-                            <div className="flex border gap-2 border-radius-lg align-center py-1">
-                                <InputSearch
-                                    value={searchValue}
-                                    clearable={false}
-                                    icon={searchIcon}
-                                    onChange={(e) => setSearchValue(e.target.value)}
-                                    placeholder={displayText}
-                                    className="flex-1"
-                                    onSubmit={() => {
-                                        navigate(`/jobs?q=${searchValue}`)
-                                    }}
-                                />
-                                <Button
-                                    label="Search"
-                                    borderRadius="lg"
-                                    className="weight-400 flex-shrink-0 mx-1 my-sm-0"
-                                    type="primary"
-                                    variant={"filled"}
-                                    onClick={() => {
-                                        navigate(`/jobs?q=${searchValue}`)
-                                    }}
-                                />
-                            </div>
-                            <div className="overflow-hidden w-available">
-                                <div className="flex gap-4 overflow-x-auto scrollbar-none">
-                                <Button
-                                    to="/jobs"
-                                    size="lg"
-                                    borderRadius="lg"
-                                    label="All Jobs"
-                                    variant="outline"
-                                    className="flex-grow-1 flex-shrink-0"
-                                    type="secondary"
-                                />
-                                <Button
-                                    to="/jobs?q=barista"
-                                    size="lg"
-                                    borderRadius="lg"
-                                    icon="☕"
-                                    label="Barista"
-                                    variant="outline"
-                                    className="flex-grow-1 flex-shrink-0"
-                                    type="secondary"
-                                />
-                                <Button
-                                    to="/jobs?q=bartender"
-                                    size="lg"
-                                    borderRadius="lg"
-                                    icon="🍸"
-                                    label="Bartender"
-                                    variant="outline"
-                                    className="flex-grow-1 flex-shrink-0"
-                                    type="secondary"
-                                />
-                                <Button
-                                    to="/jobs?q=chef"
-                                    size="lg"
-                                    borderRadius="lg"
-                                    icon="👨‍🍳"
-                                    label="Chef"
-                                    variant="outline"
-                                    className="flex-grow-1 flex-shrink-0"
-                                    type="secondary"
-                                />
-                                <Button
-                                    to="/jobs?q=baker"
-                                    size="lg"
-                                    borderRadius="lg"
-                                    icon="🥖"
-                                    label="Bakers"
-                                    variant="outline"
-                                    className="flex-grow-1 flex-shrink-0"
-                                    type="secondary"
-                                />
-                                <Button
-                                    to="/jobs?q=server"
-                                    size="lg"
-                                    borderRadius="lg"
-                                    icon="🍽️"
-                                    label="Server"
-                                    variant="outline"
-                                    className="flex-grow-1 flex-shrink-0"
-                                    type="secondary"
-                                />
-                                <Button
-                                    to="/jobs?q=cook"
-                                    size="lg"
-                                    borderRadius="lg"
-                                    icon="🍳"
-                                    label="Cook"
-                                    variant="outline"
-                                    className="flex-grow-1 flex-shrink-0"
-                                    type="secondary"
-                                />
-                                <Button
-                                    to="/jobs?q=host"
-                                    size="lg"
-                                    borderRadius="lg"
-                                    icon="🎫"
-                                    label="Host"
-                                    variant="outline"
-                                    className="flex-grow-1 flex-shrink-0"
-                                    type="secondary"
-                                />
-                                <Button
-                                    to="/jobs?q=busser"
-                                    size="lg"
-                                    borderRadius="lg"
-                                    icon="🧹"
-                                    label="Busser"
-                                    variant="outline"
-                                    className="flex-grow-1 flex-shrink-0"
-                                    type="secondary"
-                                />
-                                <Button
-                                    to="/jobs?q=manager"
-                                    size="lg"
-                                    borderRadius="lg"
-                                    icon="👔"
-                                    label="Manager"
-                                    variant="outline"
-                                    className="flex-grow-1 flex-shrink-0"
-                                    type="secondary"
-                                />
-                                <Button
-                                    to="/jobs?q=barback"
-                                    size="lg"
-                                    borderRadius="lg"
-                                    icon="🍺"
-                                    label="Barback"
-                                    variant="outline"
-                                    className="flex-grow-1 flex-shrink-0"
-                                    type="secondary"
-                                />
-                                <Button
-                                    to="/jobs?q=sommelier"
-                                    size="lg"
-                                    borderRadius="lg"
-                                    icon="🍷"
-                                    label="Sommelier"
-                                    variant="outline"
-                                    className="flex-grow-1 flex-shrink-0"
-                                    type="secondary"
-                                />
-                                </div>
-                            </div>
-                            <Section6/>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div className="bg-secondary">
-                    <div className="mx-auto w-max-md">
-                        <div className="container px-sm-2 h-min-100 flex align-center justify-center flex-col py-6">
-                            <div className="weight-500 fs-54 pb-6 text-center fs-sm-28">
-                                In what business are you interested?
-                            </div>
-                            <BusinessType/>
-                        </div>
-                    </div>
-                </div>
-                {!user ?
-                <>
-                    <Section5/>
-                    <Section4/>
-                </>
-                :
-                    user?.accountType === 'employer' ?
-                    <Section3/>
-                    : null
-                }
-            </section>
+            {!user ?
+            <>
+                <Section5/>
+                <Section4/>
+            </>
+            :
+                user?.accountType === 'employer' ?
+                <Section3/>
+                : null
+            }
         </div>
     )
 }

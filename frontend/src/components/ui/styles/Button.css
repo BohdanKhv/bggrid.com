@@ -1,7 +1,7 @@
 /* Button */
 .btn {
     background-color: var(--color-main);
-    border-radius: var(--border-radius);
+    border-radius: var(--border-radius-lg);
     color: var(--text-dark);
     align-items: center;
     font-size: 14px;

@@ -1,7 +1,6 @@
 import { useEffect, useState, useRef } from 'react'
 import { createPortal } from 'react-dom';
 import { TransformWrapper, TransformComponent } from "react-zoom-pan-pinch";
-import { imgPlaceholder } from '../../assets/constants';
 import { closeIcon, minusIcon, plugIcon, largePlusIcon, linkIcon, copyIcon, xIcon, checkIcon, downloadIcon, arrowLeftRightIcon, moreIcon, shareIcon, leftArrowIcon, arrowClockwiseIcon, arrowCounterclockwiseIcon } from '../../assets/img/icons';
 import ButtonGroup from './ButtonGroup';
 import Button from './Button';
@@ -185,7 +184,7 @@ const PreviewImage = ({
                                             <div className="spinner"/>
                                         :
                                             <img
-                                                src={imgErr ? imgPlaceholder : img} 
+                                                src={imgErr ? '' : img} 
                                                 alt={alt}
                                                 decoding="async"
                                                 loading="lazy"
@@ -260,7 +259,7 @@ const PreviewImage = ({
             <img
                 className={`${contain ? ' preview-image-contain' : ''}${imgClassName ? ` ${imgClassName}` : ''}`}
                 ref={imgRef}
-                src={imgErr ? imgPlaceholder : img} 
+                src={imgErr ? '' : img} 
                 onClick={() => {setIsBigDisplay(true)}}
                 alt={alt}
                 decoding="async"

@@ -2,7 +2,7 @@ import { useState } from "react"
 import { useSelector, useDispatch } from "react-redux"
 import { Link, useNavigate } from "react-router-dom"
 import { Avatar, Button, Dropdown, Icon } from "../../components"
-import { bookmarkIcon, businessIcon, chatIcon, closeIcon, filterIcon, flagIcon, historyIcon, homeIcon, largePlusIcon, listIcon, locationIcon, loginIcon, logoutIcon, menuIcon, moneyIcon, patchPlusIcon, priceMoreIcon, searchIcon, settingsIcon, starEmptyIcon, starsIcon, userCardIcon, userIcon, vendorIcon } from "../../assets/img/icons"
+import { appIcon, bookmarkIcon, businessIcon, chatIcon, closeIcon, filterIcon, flagIcon, gamesIcon, historyIcon, homeIcon, largePlusIcon, libraryIcon, listIcon, locationIcon, loginIcon, logoutIcon, menuIcon, moneyIcon, patchPlusIcon, priceMoreIcon, searchIcon, settingsIcon, starEmptyIcon, starsIcon, userCardIcon, userIcon, usersIcon, vendorIcon } from "../../assets/img/icons"
 import { logout } from "../../features/auth/authSlice"
 
 const UserProfile = () => {
@@ -162,96 +162,42 @@ const UserProfile = () => {
                         />
                         <Button
                             size="lg"
-                            label="Search jobs"
-                            icon={searchIcon}
+                            label="Games"
+                            icon={gamesIcon}
                             variant="text"
                             className="text-start justify-start weight-400 border-radius-none border-none bg-secondary-hover"
-                            to={`/jobs`}
+                            to={`/games`}
                             // to={`/jobs${user && user.position ? `?q=${user.position}` : ""}${user && user.city && user.state ? `&location=${user.city},+${user.state}` : ""}`}
                         />
                         <Button
                             size="lg"
-                            label="Salaries"
-                            icon={moneyIcon}
+                            label="Your library"
+                            icon={libraryIcon}
                             variant="text"
                             className="text-start justify-start weight-400 border-radius-none border-none bg-secondary-hover"
-                            to="/salaries"
+                            to="/library"
                         />
                         <Button
                             size="lg"
-                            label="Interviews"
-                            icon={chatIcon}
+                            label="Crew"
+                            icon={usersIcon}
                             variant="text"
                             className="text-start justify-start weight-400 border-radius-none border-none bg-secondary-hover"
-                            to="/interviews"
+                            to="/crew"
                         />
                         {user ?
                         <>
                         </>
                         : null}
-                        <div className="border-bottom"/>
-                        {user?.accountType === "employer" ?
-                        <>
-                            <Button
+                            {/* <Button
                                 size="lg"
-                                label="Manage jobs"
+                                label="Saved games"
                                 variant="text"
-                                to="/manage-jobs"
-                                icon={listIcon}
+                                to="/my-jobs/saved"
+                                icon={bookmarkIcon}
                                 className="text-start justify-start weight-400 border-radius-none border-none bg-secondary-hover"
-                            />
-                            <Button
-                                size="lg"
-                                label="Post a job"
-                                variant="text"
-                                to="/new"
-                                icon={patchPlusIcon}
-                                className="text-start justify-start weight-400 border-radius-none border-none bg-secondary-hover"
-                            />
-                            <Button
-                                size="lg"
-                                label="Post a free job"
-                                variant="text"
-                                to="/free"
-                                icon={priceMoreIcon}
-                                className="text-start justify-start weight-400 border-radius-none border-none bg-secondary-hover"
-                            />
+                            /> */}
                             <div className="border-bottom"/>
-                        </>
-                        : null}
-                        {user?.accountType === "employer" ?
-                            null
-                        :
-                            <>
-                                <Button
-                                    size="lg"
-                                    label="Saved jobs"
-                                    variant="text"
-                                    to="/my-jobs/saved"
-                                    icon={bookmarkIcon}
-                                    className="text-start justify-start weight-400 border-radius-none border-none bg-secondary-hover"
-                                />
-                                <Button
-                                    size="lg"
-                                    label="Recently viewed"
-                                    variant="text"
-                                    to="/my-jobs/viewed"
-                                    icon={historyIcon}
-                                    className="text-start justify-start weight-400 border-radius-none border-none bg-secondary-hover"
-                                />
-                                {user?.accountType === "jobSeeker" ?
-                                <Button
-                                    size="lg"
-                                    label="Applied jobs"
-                                    variant="text"
-                                    to="/my-jobs/applied"
-                                    icon={businessIcon}
-                                    className="text-start justify-start weight-400 border-radius-none border-none bg-secondary-hover"
-                                />
-                                : null}
-                            <div className="border-bottom"/>
-                            </>
-                        }
                             {user ?
                             <>
                                 <Button
@@ -267,7 +213,7 @@ const UserProfile = () => {
                             <Button
                                 size="lg"
                                 to="/login"
-                                label="Login"
+                                label="Log in"
                                 icon={loginIcon}
                                 className="text-start justify-start weight-400 border-radius-none border-none bg-secondary-hover"
                                 variant="text"

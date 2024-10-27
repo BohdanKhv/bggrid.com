@@ -2,10 +2,10 @@ import { useState, useEffect, useRef } from "react"
 import { useDispatch, useSelector } from "react-redux"
 import {  Button, ErrorInfo, Icon, IconButton, InputSearch, Modal, UserProfile } from "../"
 import './styles/Header.css'
-import { arrowDoubleBottomIcon, arrowDownShortIcon, arrowUpShortIcon, basketFillIcon, basketIcon, clockIcon, closeIcon, deliveryIcon, historyIcon, homeFillIcon, homeIcon, leftArrowIcon, locationIcon, mapIcon, menuIcon, searchIcon, selectOptionsIcon, userIcon, usersFillIcon, usersIcon } from "../../assets/img/icons"
+import { arrowDoubleBottomIcon, arrowDownShortIcon, arrowUpShortIcon, basketFillIcon, basketIcon, clockIcon, closeIcon, deliveryIcon, gamesIcon, historyIcon, homeFillIcon, homeIcon, leftArrowIcon, libraryIcon, locationIcon, mapIcon, menuIcon, searchIcon, selectOptionsIcon, userIcon, usersFillIcon, usersIcon } from "../../assets/img/icons"
 import { Link, useLocation, useSearchParams } from "react-router-dom"
 import { logoNameSvg, logoRevertSvg, logoSvg } from "../../assets/img/logo"
-import { commonJobsEnum, locationNewYorkEnum } from "../../assets/constants"
+import { commonGames } from "../../assets/constants"
 import { getLocations } from "../../features/suggestion/suggestionSlice"
 import { setSearchHistory } from "../../features/local/localSlice"
 
@@ -115,30 +115,28 @@ const Header = () => {
                                                         to="/"
                                                         label="Home"
                                                         variant="text"
+                                                        icon={homeIcon}
                                                         type="secondary"
                                                     />
                                                     <Button
-                                                        to="/jobs"
-                                                        label="Jobs"
+                                                        to="/games"
+                                                        label="Games"
                                                         variant="text"
+                                                        icon={gamesIcon}
                                                         type="secondary"
                                                     />
                                                     <Button
-                                                        to="/salaries"
-                                                        label="Salaries"
+                                                        to="/library"
+                                                        label="Your library"
                                                         variant="text"
+                                                        icon={libraryIcon}
                                                         type="secondary"
                                                     />
                                                     <Button
-                                                        to="/interviews"
-                                                        label="Interviews"
+                                                        to="/crew"
+                                                        label="Crew"
                                                         variant="text"
-                                                        type="secondary"
-                                                    />
-                                                    <Button
-                                                        to="/pricing"
-                                                        label="Pricing"
-                                                        variant="text"
+                                                        icon={usersIcon}
                                                         type="secondary"
                                                     />
                                                 </div>
@@ -157,7 +155,7 @@ const Header = () => {
                                                     clearable
                                                     searchable={
                                                         windowWidth > 800 ?
-                                                        commonJobsEnum
+                                                        commonGames
                                                         .filter((job) => job.toLowerCase() !== searchValue.toLowerCase() && job.toLowerCase().includes(searchValue.toLowerCase())).length > 0
                                                         : false
                                                     }
@@ -208,13 +206,13 @@ const Header = () => {
                                                                 : null}
                                                             </>
                                                             : null}
-                                                            {commonJobsEnum
+                                                            {commonGames
                                                             .filter((job) => job.toLowerCase() !== searchValue.toLowerCase() && job.toLowerCase().includes(searchValue.toLowerCase())).length > 0 ?
                                                                 <div className="fs-14 px-4 py-2 flex align-center gap-3 text-secondary weight-600">
                                                                     Suggested jobs
                                                                 </div>
                                                             : null}
-                                                            {commonJobsEnum
+                                                            {commonGames
                                                             .filter((job) => job.toLowerCase() !== searchValue.toLowerCase() && job.toLowerCase().includes(searchValue.toLowerCase()))
                                                             .slice(0, 10)
                                                             .map((job) => (
@@ -340,13 +338,13 @@ const Header = () => {
                                                             : null}
                                                         </>
                                                         : null}
-                                                        {commonJobsEnum
+                                                        {commonGames
                                                         .filter((job) => job.toLowerCase() !== searchValue.toLowerCase() && job.toLowerCase().includes(searchValue.toLowerCase())).length > 0 ?
                                                             <div className="fs-12 bold px-4 pb-1 pt-2 text-secondary">
                                                                 Suggested jobs
                                                             </div>
                                                         : null}
-                                                        {commonJobsEnum
+                                                        {commonGames
                                                         .filter((job) => job.toLowerCase() !== searchValue.toLowerCase() && job.toLowerCase().includes(searchValue.toLowerCase()))
                                                         .slice(0, 10)
                                                         .map((job) => (
@@ -377,28 +375,11 @@ const Header = () => {
                                             </>
                                     : null }
                                 <div className={`justify-end flex align-center flex-no-wrap gap-3${pathname  === '/jobs' ? "" : " flex-1"}`}>
-                                    {pathname !== '/jobs' && pathname !== '/new' && (!user || (user && user.accountType === 'employer')) ? (
-                                        <Button
-                                            to="/new"
-                                            label="Post a Job"
-                                            variant="filled"
-                                            type="primary"
-                                            borderRadius="lg"
-                                        />
-                                    ) : pathname !== '/jobs' && user && user.accountType === 'jobSeeker' ? (
-                                        <Button
-                                            to="/account/resume"
-                                            label="Resume"
-                                            variant="filled"
-                                            type="primary"
-                                            borderRadius="lg"
-                                        />
-                                    ) : 
-                                    pathname !== '/jobs' && pathname !=='/jobs' && !user ?
+                                    {!user ?
                                         <Button
                                             to="/login"
                                             label="Login"
-                                            variant="outline"
+                                            variant="filled"
                                             type="primary"
                                             borderRadius="lg"
                                         />

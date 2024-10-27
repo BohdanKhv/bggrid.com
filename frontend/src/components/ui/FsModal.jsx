@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef } from 'react';
-import { arrowDoubleBottomIcon, arrowDoubleRightIcon, closeIcon } from '../../assets/img/icons';
-import { IconButton, Avatar, BackBtn, Button } from '../';
+import { arrowDoubleBottomIcon, arrowDoubleRightIcon, closeIcon, leftArrowIcon } from '../../assets/img/icons';
+import { IconButton, Avatar, Button } from '../';
 import './styles/FsModal.css';
 import { createPortal } from 'react-dom';
 
@@ -98,7 +98,8 @@ const FsModal = ({
                                         <div className="w-set-50-px"/>
                                     ) : null}
                                     {props.titleLeft ? (
-                                        <BackBtn
+                                        <Button
+                                            icon={leftArrowIcon}
                                             onClick={closeModal}
                                             label={props.titleLeft}
                                         />

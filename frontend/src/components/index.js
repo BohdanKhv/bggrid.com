@@ -2,7 +2,6 @@ import UserGate from "./user/UserGate";
 import UserProfile from "./user/UserProfile";
 
 import Header from "./navigation/Header";
-import BackBtn from "./navigation/BackBtn";
 
 import Modal from "./ui/Modal";
 import Avatar from "./ui/Avatar";
@@ -59,7 +58,6 @@ export {
     UserProfile,
 
     Header,
-    BackBtn,
 
     Modal,
     Avatar,

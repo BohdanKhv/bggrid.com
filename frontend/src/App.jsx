@@ -1,33 +1,18 @@
-import { useEffect } from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { Header, Alerts, IsOffline, ErrBoundary } from "./components";
-import {
-  HomePage,
-
-  LoginNotFound,
-} from "./pages";
-
 import { Tooltip } from "react-tooltip";
 import Me from "./pages/auth/Me";
+import Auth from "./pages/auth/Auth";
+import Login from "./pages/auth/Login";
+import Terms from "./pages/Terms";
+import Privacy from "./pages/Privacy";
 import ImportantUserAlert from "./pages/auth/ImportantUserAlert";
 import Footer from "./pages/Footer";
+import HomePage from "./pages/HomePage";
 
 function App() {
-  const theme = useSelector((state) => state.local.theme);
   const { user } = useSelector(state => state.auth);
-
-  useEffect(() => {
-    // if(theme === 'system') {
-    //   const systemTheme = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
-    //   document?.body?.setAttribute('data-theme', systemTheme);
-    // } else if (theme === 'dark') {
-    //   document?.body?.setAttribute('data-theme', 'dark');
-    // } else {
-    //   document?.body?.setAttribute('data-theme', 'light');
-    // }
-}, [theme]);
-
 
   return (
     <Router>
@@ -46,7 +31,12 @@ function App() {
           <div className="flex-grow-1 h-min-100">
               <Routes>
                 <Route path="/" element={<ErrBoundary><HomePage /></ErrBoundary>} />
-                <Route path="*" element={<LoginNotFound />} />
+                {!user ?
+                  <Route path="/login" element={<ErrBoundary><Auth><Login /></Auth></ErrBoundary>} />
+                : null}
+                <Route path="/terms" element={<ErrBoundary><Terms /></ErrBoundary>} />
+                <Route path="/privacy" element={<ErrBoundary><Privacy /></ErrBoundary>} />
+                {/* <Route path="*" element={<LoginNotFound />} /> */}
               </Routes>
             </div>
           <Footer/>

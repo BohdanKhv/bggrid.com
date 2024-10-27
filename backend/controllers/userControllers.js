@@ -3,6 +3,7 @@ const nodeMailer = require('nodemailer');
 const jwt = require('jsonwebtoken');
 const emailLoginLink = require('../components/EmailLoginLink');
 const { validateEmail } = require('../utils/utils');
+const { uploadFile, deleteFile } = require('../utils/s3');
 
 // Email transporter
 const transporter = nodeMailer.createTransport({
@@ -15,6 +16,26 @@ const transporter = nodeMailer.createTransport({
     }
 });
 
+
+
+// @desc    Get me
+// @route   GET /api/users/me
+// @access  Private
+const getMe = async (req, res) => {
+    try {
+        return res.status(200).json({
+            data: {
+                ...req.user,
+                token: generateToken(req.user._id)
+            }
+        });
+    } catch (err) {
+        console.log(err);
+        res.status(500).json({
+            msg: 'Server error'
+        });
+    }
+}
 
 
 // @desc    Send email login link
@@ -80,8 +101,9 @@ const sendLoginEmail = async (req, res) => {
 }
 
 
+
 // @desc    Login user with token
-// @route   POST /api/auth/login
+// @route   POST /api/users/login
 // @access  Public
 const login = async (req, res) => {
     try {
@@ -105,9 +127,14 @@ const login = async (req, res) => {
             });
         }
 
+        user.lastLogin = new Date();
+        await user.save();
+
         return res.status(200).json({
-            data: user,
-            token: generateToken(user._id),
+            data: {
+                ...user._doc,
+                token: generateToken(user._id)
+            },
         });
     } catch (err) {
         // if error is token expired 
@@ -125,12 +152,13 @@ const login = async (req, res) => {
 }
 
 
-
 // @desc    Update user profile
 // @route   PUT /api/users
 // @access  Private
 const updateUser = async (req, res) => {
     try {
+        const { firstName, lastName } = req.body;
+
         // Check if user exists
         const user = await User
         .findOne({ _id: req.user._id })
@@ -141,11 +169,31 @@ const updateUser = async (req, res) => {
             });
         }
 
+        if (firstName !== undefined) user.firstName = firstName;
+        if (lastName !== undefined) user.lastName = lastName;
+
+
+        if (req.file) {
+            const fileExtension = req.file.originalname.split('.').pop() || '';
+            const newKey = `${user._id}-${new Date().getTime()}.${fileExtension}`;
+            const {error, key} = await uploadFile({  bucket: 'users', key: newKey, file: req.file });
+            if(error) {
+                return res.status(500).json({
+                    msg: 'Error uploading image',
+                });
+            }
+
+            user.avatar = key;
+        }
+
         const updatedUser = await user.save();
 
-        res.status(200).json({
-            data: updatedUser,
-        });
+            res.status(200).json({
+                data: {
+                    ...updatedUser._doc,
+                    token: generateToken(updatedUser._id)
+                },
+            });
     } catch (err) {
         console.log(err);
         res.status(500).json({
@@ -166,6 +214,7 @@ const generateToken = (id) => {
 
 
 module.exports = {
+    getMe,
     sendLoginEmail,
     login,
     updateUser,

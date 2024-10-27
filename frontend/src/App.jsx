@@ -12,6 +12,7 @@ import Footer from "./pages/Footer";
 import HomePage from "./pages/HomePage";
 import Settings from "./pages/Settings";
 import LoginWithEmail from "./pages/auth/LoginWithEmail";
+import Navbar from "./components/navigation/Navbar";
 
 function App() {
   const { user } = useSelector(state => state.auth);
@@ -29,6 +30,11 @@ function App() {
         <ErrBoundary>
           <Header/>
         </ErrBoundary>
+        {window.innerWidth <= 800 ?
+          <ErrBoundary>
+            <Navbar/>
+          </ErrBoundary>
+        : null}
         <IsOffline />
           <div className="flex-grow-1 h-min-100">
               <Routes>

@@ -46,7 +46,7 @@ const UserNotification = () => {
                 closeOnEscape
                 mobileDropdown
                 classNameDropdown="p-0 w-min-300-px"
-                dropdownLabel="Menu"
+                dropdownLabel="Notifications"
                 customDropdown={
                     <IconButton
                         notify={notifications.filter((notification) => !notification.read).length > 0}
@@ -59,6 +59,7 @@ const UserNotification = () => {
                     />
                 }
             >
+                {window.innerWidth > 800 &&
                 <div className="p-2">
                     <div className="flex justify-between align-center flex-grow-1">
                         <div className="fs-16 weight-600">
@@ -71,7 +72,8 @@ const UserNotification = () => {
                         />
                     </div>
                 </div>
-                <div className="flex gap-2 px-4">
+                }
+                <div className="flex gap-2 px-4 pt-sm-4">
                     <ContentBox
                         title="Unread"
                         active={!all}
@@ -178,7 +180,7 @@ const UserNotification = () => {
                             <ErrorInfo isLoading={isLoading} />
                         :
                             notifications.length === 0 &&
-                            <div className="h-100 flex justify-center align-center">
+                            <div className="h-100 flex justify-center align-center h-min-sm-50-vh">
                                 <ErrorInfo
                                     label="You’re all up to date"
                                     secondary="There are no new notifications at the moment."

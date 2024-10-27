@@ -1300,6 +1300,9 @@ margin-right: auto;
         min-height: 0;
         max-height: none;
     }
+    .h-min-sm-50-vh {
+        min-height: 50vh;
+    }
 
     .h-sm-header {
         height: var(--header-sm-height);

@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from "react-redux"
 import {  Button, ErrorInfo, Icon, IconButton, InputSearch, Modal, UserProfile } from "../"
 import './styles/Header.css'
 import { arrowDoubleBottomIcon, arrowDownShortIcon, arrowUpShortIcon, basketFillIcon, basketIcon, clockIcon, closeIcon, deliveryIcon, gamesIcon, historyIcon, homeFillIcon, homeIcon, leftArrowIcon, libraryIcon, locationIcon, mapIcon, menuIcon, searchIcon, selectOptionsIcon, userIcon, usersFillIcon, usersIcon } from "../../assets/img/icons"
-import { Link, useLocation, useSearchParams } from "react-router-dom"
+import { Link, NavLink, useLocation, useSearchParams } from "react-router-dom"
 import { logoNameSvg, logoRevertSvg, logoSvg } from "../../assets/img/logo"
 import { commonGames } from "../../assets/constants"
 import { setSearchHistory } from "../../features/local/localSlice"
@@ -103,8 +103,8 @@ const Header = () => {
                                                         type="secondary"
                                                     />
                                                     <Button
-                                                        to="/games"
-                                                        label="Games"
+                                                        to="/browse"
+                                                        label="Browse"
                                                         variant="text"
                                                         icon={gamesIcon}
                                                         type="secondary"
@@ -367,8 +367,11 @@ const Header = () => {
                                             type="primary"
                                             borderRadius="lg"
                                         />
-                                    : <UserNotification/> }
+                                    :
+                                    <>
+                                    <UserNotification/>
                                     <UserProfile/>
+                                    </> }
                                 </div>
                             </div>
                         </div>

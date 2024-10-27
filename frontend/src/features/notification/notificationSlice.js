@@ -15,7 +15,7 @@ export const getNotifications = createAsyncThunk(
     "notification/getNotifications",
     async (_, thunkAPI) => {
         try {
-            const token = thunkAPI.getState().user.auth.user ? thunkAPI.getState().user.auth.user.token : null;
+            const token = thunkAPI.getState().user.auth ? thunkAPI.getState().user.auth.token : null;
             return await notificationService.getNotifications(token);
         } catch (error) {
             const message =
@@ -34,7 +34,7 @@ export const updateNotificationToRead = createAsyncThunk(
     "notification/updateNotificationToRead",
     async (id, thunkAPI) => {
         try {
-            const token = thunkAPI.getState().user.auth.user ? thunkAPI.getState().user.auth.user.token : null;
+            const token = thunkAPI.getState().user.auth ? thunkAPI.getState().user.auth.token : null;
             return await notificationService.updateNotificationToRead(id, token);
         } catch (error) {
             const message =
@@ -53,7 +53,7 @@ export const bulkUpdateNotification = createAsyncThunk(
     "notification/bulkUpdateNotification",
     async (payload, thunkAPI) => {
         try {
-            const token = thunkAPI.getState().user.auth.user ? thunkAPI.getState().user.auth.user.token : null;
+            const token = thunkAPI.getState().user.auth ? thunkAPI.getState().user.auth.token : null;
             return await notificationService.bulkUpdateNotification(payload, token);
         } catch (error) {
             const message =
@@ -72,7 +72,7 @@ export const updateNotificationToDismissed = createAsyncThunk(
     "notification/updateNotificationToDismissed",
     async (id, thunkAPI) => {
         try {
-            const token = thunkAPI.getState().user.auth.user ? thunkAPI.getState().user.auth.user.token : null;
+            const token = thunkAPI.getState().user.auth ? thunkAPI.getState().user.auth.token : null;
             return await notificationService.updateNotificationToDismissed(id, token);
         } catch (error) {
             const message =

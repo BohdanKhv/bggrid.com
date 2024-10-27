@@ -8,6 +8,7 @@ import { logoNameSvg, logoRevertSvg, logoSvg } from "../../assets/img/logo"
 import { commonGames } from "../../assets/constants"
 import { getLocations } from "../../features/suggestion/suggestionSlice"
 import { setSearchHistory } from "../../features/local/localSlice"
+import UserNotification from "../user/UserNotification"
 
 const Header = () => {
     const dispatch = useDispatch()
@@ -378,12 +379,12 @@ const Header = () => {
                                     {!user ?
                                         <Button
                                             to="/login"
-                                            label="Login"
+                                            label="Log in"
                                             variant="filled"
                                             type="primary"
                                             borderRadius="lg"
                                         />
-                                    : null }
+                                    : <UserNotification/> }
                                     <UserProfile/>
                                 </div>
                             </div>

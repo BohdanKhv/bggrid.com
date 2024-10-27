@@ -1,11 +1,9 @@
 import { configureStore } from '@reduxjs/toolkit';
 import localReducer from '../features/local/localSlice';
 import userReducer from '../features/auth/authSlice';
-import listingReducer from '../features/listing/listingSlice';
+import gameReducer from '../features/game/gameSlice';
 import applyReducer from '../features/apply/applySlice';
-import employerReducer from '../features/employer/employerSlice';
-import salaryReducer from '../features/salary/salarySlice';
-import suggestionReducer from '../features/suggestion/suggestionSlice';
+import notificationReducer from '../features/notification/notificationSlice';
 
 
 
@@ -13,11 +11,9 @@ export const store = configureStore({
     reducer: {
         local: localReducer,
         auth: userReducer,
-        listing: listingReducer,
+        game: gameReducer,
         apply: applyReducer,
-        employer: employerReducer,
-        salary: salaryReducer,
-        suggestion: suggestionReducer,
+        notification: notificationReducer,
     },
     devTools: import.meta.env.VITE_REDUX_DEV_TOOLS === 'true' ? true : false,
 });

@@ -1,10 +1,9 @@
 import { useState, useEffect, useMemo } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { Link, useNavigate } from 'react-router-dom'
-import { bulkUpdateNotification, getNotifications, resetNotifications, updateNotificationToDismissed, updateNotificationToRead } from '../../features/notification/notificationSlice'
-import { IconButton, FsModal, ErrorInfo, Banner, Icon, PwaNotification, Button, Menu, ContentBox } from '../'
-import { arrowRightShortIcon, bellFillIcon, bellIcon, closeIcon, dotIcon, rightArrowIcon, rightArrowPointIcon, timeOffIcon } from '../../assets/img/icons'
-import { ToastContainer, toast, Slide } from 'react-toastify';
+import { bulkUpdateNotification, getNotifications, updateNotificationToDismissed } from '../../features/notification/notificationSlice'
+import { IconButton, ErrorInfo, Icon, Button, ContentBox, Dropdown } from '../'
+import { arrowRightShortIcon, bellIcon, closeIcon, dotIcon } from '../../assets/img/icons'
 
 const UserNotification = () => {
     const dispatch = useDispatch()
@@ -41,10 +40,12 @@ const UserNotification = () => {
 
     return (
         <div>
-            <Menu
-                open={fsmOpen}
-                setOpen={setFsmOpen}
-                menuButton={
+            <Dropdown
+                closeOnEscape
+                mobileDropdown
+                classNameDropdown="p-0 w-min-200-px"
+                dropdownLabel="Menu"
+                customDropdown={
                     <IconButton
                         notify={notifications.filter((notification) => !notification.read).length > 0}
                         // notifyCount={notifications.filter((notification) => !notification.dismissed).length}
@@ -184,7 +185,7 @@ const UserNotification = () => {
                         }
                     </div>
                 </div>
-            </Menu>
+            </Dropdown>
         </div>
     )
 }

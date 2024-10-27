@@ -6,7 +6,6 @@ import { arrowDoubleBottomIcon, arrowDownShortIcon, arrowUpShortIcon, basketFill
 import { Link, useLocation, useSearchParams } from "react-router-dom"
 import { logoNameSvg, logoRevertSvg, logoSvg } from "../../assets/img/logo"
 import { commonGames } from "../../assets/constants"
-import { getLocations } from "../../features/suggestion/suggestionSlice"
 import { setSearchHistory } from "../../features/local/localSlice"
 import UserNotification from "../user/UserNotification"
 
@@ -21,30 +20,14 @@ const Header = () => {
     const [windowWidth, setWindowWidth] = useState(window.innerWidth)
     const [openSearch, setOpenSearch] = useState(false)
 
-    const { locations, loadingId } = useSelector(state => state.suggestion)
-
     const [searchParams, setSearchParams] = useSearchParams()
 
-    const [searchLocation, setSearchLocation] = useState(searchParams.get('location') || '')
     const [searchValue, setSearchValue] = useState(searchParams.get('q') || '')
 
 
     useEffect(() => {
-        let promise;
-    
-        if (searchLocation?.length > 2) {
-            promise = dispatch(getLocations(searchLocation))
-        }
-
-        return () => {
-            promise && promise.abort()
-        }
-    }, [searchLocation])
-
-    useEffect(() => {
-        if (searchParams.get('location') !== searchLocation) { setSearchLocation(searchParams.get('location') || '') }
         if (searchParams.get('q') !== searchValue) { setSearchValue(searchParams.get('q') || '') }
-    }, [searchParams.get('location'), searchParams.get('q')])
+    }, [searchParams.get('q')])
 
     const { user } = useSelector(state => state.auth)
 

@@ -4,7 +4,6 @@ import { Button, ErrorInfo, Icon, Modal } from "../../components"
 import { getMe } from "../../features/auth/authSlice"
 import { errorIcon } from "../../assets/img/icons"
 import { useLocation, useNavigate } from "react-router-dom"
-import { getMyApplications } from "../../features/apply/applySlice"
 
 const Me = () => {
     const navigate = useNavigate()
@@ -17,15 +16,12 @@ const Me = () => {
 
     useEffect(() => {
         let promise;
-        let promise2;
         if (user) {
-            promise2 = dispatch(getMe())
-            promise = dispatch(getMyApplications({select: '_id createdAt updatedAt', populate: 'listing'}))
+            promise = dispatch(getMe())
         }
 
         return () => {
             if(promise) promise.abort()
-            if(promise2) promise2.abort()
         }
     }, [])
 

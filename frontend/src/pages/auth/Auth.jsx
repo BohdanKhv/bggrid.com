@@ -15,7 +15,7 @@ const Auth = ({children}) => {
                                 <div className="flex flex-col justify-sm-center justify-between flex-1">
                                     {children}
                                 </div>
-                                <div className="fs-12 pt-4 text-secondary text-sm-center">
+                                <div className="fs-12 pt-4 text-secondary text-center">
                                     By signing up, you agree to our <a href="https://increw.cafe/terms" target="_blank" className="text-underlined-hover">Terms of Service</a> and <a href="https://increw.cafe/privacy" target="_blank" className="text-underlined-hover">Privacy Policy</a>
                                 </div>
                             </div>

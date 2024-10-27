@@ -10,6 +10,8 @@ import Privacy from "./pages/Privacy";
 import ImportantUserAlert from "./pages/auth/ImportantUserAlert";
 import Footer from "./pages/Footer";
 import HomePage from "./pages/HomePage";
+import Settings from "./pages/Settings";
+import LoginWithEmail from "./pages/auth/LoginWithEmail";
 
 function App() {
   const { user } = useSelector(state => state.auth);
@@ -31,9 +33,14 @@ function App() {
           <div className="flex-grow-1 h-min-100">
               <Routes>
                 <Route path="/" element={<ErrBoundary><HomePage /></ErrBoundary>} />
-                {!user ?
-                  <Route path="/login" element={<ErrBoundary><Auth><Login /></Auth></ErrBoundary>} />
-                : null}
+                {user ?
+                  <Route path="/account/:tab" element={<ErrBoundary><Settings/></ErrBoundary>} />
+                :
+                  <>
+                    <Route path="/login" element={<ErrBoundary><Auth><Login /></Auth></ErrBoundary>} />
+                  </>
+                }
+                <Route path="/login-with-email" element={<Auth><LoginWithEmail /></Auth>} />
                 <Route path="/terms" element={<ErrBoundary><Terms /></ErrBoundary>} />
                 <Route path="/privacy" element={<ErrBoundary><Privacy /></ErrBoundary>} />
                 {/* <Route path="*" element={<LoginNotFound />} /> */}

@@ -19,7 +19,7 @@ const protect = async (req, res, next) => {
         // Verify token
         // Ignore expiration
         // const decoded = jwt.verify(token, process.env.JWT_SECRET, { ignoreExpiration: true });
-        const decoded = jwt.verify(token, process.env.JWT_SECRET);
+        const decoded = jwt.verify(token, process.env.JWT_SECRET, { ignoreExpiration: true });
 
         // Set user to req.user
         const user = await User.findById(decoded.id)

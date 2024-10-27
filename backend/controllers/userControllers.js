@@ -50,12 +50,12 @@ const sendLoginEmail = async (req, res) => {
         // Send email
         const token = generateToken(user._id);
 
-        const emailLink = `${process.env.CLIENT_URL}/login-link?token=${token}`;
+        const emailLink = `${process.env.CLIENT_URL}/login-with-email?token=${token}`;
 
         const mailOptions = {
             from: process.env.EMAIL,
             to: email,
-            subject: 'Your myBrewCrew login link',
+            subject: 'Your log in link',
             html: emailLoginLink(emailLink),
         };
         
@@ -160,7 +160,6 @@ const updateUser = async (req, res) => {
 const generateToken = (id) => {
     return jwt.sign({ id }, process.env.JWT_SECRET, {
         expiresIn: process.env.JWT_EXPIRES_IN || '30d',
-        ignoreExpiration: true,
     });
 }
 

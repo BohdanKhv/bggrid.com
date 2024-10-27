@@ -98,7 +98,7 @@ function emailLoginLink (link) {
                                                     color: #6c757d;
                                                     font-family: esqmarket-medium,-apple-system,BlinkMacSystemFont,Helvetica,sans-serif;
                                                     ">
-                                                        If you received this email by mistake, please ignore this email. This link will expire in 30 days.
+                                                        If you received this email by mistake, please ignore this email.
                                                     </div>
                                                 </td>
                                             </tr>
@@ -126,7 +126,7 @@ function emailLoginLink (link) {
                                                             font-family: esqmarket-medium,-apple-system,BlinkMacSystemFont,Helvetica,sans-serif;
                                                         " target="_blank"
                                                     >
-                                                        Login
+                                                        Log in
                                                     </a>
                                                 </td>
                                             </tr>

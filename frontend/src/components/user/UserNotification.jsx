@@ -41,9 +41,11 @@ const UserNotification = () => {
     return (
         <div>
             <Dropdown
+                isOpen={fsmOpen}
+                setIsOpen={setFsmOpen}
                 closeOnEscape
                 mobileDropdown
-                classNameDropdown="p-0 w-min-200-px"
+                classNameDropdown="p-0 w-min-300-px"
                 dropdownLabel="Menu"
                 customDropdown={
                     <IconButton

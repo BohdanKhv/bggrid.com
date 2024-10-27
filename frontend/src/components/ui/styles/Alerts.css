@@ -1,0 +1,86 @@
+.Toastify__toast {
+    box-shadow: var(--box-shadow-sm)!important;
+    border: 1px solid var(--color-main)!important;
+    border-radius: var(--border-radius)!important;
+    color: var(--text-dark)!important;
+    background-color: var(--color-main);
+    align-items: center;
+    font-size: 14px;
+}
+.Toastify__toast-body {
+}
+.Toastify__toast-icon {
+    /* display: none; */
+}
+.Toastify__toast .btn svg {
+    fill: var(--text-dark)!important;
+}
+.Toastify__toast-container {
+    -webkit-transform: translate3d(0, 0, 0)!important;
+    transform: translate3d(0, 0, 0)!important;
+}
+
+.Toastify__toast--error svg {
+    fill: rgb(var(--color-general-danger-text));
+}
+.Toastify__toast--error {
+    color: var(--text-dark);
+}
+.Toastify__toast--success svg {
+    fill: rgb(var(--color-general-success-text));
+}
+.Toastify__toast--success {
+    color: var(--text-dark);
+}
+
+.Toastify__toast {
+    animation-duration: var(--transition-duration)!important;
+}
+
+.Toastify__slide-enter--bottom-right, .Toastify__slide-enter--bottom-right {
+    animation-name: toast-custom-animation-enter!important;
+}
+.Toastify__slide-exit--bottom-right, .Toastify__slide-exit--bottom-right {
+    animation-name: toast-custom-animation-exit!important;
+}
+
+:root {
+    --toastify-toast-min-height: 30px;
+}
+
+
+
+@keyframes toast-custom-animation-exit {
+    0% {
+        visibility: visible;
+        opacity: 1;
+    }
+    100% {
+        visibility: hidden;
+        opacity: 0;
+    }
+}
+
+@keyframes toast-custom-animation-enter {
+    0% {
+        visibility: hidden;
+        opacity: 0;
+    }
+    100% {
+        visibility: visible;
+        opacity: 1;
+    }
+}
+
+@media (max-width: 800px) {
+    .toast-container {
+        bottom: calc(env(safe-area-inset-bottom));
+        font-size: 14px;
+        width: calc(100% - 20px);
+        left: 10px;
+    }
+    .Toastify__toast {
+        margin-bottom: 12px;
+        /* text-align: center; */
+    }
+}

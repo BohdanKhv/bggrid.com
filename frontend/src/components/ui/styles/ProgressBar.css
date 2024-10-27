@@ -1,0 +1,30 @@
+.progress-bar {
+    width: 100%;
+    height: var(--progress-bar-height);
+    border-radius: var(--border-radius);
+    background: var(--color-border);
+    position: relative;
+}
+.progress-bar.progress-bar-warning::after {
+    background-color: var(--color-warning);
+}
+.progress-bar.progress-bar-success::after {
+    background-color: var(--color-success);
+}
+.progress-bar.progress-bar-danger::after {
+    background-color: var(--color-danger);
+}
+.progress-bar.progress-bar-primary::after {
+    background-color: var(--color-primary);
+}
+.progress-bar::after {
+    content: "";
+    width: var(--progress-bar-width);
+    border-radius: var(--border-radius);
+    height: var(--progress-bar-height);
+    position: absolute;
+    top: 0;
+    left: 0;
+    background-color: var(--color-success);
+    transition-duration: var(--transition-duration);
+}

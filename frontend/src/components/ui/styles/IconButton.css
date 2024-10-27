@@ -1,0 +1,367 @@
+.icon-btn {
+    padding: 4px;
+    border-radius: 50%;
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    background-color: transparent;
+    fill: var(--text-dark);
+    color: var(--text-dark);
+    transition: var(--transition-duration);
+    border: none;
+    position: relative;
+    fill: var(--text-dark);
+    height: 34px;
+    width: 34px;
+    min-width: 34px;
+    min-height: 34px;
+    position: relative;
+    z-index: 2;
+}
+a.icon-btn {
+    max-height: 24px;
+    min-height: 24px;
+    height: 24px;
+    width: 24px;
+    max-width: 24px;
+    min-width: 24px;
+}
+.icon-btn .spinner-animation svg {
+    fill: transparent!important;
+}
+.icon-btn .icon-svg {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.icon-btn::before {
+    content: "";
+    pointer-events: none;
+    display: block;
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    border-radius: 50%;
+    opacity: 0;
+    transition: opacity 100ms cubic-bezier(0.4, 0, 0.2, 1),transform 100ms cubic-bezier(0.4, 0, 0.2, 1);
+    transform: scale(0);
+    z-index: -1;
+    transition-duration: var(--transition-duration);
+}
+.icon-btn-no-action {
+    cursor: default;
+    pointer-events: none;
+}
+.icon-btn-no-action:hover {
+    transform: none;
+}
+.icon-btn-no-action::before {
+    display: none;
+}
+
+.icon-btn.icon-btn-disabled {
+    cursor: not-allowed;
+    opacity: 0.5;
+}
+
+.icon-btn:active {
+    opacity: 0.75;
+}
+
+.icon-btn svg {
+    font-size: 18px;
+    width: 18px;
+    height: 18px;
+    fill: rgb(var(--color-general-secondary-text));
+    color: rgb(var(--color-general-secondary-text));
+    user-select: none;
+    pointer-events: none;
+}
+.icon-btn.icon-btn-default:hover.icon-btn-primary::before {
+    background-color: rgb(var(--color-general-primary-bg-hover))!important;
+}
+.icon-btn.icon-btn-default:hover.icon-btn-secondary::before {
+    background-color: rgb(var(--color-general-secondary-bg-hover))!important;
+}
+.icon-btn.icon-btn-default:hover.icon-btn-danger::before {
+    background-color: rgb(var(--color-general-danger-bg-hover))!important;
+}
+.icon-btn.icon-btn-default:hover.icon-btn-warning::before {
+    background-color: rgb(var(--color-general-warning-bg-hover))!important;
+}
+.icon-btn.icon-btn-default:hover.icon-btn-success::before {
+    background-color: rgb(var(--color-general-success-bg-hover))!important;
+}
+
+
+/* Size */
+.icon-btn.icon-btn-xs {
+    height: 22px;
+    width: 22px;
+    min-width: 22px;
+    min-height: 22px;
+}
+.icon-btn.icon-btn-xs svg {
+    height: 10px;
+    width: 10px;
+    min-width: 10px;
+    min-height: 10px;
+}
+.icon-btn.icon-btn-sm {
+    height: 28px;
+    width: 28px;
+    min-width: 28px;
+    min-height: 28px;
+}
+.icon-btn.icon-btn-sm svg {
+    font-size: 14px;
+    width: 14px;
+    height: 14px;
+}
+.icon-btn.icon-btn-md {
+    height: 34px;
+    width: 34px;
+    min-width: 34px;
+    min-height: 34px;
+}
+.icon-btn.icon-btn-md svg {
+    font-size: 18px;
+    width: 18px;
+    height: 18px;
+}
+.icon-btn.icon-btn-lg {
+    height: 48px;
+    width: 48px;
+    min-width: 48px;
+    min-height: 48px;
+}
+.icon-btn.icon-btn-lg svg {
+    font-size: 24px;
+    width: 24px;
+    height: 24px;
+}
+
+/* Default */
+.icon-btn.icon-btn-primary {
+    background-color: rgb(var(--color-general-primary-bg));
+    border-color: rgb(var(--color-general-primary-bg));
+}
+.icon-btn.icon-btn-secondary {
+    background-color: var(--color-main);
+    border-color: var(--color-border);
+}
+.icon-btn.icon-btn-danger {
+    background-color: rgb(var(--color-general-danger-bg));
+    border-color: rgb(var(--color-general-danger-bg));
+}
+.icon-btn.icon-btn-warning {
+    background-color: rgb(var(--color-general-warning-bg));
+    border-color: rgb(var(--color-general-warning-bg));
+}
+.icon-btn.icon-btn-success {
+    background-color: rgb(var(--color-general-success-bg));
+    border-color: rgb(var(--color-general-success-bg));
+}
+/* Icon */
+.icon-btn.icon-btn-primary,
+.icon-btn.icon-btn-primary svg {
+    fill: rgb(var(--color-general-primary-text));
+    color: rgb(var(--color-general-primary-text));
+}
+.icon-btn.icon-btn-secondary,
+.icon-btn.icon-btn-secondary svg {
+    fill: var(--text-dark);
+    color: var(--text-dark);
+}
+.icon-btn.icon-btn-danger,
+    .icon-btn.icon-btn-danger svg {
+    fill: rgb(var(--color-general-danger-text));
+    color: rgb(var(--color-general-danger-text));
+}
+.icon-btn.icon-btn-warning,
+    .icon-btn.icon-btn-warning svg {
+    fill: rgb(var(--color-general-warning-text));
+    color: rgb(var(--color-general-warning-text));
+}
+.icon-btn.icon-btn-success,
+.icon-btn.icon-btn-success svg {
+    fill: rgb(var(--color-general-success-text));
+    color: rgb(var(--color-general-success-text));
+}
+
+.icon-btn.icon-btn-text,
+.icon-btn.icon-btn-outline::before,
+.icon-btn.icon-btn-outline {
+    background-color: transparent!important;
+}
+.icon-btn.icon-btn-outline {
+    border: var(--border);
+    border-color: var(--color-border);
+}
+
+/* Outline */
+.icon-btn.icon-btn-outline.icon-btn-secondary {
+    border-color: rgb(var(--color-general-secondary-bg));
+}
+.icon-btn.icon-btn-outline:hover.icon-btn-secondary {
+    border-color: rgb(var(--color-general-secondary-border));
+}
+.icon-btn.icon-btn-outline:hover.icon-btn-primary {
+    border-color: rgb(var(--color-general-primary-border));
+}
+.icon-btn.icon-btn-outline:hover.icon-btn-success {
+    border-color: rgb(var(--color-general-success-border));
+}
+.icon-btn.icon-btn-outline:hover.icon-btn-danger {
+    border-color: rgb(var(--color-general-danger-border));
+}
+.icon-btn.icon-btn-outline:hover.icon-btn-warning {
+    border-color: rgb(var(--color-general-warning-border));
+}
+.icon-btn.icon-btn-secondary.icon-btn-outline {
+    border-color: rgb(var(--color-general-secondary-bg));
+}
+.icon-btn.icon-btn-secondary::before,
+.icon-btn.icon-btn-outline:hover.icon-btn-secondary::before {
+    background-color: var(--color-general-secondary-bg-hover, rgba(26,26,26,0.1));
+}
+.icon-btn.icon-btn-primary.icon-btn-outline {
+    border-color: rgb(var(--color-general-primary-bg));
+}
+.icon-btn.icon-btn-primary::before,
+.icon-btn.icon-btn-outline:hover.icon-btn-primary::before {
+    background-color: var(--color-general-primary-bg-hover, rgba(26,26,26,0.1));
+}
+.icon-btn.icon-btn-success::before,
+.icon-btn.icon-btn-outline:hover.icon-btn-success::before {
+    background-color: var(--color-general-success-bg-hover, rgba(26,26,26,0.1));
+}
+.icon-btn.icon-btn-danger::before,
+.icon-btn.icon-btn-outline:hover.icon-btn-danger::before {
+    background-color: var(--color-general-danger-bg-hover, rgba(26,26,26,0.1));
+}
+.icon-btn.icon-btn-warning::before,
+.icon-btn.icon-btn-outline:hover.icon-btn-warning::before {
+    background-color: var(--color-general-warning-bg-hover, rgba(26,26,26,0.1));
+}
+.icon-btn.icon-btn-text.icon-btn-primary::before {
+    background-color: rgb(var(--color-general-primary-bg))!important;
+}
+.icon-btn.icon-btn-text.icon-btn-secondary::before {
+    background-color: rgb(var(--color-general-secondary-bg))!important;
+}
+.icon-btn.icon-btn-text.icon-btn-danger::before {
+    background-color: rgb(var(--color-general-danger-bg))!important;
+}
+.icon-btn.icon-btn-text.icon-btn-warning::before {
+    background-color: rgb(var(--color-general-warning-bg))!important;
+}
+.icon-btn.icon-btn-text.icon-btn-success::before {
+    background-color: rgb(var(--color-general-success-bg))!important;
+}
+
+/* Button filled */
+.icon-btn.icon-btn-filled.icon-btn-primary {
+    background-color: rgb(var(--color-general-primary-bg));
+}
+.icon-btn.icon-btn-filled.icon-btn-primary svg {
+    fill: #fff;
+    color: #fff;
+}
+.icon-btn.icon-btn-filled.icon-btn-secondary {
+    background-color: var(--text-dark);
+}
+.icon-btn.icon-btn-filled.icon-btn-secondary svg {
+    fill: var(--text-light);
+    color: var(--text-light);
+}
+.icon-btn.icon-btn-filled.icon-btn-danger {
+    background-color: rgb(var(--color-general-danger-text));
+}
+.icon-btn.icon-btn-filled.icon-btn-danger svg {
+    fill: var(--text-light);
+    color: var(--text-light);
+}
+.icon-btn.icon-btn-filled.icon-btn-warning {
+    background-color: rgb(var(--color-general-warning-text));
+}
+.icon-btn.icon-btn-filled.icon-btn-warning svg {
+    fill: var(--text-light);
+    color: var(--text-light);
+}
+.icon-btn.icon-btn-filled.icon-btn-success {
+    background-color: rgb(var(--color-general-success-text));
+}
+.icon-btn.icon-btn-filled.icon-btn-success svg {
+    fill: var(--text-light);
+    color: var(--text-light);
+}
+.icon-btn.icon-btn-filled::before {
+    background-color: var(--color-btn-overlay)!important;
+}
+
+.icon-btn.icon-btn-text {
+    border-color: transparent!important;
+}
+.icon-btn.icon-btn-link,
+.icon-btn.icon-btn-link:active,
+.icon-btn.icon-btn-link:hover,
+.icon-btn.icon-btn-link::before {
+    border-color: transparent!important;
+    background-color: transparent!important;
+}
+
+.icon-btn.icon-btn-primary:hover::before,
+.icon-btn.icon-btn-secondary:hover::before,
+.icon-btn.icon-btn-danger:hover::before,
+.icon-btn.icon-btn-warning:hover::before,
+.icon-btn.icon-btn-success:hover::before {
+    opacity: 1;
+    transform: scale(1);
+}
+
+.icon-btn-notify {
+    position: relative;
+}
+.icon-btn-notify .icon-svg {
+    position: relative;
+}
+.icon-btn-notify .icon-svg::after {
+    content: attr(data-notify-count);
+    font-size: 12px;
+    padding: 0 4px;
+    position: absolute;
+    top: -16px;
+    left: 12px;
+    max-width: 18px;
+    overflow: hidden;
+    display: inline-flex;
+    min-width: 7px;
+    border-radius: var(--border-radius-lg);
+    background-color: rgb(var(--color-general-primary-text));
+    border: 1px solid rgb(var(--color-general-primary-border));
+    color: #fff;
+    line-height: 16px;
+    box-shadow: 0 0 0 2px var(--color-main);
+    z-index: 1;
+}
+.icon-btn-notify-empty.icon-btn-notify .icon-svg::after {
+    min-width: 5px;
+    max-width: 5px;
+    width: 5px;
+    height: 5px;
+    padding: 0;
+    top: 0;
+    right: 0;
+}
+
+
+.icon-btn-muted svg {
+    opacity: 0.5;
+}
+.icon-btn-muted:hover svg {
+    opacity: 1;
+}

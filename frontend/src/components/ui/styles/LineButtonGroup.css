@@ -1,0 +1,33 @@
+.line-button-group .line-button-group-content {
+    background-color: var(--color-main);
+}
+.line-button-group .line-button-group-content {
+    border-radius: var(--border-radius);
+}
+.line-button-group .line-button .border-bottom {
+}
+
+.line-button-group .line-button:first-child::before {
+    border-top-left-radius: var(--border-radius);
+    border-top-right-radius: var(--border-radius);
+}
+.line-button-group .line-button:last-child::before {
+    border-bottom-left-radius: var(--border-radius);
+    border-bottom-right-radius: var(--border-radius);
+}
+.line-button-group .line-button:last-child .border-bottom {
+    border-color: transparent!important;
+}
+.line-button-group .line-button::before {
+    border-radius: 0px;
+}
+
+.line-button-group .line-button:first-child {
+    border-top-left-radius: var(--border-radius);
+    border-top-right-radius: var(--border-radius);
+}
+
+.line-button-group .line-button:last-child {
+    border-bottom-left-radius: var(--border-radius);
+    border-bottom-right-radius: var(--border-radius);
+}

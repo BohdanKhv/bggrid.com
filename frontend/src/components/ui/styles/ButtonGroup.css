@@ -1,0 +1,94 @@
+.button-group {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    flex-wrap: nowrap;
+}
+
+.button-group .btn {
+    margin: 0px;
+    border-color: var(--color-border-secondary);
+}
+
+.button-group .btn:hover {
+    /* border-color: rgb(var(--color-general-secondary-border))!important; */
+}
+
+.button-group.border-transparent .btn {
+    border-color: transparent!important;
+}
+
+.button-group > :first-child.btn::before,
+.button-group > :first-child:has(.btn) .btn::before,
+.button-group > :first-child.btn,
+.button-group > :first-child:has(.btn) .btn {
+    border-top-right-radius: 0px;
+    border-bottom-right-radius: 0px;
+    border-top-left-radius: var(--border-radius);
+    border-bottom-left-radius: var(--border-radius);
+    border-right-color: transparent;
+}
+
+.button-group > :last-child.btn::before,
+.button-group > :last-child:has(.btn) .btn::before,
+.button-group > :last-child.btn,
+.button-group > :last-child:has(.btn) .btn {
+    border-top-left-radius: 0px;
+    border-bottom-left-radius: 0px;
+    border-top-right-radius: var(--border-radius);
+    border-bottom-right-radius: var(--border-radius);
+}
+
+.button-group > :not(:first-child):not(:last-child).btn::before,
+.button-group > :not(:first-child):not(:last-child):has(.btn) .btn::before,
+.button-group > :not(:first-child):not(:last-child).btn,
+.button-group > :not(:first-child):not(:last-child):has(.btn) .btn {
+    border-radius: 0px;
+    border-right-color: transparent;
+}
+
+.button-group > .btn:only-child::before,
+.button-group > :only-child:has(.btn) .btn::before,
+.button-group > .btn:only-child,
+.button-group > :only-child:has(.btn) .btn {
+    border-radius: var(--border-radius);
+    border-color: rgb(var(--color-general-secondary-border))
+}
+
+.button-group > .btn:last-child::before,
+.button-group > .btn:last-child:not(:first-child) {
+    border-top-left-radius: 0px;
+    border-bottom-left-radius: 0px;
+    border-top-right-radius: var(--border-radius); /* replace with the actual pixel value of --border-radius */
+    border-bottom-right-radius: var(--border-radius); /* replace with the actual pixel value of --border-radius */
+}
+.button-group > .btn:first-child::before,
+.button-group > .btn:first-child:not(:last-child) {
+    border-top-right-radius: 0px;
+    border-bottom-right-radius: 0px;
+    border-top-left-radius: var(--border-radius); /* replace with the actual pixel value of --border-radius */
+    border-bottom-left-radius: var(--border-radius); /* replace with the actual pixel value of --border-radius */
+    border-right-color: transparent;
+}
+.button-group > .btn:not(:first-child):not(:last-child)::before,
+.button-group > .btn:not(:first-child):not(:last-child) {
+    border-radius: 0px;
+    border-right-color: transparent;
+}
+.button-group > div:not(:first-child):not(:last-child) .btn {
+    border-radius: 0px;
+    border-right-color: transparent;
+}
+.button-group > div:first-child .btn {
+    border-top-right-radius: 0px;
+    border-bottom-right-radius: 0px;
+    border-top-left-radius: var(--border-radius); /* replace with the actual pixel value of --border-radius */
+    border-bottom-left-radius: var(--border-radius); /* replace with the actual pixel value of --border-radius */
+    border-right-color: transparent;
+}
+.button-group > div:last-child .btn {
+    border-top-left-radius: 0px;
+    border-bottom-left-radius: 0px;
+    border-top-right-radius: var(--border-radius); /* replace with the actual pixel value of --border-radius */
+    border-bottom-right-radius: var(--border-radius); /* replace with the actual pixel value of --border-radius */
+}

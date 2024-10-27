@@ -1,0 +1,93 @@
+.horizontal-scroll {
+    display: flex;
+    position: relative;
+    z-index: 1;
+}
+
+.horizontal-scroll-flex {
+    flex-grow: 1;
+    display: flex;
+    gap: 12px;
+    -webkit-overflow-scrolling: touch;
+    overflow-x: auto;
+    align-items: center;
+    /* background-color: var(--color-main); */
+    user-select: none;
+    position: relative;
+    overflow-y: hidden;
+    /* scroll-behavior: smooth; */
+    overscroll-behavior: contain;
+}
+.horizontal-scroll-flex::-webkit-scrollbar {
+    display: none;
+}
+
+.horizontal-scroll.horizontal-scroll-fixed {
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 100;
+}
+.horizontal-scroll-next {
+    position: absolute;
+    right: 0;
+    top: 50%;
+    transform: translateY(-50%);
+    border: none;
+    cursor: pointer;
+    display: flex;
+    z-index: 2;
+}
+.horizontal-scroll-prev::after {
+    content: ''; /* Simple right arrow indicator */
+    background: linear-gradient(to right,var(--color-main) 20%,rgba(33,33,33,0) 80%);
+    height: 38px;
+    width: 38px;
+    pointer-events: none;
+    display: block;
+}
+.horizontal-scroll-next::before {
+    content: ''; /* Simple right arrow indicator */
+    background: linear-gradient(to left,var(--color-main) 20%,rgba(33,33,33,0) 80%);
+    height: 38px;
+    width: 38px;
+    pointer-events: none;
+    display: block;
+}
+.horizontal-scroll-next-button.icon-btn.icon-btn-link:active,
+.horizontal-scroll-next-button.icon-btn.icon-btn-link:hover,
+.horizontal-scroll-next-button.icon-btn.icon-btn-link {
+    opacity: 1;
+    background-color: var(--color-main)!important;
+    border-radius: 0!important;
+}
+.horizontal-scroll .horizontal-scroll-prev {
+    position: absolute;
+    left: 0;
+    top: 50%;
+    transform: translateY(-50%);
+    border: none;
+    cursor: pointer;
+    display: flex;
+    z-index: 3;
+}
+
+.horizontal-scroll .horizontal-scroll:first-of-type {
+    margin-left: 24px;
+}
+
+.horizontal-scroll .horizontal-scroll:last-of-type {
+    margin-right: 24px;
+}
+
+@media (max-width: 800px) {
+    .horizontal-scroll .horizontal-scroll-prev,
+    .horizontal-scroll .horizontal-scroll-next,
+    .horizontal-scroll .horizontal-scroll-next::before,
+    .horizontal-scroll .horizontal-scroll-prev::before {
+        /* display: none; */
+    }
+    .horizontal-scroll-flex {
+        overscroll-behavior: auto;
+    }
+}

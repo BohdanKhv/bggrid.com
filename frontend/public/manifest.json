@@ -1,0 +1,41 @@
+{
+  "name": "In Crew Cafe",
+  "short_name": "In Crew Cafe",
+  "id": "app.InCrew.cafe",
+  "start_url": "/",
+  "background_color": "#ffffff",
+  "display": "standalone",
+  "display_override": ["standalone", "minimal-ui"],
+  "orientation": "portrait",
+  "dir": "ltr",
+  "scope": "/",
+  "theme_color": "#ffffff",
+  "lang": "en-US",
+  "categories": [
+    "business",
+    "jobs",
+    "food",
+    "beverage",
+    "restaurant",
+    "SAAS"
+  ],
+  "description": "InCrew Cafe is a job posting platform for Food & Beverage businesses.",
+  "related_applications": [{
+    "id": "app.InCrew.cafe",
+    "platform": "webapp",
+    "url": "https://increw.cafe/manifest.json"
+  }],
+  "icons": [
+  ],
+  "screenshots": [
+  ],
+  "shortcuts": [
+  ],
+  "edge_side_panel": {
+    "preferred_width": 480
+  },
+  "handle_links": "auto",
+  "launch_handler": {
+    "client_mode": ["navigate-existing", "auto"]
+  }
+}

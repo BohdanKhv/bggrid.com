@@ -1,0 +1,37 @@
+.filter-dropdown {
+    position: relative;
+    border-radius: var(--border-radius);
+    border: 1px dashed var(--color-border);
+    display: flex;
+    align-items: center;
+    padding: 4px 8px;
+    height: 18px;
+    gap: 6px;
+    font-weight: 600;
+    min-height: 24px;
+}
+.filter-dropdown-icon-applied:hover svg {
+    fill: var(--color-danger);
+}
+.filter-dropdown-label {
+    color: var(--text-secondary);
+    line-height: 1;
+    font-size: 14px;
+}
+.filter-dropdown-icon {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.filter-dropdown-icon svg {
+    width: 14px;
+    height: 14px;
+    fill: var(--text-secondary);
+}
+.filter-dropdown:hover {
+    border-color: rgb(var(--color-general-secondary-border));
+}
+.filter-dropdown-applied {
+    font-size: 14px;
+    color: var(--text-dark);
+}

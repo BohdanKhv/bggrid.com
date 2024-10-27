@@ -1,0 +1,141 @@
+.checkbox-wrapper {
+    cursor: pointer;
+    display: flex;
+    gap: 12px;
+    position: relative;
+    font-size: 14px;
+}
+.checkbox-wrapper.disabled {
+    cursor: not-allowed;
+    opacity: 0.5;
+}
+.checkbox-wrapper.disabled:active .checkbox,
+.checkbox-wrapper.disabled:hover .checkbox {
+    border-color: var(--color-border)!important;
+    box-shadow: none!important;
+}
+.checkbox-wrapper .checkbox {
+    border: 2px solid var(--color-border);
+    width: 16px;
+    height: 16px;
+    min-width: 16px;
+    min-height: 16px;
+    border-radius: 4px;
+    position: relative;
+    /* outline: 1px solid transparent; */
+    transition-duration: var(--transition-duration);
+}
+.checkbox-rounded .checkbox {
+    border-radius: 50%;
+}
+.checkbox-wrapper:hover .checkbox {
+    border-color: var(--color-primary);
+    background-color: transparent;
+}
+.checkbox-wrapper:hover .checkbox {
+    /* outline: 1px solid var(--color-primary-bg-hover); */
+    background-color: transparent;
+}
+.checkbox-wrapper:active .checkbox {
+    border-color: rgb(var(--color-general-primary-bg-hover))!important;
+    box-shadow: var(--color-border) 0px 0px 0px 2px, var(--color-primary) 0px 0px 0px 4px;
+}
+.checkbox-wrapper .checkbox-checked {
+    width: 20px;
+    height: 20px;
+    position: absolute;
+    top: -2px;
+    left: -2px;
+}
+.checkbox-wrapper .checkbox-checked svg {
+    width: 100%;
+    height: 100%;
+    fill: #fff;
+}
+.checkbox-label {
+    line-height: 1.43;
+    font-weight: 400;
+    color: var(--text-dark);
+    letter-spacing: 0.2px;
+    transition-duration: var(--transition-duration);
+}
+.checkbox-wrapper-checked:hover .checkbox,
+.checkbox-wrapper-checked .checkbox {
+    border-color: var(--color-primary);
+    background-color: var(--color-primary);
+}
+.checkbox-success.checkbox-wrapper-checked:hover .checkbox,
+.checkbox-success.checkbox-wrapper-checked .checkbox {
+    border-color: var(--color-success);
+    background-color: var(--color-success);
+}
+.checkbox-success.checkbox-wrapper:active .checkbox {
+    border-color: var(--color-success-bg-hover)!important;
+    box-shadow: var(--color-border) 0px 0px 0px 2px, var(--color-success) 0px 0px 0px 4px;
+}
+.checkbox-success.checkbox-wrapper:hover .checkbox {
+    border-color: var(--color-success);
+}
+.checkbox-warning.checkbox-wrapper-checked:hover .checkbox,
+.checkbox-warning.checkbox-wrapper-checked .checkbox {
+    border-color: var(--color-warning);
+    background-color: var(--color-warning);
+}
+.checkbox-warning.checkbox-wrapper:active .checkbox {
+    border-color: rgb(var(--color-general-warning-bg-hover))!important;
+    box-shadow: var(--color-border) 0px 0px 0px 2px, var(--color-warning) 0px 0px 0px 4px;
+}
+.checkbox-warning.checkbox-wrapper:hover .checkbox {
+    border-color: var(--color-warning);
+}
+.checkbox-danger.checkbox-wrapper-checked:hover .checkbox,
+.checkbox-danger.checkbox-wrapper-checked .checkbox {
+    border-color: var(--color-danger);
+    background-color: var(--color-danger);
+}
+.checkbox-danger.checkbox-wrapper:active .checkbox {
+    border-color: rgb(var(--color-general-danger-bg-hover))!important;
+    box-shadow: var(--color-border) 0px 0px 0px 2px, var(--color-danger) 0px 0px 0px 4px;
+}
+.checkbox-wrapper:hover .checkbox-label {
+    color: var(--color-primary);
+}
+.checkbox-danger.checkbox-wrapper:hover .checkbox {
+    border-color: var(--color-danger);
+}
+.checkbox-wrapper .spinner {
+    width: 16px;
+    height: 16px;
+}
+.checkbox-warning:hover .checkbox-label,
+.checkbox-warning .checkbox-label {
+    color: var(--color-warning);
+}
+.checkbox-success:hover .checkbox-label,
+.checkbox-success .checkbox-label {
+    color: var(--color-success);
+}
+.checkbox-danger:hover .checkbox-label,
+.checkbox-danger .checkbox-label {
+    color: var(--color-danger);
+}
+.checkbox-danger .checkbox {
+    border-color: var(--color-danger);
+}
+.checkbox-warning .checkbox {
+    border-color: var(--color-warning);
+}
+.checkbox-success .checkbox {
+    border-color: var(--color-success);
+}
+
+.checkbox-wrapper.checkbox-sm .checkbox {
+    width: 12px;
+    height: 12px;
+    min-height: 12px;
+    min-width: 12px;
+}
+.checkbox-wrapper.checkbox-sm .checkbox-checked {
+    width: 16px;
+    height: 16px;
+}

@@ -1,0 +1,8 @@
+@media (max-width: 800px) {
+    .card-container {
+        border-right: none;
+        border-left: none;
+        border-top: none;
+        border-radius: 0;
+    }
+}

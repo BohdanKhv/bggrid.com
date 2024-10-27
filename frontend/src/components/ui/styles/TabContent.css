@@ -1,0 +1,108 @@
+.tabs-content {
+    position: relative;
+    min-width: 0;
+    height: 48px;
+    overflow-y: hidden;
+    overscroll-behavior: contain;
+    scroll-behavior: smooth;
+}
+.tabs-content-container {
+    display: flex;
+    align-items: center;
+    width: fit-content;
+    height: 100%;
+}
+
+.tabs-content::-webkit-scrollbar,
+.tabs-content-container::-webkit-scrollbar {
+    display: none!important;
+}
+
+.tabs-content-indicator {
+    background-color: var(--color-primary);
+    border-top-left-radius: 12px;
+    border-top-right-radius: 12px;
+    height: 3px;
+    position: absolute;
+    transition-duration: var(--transition-duration);
+    transition: width var(--transition-duration) cubic-bezier(0.4,0,1,1),left var(--transition-duration) cubic-bezier(0.4,0,1,1);
+    bottom: 0px;
+}
+
+.tab-content {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    /* margin-left: 8px; */
+    margin-right: 18px;
+    opacity: 0.75;
+    transition-duration: var(--transition-duration);
+    color: var(--text-dark);
+    cursor: pointer;
+    user-select: none;
+    font-size: 15px;
+    font-weight: 600;
+    height: 100%;
+    line-height: 18px;
+    min-width: 48px;
+    white-space: nowrap;
+}
+
+.tab-content.active {
+    opacity: 1;
+    color:  var(--color-primary);
+    fill:  var(--color-primary);
+}
+
+.tab-content:hover {
+    opacity: 1;
+}
+/* .tab-content:active {
+    transform: scale(0.95);
+} */
+
+.tab-content-icon {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-right: 5px;
+}
+
+.tab-content-icon svg {
+    width: 20px;
+    height: 20px;
+}
+
+.tabs-content .tabs-content-next,
+.tabs-content .tabs-content-prev {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: absolute;
+    background-color: var(--color-main);
+    height: -webkit-fill-available;
+    z-index: 2020;
+}
+.tabs-content .tabs-content-prev {
+    transform: rotate(180deg);
+    left: 0;
+}
+.tabs-content .tabs-content-next {
+    right: 0;
+}
+.tabs-content .tabs-content-next::before,
+.tabs-content .tabs-content-prev::before {
+    height: 100%;
+    width: 50px;
+    content: "";
+    pointer-events: none;
+    background: linear-gradient(to left,var(--color-main) 20%,rgba(33,33,33,0) 80%);
+    position: absolute;
+    right: 24px;
+}
+
+@media (max-width: 800px) {
+    .tab-content {
+        margin-left: 8px;
+    }
+}

@@ -1,0 +1,30 @@
+.vertical-scroll-wrapper {
+  position: relative;
+  overflow: hidden;
+}
+
+.vertical-scroll-content {
+  height: 200px;
+  overflow-y: scroll;
+}
+
+.vertical-scroll-shadow {
+  position: absolute;
+  left: 0;
+  z-index: 100;
+  width: 100%;
+  height: 10px;
+}
+
+.vertical-scroll-shadow-top {
+  top: 0;
+  background: -webkit-linear-gradient(270deg, var(--color-scroll-overlay), transparent);
+  background: linear-gradient(180deg, var(--color-scroll-overlay), transparent);
+  opacity: 0;
+}
+
+.vertical-scroll-shadow-bottom {
+  bottom: 0;
+  background: -webkit-linear-gradient(90deg, var(--color-scroll-overlay), transparent);
+  background: linear-gradient(0deg, var(--color-scroll-overlay), transparent);
+}

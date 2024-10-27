@@ -1,0 +1,25 @@
+.select-basic {
+    background-color: var(--color-main);
+    border-radius: 8px;
+    color: var(--text-dark);
+    padding: 4px 6px;
+    cursor: pointer;
+    border: 1px solid var(--color-border);
+    outline: none;
+    font-size: 14px;
+
+}
+.select-basic:active {
+    border-color: var(--color-primary);
+}
+.select-basic:focus {
+    background-color: var(--color-primary-bg);
+}
+.select-basic option {
+    background-color: var(--color-main);
+    color: var(--text-dark);
+}
+.select-basic option:hover {
+    background-color: var(--color-primary-bg);
+    color: var(--text-dark);
+}

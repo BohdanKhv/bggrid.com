@@ -1,0 +1,7 @@
+/.env
+/tools.js
+/node_modules
+.vscode
+/backend/generator
+/frontend/node_modules
+/frontend/dist

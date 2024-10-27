@@ -1,0 +1,213 @@
+.fsm-wrapper {
+    position: fixed;
+    inset: 0px;
+    z-index: 555;
+    width: 100%;
+    height: 100%;
+    text-align: start;
+    background-color: transparent;
+    transition-duration: var(--transition-duration);
+    animation-duration: var(--transition-duration);
+    scroll-behavior: smooth;
+}
+.fsm-wrapper.open {
+    background-color: var(--color-overlay);
+}
+.fsm-body::-webkit-scrollbar {
+    width: 6px;
+}
+.fsm-body::-webkit-scrollbar-track {
+    background-color: transparent;
+}
+
+.closed .fsm {
+    animation: closeFsm var(--transition-duration);
+    animation-fill-mode: forwards;
+}
+
+.open .fsm-bottom {
+    animation: openFsmBottom var(--transition-duration);
+    animation-fill-mode: forwards;
+}
+
+.closed .fsm-bottom {
+    animation: closeFsmBottom var(--transition-duration);
+    animation-fill-mode: forwards;
+}
+
+.open .fsm {
+    animation: openFsm var(--transition-duration);
+    animation-fill-mode: forwards;
+}
+
+.fsm-full-screen.closed .fsm {
+    animation: closeFullFsm var(--transition-duration);
+    animation-fill-mode: forwards;
+}
+
+.fsm-full-screen.open .fsm {
+    animation: openFullFsm var(--transition-duration);
+    animation-fill-mode: forwards;
+}
+
+.fsm {
+    position: fixed;
+    right: 0;
+    background: var(--color-main);
+    margin-left: auto;
+    height: 100%;
+    /* height: calc(100% - 40px); */
+    /* margin: 20px 20px 20px 20px; */
+    display: flex;
+    flex-direction: column;
+    box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.2);
+    /* border: var(--border); */
+    /* border-color: var(--color-secondary); */
+    max-width: calc(100% - 40px);
+    width: 800px;
+    border-top-left-radius: var(--border-radius);
+    border-bottom-left-radius: var(--border-radius);
+    overflow: hidden;
+}
+
+.fsm-full-screen .fsm {
+    /* max-width: calc(100% - 20px);
+    min-width: calc(100% - 20px);
+    margin: 10px;
+    height: calc(100% - 22px); 2px for border */
+    max-width: calc(100%);
+    min-width: calc(100%);
+    width: 100%;
+    height: 100%;
+    margin: 0;
+    border-radius: 0;
+    border: 0;
+}
+
+.fsm-header {
+    padding: 12px 16px;
+    font-weight: 600;
+    border-bottom: 1px solid var(--color-border);
+}
+
+.fsm-body {
+    /* padding: 8px 0; */
+    flex-grow: 1;
+    overflow-y: auto;
+    overscroll-behavior: contain;
+    position: relative;
+}
+
+.fsm-logo {
+    height: 30px;
+    max-width: 45px;
+}
+
+.fsm-logo svg {
+    height: 30px;
+    width: 100%;
+}
+
+.fsm-close-absolute {
+    position: absolute;
+    right: 8px;
+    top: 20px;
+}
+
+@keyframes openFullFsm {
+    0% {
+        transform: translateY(calc(100% + 40px));
+        opacity: 0;
+    }
+    100% {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
+
+@keyframes closeFullFsm {
+    0% {
+        transform: translateY(0);
+        opacity: 1;
+    }
+    100% {
+        transform: translateY(calc(100% + 40px));
+        opacity: 0;
+    }
+}
+
+@keyframes openFsm {
+    0% {
+        transform: translateX(calc(100% + 40px));
+        opacity: 0;
+    }
+    100% {
+        transform: translateX(0);
+        opacity: 1;
+    }
+}
+
+@keyframes closeFsm {
+    0% {
+        transform: translateX(0);
+        opacity: 1;
+    }
+    100% {
+        transform: translateX(calc(100% + 40px));
+        opacity: 0;
+    }
+}
+
+@keyframes openFsmBottom {
+    0% {
+        transform: translateY(calc(100% + 40px));
+        opacity: 0;
+    }
+    100% {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
+
+@keyframes closeFsmBottom {
+    0% {
+        transform: translateY(0);
+        opacity: 1;
+    }
+    100% {
+        transform: translateY(calc(100% + 40px));
+        opacity: 0;
+    }
+}
+
+@media (max-width: 800px) {
+    .fsm {
+        width: 100%;
+        box-shadow: none;
+        border-radius: 0;
+        border: none;
+    }
+    .fsm,
+    .fsm-full-screen .fsm {
+        width: 100%;
+        min-width: 100%;
+        height: 100%;
+        margin: 0;
+    }
+    .fsm.fsm-bottom {
+        margin-top: 10%;
+        height: 90%;
+    }
+    /* .fsm.fsm-bottom {
+        margin-top: 10%;
+        height: auto;
+        border-top-right-radius: var(--border-radius-lg);
+        border-top-left-radius: var(--border-radius-lg);
+        /* height: 90%; */
+    /* } */ */
+
+    .fsm-header {
+        padding: 8px 8px;
+        /* border-bottom: 1px solid var(--color-border); */
+    }
+}

@@ -1,0 +1,51 @@
+{
+  "name": "increw",
+  "version": "0.0.1",
+  "private": true,
+  "description": "InCrew Cafe - Job posting and application platform",
+  "main": "server.js",
+  "scripts": {
+    "start": "node backend/server.js",
+    "server": "nodemon backend/server.js",
+    "client": "cd frontend && npm start --host",
+    "heroku-postbuild": "NPM_CONFIG_PRODUCTION=false npm install --prefix frontend && npm run build --prefix frontend"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@github.com/Emplorex/increw.git"
+  },
+  "author": "Emplorex Inc.",
+  "license": "UNLICENSED",
+  "bugs": {
+    "url": "https://github.com/Emplorex/increw/issues"
+  },
+  "homepage": "https://github.com/Emplorex/increw#readme",
+  "dependencies": {
+    "@aws-sdk/client-s3": "^3.637.0",
+    "@aws-sdk/s3-request-presigner": "^3.637.0",
+    "aws-sdk": "^2.1687.0",
+    "axios": "^1.7.6",
+    "bcryptjs": "^2.4.3",
+    "body-parser": "^1.20.2",
+    "cheerio": "^1.0.0",
+    "cors": "^2.8.5",
+    "dotenv": "^16.4.5",
+    "express": "^4.19.2",
+    "fs": "^0.0.1-security",
+    "json2csv": "^6.0.0-alpha.2",
+    "jsonwebtoken": "^9.0.2",
+    "luxon": "^3.5.0",
+    "mongoose": "^8.6.0",
+    "mongoose-paginate-v2": "^1.8.3",
+    "multer": "^1.4.5-lts.1",
+    "node-schedule": "^2.1.1",
+    "nodemailer": "^6.9.14",
+    "pdf-lib": "^1.17.1",
+    "stripe": "^16.9.0",
+    "web-push": "^3.6.7"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.4",
+    "wrangler": "^3.73.0"
+  }
+}

@@ -1,0 +1,29 @@
+.collapse {
+    transition-duration: var(--transition-duration);
+}
+.collapse-label {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    cursor: pointer;
+}
+.collapse-body {
+    transition-duration: var(--transition-duration);
+}
+.collapse-closed .collapse-body {
+    height: 0;
+    overflow: hidden;
+    opacity: 0;
+    visibility: hidden;
+}
+.collapse-open .collapse-body {
+    opacity: 1;
+    visibility: visible;
+}
+.collapse-label-ellipsis .collapse-label-content {
+    display: -webkit-box;
+    -webkit-line-clamp: 1;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}

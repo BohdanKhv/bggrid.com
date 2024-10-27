@@ -12,7 +12,7 @@ const ItemCard = () => {
                 <img src="https://via.placeholder.com/300" alt="Game Thumbnail" className="w-100 h-auto object-cover border-radius" />
             </div>
             <div className="flex flex-col gap-1">
-                <div className="bold text-secondary fs-12 p-2">Publisher</div>
+                <div className="bold text-secondary fs-12 px-2 pt-2">Publisher</div>
                 <div className="fs-16 px-2 weight-600 text-ellipsis-2">Game Title</div>
                 <div className="fs-14 px-2 text-ellipsis-2">Game Description</div>
             </div>

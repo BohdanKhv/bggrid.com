@@ -16,7 +16,6 @@ const UserProfile = () => {
             <Dropdown
                 closeOnSelect
                 closeOnEscape
-                mobileDropdown
                 classNameDropdown="p-0 w-min-200-px"
                 dropdownLabel="Menu"
                 customDropdown={

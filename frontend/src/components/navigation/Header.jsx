@@ -105,16 +105,16 @@ const Header = () => {
                                                     />
                                                     <Button
                                                         muted
-                                                        to="/browse"
-                                                        label="Browse"
+                                                        to="/search"
+                                                        label="Search"
                                                         variant="text"
-                                                        icon={gamesIcon}
+                                                        icon={searchIcon}
                                                         type="secondary"
                                                     />
                                                     <Button
                                                         muted
                                                         to="/library"
-                                                        label="Your library"
+                                                        label="Your Library"
                                                         variant="text"
                                                         icon={libraryIcon}
                                                         type="secondary"
@@ -122,7 +122,7 @@ const Header = () => {
                                                     <Button
                                                         muted
                                                         to="/crew"
-                                                        label="Crew"
+                                                        label="Your Crew"
                                                         variant="text"
                                                         icon={usersIcon}
                                                         type="secondary"

@@ -8,7 +8,7 @@ import { categoriesEnum, mechanicsEnum } from '../assets/constants'
 const ItemCard = () => {
     return (
         <div className="flex flex-col pointer border-radius transition-duration">
-            <div className="border-radius bg-secondary h-100 w-100 bg-hover-after">
+            <div className="border-radius bg-secondary h-100 w-100 bg-hover-after h-min-200-px">
                 <img src="https://via.placeholder.com/300" alt="Game Thumbnail" className="w-100 h-auto object-cover border-radius" />
             </div>
             <div className="flex flex-col gap-1">
@@ -159,8 +159,8 @@ const BrowsePage = () => {
                     />
                 </div>
                 <div className="flex gap-5 mt-5">
-                    <div>
-                        <div className="flex gap-2 pb-4 align-center">
+                    <div className="flex-1">
+                        <div className="flex gap-2 pb-4 align-center flex-1">
                             <div className="fs-14 text-secondary weight-500">
                                 Sort by:
                             </div>

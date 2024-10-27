@@ -81,7 +81,7 @@ function emailLoginLink (link) {
                                                         font-size: 12px;
                                                         text-align: center;
                                                         font-family: esqmarket-medium,-apple-system,BlinkMacSystemFont,Helvetica,sans-serif;
-                                                        color: #00c807;
+                                                        color: #101014;
                                                     "
                                                     href="${link}"
                                                     target="_blank"
@@ -113,7 +113,7 @@ function emailLoginLink (link) {
                                                         style="
                                                             text-decoration: none;
                                                             color: #fff;
-                                                            background: #00c807;
+                                                            background: #101014;
                                                             font-size: 16px;
                                                             font-weight: 600;
                                                             padding: 16px 0;

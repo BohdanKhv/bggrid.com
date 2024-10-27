@@ -1,6 +1,6 @@
 import React from 'react'
 import { NavLink, useLocation } from 'react-router-dom'
-import { gamesIcon, homeIcon, libraryIcon, usersIcon } from '../../assets/img/icons'
+import { gamesIcon, homeIcon, libraryIcon, searchIcon, usersIcon } from '../../assets/img/icons'
 import "./styles/Navbar.css"
 
 const Navbar = () => {
@@ -21,14 +21,14 @@ const Navbar = () => {
                         </span>
                     </NavLink>
                     <NavLink 
-                        to={`/browse`}
+                        to={`/search`}
                         className={`navbar-mob-item ${location.pathname.startsWith("/supply") ? " active" : ""}`}
                     >
                         <span className="navbar-mob-item-icon">
-                            {gamesIcon}
+                            {searchIcon}
                         </span>
                         <span className="navbar-mob-item-label">
-                            Browse
+                            Search
                         </span>
                     </NavLink>
                     <NavLink

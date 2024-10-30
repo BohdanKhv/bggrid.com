@@ -115,7 +115,7 @@
     min-width: 0;
     opacity: 0;
     z-index: 999;
-    border-radius: var(--border-radius-lg);
+    border-radius: var(--border-radius);
     box-shadow: var(--box-shadow);
     animation: drop var(--transition-duration) forwards;
 }

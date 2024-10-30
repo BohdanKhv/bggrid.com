@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
-import { Button, Collapse, Dropdown, Icon, InputSearch } from '../components'
-import { useSearchParams } from 'react-router-dom'
+import { Button, Collapse, Dropdown, Icon, InputSearch, TabContent } from '../components'
+import { useLocation, useNavigate, useSearchParams } from 'react-router-dom'
 import { useSelector } from 'react-redux'
 import { checkIcon, searchIcon } from '../assets/img/icons'
 import { categoriesEnum, mechanicsEnum } from '../assets/constants'
@@ -134,7 +134,9 @@ const Filters = () => {
 }
 
 const BrowsePage = () => {
+    const navigate = useNavigate()
 
+    const { pathname } = useLocation()
     const [search, setSearch] = useState('')
     const [searchParams, setSearchParamsSet] = useSearchParams()
 
@@ -145,8 +147,24 @@ const BrowsePage = () => {
         }}></div> */}
         <main className="page-body mx-auto w-max-md">
             <div className="container px-sm-2 py-6">
-                <div className="title-1 weight-700 pb-6">
-                    Browse
+                <div className="pt-sm-3 pb-4">
+                    <div className="py-3 title-1 bold px-sm-2">
+                        Search
+                    </div>
+                    {/* <div className="border-bottom">
+                        <TabContent
+                            items={
+                                [
+                                    {label: 'Discover'},
+                                    {label: 'Browse'},
+                                ]
+                            }
+                            activeTabName={pathname.split('/')[1]}
+                            setActiveTabName={e => {
+                                navigate(`/${e}`)
+                            }}
+                        />
+                    </div> */}
                 </div>
                 <div className="border border-radius-lg w-max-300-px">
                     <InputSearch

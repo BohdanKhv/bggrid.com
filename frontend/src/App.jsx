@@ -41,7 +41,8 @@ function App() {
           <div className="flex-grow-1 h-min-100">
               <Routes>
                 <Route path="/" element={<ErrBoundary><HomePage /></ErrBoundary>} />
-                <Route path="/search" element={<ErrBoundary><BrowsePage /></ErrBoundary>} />
+                <Route path="/discover" element={<ErrBoundary><BrowsePage /></ErrBoundary>} />
+                <Route path="/browse" element={<ErrBoundary><BrowsePage /></ErrBoundary>} />
                 <Route path="/library" element={<ErrBoundary><LibraryPage /></ErrBoundary>} />
                 {user ?
                   <Route path="/account/:tab" element={<ErrBoundary><Settings/></ErrBoundary>} />

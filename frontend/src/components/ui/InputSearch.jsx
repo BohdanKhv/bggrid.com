@@ -61,7 +61,7 @@ const InputSearch = ({
             if (inputParentRefTop > viewportHeight / 2) {
                 setOffsetTop(-(menuHeight + 12)); // 12 is the padding
             } else {inputRef?.current?.offsetHeigh
-                setOffsetTop(inputRefHeight); // 16 is the padding
+                setOffsetTop(inputRefHeight - 4); // 16 is the padding
             }
         }
     }, [inputParentRef, inputSearchRef, searchOpen, inputRef])

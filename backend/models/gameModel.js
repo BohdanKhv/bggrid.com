@@ -1,6 +1,7 @@
 const mongoose = require('mongoose');
+const mongoosePaginate = require('mongoose-paginate-v2');
 
-const applicantSchema = new mongoose.Schema({
+const gameSchema = new mongoose.Schema({
     name: { type: String, required: true },
     description: { type: String, required: true },
     publishedDate: { type: Date, required: true },
@@ -9,4 +10,6 @@ const applicantSchema = new mongoose.Schema({
 }, { timestamps: true });
 
 
-module.exports = mongoose.model('Applicant', applicantSchema);
+gameSchema.plugin(mongoosePaginate);
+
+module.exports = mongoose.model('Game', gameSchema);

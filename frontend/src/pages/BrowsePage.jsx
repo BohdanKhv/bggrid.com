@@ -1,20 +1,24 @@
-import React, { useState } from 'react'
-import { Button, Collapse, Dropdown, Icon, InputSearch, TabContent } from '../components'
+import React, { useEffect, useState } from 'react'
+import { Button, Collapse, Dropdown, ErrorInfo, Icon, InputSearch, TabContent } from '../components'
 import { useLocation, useNavigate, useSearchParams } from 'react-router-dom'
-import { useSelector } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { checkIcon, searchIcon } from '../assets/img/icons'
 import { categoriesEnum, mechanicsEnum } from '../assets/constants'
+import { getGames } from '../features/game/gameSlice'
 
-const ItemCard = () => {
+const ItemCard = ({item}) => {
     return (
         <div className="flex flex-col pointer border-radius transition-duration">
             <div className="border-radius bg-secondary h-100 w-100 bg-hover-after h-min-200-px">
-                <img src="https://via.placeholder.com/300" alt="Game Thumbnail" className="w-100 h-auto object-cover border-radius" />
+                <img src={`https://cf.geekdo-images.com/sZYp_3BTDGjh2unaZfZmuA__original/img/7d-lj5Gd1e8PFnD97LYFah2c45M=/0x0/filters:format(jpeg)/pic${item.id}.jpg`}
+                alt="Game Thumbnail" className="w-100 h-auto object-cover border-radius" />
             </div>
             <div className="flex flex-col gap-1">
-                <div className="bold text-secondary fs-12 px-2 pt-2">Publisher</div>
-                <div className="fs-16 px-2 weight-600 text-ellipsis-2">Game Title</div>
-                <div className="fs-14 px-2 text-ellipsis-2">Game Description</div>
+                <div className="bold text-secondary fs-12 px-2 pt-2">{item.yearpublished}</div>
+                <div className="fs-16 px-2 weight-600 text-ellipsis-2">{item.name}</div>
+                <div className="fs-14 px-2 text-ellipsis-2">
+                    Lorem ipsum dolor sit amet consectetur adipisicing elit. Eaque, optio sapiente voluptatibus facilis tempore praesentium deleniti recusandae ut veniam aut debitis delectus dolore totam fugit, molestiae nihil, dignissimos maxime quod harum. Quis qui commodi et modi aspernatur veritatis neque iusto.
+                </div>
             </div>
         </div>
     )
@@ -25,7 +29,9 @@ const Items = () => {
 
     return (
         <div className="grid grid-cols-5 flex-wrap animation-slide-in h-fit-content gap-4">
-            {[...Array(10).keys()].map((i) => (
+            {isLoading ? (
+                <ErrorInfo isLoading/>
+            ) : games.map((i) => (
                 <div
                     key={i}
                 >
@@ -134,11 +140,19 @@ const Filters = () => {
 }
 
 const BrowsePage = () => {
+    const dispatch = useDispatch()
     const navigate = useNavigate()
 
     const { pathname } = useLocation()
     const [search, setSearch] = useState('')
     const [searchParams, setSearchParamsSet] = useSearchParams()
+
+
+    const { games, isLoading, loadingId, msg } = useSelector((state) => state.game)
+
+    useEffect(() => {
+        const promise = dispatch(getGames(searchParams))
+    }, [])
 
     return (
         <>
@@ -147,10 +161,10 @@ const BrowsePage = () => {
         }}></div> */}
         <main className="page-body mx-auto w-max-md">
             <div className="container px-sm-2 py-6">
-                <div className="pt-sm-3 pb-4">
-                    <div className="py-3 title-1 bold px-sm-2">
+                {/* <div className="pt-sm-3 pb-4"> */}
+                    {/* <div className="py-3 title-1 bold px-sm-2">
                         Search
-                    </div>
+                    </div> */}
                     {/* <div className="border-bottom">
                         <TabContent
                             items={
@@ -165,7 +179,7 @@ const BrowsePage = () => {
                             }}
                         />
                     </div> */}
-                </div>
+                {/* </div> */}
                 <div className="border border-radius-lg w-max-300-px">
                     <InputSearch
                         icon={searchIcon}

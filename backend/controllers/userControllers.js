@@ -1,7 +1,9 @@
 const User = require('../models/userModel');
 const nodeMailer = require('nodemailer');
 const jwt = require('jsonwebtoken');
+const bcrypt = require('bcryptjs');
 const emailLoginLink = require('../components/EmailLoginLink');
+const emailResetLink = require('../components/EmailResetLink');
 const { validateEmail } = require('../utils/utils');
 const { uploadFile, deleteFile } = require('../utils/s3');
 
@@ -16,6 +18,70 @@ const transporter = nodeMailer.createTransport({
     }
 });
 
+
+
+// @desc    Register user and create company
+// @route   POST /api/users
+// @access  Public
+const register = async (req, res) => {
+    try {
+        const { username, email, password } = req.body;
+
+        if (!email || password === '' || !username) {
+            return res.status(400).json({
+                msg: 'Email verification code is required'
+            });
+        }
+
+        // Check if invite exists
+        const uCheck = await User.findOne({
+            'username': {'$regex': `^${username}$`, '$options': 'i'}
+        });
+        
+        if (uCheck) {
+            return res.status(400).json({
+                msg: 'This username is already in use'
+            });
+        }
+
+        const eCheck = await User.findOne({
+            'email': {'$regex': `^${email}$`, '$options': 'i'}
+        });
+
+        if (eCheck) {
+            return res.status(400).json({
+                msg: 'This email is already in use'
+            });
+        }
+
+        // Hash password
+        const salt = await bcrypt.genSalt(10);
+        const hashedPassword = await bcrypt.hash(password, salt);
+
+        // Create user
+        const newUser = await User.create({
+            email,
+            username,
+            password: hashedPassword,
+        });
+
+        await newUser.save();
+
+        return res.status(201).json({
+            data: {
+                _id: newUser._id,
+                email: newUser.email,
+                username: newUser.username,
+                token: generateToken(newUser._id)
+            },
+        });
+    } catch (err) {
+        console.log(err);
+        return res.status(500).json({
+            msg: 'Server error'
+        });
+    }
+};
 
 
 // @desc    Get me
@@ -107,23 +173,30 @@ const sendLoginEmail = async (req, res) => {
 // @access  Public
 const login = async (req, res) => {
     try {
-        const { token } = req.body;
+        const { email, password } = req.body;
 
-        if (!token) {
+        if (!email || !password) {
             return res.status(400).json({
-                msg: 'Invalid token'
+                msg: 'Please enter all fields'
             });
         }
 
-        // check if user exists if not, then create a new user
-        const decoded = jwt.verify(token, process.env.JWT_SECRET);
-        
-        const user = await
-        User.findOne({ _id: decoded.id })
+        const user = await User.findOne({
+            email: { $regex: new RegExp(email, 'i') }
+        });
 
         if (!user) {
             return res.status(400).json({
                 msg: 'User does not exist'
+            });
+        }
+
+        // Check password
+        const isMatch = await bcrypt.compare(password, user.password);
+
+        if (!isMatch) {
+            return res.status(400).json({
+                msg: 'Invalid credentials'
             });
         }
 
@@ -204,6 +277,177 @@ const updateUser = async (req, res) => {
 
 
 
+// @desc    Forgot password
+// @route   POST /api/users/forgot-password
+// @access  Public
+const forgotPassword = async (req, res) => {
+    try {
+        const { email } = req.body;
+
+        // Check if email exists
+        const user = await User.findOne({
+            $or: [
+                { 'email': {'$regex': `^${email}$`, '$options': 'i'} },
+            ]
+        })
+
+        if (!user) {
+            return res.status(400).json({
+                msg: 'User does not exist'
+            });
+        }
+
+        // Check if user has a reset token
+        await ResetToken.deleteMany({ user: user._id });
+
+        const token = crypto.randomBytes(32).toString('hex');
+
+        // Create reset token
+        const newToken = await ResetToken.create({
+            user: user._id,
+            token: token
+        });
+
+        if (!newToken) {
+            return res.status(400).json({
+                msg: "Couldn't create reset token"
+            });
+        }
+
+        const mailOptions = {
+            from: 'noreply@emplorex.com',
+            to: user.email,
+            subject: 'Reset Password',
+            priority: 'high',
+            html: emailResetLink(token, newToken.user),
+            attachments: [{
+                filename: 'logo.png',
+                path: __dirname + '/../assets/logo_transparent.png',
+                cid: 'logo'
+            }]
+        };
+
+        transporter.sendMail(mailOptions, async (err, info) => {
+            if (err) {
+                console.log(err);
+                return res.status(500).json({
+                    msg: 'Server error'
+                });
+            } else {
+                return res.status(200).json({
+                    msg: 'Email sent'
+                });
+            }
+        });
+    } catch (err) {
+        console.log(err);
+        res.status(500).json({
+            msg: 'Server error'
+        });
+    }
+}
+
+
+// @desc    Reset password
+// @route   POST /api/users/reset-password
+// @access  Public
+const resetPassword = async (req, res) => {
+    try {
+        const { password, token, id } = req.body;
+
+        // Check if password is not empty
+        if (!password || password === '' || password === undefined || password?.length < 6) {
+            return res.status(400).json({
+                msg: 'Please enter a password'
+            });
+        }
+        // Check if token exists
+        const resetToken = await ResetToken.findOne({user: id});
+
+        if (!resetToken) {
+            return res.status(400).json({
+                msg: 'Token does not exist'
+            });
+        }
+
+        // Check if token matches hashed token
+        const isMatch = await bcrypt.compare(token, resetToken.token);
+
+        if (!isMatch) {
+            return res.status(400).json({
+                msg: 'Invalid token'
+            });
+        }
+
+        // Check if token has expired, 1 hour
+        if (DateTime.fromJSDate(resetToken.createdAt) < DateTime.now().minus({ hours: 1 })) {
+            await resetToken.remove();
+
+            return res.status(400).json({
+                msg: 'Reset request has expired'
+            });
+        }
+
+        // Check password strength (must have strength of 2 or higher)
+        if (checkPasswordStrength(password) < 4) {
+            return res.status(400).json({
+                msg: 'Password is too weak'
+            });
+        }
+
+        // Hash password
+        const salt = await bcrypt.genSalt(10);
+        const hashedPassword = await bcrypt.hash(password, salt);
+
+        // Update user
+        const updatedUser = await User.findOneAndUpdate(
+            { _id: resetToken.user },
+            {
+                $set: {
+                    password: hashedPassword
+                }
+            },
+        );
+
+        // Remove reset token
+        await resetToken.remove();
+
+        // email user 
+        const mailOptions = {
+            from: 'noreply@emplorex.com',
+            to: updatedUser.email,
+            subject: "Your password has been reset",
+            priority: 'high',
+            html: emailMessage('Password Reset', 'Someone has reset your password. If this was not you, please contact support.'),
+            attachments: [{
+                filename: 'logo.png',
+                path: __dirname + '/../assets/logo_transparent.png',
+                cid: 'logo'
+            }]
+        };
+
+        // Email without waiting for response
+        transporter.sendMail(mailOptions)
+
+        if (updatedUser) {
+            res.status(200).json({
+                msg: 'Password updated'
+            });
+        } else {
+            return res.status(400).json({
+                msg: 'Invalid user data'
+            });
+        }
+    } catch (err) {
+        console.log(err);
+        res.status(500).json({
+            msg: 'Server error'
+        });
+    }
+}
+
+
+
 // Generate token
 const generateToken = (id) => {
     return jwt.sign({ id }, process.env.JWT_SECRET, {
@@ -215,8 +459,11 @@ const generateToken = (id) => {
 
 module.exports = {
     getMe,
+    register,
     sendLoginEmail,
     login,
     updateUser,
     generateToken,
+    forgotPassword,
+    resetPassword
 }

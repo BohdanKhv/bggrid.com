@@ -1,20 +1,22 @@
 import { useState, useEffect } from "react"
 import { useDispatch, useSelector } from "react-redux"
 import { Input, Button, IconButton } from "../../components"
-import { resetUser, sendLoginEmail } from "../../features/auth/authSlice"
+import { resetUser, login } from "../../features/auth/authSlice"
 import { arrowRightShortIcon, emailIcon } from "../../assets/img/icons"
 
 
 const Login = () => {
     const [email, setEmail] = useState('')
+    const [password, setPassword] = useState('')
     const { msg, isLoading, user } = useSelector(state => state.auth)
     const dispatch = useDispatch()
     const [countDown, setCountDown] = useState(60)
 
 
     const handleLogin = () => {
-        dispatch(sendLoginEmail({
+        dispatch(login({
             email: email.replace(/\s\s+/g, ' ').trim().toLowerCase(),
+            password
         }))
     }
 
@@ -40,46 +42,28 @@ const Login = () => {
 
     return (
         <>
-        {msg === 'email_sent' ? 
         <div className="animation-fade-in">
-            <div className="flex flex-col align-center justify-center gap-4">
-                <IconButton
-                    size="lg"
-                    icon={emailIcon}
-                    variant="filled"
-                    type="primary"
-                />
-                <div className="fs-20 weight-600">
-                    Check your email for a login link
+            <div className="flex flex-col gap-4">
+                <div className="fs-24 pb-4 bold">
+                    Sign in
                 </div>
-                <div className="fs-12 text-secondary text-center">
-                    Check your spam folder if you don't see it in your inbox within a few minutes. If you still can't find it, click the button below to resend the email.
-                </div>
-                <Button
-                    size="lg"
-                    className="w-100"
-                    type={'primary'}
-                    isLoading={isLoading}
-                    onClick={() => !isLoading && countDown <= 0 ? handleLogin() : null}
-                    disabled={isLoading || countDown > 0}
-                    label={`Resend email ${countDown > 0 ? ` in (${countDown}s)` : ''}`}
-                    variant={countDown > 0 ? 'outline' : 'filled'}
-                    borderRadius="md"
-                />
-            </div>
-        </div>
-        :
-        <div className="animation-fade-in">
-            <div className="flex flex-col gap-3">
                 <Input
                     type="text"
-                    description="You will receive an email with a link to login. No password needed."
                     value={email}
                     wrapColumn
                     placeholder="Email"
                     error={email ? !email.match(/^([\w.%+-]+)@([\w-]+\.)+([\w]{2,})$/i) : msg === 'Invalid credentials'}
                     label="Email"
                     onChange={(e) => setEmail(e.target.value)}
+                />
+                <Input
+                    type="password"
+                    value={password}
+                    wrapColumn
+                    placeholder="Password"
+                    error={msg === 'Invalid credentials'}
+                    label="Password"
+                    onChange={(e) => setPassword(e.target.value)}
                 />
             </div>
             <div className="mt-4 transition-slide-right-hover-parent">
@@ -101,10 +85,14 @@ const Login = () => {
                             handleLogin()
                         }
                     }}
-                    />
+                />
+                <div className="pt-6">
+                    <div className="fs-12 text-secondary text-center flex align-center gap-1 justify-center">
+                        Don't have an account? <Button to="/register" label="register" variant="link" type="primary" className="weight-400"/>
+                    </div>
+                </div>
             </div>
         </div>
-        }
         </>
     )
 }

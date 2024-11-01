@@ -21,6 +21,11 @@ export const logout = async () => {
     localStorage.removeItem('user'); // Remove user from localStorage
 }
 
+export const register = async (data, token) => {
+    const response = await axios.post(API_URL, data);
+
+    return response.data;
+}
 
 export const updateUser = async (userData, token) => {
     const config = {
@@ -53,6 +58,7 @@ export const getMe = async (token) => {
 const authService = {
     sendLoginEmail,
     logout,
+    register,
     login,
     updateUser,
     getMe

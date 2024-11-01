@@ -17,6 +17,7 @@ import LibraryPage from "./pages/LibraryPage";
 import BrowsePage from "./pages/BrowsePage";
 import Navbar from "./components/navigation/Navbar";
 import SearchGamesModal from "./pages/SearchGamesModal";
+import Register from "./pages/auth/Register";
 
 function App() {
   const { user } = useSelector(state => state.auth);
@@ -45,10 +46,12 @@ function App() {
         <ErrBoundary>
           <SearchGamesModal/>
         </ErrBoundary>
-        <div className="content">
-          <ErrBoundary>
-            <Navbar/>
-          </ErrBoundary>
+        <div className={user ? "content" : ""}>
+          {user ?
+            <ErrBoundary>
+              <Navbar/>
+            </ErrBoundary>
+          : null}
           <div className="content-body">
             <div className="flex-grow-1 h-min-100">
                 <Routes>
@@ -60,6 +63,7 @@ function App() {
                     <Route path="/account/:tab" element={<ErrBoundary><Settings/></ErrBoundary>} />
                   :
                     <>
+                      <Route path="/register" element={<ErrBoundary><Auth><Register /></Auth></ErrBoundary>} />
                       <Route path="/login" element={<ErrBoundary><Auth><Login /></Auth></ErrBoundary>} />
                     </>
                   }

@@ -77,246 +77,56 @@ const Header = () => {
                     <div className={`${pathname  === '/jobs' ? "w-100" : "w-max-md mx-auto"}`}>
                         <div className="container">
                             <div className="flex justify-between w-100 align-center gap-2 gap-sm-3">
-                                {windowWidth > 800 ?
-                                        <div className="flex border border-radius-lg align-center flex-1 w-max-300-px">
-                                            <InputSearch
-                                                value={searchValue}
-                                                icon={searchIcon}
-                                                onChange={(e) => setSearchValue(e.target.value)}
-                                                placeholder="Job title or company name"
-                                                className="flex-1"
-                                                clearable
-                                                searchable
-                                                onSubmit={() => {
-                                                    searchParams.set('q', searchValue)
-                                                    if (searchValue === '') searchParams.delete('q')
-                                                    setSearchParams(searchParams.toString())
-                                                }}
-                                                closeOnSelect
-                                                searchChildren={
-                                                    <div className="py-2">
-                                                        {searchValue.length > 0 ?
-                                                        <div className="flex justify-between align-center">
-                                                            <div
-                                                                onClick={() => {
-                                                                    searchParams.set('q', searchValue)
-                                                                    if (searchValue === '') searchParams.delete('q')
-                                                                    setSearchParams(searchParams.toString())
-                                                                    if (searchValue !== "" && !searchHistory.includes(searchValue.trim())) {
-                                                                        dispatch(setSearchHistory([...new Set([searchValue.trim(), ...searchHistory])]))
-                                                                    }
-                                                                }}
-                                                                className="fs-14 flex align-center px-4 py-2 gap-3 text-secondary pointer bg-secondary-hover flex-1 overflow-hidden"
-                                                            >
-                                                                <Icon icon={searchIcon}/><span className="text-ellipsis-1">{searchValue}</span>
-                                                            </div>
-                                                        </div>
-                                                        : null}
-                                                        {searchHistory && searchHistory.length > 0 && searchValue === '' ?
-                                                        <>
-                                                            <div className="fs-14 px-4 py-2 flex align-center gap-3 text-secondary weight-600">
-                                                                Search history
-                                                            </div>
-                                                            {searchHistory
-                                                            .slice(0, searchHistory && showAllHistory ? searchHistory.length : 3)
-                                                            .map((searchItem) => (
-                                                                <div className="flex justify-between align-center">
-                                                                    <div
-                                                                        key={searchItem}
-                                                                        onClick={(e) => {
-                                                                            setSearchValue(searchItem)
-                                                                        }}
-                                                                        className="fs-14 flex align-center px-4 py-2 gap-3 text-secondary pointer bg-secondary-hover flex-1 overflow-hidden"
-                                                                    >
-                                                                        <Icon icon={clockIcon}/><span className="text-ellipsis-1">{searchItem}</span>
-                                                                    </div>
-                                                                    <IconButton
-                                                                        icon={closeIcon}
-                                                                        className="mx-2"
-                                                                        onClick={() => {
-                                                                            dispatch(setSearchHistory(searchHistory.filter((item) => item !== searchItem)))
-                                                                        }}
-                                                                    />
-                                                                </div>
-                                                            ))}
-                                                            {searchHistory.length > 3 ?
-                                                                <Button
-                                                                    label={showAllHistory ? "Show less" : "Show all"}
-                                                                    variant="link"
-                                                                    size="lg"
-                                                                    icon={showAllHistory ? arrowUpShortIcon : arrowDownShortIcon}
-                                                                    type="primary"
-                                                                    onClick={() => setShowAllHistory(!showAllHistory)}
-                                                                />
-                                                            : null}
-                                                        </>
-                                                        : null}
-                                                        {commonGames
-                                                        .filter((game) => game?.name?.toLowerCase() !== searchValue.toLowerCase() && game?.name?.toLowerCase().includes(searchValue.toLowerCase())).length > 0 ?
-                                                            <div className="fs-14 px-4 py-2 flex align-center gap-3 text-secondary weight-600">
-                                                                Suggested games
-                                                            </div>
-                                                        : null}
-                                                        {commonGames
-                                                        .filter((game) => game?.name?.toLowerCase() !== searchValue.toLowerCase() && game?.name?.toLowerCase().includes(searchValue.toLowerCase()))
-                                                        .slice(0, 10)
-                                                        .map((game) => (
-                                                            <div
-                                                                key={game}
-                                                                onClick={(e) => {
-                                                                    setSearchValue(game)
-                                                                }}
-                                                                className="fs-14 px-4 py-2 flex align-center gap-3 text-secondary pointer bg-secondary-hover"
-                                                            >
-                                                                <Icon icon={searchIcon}/><span>{highlightText(`${game.name}`, searchValue)}</span>
-                                                            </div>
-                                                        ))}
-                                                    </div>
-                                                }
-                                            />
-                                        </div>
+                                <div className={`flex justify-start gap-3 align-center gap-sm-3${pathname  === '/jobs' ? "" : " flex-1"}`}>
+                                    <Link
+                                        to="/"
+                                        className="flex align-center pointer">
+                                        { windowWidth > 800 ?
+                                        logoNameSvg
                                         :
-                                        <>
-                                        <Modal
-                                            modalIsOpen={openSearch}
-                                            setModalIsOpen={setOpenSearch}
-                                            headerNone
-                                            noAction
-                                            classNameContent="p-0"
-                                        >
-                                            <div className="flex flex-col flex-1 h-100">
-                                                <div className="flex align-center py-4">
-                                                    <Button
-                                                        icon={leftArrowIcon}
-                                                        type="secondary"
-                                                        variant="text"
-                                                        onClick={() => setOpenSearch(false)}
-                                                    />
-                                                    <div className="flex border border-radius-lg align-center flex-1 me-2">
-                                                        <InputSearch
-                                                            value={searchValue}
-                                                            clearable
-                                                            onSubmit={() => {
-                                                                searchParams.set('q', searchValue)
-                                                                if (searchValue === '') searchParams.delete('q')
-                                                                setSearchParams(searchParams.toString())
-                                                                setOpenSearch(false)
-                                                            }}
-                                                            autoFocus
-                                                            icon={searchIcon}
-                                                            onChange={(e) => setSearchValue(e.target.value)}
-                                                            placeholder="Job title or company name"
-                                                            className="flex-1"
-                                                        />
-                                                        <Button
-                                                            label="Search"
-                                                            borderRadius="lg"
-                                                            size="sm"
-                                                            className="weight-400 flex-shrink-0 my-sm-0 m-1"
-                                                            type="primary"
-                                                            variant={"filled"}
-                                                            onClick={() => {
-                                                                searchParams.set('q', searchValue)
-                                                                if (searchValue === '') searchParams.delete('q')
-                                                                if (searchValue !== "" && !searchHistory.includes(searchValue.trim())) {
-                                                                    dispatch(setSearchHistory([...new Set([searchValue.trim(), ...searchHistory])]))
-                                                                }
-                                                                setSearchParams(searchParams.toString())
-                                                                setOpenSearch(false)
-                                                            }}
-                                                        />
-                                                    </div>
-                                                </div>
-                                                <div className="flex-1 overflow-y-auto flex flex-col">
-                                                    {searchHistory && searchHistory.length > 0 && searchValue === '' ?
-                                                    <>
-                                                        <div className="fs-12 bold px-4 pb-1 pt-2 text-secondary">
-                                                            Search history
-                                                        </div>
-                                                        {searchHistory
-                                                        .slice(0, searchHistory && showAllHistory ? searchHistory.length : 3)
-                                                        .map((searchItem) => (
-                                                            <div className="flex justify-between align-center">
-                                                                <div
-                                                                    key={searchItem}
-                                                                    onClick={(e) => {
-                                                                        setSearchValue(searchItem)
-                                                                    }}
-                                                                    className="fs-16 flex align-center px-4 py-3 gap-3 text-secondary pointer bg-secondary-hover flex-1 overflow-hidden"
-                                                                >
-                                                                    <Icon icon={clockIcon} size="sm"/><span className="text-ellipsis-1">{searchItem}</span>
-                                                                </div>
-                                                                <IconButton
-                                                                    icon={closeIcon}
-                                                                    className="mx-2"
-                                                                    onClick={() => {
-                                                                        dispatch(setSearchHistory(searchHistory.filter((item) => item !== searchItem)))
-                                                                    }}
-                                                                />
-                                                            </div>
-                                                        ))}
-                                                        {searchHistory.length > 3 ?
-                                                            <Button
-                                                                label={showAllHistory ? "Show less" : "Show all"}
-                                                                variant="link"
-                                                                size="lg"
-                                                                icon={showAllHistory ? arrowUpShortIcon : arrowDownShortIcon}
-                                                                type="primary"
-                                                                onClick={() => setShowAllHistory(!showAllHistory)}
-                                                            />
-                                                        : null}
-                                                    </>
-                                                    : null}
-                                                    {commonGames
-                                                    .filter((game) => game.name.toLowerCase() !== searchValue.toLowerCase() && game.name.toLowerCase().includes(searchValue.toLowerCase())).length > 0 ?
-                                                        <div className="fs-12 bold px-4 pb-1 pt-2 text-secondary">
-                                                            Suggested games
-                                                        </div>
-                                                    : null}
-                                                    {commonGames
-                                                    .filter((game) => game.name.toLowerCase() !== searchValue.toLowerCase() && game.name.toLowerCase().includes(searchValue.toLowerCase()))
-                                                    .slice(0, 10)
-                                                    .map((game) => (
-                                                        <div
-                                                            key={game}
-                                                            onClick={(e) => {
-                                                                setSearchValue(game)
-                                                            }}
-                                                            className="fs-16 px-4 py-3 flex align-center gap-3 text-secondary pointer bg-secondary-hover"
-                                                        >
-                                                            <Icon icon={searchIcon} size="sm"/><span>{highlightText(`${game.name}`, searchValue)}</span>
-                                                        </div>
-                                                    ))}
-                                                </div>
+                                            pathname  === '/jobs' ?
+                                            <Icon icon={logoSvg} size="lg" />
+                                            :
+                                            logoNameSvg
+                                        }
+                                    </Link>
+                                    {pathname  === '/jobs' ?
+                                        null
+                                    :
+                                        <div className="d-sm-none">
+                                            <div className="flex gap-2 flex-grow-1">
+                                                <Button
+                                                    muted
+                                                    to="/"
+                                                    label="Home"
+                                                    variant="text"
+                                                    type="secondary"
+                                                />
                                             </div>
-                                        </Modal>
-                                        <Button
-                                            icon={searchIcon}
-                                            label={searchValue ? searchValue : <span className="opacity-75 weight-500 fs-14">
-                                                Job title or company name
-                                            </span>}
-                                            variant="outline"
-                                            type="secondary"
-                                            borderRadius="lg"
-                                            className="flex-1 justify-start fs-16"
-                                            onClick={() => setOpenSearch(true)}
-                                        />
-                                        </>
+                                        </div>
                                     }
+                                </div>
                                 <div className={`justify-end flex align-center flex-no-wrap gap-3${pathname  === '/jobs' ? "" : " flex-1"}`}>
                                     {!user ?
+                                    <>
                                         <Button
                                             to="/login"
-                                            label="Log in"
+                                            label="Log In"
                                             variant="filled"
                                             type="primary"
                                             borderRadius="lg"
                                         />
+                                        <Button
+                                            to="/register"
+                                            label="Sign Up"
+                                            variant="text"
+                                            type="secondary"
+                                            borderRadius="lg"
+                                        />
+                                    </>
                                     :
-                                    <>
-                                    <UserNotification/>
-                                    <UserProfile/>
-                                    </> }
+                                        null
+                                    }
                                 </div>
                             </div>
                         </div>

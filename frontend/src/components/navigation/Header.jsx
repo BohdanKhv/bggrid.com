@@ -77,62 +77,7 @@ const Header = () => {
                     <div className={`${pathname  === '/jobs' ? "w-100" : "w-max-md mx-auto"}`}>
                         <div className="container">
                             <div className="flex justify-between w-100 align-center gap-2 gap-sm-3">
-                                    <div className={`flex justify-start gap-3 align-center gap-sm-3${pathname  === '/jobs' ? "" : " flex-1"}`}>
-                                        <Link
-                                            to="/"
-                                            className="flex align-center pointer">
-                                            { windowWidth > 800 ?
-                                            logoNameSvg
-                                            :
-                                                pathname  === '/jobs' ?
-                                                <Icon icon={logoSvg} size="lg" />
-                                                :
-                                                logoNameSvg
-                                            }
-                                        </Link>
-                                        {pathname  === '/jobs' ?
-                                            null
-                                        :
-                                            <div className="d-sm-none">
-                                                <div className="flex gap-2 flex-grow-1">
-                                                    <Button
-                                                        muted
-                                                        to="/"
-                                                        label="Home"
-                                                        variant="text"
-                                                        icon={homeIcon}
-                                                        type="secondary"
-                                                    />
-                                                    <Button
-                                                        muted
-                                                        to="/browse"
-                                                        label="Browse"
-                                                        variant="text"
-                                                        icon={searchIcon}
-                                                        type="secondary"
-                                                    />
-                                                    <Button
-                                                        muted
-                                                        to="/library"
-                                                        label="Your Library"
-                                                        variant="text"
-                                                        icon={libraryIcon}
-                                                        type="secondary"
-                                                    />
-                                                    <Button
-                                                        muted
-                                                        to="/crew"
-                                                        label="Your Crew"
-                                                        variant="text"
-                                                        icon={usersIcon}
-                                                        type="secondary"
-                                                    />
-                                                </div>
-                                            </div>
-                                        }
-                                    </div>
-                                <div className={`justify-end flex align-center flex-no-wrap gap-3${pathname  === '/jobs' ? "" : " flex-1"}`}>
-                                    {windowWidth > 800 ?
+                                {windowWidth > 800 ?
                                         <div className="flex border border-radius-lg align-center flex-1 w-max-300-px">
                                             <InputSearch
                                                 value={searchValue}
@@ -323,23 +268,23 @@ const Header = () => {
                                                     </>
                                                     : null}
                                                     {commonGames
-                                                    .filter((job) => job.toLowerCase() !== searchValue.toLowerCase() && job.toLowerCase().includes(searchValue.toLowerCase())).length > 0 ?
+                                                    .filter((game) => game.name.toLowerCase() !== searchValue.toLowerCase() && game.name.toLowerCase().includes(searchValue.toLowerCase())).length > 0 ?
                                                         <div className="fs-12 bold px-4 pb-1 pt-2 text-secondary">
-                                                            Suggested jobs
+                                                            Suggested games
                                                         </div>
                                                     : null}
                                                     {commonGames
-                                                    .filter((job) => job.toLowerCase() !== searchValue.toLowerCase() && job.toLowerCase().includes(searchValue.toLowerCase()))
+                                                    .filter((game) => game.name.toLowerCase() !== searchValue.toLowerCase() && game.name.toLowerCase().includes(searchValue.toLowerCase()))
                                                     .slice(0, 10)
-                                                    .map((job) => (
+                                                    .map((game) => (
                                                         <div
-                                                            key={job}
+                                                            key={game}
                                                             onClick={(e) => {
-                                                                setSearchValue(job)
+                                                                setSearchValue(game)
                                                             }}
                                                             className="fs-16 px-4 py-3 flex align-center gap-3 text-secondary pointer bg-secondary-hover"
                                                         >
-                                                            <Icon icon={searchIcon} size="sm"/><span>{highlightText(`${job}`, searchValue)}</span>
+                                                            <Icon icon={searchIcon} size="sm"/><span>{highlightText(`${game.name}`, searchValue)}</span>
                                                         </div>
                                                     ))}
                                                 </div>
@@ -358,6 +303,7 @@ const Header = () => {
                                         />
                                         </>
                                     }
+                                <div className={`justify-end flex align-center flex-no-wrap gap-3${pathname  === '/jobs' ? "" : " flex-1"}`}>
                                     {!user ?
                                         <Button
                                             to="/login"

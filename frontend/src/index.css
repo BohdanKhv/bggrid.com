@@ -80,8 +80,10 @@
   --p-container-content: 8px;
   --p-container: 8px;
   --w-max-default: 800px;
-  --w-max-md: 1580px;
-  --w-max-lg: 1950px;
+  --w-max-xl: 1280px;
+  --w-max-lg: 1024px;
+  --w-max-md: 800px;
+  --w-max-sm: 576px;
 
   --transition-duration: .15s;
 
@@ -91,6 +93,7 @@
   --header-sm-height: 61px;
   --max-width: 800px;
   --nav-mob-height: 60px;
+  --nav-width: 300px;
 
   /* box shadow like in max */
   --box-shadow-xs: 0 3px 6px 0 rgba(14,30,62,0.08);
@@ -384,38 +387,6 @@ body:has(.navbar.open) {
   overflow: hidden!important;
 } */
 
-.content-body-wrapper {
-  flex-grow: 1;
-  /* max-height: 100%; */
-  position: relative;
-  /* overflow: auto; */
-  display: flex;
-}
-.content-body-inner {
-  display: flex;
-  flex-direction: column;
-  flex: 1;
-  max-width: 100%;
-  padding-top: var(--header-height);
-}
-.content-body {
-  /* padding-top: calc(var(--header-height)); */
-  /* min-height: 100%; */
-  width: calc(100%);
-  max-width: calc(var(--w-max-md, 100%));
-  margin-left: auto;
-  margin-right: auto;
-  /* padding-left: 12px; */
-  /* padding-right: var(--p-container-content); */
-  padding-bottom: env(safe-area-inset-bottom);
-  display: flex;
-  flex: 1;
-  padding-bottom: var(--p-container-content);
-  flex-direction: column;
-}
-.content-body-inner::-webkit-scrollbar {
-  /* display: none; */
-}
 .page-body {
   /* height: 100%; */
   max-height: inherit;
@@ -442,16 +413,6 @@ main {
 }
 .container-left {
   padding-left: 24px;
-}
-.container-content {
-  padding-left: var(--p-container-content);
-  padding-right: var(--p-container-content);
-}
-.content {
-  display: flex;
-  flex-direction: column;
-  flex: 1;
-  height: 100%;
 }
 .max-width {
   /* max-width: 800px; */
@@ -609,6 +570,17 @@ label.p-FieldLabel {
   color: var(--text-dark)!important;
 }
 
+.content {
+  max-width: var(--w-max-xl);
+  width: 100%;
+  margin: 0 auto;
+  display: flex;
+  gap: 3rem;
+}
+.content-body {
+  flex-grow: 1;
+}
+
 @keyframes spin {
   0% {
     transform: rotate(0deg);
@@ -637,25 +609,6 @@ label.p-FieldLabel {
   body {
     background-color: var(--color-main);
   }
-
-  .content.content-collapsed,
-  .content {
-    margin-left: 0;
-    padding-left: 0;
-    padding-right: 0;
-    /* padding-bottom: 61px; */
-  }
-  .content-body {
-    margin-right: unset;
-    margin-left: unset;
-    width: 100%;
-    padding-bottom: env(safe-area-inset-bottom);
-    padding-left: 0;
-    padding-right: 0;
-    max-width: 100%;
-    /* padding-bottom: 30px; */
-    min-height: calc(100vh - 64px - 61px - env(safe-area-inset-bottom));
-  }
   .page-body {
     border-radius: 0;
     flex: initial;
@@ -669,12 +622,6 @@ label.p-FieldLabel {
     border: none;
   }
 
-  .content-body-wrapper {
-    border-radius: 0;
-    max-height: unset;
-    position: relative;
-    display: flex;
-  }
   .page-body {
     height: auto;
     /* max-height: initial;

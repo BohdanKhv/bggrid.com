@@ -36,20 +36,6 @@ export const updateUser = async (userData, token) => {
 }
 
 
-export const uploadResume = async (userData, token) => {
-    const config = {
-        headers: {
-            Authorization: `Bearer ${token}`,
-            'Content-Type': 'multipart/form-data'
-        }
-    };
-
-    const response = await axios.put(API_URL + "resume", userData, config);
-
-    return response.data;
-}
-
-
 export const getMe = async (token) => {
     const config = {
         headers: {
@@ -69,7 +55,6 @@ const authService = {
     logout,
     login,
     updateUser,
-    uploadResume,
     getMe
 };
 

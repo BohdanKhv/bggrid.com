@@ -12,9 +12,11 @@ import Footer from "./pages/Footer";
 import HomePage from "./pages/HomePage";
 import Settings from "./pages/Settings";
 import LoginWithEmail from "./pages/auth/LoginWithEmail";
-import Navbar from "./components/navigation/Navbar";
+import NavbarMobile from "./components/navigation/NavbarMobile";
 import LibraryPage from "./pages/LibraryPage";
 import BrowsePage from "./pages/BrowsePage";
+import Navbar from "./components/navigation/Navbar";
+import SearchGamesModal from "./pages/SearchGamesModal";
 
 function App() {
   const { user } = useSelector(state => state.auth);
@@ -29,35 +31,47 @@ function App() {
         <ErrBoundary>
           <ImportantUserAlert/>
         </ErrBoundary>
-        <ErrBoundary>
-          <Header/>
-        </ErrBoundary>
+        {!user ?
+          <ErrBoundary>
+            <Header/>
+          </ErrBoundary>
+        : null}
         {window.innerWidth <= 800 ?
           <ErrBoundary>
-            <Navbar/>
+            <NavbarMobile/>
           </ErrBoundary>
         : null}
         <IsOffline />
-          <div className="flex-grow-1 h-min-100">
-              <Routes>
-                <Route path="/" element={<ErrBoundary><HomePage /></ErrBoundary>} />
-                <Route path="/discover" element={<ErrBoundary><BrowsePage /></ErrBoundary>} />
-                <Route path="/browse" element={<ErrBoundary><BrowsePage /></ErrBoundary>} />
-                <Route path="/library" element={<ErrBoundary><LibraryPage /></ErrBoundary>} />
-                {user ?
-                  <Route path="/account/:tab" element={<ErrBoundary><Settings/></ErrBoundary>} />
-                :
-                  <>
-                    <Route path="/login" element={<ErrBoundary><Auth><Login /></Auth></ErrBoundary>} />
-                  </>
-                }
-                <Route path="/login-with-email" element={<Auth><LoginWithEmail /></Auth>} />
-                <Route path="/terms" element={<ErrBoundary><Terms /></ErrBoundary>} />
-                <Route path="/privacy" element={<ErrBoundary><Privacy /></ErrBoundary>} />
-                {/* <Route path="*" element={<LoginNotFound />} /> */}
-              </Routes>
+        <ErrBoundary>
+          <SearchGamesModal/>
+        </ErrBoundary>
+        <div className="content">
+          <ErrBoundary>
+            <Navbar/>
+          </ErrBoundary>
+          <div className="content-body">
+            <div className="flex-grow-1 h-min-100">
+                <Routes>
+                  <Route path="/" element={<ErrBoundary><HomePage /></ErrBoundary>} />
+                  <Route path="/discover" element={<ErrBoundary><BrowsePage /></ErrBoundary>} />
+                  <Route path="/browse" element={<ErrBoundary><BrowsePage /></ErrBoundary>} />
+                  <Route path="/library" element={<ErrBoundary><LibraryPage /></ErrBoundary>} />
+                  {user ?
+                    <Route path="/account/:tab" element={<ErrBoundary><Settings/></ErrBoundary>} />
+                  :
+                    <>
+                      <Route path="/login" element={<ErrBoundary><Auth><Login /></Auth></ErrBoundary>} />
+                    </>
+                  }
+                  <Route path="/login-with-email" element={<Auth><LoginWithEmail /></Auth>} />
+                  <Route path="/terms" element={<ErrBoundary><Terms /></ErrBoundary>} />
+                  <Route path="/privacy" element={<ErrBoundary><Privacy /></ErrBoundary>} />
+                  {/* <Route path="*" element={<LoginNotFound />} /> */}
+                </Routes>
+                </div>
+                <Footer/>
+              </div>
             </div>
-          <Footer/>
           </div>
         <Tooltip id="tooltip-click" className="z-999 w-max-200-px" place="bottom" closeOnEsc openOnClick closeOnScroll positionStrategy="fixed" opacity="0.95" noArrow />
     </Router>

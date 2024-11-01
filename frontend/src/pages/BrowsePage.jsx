@@ -9,8 +9,8 @@ import { getGames } from '../features/game/gameSlice'
 const ItemCard = ({item}) => {
     return (
         <div className="flex flex-col pointer border-radius transition-duration">
-            <div className="border-radius bg-secondary h-100 w-100 bg-hover-after h-min-200-px">
-                <img src={`https://cf.geekdo-images.com/sZYp_3BTDGjh2unaZfZmuA__original/img/7d-lj5Gd1e8PFnD97LYFah2c45M=/0x0/filters:format(jpeg)/pic${item.id}.jpg`}
+            <div className="border-radius bg-secondary h-100 w-100 bg-hover-after">
+                <img src="https://via.placeholder.com/300"
                 alt="Game Thumbnail" className="w-100 h-auto object-cover border-radius" />
             </div>
             <div className="flex flex-col gap-1">
@@ -28,7 +28,7 @@ const Items = () => {
     const { games, isLoading, loadingId, msg } = useSelector((state) => state.game)
 
     return (
-        <div className="grid grid-cols-5 flex-wrap animation-slide-in h-fit-content gap-4">
+        <div className="grid grid-cols-3 flex-wrap animation-slide-in h-fit-content gap-4">
             {isLoading ? (
                 <ErrorInfo isLoading/>
             ) : games.map((i) => (
@@ -159,8 +159,8 @@ const BrowsePage = () => {
         {/* <div className="w-100 h-min-400-px pos-absolute top-0 pointer-events-none user-select-none z-0" style={{
             background: "linear-gradient(rgba(66, 144, 243, 0.2) 0%, rgba(206, 127, 243, 0.1) 52.58%, rgba(248, 236, 215, 0) 100%)"
         }}></div> */}
-        <main className="page-body mx-auto w-max-md">
-            <div className="container px-sm-2 py-6">
+        <main>
+            <div className="px-2 py-6">
                 {/* <div className="pt-sm-3 pb-4"> */}
                     {/* <div className="py-3 title-1 bold px-sm-2">
                         Search

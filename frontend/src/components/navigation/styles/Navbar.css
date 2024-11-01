@@ -1,133 +1,81 @@
-
-.navbar-mob {
+.navbar-wrapper {
+    width: var(--nav-width);
+    min-width: var(--nav-width);
+    background-color: var(--color-main);
+}
+.navbar {
+    padding: 0 12px;
     position: fixed;
-    padding: 0;
-    left: auto;
-    top: auto;
-    right: auto;
-    border-right: none;
-    border-top: var(--border);
-    justify-content: space-around;
-    bottom: 0;
-    flex-direction: row;
-    height: var(--nav-mob-height);
-    width: 100vw;
-    width: -webkit-fill-available;
-    padding-bottom: env(safe-area-inset-bottom);
-    z-index: 98;
-    background-color: var(--color-main);
-    /* background-color: var(--color-translucent); */
-    overflow-y: auto;
-    /* backdrop-filter: blur(16px);
-    -webkit-backdrop-filter: blur(16px); */
-}
-
-.navbar-mob-item.active .navbar-mob-item-icon,
-.navbar-mob-item:hover .navbar-mob-item-icon {
-    opacity: 1;
-    color: var(--text-dark);
-    scale: 1.1;
-}
-.navbar-mob-item:hover::before {
-    background-color: var(--color-main);
-}
-.navbar-mob-item::before  {
-    content: "";
-    pointer-events: none;
-    display: block;
-    position: absolute;
-    top: 0;
-    right: 0;
-    bottom: 0;
-    left: 0;
-    background-color: var(--color-main, rgba(26,26,26,0.1));
-    border-radius: var(--border-radius);
-    opacity: 0;
-    transition: opacity 100ms cubic-bezier(0.4, 0, 0.2, 1),transform 100ms cubic-bezier(0.4, 0, 0.2, 1);
-    transform: scale(0);
-    z-index: -1;
-    transition-duration: var(--transition-duration);
-}
-
-.navbar-mob .navbar-mob-item svg {
-    width: 22px;
-    height: 22px;
-}
-.navbar-mob-links {
-    display: flex;
-    flex-direction: row;
-    justify-content: space-evenly;
-    width: 100%;
-    gap: 0;
-    padding: 0;
-    margin: 0;
-}
-.navbar-mob .navbar-mob-item svg {
-    margin-right: 0;
-}
-
-.navbar-mob .navbar-mob-item.active {
-    background-color: transparent;
-    opacity: 1;
-}
-
-.navbar-mob-item:active {
-    opacity: 1;
-}
-.navbar-mob-item {
-    flex: 1;
     display: flex;
     flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    opacity: 0.75;
-    margin: 0;
-    gap: 2px;
-    font-size: 12px;
-    font-weight: 500;
-    height: var(--nav-mob-height);
-    transition-duration: var(--transition-duration);
-    cursor: pointer;
-    position: relative;
+    height: 100%;
 }
-.navbar-mob-item .navbar-mob-item-icon svg {
-    width: 16px;
-    height: 16px;
-    max-width: 16px;
-    max-height: 16px;
-}
-.navbar-mob-item .navbar-mob-item-icon .avatar {
-    width: 16px;
-    height: 16px;
-    max-width: 16px;
-    max-height: 16px;
-    font-size: 10px;
-}
-.navbar-mob-item .navbar-mob-item-icon {
+.navbar-header {
+    height: 60px;
     display: flex;
     align-items: center;
-    justify-content: center;
-    padding: 0 22px;
-    min-height: 28px;
-    border-radius: var(--border-radius-lg);
-    background-color: transparent;
-    transition-duration: 0.3s;
+    padding: 12px 0;
 }
-.navbar-mob .navbar-mob-item.active  .navbar-mob-item-icon {
-    background-color: rgb(var(--color-general-secondary-bg));
-}
-.navbar-mob .navbar-mob-item.active  .navbar-mob-item-icon svg {
-    fill: rgb(var(--color-general-secondary-text));
+.navbar-body {
+    flex: 1;
 }
 
-.navbar-mob .navbar-mob-item svg {
-    width: 18px;
-    height: 18px;
+.navbar .btn {
+    padding: 12px 18px;
+    font-size: 16px;
+    height: 25px;
+    font-weight: 600;
+    height: auto;
+    border: none;
+    justify-content: start;
+}
+.navbar .btn svg {
+    width: 20px;
+    height: 20px;
 }
 
+/* .navbar-closed .navbar  {
+    animation: closeNav var(--transition-duration);
+    animation-fill-mode: forwards;
+    animation-timing-function: ease-out;
+}
 
+.navbar-open .navbar {
+    animation: openNav var(--transition-duration);
+    animation-fill-mode: forwards;
+    animation-timing-function: ease-out;
+    visibility: visible;
+} */
+
+@keyframes openNav {
+    0% {
+        transform: translateX(-100%);
+    }
+    100% {
+        transform: translateX(0);
+    }
+}
+
+@keyframes closeNav {
+    0% {
+        transform: translateX(0);
+    }
+    100% {
+        transform: translateX(-100%);
+    }
+}
 @media (max-width: 800px) {
-    body:has(.hidden-navbar-mob) .navbar-mob {
-        display: none;
+    .navbar-wrapper {
+        width: 100%;
+        min-width: 100%;
+        z-index: 1000;
+        background-color: var(--color-overlay);
+    }
+    .navbar {
+        width: 70%;
+        min-width: 70%;
+        background-color: var(--color-main);
+        height: 100%;
+        z-index: 1000;
     }
 }

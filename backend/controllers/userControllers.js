@@ -183,14 +183,13 @@ const login = async (req, res) => {
 
         const user = await User.findOne({
             email: { $regex: new RegExp(email, 'i') }
-        });
+        }).select('+password');
 
         if (!user) {
             return res.status(400).json({
                 msg: 'User does not exist'
             });
         }
-
         // Check password
         const isMatch = await bcrypt.compare(password, user.password);
 

@@ -14,8 +14,10 @@ const Register = () => {
 
 
     const handleLogin = () => {
-        dispatch(sendLoginEmail({
+        dispatch(register({
             email: email.replace(/\s\s+/g, ' ').trim().toLowerCase(),
+            password,
+            username
         }))
     }
 

@@ -1,8 +1,8 @@
 import { useState, useEffect, useRef } from "react"
 import { useDispatch, useSelector } from "react-redux"
-import {  Button, ErrorInfo, Icon, IconButton, InputSearch, Modal, UserProfile } from "../"
+import {  Avatar, Button, ErrorInfo, Icon, IconButton, InputSearch, Modal, UserProfile } from "../"
 import './styles/Header.css'
-import { arrowDoubleBottomIcon, arrowDownShortIcon, arrowUpShortIcon, basketFillIcon, basketIcon, clockIcon, closeIcon, deliveryIcon, gamesIcon, historyIcon, homeFillIcon, homeIcon, leftArrowIcon, libraryIcon, locationIcon, mapIcon, menuIcon, searchIcon, selectOptionsIcon, userIcon, usersFillIcon, usersIcon } from "../../assets/img/icons"
+import { arrowDoubleBottomIcon, arrowDownShortIcon, arrowUpShortIcon, basketFillIcon, basketIcon, bellIcon, clockIcon, closeIcon, deliveryIcon, gamesIcon, historyIcon, homeFillIcon, homeIcon, leftArrowIcon, libraryIcon, locationIcon, mapIcon, menuIcon, searchIcon, selectOptionsIcon, userIcon, usersFillIcon, usersIcon } from "../../assets/img/icons"
 import { Link, NavLink, useLocation, useSearchParams } from "react-router-dom"
 import { logoNameSvg, logoRevertSvg, logoSvg } from "../../assets/img/logo"
 import { commonGames } from "../../assets/constants"
@@ -72,27 +72,27 @@ const Header = () => {
 
     return (
         <>
-        <div className={`${ pathname  === '/jobs' ? 'bg-main' : pathname == '/login' || pathname.startsWith('/login-with-email') ? " bg-transparent-blur" : " bg-translucent-blur"} pos-fixed w-available header-container`} ref={headerRef}>
+        <div className={`${pathname == '/login' || pathname.startsWith('/login-with-email') ? " bg-transparent-blur" : " bg-translucent-blur"} pos-fixed w-available header-container`} ref={headerRef}>
                 <header className="header pos-relative px-sm-3 flex-grow-1">
-                    <div className={`${pathname  === '/jobs' ? "w-100" : "w-max-md mx-auto"}`}>
+                    <div className="w-max-md mx-auto">
                         <div className="container">
                             <div className="flex justify-between w-100 align-center gap-2 gap-sm-3">
-                                <div className={`flex justify-start gap-3 align-center gap-sm-3${pathname  === '/jobs' ? "" : " flex-1"}`}>
+                                <div className={`flex justify-start gap-3 align-center gap-sm-3`}>
+                                    {pathname === '/' ?
                                     <Link
                                         to="/"
                                         className="flex align-center pointer">
                                         { windowWidth > 800 ?
                                         logoNameSvg
                                         :
-                                            pathname  === '/jobs' ?
-                                            <Icon icon={logoSvg} size="lg" />
-                                            :
                                             logoNameSvg
                                         }
                                     </Link>
-                                    {pathname  === '/jobs' ?
-                                        null
                                     :
+                                    <span className="text-capitalize weight-600 fs-20">
+                                        {pathname.replace('/', '')}
+                                    </span>
+                                    }
                                         <div className="d-sm-none">
                                             <div className="flex gap-2 flex-grow-1">
                                                 <Button
@@ -104,10 +104,27 @@ const Header = () => {
                                                 />
                                             </div>
                                         </div>
-                                    }
                                 </div>
-                                <div className={`justify-end flex align-center flex-no-wrap gap-3${pathname  === '/jobs' ? "" : " flex-1"}`}>
-                                    {!user ?
+                                <div className={`justify-end flex align-center flex-no-wrap gap-3`}>
+                                    {user ?
+                                    <>
+                                        <IconButton
+                                            icon={bellIcon}
+                                            to="/notifications"
+                                        />
+                                        <NavLink
+                                            to={`/${user.username}`}
+                                        >
+                                            <Avatar
+                                                img={user && user?.avatar ? `${import.meta.env.VITE_USERS_S3_API_URL}/${user?.avatar}` : null}
+                                                name={user ? `${user?.email}` : null}
+                                                rounded
+                                                avatarColor="1"
+                                                size="sm"
+                                            />
+                                        </NavLink>
+                                    </>
+                                    :
                                     <>
                                         <Button
                                             to="/login"
@@ -124,8 +141,6 @@ const Header = () => {
                                             borderRadius="lg"
                                         />
                                     </>
-                                    :
-                                        null
                                     }
                                 </div>
                             </div>

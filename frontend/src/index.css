@@ -380,7 +380,7 @@ body:has(.fsm-wrapper.open),
 body:has(.dropdown-mobile-content.dropdown-menu-open),
 body:has(.mobile-modal-menu),
 body:has(.no-scroll-body),
-body:has(.navbar.open) {
+body:has(.navbar-open) {
   overflow: hidden!important;
 }
 /* .page-body:has(.dropdown-open) {

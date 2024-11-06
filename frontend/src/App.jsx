@@ -32,7 +32,7 @@ function App() {
         <ErrBoundary>
           <ImportantUserAlert/>
         </ErrBoundary>
-        {!user ?
+        {!user || (user && window.innerWidth <= 800) ?
           <ErrBoundary>
             <Header/>
           </ErrBoundary>

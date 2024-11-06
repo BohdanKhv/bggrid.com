@@ -1,6 +1,6 @@
 import React from 'react'
-import { NavLink, useLocation } from 'react-router-dom'
-import { gamesIcon, homeIcon, largePlusIcon, libraryIcon, searchIcon, usersIcon } from '../../assets/img/icons'
+import { NavLink, useLocation, useSearchParams } from 'react-router-dom'
+import { gamesIcon, homeIcon, largePlusIcon, libraryIcon, menuIcon, searchIcon, usersIcon } from '../../assets/img/icons'
 import "./styles/NavbarMobile.css"
 import Button from '../ui/Button'
 import Avatar from '../ui/Avatar'
@@ -10,6 +10,7 @@ const NavbarMobile = () => {
     const { pathname } = useLocation()
 
     const { user } = useSelector(state => state.auth)
+    const [searchParams, setSearchParams] = useSearchParams()
 
     return (
             <div className="navbar-mob">
@@ -26,20 +27,24 @@ const NavbarMobile = () => {
                         </span>
                     </NavLink>
                     <NavLink 
-                        to={`/search`}
+                        to={`/library`}
                         className={`navbar-mob-item ${location.pathname.startsWith("/supply") ? " active" : ""}`}
                     >
                         <span className="navbar-mob-item-icon">
-                            {searchIcon}
+                            {libraryIcon}
                         </span>
                         <span className="navbar-mob-item-label">
-                            Browse
+                            Library
                         </span>
                     </NavLink>
                     <div 
-                        className={`navbar-mob-item`}
+                        className={`navbar-mob-item active`}
+                        onClick={() => {
+                            searchParams.set("sg", true)
+                            setSearchParams(searchParams)
+                        }}
                     >
-                        <div className="border border-radius-50 flex justify-center align-center icon-btn-primary icon-btn icon-btn-filled icon-btn-secondary">
+                        <div className="border flex justify-center align-center btn-primary btn btn-filled btn-secondary">
                             {largePlusIcon}
                         </div>
                     </div>
@@ -51,27 +56,20 @@ const NavbarMobile = () => {
                             {usersIcon}
                         </span>
                         <span className="navbar-mob-item-label">
-                            Crew
+                            Community
                         </span>
                     </NavLink>
-                    <div 
-                        className={`navbar-mob-item`}
+                    <div
                         onClick={() => {
                             document.querySelector('.open-navbar-button').click()
                         }}
+                        className={`navbar-mob-item`}
                     >
                         <span className="navbar-mob-item-icon">
-                            <Avatar
-                                img={user && user?.avatar ? `${import.meta.env.VITE_USERS_S3_API_URL}/${user?.avatar}` : null}
-                                name={user ? `${user?.email}` : null}
-                                rounded
-                                defaultColor={user}
-                                len={1}
-                                avatarColor="0"
-                            />
+                            {menuIcon}
                         </span>
                         <span className="navbar-mob-item-label">
-                            You
+                            More
                         </span>
                     </div>
                 </div>

@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Link, NavLink, useLocation, useSearchParams } from 'react-router-dom'
 import { bellIcon, gamesIcon, homeIcon, largePlusIcon, libraryIcon, loginIcon, logoutIcon, searchIcon, settingsIcon, usersIcon } from '../../assets/img/icons'
 import "./styles/Navbar.css"
@@ -13,20 +13,41 @@ const Navbar = () => {
     const dispatch = useDispatch()
 
 
-    const [open, setOpen] = useState(window.innerWidth < 800)
+    const [navOpen, setNavOpen] = useState(false);
+    const [isOpen, setIsOpen] = useState(false);
 
     const { user } = useSelector(state => state.auth)
     const { pathname } = useLocation()
     const [searchParams, setSearchParams] = useSearchParams()
 
+    useEffect(() => {
+        let timeOutId;
+        if (!navOpen) {
+            timeOutId = setTimeout(() => {
+                setIsOpen(false);
+                setNavOpen(false);
+            }, 150);
+        } else {
+            setIsOpen(true);
+            setNavOpen(true);
+        }
+
+        return () => clearTimeout(timeOutId);
+    }, [navOpen]);
+
     return (
-        <nav className={`navbar-wrapper${open ? " navbar-open" : " navbar-closed"}`}
+        <>
+        {window.innerWidth <= 800 &&
+            <div className="d-none open-navbar-button"
+                onClick={() => setNavOpen(true)}
+            />
+        }
+        {(isOpen || window.innerWidth > 800) &&
+        <nav className={`navbar-wrapper${ window.innerWidth <= 800 ? navOpen ? " navbar-open" : " navbar-closed" : ""}`}
             onClick={() => {
+                if (navOpen && window.innerWidth <= 800) setNavOpen(false)
             }}
         >
-            <div className="d-none open-navbar-button"
-                onClick={() => setOpen(!open)}
-            />
             <div className="navbar">
                 <div className="navbar-header">
                     <Link
@@ -88,11 +109,11 @@ const Navbar = () => {
                         type="secondary"
                     />
                     <Button
-                        muted={pathname !== '/browse'}
-                        to="/browse"
-                        label="Browse"
+                        muted={pathname !== '/library'}
+                        to="/library"
+                        label="Library"
                         variant="text"
-                        icon={searchIcon}
+                        icon={libraryIcon}
                         type="secondary"
                     />
                     <Button
@@ -155,6 +176,8 @@ const Navbar = () => {
                 </div>
             </div>
         </nav>
+        }
+        </>
     )
 }
 

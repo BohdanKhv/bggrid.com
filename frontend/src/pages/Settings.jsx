@@ -196,8 +196,8 @@ const Settings = () => {
 
     return (
         <div>
-            <main className="page-body mx-auto w-max-md">
-                <div className="mx-auto w-max-md animation-slide-in">
+            <main className="page-body">
+                <div className="animation-slide-in">
                     <div className="container">
                             <div className="py-3 title-1 bold px-sm-2">
                                 Account

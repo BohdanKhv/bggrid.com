@@ -32,4 +32,4 @@ const librarySchema = mongoose.Schema({
 });
 
 
-const Library = mongoose.model('Library', librarySchema);
+module.exports = mongoose.model('Library', librarySchema);

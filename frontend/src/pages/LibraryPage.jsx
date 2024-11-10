@@ -2,6 +2,8 @@ import { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { getMyLibrary } from '../features/library/librarySlice'
 import {ErrorInfo} from '../components'
+import { useSearchParams } from 'react-router-dom'
+import { gamesIcon } from '../assets/img/icons'
 
 const LibraryItem = ({ game }) => {
     return (
@@ -24,7 +26,8 @@ const LibraryItem = ({ game }) => {
 const LibraryPage = () => {
     const dispatch = useDispatch()
 
-const { library, isLoading, msg } = useSelector((state) => state.library)
+    const [searchParams, setSearchParams] = useSearchParams()
+    const { library, isLoading, msg } = useSelector((state) => state.library)
 
     useEffect(() => {
         const promise = dispatch(getMyLibrary())
@@ -50,13 +53,15 @@ const { library, isLoading, msg } = useSelector((state) => state.library)
                             ) : isLoading ? (
                                 <ErrorInfo isLoading/>
                             ) : (
-                                <div className="text-center">{msg ?
-                                <div className="flex justify-center"><div  className="border-radius-sm weight-600 fs-12 tag-danger px-2 py-1">
-                                        {msg}
-                                    </div>
-                                </div>
-                                
-                                : 'No games in your library'}</div>
+                                library.length === 0 && <ErrorInfo
+                                label="Your library is empty"
+                                btnLabel="Add games"
+                                icon={gamesIcon}
+                                onClick={() => {
+                                    searchParams.set('sg', true)
+                                    setSearchParams(searchParams)
+                                }}
+                                />
                             )}
                         </div>
                     </div>

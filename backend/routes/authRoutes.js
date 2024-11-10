@@ -1,6 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const { protect } = require('../middleware/authMiddleware');
+const { upload } = require('../middleware/uploadMiddleware');
 const {
     getMe,
     sendLoginEmail,
@@ -19,7 +20,7 @@ router
     .post('/forgot-password', forgotPassword)
     .post('/reset-password', resetPassword)
     .post('/', register)
-    .put('/', protect, updateUser);
+    .put('/', protect, upload.single('avatar'), updateUser);
 
 
 module.exports = router;

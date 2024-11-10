@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { useNavigate, useParams } from 'react-router-dom'
-import { Avatar, IconButton, Input, TabContent } from '../components'
+import { Avatar, Button, IconButton, Input, TabContent } from '../components'
 import { uploadIcon } from '../assets/img/icons'
 import { updateUser } from '../features/auth/authSlice'
 import Compressor from 'compressorjs'
@@ -15,13 +15,19 @@ const Account = () => {
     const { user, isLoading, loadingId, msg } = useSelector((state) => state.auth)
 
     const avatarRef = useRef(null)
-    const [avatar, setAvatar] = useState(user?.jobSeeker?.avatar)
+    const [avatar, setAvatar] = useState(user?.avatar)
+    const [username, setUsername] = useState(user?.username)
+    const [firstName, setFirstName] = useState(user?.firstName)
+    const [lastName, setLastName] = useState(user?.lastName)
 
 
 
     useEffect(() => {
         if (user) {
-            setAvatar(user?.jobSeeker?.avatar ? `${import.meta.env.VITE_USERS_S3_API_URL}/${user?.jobSeeker?.avatar}` : null)
+            setAvatar(user?.avatar ? `${import.meta.env.VITE_USERS_S3_API_URL}/${user?.avatar}` : null)
+            setUsername(user?.username || '')
+            setFirstName(user?.firstName || '')
+            setLastName(user?.lastName || '')
         }
     }, [user])
 
@@ -29,6 +35,56 @@ const Account = () => {
         <div className="flex flex-col gap-5 gap-sm-3 animation-slide-in">
             <div>
                 <div className="flex gap-6 flex-sm-col">
+                    <div className="col-6 flex flex-col gap-5 gap-sm-3 col-sm-12">
+                        <Input
+                            label="Username"
+                            description="Your username is unique. Changing your username will change your profile URL."
+                            value={user?.username}
+                            error={msg == 'Username already in use'}
+                            errorMsg="Username already in use"
+                            onChange={(e) => setUsername(e.target.value)}
+                            wrapColumn
+                            size="sm"
+                            type="text"
+                        />
+                        <Input
+                            label="First Name"
+                            placeholder="Your first Name"
+                            value={user?.firstName}
+                            size="sm"
+                            onChange={(e) => setFirstName(e.target.value)}
+                            wrapColumn
+                            type="text"
+                        />
+                        <Input
+                            label="Last Name"
+                            placeholder="Your last name"
+                            value={user?.lastName}
+                            onChange={(e) => setLastName(e.target.value)}
+                            wrapColumn
+                            size="sm"
+                            type="text"
+                        />
+                        <div className="flex">
+                            <Button
+                                label="Save Changes"
+                                variant="primary"
+                                type="filled"
+                                isLoading={loadingId === 'profile'}
+                                displayTextOnLoad
+                                disabled={loadingId}
+                                size="sm"
+                                onClick={() => {
+                                    const data = {}
+                                    if (username !== user.username) data.username = username
+                                    if (firstName !== user.firstName) data.firstName = firstName
+                                    if (lastName !== user.lastName) data.lastName = lastName
+
+                                    dispatch(updateUser(data))
+                                }}
+                            />
+                        </div>
+                    </div>
                     <div className="col-6 flex flex-col gap-5 gap-sm-3 col-sm-12">
                         <Input
                             label="Profile Picture"
@@ -43,7 +99,7 @@ const Account = () => {
                                         img={avatar ? avatar : null}
                                         name={`${user?.email}`}
                                         rounded
-                                        len={2}
+                                        len={1}
                                         defaultColor
                                         size="xl"
                                     />

@@ -6,6 +6,7 @@ const userSchema = new mongoose.Schema({
         type: String,
         required: true,
         unique: true,
+        trim: true,
         match: [
             /^[a-zA-Z0-9]+$/,
             'Please add a valid username'
@@ -25,8 +26,8 @@ const userSchema = new mongoose.Schema({
         required: true,
         select: false,
     },
-    firstName: { type: String, required: false },
-    lastName: { type: String, required: false },
+    firstName: { type: String, required: false, trim: true },
+    lastName: { type: String, required: false, trim: true },
     bio: { type: String, required: false },
     gender: { type: String, required: false },
     birthDate: { type: Date, required: false },

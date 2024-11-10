@@ -82,10 +82,10 @@ const Navbar = () => {
                             </div>
                         </div>
                         <div className="flex flex-col justify-center">
-                            <div className="fs-16 weight-600">
+                            <div className="fs-16 weight-600 text-ellipsis-1">
                                 {user.firstName} {user.lastName}
                             </div>
-                            <div className="fs-14 weight-600 text-secondary">
+                            <div className="fs-14 weight-600 text-secondary text-ellipsis-1">
                                 @{user.username}
                             </div>
                         </div>

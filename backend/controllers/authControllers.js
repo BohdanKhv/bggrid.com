@@ -233,7 +233,7 @@ const login = async (req, res) => {
 // @access  Private
 const updateUser = async (req, res) => {
     try {
-        const { firstName, lastName } = req.body;
+        const { firstName, lastName, username } = req.body;
 
         // Check if user exists
         const user = await User
@@ -243,6 +243,20 @@ const updateUser = async (req, res) => {
             return res.status(400).json({
                 msg: 'User does not exist'
             });
+        }
+
+        if (username !== undefined) {
+            // check if username is available
+            const uCheck = await User.findOne({
+                'username': {'$regex': `^${username}$`, '$options': 'i'}
+            });
+
+            if (uCheck) {
+                return res.status(400).json({
+                    msg: 'This username is already in use'
+                });
+            } else P
+            user.username = username.trim()
         }
 
         if (firstName !== undefined) user.firstName = firstName;

@@ -23,7 +23,7 @@ const protect = async (req, res, next) => {
 
         // Set user to req.user
         const user = await User.findById(decoded.id)
-console.log('user', user)
+
         if(!user) {
             return res.status(401).json({
                 msg: 'User not found'

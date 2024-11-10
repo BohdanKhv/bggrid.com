@@ -27,7 +27,7 @@ export const register = async (data, token) => {
     return response.data;
 }
 
-export const updateUser = async (userData, token) => {
+export const updateUser = async (payload, token) => {
     const config = {
         headers: {
             Authorization: `Bearer ${token}`,
@@ -35,7 +35,7 @@ export const updateUser = async (userData, token) => {
         }
     };
 
-    const response = await axios.put(API_URL, userData, config);
+    const response = await axios.put(API_URL, payload, config);
 
     return response.data;
 }

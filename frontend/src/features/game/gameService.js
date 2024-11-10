@@ -10,7 +10,7 @@ export const getGameById = async (payload) => {
 }
 
 export const getGames = async (payload) => {
-    const response = await axios.get(API_URL+`/${payload}`);
+    const response = await axios.get(API_URL+`${payload || ""}`);
 
     return response.data;
 }

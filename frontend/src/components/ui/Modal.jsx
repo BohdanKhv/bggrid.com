@@ -26,6 +26,7 @@ const Modal = ({
     errMsg,
     isScroll,
     onClose,
+    onClickOutside,
     type,
     classNameBody,
     classNameContent,
@@ -52,7 +53,7 @@ const Modal = ({
         setModalIsOpen && setModalIsOpen(false);
     }
 
-    const onClickOutside = (e) => {
+    const clickOutside = (e) => {
         if (forbidBackdropClose) {
             return;
         }
@@ -60,6 +61,9 @@ const Modal = ({
         if (e.target.classList.contains('modal-overlay') || e.target.classList.contains('modal-wrapper')) {
             if(!disableClose || disableClose === false) {
                 closeModal();
+                if (onClickOutside) {
+                    onClickOutside();
+                }
             } else {
                 console.log('modal is disabled');
             }
@@ -105,7 +109,7 @@ const Modal = ({
     return createPortal(
         open ? (
         <>
-        <div className="modal-overlay" onMouseDown={onClickOutside} style={{
+        <div className="modal-overlay" onMouseDown={clickOutside} style={{
             '--modal-min-width': minWith || '',
             '--modal-max-width': maxWith || undefined,
             ...style

@@ -10,6 +10,10 @@ const SearchGamesModal = () => {
     return (
         <Modal
             modalIsOpen={searchParams.get('sg') === 'true'}
+            onClickOutside={() => {
+                searchParams.delete('sg')
+                setSearchParams(searchParams)
+            }}
             headerNone
         >
             <IconButton

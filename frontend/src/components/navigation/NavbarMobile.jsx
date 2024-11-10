@@ -44,7 +44,7 @@ const NavbarMobile = () => {
                             setSearchParams(searchParams)
                         }}
                     >
-                        <div className="border flex justify-center align-center btn-primary btn btn-filled btn-secondary">
+                        <div className="border flex justify-center align-center btn btn-default btn-secondary">
                             {largePlusIcon}
                         </div>
                     </div>

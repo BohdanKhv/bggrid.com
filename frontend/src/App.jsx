@@ -61,7 +61,10 @@ function App() {
                   <Route path="/browse" element={<ErrBoundary><BrowsePage /></ErrBoundary>} />
                   <Route path="/library" element={<ErrBoundary><LibraryPage /></ErrBoundary>} />
                   {user ?
-                    <Route path="/account/:tab" element={<ErrBoundary><Settings/></ErrBoundary>} />
+                  <>
+                    <Route path="/settings" element={<ErrBoundary><Settings/></ErrBoundary>} />
+                    <Route path="/settings/:tab" element={<ErrBoundary><Settings/></ErrBoundary>} />
+                  </>
                   :
                     <>
                       <Route path="/forgot-password" element={<ErrBoundary><Auth><ForgotPassword /></Auth></ErrBoundary>} />

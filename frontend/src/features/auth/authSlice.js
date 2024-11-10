@@ -94,24 +94,6 @@ export const updateUser = createAsyncThunk(
     }
 );
 
-export const uploadResume = createAsyncThunk(
-    'auth/uploadResume',
-    async (userData, thunkAPI) => {
-        try {
-            const token = thunkAPI.getState().auth.user ? thunkAPI.getState().auth.user.token : null;;
-            return await authService.uploadResume(userData, token);
-        } catch (error) {
-            const message =
-                (error.response &&
-                    error.response.data &&
-                    error.response.data.msg) ||
-                error.message ||
-                error.toString();
-            return thunkAPI.rejectWithValue(message);
-        }
-    }
-);
-
 export const getMe = createAsyncThunk(
     'auth/getMe',
     async (_, thunkAPI) => {
@@ -254,26 +236,6 @@ const authSlice = createSlice({
             state.loadingId = '';
             state.isError = true;
             state.msg = action.payload;
-        });
-
-        builder.addCase(uploadResume.pending, (state, action) => {
-            state.isError = false;
-            state.loadingId = 'resume';
-            state.msg = '';
-        });
-        builder.addCase(uploadResume.fulfilled, (state, action) => {
-            state.loadingId = '';
-            state.isSuccess = true;
-            state.user = action.payload.data;
-    
-            localStorage.setItem('user', JSON.stringify(state.user));
-            toast.success('Resume uploaded', { toastId: 'toastSuccess', closeButton: true});
-        });
-        builder.addCase(uploadResume.rejected, (state, action) => {
-            state.loadingId = '';
-            state.isError = true;
-            state.msg = action.payload;
-            toast.error(action.payload, { toastId: 'toastError', closeButton: true});
         });
 
 

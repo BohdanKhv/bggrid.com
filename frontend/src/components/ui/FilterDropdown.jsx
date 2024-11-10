@@ -13,24 +13,14 @@ const FilterDropdown = ({ children, label, applied, onApply, onClear, mobileDrop
             isOpen={isOpen}
             setIsOpen={setIsOpen}
             mobileDropdown={mobileDropdown}
-            dropdownLabel={mobileDropdown ? label : null}
+            dropdownLabel={mobileDropdown ? `Filter by ${label}` : null}
             customDropdown={
-                <div className={`filter-dropdown bg-main`}>
-                    <div className={`${applied?.length > 0 ? "filter-dropdown-icon-applied " : "pointer-events-none user-select-none "}filter-dropdown-icon`}
-                        onClick={(e) => {
-                            e.stopPropagation()
-                            if (applied?.length > 0) {
-                                onClear()
-                            }
-                        }}
-                    >
-                        { applied?.length > 0 ? xIcon : patchPlusIcon }
-                    </div>
-                    <div className="filter-dropdown-label">{ label || 'Filter' }</div>
+                <div className={`filter-dropdown${applied.length > 0 ? " filter-applied": ""}`}>
+                    <div className={`filter-dropdown-label`}>{ label || 'Filter' }</div>
                     { applied?.length > 0 ?
                     <>
                     <div className="border-left h-75 border-secondary"/>
-                    <div className="filter-dropdown-applied bold text-nowrap">{applied?.slice(0,3)?.map( a => a).join(', ')}{applied?.length > 3 ? ` ... +${applied?.length - 3}` : null}</div>
+                    <div className="filter-dropdown-applied bold text-nowrap">({applied?.length})</div>
                     <div className={`pointer-events-none user-select-none filter-dropdown-icon`}>
                         {downArrowIcon}
                     </div>
@@ -58,6 +48,15 @@ const FilterDropdown = ({ children, label, applied, onApply, onClear, mobileDrop
                 }
                 {children}
                 { onApply &&
+                <dib className="flex gap-2 align-center justify-end mt-4 flex-sm-col">
+                    <Button
+                        label="Clear"
+                        variant="outline"
+                        type="secondary"
+                        onClick={onClear}
+                        smSize="lg"
+                        className="text-center justify-center w-sm-100"
+                    />
                     <Button
                         label="Apply"
                         variant="filled"
@@ -67,8 +66,9 @@ const FilterDropdown = ({ children, label, applied, onApply, onClear, mobileDrop
                             onApply()
                         }}
                         smSize="lg"
-                        className="mt-4 text-center justify-center w-100"
+                        className="text-center justify-center w-sm-100"
                     />
+                </dib>
                 }
             </div>
         </Dropdown>

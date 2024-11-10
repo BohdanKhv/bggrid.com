@@ -91,10 +91,7 @@ const Navbar = () => {
                         </div>
                     </Link>
                     <Button
-                        onClick={() => {
-                            searchParams.set('sg', 'true')
-                            setSearchParams(searchParams)
-                        }}
+                        to="/search"
                         label="Game"
                         icon={largePlusIcon}
                         variant="filled"

@@ -70,6 +70,8 @@ const Header = () => {
         );
     };
 
+    if (pathname === '/search' || pathname === '/library' || pathname === '/community') return
+
     return (
         <>
         <div className={`${pathname == '/login' || pathname.startsWith('/login-with-email') ? " bg-transparent-blur" : " bg-translucent-blur"} pos-fixed w-available header-container`} ref={headerRef}>

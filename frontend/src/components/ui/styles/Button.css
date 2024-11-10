@@ -87,6 +87,7 @@ a.btn-sm {
     max-height: 45px;
     min-height: 45px;
     gap: 12px;
+    border-radius: 54px;
 }
 a.btn-lg {
     height: 27px;
@@ -164,8 +165,8 @@ a.btn-lg {
 }
 .btn.btn-secondary {
     color: var(--text-dark);
-    background-color: var(--color-main);
-    border-color: var(--color-border);
+    background-color: rgb(var(--color-general-secondary-bg));
+    border-color: rgb(var(--color-general-secondary-bg))!important;
 }
 .btn.btn-custom {
     border-color: var(--color-custom-border)!important;

@@ -15,7 +15,7 @@ import NavbarMobile from "./components/navigation/NavbarMobile";
 import LibraryPage from "./pages/LibraryPage";
 import BrowsePage from "./pages/BrowsePage";
 import Navbar from "./components/navigation/Navbar";
-import SearchGamesModal from "./pages/SearchGamesModal";
+import SearchPage from "./pages/SearchPage";
 import Register from "./pages/auth/Register";
 import ResetPassword from "./pages/auth/ResetPassword";
 import ForgotPassword from "./pages/auth/ForgotPassword";
@@ -44,9 +44,6 @@ function App() {
           </ErrBoundary>
         : null}
         <IsOffline />
-        <ErrBoundary>
-          <SearchGamesModal/>
-        </ErrBoundary>
         <div className={user ? "content" : ""}>
           {user ?
             <ErrBoundary>
@@ -57,8 +54,7 @@ function App() {
             <div className="flex-grow-1 h-min-100">
                 <Routes>
                   <Route path="/" element={<ErrBoundary><HomePage /></ErrBoundary>} />
-                  <Route path="/discover" element={<ErrBoundary><BrowsePage /></ErrBoundary>} />
-                  <Route path="/browse" element={<ErrBoundary><BrowsePage /></ErrBoundary>} />
+                  <Route path="/search" element={<ErrBoundary><SearchPage /></ErrBoundary>} />
                   <Route path="/library" element={<ErrBoundary><LibraryPage /></ErrBoundary>} />
                   {user ?
                   <>

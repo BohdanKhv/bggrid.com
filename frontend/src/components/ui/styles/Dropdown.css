@@ -155,7 +155,7 @@
         animation-duration: var(--transition-duration);
         transition-duration: var(--transition-duration);
     }
-    .dropdown-mobile-content.dropdown-mobile-menu {
+    .dropdown-mobile-menu {
         border-top-left-radius: var(--border-radius-lg);
         border-top-right-radius: var(--border-radius-lg);
         box-shadow: var(--box-shadow);
@@ -180,12 +180,12 @@
     .dropdown-mobile-menu-label {
         display: block!important;
     }
-    .dropdown-mobile-content.dropdown-mobile-container {
+    .dropdown-mobile-container {
         overflow-y: auto;
         padding-left: 4px;
         padding-right: 4px;
         padding-top: 4px;
-        padding-bottom: calc(8px + 32px + env(safe-area-inset-bottom)); /* 5px is the transition */
+        padding-bottom: calc(8px + 8px + env(safe-area-inset-bottom)); /* 5px is the transition */
     }
     .dropdown-open .dropdown-mobile-content {
         /* height: 100%; */

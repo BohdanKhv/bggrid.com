@@ -37,20 +37,17 @@ const NavbarMobile = () => {
                             Library
                         </span>
                     </NavLink>
-                    <div 
+                    <NavLink 
                         className={`navbar-mob-item active`}
-                        onClick={() => {
-                            searchParams.set("sg", true)
-                            setSearchParams(searchParams)
-                        }}
+                        to={`/search`}
                     >
                         <div className="border flex justify-center align-center btn btn-default btn-secondary">
                             {largePlusIcon}
                         </div>
-                    </div>
+                    </NavLink>
                     <NavLink 
-                        to={`/crew`}
-                        className={`navbar-mob-item ${location.pathname.startsWith("/crew") ? " active" : ""}`}
+                        to={`/community`}
+                        className={`navbar-mob-item ${location.pathname.startsWith("/community") ? " active" : ""}`}
                     >
                         <span className="navbar-mob-item-icon">
                             {usersIcon}

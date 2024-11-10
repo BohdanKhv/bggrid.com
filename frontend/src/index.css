@@ -12,7 +12,7 @@
   --text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
   --text-shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.1);
 
-  --color-primary-100: #f9fff9;
+  --color-primary-100: #f0f0f0;
   --color-primary: #101014;
   --color-primary-10: rgba(30, 156, 241, 0.1);
   --color-primary-20: rgba(30, 156, 241, 0.2);
@@ -51,9 +51,9 @@
   --color-general-warning-bg: 255, 247, 230;
   --color-general-warning-bg-hover: 255, 240, 204;
   --color-general-warning-border: 247, 226, 179;
-  --color-general-secondary-bg: 247, 247, 247;
+  --color-general-secondary-bg: 246, 246, 246;
   --color-general-secondary-text: 0, 0, 0;
-  --color-general-secondary-bg-hover: 240, 240, 240;
+  --color-general-secondary-bg-hover: 235, 235, 235;
   --color-general-secondary-border: 145, 145, 145;
 
   --color-btn-overlay: rgba(255, 255, 255, 0.15);
@@ -62,9 +62,9 @@
   --color-logo: #000;
 
   --color-main: #ffffff;
-  --color-secondary: #f7f9fc;
-  --color-secondary-hover: #e6eaf4;
-  --color-tertiary: #fbfcfd;
+  --color-secondary: #f6f6f6;
+  --color-secondary-hover: #f9f9f9;
+  --color-tertiary: #f1f1f1;
   --color-border: #dee3e8;
   --color-border-secondary: #ebeef1;
 
@@ -224,8 +224,8 @@
   --color-warning-bg-light: #ffedc6;
   
   --color-general-primary-text: 0, 0, 0;
-  --color-general-primary-bg: 255, 57, 92;
-  --color-general-primary-bg-hover: 226, 0, 46;
+  --color-general-primary-bg: 255, 255, 255;
+  --color-general-primary-bg-hover: 255, 255, 255;
   --color-general-primary-border: 255, 57, 92;
   --color-general-danger-text: 231, 35, 54;
   --color-general-danger-bg-hover: 73, 1, 8;

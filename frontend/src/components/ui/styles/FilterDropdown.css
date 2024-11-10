@@ -1,14 +1,21 @@
 .filter-dropdown {
     position: relative;
-    border-radius: var(--border-radius);
-    border: 1px dashed var(--color-border);
+    border-radius: var(--border-radius-lg);
+    border: 1px solid rgb(var(--color-general-secondary-bg));
     display: flex;
     align-items: center;
-    padding: 4px 8px;
+    padding: 4px 12px;
     height: 18px;
     gap: 6px;
-    font-weight: 600;
     min-height: 24px;
+    transition-duration: var(--transition-duration);
+    background-color: rgb(var(--color-general-secondary-bg));
+}
+.filter-applied .filter-dropdown-label {
+    color: var(--text-dark);
+}
+.filter-dropdown:hover {
+    background-color: rgb(var(--color-general-secondary-bg-hover));
 }
 .filter-dropdown-icon-applied:hover svg {
     fill: var(--color-danger);
@@ -27,9 +34,6 @@
     width: 14px;
     height: 14px;
     fill: var(--text-secondary);
-}
-.filter-dropdown:hover {
-    border-color: rgb(var(--color-general-secondary-border));
 }
 .filter-dropdown-applied {
     font-size: 14px;

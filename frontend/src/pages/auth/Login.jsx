@@ -10,7 +10,6 @@ const Login = () => {
     const [password, setPassword] = useState('')
     const { msg, isLoading, user } = useSelector(state => state.auth)
     const dispatch = useDispatch()
-    const [countDown, setCountDown] = useState(60)
 
 
     const handleLogin = () => {
@@ -29,24 +28,13 @@ const Login = () => {
         }
     }, [])
 
-    useEffect(() => {
-        if (msg === 'email_sent') {
-            const interval = setInterval(() => {
-                setCountDown(countDown => countDown - 1)
-            }, 1000)
-            return () => clearInterval(interval)
-        }
-    }
-    , [msg])
-
-
     return (
         <>
         <div className="animation-fade-in">
             <div className="flex flex-col gap-4">
-                <div className="fs-24 pb-4 bold">
+                {/* <div className="fs-24 pb-4 bold">
                     Sign in
-                </div>
+                </div> */}
                 <Input
                     type="text"
                     value={email}
@@ -65,6 +53,16 @@ const Login = () => {
                     label="Password"
                     onChange={(e) => setPassword(e.target.value)}
                 />
+                {msg ? <div className="flex"><div className="border-radius-sm weight-600 fs-12 tag-danger px-2 py-1">{msg}</div></div> : null}
+                <div className="flex">
+                    <Button
+                        to="/forgot-password"
+                        label="Forgot your password?"
+                        variant="link"
+                        type="secondary"
+                        className="fs-12"
+                    />
+                </div>
             </div>
             <div className="mt-4 transition-slide-right-hover-parent">
                 <Button
@@ -74,7 +72,7 @@ const Login = () => {
                     isLoading={isLoading}
                     disabled={isLoading || !email || !email.match(/^([\w.%+-]+)@([\w-]+\.)+([\w]{2,})$/i)}
                     onClick={() => !isLoading ? handleLogin() : null}
-                    label="Continue"
+                    label="Log in"
                     iconRight={<div className="flex align-center transition-slide-right-hover">
                         {arrowRightShortIcon}
                     </div>}
@@ -88,7 +86,7 @@ const Login = () => {
                 />
                 <div className="pt-6">
                     <div className="fs-12 text-secondary text-center flex align-center gap-1 justify-center">
-                        Don't have an account? <Button to="/register" label="register" variant="link" type="primary" className="weight-400"/>
+                        Don't have an account? <Button to="/register" label="Sign up" variant="link" type="primary" className="weight-400"/>
                     </div>
                 </div>
             </div>

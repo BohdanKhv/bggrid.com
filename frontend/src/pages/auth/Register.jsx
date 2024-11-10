@@ -35,9 +35,9 @@ const Register = () => {
         <>
         <div className="animation-fade-in">
             <div className="flex flex-col gap-3">
-                <div className="fs-24 pb-4 bold">
+                {/* <div className="fs-24 pb-4 bold">
                     Sign up
-                </div>
+                </div> */}
                 <Input
                     type="text"
                     value={username}
@@ -91,7 +91,7 @@ const Register = () => {
             </div>
             <div className="pt-6">
                 <div className="fs-12 text-secondary text-center flex align-center gap-1 justify-center">
-                    Already have an account? <Button to="/login" label="login" variant="link" type="primary" className="weight-400"/>
+                    Already have a member? <Button to="/login" label="Log in" variant="link" type="primary" className="weight-400"/>
                 </div>
             </div>
         </div>

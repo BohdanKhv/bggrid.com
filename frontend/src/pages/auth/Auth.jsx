@@ -13,7 +13,7 @@ const Auth = ({children}) => {
                 <div className="flex-grow-1 flex justify-center flex-1 align-center mx-sm-0">
                     <div className="flex-grow-1 flex justify-center">
                         <div className="flex flex-col flex-grow-1 gap-3">
-                            <div className="flex flex-col gap-5 bg-main border border-radius-lg p-6 border-radius-sm-none justify-sm-center px-sm-3">
+                            <div className="flex flex-col gap-5 bg-main border border-radius-lg p-6 border-radius-sm-none border-sm-none justify-sm-center px-sm-3">
                                 <div className="flex flex-col justify-sm-center justify-between flex-1">
                                     {children}
                                 </div>

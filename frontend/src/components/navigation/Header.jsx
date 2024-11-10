@@ -78,7 +78,7 @@ const Header = () => {
                         <div className="container">
                             <div className="flex justify-between w-100 align-center gap-2 gap-sm-3">
                                 <div className={`flex justify-start gap-3 align-center gap-sm-3`}>
-                                    {pathname === '/' ?
+                                    {pathname === '/' || pathname === '/login' || pathname === '/register' ?
                                     <Link
                                         to="/"
                                         className="flex align-center pointer">
@@ -89,9 +89,7 @@ const Header = () => {
                                         }
                                     </Link>
                                     :
-                                    <span className="text-capitalize weight-600 fs-20">
-                                        {pathname.replace('/', '')}
-                                    </span>
+                                    <span className="text-capitalize weight-600 fs-20 text-ellipsis-1 header-label"/>
                                     }
                                         <div className="d-sm-none">
                                             <div className="flex gap-2 flex-grow-1">

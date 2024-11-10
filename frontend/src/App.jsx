@@ -37,7 +37,7 @@ function App() {
             <Header/>
           </ErrBoundary>
         : null}
-        {window.innerWidth <= 800 ?
+        {window.innerWidth <= 800 && user ?
           <ErrBoundary>
             <NavbarMobile/>
           </ErrBoundary>

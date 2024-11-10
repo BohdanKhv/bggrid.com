@@ -89,7 +89,7 @@ const Header = () => {
                                         }
                                     </Link>
                                     :
-                                    <span className="text-capitalize weight-600 fs-20 text-ellipsis-1 header-label"/>
+                                    <span className="text-capitalize weight-600 fs-20 text-ellipsis-1 header-title"/>
                                     }
                                         <div className="d-sm-none">
                                             <div className="flex gap-2 flex-grow-1">

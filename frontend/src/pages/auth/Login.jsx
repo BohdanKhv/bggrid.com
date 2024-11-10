@@ -64,10 +64,10 @@ const Login = () => {
                     />
                 </div>
             </div>
-            <div className="mt-4 transition-slide-right-hover-parent">
+            <div className="mt-4">
                 <Button
                     size="lg"
-                    className="w-100"
+                    className="w-100 transition-slide-right-hover-parent"
                     type={'primary'}
                     isLoading={isLoading}
                     disabled={isLoading || !email || !email.match(/^([\w.%+-]+)@([\w-]+\.)+([\w]{2,})$/i)}
@@ -85,8 +85,8 @@ const Login = () => {
                     }}
                 />
                 <div className="pt-6">
-                    <div className="fs-12 text-secondary text-center flex align-center gap-1 justify-center">
-                        Don't have an account? <Button to="/register" label="Sign up" variant="link" type="primary" className="weight-400"/>
+                    <div className="fs-12 text-secondary text-center flex align-center gap-1 justify-center weight-600">
+                        Don't have an account? <Button to="/register" label="Sign up" variant="link" type="primary"/>
                     </div>
                 </div>
             </div>

@@ -1,11 +1,15 @@
 const User = require('../models/userModel');
+const ResetToken = require('../models/resetTokenModel');
 const nodeMailer = require('nodemailer');
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcryptjs');
+const crypto = require('crypto');
 const emailLoginLink = require('../components/EmailLoginLink');
 const emailResetLink = require('../components/EmailResetLink');
 const { validateEmail } = require('../utils/utils');
 const { uploadFile, deleteFile } = require('../utils/s3');
+const { checkPasswordStrength } = require('../utils/utils');
+const { DateTime } = require('luxon');
 
 // Email transporter
 const transporter = nodeMailer.createTransport({
@@ -27,9 +31,9 @@ const register = async (req, res) => {
     try {
         const { username, email, password } = req.body;
 
-        if (!email || password === '' || !username) {
+        if (!email || password === '' || !username || username.trim() === '' || password === '' || password.length < 6) {
             return res.status(400).json({
-                msg: 'Email verification code is required'
+                msg: 'Please enter all fields'
             });
         }
 
@@ -85,7 +89,7 @@ const register = async (req, res) => {
 
 
 // @desc    Get me
-// @route   GET /api/users/me
+// @route   GET /api/auth/me
 // @access  Private
 const getMe = async (req, res) => {
     try {
@@ -169,7 +173,7 @@ const sendLoginEmail = async (req, res) => {
 
 
 // @desc    Login user with token
-// @route   POST /api/users/login
+// @route   POST /api/auth/login
 // @access  Public
 const login = async (req, res) => {
     try {
@@ -277,7 +281,7 @@ const updateUser = async (req, res) => {
 
 
 // @desc    Forgot password
-// @route   POST /api/users/forgot-password
+// @route   POST /api/auth/forgot-password
 // @access  Public
 const forgotPassword = async (req, res) => {
     try {
@@ -319,11 +323,6 @@ const forgotPassword = async (req, res) => {
             subject: 'Reset Password',
             priority: 'high',
             html: emailResetLink(token, newToken.user),
-            attachments: [{
-                filename: 'logo.png',
-                path: __dirname + '/../assets/logo_transparent.png',
-                cid: 'logo'
-            }]
         };
 
         transporter.sendMail(mailOptions, async (err, info) => {
@@ -348,7 +347,7 @@ const forgotPassword = async (req, res) => {
 
 
 // @desc    Reset password
-// @route   POST /api/users/reset-password
+// @route   POST /api/auth/reset-password
 // @access  Public
 const resetPassword = async (req, res) => {
     try {
@@ -388,9 +387,9 @@ const resetPassword = async (req, res) => {
         }
 
         // Check password strength (must have strength of 2 or higher)
-        if (checkPasswordStrength(password) < 4) {
+        if (password.length < 6) {
             return res.status(400).json({
-                msg: 'Password is too weak'
+                msg: 'Password is too weak, must be at least 6 characters long'
             });
         }
 
@@ -409,24 +408,7 @@ const resetPassword = async (req, res) => {
         );
 
         // Remove reset token
-        await resetToken.remove();
-
-        // email user 
-        const mailOptions = {
-            from: 'noreply@emplorex.com',
-            to: updatedUser.email,
-            subject: "Your password has been reset",
-            priority: 'high',
-            html: emailMessage('Password Reset', 'Someone has reset your password. If this was not you, please contact support.'),
-            attachments: [{
-                filename: 'logo.png',
-                path: __dirname + '/../assets/logo_transparent.png',
-                cid: 'logo'
-            }]
-        };
-
-        // Email without waiting for response
-        transporter.sendMail(mailOptions)
+        await resetToken.deleteOne();
 
         if (updatedUser) {
             res.status(200).json({

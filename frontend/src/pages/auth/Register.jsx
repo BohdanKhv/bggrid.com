@@ -90,8 +90,8 @@ const Register = () => {
                 By signing up, you agree to our <a href="https://increw.cafe/terms" target="_blank" className="text-underlined-hover">Terms of Service</a> and <a href="https://increw.cafe/privacy" target="_blank" className="text-underlined-hover">Privacy Policy</a>
             </div>
             <div className="pt-6">
-                <div className="fs-12 text-secondary text-center flex align-center gap-1 justify-center">
-                    Already have a member? <Button to="/login" label="Log in" variant="link" type="primary" className="weight-400"/>
+                <div className="fs-12 text-secondary text-center flex align-center gap-1 justify-center weight-600">
+                    Already have a member? <Button to="/login" label="Log in" variant="link" type="primary"/>
                 </div>
             </div>
         </div>

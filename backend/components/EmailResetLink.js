@@ -20,10 +20,10 @@ function emailResetLink (token, user) {
                 <td
                     align="center"
                     style="
-                        padding-top: 32px;
+                        padding: 32px 12px;
                         color: black!important;
                         font-family: monospace;
-                        max-width: 600px;
+                        max-width: 400px;
                         background-color: #f6f6f6;
                     ">
                     <table 
@@ -33,8 +33,10 @@ function emailResetLink (token, user) {
                         role="presentation"
                         style="
                             background-color: #ffffff;
+                            border-radius: 50px;
                             border-spacing: 0;
                             table-layout: fixed;
+                            max-width: 400px;
                             border-collapse: separate;
                         ">
                             <tbody>
@@ -42,7 +44,7 @@ function emailResetLink (token, user) {
                                     <td
                                         align="center"
                                         style="
-                                            padding: 34px 24px;
+                                            padding: 34px;
                                         "
                                     >
                                     <table 
@@ -56,87 +58,82 @@ function emailResetLink (token, user) {
                                         <tbody>
                                             <tr>
                                                 <td style="
-                                                    padding-bottom: 8px;
-                                                    text-align: center;
-                                                    padding-bottom: 32px;
-                                                ">
-                                                    <div>
-                                                        <img src="cid:logo" alt="logo" style="
-                                                            width: 22px;
-                                                        ">
-                                                    </div>
-                                                </td>
-                                            <tr>
-                                            <td style="
-                                            ">
-                                                <div style="
-                                                    font-size: 30px;
-                                                    font-weight: 700;
-                                                    padding-bottom: 32px;
-                                                    font-family: esqmarket-medium,-apple-system,BlinkMacSystemFont,Helvetica,sans-serif;
-                                                ">
-                                                    Reset Password
-                                                </div>
-                                            </tr>
-                                            <tr>
-                                                <td style="
                                                     padding-bottom: 24px;
                                                 ">
                                                     <div style="
-                                                        font-size: 14px;
+                                                        font-size: 18px;
+                                                        font-weight: 600;
                                                         font-family: esqmarket-medium,-apple-system,BlinkMacSystemFont,Helvetica,sans-serif;
                                                     ">
                                                         Hey there,
                                                     </div>
+                                                    <br/>
+                                                    <div style="
+                                                        font-size: 14px;
+                                                        font-weight: 400;
+                                                        font-family: esqmarket-medium,-apple-system,BlinkMacSystemFont,Helvetica,sans-serif;
+                                                    ">
+                                                        Someone requested a password reset for your account.
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td style="
+                                                    padding-bottom: 32px;
+                                                    padding-top: 32px;
+                                                    border-bottom: 1px solid #e9ecef;
+                                                    border-top: 1px solid #e9ecef;
+                                                ">
+                                                    <a style="
+                                                        font-size: 12px;
+                                                        text-align: center;
+                                                        font-family: esqmarket-medium,-apple-system,BlinkMacSystemFont,Helvetica,sans-serif;
+                                                        color: #ff395c;
+                                                    "
+                                                    href="${process.env.CLIENT_URL}/reset-password?token=${token}&id=${user._id}"
+                                                    target="_blank"
+                                                    >
+                                                        ${`${process.env.CLIENT_URL}/reset-password?token=${token}&id=${user._id}`}
+                                                    </a>
                                                 </td>
                                             </tr>
                                             <tr>
                                                 <td>
                                                     <div style="
-                                                    font-size: 14px;
-                                                    padding-bottom: 8px;
+                                                    font-size: 12px;
+                                                    padding: 32px 0;
+                                                    color: #6c757d;
                                                     font-family: esqmarket-medium,-apple-system,BlinkMacSystemFont,Helvetica,sans-serif;
                                                     ">
-                                                        Someone requested a password reset for your Emplorex account.
-                                                    </div>
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td style="
-                                                    padding-bottom: 32px;
-                                                ">
-                                                    <div style="
-                                                    font-size: 14px;
-                                                    font-family: esqmarket-medium,-apple-system,BlinkMacSystemFont,Helvetica,sans-serif;
-                                                    ">
-                                                    If you didn’t make this request, please ignore this email.
+                                                        If you didn’t make this request, please ignore this email.
                                                     </div>
                                                 </td>
                                             </tr>
                                             <tr>
                                                 <td
                                                     style="
-                                                        height: 40px;
+                                                        height: 50px;
                                                     "
                                                 >
-                                                <a
-                                                    href="${process.env.CLIENT_URL}/reset-password?token=${token}&id=${user._id}"
-                                                    style="
-                                                        text-decoration: none;
-                                                        color: #fff;
-                                                        background: #006aff;
-                                                        font-size: 14px;
-                                                        font-weight: 600;
-                                                        padding: 16px;
-                                                        transition-duration: 0.3s;
-                                                        border-radius: 8px;
-                                                        height: 40px;
-                                                        font-family: esqmarket-medium,-apple-system,BlinkMacSystemFont,Helvetica,sans-serif;
-                                                    " target="_blank"
-                                                        onMouseOver="this.style.backgroundColor='#1976d2'"
-                                                        onMouseOut="this.style.backgroundColor='#006aff'"
+                                                    <a
+                                                        href="${process.env.CLIENT_URL}/reset-password?token=${token}&id=${user._id}"
+                                                        style="
+                                                            text-decoration: none;
+                                                            color: #fff;
+                                                            background: #000;
+                                                            font-size: 16px;
+                                                            font-weight: 600;
+                                                            padding: 16px 0;
+                                                            transition-duration: 0.3s;
+                                                            line-height: 1.8;
+                                                            border-radius: 50px;
+                                                            height: 28px;
+                                                            display: block;
+                                                            text-align: center;
+                                                            font-family: esqmarket-medium,-apple-system,BlinkMacSystemFont,Helvetica,sans-serif;
+                                                        " target="_blank"
                                                     >
-                                                        Reset my password
+                                                        Reset Password
                                                     </a>
                                                 </td>
                                             </tr>
@@ -171,17 +168,35 @@ function emailResetLink (token, user) {
                             <tr>
                                 <td style="
                                     text-align: center;
+                                    margin-bottom: 24px;
                                 ">
                                     <div
                                         style="
-                                            font-size: 12px;
+                                            font-size: 16px;
+                                            font-weight: 400;
+                                            text-align: center;
+                                            color: #6c757d;
+                                            font-family: 'Google Sans';
+                                        "
+                                    >
+                                        <a href="https://[domain-name]" target="_blank" style="color: #000; text-decoration: none;">[domain-name]</a>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td style="
+                                    text-align: center;
+                                ">
+                                    <div
+                                        style="
+                                            font-size: 10px;
                                             font-weight: 400;
                                             text-align: center;
                                             color: #6c757d;
                                             font-family: esqmarket-medium,-apple-system,BlinkMacSystemFont,Helvetica,sans-serif;
                                         "
                                     >
-                                        © 2024 Emplorex Inc.
+                                        <a href="https://[domain-name]/privacy" target="_blank" style="color: #6c757d; text-decoration: none;">Privacy Policy</a> • <a href="https://[domain-name]/terms" target="_blank" style="color: #6c757d; text-decoration: none;">Terms of Service</a>
                                     </div>
                                 </td>
                             </tr>

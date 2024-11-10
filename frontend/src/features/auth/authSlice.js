@@ -19,7 +19,7 @@ const initialState = {
 
 
 export const sendLoginEmail = createAsyncThunk(
-    'user/sendLoginEmail',
+    'auth/sendLoginEmail',
     async (payload, thunkAPI) => {
         try {
             return await authService.sendLoginEmail(payload);
@@ -36,7 +36,7 @@ export const sendLoginEmail = createAsyncThunk(
 );
 
 export const register = createAsyncThunk(
-    "user/register",
+    "auth/register",
     async (payload, thunkAPI) => {
         try {
             return await authService.register(payload);
@@ -53,7 +53,7 @@ export const register = createAsyncThunk(
 );
 
 export const login = createAsyncThunk(
-    "user/login",
+    "auth/login",
     async (payload, thunkAPI) => {
         try {
             return await authService.login(payload);
@@ -70,14 +70,14 @@ export const login = createAsyncThunk(
 );
 
 export const logout = createAsyncThunk(
-    'user/logout',
+    'auth/logout',
     async () => {
         await authService.logout();
     }
 );
 
 export const updateUser = createAsyncThunk(
-    'user/edit',
+    'auth/edit',
     async (userData, thunkAPI) => {
         try {
             const token = thunkAPI.getState().auth.user ? thunkAPI.getState().auth.user.token : null;;
@@ -95,7 +95,7 @@ export const updateUser = createAsyncThunk(
 );
 
 export const uploadResume = createAsyncThunk(
-    'user/uploadResume',
+    'auth/uploadResume',
     async (userData, thunkAPI) => {
         try {
             const token = thunkAPI.getState().auth.user ? thunkAPI.getState().auth.user.token : null;;
@@ -113,7 +113,7 @@ export const uploadResume = createAsyncThunk(
 );
 
 export const getMe = createAsyncThunk(
-    'user/getMe',
+    'auth/getMe',
     async (_, thunkAPI) => {
         try {
             const token = thunkAPI.getState().auth.user ? thunkAPI.getState().auth.user.token : null;
@@ -131,10 +131,47 @@ export const getMe = createAsyncThunk(
 );
 
 
+// Sent reset password email
+export const forgotPassword = createAsyncThunk(
+    'auth/forgotPassword',
+    async (data, thunkAPI) => {
+        try {
+            return await authService.forgotPassword(data);
+        } catch (error) {
+            const message =
+                (error.response &&
+                    error.response.data &&
+                    error.response.data.msg) ||
+                error.message ||
+                error.toString();
+            return thunkAPI.rejectWithValue(message);
+        }
+    }
+);
+
+
+// Create new password
+export const resetPassword = createAsyncThunk(
+    'auth/resetPassword',
+    async (data, thunkAPI) => {
+        try {
+            return await authService.resetPassword(data);
+        } catch (error) {
+            const message =
+                (error.response &&
+                    error.response.data &&
+                    error.response.data.msg) ||
+                error.message ||
+                error.toString();
+            return thunkAPI.rejectWithValue(message);
+        }
+    }
+);
+
 
 
 const authSlice = createSlice({
-    name: 'user',
+    name: 'auth',
     initialState,
     reducers: {
         // Reset state
@@ -186,6 +223,7 @@ const authSlice = createSlice({
         builder.addCase(login.pending, (state) => {
             state.isLoading = true;
             state.isError = false;
+            state.msg = '';
         });
         builder.addCase(login.fulfilled, (state, action) => {
             state.isLoading = false;
@@ -255,6 +293,41 @@ const authSlice = createSlice({
                 localStorage.clear();
                 state.user = null;
             }
+        });
+
+        builder.addCase(forgotPassword.pending, (state) => {
+            state.isLoading = true;
+            state.isError = false;
+            state.isSuccess = false;
+            state.msg = '';
+        });
+        builder.addCase(forgotPassword.fulfilled, (state, action) => {
+            state.isLoading = false;
+            state.isSuccess = true;
+            state.msg = action.payload.msg;
+            toast.success("Email sent!", { toastId: 'toastSuccess', closeButton: true});
+        });
+        builder.addCase(forgotPassword.rejected, (state, action) => {
+            state.isLoading = false;
+            state.isError = true;
+            state.msg = action.payload;
+        });
+
+        builder.addCase(resetPassword.pending, (state) => {
+            state.isLoading = true;
+            state.isError = false;
+            state.isSuccess = false;
+            state.msg = '';
+        });
+        builder.addCase(resetPassword.fulfilled, (state, action) => {
+            state.isLoading = false;
+            state.msg = action.payload.msg;
+            toast.success("Password updated!", { toastId: 'toastSuccess', closeButton: true});
+        });
+        builder.addCase(resetPassword.rejected, (state, action) => {
+            state.isLoading = false;
+            state.isError = true;
+            state.msg = action.payload;
         });
     }
 });

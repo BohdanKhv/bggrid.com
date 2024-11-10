@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 
-const API_URL = import.meta.env.VITE_API_URL + '/users/';
+const API_URL = import.meta.env.VITE_API_URL + '/auth/';
 
 
 
@@ -40,7 +40,6 @@ export const updateUser = async (userData, token) => {
     return response.data;
 }
 
-
 export const getMe = async (token) => {
     const config = {
         headers: {
@@ -54,6 +53,19 @@ export const getMe = async (token) => {
     return response.data;
 }
 
+export const forgotPassword = async (data) => {
+    const response = await axios.post(`${API_URL}forgot-password`, data);
+
+    return response.data;
+}
+
+export const resetPassword = async (data) => {
+    const response = await axios.post(`${API_URL}reset-password`, data);
+    
+    return response.data;
+}
+
+
 
 const authService = {
     sendLoginEmail,
@@ -61,7 +73,9 @@ const authService = {
     register,
     login,
     updateUser,
-    getMe
+    getMe,
+    forgotPassword,
+    resetPassword
 };
 
 export default authService;

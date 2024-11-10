@@ -11,13 +11,14 @@ import ImportantUserAlert from "./pages/auth/ImportantUserAlert";
 import Footer from "./pages/Footer";
 import HomePage from "./pages/HomePage";
 import Settings from "./pages/Settings";
-import LoginWithEmail from "./pages/auth/LoginWithEmail";
 import NavbarMobile from "./components/navigation/NavbarMobile";
 import LibraryPage from "./pages/LibraryPage";
 import BrowsePage from "./pages/BrowsePage";
 import Navbar from "./components/navigation/Navbar";
 import SearchGamesModal from "./pages/SearchGamesModal";
 import Register from "./pages/auth/Register";
+import ResetPassword from "./pages/auth/ResetPassword";
+import ForgotPassword from "./pages/auth/ForgotPassword";
 
 function App() {
   const { user } = useSelector(state => state.auth);
@@ -63,14 +64,14 @@ function App() {
                     <Route path="/account/:tab" element={<ErrBoundary><Settings/></ErrBoundary>} />
                   :
                     <>
+                      <Route path="/forgot-password" element={<ErrBoundary><Auth><ForgotPassword /></Auth></ErrBoundary>} />
+                      <Route path="/reset-password" element={<ErrBoundary><Auth><ResetPassword /></Auth></ErrBoundary>} />
                       <Route path="/register" element={<ErrBoundary><Auth><Register /></Auth></ErrBoundary>} />
                       <Route path="/login" element={<ErrBoundary><Auth><Login /></Auth></ErrBoundary>} />
                     </>
                   }
-                  <Route path="/login-with-email" element={<Auth><LoginWithEmail /></Auth>} />
                   <Route path="/terms" element={<ErrBoundary><Terms /></ErrBoundary>} />
                   <Route path="/privacy" element={<ErrBoundary><Privacy /></ErrBoundary>} />
-                  {/* <Route path="*" element={<LoginNotFound />} /> */}
                 </Routes>
                 </div>
                 <Footer/>

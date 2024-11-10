@@ -7,13 +7,17 @@ const {
     login,
     register,
     updateUser,
-} = require('../controllers/userControllers');
+    forgotPassword,
+    resetPassword
+} = require('../controllers/authControllers');
 
 
 router
     .get('/me', protect, getMe)
     .post('/get-login-link', sendLoginEmail)
     .post('/login', login)
+    .post('/forgot-password', forgotPassword)
+    .post('/reset-password', resetPassword)
     .post('/', register)
     .put('/', protect, updateUser);
 

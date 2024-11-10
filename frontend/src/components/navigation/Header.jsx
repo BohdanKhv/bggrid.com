@@ -78,7 +78,7 @@ const Header = () => {
                         <div className="container">
                             <div className="flex justify-between w-100 align-center gap-2 gap-sm-3">
                                 <div className={`flex justify-start gap-3 align-center gap-sm-3`}>
-                                    {pathname === '/' || pathname === '/login' || pathname === '/register' ?
+                                    {pathname === '/' || pathname === '/login' || pathname === '/register' || pathname === '/forgot-password' || pathname === '/reset-password' ?
                                     <Link
                                         to="/"
                                         className="flex align-center pointer">

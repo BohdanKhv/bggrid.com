@@ -36,7 +36,7 @@ app.use(express.json({ limit: '5mb' }));
 app.use(express.urlencoded({ limit: '5mb', extended: false }));
 
 // Router
-app.use('/api/users', require('./routes/userRoutes'));
+app.use('/api/auth', require('./routes/authRoutes'));
 app.use('/api/games', require('./routes/gameRoutes'));
 
 

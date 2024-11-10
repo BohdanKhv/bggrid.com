@@ -66,7 +66,9 @@ const Navbar = () => {
                 <div className="navbar-body">
                     {user ?
                     <>
-                    <div className="flex gap-3 pointer hover border-radius-lg overflow-hidden px-3 py-3">
+                    <Link
+                        to={`/${user.username}`}
+                        className="flex gap-3 pointer hover border-radius-lg overflow-hidden px-3 py-3">
                         <div className="flex align-center justify-center align-center">
                             <div className="border border-radius-50">
                                 <Avatar
@@ -87,7 +89,7 @@ const Navbar = () => {
                                 @{user.username}
                             </div>
                         </div>
-                    </div>
+                    </Link>
                     <Button
                         onClick={() => {
                             searchParams.set('sg', 'true')

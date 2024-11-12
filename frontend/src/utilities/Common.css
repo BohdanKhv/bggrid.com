@@ -607,6 +607,12 @@
 .outline {
     outline: var(--border);
 }
+.outline-w-2 {
+    outline-width: 2px!important;
+}
+.outline-w-3 {
+    outline-width: 3px!important;
+}
 .outline-primary {
     outline: 1px solid var(--color-primary);
 }
@@ -657,7 +663,7 @@
     border-width: 1px;
 }
 .border-w-2 {
-    border-width: 2px;
+    border-width: 2px!important;
 }
 .border-w-3 {
     border-width: 3px;

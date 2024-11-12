@@ -19,7 +19,6 @@ const FilterDropdown = ({ children, label, applied, onApply, onClear, mobileDrop
                     <div className={`filter-dropdown-label`}>{ label || 'Filter' }</div>
                     { applied?.length > 0 ?
                     <>
-                    <div className="border-left h-75 border-secondary"/>
                     <div className="filter-dropdown-applied bold text-nowrap">({applied?.length})</div>
                     <div className={`pointer-events-none user-select-none filter-dropdown-icon`}>
                         {downArrowIcon}

@@ -1,18 +1,18 @@
 import React, { useEffect, useMemo, useState } from 'react'
-import { Button, ErrorInfo, FilterDropdown, HorizontalScroll, IconButton, InputSearch, Modal } from '../components'
+import { Button, Dropdown, ErrorInfo, FilterDropdown, HorizontalScroll, IconButton, InputSearch, Modal } from '../components'
 import { useSearchParams } from 'react-router-dom'
-import { closeIcon, searchIcon, toggleSortIcon } from '../assets/img/icons'
+import { closeIcon, filterIcon, searchIcon, toggleSortIcon } from '../assets/img/icons'
 import { categoriesEnum, typeEnum } from '../assets/constants'
 import { useDispatch, useSelector } from 'react-redux'
 import { getGames } from '../features/game/gameSlice'
 
 const ItemCard = ({item}) => {
     return (
-        <div className="flex flex-col pointer border-radius transition-duration">
-            <div className="border-radius bg-secondary h-100 w-100 bg-hover-after">
-                <img src={item.thumbnail} alt="Game Thumbnail" className="w-100 h-auto object-cover border-radius" />
+        <div className="flex flex-col pointer border-radius transition-duration h-100">
+            <div className="border-radius bg-secondary h-100 w-100 bg-hover-after flex-1">
+                <img src={item.thumbnail} alt="Game Thumbnail" className="w-100 h-100 object-cover border-radius" />
             </div>
-            <div className="flex flex-col gap-1">
+            <div className="flex flex-col gap-1 pb-4">
                 <div className="bold text-secondary fs-12 px-2 pt-2">{item.YearPublished}</div>
                 <div className="fs-16 px-2 weight-600 text-ellipsis-2">{item.Name}</div>
                 <div className="fs-14 px-2 text-ellipsis-2">
@@ -27,19 +27,51 @@ const Items = () => {
     const { games, isLoading, loadingId, msg } = useSelector((state) => state.game)
 
     return (
-        <div className="grid grid-cols-3 flex-wrap animation-slide-in h-fit-content gap-4">
-            {isLoading ? (
-                <ErrorInfo isLoading/>
-            ) : games.map((i) => (
-                <div
-                    key={i}
-                >
-                    <ItemCard
-                        item={i}
-                    />
+        isLoading ?
+            <ErrorInfo isLoading/>
+        : msg === 'No games found' ?
+            <ErrorInfo
+                label="No games found"
+                secondary={`Nothing matched your search.`}
+            />
+        :
+        <>
+            <div className="flex gap-2 pb-4 align-center flex-1">
+                <div className="fs-14 text-secondary weight-500">
+                    Sort by:
                 </div>
-            ))}
-        </div>
+                <Dropdown
+                    label="Relevance"
+                    classNameContainer="p-0 border-none bold"
+                    widthUnset
+                    customDropdown={
+                        <Button
+                            type="secondary"
+                            variant="link"
+                            label="Relevance"
+                        />
+                    }
+                >
+                    <Button
+                        borderRadius="sm"
+                        label="Relevance"
+                        variant="text"
+                    />
+                </Dropdown>
+            </div>
+            <div className="grid grid-cols-3 flex-wrap animation-slide-in h-fit-content gap-4">
+                {games.map((i) => (
+                    <div
+                        key={i}
+                        className="h-100"
+                    >
+                        <ItemCard
+                            item={i}
+                        />
+                    </div>
+                ))}
+            </div>
+        </>
     )
 }
 
@@ -95,12 +127,12 @@ const SearchPage = () => {
                             </div>
                             <HorizontalScroll
                                 noControllers
-                                className="mt-2"
+                                className="mt-4"
                             >
                                 <Button
-                                    icon={toggleSortIcon}
+                                    icon={filterIcon}
                                     variant="default"
-                                    label={filtersCount > 0 ? `Filters (${filtersCount})` : undefined}
+                                    label={filtersCount > 0 ? `Filters (${filtersCount})` : `Filters`}
                                     className={`flex-shrink-0${filtersCount > 0 ? ' border-color-text' : ''}`}
                                     muted={searchParams?.toString() === ''}
                                     type="secondary"
@@ -129,14 +161,14 @@ const SearchPage = () => {
                                                 smSize="lg"
                                                 label={`${type.icon} ${type.type}`}
                                                 variant="outline"
-                                                className={`text-capitalize justify-start clickable${temp.type?.toLocaleLowerCase() === type.type?.toLocaleLowerCase() ? " border-color-text" : ""}`}
+                                                className={`text-capitalize justify-start clickable${temp.type?.toLocaleLowerCase() === type.type?.toLocaleLowerCase() ? " border-color-text outline outline-text outline-w-3" : ""}`}
                                                 type="primary"
                                             />
                                         ))}
                                     </div>
                                 </FilterDropdown>
                             </HorizontalScroll>
-                            <div className="pt-2">
+                            <div className="pt-4">
                                 <Items />
                             </div>
                         </div>

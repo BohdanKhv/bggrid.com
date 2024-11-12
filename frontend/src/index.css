@@ -589,6 +589,10 @@ label.p-FieldLabel {
 }
 
 @media (max-width: 800px) {
+  .content-body {
+    padding-bottom: calc(var(--nav-mob-height) + 1px);
+  }
+
   body {
     margin-left: 0!important;
   }

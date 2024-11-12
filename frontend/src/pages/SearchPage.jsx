@@ -59,7 +59,7 @@ const Items = () => {
                     />
                 </Dropdown>
             </div>
-            <div className="grid grid-cols-3 flex-wrap animation-slide-in h-fit-content gap-4">
+            <div className="grid grid-cols-3 grid-sm-cols-2 flex-wrap animation-slide-in h-fit-content gap-4">
                 {games.map((i) => (
                     <div
                         key={i}

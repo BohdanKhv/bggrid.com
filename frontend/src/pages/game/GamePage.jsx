@@ -45,33 +45,22 @@ const GamePage = () => {
 
     return (
         <div
-            className="h-min-100 container px-sm-3"
+            className="h-min-100 "
         >
             {isLoading ?
                 <ErrorInfo
                     isLoading
                 />
             : gameById ? 
-                <div className="flex flex-col my-3 border border-radius-lg overflow-hidden h-min-100">
-                <div className="flex gap-3 p-4">
-                        <div className="h-set-250-px">
-                            <Image
-                                img={gameById.thumbnail}
-                                alt={gameById.name}
-                                classNameImg="w-100 h-100 object-cover border-radius"
-                                classNameContainer="bg-secondary w-100"
-                            />
-                        </div>
-                        <div className="flex flex-col px-4">
+                <div className="flex flex-col h-min-100 overflow-hidden">
+                <div className="flex gap-3 overflow-hidden">
+                        <div className="flex flex-col px-4 pt-6 pb-3">
                             <div className="fs-54 bold">
                                 {gameById.name}
                             </div>
-                            <div className="weight-600 ds-16">
-                                {gameById.yearPublished}
-                            </div>
                         </div>
                     </div>
-                    <div className="border-bottom px-4">
+                    <div className="border-bottom overflow-X-auto">
                         <TabContent
                             items={[
                                 {label: 'Overview'},
@@ -85,6 +74,14 @@ const GamePage = () => {
                             }}
                         />
                     </div>
+                    {/* {tab === 'overview' &&
+                            <Image
+                                img={gameById.thumbnail}
+                                alt={gameById.name}
+                                classNameImg="w-100 h-100 object-cover border-radius"
+                                classNameContainer="bg-secondary w-100"
+                            />
+                    } */}
                     {/* <CoverImage img={gameById.thumbnail}/> */}
                     <div className="flex gap-3 px-4">
                     </div>

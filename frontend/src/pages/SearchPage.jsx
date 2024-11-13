@@ -106,7 +106,7 @@ const SearchPage = () => {
             <main className="page-body">
                 <div className="animation-slide-in">
                     <div className="container">
-                        <div className="pt-6 pb-3 title-1 bold px-sm-2">
+                        <div className="pt-6 pb-3 pt-sm-3 title-1 bold px-sm-2">
                             Search Games
                         </div>
                         <div className="pb-6 pt-5 pt-sm-0 px-sm-3">

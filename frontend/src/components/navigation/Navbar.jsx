@@ -38,7 +38,7 @@ const Navbar = () => {
     return (
         <>
         {window.innerWidth <= 800 &&
-            <div className="d-none open-navbar-button"
+            <div className="d-none open-navbar-button pos-absolute"
                 onClick={() => setNavOpen(true)}
             />
         }

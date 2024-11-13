@@ -62,6 +62,7 @@ function App() {
                   <Route path="/search" element={<ErrBoundary><SearchPage /></ErrBoundary>} />
                   <Route path="/u/:username" element={<ErrBoundary><UserPage /></ErrBoundary>} />
                   <Route path="/g/:gameId" element={<ErrBoundary><GamePage /></ErrBoundary>} />
+                  <Route path="/g/:gameId/:tab" element={<ErrBoundary><GamePage /></ErrBoundary>} />
                   <Route path="/c/:category" element={<ErrBoundary><CategoryPage /></ErrBoundary>} />
                   <Route path="/collection/:collection" element={<ErrBoundary><CategoryPage /></ErrBoundary>} />
                   {user ?

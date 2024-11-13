@@ -105,8 +105,8 @@ const AddGame = () => {
                                             <Image
                                                 img={gameCard?.thumbnail}
                                                 alt={gameCard?.name}
-                                                classNameImg="object-contain border-radius"
-                                                classNameContainer="border-radius bg-secondary h-auto w-sm-fit-content"
+                                                classNameImg="object-cover border-radius"
+                                                classNameContainer="border-radius bg-secondary h-auto w-sm-fit-content h-set-130-px"
                                             />
                                     </div>
                                     <div className="flex-1">
@@ -130,7 +130,7 @@ const AddGame = () => {
                                             />
                                         </div>
                                         {window.innerWidth <= 800 && (
-                                            <div className={`fs-sm-28 bold${rating / 10 == 0 ? " text-secondary" : rating / 10 > 0 && rating / 10 <= 4 ? " text-danger" : rating / 10 > 4 && rating / 10 <= 7 ? " text-warning" : rating / 10 == 10 ? " text-primary" : " text-success"}`}>
+                                            <div className={`fs-sm-28 mt-4 bold${rating / 10 == 0 ? " text-secondary" : rating / 10 > 0 && rating / 10 <= 4 ? " text-danger" : rating / 10 > 4 && rating / 10 <= 7 ? " text-warning" : rating / 10 == 10 ? " text-primary" : " text-success"}`}>
                                                 {rating / 10} {
                                                         rating / 10 == 10 ?
                                                         "Perfect"
@@ -148,16 +148,16 @@ const AddGame = () => {
                                 </div>
                             </div>
                         :
-                            <div className="col-5 col-sm-12">
+                            <div className="col-3 col-sm-12">
                                 <Image
                                     img={gameCard?.thumbnail}
                                     alt={gameCard?.name}
                                     classNameImg="object-contain border-radius"
-                                            classNameContainer="border-radius bg-secondary h-auto w-sm-fit-content"
+                                    classNameContainer="border-radius bg-secondary h-auto w-sm-fit-content"
                                 />
                             </div>
                         }
-                        <div className="flex flex-col gap-4 col-7 col-sm-12">
+                        <div className="flex flex-col gap-4 col-9 col-sm-12">
                             {window.innerWidth > 800 && (
                                 <div className="flex justify-between">
                                     <div>

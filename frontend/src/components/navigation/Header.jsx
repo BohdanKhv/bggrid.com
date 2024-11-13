@@ -70,7 +70,7 @@ const Header = () => {
         );
     };
 
-    if (pathname === '/search' || pathname === '/library' || pathname === '/community') return
+    if (pathname === '/search' || pathname === '/library' || pathname === '/community' || pathname.startsWith('/g/')) return
 
     return (
         <>

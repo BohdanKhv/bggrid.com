@@ -20,11 +20,11 @@ const FilterDropdown = ({ children, label, applied, onApply, onClear, mobileDrop
                     { applied?.length > 0 ?
                     <>
                     <div className="filter-dropdown-applied bold text-nowrap">({applied?.length})</div>
-                    <div className={`pointer-events-none user-select-none filter-dropdown-icon`}>
-                        {downArrowIcon}
-                    </div>
                     </>
                     : null }
+                    <div className={`pointer-events-none user-select-none transition-duration filter-dropdown-icon${isOpen ? " transform-rotate-180" : ""}`}>
+                        {downArrowIcon}
+                    </div>
                 </div>
             }
             
@@ -33,11 +33,11 @@ const FilterDropdown = ({ children, label, applied, onApply, onClear, mobileDrop
                 {
                 mobileDropdown && window.innerWidth < 768 ? null :
                 label &&
-                <div className="flex justify-between gap-4 overflow-hidden pb-4">
+                <div className="flex justify-between gap-4 overflow-hidden pb-4 align-center">
                     <div className="fs-14 weight-600 text-ellipsis">Filter by <span className="text-lowercase">{label}</span></div>
                     <IconButton
                         icon={closeIcon}
-                        size="xs"
+                        size="sm"
                         type="secondary"
                         muted
                         variant="text"
@@ -51,8 +51,11 @@ const FilterDropdown = ({ children, label, applied, onApply, onClear, mobileDrop
                     <Button
                         label="Clear"
                         variant="outline"
-                        type="secondary"
-                        onClick={onClear}
+                        type="primary"
+                        onClick={() => {
+                            onClear && onClear()
+                            setIsOpen(false)
+                        }}
                         smSize="lg"
                         className="text-center justify-center w-sm-100"
                     />

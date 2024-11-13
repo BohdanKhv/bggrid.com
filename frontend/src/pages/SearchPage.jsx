@@ -22,50 +22,6 @@ const Items = () => {
             />
         :
         <>
-            <div className="flex gap-2 pb-4 align-center flex-1">
-                <div className="fs-14 text-secondary weight-500">
-                    Sort by:
-                </div>
-                <Dropdown
-                    label="Relevance"
-                    classNameContainer="p-0 border-none bold"
-                    widthUnset
-                    customDropdown={
-                        <>
-                        <Button
-                            type="secondary"
-                            variant="link"
-                            label="Alphabetical"
-                        />
-                        </>
-                    }
-                >
-                    <Button
-                        borderRadius="sm"
-                        label="Relevance"
-                        className="justify-start"
-                        variant="text"
-                    />
-                    <Button
-                        borderRadius="sm"
-                        className="justify-start"
-                        variant="text"
-                        label="New Releases"
-                    />
-                    <Button
-                        borderRadius="sm"
-                        className="justify-start"
-                        variant="text"
-                        label="Most Popular"
-                    />
-                    <Button
-                        borderRadius="sm"
-                        className="justify-start"
-                        variant="text"
-                        label="Relevance"
-                    />
-                </Dropdown>
-            </div>
             <div className="grid flex-wrap animation-slide-in h-fit-content gap-4 grid-xl-cols-5 grid-lg-cols-4 grid-md-cols-3 grid-sm-cols-2 grid-cols-5">
                 {games.map((i) => (
                     <GameItem
@@ -303,6 +259,45 @@ const SearchPage = () => {
                                         type="secondary"
                                         onClick={() => setOpen(true)}
                                     />
+                                    <Dropdown
+                                        label="Relevance"
+                                        classNameContainer="p-0 border-none bold"
+                                        widthUnset
+                                        customDropdown={
+                                            <>
+                                            <Button
+                                                type="secondary"
+                                                variant=""
+                                                label="Sort by: Alphabetical"
+                                            />
+                                            </>
+                                        }
+                                    >
+                                        <Button
+                                            borderRadius="sm"
+                                            label="Relevance"
+                                            className="justify-start"
+                                            variant="text"
+                                        />
+                                        <Button
+                                            borderRadius="sm"
+                                            className="justify-start"
+                                            variant="text"
+                                            label="New Releases"
+                                        />
+                                        <Button
+                                            borderRadius="sm"
+                                            className="justify-start"
+                                            variant="text"
+                                            label="Most Popular"
+                                        />
+                                        <Button
+                                            borderRadius="sm"
+                                            className="justify-start"
+                                            variant="text"
+                                            label="Relevance"
+                                        />
+                                    </Dropdown>
                                     <FilterDropdown
                                         label="Types"
                                         mobileDropdown

@@ -100,7 +100,7 @@ const Navbar = () => {
                         type="primary"
                     />
                     <Button
-                        muted={pathname !== '/'}
+                        // muted={pathname !== '/'}
                         to="/"
                         label="Home"
                         variant="text"
@@ -108,7 +108,7 @@ const Navbar = () => {
                         type="secondary"
                     />
                     <Button
-                        muted={pathname !== '/library'}
+                        // muted={pathname !== '/library'}
                         to="/library"
                         label="Library"
                         variant="text"
@@ -116,7 +116,7 @@ const Navbar = () => {
                         type="secondary"
                     />
                     <Button
-                        muted
+                        // muted
                         to="/crew"
                         label="Community"
                         variant="text"
@@ -124,7 +124,7 @@ const Navbar = () => {
                         type="secondary"
                     />
                     <Button
-                        muted={pathname !== '/notifications'}
+                        // muted={pathname !== '/notifications'}
                         to="/notifications"
                         label="Notifications"
                         variant="text"
@@ -132,7 +132,7 @@ const Navbar = () => {
                         type="secondary"
                     />
                     <Button
-                        muted={!pathname.includes('/settings')}
+                        // muted={!pathname.includes('/settings')}
                         to="/settings"
                         label="Settings"
                         variant="text"
@@ -146,7 +146,7 @@ const Navbar = () => {
                         type="secondary"
                         className="w-100"
                         variant="text"
-                        muted
+                        // muted
                     />
                     </>
                     :

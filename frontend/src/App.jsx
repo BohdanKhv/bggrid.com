@@ -21,6 +21,8 @@ import ForgotPassword from "./pages/auth/ForgotPassword";
 import NotFound from "./pages/NotFound";
 import AddGame from "./pages/game/AddGame";
 import UserPage from "./pages/UserPage";
+import GamePage from "./pages/game/GamePage";
+import CategoryPage from "./pages/game/CategoryPage";
 
 function App() {
   const { user } = useSelector(state => state.auth);
@@ -59,6 +61,9 @@ function App() {
                   <Route path="/" element={<ErrBoundary><HomePage /></ErrBoundary>} />
                   <Route path="/search" element={<ErrBoundary><SearchPage /></ErrBoundary>} />
                   <Route path="/u/:username" element={<ErrBoundary><UserPage /></ErrBoundary>} />
+                  <Route path="/g/:gameId" element={<ErrBoundary><GamePage /></ErrBoundary>} />
+                  <Route path="/c/:category" element={<ErrBoundary><CategoryPage /></ErrBoundary>} />
+                  <Route path="/collection/:collection" element={<ErrBoundary><CategoryPage /></ErrBoundary>} />
                   {user ?
                   <>
                     <Route path="/settings" element={<ErrBoundary><Settings/></ErrBoundary>} />

@@ -1,7 +1,7 @@
 import React, { useMemo } from 'react'
 import { Button, IconButton, Image } from '../../components'
 import { checkIcon, largePlusIcon, patchPlusIcon } from '../../assets/img/icons'
-import { useSearchParams } from 'react-router-dom'
+import { Link, useSearchParams } from 'react-router-dom'
 import { useSelector } from 'react-redux'
 
 const GameItem = ({item}) => {
@@ -14,19 +14,19 @@ const GameItem = ({item}) => {
     }, [library, item])
 
     return (
-        <div className={`flex flex-col pointer border-radius transition-duration h-100 pos-relative`}
+        <div className={`flex flex-col border-radius transition-duration h-100 pos-relative`}
         >
-            <div className={`${window.innerWidth > 800 ? " display-on-hover-parent transition-slide-right-hover-parent" : ""}`}
-            onClick={() => {
-                searchParams.set("addGame", item._id)
-                setSearchParams(searchParams)
-            }}>
+            <div className={`pointer ${window.innerWidth > 800 ? " display-on-hover-parent transition-slide-right-hover-parent" : ""}`}
+                onClick={() => {
+                    searchParams.set("addGame", item._id)
+                    setSearchParams(searchParams)
+                }}>
                 <IconButton
                     icon={isInLibrary ? checkIcon : largePlusIcon}
                     variant="filled"
                     type={isInLibrary ? "success" : "secondary"}
                     borderRadius="md"
-                    size="sm"
+                    size="xs"
                     className="pos-absolute top-0 right-0 m-2 box-shadow-lg display-on-hover border-none transition-slide-right-hover outline outline-w-2 outline-white"
                     dataTooltipContent={isInLibrary ? "In library" : "Add to library"}
                 />
@@ -37,7 +37,10 @@ const GameItem = ({item}) => {
                     classNameContainer="border-radius bg-secondary w-100 bg-hover-after flex-1 h-sm-set-250-px h-set-250-px"
                 />
             </div>
-            <div className="flex flex-col gap-1 pb-4">
+            <Link
+                to={`/g/${item._id}`}
+                className="flex flex-col gap-1 pb-4 pointer"
+            >
                 <div className="bold text-secondary fs-14 px-2 pt-2">{item.yearPublished}</div>
                 <div className="fs-16 px-2 weight-600 text-ellipsis-2">{item.name}</div>
                 {isInLibrary ?
@@ -58,7 +61,7 @@ const GameItem = ({item}) => {
                 {/* <div className="fs-14 px-2 text-ellipsis-2">
                     {item.description}
                 </div> */}
-            </div>
+            </Link>
         </div>
     )
 }

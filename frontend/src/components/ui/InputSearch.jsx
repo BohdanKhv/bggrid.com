@@ -119,6 +119,11 @@ const InputSearch = ({
                         if (value || onSubmitEmpty) {
                             onSubmit ? onSubmit() : null
                         }
+                        // Blur input
+                        if (searchable) {
+                            setSearchOpen(false)
+                        }
+                        inputRef.current.blur()
                     }
                 }}
                 onBlur={(e) => {

@@ -194,7 +194,7 @@ const AddGame = () => {
                                 )}
                                 <div className="flex align-center pos-relative">
                                     <div className="fs-16 weight-500 pos-absolute left-0 px-4 text-secondary mask-right pointer-events-none">
-                                        <span className="bold me-2 ms-1">
+                                        <span className="bold me-3 ms-1">
                                             {`0`}
                                         </span>
                                         Slide to rate {`> > > > > > >`}

@@ -1,4 +1,4 @@
-import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
+import { createAsyncThunk, createSlice, current } from '@reduxjs/toolkit';
 import gameService from './gameService';
 import { toast } from 'react-toastify';
 
@@ -6,12 +6,15 @@ import { toast } from 'react-toastify';
 const initialState = {
     gameById: null,
     gameCard: null,
+    suggestions: [],
     games: [],
     isLoading: false,
     msg: '',
     loadingId: '',
     limit: 50,
     page: 0,
+    current: 1,
+    pages: 1,
     hasMore: true
 };
 
@@ -70,6 +73,24 @@ export const getGames = createAsyncThunk(
 );
 
 
+export const getSuggestions = createAsyncThunk(
+    'game/getSuggestions',
+    async (searchValue, thunkAPI) => {
+        try {
+            return await gameService.getSuggestions(searchValue);
+        } catch (error) {
+            const message =
+                (error.response &&
+                    error.response.data &&
+                    error.response.data.msg) ||
+                error.message ||
+                error.toString();
+            return thunkAPI.rejectWithValue(message);
+        }
+    }
+);
+
+
 
 const gameSlice = createSlice({
     name: 'game',
@@ -96,6 +117,8 @@ const gameSlice = createSlice({
         builder.addCase(getGames.fulfilled, (state, action) => {
             state.isLoading = false;
             state.games = action.payload.data;
+            state.pages = action.payload.totalPages;
+            state.current = action.payload.page;
         });
         builder.addCase(getGames.rejected, (state, action) => {
             if (action.error.message !== 'Aborted') {
@@ -132,6 +155,13 @@ const gameSlice = createSlice({
             state.loadingId = '';
             state.msg = action.payload;
             toast.error(action.payload, { toastId: 'toastError', closeButton: true});
+        });
+
+        builder.addCase(getSuggestions.pending, (state) => {
+            state.loginId = 'suggestions';
+        });
+        builder.addCase(getSuggestions.fulfilled, (state, action) => {
+            state.suggestions = action.payload.data
         });
     }
 });

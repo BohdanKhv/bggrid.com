@@ -8,12 +8,16 @@ const getGames = async (req, res) => {
     try {
         const { page, limit } = req.query;
         const options = {
-            page: parseInt(page, 10) || 1,
-            limit: parseInt(limit, 40) || 40,
+            page: parseInt(page) || 1,
+            limit: parseInt(limit) || 40,
             sort: { createdAt: -1 }
         };
-        
-        const games = await Game.paginate({}, options);
+
+        const { s } = req.query;
+
+        const games = await Game.paginate({
+            name: { $regex: s || '', $options: 'i' }
+        }, options);
         
         // Get current page and total pages
         const currentPage = games.page;
@@ -33,6 +37,28 @@ const getGames = async (req, res) => {
     }
 }
 
+
+// @desc    Get games
+// @route   GET /api/games/suggestions
+// @access  Public
+const getSuggestions = async (req, res) => {
+    try {
+        const { s } = req.query;
+
+        const games = await Game.find({
+            name: { $regex: s || '', $options: 'i' }
+        }).limit(5)
+        .select('name thumbnail yearPublished')
+        .sort({ createdAt: -1 });
+
+        res.status(200).json({
+            data: games
+        });
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ msg: 'Server error' });
+    }
+}
 
 // @desc    Create a new game
 // @route   POST /api/games
@@ -86,6 +112,7 @@ const getGameById = async (req, res) => {
 
 module.exports = {
     getGames,
+    getSuggestions,
     createGame,
     getGameById
 }

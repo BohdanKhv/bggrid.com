@@ -546,10 +546,14 @@ const themesEnum = [
     }
 ]
 
+
+const tagsEnum = ['Favorite', 'Owned', 'Wishlist', 'Played', 'Want to Play']
+
 export {
     commonGames,
     categoriesEnum,
     mechanicsEnum,
     typeEnum,
-    themesEnum
+    themesEnum,
+    tagsEnum
 }

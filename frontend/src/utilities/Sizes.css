@@ -1285,6 +1285,9 @@ margin-right: auto;
     .w-sm-max-150-px {
         max-width: 150px;
     }
+    .w-sm-fit-content {
+        width: fit-content;
+    }
 
     .h-sm-max-0 {
         height: 0%;

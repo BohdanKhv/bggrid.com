@@ -26,6 +26,7 @@ import ShortDesc from "./ui/ShortDesc";
 import Dropdown from "./ui/Dropdown";
 import BoxButton from "./ui/BoxButton";
 import InputSearch from "./ui/InputSearch";
+import Range from "./ui/Range";
 import Tabs from "./ui/Tabs";
 import Img from "./ui/Img";
 import AvatarCard from "./ui/AvatarCard";
@@ -83,6 +84,7 @@ export {
     Dropdown,
     BoxButton,
     InputSearch,
+    Range,
     Tabs,
     Img,
     AvatarCard,

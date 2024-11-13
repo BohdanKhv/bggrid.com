@@ -4,7 +4,7 @@ import axios from 'axios';
 const API_URL = import.meta.env.VITE_API_URL + '/games';
 
 export const getGameById = async (payload) => {
-    const response = await axios.get(API_URL+`/`, payload);
+    const response = await axios.get(API_URL + `/` + payload);
 
     return response.data;
 }

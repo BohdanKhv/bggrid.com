@@ -9,7 +9,7 @@ const {
 
 router
     .get('/', getGames)
-    .get('/:id', protect, getGameById)
+    .get('/:id', getGameById)
 
 
 module.exports = router;

@@ -4,6 +4,7 @@
 
   --color-scheme: light;
   --border-radius: 12px;
+  --border-radius-md: 12px;
   --border-radius-lg: 24px;
   --border-radius-sm: 8px;
 
@@ -17,8 +18,8 @@
   --color-primary-10: rgba(30, 156, 241, 0.1);
   --color-primary-20: rgba(30, 156, 241, 0.2);
   --color-primary-text: #101014;
-  --color-primary-bg: #f9fff9;
-  --color-primary-bg-hover: #e6ffea;
+  --color-primary-bg: #f0f0f0;
+  --color-primary-bg-hover: #e0e0e0;
 
   --color-danger: #cc0023;
   --color-danger-text: #dc3545;

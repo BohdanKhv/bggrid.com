@@ -92,7 +92,7 @@ const InputSearch = ({
             : icon ?
             <Icon
                 icon={icon ? icon : null}
-                className={`${focus ? 'fill-primary' : 'opacity-25'}`}
+                className={`${focus ? '' : 'opacity-25'}`}
                 onClick={(e) => {
                     e.stopPropagation()
                     inputRef.current.focus()

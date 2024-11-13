@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
 
-const tagsEnum = ['owned', 'wishlist', 'favorite', 'played', 'want-to-play']
+const tagsEnum = ['Favorite', 'Owned', 'Wishlist', 'Played', 'Want to Play']
 
 const librarySchema = mongoose.Schema({
     user: {
@@ -16,16 +16,16 @@ const librarySchema = mongoose.Schema({
     tags: {
         type: [String],
         enum: tagsEnum,
-        default: ['owned']
+        default: ['favorite']
     },
     rating: {
         type: Number,
         min: 1,
-        max: 5
+        max: 10
     },
     comment: {
         type: String,
-        maxlength: 200
+        maxlength: 500
     },
 }, {
     timestamps: true

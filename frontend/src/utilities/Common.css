@@ -201,6 +201,9 @@
     background-size: 10px 10px;
     background-image: repeating-linear-gradient(45deg, var(--color-overlay) 0, var(--color-overlay) 1px, var(--color-overlay) 0, var(--color-overlay) 50%);
 }
+.mask-right {
+    mask: linear-gradient(90deg, black 30%, transparent 100%);
+}
 .tag-primary svg {
     fill: #fff;
 }

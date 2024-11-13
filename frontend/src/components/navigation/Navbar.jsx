@@ -92,10 +92,10 @@ const Navbar = () => {
                     </Link>
                     <Button
                         to="/search"
-                        label="Game"
-                        icon={largePlusIcon}
+                        label="Search"
+                        icon={searchIcon}
                         variant="filled"
-                        className="justify-center my-4"
+                        className="justify-start w-fit-content my-4"
                         size="lg"
                         type="primary"
                     />

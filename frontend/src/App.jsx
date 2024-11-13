@@ -19,6 +19,7 @@ import Register from "./pages/auth/Register";
 import ResetPassword from "./pages/auth/ResetPassword";
 import ForgotPassword from "./pages/auth/ForgotPassword";
 import NotFound from "./pages/NotFound";
+import AddGame from "./pages/game/AddGame";
 
 function App() {
   const { user } = useSelector(state => state.auth);
@@ -48,6 +49,7 @@ function App() {
           {user ?
             <ErrBoundary>
               <Navbar/>
+              <AddGame/>
             </ErrBoundary>
           : null}
           <div className="content-body">

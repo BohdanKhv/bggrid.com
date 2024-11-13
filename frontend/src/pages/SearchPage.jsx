@@ -5,26 +5,8 @@ import { closeIcon, filterIcon, searchIcon, toggleSortIcon } from '../assets/img
 import { categoriesEnum, typeEnum } from '../assets/constants'
 import { useDispatch, useSelector } from 'react-redux'
 import { getGames } from '../features/game/gameSlice'
+import GameItem from './game/GameItem'
 
-const ItemCard = ({item}) => {
-    return (
-        <div className="flex flex-col pointer border-radius transition-duration h-100">
-            <Image
-                alt={item.Name}
-                img={item.thumbnail}
-                classNameImg="w-100 h-100 object-cover border-radius"
-                classNameContainer="border-radius bg-secondary w-100 bg-hover-after flex-1 h-set-300-px"
-            />
-            <div className="flex flex-col gap-1 pb-4">
-                <div className="bold text-secondary fs-12 px-2 pt-2">{item.YearPublished}</div>
-                <div className="fs-16 px-2 weight-600 text-ellipsis-2">{item.Name}</div>
-                <div className="fs-14 px-2 text-ellipsis-2">
-                    {item.Description}
-                </div>
-            </div>
-        </div>
-    )
-}
 
 const Items = () => {
     const { games, isLoading, loadingId, msg } = useSelector((state) => state.game)
@@ -34,8 +16,8 @@ const Items = () => {
             <ErrorInfo isLoading/>
         : msg === 'No games found' ?
             <ErrorInfo
-                label="No games found"
-                secondary={`Nothing matched your search.`}
+                label="No results found"
+                secondary='Unfortunately I could not find any results matching your search.'
             />
         :
         <>
@@ -85,14 +67,10 @@ const Items = () => {
             </div>
             <div className="grid grid-cols-4 grid-md-cols-3 grid-sm-cols-2 flex-wrap animation-slide-in h-fit-content gap-4">
                 {games.map((i) => (
-                    <div
-                        key={i}
-                        className="h-100"
-                    >
-                        <ItemCard
-                            item={i}
-                        />
-                    </div>
+                    <GameItem
+                        key={i._id}
+                        item={i}
+                    />
                 ))}
             </div>
         </>
@@ -135,7 +113,7 @@ const SearchPage = () => {
             <main className="page-body">
                 <div className="animation-slide-in">
                     <div className="container">
-                        <div className="py-3 title-1 bold px-sm-2">
+                        <div className="pt-6 pb-3 title-1 bold px-sm-2">
                             Search Games
                         </div>
                         <div className="pb-6 pt-5 pt-sm-0 px-sm-3">

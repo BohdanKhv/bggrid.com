@@ -9,14 +9,23 @@ const getGames = async (req, res) => {
         const { page, limit } = req.query;
         const options = {
             page: parseInt(page, 10) || 1,
-            limit: parseInt(limit, 10) || 10,
+            limit: parseInt(limit, 40) || 40,
             sort: { createdAt: -1 }
         };
-
+        
         const games = await Game.paginate({}, options);
+        
+        // Get current page and total pages
+        const currentPage = games.page;
+        const totalPages = games.totalPages;
+        
+        console.log(`Current Page: ${currentPage}`);
+        console.log(`Total Pages: ${totalPages}`);
 
         res.status(200).json({
             data: games.docs,
+            currentPage,
+            totalPages
         });
     } catch (error) {
         console.error(error);

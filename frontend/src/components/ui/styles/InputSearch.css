@@ -78,7 +78,7 @@
     cursor: pointer;
 }
 .input-search-submit:hover {
-    color: rgba(var(--color-general-primary-bg), 0.5);
+    color: rgba(var(--color-general-secondary-bg), 0.5);
 }
 .input-search-submit svg {
     opacity: 1!important;

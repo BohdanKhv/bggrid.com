@@ -1,0 +1,40 @@
+.range-input {
+    -webkit-appearance: none;
+    width: 100%;
+    background: transparent;
+    border-radius: var(--border-radius-lg);
+    outline: 3px solid transparent;
+    opacity: 0.7;
+    border:none;
+    padding: 8px 12px;
+    border: 1px solid var(--color-border);
+    cursor: pointer;
+    transition-duration: var(--transition-duration);
+}
+
+.range-input:hover {
+    opacity:1;
+    border-color: rgba(var(--color-general-primary-bg),1)!important;
+    outline-color: rgba(var(--color-general-primary-bg), 0.5)!important;
+}
+
+.range-input::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 25px;
+    height: 25px;
+    cursor: pointer;
+    border-radius: 50%;
+    border: 1px solid rgba(var(--color-general-primary-bg),1)!important;
+    background-color: var(--text-dark);
+    transition-duration: var(--transition-duration);
+    outline: 2px solid rgba(var(--color-general-primary-bg), 0.5)!important;
+}
+
+.range-input::-moz-range-thumb {
+    width: 25px;
+    height: 25px;
+    background-color: var(--text-dark);
+    cursor: pointer;
+    border-radius: 50%;
+}

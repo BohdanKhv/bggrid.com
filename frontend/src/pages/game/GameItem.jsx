@@ -14,26 +14,29 @@ const GameItem = ({item}) => {
     }, [library, item])
 
     return (
-        <div className={`flex flex-col pointer border-radius transition-duration h-100 pos-relative${window.innerWidth > 800 ? " display-on-hover-parent transition-slide-right-hover-parent" : ""}`}
+        <div className={`flex flex-col pointer border-radius transition-duration h-100 pos-relative`}
+        >
+            <div className={`${window.innerWidth > 800 ? " display-on-hover-parent transition-slide-right-hover-parent" : ""}`}
             onClick={() => {
                 searchParams.set("addGame", item._id)
                 setSearchParams(searchParams)
-            }}
-        >
-            <IconButton
-                icon={isInLibrary ? checkIcon : largePlusIcon}
-                variant="filled"
-                type={isInLibrary ? "success" : "secondary"}
-                borderRadius="md"
-                className="pos-absolute top-0 right-0 m-2 box-shadow-lg display-on-hover border border-w-2 transition-slide-right-hover"
-                dataTooltipContent={isInLibrary ? "In library" : "Add to library"}
-            />
-            <Image
-                alt={item.name}
-                img={item.thumbnail}
-                classNameImg="w-100 h-100 object-cover border-radius"
-                classNameContainer="border-radius bg-secondary w-100 bg-hover-after flex-1 h-sm-set-250-px h-set-250-px"
-            />
+            }}>
+                <IconButton
+                    icon={isInLibrary ? checkIcon : largePlusIcon}
+                    variant="filled"
+                    type={isInLibrary ? "success" : "secondary"}
+                    borderRadius="md"
+                    size="sm"
+                    className="pos-absolute top-0 right-0 m-2 box-shadow-lg display-on-hover border-none transition-slide-right-hover outline outline-w-2 outline-white"
+                    dataTooltipContent={isInLibrary ? "In library" : "Add to library"}
+                />
+                <Image
+                    alt={item.name}
+                    img={item.thumbnail}
+                    classNameImg="w-100 h-100 object-cover border-radius"
+                    classNameContainer="border-radius bg-secondary w-100 bg-hover-after flex-1 h-sm-set-250-px h-set-250-px"
+                />
+            </div>
             <div className="flex flex-col gap-1 pb-4">
                 <div className="bold text-secondary fs-14 px-2 pt-2">{item.yearPublished}</div>
                 <div className="fs-16 px-2 weight-600 text-ellipsis-2">{item.name}</div>

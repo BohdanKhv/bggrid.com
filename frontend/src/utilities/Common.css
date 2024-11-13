@@ -622,6 +622,9 @@
 .outline-text {
     outline: 1px solid var(--text-dark);
 }
+.outline-white {
+    outline-color: #fff;
+}
 .border-focus-text:focus-within,
 .border-focus-text:focus {
     border-color: var(--text-dark)!important;

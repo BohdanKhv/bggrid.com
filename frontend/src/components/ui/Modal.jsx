@@ -164,7 +164,7 @@ const Modal = ({
                         </div>
                     )}
                     {!noAction && (
-                        <div className="modal-footer flex-sm-col gap-2">
+                        <div className="modal-footer flex-sm-col gap-4">
                             {props.footer ? (
                                 props.footer
                             ) : 

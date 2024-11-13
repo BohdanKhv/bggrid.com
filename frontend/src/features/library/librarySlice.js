@@ -70,6 +70,25 @@ export const updateGameInLibrary = createAsyncThunk(
 );
 
 
+export const removeGameFromLibrary = createAsyncThunk(
+    'library/removeGameFromLibrary',
+    async (_, thunkAPI) => {
+        try {
+            const token = thunkAPI.getState().auth.user ? thunkAPI.getState().auth.user.token : null;
+            return await libraryService.removeGameFromLibrary(token);
+        } catch (error) {
+            const message =
+                (error.response &&
+                    error.response.data &&
+                    error.response.data.msg) ||
+                error.message ||
+                error.toString();
+            return thunkAPI.rejectWithValue(message);
+        }
+    }
+);
+
+
 
 const librarySlice = createSlice({
     name: 'library',
@@ -132,6 +151,22 @@ const librarySlice = createSlice({
             toast.success('Game updated', { toastId: 'toastSuccess', closeButton: true });
         });
         builder.addCase(updateGameInLibrary.rejected, (state, action) => {
+            state.loadingId = '';
+            toast.error(action.payload, { toastId: 'toastError', closeButton: true});
+        });
+
+        builder.addCase(removeGameFromLibrary.pending, (state, action) => {
+            state.loadingId = action.meta.arg.gameId;
+            state.msg = '';
+        });
+        builder.addCase(removeGameFromLibrary.fulfilled, (state, action) => {
+            state.loadingId = '';
+            state.library = state.library.filter(game => game._id !== action.meta.arg.gameId);
+            localStorage.setItem('library', JSON.stringify(state.library));
+            state.msg = 'success';
+            toast.success('Game removed from your library', { toastId: 'toastSuccess', closeButton: true });
+        });
+        builder.addCase(removeGameFromLibrary.rejected, (state, action) => {
             state.loadingId = '';
             toast.error(action.payload, { toastId: 'toastError', closeButton: true});
         });

@@ -48,6 +48,11 @@
     --toastify-toast-min-height: 30px;
 }
 
+body:has(.navbar-mob):not(:has(.modal-open)) {
+    .toast-container {
+        bottom: calc(env(safe-area-inset-bottom) + var(--nav-mob-height) + 0px);
+    }
+}
 
 
 @keyframes toast-custom-animation-exit {

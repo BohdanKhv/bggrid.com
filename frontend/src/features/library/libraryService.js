@@ -42,11 +42,25 @@ export const updateGameInLibrary = async (payload, token) => {
 }
 
 
+export const removeGameFromLibrary = async (token) => {
+    const config = {
+        headers: {
+            Authorization: `Bearer ${token}`,
+        }
+    };
+
+    const response = await axios.delete(API_URL+`/` + payload?.gameId, config);
+
+    return response.data;
+}
+
+
 
 const listingService = {
     getMyLibrary,
     addGameToLibrary,
-    updateGameInLibrary
+    updateGameInLibrary,
+    removeGameFromLibrary
 };
 
 export default listingService;

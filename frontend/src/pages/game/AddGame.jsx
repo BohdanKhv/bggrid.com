@@ -87,6 +87,7 @@ const AddGame = () => {
             onSubmit={isInLibrary ? updateLibrary : addToLibrary}
             disabledAction={libraryIsLoading}
             isLoading={libraryLoadingId === `${gameCard?._id}`}
+            actionDangerBtnText={isInLibrary ? "Remove" : null}
         >
             {loadingId === 'addGame' ?
                 <ErrorInfo isLoading />
@@ -94,48 +95,103 @@ const AddGame = () => {
             <>
                 <div className="flex justify-between align-center">
                     <div className="flex gap-4 flex-1 flex-sm-col">
-                        <div className="col-5">
-                            <Image
-                                img={gameCard?.thumbnail}
-                                alt={gameCard?.name}
-                                classNameImg="object-contain border-radius"
-                                classNameContainer="border-radius bg-secondary h-auto h-sm-set-250-px w-sm-fit-content"
-                            />
-                        </div>
-                        <div className="flex flex-col gap-4 col-7">
-                            <div className="pos-absolute right-0 top-0 p-3">
-                                <IconButton
-                                    icon={closeIcon}
-                                    onClick={() => {
-                                        searchParam.delete("addGame")
-                                        setSearchParam(searchParam)
-                                    }}
-                                    size="lg"
-                                    variant="text"
+                        {window.innerWidth < 800 ?
+                            <div>
+                                    <div className="flex gap-3">
+                                        <div className="col-3">
+                                            <Image
+                                                img={gameCard?.thumbnail}
+                                                alt={gameCard?.name}
+                                                classNameImg="object-contain border-radius"
+                                                classNameContainer="border-radius bg-secondary h-auto w-sm-fit-content"
+                                            />
+                                    </div>
+                                    <div className="flex-1">
+                                        <div className="flex justify-between">
+                                            <div>
+                                                <div className="fs-24 weight-600 text-ellipsis-2">
+                                                    {gameCard?.name}
+                                                </div>
+                                                <div className="fs-14 text-secondary bold">
+                                                    {gameCard?.yearPublished}
+                                                </div>
+                                            </div>
+                                            <IconButton
+                                                icon={closeIcon}
+                                                onClick={() => {
+                                                    searchParam.delete("addGame")
+                                                    setSearchParam(searchParam)
+                                                }}
+                                                size="lg"
+                                                variant="text"
+                                            />
+                                        </div>
+                                        {window.innerWidth <= 800 && (
+                                            <div className={`fs-sm-28 bold${rating / 10 == 0 ? " text-secondary" : rating / 10 > 0 && rating / 10 <= 4 ? " text-danger" : rating / 10 > 4 && rating / 10 <= 7 ? " text-warning" : rating / 10 == 10 ? " text-primary" : " text-success"}`}>
+                                                {rating / 10} {
+                                                        rating / 10 == 10 ?
+                                                        "Perfect"
+                                                        : rating / 10 > 7 ?
+                                                        "Great"
+                                                        : rating / 10 > 4 ?
+                                                        "Good"
+                                                        : rating / 10 > 0 ?
+                                                        "Poor"
+                                                        : "Not rated"
+                                                    }
+                                            </div>
+                                        )}
+                                    </div>
+                                </div>
+                            </div>
+                        :
+                            <div className="col-5 col-sm-12">
+                                <Image
+                                    img={gameCard?.thumbnail}
+                                    alt={gameCard?.name}
+                                    classNameImg="object-contain border-radius"
+                                            classNameContainer="border-radius bg-secondary h-auto w-sm-fit-content"
                                 />
                             </div>
-                            <div className="pe-6">
-                                <div className="fs-24 weight-600">
-                                    {gameCard?.name}
+                        }
+                        <div className="flex flex-col gap-4 col-7 col-sm-12">
+                            {window.innerWidth > 800 && (
+                                <div className="flex justify-between">
+                                    <div>
+                                        <div className="fs-24 weight-600">
+                                            {gameCard?.name}
+                                        </div>
+                                        <div className="fs-14 text-secondary bold">
+                                            {gameCard?.yearPublished}
+                                        </div>
+                                    </div>
+                                    <IconButton
+                                        icon={closeIcon}
+                                        onClick={() => {
+                                            searchParam.delete("addGame")
+                                            setSearchParam(searchParam)
+                                        }}
+                                        size="lg"
+                                        variant="text"
+                                    />
                                 </div>
-                                <div className="fs-14 text-secondary bold">
-                                    {gameCard?.yearPublished}
-                                </div>
-                            </div>
+                            )}
                             <div>
-                                <div className={`fs-54 bold mb-3${rating / 10 == 0 ? " text-secondary" : rating / 10 > 0 && rating / 10 <= 4 ? " text-danger" : rating / 10 > 4 && rating / 10 <= 7 ? " text-warning" : rating / 10 == 10 ? " text-primary" : " text-success"}`}>
-                                    {rating / 10} {
-                                            rating / 10 == 10 ?
-                                            "Perfect"
-                                            : rating / 10 > 7 ?
-                                            "Great"
-                                            : rating / 10 > 4 ?
-                                            "Good"
-                                            : rating / 10 > 0 ?
-                                            "Poor"
-                                            : "Not rated"
-                                        }
-                                </div>
+                                {window.innerWidth > 800 && (
+                                    <div className={`fs-54 bold mb-3${rating / 10 == 0 ? " text-secondary" : rating / 10 > 0 && rating / 10 <= 4 ? " text-danger" : rating / 10 > 4 && rating / 10 <= 7 ? " text-warning" : rating / 10 == 10 ? " text-primary" : " text-success"}`}>
+                                        {rating / 10} {
+                                                rating / 10 == 10 ?
+                                                "Perfect"
+                                                : rating / 10 > 7 ?
+                                                "Great"
+                                                : rating / 10 > 4 ?
+                                                "Good"
+                                                : rating / 10 > 0 ?
+                                                "Poor"
+                                                : "Not rated"
+                                            }
+                                    </div>
+                                )}
                                 <div className="flex align-center pos-relative">
                                     <div className="fs-16 weight-500 pos-absolute left-0 px-4 text-secondary mask-right pointer-events-none">
                                         <span className="bold me-2 ms-1">

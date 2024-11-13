@@ -53,14 +53,14 @@ const GamePage = () => {
                 />
             : gameById ? 
                 <div className="flex flex-col h-min-100 overflow-hidden">
-                <div className="flex gap-3 overflow-hidden">
+                    <div className="container flex gap-3 overflow-hidden">
                         <div className="flex flex-col px-4 pt-6 pb-3">
                             <div className="fs-54 bold">
                                 {gameById.name}
                             </div>
                         </div>
                     </div>
-                    <div className="border-bottom overflow-X-auto">
+                    <div className="container border-bottom overflow-X-auto">
                         <TabContent
                             items={[
                                 {label: 'Overview'},

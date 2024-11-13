@@ -121,7 +121,7 @@ const removeGameFromLibrary = async (req, res) => {
             return res.status(401).json({ msg: 'Not authorized' });
         }
 
-        await game.remove();
+        await game.deleteOne();
 
         res.status(200).json({
             msg: 'Game removed',

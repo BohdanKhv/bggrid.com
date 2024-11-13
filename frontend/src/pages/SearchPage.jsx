@@ -210,7 +210,7 @@ const SearchPage = () => {
                                                         Search history
                                                     </div>
                                                     {searchHistory
-                                                    .slice(0, searchHistory ? searchHistory.length : 3)
+                                                    .slice(0, 5)
                                                     .map((searchItem) => (
                                                         <div className="flex justify-between align-center bg-secondary-hover">
                                                             <div
@@ -229,7 +229,8 @@ const SearchPage = () => {
                                                                 label="Remove"
                                                                 variant="link"
                                                                 className="mx-3"
-                                                                onClick={() => {
+                                                                onClick={(e) => {
+                                                                    e.stopPropagation()
                                                                     dispatch(setSearchHistory(searchHistory.filter((item) => item !== searchItem)))
                                                                 }}
                                                             />

@@ -42,14 +42,14 @@ export const updateGameInLibrary = async (payload, token) => {
 }
 
 
-export const removeGameFromLibrary = async (token) => {
+export const removeGameFromLibrary = async (gameId, token) => {
     const config = {
         headers: {
             Authorization: `Bearer ${token}`,
         }
     };
 
-    const response = await axios.delete(API_URL+`/` + payload?.gameId, config);
+    const response = await axios.delete(API_URL+`/` + gameId, config);
 
     return response.data;
 }

@@ -72,10 +72,10 @@ export const updateGameInLibrary = createAsyncThunk(
 
 export const removeGameFromLibrary = createAsyncThunk(
     'library/removeGameFromLibrary',
-    async (_, thunkAPI) => {
+    async (gameId, thunkAPI) => {
         try {
             const token = thunkAPI.getState().auth.user ? thunkAPI.getState().auth.user.token : null;
-            return await libraryService.removeGameFromLibrary(token);
+            return await libraryService.removeGameFromLibrary(gameId, token);
         } catch (error) {
             const message =
                 (error.response &&
@@ -156,12 +156,12 @@ const librarySlice = createSlice({
         });
 
         builder.addCase(removeGameFromLibrary.pending, (state, action) => {
-            state.loadingId = action.meta.arg.gameId;
+            state.loadingId = action.meta.arg;
             state.msg = '';
         });
         builder.addCase(removeGameFromLibrary.fulfilled, (state, action) => {
             state.loadingId = '';
-            state.library = state.library.filter(game => game._id !== action.meta.arg.gameId);
+            state.library = state.library.filter(item => item?.game?._id !== action.meta.arg);
             localStorage.setItem('library', JSON.stringify(state.library));
             state.msg = 'success';
             toast.success('Game removed from your library', { toastId: 'toastSuccess', closeButton: true });

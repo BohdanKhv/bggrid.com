@@ -5,7 +5,7 @@ import { useSearchParams } from "react-router-dom"
 import { getGameCard } from "../../features/game/gameSlice"
 import { closeIcon } from "../../assets/img/icons"
 import { tagsEnum } from "../../assets/constants"
-import { addGameToLibrary, updateGameInLibrary } from "../../features/library/librarySlice"
+import { addGameToLibrary, removeGameFromLibrary, updateGameInLibrary } from "../../features/library/librarySlice"
 
 
 const AddGame = () => {
@@ -88,6 +88,9 @@ const AddGame = () => {
             disabledAction={libraryIsLoading}
             isLoading={libraryLoadingId === `${gameCard?._id}`}
             actionDangerBtnText={isInLibrary ? "Remove" : null}
+            onSubmitDanger={() => {
+                dispatch(removeGameFromLibrary(gameCard._id))
+            }}
         >
             {loadingId === 'addGame' ?
                 <ErrorInfo isLoading />
@@ -112,7 +115,7 @@ const AddGame = () => {
                                                 <div className="fs-24 weight-600 text-ellipsis-2">
                                                     {gameCard?.name}
                                                 </div>
-                                                <div className="fs-14 text-secondary bold">
+                                                <div className="fs-14 text-secondary bold pt-1">
                                                     {gameCard?.yearPublished}
                                                 </div>
                                             </div>

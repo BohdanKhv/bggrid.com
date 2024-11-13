@@ -20,6 +20,7 @@ import ResetPassword from "./pages/auth/ResetPassword";
 import ForgotPassword from "./pages/auth/ForgotPassword";
 import NotFound from "./pages/NotFound";
 import AddGame from "./pages/game/AddGame";
+import UserPage from "./pages/UserPage";
 
 function App() {
   const { user } = useSelector(state => state.auth);
@@ -57,6 +58,7 @@ function App() {
                 <Routes>
                   <Route path="/" element={<ErrBoundary><HomePage /></ErrBoundary>} />
                   <Route path="/search" element={<ErrBoundary><SearchPage /></ErrBoundary>} />
+                  <Route path="/u/:username" element={<ErrBoundary><UserPage /></ErrBoundary>} />
                   {user ?
                   <>
                     <Route path="/settings" element={<ErrBoundary><Settings/></ErrBoundary>} />

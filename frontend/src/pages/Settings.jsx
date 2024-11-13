@@ -199,7 +199,7 @@ const Settings = () => {
             <main className="page-body">
                 <div className="animation-slide-in">
                     <div className="container">
-                            <div className="py-3 title-1 bold px-sm-2">
+                            <div className="pt-6 pb-3 title-1 bold px-sm-2">
                                 Account
                             </div>
                             <div className="border-bottom">

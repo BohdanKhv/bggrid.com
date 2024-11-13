@@ -214,7 +214,9 @@ const SearchPage = () => {
                                                     {searchHistory
                                                     .slice(0, 5)
                                                     .map((searchItem) => (
-                                                        <div className="flex justify-between align-center bg-secondary-hover">
+                                                        <div className="flex justify-between align-center bg-secondary-hover"
+                                                            key={searchItem}
+                                                        >
                                                             <div
                                                                 key={searchItem}
                                                                 onClick={(e) => {
@@ -247,7 +249,9 @@ const SearchPage = () => {
                                                     </div>
                                                     {suggestions
                                                     .map((item) => (
-                                                        <div className="flex justify-between align-center bg-secondary-hover">
+                                                        <div className="flex justify-between align-center bg-secondary-hover"
+                                                            key={item._id}
+                                                        >
                                                             <div
                                                                 key={item._id}
                                                                 onClick={(e) => {

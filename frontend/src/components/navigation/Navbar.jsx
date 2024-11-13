@@ -67,7 +67,7 @@ const Navbar = () => {
                     {user ?
                     <>
                     <Link
-                        to={`/${user.username}`}
+                        to={`/u/${user.username}`}
                         className="flex gap-3 pointer hover border-radius-lg overflow-hidden px-3 py-3">
                         <div className="flex align-center justify-center align-center">
                             <div className="border border-radius-50">
@@ -124,7 +124,7 @@ const Navbar = () => {
                         type="secondary"
                     />
                     <Button
-                        muted={pathname !== '/library'}
+                        muted={pathname !== '/notifications'}
                         to="/notifications"
                         label="Notifications"
                         variant="text"
@@ -132,7 +132,7 @@ const Navbar = () => {
                         type="secondary"
                     />
                     <Button
-                        muted
+                        muted={!pathname.includes('/settings')}
                         to="/settings"
                         label="Settings"
                         variant="text"

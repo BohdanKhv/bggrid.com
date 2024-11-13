@@ -103,13 +103,33 @@
     max-width: 100%;
     flex: 100%;
 }
+.col-11 {
+    max-width: 91.666667%;
+    flex: 91.666667%;
+}
+.col-10 {
+    max-width: 83.333333%;
+    flex: 83.333333%;
+}
+.col-9 {
+    max-width: 75%;
+    flex: 75%;
+}
 .col-8 {
     max-width: 66.666667%;
     flex: 66.666667%;
 }
+.col-7 {
+    max-width: 58.333333%;
+    flex: 58.333333%;
+}
 .col-6 {
     max-width: 50%;
     flex: 50%;
+}
+.col-5 {
+    max-width: 41.666667%;
+    flex: 41.666667%;
 }
 .col-4 {
     max-width: 33.333333%;

@@ -1,10 +1,11 @@
-import { useState, useEffect } from "react"
+import { useState, useEffect, useMemo } from "react"
 import { useDispatch, useSelector } from "react-redux"
 import { Button, ErrorInfo, IconButton, Image, Input, Modal, Range } from "../../components"
 import { useSearchParams } from "react-router-dom"
 import { getGameCard } from "../../features/game/gameSlice"
 import { closeIcon } from "../../assets/img/icons"
 import { tagsEnum } from "../../assets/constants"
+import { addGameToLibrary, updateGameInLibrary } from "../../features/library/librarySlice"
 
 
 const AddGame = () => {
@@ -14,8 +15,15 @@ const AddGame = () => {
     const [tags, setTags] = useState([])
     const [comment, setComment] = useState('')
 
+    
     const [searchParam, setSearchParam] = useSearchParams()
     const { gameCard, loadingId } = useSelector(state => state.game)
+    const { library, isLoading: libraryIsLoading, loadingId: libraryLoadingId, msg } = useSelector(state => state.library)
+
+    const isInLibrary = useMemo(() => {
+        return library.find(i => i?.game?._id === gameCard?._id)
+    }, [library, gameCard])
+
 
     useEffect(() => {
         let promise;
@@ -31,6 +39,39 @@ const AddGame = () => {
         }
     }, [searchParam.get("addGame")])
 
+    useEffect(() => {
+        if (msg === 'success') {
+            searchParam.delete("addGame")
+            setSearchParam(searchParam)
+        }
+    }, [msg])
+
+    useEffect(() => {
+        if (gameCard && isInLibrary) {
+            setRating(isInLibrary.rating * 10 || 0)
+            setTags(isInLibrary.tags || [])
+            setComment(isInLibrary.comment || '') 
+        }
+    }, [gameCard, isInLibrary])
+
+    const addToLibrary = () => {
+        dispatch(addGameToLibrary({
+            gameId: gameCard._id,
+            rating: rating / 10,
+            tags,
+            comment
+        }))
+    }
+
+    const updateLibrary = () => {
+        dispatch(updateGameInLibrary({
+            gameId: gameCard._id,
+            rating: rating / 10,
+            tags,
+            comment
+        }))
+    }
+
     return (
         <Modal
             modalIsOpen={searchParam.get("addGame")}
@@ -39,7 +80,13 @@ const AddGame = () => {
                 setSearchParam(searchParam)
             }}
             headerNone
-            actionBtnText="Add to Library"
+            noAction={libraryIsLoading}
+            actionBtnText={
+                isInLibrary ? "Update Library" : "Add to Library"
+            }
+            onSubmit={isInLibrary ? updateLibrary : addToLibrary}
+            disabledAction={libraryIsLoading}
+            isLoading={libraryLoadingId === `${gameCard?._id}`}
         >
             {loadingId === 'addGame' ?
                 <ErrorInfo isLoading />
@@ -47,7 +94,6 @@ const AddGame = () => {
             <>
                 <div className="flex justify-between align-center">
                     <div className="flex gap-4 flex-1 flex-sm-col">
-                        {/* <div className="w-max-150-px h-fit-content"> */}
                         <div className="col-5">
                             <Image
                                 img={gameCard?.thumbnail}
@@ -56,7 +102,7 @@ const AddGame = () => {
                                 classNameContainer="border-radius bg-secondary h-auto h-sm-set-250-px w-sm-fit-content"
                             />
                         </div>
-                        <div className="flex flex-col gap-4 flex-1 col-7">
+                        <div className="flex flex-col gap-4 col-7">
                             <div className="pos-absolute right-0 top-0 p-3">
                                 <IconButton
                                     icon={closeIcon}
@@ -127,7 +173,7 @@ const AddGame = () => {
                             </div>
                             <Input
                                 value={comment}
-                                onChange={setComment}
+                                onChange={(e) => setComment(e.target.value)}
                                 wrapColumn
                                 type="textarea"
                                 placeholder="Write your review in less than 500 characters..."

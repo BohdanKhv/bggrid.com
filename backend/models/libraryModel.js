@@ -16,15 +16,16 @@ const librarySchema = mongoose.Schema({
     tags: {
         type: [String],
         enum: tagsEnum,
-        default: ['favorite']
+        required: false,
     },
     rating: {
         type: Number,
-        min: 1,
-        max: 10
+        required: false,
+        default: 0,
     },
     comment: {
         type: String,
+        required: false,
         maxlength: 500
     },
 }, {

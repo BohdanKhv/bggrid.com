@@ -4,6 +4,7 @@ import { Button, ErrorInfo, Icon, Modal } from "../../components"
 import { getMe } from "../../features/auth/authSlice"
 import { errorIcon } from "../../assets/img/icons"
 import { useLocation, useNavigate } from "react-router-dom"
+import { getMyLibrary } from "../../features/library/librarySlice"
 
 const Me = () => {
     const navigate = useNavigate()
@@ -16,12 +17,15 @@ const Me = () => {
 
     useEffect(() => {
         let promise;
+        let promiseLibrary
         if (user) {
             promise = dispatch(getMe())
+            promiseLibrary = dispatch(getMyLibrary())
         }
 
         return () => {
             if(promise) promise.abort()
+            if(promiseLibrary) promiseLibrary.abort()
         }
     }, [])
 

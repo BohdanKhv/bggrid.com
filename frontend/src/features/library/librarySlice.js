@@ -32,6 +32,44 @@ export const getMyLibrary = createAsyncThunk(
 );
 
 
+export const addGameToLibrary = createAsyncThunk(
+    'library/addGameToLibrary',
+    async (payload, thunkAPI) => {
+        try {
+            const token = thunkAPI.getState().auth.user ? thunkAPI.getState().auth.user.token : null;
+            return await libraryService.addGameToLibrary(payload, token);
+        } catch (error) {
+            const message =
+                (error.response &&
+                    error.response.data &&
+                    error.response.data.msg) ||
+                error.message ||
+                error.toString();
+            return thunkAPI.rejectWithValue(message);
+        }
+    }
+);
+
+
+export const updateGameInLibrary = createAsyncThunk(
+    'library/updateGameInLibrary',
+    async (payload, thunkAPI) => {
+        try {
+            const token = thunkAPI.getState().auth.user ? thunkAPI.getState().auth.user.token : null;
+            return await libraryService.updateGameInLibrary(payload, token);
+        } catch (error) {
+            const message =
+                (error.response &&
+                    error.response.data &&
+                    error.response.data.msg) ||
+                error.message ||
+                error.toString();
+            return thunkAPI.rejectWithValue(message);
+        }
+    }
+);
+
+
 
 const librarySlice = createSlice({
     name: 'library',
@@ -62,6 +100,40 @@ const librarySlice = createSlice({
                 state.msg = action.payload;
                 toast.error(action.payload, { toastId: 'toastError', closeButton: true});
             }
+        });
+
+        builder.addCase(addGameToLibrary.pending, (state, action) => {
+            state.loadingId = action.meta.arg.gameId;
+            state.msg = '';
+        });
+        builder.addCase(addGameToLibrary.fulfilled, (state, action) => {
+            state.loadingId = '';
+            state.library.push(action.payload.data);
+            // Save to local storage
+            localStorage.setItem('library', JSON.stringify(state.library));
+            state.msg = 'success';
+            toast.success('Game added to your library', { toastId: 'toastSuccess', closeButton: true });
+        });
+        builder.addCase(addGameToLibrary.rejected, (state, action) => {
+            state.loadingId = '';
+            toast.error(action.payload, { toastId: 'toastError', closeButton: true});
+        });
+
+        builder.addCase(updateGameInLibrary.pending, (state, action) => {
+            state.loadingId = action.meta.arg.gameId;
+            state.msg = '';
+        });
+        builder.addCase(updateGameInLibrary.fulfilled, (state, action) => {
+            state.loadingId = '';
+            const index = state.library.findIndex(game => game._id === action.payload.data._id);
+            state.library[index] = action.payload.data;
+            localStorage.setItem('library', JSON.stringify(state.library));
+            state.msg = 'success';
+            toast.success('Game updated', { toastId: 'toastSuccess', closeButton: true });
+        });
+        builder.addCase(updateGameInLibrary.rejected, (state, action) => {
+            state.loadingId = '';
+            toast.error(action.payload, { toastId: 'toastError', closeButton: true});
         });
     }
 });

@@ -16,8 +16,37 @@ export const getMyLibrary = async (token) => {
 }
 
 
+export const addGameToLibrary = async (payload, token) => {
+    const config = {
+        headers: {
+            Authorization: `Bearer ${token}`,
+        }
+    };
+
+    const response = await axios.post(API_URL+`/`, payload, config);
+
+    return response.data;
+}
+
+
+export const updateGameInLibrary = async (payload, token) => {
+    const config = {
+        headers: {
+            Authorization: `Bearer ${token}`,
+        }
+    };
+
+    const response = await axios.put(API_URL+`/` + payload?.gameId, payload, config);
+
+    return response.data;
+}
+
+
+
 const listingService = {
     getMyLibrary,
+    addGameToLibrary,
+    updateGameInLibrary
 };
 
 export default listingService;

@@ -1,21 +1,27 @@
-import React from 'react'
+import React, { useMemo } from 'react'
 import { Button, IconButton, Image } from '../../components'
-import { largePlusIcon, patchPlusIcon } from '../../assets/img/icons'
+import { checkIcon, largePlusIcon, patchPlusIcon } from '../../assets/img/icons'
 import { useSearchParams } from 'react-router-dom'
+import { useSelector } from 'react-redux'
 
 const GameItem = ({item}) => {
 
     const [searchParams, setSearchParams] = useSearchParams()
+    const { library } = useSelector(state => state.library)
+
+    const isInLibrary = useMemo(() => {
+        return library.some(i => i?.game?._id === item?._id)
+    }, [library, item])
 
     return (
         <div className={`flex flex-col pointer border-radius transition-duration h-100 pos-relative${window.innerWidth > 800 ? " display-on-hover-parent" : ""}`}>
             <IconButton
-                icon={largePlusIcon}
+                icon={isInLibrary ? checkIcon : largePlusIcon}
                 variant="filled"
-                type="secondary"
+                type={isInLibrary ? "success" : "secondary"}
                 borderRadius="md"
                 className="pos-absolute top-0 right-0 m-2 box-shadow-lg display-on-hover border border-w-2"
-                dataTooltipContent="Add to library"
+                dataTooltipContent={isInLibrary ? "In library" : "Add to library"}
                 onClick={() => {
                     searchParams.set("addGame", item._id)
                     setSearchParams(searchParams)

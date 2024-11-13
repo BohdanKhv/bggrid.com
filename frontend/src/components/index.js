@@ -50,6 +50,7 @@ import Table from "./ui/Table";
 import SelectBasic from "./ui/SelectBasic";
 import LineButtonGroup from "./ui/LineButtonGroup";
 import PreviewImage from "./ui/PreviewImage";
+import Image from "./ui/Image";
 import ConfirmAction from "./ui/ConfirmAction";
 
 
@@ -106,5 +107,6 @@ export {
     SelectBasic,
     LineButtonGroup,
     PreviewImage,
+    Image,
     ConfirmAction,
 }

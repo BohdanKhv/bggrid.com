@@ -13,12 +13,12 @@ import HomePage from "./pages/HomePage";
 import Settings from "./pages/Settings";
 import NavbarMobile from "./components/navigation/NavbarMobile";
 import LibraryPage from "./pages/LibraryPage";
-import BrowsePage from "./pages/BrowsePage";
 import Navbar from "./components/navigation/Navbar";
 import SearchPage from "./pages/SearchPage";
 import Register from "./pages/auth/Register";
 import ResetPassword from "./pages/auth/ResetPassword";
 import ForgotPassword from "./pages/auth/ForgotPassword";
+import NotFound from "./pages/NotFound";
 
 function App() {
   const { user } = useSelector(state => state.auth);
@@ -55,11 +55,11 @@ function App() {
                 <Routes>
                   <Route path="/" element={<ErrBoundary><HomePage /></ErrBoundary>} />
                   <Route path="/search" element={<ErrBoundary><SearchPage /></ErrBoundary>} />
-                  <Route path="/library" element={<ErrBoundary><LibraryPage /></ErrBoundary>} />
                   {user ?
                   <>
                     <Route path="/settings" element={<ErrBoundary><Settings/></ErrBoundary>} />
                     <Route path="/settings/:tab" element={<ErrBoundary><Settings/></ErrBoundary>} />
+                    <Route path="/library" element={<ErrBoundary><LibraryPage /></ErrBoundary>} />
                   </>
                   :
                     <>
@@ -71,6 +71,7 @@ function App() {
                   }
                   <Route path="/terms" element={<ErrBoundary><Terms /></ErrBoundary>} />
                   <Route path="/privacy" element={<ErrBoundary><Privacy /></ErrBoundary>} />
+                  <Route path="/*" element={<ErrBoundary><NotFound /></ErrBoundary>} />
                 </Routes>
                 </div>
                 <Footer/>

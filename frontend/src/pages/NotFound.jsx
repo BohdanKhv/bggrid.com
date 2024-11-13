@@ -3,7 +3,7 @@ import { useEffect } from "react";
 import { useSelector } from "react-redux";
 
 const redirectToHome = ['/login', '/login-with-email'];
-const redirectToLogin = ['/account']
+const redirectToLogin = ['/settings', '/library']
 
 const NotFound = () => {
 

@@ -1,0 +1,133 @@
+.image {
+    cursor: pointer;
+    position: relative;
+    display: flex;
+    -webkit-box-align: center;
+    align-items: center;
+    -webkit-box-pack: center;
+    justify-content: center;
+    flex-shrink: 0;
+    width: 100%;
+    height: 100%;
+    min-height: inherit;
+    font-family: Roboto, Helvetica, Arial, sans-serif;
+    font-size: 0.9rem;
+    line-height: 1;
+    font-weight: 400;
+    /* overflow: hidden; */
+    user-select: none;
+    color: var(--text-light);
+    background-color: var(--color-tertiary);
+    transition: var(--transition-duration);
+}
+
+.image.image-full {
+    width: 100%;
+    height: 100%;
+    font-size: 1.2rem;
+}
+.image.image-dynamic {
+    width: 100%;
+    height: 100%;
+}
+
+.image .image-contain {
+    object-fit: contain;
+}
+
+.image img {
+    width: 100%;
+    height: 100%;
+    min-height: inherit;
+    text-align: center;
+    color: transparent;
+    object-fit: cover;
+    object-position: center;
+    background-color: #fff;
+}
+
+.image .image-loading {
+    opacity: 0;
+}
+
+
+.img-big-display {
+    width: 100%;
+    height: 100%;
+    z-index: 999;
+    top: 0;
+    left: 0;
+    background-color: rgba(0, 0, 0, 0.85);
+    transition-duration: var(--transition-duration);
+    animation: fadeIn var(--transition-duration) ease-in-out forwards;
+    position: fixed;
+}
+
+.img-big-display-container {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    justify-content: center;
+    align-items: center;
+    width: fit-content;
+    margin: 0 auto;
+}
+
+.img-big-display-container img {
+    max-width: 75%;
+    height: auto;
+    object-fit: contain;
+    cursor: default;
+    object-position: center;
+}
+
+.img-big-display-container-inner {
+    pointer-events: initial;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-self: center;
+    text-align: center;
+}
+
+.img-big-display-container-inner-img {
+    pointer-events: inherit;
+}
+
+
+.image.image-loading {
+    position: relative;
+    overflow: hidden;
+    background-color: #fff;
+}
+
+.image.image-loading img {
+    opacity: 0;
+}
+
+.image.img-error img {
+    background-color: transparent;
+}
+
+.img-big-display-controllers-top {
+    position: absolute;
+    top: 0;
+    left: 0;
+    padding: 8px 0;
+    width: 100%;
+    background-color: var(--color-main);
+    z-index: 1;
+}
+
+.img-big-display-controllers-bottom {
+    position: absolute;
+    bottom: calc(0px + env(safe-area-inset-bottom));
+    padding: 16px 12px;
+}
+
+@media (max-width: 800px) {
+    .img-big-display-container-inner-img,
+    .img-big-display-container img {
+        max-width: 100%;
+    }
+}

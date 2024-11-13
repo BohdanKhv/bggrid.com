@@ -1,5 +1,5 @@
 import React, { useEffect, useMemo, useState } from 'react'
-import { Button, Dropdown, ErrorInfo, FilterDropdown, HorizontalScroll, IconButton, InputSearch, Modal } from '../components'
+import { Button, Dropdown, ErrorInfo, FilterDropdown, HorizontalScroll, IconButton, Image, InputSearch, Modal } from '../components'
 import { useSearchParams } from 'react-router-dom'
 import { closeIcon, filterIcon, searchIcon, toggleSortIcon } from '../assets/img/icons'
 import { categoriesEnum, typeEnum } from '../assets/constants'
@@ -9,9 +9,12 @@ import { getGames } from '../features/game/gameSlice'
 const ItemCard = ({item}) => {
     return (
         <div className="flex flex-col pointer border-radius transition-duration h-100">
-            <div className="border-radius bg-secondary h-100 w-100 bg-hover-after flex-1">
-                <img src={item.thumbnail} alt="Game Thumbnail" className="w-100 h-100 object-cover border-radius" />
-            </div>
+            <Image
+                alt={item.Name}
+                img={item.thumbnail}
+                classNameImg="w-100 h-100 object-cover border-radius"
+                classNameContainer="border-radius bg-secondary w-100 bg-hover-after flex-1 h-set-300-px"
+            />
             <div className="flex flex-col gap-1 pb-4">
                 <div className="bold text-secondary fs-12 px-2 pt-2">{item.YearPublished}</div>
                 <div className="fs-16 px-2 weight-600 text-ellipsis-2">{item.Name}</div>
@@ -45,21 +48,42 @@ const Items = () => {
                     classNameContainer="p-0 border-none bold"
                     widthUnset
                     customDropdown={
+                        <>
                         <Button
                             type="secondary"
                             variant="link"
-                            label="Relevance"
+                            label="Alphabetical"
                         />
+                        </>
                     }
                 >
                     <Button
                         borderRadius="sm"
                         label="Relevance"
+                        className="justify-start"
                         variant="text"
+                    />
+                    <Button
+                        borderRadius="sm"
+                        className="justify-start"
+                        variant="text"
+                        label="New Releases"
+                    />
+                    <Button
+                        borderRadius="sm"
+                        className="justify-start"
+                        variant="text"
+                        label="Most Popular"
+                    />
+                    <Button
+                        borderRadius="sm"
+                        className="justify-start"
+                        variant="text"
+                        label="Relevance"
                     />
                 </Dropdown>
             </div>
-            <div className="grid grid-cols-3 grid-sm-cols-2 flex-wrap animation-slide-in h-fit-content gap-4">
+            <div className="grid grid-cols-4 grid-md-cols-3 grid-sm-cols-2 flex-wrap animation-slide-in h-fit-content gap-4">
                 {games.map((i) => (
                     <div
                         key={i}

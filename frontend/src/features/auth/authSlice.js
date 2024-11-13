@@ -251,7 +251,7 @@ const authSlice = createSlice({
         builder.addCase(getMe.rejected, (state, action) => {
             state.isLoading = false;
             state.msg = action.payload;
-            if (action.payload === 'Token expired' || action.payload === 'User not found') {
+            if (action.payload === 'Token expired' || action.payload === 'User not found' || action.payload === 'User not found') {
                 localStorage.clear();
                 state.user = null;
             }

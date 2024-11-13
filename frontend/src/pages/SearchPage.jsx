@@ -2,7 +2,7 @@ import React, { useEffect, useMemo, useState } from 'react'
 import { Button, Dropdown, ErrorInfo, FilterDropdown, HorizontalScroll, Icon, IconButton, Image, InputSearch, Modal } from '../components'
 import { Link, useSearchParams } from 'react-router-dom'
 import { clockIcon, closeIcon, filterIcon, searchIcon, toggleSortIcon } from '../assets/img/icons'
-import { categoriesEnum, typeEnum } from '../assets/constants'
+import { categoriesEnum, mechanicsEnum, themesEnum, typeEnum } from '../assets/constants'
 import { useDispatch, useSelector } from 'react-redux'
 import { getGames, getSuggestions } from '../features/game/gameSlice'
 import GameItem from './game/GameItem'
@@ -91,6 +91,7 @@ const SearchPage = () => {
         if (searchParams.get('type') && searchParams.get('type') !== '') count++
         if (searchParams.get('themes') && searchParams.get('themes') !== '') count++
         if (searchParams.get('mechanics') && searchParams.get('mechanics') !== '') count++
+        if (searchParams.get('players') && searchParams.get('players') !== '') count++
         return count
     }, [searchParams])
 
@@ -98,6 +99,7 @@ const SearchPage = () => {
         type: '',
         themes: [],
         mechanics: [],
+        players: "0"
     })
 
     useEffect(() => {
@@ -320,6 +322,101 @@ const SearchPage = () => {
                                                     smSize="lg"
                                                     label={`${type.icon} ${type.type}`}
                                                     variant={temp.type?.toLocaleLowerCase() === type.type?.toLocaleLowerCase() ? "filled" : "outline"}
+                                                    type="primary"
+                                                    className={`text-capitalize justify-start clickable`}
+                                                />
+                                            ))}
+                                        </div>
+                                    </FilterDropdown>
+                                    <FilterDropdown
+                                        label="Mechanics"
+                                        mobileDropdown
+                                        applied={searchParams.get('mechanics') ? searchParams.get('mechanics') : []}
+                                        onClear={() => {
+                                            searchParams.delete('mechanics')
+                                            setSearchParams(searchParams.toString())
+                                        }}
+                                        onApply={() => {
+                                            searchParams.set('mechanics', temp.mechanics.join(','))
+                                            setSearchParams(searchParams.toString())
+                                        }}
+                                    >
+                                        <div className="grid grid-cols-2 gap-2">
+                                            {mechanicsEnum.map((m) => (
+                                                <Button
+                                                    key={m}
+                                                    onClick={() => {
+                                                        if (temp.mechanics.includes(m)) {
+                                                            setTemp({ ...temp, mechanics: temp.mechanics.filter((mech) => mech !== m) })
+                                                        } else {
+                                                            setTemp({ ...temp, mechanics: [...temp.mechanics, m] })
+                                                        }
+                                                    }}
+                                                    smSize="lg"
+                                                    label={`${m}`}
+                                                    variant={temp.mechanics.includes(m) ? "filled" : "outline"}
+                                                    type="primary"
+                                                    className={`text-capitalize justify-start clickable`}
+                                                />
+                                            ))}
+                                        </div>
+                                    </FilterDropdown>
+                                    <FilterDropdown
+                                        label="Themes"
+                                        mobileDropdown
+                                        applied={searchParams.get('themes') ? searchParams.get('themes') : []}
+                                        onClear={() => {
+                                            searchParams.delete('themes')
+                                            setSearchParams(searchParams.toString())
+                                        }}
+                                        onApply={() => {
+                                            searchParams.set('themes', temp.themes.join(','))
+                                            setSearchParams(searchParams.toString())
+                                        }}
+                                    >
+                                        <div className="grid grid-cols-2 gap-2">
+                                            {themesEnum.map((theme) => (
+                                                <Button
+                                                    key={theme}
+                                                    onClick={() => {
+                                                        if (temp.themes.includes(theme)) {
+                                                            setTemp({ ...temp, themes: temp.themes.filter((theme) => theme !== theme) })
+                                                        } else {
+                                                            setTemp({ ...temp, themes: [...temp.themes, theme] })
+                                                        }
+                                                    }}
+                                                    smSize="lg"
+                                                    label={`${theme}`}
+                                                    variant={temp.themes.includes(theme) ? "filled" : "outline"}
+                                                    type="primary"
+                                                    className={`text-capitalize justify-start clickable`}
+                                                />
+                                            ))}
+                                        </div>
+                                    </FilterDropdown>
+                                    <FilterDropdown
+                                        label="Players"
+                                        mobileDropdown
+                                        applied={searchParams.get('players') ? [searchParams.get('players').replaceAll('-', ' ')] : []}
+                                        onClear={() => {
+                                            searchParams.delete('players')
+                                            setSearchParams(searchParams.toString())
+                                        }}
+                                        onApply={() => {
+                                            searchParams.set('players', temp.players)
+                                            setSearchParams(searchParams.toString())
+                                        }}
+                                    >
+                                        <div className="grid grid-cols-2 gap-2">
+                                            {['1','2','3','4', '5', '6'].map((p) => (
+                                                <Button
+                                                    key={p}
+                                                    onClick={() => {
+                                                        setTemp({ ...temp, players: p })
+                                                    }}
+                                                    smSize="lg"
+                                                    label={`${p}+`}
+                                                    variant={temp.players?.toLocaleLowerCase() === p?.toLocaleLowerCase() ? "filled" : "outline"}
                                                     type="primary"
                                                     className={`text-capitalize justify-start clickable`}
                                                 />

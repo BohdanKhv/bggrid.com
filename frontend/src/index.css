@@ -593,6 +593,9 @@ label.p-FieldLabel {
   .content {
     flex-direction: column;
   }
+  body:has(.header) .content {
+    padding-top: var(--header-height);
+  }
   .content-body {
     padding-bottom: calc(var(--nav-mob-height) + 1px);
   }

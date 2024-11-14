@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { Link, NavLink, useLocation, useSearchParams } from 'react-router-dom'
-import { bellIcon, gamesIcon, homeIcon, largePlusIcon, libraryIcon, loginIcon, logoutIcon, searchIcon, settingsIcon, usersIcon } from '../../assets/img/icons'
+import { bellIcon, gamesIcon, homeIcon, largePlusIcon, libraryIcon, loginIcon, logoutIcon, noteIcon, searchIcon, settingsIcon, usersIcon } from '../../assets/img/icons'
 import "./styles/Navbar.css"
 import { logoNameSvg, logoSvg } from '../../assets/img/logo'
 import Icon from '../ui/Icon'
@@ -113,6 +113,14 @@ const Navbar = () => {
                         label="Library"
                         variant="text"
                         icon={libraryIcon}
+                        type="secondary"
+                    />
+                    <Button
+                        // muted={pathname !== '/library'}
+                        to="/logs"
+                        label="Logs"
+                        variant="text"
+                        icon={noteIcon}
                         type="secondary"
                     />
                     <Button

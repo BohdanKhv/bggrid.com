@@ -1,6 +1,6 @@
 import React from 'react'
 import { NavLink, useLocation, useSearchParams } from 'react-router-dom'
-import { gamesIcon, homeIcon, largePlusIcon, libraryIcon, menuIcon, searchIcon, usersIcon } from '../../assets/img/icons'
+import { gamesIcon, homeIcon, largePlusIcon, libraryIcon, menuIcon, noteIcon, searchIcon, usersIcon } from '../../assets/img/icons'
 import "./styles/NavbarMobile.css"
 import Button from '../ui/Button'
 import Avatar from '../ui/Avatar'
@@ -22,9 +22,9 @@ const NavbarMobile = () => {
                         <span className="navbar-mob-item-icon">
                             {homeIcon}
                         </span>
-                        <span className="navbar-mob-item-label">
+                        {/* <span className="navbar-mob-item-label">
                             Home
-                        </span>
+                        </span> */}
                     </NavLink>
                     <NavLink 
                         to={`/library`}
@@ -33,9 +33,9 @@ const NavbarMobile = () => {
                         <span className="navbar-mob-item-icon">
                             {libraryIcon}
                         </span>
-                        <span className="navbar-mob-item-label">
+                        {/* <span className="navbar-mob-item-label">
                             Library
-                        </span>
+                        </span> */}
                     </NavLink>
                     <NavLink 
                         className={`navbar-mob-item active`}
@@ -45,6 +45,17 @@ const NavbarMobile = () => {
                             {largePlusIcon}
                         </div>
                     </NavLink>
+                    <NavLink
+                        to="/logs"
+                        className={`navbar-mob-item ${pathname === "/logs" ? " active" : ""}`}
+                    >
+                        <span className="navbar-mob-item-icon">
+                            {noteIcon}
+                        </span>
+                        {/* <span className="navbar-mob-item-label">
+                            Logs
+                        </span> */}
+                    </NavLink>
                     <NavLink 
                         to={`/community`}
                         className={`navbar-mob-item ${location.pathname.startsWith("/community") ? " active" : ""}`}
@@ -52,23 +63,10 @@ const NavbarMobile = () => {
                         <span className="navbar-mob-item-icon">
                             {usersIcon}
                         </span>
-                        <span className="navbar-mob-item-label">
+                        {/* <span className="navbar-mob-item-label">
                             Community
-                        </span>
+                        </span> */}
                     </NavLink>
-                    <div
-                        onClick={() => {
-                            document.querySelector('.open-navbar-button').click()
-                        }}
-                        className={`navbar-mob-item`}
-                    >
-                        <span className="navbar-mob-item-icon">
-                            {menuIcon}
-                        </span>
-                        <span className="navbar-mob-item-label">
-                            More
-                        </span>
-                    </div>
                 </div>
             </div>
     )

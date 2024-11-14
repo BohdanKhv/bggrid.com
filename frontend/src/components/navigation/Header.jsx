@@ -112,8 +112,10 @@ const Header = () => {
                                             icon={bellIcon}
                                             to="/notifications"
                                         />
-                                        <NavLink
-                                            to={`/${user.username}`}
+                                        <div
+                                            onClick={() => {
+                                                document.querySelector('.open-navbar-button').click()
+                                            }}
                                         >
                                             <Avatar
                                                 img={user && user?.avatar ? `${import.meta.env.VITE_USERS_S3_API_URL}/${user?.avatar}` : null}
@@ -122,7 +124,7 @@ const Header = () => {
                                                 avatarColor="1"
                                                 size="sm"
                                             />
-                                        </NavLink>
+                                        </div>
                                     </>
                                     :
                                     <>

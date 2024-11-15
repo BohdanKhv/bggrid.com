@@ -85,9 +85,9 @@ const GamePage = () => {
                                             <div className={`title-1 bold ${gameById.avgRating == 0 ? " text-secondary" : gameById.avgRating > 0 && gameById.avgRating <= 4 ? " text-danger" : gameById.avgRating > 4 && gameById.avgRating <= 7 ? " text-warning" : gameById.avgRating == 10 ? " text-primary" : " text-success"}`}>
                                                 {gameById.avgRating.toFixed(1)}
                                             </div>
-                                            <div className="fs-14 weight-500 flex align-center text-secondary gap-1">
+                                            {/* <div className="fs-14 weight-500 flex align-center text-secondary gap-1">
                                                 {numberFormatter(gameById.numRatings)}
-                                            </div>
+                                            </div> */}
                                         </div>
                                         <div className="flex flex-col gap-1">
                                             <div className="fs-14 text-secondary weight-500">
@@ -96,10 +96,44 @@ const GamePage = () => {
                                             <div className={`title-1 bold ${gameById.gameWeight == 0 ? " text-secondary" : gameById.gameWeight > 0 && gameById.gameWeight <= 2 ? " text-success" : gameById.gameWeight > 2 && gameById.gameWeight <= 4 ? " text-warning" : gameById.gameWeight > 4 ? " text-danger" : " text-secondary"}`}>
                                                 {gameById.gameWeight.toFixed(1)}
                                             </div>
-                                            <div className="fs-14 weight-500 flex align-center text-secondary gap-1">
+                                            {/* <div className="fs-14 weight-500 flex align-center text-secondary gap-1">
                                                 Complexity
-                                            </div>
+                                            </div> */}
                                         </div>
+                                        {gameById.bestPlayers ?
+                                            <div className="flex flex-col gap-1">
+                                                <div className="fs-14 text-secondary weight-500">
+                                                    Players
+                                                </div>
+                                                <div className={`title-1 bold`}>
+                                                    {/* string as an array, but get only number */}
+                                                    {gameById.bestPlayers}+
+                                                </div>
+                                                {/* <div className="fs-14 weight-500 flex align-center text-secondary gap-1">
+                                                    Best: {gameById.bestPlayers}
+                                                </div> */}
+                                            </div>
+                                        : null}
+                                        {gameById.ComMinPlaytime ?
+                                            <div className="flex flex-col gap-1">
+                                                <div className="fs-14 text-secondary weight-500">
+                                                    Playtime
+                                                </div>
+                                                <div className={`title-1 bold`}>
+                                                    {gameById.ComMinPlaytime} min
+                                                </div>
+                                            </div>
+                                        : null}
+                                        {gameById.mfgAgeRec ?
+                                            <div className="flex flex-col gap-1">
+                                                <div className="fs-14 text-secondary weight-500">
+                                                    Age
+                                                </div>
+                                                <div className={`title-1 bold`}>
+                                                    {gameById.mfgAgeRec}+
+                                                </div>
+                                            </div>
+                                        : null}
                                     </div>
                                 </div>
                             </div>
@@ -119,8 +153,7 @@ const GamePage = () => {
                                         />
                                     </div>
                                 </div>
-                                : null
-                            }
+                                : null}
                         </div>
                         <div className="flex flex-col px-4 pt-4 pb-4">
                             <div className="fs-24 bold">

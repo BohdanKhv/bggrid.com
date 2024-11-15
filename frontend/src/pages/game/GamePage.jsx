@@ -10,19 +10,21 @@ const CoverImage = ({ img }) => {
     const [isLoading, setIsLoading] = useState(true)
 
     return (
-        <div
-            className="bg-secondary mask-bottom w-100"
-            style={{
-                marginBottom: '-3.5rem'
-            }}
-        >
-            <img
-                src={img}
-                draggable="false"
-                alt="cover"
-                className="w-100 object-cover object-center h-set-300-px"
-                onLoad={() => setIsLoading(false)}
-            />
+        <div className="h-sm-set-150-px h-set-250-px">
+            <div
+                className="bg-secondary mask-bottom w-100 pos-absolute"
+                style={{
+                    marginBottom: '-3.5rem'
+                }}
+            >
+                <img
+                    src={img}
+                    draggable="false"
+                    alt="cover"
+                    className="w-100 object-cover object-center h-set-250-px h-sm-set-150-px"
+                    onLoad={() => setIsLoading(false)}
+                />
+            </div>
         </div>
     )
 }
@@ -39,7 +41,7 @@ const GamePage = () => {
 
     const isInLibrary = useMemo(() => {
         return library?.find(lib => lib.game._id === gameById?._id)
-    }, [user, gameById])
+    }, [user, gameById, library])
 
     useEffect(() => {
         window.scrollTo(0, 0)
@@ -65,117 +67,108 @@ const GamePage = () => {
                     isLoading
                 />
             : gameById ? 
-                <div className="flex flex-col h-min-100 overflow-hidden  pos-relative animation-slide-in">
+                <div className="flex flex-col h-min-100 pos-relative animation-slide-in">
                     <CoverImage img={gameById.thumbnail}/>
-                    <div className="container overflow-X-auto z-1">
-                        <div className="flex gap-4">
-                            <div className="border border-radius-lg flex-1 p-3 bg-main mb-4">
-                                <div className="flex-1 flex gap-4">
-                                    <Image
-                                        img={gameById.thumbnail}
-                                        alt={gameById.name}
-                                        classNameImg="object-cover border-radius"
-                                        classNameContainer="bg-secondary border-radius w-set-200-px h-set-250-px"
-                                    />
+                    <div className="container z-1 px-sm-3">
+                            <div className="pt-6 flex-1 bg-main mb-6">
+                                <div className="flex gap-4 flex-sm-col">
+                                    <div className="flex flex-col justify-center align-sm-center">
+                                        <Image
+                                            img={gameById.thumbnail}
+                                            alt={gameById.name}
+                                            classNameImg="object-cover border-radius"
+                                            classNameContainer="bg-secondary border-radius w-set-200-px h-set-250-px"
+                                        />
+                                        <div className="title-1 text-secondary flex justify-center gap-2 align-center pt-4">
+                                            <span className={`px-2 py-1 border-radius bold ${gameById.avgRating == 0 ? " tag-secondary" : gameById.avgRating > 0 && gameById.avgRating <= 4 ? " tag-danger" : gameById.avgRating > 4 && gameById.avgRating <= 7 ? " tag-warning" : gameById.avgRating == 10 ? " tag-primary" : " tag-success"}`}>
+                                                {gameById.avgRating.toFixed(1)}
+                                            </span>
+                                            <div className="fs-24 opacity-75">
+                                                ({numberFormatter(gameById.numRatings)})
+                                            </div>
+                                        </div>
+                                    </div>
                                     <div className="flex flex-col">
                                         <div className="flex pt-4 pb-4 gap-4">
-                                            <div className={`flex align-center title-1 weight-600 p-3 border-radius-lg ${gameById.avgRating == 0 ? " tag-secondary" : gameById.avgRating > 0 && gameById.avgRating <= 4 ? " tag-danger" : gameById.avgRating > 4 && gameById.avgRating <= 7 ? " tag-warning" : gameById.avgRating == 10 ? " tag-primary" : " tag-success"}`}>
-                                                {gameById.avgRating.toFixed(1)}
-                                            </div>
-                                            <div className="flex flex-col py-3">
+                                            <div className="flex flex-col">
                                                 <div className="fs-24 bold">
                                                     {gameById.name} ({gameById.yearPublished})
                                                 </div>
-                                                <div className="fs-16 text-secondary">
-                                                    {numberFormatter(gameById.numRatings)} Reviews
+                                                <div className="flex gap-2 pt-2">
+                                                    <div className="flex flex-wrap gap-1 text-nowrap flex-sm-col tag-secondary px-2 py-1 border-radius-sm">
+                                                        Weight: <strong>{gameById.gameWeight.toFixed(1)}<span className="weight-500 text-secondary">/5</span></strong>
+                                                    </div>
+                                                    <div className="flex flex-wrap gap-1 text-nowrap flex-sm-col tag-secondary px-2 py-1 border-radius-sm">
+                                                        Players: <strong>{gameById.MinPlayers}{gameById.MaxPlayers > gameById.MinPlayers ? `-${gameById.MaxPlayers}` : ''}</strong>
+                                                    </div>
+                                                    <div className="flex flex-wrap gap-1 text-nowrap flex-sm-col tag-secondary px-2 py-1 border-radius-sm">
+                                                        Playtime: <strong>{gameById.ComMinPlaytime}{gameById.ComMaxPlaytime !== gameById.ComMinPlaytime ? `-${gameById.ComMinPlaytime}` : ""} Min</strong>
+                                                    </div>
+                                                    <div className="flex flex-wrap gap-1 text-nowrap flex-sm-col tag-secondary px-2 py-1 border-radius-sm">
+                                                        Age: <strong>{gameById.mfgAgeRec}+</strong>
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
                                         {gameById.description ?
                                             <div className="fs-14 mb-4">
-                                                {gameById.description}
+                                                {gameById.description.slice(0, 1).toUpperCase() + gameById.description.slice(1)}
                                             </div>
                                         : null}
-                                    <div className="flex-1 flex align-center border-top py-4">
-                                        <div className="flex flex-col px-5">
-                                            <div className={`fs-20 weight-600`}>
-                                                Weight:  <span className={`${gameById.gameWeight == 0 ? " text-secondary" : gameById.gameWeight > 0 && gameById.gameWeight <= 2 ? " text-success" : gameById.gameWeight > 2 && gameById.gameWeight <= 4 ? " text-warning" : gameById.gameWeight > 4 ? " text-danger" : " text-secondary"}`}>{gameById.gameWeight.toFixed(1)}</span> /5
-                                            </div>
-                                            <div className="fs-12 pt-2 text-secondary">
-                                                Complexity Rating
+                                        {user ? 
+                                        <div className="border border-radius-lg flex-1 p-3 bg-main">
+                                            <div className="flex-1 flex gap-4 align-center h-100">
+                                                <Avatar
+                                                    img={user?.avatar}
+                                                    alt={user?.username}
+                                                    avatarColor="1"
+                                                    height="63"
+                                                    width="63"
+                                                    rounded
+                                                    size="lg"
+                                                />
+                                                {isInLibrary ?
+                                                    <div className="flex flex-col gap-1 pointer"
+                                                            onClick={() => {
+                                                                searchParams.set('addGame', gameId)
+                                                                setSearchParams(searchParams)
+                                                            }}>
+                                                        <div className="fs-14 text-secondary weight-500">
+                                                            Your Rating
+                                                        </div>
+                                                        <div className={`title-1 bold ${gameById.gameWeight == 0 ? " text-secondary" : gameById.gameWeight > 0 && gameById.gameWeight <= 2 ? " text-success" : gameById.gameWeight > 2 && gameById.gameWeight <= 4 ? " text-warning" : gameById.gameWeight > 4 ? " text-danger" : " text-secondary"}`}>
+                                                            {isInLibrary.rating}
+                                                        </div>
+                                                </div>
+                                                :
+                                                    <div>
+                                                        <Button
+                                                            icon={largePlusIcon}
+                                                            variant="primary"
+                                                            type="outline"
+                                                            onClick={() => {
+                                                                searchParams.set('addGame', gameId)
+                                                                setSearchParams(searchParams)
+                                                            }}
+                                                            label="Add to Library"
+                                                        />
+                                                    </div>
+                                                }
                                             </div>
                                         </div>
-                                        <div className="border-right h-100"></div>
-                                        <div className="flex flex-col px-5">
-                                            <div className={`fs-20 weight-600`}>
-                                                {gameById.ComMinPlaytime} Min
-                                            </div>
-                                            <div className="fs-12 pt-2 text-secondary">
-                                                Playtime
-                                            </div>
-                                        </div>
-                                        <div className="border-right h-100"></div>
-                                        <div className="flex flex-col px-5">
-                                            <div className={`fs-20 weight-600`}>
-                                                {gameById.MinPlayers}{gameById.MaxPlayers > gameById.MinPlayers ? `-${gameById.MaxPlayers}` : ''} Players
-                                            </div>
-                                            <div className="fs-12 pt-2 text-secondary">
-                                                Best: {gameById.bestPlayers}
-                                            </div>
-                                        </div>
-                                        <div className="border-right h-100"></div>
-                                        <div className="flex flex-col px-5">
-                                            <div className={`fs-20 weight-600`}>
-                                                Age: {gameById.mfgAgeRec}+
-                                            </div>
-                                            <div className="fs-12 pt-2 text-secondary">
-                                                Age Recommendation
-                                            </div>
-                                        </div>
-                                    </div>
-                                    </div>
-                                </div>
-                            </div>
-                            {/* <div className="border border-radius-lg flex-1 p-3 bg-main">
-                                <div className="flex-1 flex gap-4 align-center h-100">
-                                    <Avatar
-                                        img={user?.avatar}
-                                        alt={user?.username}
-                                        avatarColor="1"
-                                        height="63"
-                                        width="63"
-                                        rounded
-                                        size="lg"
-                                    />
-                                    {isInLibrary ?
-                                        <div className="flex flex-col gap-1">
-                                            <div className="fs-14 text-secondary weight-500">
-                                                Your Rating
-                                            </div>
-                                            <div className={`title-1 bold ${gameById.gameWeight == 0 ? " text-secondary" : gameById.gameWeight > 0 && gameById.gameWeight <= 2 ? " text-success" : gameById.gameWeight > 2 && gameById.gameWeight <= 4 ? " text-warning" : gameById.gameWeight > 4 ? " text-danger" : " text-secondary"}`}>
-                                                {isInLibrary.rating}
-                                            </div>
-                                            <div className="fs-14 weight-500 flex align-center text-secondary gap-1">
-                                                
-                                            </div>
-                                    </div>
-                                    :
-                                        <div>
+                                        :
                                             <Button
-                                                icon={largePlusIcon}
                                                 variant="primary"
                                                 type="outline"
-                                                onClick={() => {
-                                                    searchParams.set('addGame', gameId)
-                                                    setSearchParams(searchParams)
-                                                }}
-                                                label="Add to Library"
+                                                to="/login"
+                                                label="Sign in to Add to Library"
                                             />
-                                        </div>
-                                    }
-                                </div>
-                            </div> */}
+                                        }
+                                    </div>
+                            </div>
                         </div>
+                    </div>
+                    <div className="container">
                         <TabContent
                             items={[
                                 {label: 'Overview'},

@@ -1266,6 +1266,11 @@ margin-right: auto;
         max-height: 250px;
         height: 250px;
     }
+    .h-sm-set-150-px {
+        min-height: 150px;
+        max-height: 150px;
+        height: 150px;
+    }
 
     .pt-container {
         padding-top: 0;

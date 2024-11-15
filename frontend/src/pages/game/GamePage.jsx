@@ -136,7 +136,7 @@ const GamePage = () => {
                                                         <div className="fs-14 text-secondary weight-500">
                                                             Your Rating
                                                         </div>
-                                                        <div className={`title-1 bold ${gameById.gameWeight == 0 ? " text-secondary" : gameById.gameWeight > 0 && gameById.gameWeight <= 2 ? " text-success" : gameById.gameWeight > 2 && gameById.gameWeight <= 4 ? " text-warning" : gameById.gameWeight > 4 ? " text-danger" : " text-secondary"}`}>
+                                                        <div className={`title-1 bold px-2 py-1 border-radius ${isInLibrary.rating == 0 ? " tag-secondary" : isInLibrary.rating > 0 && isInLibrary.rating <= 4 ? " tag-danger" : isInLibrary.rating > 4 && isInLibrary.rating <= 7 ? " tag-warning" : isInLibrary.rating == 10 ? " tag-primary" : " tag-success"}`}>
                                                             {isInLibrary.rating}
                                                         </div>
                                                 </div>

@@ -46,8 +46,8 @@ const NavbarMobile = () => {
                         </div>
                     </NavLink>
                     <NavLink
-                        to="/logs"
-                        className={`navbar-mob-item ${pathname === "/logs" ? " active" : ""}`}
+                        to="/plays"
+                        className={`navbar-mob-item ${pathname === "/plays" ? " active" : ""}`}
                     >
                         <span className="navbar-mob-item-icon">
                             {noteIcon}

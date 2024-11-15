@@ -117,8 +117,8 @@ const Navbar = () => {
                     />
                     <Button
                         // muted={pathname !== '/library'}
-                        to="/logs"
-                        label="Logs"
+                        to="/plays"
+                        label="Plays"
                         variant="text"
                         icon={noteIcon}
                         type="secondary"

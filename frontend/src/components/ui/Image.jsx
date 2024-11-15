@@ -8,6 +8,7 @@ const Image = ({
     ignoreErr,
     classNameContainer,
     classNameImg,
+    style
 }) => {
     const [loading, setLoading] = useState(false);
     const [imgErr, setImgErr] = useState(false);
@@ -38,6 +39,7 @@ const Image = ({
         <>
         <div 
             className={`image${imgErr ? ' img-error' : ''}${loading ? ' image-loading' : ''}${classNameContainer ? ` ${classNameContainer}` : ''}`}
+            style={style}
         >
             <img
                 className={`${contain ? ' image-contain' : ''}${classNameImg ? ` ${classNameImg}` : ''}`}

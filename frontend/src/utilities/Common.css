@@ -879,8 +879,11 @@
 .bg-translucent {
     background-color: var(--color-translucent);
 }
+.bg-translucent-3 {
+    background-color: var(--color-translucent-3);
+}
 .bg-translucent-blur {
-    background-color: var(--color-translucent);
+    background-color: var(--color-translucent-3);
     backdrop-filter: blur(5px);
 }
 .object-cover {
@@ -891,6 +894,9 @@
 }
 .object-top {
     object-position: top;
+}
+.object-center {
+    object-position: center;
 }
 
 .hover::before {

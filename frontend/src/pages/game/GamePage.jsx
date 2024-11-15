@@ -94,17 +94,17 @@ const GamePage = () => {
                                                 <div className="fs-24 bold">
                                                     {gameById.name} ({gameById.yearPublished})
                                                 </div>
-                                                <div className="flex gap-2 pt-2">
-                                                    <div className="flex flex-wrap gap-1 text-nowrap flex-sm-col tag-secondary px-2 py-1 border-radius-sm">
+                                                <div className="flex gap-2 pt-2 flex-wrap">
+                                                    <div className="flex gap-1 text-nowrap tag-secondary px-2 py-1 border-radius-sm">
                                                         Weight: <strong>{gameById.gameWeight.toFixed(1)}<span className="weight-500 text-secondary">/5</span></strong>
                                                     </div>
-                                                    <div className="flex flex-wrap gap-1 text-nowrap flex-sm-col tag-secondary px-2 py-1 border-radius-sm">
+                                                    <div className="flex gap-1 text-nowrap tag-secondary px-2 py-1 border-radius-sm">
                                                         Players: <strong>{gameById.MinPlayers}{gameById.MaxPlayers > gameById.MinPlayers ? `-${gameById.MaxPlayers}` : ''}</strong>
                                                     </div>
-                                                    <div className="flex flex-wrap gap-1 text-nowrap flex-sm-col tag-secondary px-2 py-1 border-radius-sm">
+                                                    <div className="flex gap-1 text-nowrap tag-secondary px-2 py-1 border-radius-sm">
                                                         Playtime: <strong>{gameById.ComMinPlaytime}{gameById.ComMaxPlaytime !== gameById.ComMinPlaytime ? `-${gameById.ComMinPlaytime}` : ""} Min</strong>
                                                     </div>
-                                                    <div className="flex flex-wrap gap-1 text-nowrap flex-sm-col tag-secondary px-2 py-1 border-radius-sm">
+                                                    <div className="flex gap-1 text-nowrap tag-secondary px-2 py-1 border-radius-sm">
                                                         Age: <strong>{gameById.mfgAgeRec}+</strong>
                                                     </div>
                                                 </div>

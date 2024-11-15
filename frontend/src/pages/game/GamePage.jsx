@@ -72,7 +72,7 @@ const GamePage = () => {
                     <div className="container z-1 px-sm-3">
                             <div className="pt-6 flex-1 bg-main mb-6">
                                 <div className="flex gap-4 flex-sm-col">
-                                    <div className="flex flex-col justify-center align-sm-center">
+                                    <div className="flex flex-col align-sm-center justify-sm">
                                         <Image
                                             img={gameById.thumbnail}
                                             alt={gameById.name}

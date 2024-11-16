@@ -20,6 +20,8 @@ const Avatar = ({
     rounded,
     icon,
     status,
+    width,
+    height,
     bg,
     avatarColor,
     dataTooltipContent
@@ -114,6 +116,8 @@ const Avatar = ({
         <div 
             className={`avatar text-decoration-none$${defaultColor ? " avatar-default" : ""}${imgErr ? ' img-error' : ''}${(loading && !noLoader) ? ' avatar-loading' : ''}${size ? ` avatar-${size}` : ''}${sizeSm ? ` avatar-sm-${sizeSm}` : ''}${borderRadiusNone ? ' avatar-border-radius-none' : ''}${bigDisplay ? " pointer" : ""}${rounded ? ' avatar-rounded' : ''}${status ? ` avatar-status avatar-status-${status}` : ''}`}
             style={{
+                width: width ? `${width}px` : '',
+                height: height ? `${height}px` : '',
                 background: img && !imgErr ?  'transparent' : bg ? bg : avatarColor ? `var(--peer-avatar-${avatarColor % 21})`: `var(--peer-avatar-${((name?.length || 1) + 15) % 21})`,
             }}
             data-tooltip-id={`${dataTooltipContent ? 'tooltip-default' : ''}`}

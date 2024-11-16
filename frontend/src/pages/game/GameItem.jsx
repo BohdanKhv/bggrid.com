@@ -1,6 +1,6 @@
 import React, { useMemo } from 'react'
-import { Button, IconButton, Image } from '../../components'
-import { checkIcon, largePlusIcon, patchPlusIcon } from '../../assets/img/icons'
+import { Button, Icon, IconButton, Image } from '../../components'
+import { checkIcon, clockIcon, largePlusIcon, libraryIcon, patchPlusIcon, usersIcon, weightIcon } from '../../assets/img/icons'
 import { Link, useSearchParams } from 'react-router-dom'
 import { useSelector } from 'react-redux'
 
@@ -16,20 +16,32 @@ const GameItem = ({item}) => {
     return (
         <div className={`flex flex-col border-radius transition-duration h-100 pos-relative`}
         >
-            <div className={`pointer ${window.innerWidth > 800 ? " display-on-hover-parent transition-slide-right-hover-parent" : ""}`}
+            <div className={`pointer ${window.innerWidth > 800 && !isInLibrary ? " display-on-hover-parent transition-slide-right-hover-parent" : ""}`}
                 onClick={() => {
                     searchParams.set("addGame", item._id)
                     setSearchParams(searchParams)
                 }}>
-                <IconButton
-                    icon={isInLibrary ? checkIcon : largePlusIcon}
-                    variant="filled"
-                    type={isInLibrary ? "success" : "secondary"}
-                    borderRadius="md"
-                    size="xs"
-                    className="pos-absolute top-0 right-0 m-2 box-shadow-lg display-on-hover border-none transition-slide-right-hover outline outline-w-2 outline-white"
-                    dataTooltipContent={isInLibrary ? "In library" : "Add to library"}
-                />
+                {isInLibrary ?
+                    <Button
+                        label="In Library"
+                        icon={libraryIcon}
+                        variant="filled"
+                        borderRadius="sm"
+                        size="xs"
+                        className="pos-absolute top-0 right-0 px-2 m-2 box-shadow-lg display-on-hover border-none transition-slide-right-hover outline-white"
+                        dataTooltipContent={isInLibrary ? "In library" : "Add to library"}
+                    />
+                :
+                    <IconButton
+                        icon={largePlusIcon}
+                        variant="filled"
+                        type={isInLibrary ? "success" : "secondary"}
+                        borderRadius="md"
+                        size="xs"
+                        className="pos-absolute top-0 right-0 m-2 box-shadow-lg display-on-hover border-none transition-slide-right-hover outline-white"
+                        dataTooltipContent={isInLibrary ? "In library" : "Add to library"}
+                    />
+                }
                 <Image
                     alt={item.name}
                     img={item.thumbnail}
@@ -39,40 +51,20 @@ const GameItem = ({item}) => {
             </div>
             <Link
                 to={`/g/${item._id}`}
-                className="flex flex-col gap-1 pb-4 pointer"
+                className="flex flex-col gap-4 pb-4 pointer"
             >
-{/*                 
-                <div className="flex gap-2 pt-2 flex-wrap">
-                                                    <div className="flex gap-1 text-nowrap tag-secondary px-2 py-1 border-radius-sm">
-                                                        Weight: <strong>{gameById.gameWeight.toFixed(1)}<span className="weight-500 text-secondary">/5</span></strong>
-                                                    </div>
-                                                    <div className="flex gap-1 text-nowrap tag-secondary px-2 py-1 border-radius-sm">
-                                                        Players: <strong>{gameById.MinPlayers}{gameById.MaxPlayers > gameById.MinPlayers ? `-${gameById.MaxPlayers}` : ''}</strong>
-                                                    </div>
-                                                    <div className="flex gap-1 text-nowrap tag-secondary px-2 py-1 border-radius-sm">
-                                                        Playtime: <strong>{gameById.ComMinPlaytime}{gameById.ComMaxPlaytime !== gameById.ComMinPlaytime ? `-${gameById.ComMinPlaytime}` : ""} Min</strong>
-                                                    </div>
-                                                    <div className="flex gap-1 text-nowrap tag-secondary px-2 py-1 border-radius-sm">
-                                                        Age: <strong>{gameById.mfgAgeRec}+</strong>
-                                                    </div>
-                                                </div> */}
-                <div className="bold text-secondary fs-14 px-2 pt-2">{item.yearPublished}</div>
-                <div className="fs-16 px-2 weight-600 text-ellipsis-2">{item.name}</div>
-                {isInLibrary ?
-                    <div className="flex gap-2 px-2 pt-2">
-                        {isInLibrary?.tags?.length > 0 ?
-                            isInLibrary.tags.map(tag => (
-                                <div key={tag} className="fs-12 weight-600 text-secondary px-2 py-1 tag-secondary border-radius mr-1">
-                                    {tag}
-                                </div>
-                            ))
-                        : 
-                        <div className="fs-12 weight-600 text-secondary px-2 py-1 tag-secondary border-radius">
-                            In Library
-                        </div>
-                        }
+                <div className="flex gap-2 pt-3 flex-wrap">
+                    <div className="flex fs-12 gap-1 text-nowrap tag-secondary px-2 py-1 border-radius-sm">
+                        <Icon icon={weightIcon}/> <strong>{item.gameWeight.toFixed(1)}<span className="weight-500 text-secondary">/5</span></strong>
                     </div>
-                : null}
+                    <div className="flex fs-12 gap-1 text-nowrap tag-secondary px-2 py-1 border-radius-sm">
+                        <Icon icon={usersIcon}/> <strong>{item.MinPlayers}{item.MaxPlayers > item.MinPlayers ? `-${item.MaxPlayers}` : ''}</strong>
+                    </div>
+                    <div className="flex fs-12 gap-1 text-nowrap tag-secondary px-2 py-1 border-radius-sm">
+                        <Icon icon={clockIcon}/> <strong>{item.ComMinPlaytime}{item.ComMaxPlaytime !== item.ComMinPlaytime ? `-${item.ComMaxPlaytime}` : ""} Min</strong>
+                    </div>
+                </div>
+                <div className="fs-16 px-2 weight-600 text-ellipsis-2">{item.name} <span className="fs-12 text-secondary">({item.yearPublished})</span></div>
                 {/* <div className="fs-14 px-2 text-ellipsis-2">
                     {item.description}
                 </div> */}

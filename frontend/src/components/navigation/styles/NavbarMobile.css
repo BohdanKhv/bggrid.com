@@ -5,7 +5,7 @@
     top: auto;
     right: auto;
     border-right: none;
-    border-top: var(--border);
+    /* border-top: var(--border); */
     justify-content: space-around;
     bottom: 0;
     flex-direction: row;

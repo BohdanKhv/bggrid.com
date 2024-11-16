@@ -22,7 +22,7 @@ const Items = () => {
             />
         :
         <>
-            <div className="grid flex-wrap animation-slide-in h-fit-content gap-4 grid-xl-cols-5 grid-lg-cols-4 grid-md-cols-3 grid-sm-cols-2 grid-cols-5">
+            <div className="grid flex-wrap animation-slide-in h-fit-content gap-4 grid-xl-cols-5 grid-lg-cols-4 grid-md-cols-3 grid-sm-cols-2 grid-cols-4">
                 {games.map((i) => (
                     <GameItem
                         key={i._id}
@@ -320,7 +320,7 @@ const SearchPage = () => {
                                                     smSize="lg"
                                                     label={`${type.icon} ${type.type}`}
                                                     variant={temp.type?.toLocaleLowerCase() === type.type?.toLocaleLowerCase() ? "filled" : "outline"}
-                                                    type="primary"
+                                                    type="secondary"
                                                     className={`text-capitalize justify-start clickable`}
                                                 />
                                             ))}
@@ -339,7 +339,7 @@ const SearchPage = () => {
                                             setSearchParams(searchParams.toString())
                                         }}
                                     >
-                                        <div className="grid grid-cols-2 gap-2">
+                                        <div className="flex flex-wrap gap-2 w-max-300-px">
                                             {mechanicsEnum.map((m) => (
                                                 <Button
                                                     key={m}
@@ -353,7 +353,7 @@ const SearchPage = () => {
                                                     smSize="lg"
                                                     label={`${m}`}
                                                     variant={temp.mechanics.includes(m) ? "filled" : "outline"}
-                                                    type="primary"
+                                                    type="secondary"
                                                     className={`text-capitalize justify-start clickable`}
                                                 />
                                             ))}
@@ -375,18 +375,18 @@ const SearchPage = () => {
                                         <div className="grid grid-cols-2 gap-2">
                                             {themesEnum.map((theme) => (
                                                 <Button
-                                                    key={theme}
+                                                    key={theme.theme}
                                                     onClick={() => {
-                                                        if (temp.themes.includes(theme)) {
-                                                            setTemp({ ...temp, themes: temp.themes.filter((theme) => theme !== theme) })
+                                                        if (temp.themes.includes(theme.theme)) {
+                                                            setTemp({ ...temp, themes: temp.themes.filter((theme) => theme !== theme.theme) })
                                                         } else {
-                                                            setTemp({ ...temp, themes: [...temp.themes, theme] })
+                                                            setTemp({ ...temp, themes: [...temp.themes, theme.theme] })
                                                         }
                                                     }}
                                                     smSize="lg"
-                                                    label={`${theme}`}
-                                                    variant={temp.themes.includes(theme) ? "filled" : "outline"}
-                                                    type="primary"
+                                                    label={`${theme.theme}`}
+                                                    variant={temp.themes.includes(theme.theme) ? "filled" : "outline"}
+                                                    type="secondary"
                                                     className={`text-capitalize justify-start clickable`}
                                                 />
                                             ))}
@@ -415,7 +415,7 @@ const SearchPage = () => {
                                                     smSize="lg"
                                                     label={`${p}+`}
                                                     variant={temp.players?.toLocaleLowerCase() === p?.toLocaleLowerCase() ? "filled" : "outline"}
-                                                    type="primary"
+                                                    type="secondary"
                                                     className={`text-capitalize justify-start clickable`}
                                                 />
                                             ))}

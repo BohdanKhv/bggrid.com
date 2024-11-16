@@ -46,18 +46,8 @@ const HorizontalScroll = ({children, fixed, noControllers, className, contentCla
         <div className={`horizontal-scroll${fixed ? ' horizontal-scroll-fixed' : ''}${className ? ' ' + className : ''}`}
             ref={HorizontalScrollParentRef}
         >
-            {!noControllers && scrollLeft > 10 ?
-                <div className="horizontal-scroll-prev">
-                    <IconButton
-                        icon={leftArrowSmIcon}
-                        type="secondary"
-                        className="horizontal-scroll-next-button"
-                        variant="link"
-                        onClick={() => {
-                            setScrollLeft(HorizontalScrollRef.current.scrollLeft < 250 ? 0 : HorizontalScrollRef.current.scrollLeft - 250)
-                        }}
-                    />
-                </div>
+            {scrollLeft > 10 ?
+                <div className="horizontal-scroll-prev"/>
             : null}
             <div 
                 className={`horizontal-scroll-flex${contentClassName ? ' ' + contentClassName : ''}`}
@@ -68,18 +58,8 @@ const HorizontalScroll = ({children, fixed, noControllers, className, contentCla
             >
                 {children}
             </div>
-            { !noControllers && isScrollNeeded && scrollLeft < HorizontalScrollRef.current.scrollWidth - HorizontalScrollRef.current.clientWidth - 10 ?
-                <div className="horizontal-scroll-next">
-                    <IconButton
-                        icon={rightArrowIcon}
-                        type="secondary"
-                        variant="link"
-                        className="horizontal-scroll-next-button"
-                        onClick={() => {
-                            setScrollLeft(HorizontalScrollRef.current.scrollLeft + 250)
-                        }}
-                    />
-                </div>
+            {isScrollNeeded && scrollLeft < HorizontalScrollRef.current.scrollWidth - HorizontalScrollRef.current.clientWidth - 10 ?
+                <div className="horizontal-scroll-next"/>
             : null}
         </div>
     )

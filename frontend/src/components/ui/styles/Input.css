@@ -42,8 +42,8 @@ select.input-input::-ms-expand {
 .input:focus-within select,
 .input-search-opened .input-input,
 .input-focused .input-input {
-    border-color: rgba(var(--color-general-primary-bg),1)!important;
-    outline-color: rgba(var(--color-general-primary-bg), 0.5)!important;
+    border-color: rgba(var(--color-general-secondary-border),1)!important;
+    outline-color: rgba(var(--color-general-secondary-border), 0.5)!important;
     box-shadow: var(--box-shadow-xs);
 }
 .input-readonly .input-input,
@@ -151,7 +151,7 @@ select.input-input::-ms-expand {
 } */
 .input-search-opened::before,
 .input-focused::before {
-    outline-color: var(--color-primary-bg-hover);
+    outline-color: var(--color-secondary-bg-hover);
 }
 .input-error::before {
     outline-color: rgb(var(--color-general-danger-border));
@@ -374,12 +374,12 @@ select.input-input::-ms-expand {
     background-color: var(--color-main);
 }
 .input-input-dropdown {
-    color: var(--color-primary);
+    color: var(--color-secondary);
     padding: 12px 16px;
     width: 100%;
 }
 .input-search-opened .input-input-dropdown {
-    border-color: var(--color-primary-bg-hover);
+    border-color: var(--color-secondary-bg-hover);
 }
 
 .input-sign {
@@ -431,7 +431,7 @@ select.input-input::-ms-expand {
         flex-direction: column;
     }
     .input-focused input {
-        /* background-color: var(--color-primary-bg-hover)!important; */
+        /* background-color: var(--color-secondary-bg-hover)!important; */
     }
     .input-label {
         flex-grow: 1;

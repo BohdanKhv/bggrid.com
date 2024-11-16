@@ -41,6 +41,21 @@ const GameItem = ({item}) => {
                 to={`/g/${item._id}`}
                 className="flex flex-col gap-1 pb-4 pointer"
             >
+{/*                 
+                <div className="flex gap-2 pt-2 flex-wrap">
+                                                    <div className="flex gap-1 text-nowrap tag-secondary px-2 py-1 border-radius-sm">
+                                                        Weight: <strong>{gameById.gameWeight.toFixed(1)}<span className="weight-500 text-secondary">/5</span></strong>
+                                                    </div>
+                                                    <div className="flex gap-1 text-nowrap tag-secondary px-2 py-1 border-radius-sm">
+                                                        Players: <strong>{gameById.MinPlayers}{gameById.MaxPlayers > gameById.MinPlayers ? `-${gameById.MaxPlayers}` : ''}</strong>
+                                                    </div>
+                                                    <div className="flex gap-1 text-nowrap tag-secondary px-2 py-1 border-radius-sm">
+                                                        Playtime: <strong>{gameById.ComMinPlaytime}{gameById.ComMaxPlaytime !== gameById.ComMinPlaytime ? `-${gameById.ComMinPlaytime}` : ""} Min</strong>
+                                                    </div>
+                                                    <div className="flex gap-1 text-nowrap tag-secondary px-2 py-1 border-radius-sm">
+                                                        Age: <strong>{gameById.mfgAgeRec}+</strong>
+                                                    </div>
+                                                </div> */}
                 <div className="bold text-secondary fs-14 px-2 pt-2">{item.yearPublished}</div>
                 <div className="fs-16 px-2 weight-600 text-ellipsis-2">{item.name}</div>
                 {isInLibrary ?

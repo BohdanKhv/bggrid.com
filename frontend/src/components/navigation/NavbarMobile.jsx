@@ -42,7 +42,7 @@ const NavbarMobile = () => {
                         to={`/search`}
                     >
                         <div className="border flex justify-center align-center btn btn-default btn-secondary">
-                            {largePlusIcon}
+                            {searchIcon}
                         </div>
                     </NavLink>
                     <NavLink

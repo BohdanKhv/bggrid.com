@@ -118,7 +118,6 @@ const SearchPage = () => {
                                         value={searchValue}
                                         clearable
                                         onChange={(e) => setSearchValue(e.target.value)}
-                                        autoFocus
                                         onSubmit={() => {
                                             if (searchValue === '') searchParams.delete('s')
                                             else searchParams.set('s', searchValue)

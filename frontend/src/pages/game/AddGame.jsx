@@ -226,7 +226,7 @@ const AddGame = () => {
                                             }
                                         }}
                                         variant={tags.includes(i) ? "filled" : "outline"}
-                                        type="primary"
+                                        type="secondary"
                                     />
                                 ))}
                             </div>

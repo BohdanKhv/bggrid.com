@@ -57,20 +57,7 @@ const Header = () => {
         }
     }, [])
 
-    const highlightText = (text, query) => {
-        if (!query) {
-            return text;
-        }
-    
-        const regex = new RegExp(`(${query})`, 'gi');
-        const parts = text.split(regex);
-    
-        return parts.map((part, index) =>
-            regex.test(part) ? <strong key={index} className="text-primary">{part}</strong> : part
-        );
-    };
-
-    if (pathname === '/search' || pathname === '/library' || pathname === '/community' || pathname.startsWith('/g/')) return
+    if (pathname === '/search' || pathname === '/library' || pathname === '/community') return
 
     return (
         <>
@@ -80,7 +67,7 @@ const Header = () => {
                         <div className="container">
                             <div className="flex justify-between w-100 align-center gap-2 gap-sm-3">
                                 <div className={`flex justify-start gap-3 align-center gap-sm-3`}>
-                                    {pathname === '/' || pathname === '/login' || pathname === '/register' || pathname === '/forgot-password' || pathname === '/reset-password' ?
+                                    {pathname === '/' || pathname === '/login' || pathname === '/register' || pathname === '/forgot-password' || pathname === '/reset-password' || pathname.startsWith('/g/') ?
                                     <Link
                                         to="/"
                                         className="flex align-center pointer">

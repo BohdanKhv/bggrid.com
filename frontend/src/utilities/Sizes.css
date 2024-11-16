@@ -1136,6 +1136,28 @@ margin-right: auto;
         padding-left: 1rem!important;
     }
 
+    .pe-sm-0 {
+        padding-right: 0;
+    }
+    .pe-sm-1 {
+        padding-right: 0.25rem;
+    }
+    .pe-sm-2 {
+        padding-right: 0.5rem;
+    }
+    .pe-sm-3 {
+        padding-right: 0.75rem;
+    }
+    .pe-sm-4 {
+        padding-right: 1rem;
+    }
+    .pe-sm-5 {
+        padding-right: 1.5rem;
+    }
+    .pe-sm-6 {
+        padding-right: 3rem;
+    }
+
     .py-sm-0 {
         padding-top: 0!important;
         padding-bottom: 0!important;

@@ -166,7 +166,7 @@ a.btn-lg {
 .btn.btn-secondary {
     color: var(--text-dark);
     background-color: rgb(var(--color-general-secondary-bg));
-    border-color: rgb(var(--color-general-secondary-bg))!important;
+    border-color: rgb(var(--color-general-secondary-bg));
 }
 .btn.btn-custom {
     border-color: var(--color-custom-border)!important;

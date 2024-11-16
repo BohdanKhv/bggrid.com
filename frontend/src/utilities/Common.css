@@ -1108,6 +1108,9 @@
 .hover-hue:hover {
     filter: hue-rotate(45deg);
 }
+.blur-20 {
+    filter: blur(20px);
+}
 
 .top-fade-effect::after {
     content: "";

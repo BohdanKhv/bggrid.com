@@ -166,8 +166,8 @@ a.icon-btn {
     border-color: rgb(var(--color-general-success-bg));
 }
 /* Icon */
-.icon-btn.icon-btn-primary,
-.icon-btn.icon-btn-primary svg {
+.icon-btn:hover.icon-btn-primary,
+.icon-btn:hover.icon-btn-primary svg {
     fill: rgb(var(--color-general-primary-text));
     color: rgb(var(--color-general-primary-text));
 }

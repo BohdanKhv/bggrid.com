@@ -33,11 +33,11 @@ const InputSearch = ({
 }) => {
     
 
-    const [focus, setFocus] = useState(false)
+    const [focus, setFocus] = useState(autoFocus || false)
     const inputRef = useRef(null)
     const inputParentRef = useRef(null)
     const inputSearchRef = useRef(null)
-    const [searchOpen, setSearchOpen] = useState(false)
+    const [searchOpen, setSearchOpen] = useState(autoFocus || false)
     
     const [offsetTop, setOffsetTop] = useState(0)
 

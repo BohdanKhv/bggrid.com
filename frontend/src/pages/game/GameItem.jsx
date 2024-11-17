@@ -14,32 +14,38 @@ const GameItem = ({item}) => {
     }, [library, item])
 
     return (
-        <div className={`flex flex-col border-radius transition-duration h-100 pos-relative`}
+        <Link className={`flex flex-col border-radius transition-duration pos-relative bg-secondary-hover p-2 mb-4 m-sm-0 ${window.innerWidth > 800 && !isInLibrary ? " display-on-hover-parent transition-slide-right-hover-parent" : ""}`}
+        to={`/g/${item._id}`}
         >
-            <div className={`pointer ${window.innerWidth > 800 && !isInLibrary ? " display-on-hover-parent transition-slide-right-hover-parent" : ""}`}
-                onClick={() => {
-                    searchParams.set("addGame", item._id)
-                    setSearchParams(searchParams)
-                }}>
+            <div className={`pointer`}>
                 {isInLibrary ?
                     <Button
                         label="In Library"
                         icon={libraryIcon}
                         variant="filled"
                         borderRadius="sm"
-                        size="xs"
-                        className="pos-absolute top-0 right-0 px-2 m-2 box-shadow-lg display-on-hover border-none transition-slide-right-hover outline-white"
+                        className="pos-absolute top-0 right-0 px-2 m-3 box-shadow-lg display-on-hover border-none transition-slide-right-hover outline-white"
                         dataTooltipContent={isInLibrary ? "In library" : "Add to library"}
+                        onClick={(e) => {
+                            e.preventDefault()
+                            searchParams.set("addGame", item._id)
+                            setSearchParams(searchParams)
+                        }}
                     />
                 :
-                    <IconButton
+                    <Button
                         icon={largePlusIcon}
                         variant="filled"
+                        label="Add"
                         type={isInLibrary ? "success" : "secondary"}
                         borderRadius="md"
-                        size="xs"
-                        className="pos-absolute top-0 right-0 m-2 box-shadow-lg display-on-hover border-none transition-slide-right-hover outline-white"
+                        className="pos-absolute top-0 right-0 m-3 box-shadow-lg display-on-hover border-none transition-slide-right-hover outline-white"
                         dataTooltipContent={isInLibrary ? "In library" : "Add to library"}
+                        onClick={(e) => {
+                            e.preventDefault()
+                            searchParams.set("addGame", item._id)
+                            setSearchParams(searchParams)
+                        }}
                     />
                 }
                 <Image
@@ -49,11 +55,12 @@ const GameItem = ({item}) => {
                     classNameContainer="border-radius bg-secondary w-100 bg-hover-after flex-1 h-sm-set-250-px h-set-250-px"
                 />
             </div>
-            <Link
-                to={`/g/${item._id}`}
-                className="flex flex-col gap-4 pb-4 pointer"
+            <div
+                className="flex flex-col pb-4 pointer"
             >
-                <div className="flex gap-2 pt-3 flex-wrap">
+                <div className="fs-12 px-2 pt-2 weight-600 text-secondary">({item.yearPublished})</div>
+                <div className="fs-16 pt-1 px-2 weight-600 text-ellipsis-2">{item.name}</div>
+                <div className="flex gap-2 pt-2 flex-wrap">
                     <div className="flex fs-12 gap-1 text-nowrap tag-secondary px-2 py-1 border-radius-sm">
                         <Icon icon={weightIcon}/> <strong>{item.gameWeight.toFixed(1)}<span className="weight-500 text-secondary">/5</span></strong>
                     </div>
@@ -64,12 +71,11 @@ const GameItem = ({item}) => {
                         <Icon icon={clockIcon}/> <strong>{item.ComMinPlaytime}{item.ComMaxPlaytime !== item.ComMinPlaytime ? `-${item.ComMaxPlaytime}` : ""} Min</strong>
                     </div>
                 </div>
-                <div className="fs-16 px-2 weight-600 text-ellipsis-2">{item.name} <span className="fs-12 text-secondary">({item.yearPublished})</span></div>
                 {/* <div className="fs-14 px-2 text-ellipsis-2">
                     {item.description}
                 </div> */}
-            </Link>
-        </div>
+            </div>
+        </Link>
     )
 }
 

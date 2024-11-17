@@ -150,7 +150,7 @@ a.icon-btn {
     border-color: rgb(var(--color-general-primary-bg));
 }
 .icon-btn.icon-btn-secondary {
-    background-color: var(--color-main);
+    background-color: var(--color-secondary);
     border-color: var(--color-border);
 }
 .icon-btn.icon-btn-danger {

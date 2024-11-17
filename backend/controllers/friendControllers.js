@@ -12,30 +12,8 @@ const getMyFriends = async (req, res) => {
                 { user: req.user._id },
                 { friend: req.user._id }
             ],
-            pending: false
         })
         .populate('friend', 'username');
-
-        res.status(200).json({
-            data: friends,
-        });
-    } catch (error) {
-        console.error(error);
-        res.status(500).json({ msg: 'Server error' });
-    }
-}
-
-
-// @desc    Get my friend requests
-// @route   GET /api/friends/requests
-// @access  Private
-const getMyFriendRequests = async (req, res) => {
-    try {
-        const friends = await Friend.find({
-            friend: req.user._id,
-            pending: true
-        })
-        .populate('user', 'username');
 
         res.status(200).json({
             data: friends,
@@ -73,7 +51,7 @@ const sendFriendRequest = async (req, res) => {
 
         const newFriend = new Friend({
             user: req.user._id,
-            friend: req.params.userId,
+            friend: user,
             pending: true
         });
 
@@ -176,7 +154,6 @@ const removeFriend = async (req, res) => {
 
 module.exports = {
     getMyFriends,
-    getMyFriendRequests,
     sendFriendRequest,
     acceptFriendRequest,
     declineFriendRequest,

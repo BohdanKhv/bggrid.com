@@ -3,7 +3,6 @@ const router = express.Router();
 const { protect, loggedIn } = require('../middleware/authMiddleware');
 const {
     getMyFriends,
-    getMyFriendRequests,
     sendFriendRequest,
     acceptFriendRequest,
     declineFriendRequest,
@@ -13,7 +12,6 @@ const {
 
 router
     .get('/', protect, getMyFriends)
-    .get('/requests', protect, getMyFriendRequests)
     .post('/send/:userId', protect, sendFriendRequest)
     .post('/accept/:inviteId', protect, acceptFriendRequest)
     .post('/decline/:inviteId', protect, declineFriendRequest)

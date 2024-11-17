@@ -53,7 +53,7 @@ const LibraryItem = ({ item }) => {
                             icon={diceIcon}
                             variant="primary"
                             type="filled"
-                            className="display-on-hover flex-grow-1 display-on-hover-sm-block"
+                            className="display-on-hover flex-grow-sm-1 display-on-hover-sm-block"
                             onClick={(e) => {
                                 e.stopPropagation()
                                 searchParams.set('playGame', item.game._id)
@@ -239,6 +239,20 @@ const LibraryPage = () => {
                                 })
                                 .map((item) =>
                                     <LibraryItem key={item._id} item={item} />
+                                )}
+                                
+                                {library
+                                .filter((item) => item.game.name.toLowerCase().includes(searchValue.toLowerCase()))
+                                .filter((item) => {
+                                    if (tags.length === 0) return true
+                                    return tags.some((tag) => item.tags.includes(tag))
+                                })
+                                .length === 0 && (
+                                    <ErrorInfo
+                                        icon={gamesIcon}
+                                        label="No games found"
+                                        secondary="Try searching for something else"
+                                    />
                                 )}
                                 </div>
                             ) : isLoading ? (

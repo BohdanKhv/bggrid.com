@@ -3,23 +3,21 @@ const router = express.Router();
 const { protect, loggedIn } = require('../middleware/authMiddleware');
 const {
     getMyFriends,
-    getFriendRequests,
+    getMyFriendRequests,
     sendFriendRequest,
     acceptFriendRequest,
     declineFriendRequest,
     removeFriend,
-    searchUsers,
 } = require('../controllers/friendControllers.js');
 
 
 router
     .get('/', protect, getMyFriends)
-    .get('/requests', protect, getFriendRequests)
-    .post('/send', protect, sendFriendRequest)
-    .post('/accept', protect, acceptFriendRequest)
-    .post('/decline', protect, declineFriendRequest)
-    .post('/remove', protect, removeFriend)
-    .get('/search', protect, searchUsers)
+    .get('/requests', protect, getMyFriendRequests)
+    .post('/send/:userId', protect, sendFriendRequest)
+    .post('/accept/:inviteId', protect, acceptFriendRequest)
+    .post('/decline/:inviteId', protect, declineFriendRequest)
+    .post('/remove/:inviteId', protect, removeFriend)
 
 
 module.exports = router;

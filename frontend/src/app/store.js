@@ -5,6 +5,7 @@ import gameReducer from '../features/game/gameSlice';
 import libraryReducer from '../features/library/librarySlice';
 import reviewReducer from '../features/review/reviewSlice';
 import playReducer from '../features/play/playSlice';
+import userReducer from '../features/user/userSlice';
 import friendReducer from '../features/friend/friendSlice';
 import notificationReducer from '../features/notification/notificationSlice';
 
@@ -18,6 +19,7 @@ export const store = configureStore({
         library: libraryReducer,
         review: reviewReducer,
         play: playReducer,
+        user: userReducer,
         friends: friendReducer,
         notification: notificationReducer,
     },

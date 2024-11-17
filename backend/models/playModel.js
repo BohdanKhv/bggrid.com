@@ -4,8 +4,7 @@ const mongoosePaginate = require('mongoose-paginate-v2');
 const playSchema = new mongoose.Schema({
     game: { type: mongoose.Schema.Types.ObjectId, ref: 'Game' },
     user: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
-    pros: { type: String, required: false },
-    cons: { type: String, required: false },
+    comment: { type: String, required: false },
     playTimeMinutes: { type: Number, required: false },
     players: [{
         user: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: false }, // in case you tagged a user

@@ -97,7 +97,7 @@ const AddGame = () => {
             : gameCard ?
             <>
                 <div className="flex justify-between align-center">
-                    <div className="flex gap-4 flex-1 flex-sm-col">
+                    <div className="flex gap-4 gap-sm-6 flex-1 flex-sm-col">
                         {window.innerWidth < 800 ?
                             <div>
                                 <div className="flex gap-3">
@@ -106,7 +106,7 @@ const AddGame = () => {
                                             img={gameCard?.thumbnail}
                                             alt={gameCard?.name}
                                             classNameImg="object-cover border-radius"
-                                            classNameContainer="border-radius bg-secondary h-auto w-sm-fit-content h-set-130-px"
+                                            classNameContainer="border-radius bg-secondary h-auto w-sm-set-100-px h-set-100-px"
                                         />
                                     </div>
                                     <div className="flex-1 flex flex-col">
@@ -126,14 +126,16 @@ const AddGame = () => {
                                                 variant="text"
                                             />
                                         </div>
-                                        <Button
-                                            label="Game Page"
-                                            variant="outline"
-                                            iconRight={linkIcon}
-                                            type="secondary"
-                                            target="_blank"
-                                            to={`/g/${gameCard?._id}`}
-                                        />
+                                        <div className="flex">
+                                            <Button
+                                                label="Game Page"
+                                                variant="outline"
+                                                iconRight={linkIcon}
+                                                type="secondary"
+                                                target="_blank"
+                                                to={`/g/${gameCard?._id}`}
+                                            />
+                                        </div>
                                     </div>
                                 </div>
                             </div>

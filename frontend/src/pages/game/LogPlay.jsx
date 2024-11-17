@@ -8,7 +8,7 @@ import { tagsEnum } from "../../assets/constants"
 // import { playGame } from "../../features/library/librarySlice"
 
 
-const PlayGame = () => {
+const LogPlay = () => {
     const dispatch = useDispatch()
 
     const [rating, setRating] = useState(0)
@@ -27,8 +27,8 @@ const PlayGame = () => {
 
     useEffect(() => {
         let promise;
-        if (searchParam.get("playGame")) {
-            promise = dispatch(getGameCard(searchParam.get("playGame")))
+        if (searchParam.get("logPlay")) {
+            promise = dispatch(getGameCard(searchParam.get("logPlay")))
         }
 
         return () => {
@@ -37,11 +37,11 @@ const PlayGame = () => {
             setTags([])
             setComment('')
         }
-    }, [searchParam.get("playGame")])
+    }, [searchParam.get("logPlay")])
 
     useEffect(() => {
         if (msg === 'success') {
-            searchParam.delete("playGame")
+            searchParam.delete("logPlay")
             setSearchParam(searchParam)
         }
     }, [msg])
@@ -54,7 +54,7 @@ const PlayGame = () => {
         }
     }, [gameCard, isInLibrary])
 
-    const addToLibrary = () => {
+    const onSubmit = () => {
         // dispatch(playGameToLibrary({
         //     gameId: gameCard._id,
         //     rating: rating / 10,
@@ -65,25 +65,19 @@ const PlayGame = () => {
 
     return (
         <Modal
-            modalIsOpen={searchParam.get("playGame")}
+            modalIsOpen={searchParam.get("logPlay")}
             onClickOutside={() => {
-                searchParam.delete("playGame")
+                searchParam.delete("logPlay")
                 setSearchParam(searchParam)
             }}
             headerNone
             noAction={libraryIsLoading}
-            actionBtnText={
-                isInLibrary ? "Update Library" : "Add to Library"
-            }
-            onSubmit={isInLibrary ? updateLibrary : addToLibrary}
+            actionBtnText="Log Play"
+            onSubmit={onSubmit}
             disabledAction={libraryIsLoading}
             isLoading={libraryLoadingId === `${gameCard?._id}`}
-            actionDangerBtnText={isInLibrary ? "Remove" : null}
-            onSubmitDanger={() => {
-                dispatch(removeGameFromLibrary(gameCard._id))
-            }}
         >
-            {loadingId === 'playGame' ?
+            {loadingId === 'logPlay' ?
                 <ErrorInfo isLoading />
             : gameCard ?
             <>
@@ -110,7 +104,7 @@ const PlayGame = () => {
                                             <IconButton
                                                 icon={closeIcon}
                                                 onClick={() => {
-                                                    searchParam.delete("playGame")
+                                                    searchParam.delete("logPlay")
                                                     setSearchParam(searchParam)
                                                 }}
                                                 size="lg"
@@ -158,7 +152,7 @@ const PlayGame = () => {
                                     <IconButton
                                         icon={closeIcon}
                                         onClick={() => {
-                                            searchParam.delete("playGame")
+                                            searchParam.delete("logPlay")
                                             setSearchParam(searchParam)
                                         }}
                                         variant="text"
@@ -234,4 +228,4 @@ const PlayGame = () => {
     )
 }
 
-export default PlayGame
+export default LogPlay

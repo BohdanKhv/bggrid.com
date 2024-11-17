@@ -59,7 +59,7 @@ const GameItemCol = ({item}) => {
                             className="display-on-hover display-on-hover-sm-block"
                             onClick={(e) => {
                                 e.stopPropagation()
-                                searchParams.set('playGame', item._id)
+                                searchParams.set('logPlay', item._id)
                                 setSearchParams(searchParams)
                             }}
                         />

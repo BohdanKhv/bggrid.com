@@ -53,10 +53,10 @@ const LibraryItem = ({ item }) => {
                             icon={diceIcon}
                             variant="primary"
                             type="filled"
-                            className="display-on-hover flex-grow-sm-1 display-on-hover-sm-block"
+                            className="display-on-hover display-on-hover-sm-block"
                             onClick={(e) => {
                                 e.stopPropagation()
-                                searchParams.set('playGame', item.game._id)
+                                searchParams.set('logPlay', item.game._id)
                                 setSearchParams(searchParams)
                             }}
                         />

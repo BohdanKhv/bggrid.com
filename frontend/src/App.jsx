@@ -23,6 +23,7 @@ import AddGame from "./pages/game/AddGame";
 import UserPage from "./pages/UserPage";
 import GamePage from "./pages/game/GamePage";
 import CategoryPage from "./pages/game/CategoryPage";
+import LogPlay from "./pages/game/LogPlay";
 
 function App() {
   const { user } = useSelector(state => state.auth);
@@ -53,6 +54,7 @@ function App() {
             <ErrBoundary>
               <Navbar/>
               <AddGame/>
+              <LogPlay/>
             </ErrBoundary>
           : null}
           <div className="content-body">

@@ -1286,4 +1286,9 @@
     .box-shadow-sm-none {
         box-shadow: none!important;
     }
+
+    .display-on-hover-parent .display-on-hover.display-on-hover-sm-block {
+        opacity: 1;
+        visibility: visible;
+    }
 }

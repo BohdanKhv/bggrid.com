@@ -12,7 +12,7 @@ const LibraryItem = ({ item }) => {
     const [searchParams, setSearchParams] = useSearchParams()
 
     return (
-        <div className="border-radius px-4 pt-4 transition-duration animation-slide-in">
+        <div className="border-radius px-4 pt-4 transition-duration animation-slide-in display-on-hover-parent">
             <div className="flex justify-between"
                 onClick={(e) => {
                     e.stopPropagation()
@@ -20,13 +20,13 @@ const LibraryItem = ({ item }) => {
                     setSearchParams(searchParams)
                 }}
             >
-            <div className="flex gap-3">
+            <div className="flex gap-3 flex-1">
                 <Image
                     img={item?.game?.thumbnail}
                     classNameContainer="w-set-100-px h-set-100-px border-radius"
                     classNameImg="border-radius"
                 />
-                <div className="flex flex-col justify-between">
+                <div className="flex flex-col justify-between flex-1">
                     <Link className="fs-16 weight-600 pointer text-underlined-hover"
                         to={`/g/${item.game._id}`}
                         target='_blank'
@@ -45,6 +45,18 @@ const LibraryItem = ({ item }) => {
                             onClick={(e) => {
                                 e.stopPropagation()
                                 searchParams.set('addGame', item.game._id)
+                                setSearchParams(searchParams)
+                            }}
+                        />
+                        <Button
+                            label="Log Play"
+                            icon={diceIcon}
+                            variant="primary"
+                            type="filled"
+                            className="display-on-hover flex-grow-1 display-on-hover-sm-block"
+                            onClick={(e) => {
+                                e.stopPropagation()
+                                searchParams.set('playGame', item.game._id)
                                 setSearchParams(searchParams)
                             }}
                         />

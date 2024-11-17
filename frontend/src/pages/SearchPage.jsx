@@ -113,6 +113,7 @@ const SearchPage = () => {
                             <div className="flex flex-col gap-3 px-sm-3">
                                 <div className="border flex border-radius-lg flex-1 w-max-400-px">
                                     <InputSearch
+                                        icon={searchIcon}
                                         className="flex-1 py-1"
                                         placeholder="Search"
                                         value={searchValue}
@@ -231,7 +232,7 @@ const SearchPage = () => {
                                         </div>
                                     }
                                     />
-                                    <Button
+                                    {/* <Button
                                         icon={searchIcon}
                                         variant="filled"
                                         type="primary"
@@ -244,7 +245,7 @@ const SearchPage = () => {
                                                 dispatch(setSearchHistory([...new Set([searchValue.trim(), ...searchHistory])]))
                                             }
                                         }}
-                                    />
+                                    /> */}
                                 </div>
                             </div>
                             <div className="py-3 top-0 z-3 sticky px-sm-3 bg-main">

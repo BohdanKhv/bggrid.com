@@ -102,6 +102,7 @@ const LibraryPage = () => {
                                     />
                                 }
                                 {tagsEnum
+                                .filter((tag) => tags.length === 0 || tags.includes(tag))
                                 .sort((a, b) => 
                                     // sort if tag is in tags
                                     tags.includes(a) ? -1 : tags.includes(b) ? 1 : 0
@@ -127,7 +128,12 @@ const LibraryPage = () => {
                         <div className="pb-6 pt-2 px-sm-3">
                             {library.length > 0 && !isLoading ? (
                                 <div className="flex flex-col">
-                                {library.map((item) =>
+                                {library
+                                .filter((item) => {
+                                    if (tags.length === 0) return true
+                                    return tags.some((tag) => item.tags.includes(tag))
+                                })
+                                .map((item) =>
                                     <LibraryItem key={item._id} item={item} />
                                 )}
                                 </div>

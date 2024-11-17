@@ -78,6 +78,12 @@ const InputSearch = ({
         setSearchOpen(false);
     };
 
+    useEffect(() => {
+        if (searchable) {
+            inputRef.current.focus()
+            setSearchOpen(true)
+        }
+    }, [searchable])
 
     return (
         <>

@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { getGameById } from '../../features/game/gameSlice'
 import { useNavigate, useParams, useSearchParams } from 'react-router-dom'
 import { Avatar, Button, ErrorInfo, HorizontalScroll, Icon, IconButton, Image, TabContent } from '../../components'
-import { boxInIcon, boxOffIcon, checkIcon, clockIcon, largePlusIcon, noteIcon, shareIcon, starEmptyIcon, starFillIcon, starsIcon, userIcon, usersIcon } from '../../assets/img/icons'
+import { boxInIcon, boxOffIcon, checkIcon, clockIcon, largePlusIcon, libraryIcon, noteIcon, shareIcon, starEmptyIcon, starFillIcon, starsIcon, userIcon, usersIcon } from '../../assets/img/icons'
 import { addCommaToNumber, numberFormatter } from '../../assets/utils'
 
 const CoverImage = ({ img }) => {
@@ -169,7 +169,7 @@ const GamePage = () => {
                                 isInLibrary ?
                                     <div>
                                         <Button
-                                            icon={checkIcon}
+                                            icon={libraryIcon}
                                             variant="secondary"
                                             type="outline"
                                             onClick={() => {

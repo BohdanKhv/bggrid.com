@@ -24,21 +24,13 @@ const GameItem = ({item}) => {
             <div className={`pointer`}>
                 { window.innerWidth > 800 ?
                 isInLibrary ?
-                    <Button
-                        label="In Library"
-                        icon={libraryIcon}
-                        variant="filled"
-                        borderRadius="sm"
-                        className="pos-absolute top-0 right-0 px-2 m-3 box-shadow-lg display-on-hover border-none transition-slide-right-hover outline-white"
-                        dataTooltipContent={isInLibrary ? "In library" : "Add to library"}
-                    />
+                    null
                 :
                     <Button
                         icon={largePlusIcon}
                         variant="filled"
                         label="Add"
                         type={"secondary"}
-                        borderRadius="md"
                         className="pos-absolute top-0 right-0 m-3 box-shadow-lg display-on-hover border-none transition-slide-right-hover outline-white"
                         dataTooltipContent={isInLibrary ? "In library" : "Add to library"}
                     />
@@ -53,7 +45,10 @@ const GameItem = ({item}) => {
             <div
                 className="flex flex-col pb-4 pointer"
             >
-                <div className="fs-12 px-2 pt-2 weight-600 text-secondary">{item.yearPublished}</div>
+                <div className="flex justify-between align-center pt-2">
+                    <div className="fs-12 px-2 weight-600 text-secondary">{item.yearPublished}</div>
+                    {isInLibrary ? <span className="text-success px-2 py-1 border-radius fs-12 bold">In Library</span> : null}
+                </div>
                 <div className="fs-16 pt-1 pt-sm-0 px-2 weight-500 text-ellipsis-2">{item.name}</div>
                 <div className="flex gap-2 pt-2 flex-wrap">
                     <div className="flex fs-12 gap-1 text-nowrap tag-secondary px-2 py-1 border-radius-sm">
@@ -62,9 +57,11 @@ const GameItem = ({item}) => {
                     <div className="flex fs-12 gap-1 text-nowrap tag-secondary px-2 py-1 border-radius-sm">
                         <Icon icon={usersIcon}/> <strong>{item.MinPlayers}{item.MaxPlayers > item.MinPlayers ? `-${item.MaxPlayers}` : ''}</strong>
                     </div>
+                    {item.ComMinPlaytime ?
                     <div className="flex fs-12 gap-1 text-nowrap tag-secondary px-2 py-1 border-radius-sm">
-                        <Icon icon={clockIcon}/> <strong>{item.ComMinPlaytime}{item.ComMaxPlaytime !== item.ComMinPlaytime ? `-${item.ComMaxPlaytime}` : ""} Min</strong>
+                        <Icon icon={clockIcon}/> <strong>{item.ComMinPlaytime} Min</strong>
                     </div>
+                    : null}
                 </div>
             </div>
         </Link>

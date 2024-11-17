@@ -1,25 +1,27 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { getMyLibrary } from '../features/library/librarySlice'
-import {Avatar, Button, ErrorInfo, HorizontalScroll, IconButton, InputSearch} from '../components'
+import {Avatar, Button, ErrorInfo, HorizontalScroll, IconButton, InputSearch, Image} from '../components'
 import { useSearchParams } from 'react-router-dom'
 import { closeIcon, gamesIcon, searchIcon } from '../assets/img/icons'
 import { tagsEnum } from '../assets/constants'
 
-const LibraryItem = ({ game }) => {
+const LibraryItem = ({ item }) => {
+
+    const [searchParams, setSearchParams] = useSearchParams()
+
     return (
-        <div className="library-item">
-            <div className="library-item-image">
-                <img
-                    src="https://via.placeholder.com/150"
-                    alt={game.title}
-                />
-            </div>
-            <div className="library-item-info">
-                <div className="library-item-title">{game.title}</div>
-                <div className="library-item-genre">{game.genre}</div>
-                <div className="library-item-platform">{game.platform}</div>
-            </div>
+        <div className="flex gap-3 bg-secondary-hover border-radius p-3 transition-duration pointer"
+            onClick={() => {
+                searchParams.set('addGame', item.game._id)
+                setSearchParams(searchParams)
+            }}
+        >
+            <Image
+                img={item?.game?.thumbnail}
+                classNameContainer="w-set-100-px h-set-150-px border-radius"
+                classNameImg="border-radius"
+            />
         </div>
     )
 }
@@ -33,6 +35,10 @@ const LibraryPage = () => {
     const [tags, setTags] = useState([])
 
     const { user } = useSelector((state) => state.auth)
+
+    const currentLibrary = useMemo(() => {
+        return library
+    }, [library])
 
     useEffect(() => {
         const promise = dispatch(getMyLibrary())
@@ -64,7 +70,7 @@ const LibraryPage = () => {
                                 {user.username} <span className="text-secondary"> • {library.length} games</span>
                             </div>
                         </div>
-                        <div className="pt-5 pt-sm-0 px-sm-3">
+                        <div className="pt-3 pt-sm-0 px-sm-3">
                             <div className="flex flex-col gap-3">
                                 <div className="border flex border-radius-lg flex-1 w-max-400-px">
                                     <InputSearch
@@ -77,17 +83,24 @@ const LibraryPage = () => {
                                     />
                                 </div>
                             </div>
-                            <HorizontalScroll
-                                className="mt-3"
-                            >
-                                {tags.length > 0 && (
+                        </div>
+                        <div className="sticky top-0 bg-main py-3">
+                            <HorizontalScroll>
+                                {tags.length > 0 ? (
                                     <IconButton
                                         icon={closeIcon}
                                         variant="secondary"
                                         type="default"
                                         onClick={() => setTags([])}
                                     />
-                                )}
+                                ) : 
+                                    <Button
+                                        label="All"
+                                        variant="secondary"
+                                        className="animation-fade-in"
+                                        type={'filled'}
+                                    />
+                                }
                                 {tagsEnum
                                 .sort((a, b) => 
                                     // sort if tag is in tags
@@ -111,9 +124,13 @@ const LibraryPage = () => {
                                 ))}
                             </HorizontalScroll>
                         </div>
-                        <div className="pb-6 pt-5 px-sm-3">
+                        <div className="pb-6 pt-2 px-sm-3">
                             {library.length > 0 && !isLoading ? (
-                                library.map((game) => <LibraryItem key={game._id} game={game} />)
+                                <div className="flex flex-col">
+                                {library.map((item) =>
+                                    <LibraryItem key={item._id} item={item} />
+                                )}
+                                </div>
                             ) : isLoading ? (
                                 <ErrorInfo isLoading/>
                             ) : (

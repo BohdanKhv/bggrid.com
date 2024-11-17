@@ -109,8 +109,8 @@ const SearchPage = () => {
                         <div className="pt-6 pb-3 pt-sm-3 title-1 bold px-sm-2">
                             Search Games
                         </div>
-                        <div className="pb-6 pt-5 pt-sm-0 px-sm-3">
-                            <div className="flex flex-col gap-3">
+                        <div className="pb-6 pt-5 pt-sm-0">
+                            <div className="flex flex-col gap-3 px-sm-3">
                                 <div className="border flex border-radius-lg flex-1 w-max-400-px">
                                     <InputSearch
                                         className="flex-1 py-1"
@@ -246,6 +246,8 @@ const SearchPage = () => {
                                         }}
                                     />
                                 </div>
+                            </div>
+                            <div className="py-3 top-0 z-3 sticky px-sm-3 bg-main">
                                 <HorizontalScroll
                                     noControllers
                                 >
@@ -423,7 +425,7 @@ const SearchPage = () => {
                                     </FilterDropdown>
                                 </HorizontalScroll>
                             </div>
-                            <div className="pt-4">
+                            <div>
                                 <Items />
                             </div>
                         </div>

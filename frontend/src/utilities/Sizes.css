@@ -1293,6 +1293,16 @@ margin-right: auto;
         max-height: 150px;
         height: 150px;
     }
+    .h-sm-set-100-px {
+        min-height: 100px;
+        max-height: 100px;
+        height: 100px;
+    }
+    .h-sm-set-75-px {
+        min-height: 75px;
+        max-height: 75px;
+        height: 75px;
+    }
 
     .pt-container {
         padding-top: 0;
@@ -1334,6 +1344,24 @@ margin-right: auto;
     }
     .w-sm-fit-content {
         width: fit-content;
+    }
+
+    .w-sm-set-100-px {
+        width: 100px;
+        min-width: 100px;
+        max-width: 100px;
+    }
+
+    .w-sm-set-75-px {
+        width: 75px;
+        min-width: 75px;
+        max-width: 75px;
+    }
+
+    .w-sm-set-50-px {
+        width: 50px;
+        min-width: 50px;
+        max-width: 50px;
     }
 
     .h-sm-max-0 {

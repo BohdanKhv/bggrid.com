@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from "react-redux"
 import { Button, ErrorInfo, IconButton, Image, Input, Modal, Range } from "../../components"
 import { useSearchParams } from "react-router-dom"
 import { getGameCard } from "../../features/game/gameSlice"
-import { closeIcon } from "../../assets/img/icons"
+import { closeIcon, linkIcon, upArrowRightIcon } from "../../assets/img/icons"
 import { tagsEnum } from "../../assets/constants"
 import { addGameToLibrary, removeGameFromLibrary, updateGameInLibrary } from "../../features/library/librarySlice"
 
@@ -109,8 +109,8 @@ const AddGame = () => {
                                                 classNameContainer="border-radius bg-secondary h-auto w-sm-fit-content h-set-130-px"
                                             />
                                     </div>
-                                    <div className="flex-1">
-                                        <div className="flex justify-between">
+                                    <div className="flex-1 flex flex-col">
+                                        <div className="flex justify-between flex-1">
                                             <div>
                                                 <div className="fs-24 weight-600 text-ellipsis-2">
                                                     {gameCard?.name}
@@ -129,21 +129,14 @@ const AddGame = () => {
                                                 variant="text"
                                             />
                                         </div>
-                                        {window.innerWidth <= 800 && (
-                                            <div className={`fs-sm-28 mt-4 bold${rating / 10 == 0 ? " text-secondary" : rating / 10 > 0 && rating / 10 <= 4 ? " text-danger" : rating / 10 > 4 && rating / 10 <= 7 ? " text-warning" : rating / 10 == 10 ? " text-primary" : " text-success"}`}>
-                                                {rating / 10} {
-                                                        rating / 10 == 10 ?
-                                                        "Perfect"
-                                                        : rating / 10 > 7 ?
-                                                        "Great"
-                                                        : rating / 10 > 4 ?
-                                                        "Good"
-                                                        : rating / 10 > 0 ?
-                                                        "Poor"
-                                                        : "Not rated"
-                                                    }
-                                            </div>
-                                        )}
+                                        <Button
+                                            label="Go to Game Page"
+                                            variant="outline"
+                                            iconRight={linkIcon}
+                                            type="secondary"
+                                            target="_blank"
+                                            to={`/g/${gameCard?._id}`}
+                                        />
                                     </div>
                                 </div>
                             </div>
@@ -155,17 +148,26 @@ const AddGame = () => {
                                     classNameImg="object-contain border-radius"
                                     classNameContainer="border-radius bg-secondary h-auto w-sm-fit-content"
                                 />
+                                <Button
+                                    label="Go to Game Page"
+                                    variant="outline"
+                                    className="mt-4"
+                                    iconRight={linkIcon}
+                                    type="secondary"
+                                    target="_blank"
+                                    to={`/g/${gameCard?._id}`}
+                                />
                             </div>
                         }
                         <div className="flex flex-col gap-4 col-9 col-sm-12">
                             {window.innerWidth > 800 && (
                                 <div className="flex justify-between">
                                     <div>
-                                        <div className="fs-24 weight-600">
-                                            {gameCard?.name}
-                                        </div>
                                         <div className="fs-14 text-secondary bold">
                                             {gameCard?.yearPublished}
+                                        </div>
+                                        <div className="fs-24 weight-600">
+                                            {gameCard?.name}
                                         </div>
                                     </div>
                                     <IconButton
@@ -180,21 +182,19 @@ const AddGame = () => {
                                 </div>
                             )}
                             <div>
-                                {window.innerWidth > 800 && (
-                                    <div className={`fs-54 bold mb-3${rating / 10 == 0 ? " text-secondary" : rating / 10 > 0 && rating / 10 <= 4 ? " text-danger" : rating / 10 > 4 && rating / 10 <= 7 ? " text-warning" : rating / 10 == 10 ? " text-primary" : " text-success"}`}>
-                                        {rating / 10} {
-                                                rating / 10 == 10 ?
-                                                "Perfect"
-                                                : rating / 10 > 7 ?
-                                                "Great"
-                                                : rating / 10 > 4 ?
-                                                "Good"
-                                                : rating / 10 > 0 ?
-                                                "Poor"
-                                                : "Not rated"
-                                            }
-                                    </div>
-                                )}
+                                <div className={`fs-54 bold mb-3${rating / 10 == 0 ? " text-secondary" : rating / 10 > 0 && rating / 10 <= 4 ? " text-danger" : rating / 10 > 4 && rating / 10 <= 7 ? " text-warning" : rating / 10 == 10 ? " text-primary" : " text-success"}`}>
+                                    {rating / 10} {
+                                            rating / 10 == 10 ?
+                                            "Perfect"
+                                            : rating / 10 > 7 ?
+                                            "Great"
+                                            : rating / 10 > 4 ?
+                                            "Good"
+                                            : rating / 10 > 0 ?
+                                            "Poor"
+                                            : "Not rated"
+                                        }
+                                </div>
                                 <div className="flex align-center pos-relative">
                                     <div className="fs-16 weight-500 pos-absolute left-0 px-4 text-secondary mask-right pointer-events-none">
                                         <span className="bold me-3 ms-1">

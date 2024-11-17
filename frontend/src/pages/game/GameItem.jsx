@@ -14,11 +14,16 @@ const GameItem = ({item}) => {
     }, [library, item])
 
     return (
-        <Link className={`flex flex-col border-radius transition-duration pos-relative bg-secondary-hover p-2 mb-4 m-sm-0 ${window.innerWidth > 800 && !isInLibrary ? " display-on-hover-parent transition-slide-right-hover-parent" : ""}`}
-        to={`/g/${item._id}`}
+        <Link className={`flex flex-col flex-sm-row gap-sm-2 border-radius transition-duration pos-relative bg-secondary-hover p-2 mb-4 m-sm-0 ${window.innerWidth > 800 && !isInLibrary ? " display-on-hover-parent transition-slide-right-hover-parent" : ""}`}
+            onClick={(e) => {
+                e.preventDefault()
+                searchParams.set("addGame", item._id)
+                setSearchParams(searchParams)
+            }}
         >
             <div className={`pointer`}>
-                {isInLibrary ?
+                { window.innerWidth > 800 ?
+                isInLibrary ?
                     <Button
                         label="In Library"
                         icon={libraryIcon}
@@ -26,40 +31,30 @@ const GameItem = ({item}) => {
                         borderRadius="sm"
                         className="pos-absolute top-0 right-0 px-2 m-3 box-shadow-lg display-on-hover border-none transition-slide-right-hover outline-white"
                         dataTooltipContent={isInLibrary ? "In library" : "Add to library"}
-                        onClick={(e) => {
-                            e.preventDefault()
-                            searchParams.set("addGame", item._id)
-                            setSearchParams(searchParams)
-                        }}
                     />
                 :
                     <Button
                         icon={largePlusIcon}
                         variant="filled"
                         label="Add"
-                        type={isInLibrary ? "success" : "secondary"}
+                        type={"secondary"}
                         borderRadius="md"
                         className="pos-absolute top-0 right-0 m-3 box-shadow-lg display-on-hover border-none transition-slide-right-hover outline-white"
                         dataTooltipContent={isInLibrary ? "In library" : "Add to library"}
-                        onClick={(e) => {
-                            e.preventDefault()
-                            searchParams.set("addGame", item._id)
-                            setSearchParams(searchParams)
-                        }}
                     />
-                }
+                    : null }
                 <Image
                     alt={item.name}
                     img={item.thumbnail}
                     classNameImg="w-100 h-100 object-cover border-radius"
-                    classNameContainer="border-radius bg-secondary w-100 bg-hover-after flex-1 h-sm-set-250-px h-set-250-px"
+                    classNameContainer="border-radius bg-secondary bg-hover-after flex-1 h-sm-set-250-px h-set-250-px h-sm-set-100-px w-sm-set-75-px"
                 />
             </div>
             <div
                 className="flex flex-col pb-4 pointer"
             >
-                <div className="fs-12 px-2 pt-2 weight-600 text-secondary">({item.yearPublished})</div>
-                <div className="fs-16 pt-1 px-2 weight-600 text-ellipsis-2">{item.name}</div>
+                <div className="fs-12 px-2 pt-2 weight-600 text-secondary">{item.yearPublished}</div>
+                <div className="fs-16 pt-1 pt-sm-0 px-2 weight-500 text-ellipsis-2">{item.name}</div>
                 <div className="flex gap-2 pt-2 flex-wrap">
                     <div className="flex fs-12 gap-1 text-nowrap tag-secondary px-2 py-1 border-radius-sm">
                         <Icon icon={weightIcon}/> <strong>{item.gameWeight.toFixed(1)}<span className="weight-500 text-secondary">/5</span></strong>
@@ -71,9 +66,6 @@ const GameItem = ({item}) => {
                         <Icon icon={clockIcon}/> <strong>{item.ComMinPlaytime}{item.ComMaxPlaytime !== item.ComMinPlaytime ? `-${item.ComMaxPlaytime}` : ""} Min</strong>
                     </div>
                 </div>
-                {/* <div className="fs-14 px-2 text-ellipsis-2">
-                    {item.description}
-                </div> */}
             </div>
         </Link>
     )

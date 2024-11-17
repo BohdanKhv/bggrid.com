@@ -42,7 +42,7 @@ const Overview = () => {
 
     return (
         <div className="flex justify-between gap-6 mt-5 animation-slide-in">
-            <div className="container px-sm-3 col-sm-12 col-8">
+            <div className="col-sm-12 col-8">
                 <div className="fs-18 weight-500">
                     About this game
                 </div>
@@ -92,19 +92,20 @@ const GamePage = () => {
                     isLoading
                 />
             : gameById ? 
-                <div className="flex flex-col h-min-100 pos-relative animation-slide-in">
-                    <div className="flex flex-col mt-6 container px-sm-3 pos-relative mt-sm-4">
-                        {window.innerWidth >= 800 ?
+                <div className="flex flex-col h-min-100 container px-sm-3 animation-slide-in">
+                    <div className="flex flex-col mt-6 pos-relative mt-sm-4">
+                        {window.innerWidth >= 1100 ?
                             <CoverImage img={gameById.thumbnail}/>
                         : null }
+                        <div className="z-3 w-max-600-px bg-translucent-blur border-radius">
                         <div className="flex gap-4">
-                            {window.innerWidth < 800 ?
+                            {window.innerWidth < 1100 ?
                                 <div>
                                     <Image
                                         img={gameById.thumbnail}
                                         alt="cover"
-                                        className="border-radius w-set-100-px h-set-150-px"
-                                        classNameImg="object-cover border-radius object-center w-set-100-px h-set-150-px"
+                                        classNameContainer="border-radius w-set-100-px h-set-150-px h-sm-set-100-px"
+                                        classNameImg="object-cover border-radius object-center"
                                     />
                                 </div>
                             : null }
@@ -139,6 +140,7 @@ const GamePage = () => {
                                     Weight
                                 </span>
                             </div>
+                            {gameById.ComMinPlaytime ?
                             <div className="flex flex-col pe-4 align-center justify-center w-min-100-px border-right pe-sm-2">
                                 <div className="fs-14 bold flex align-center">
                                     {gameById.ComMinPlaytime}{gameById.ComMaxPlaytime !== gameById.ComMinPlaytime ? `-${gameById.ComMaxPlaytime}` : ""} Min
@@ -147,6 +149,7 @@ const GamePage = () => {
                                     Playtime
                                 </span>
                             </div>
+                            : null }
                             <div className="flex flex-col pe-4 align-center justify-center w-min-100-px border-right pe-sm-2">
                                 <div className="fs-14 bold flex align-center">
                                     {gameById.MinPlayers}{gameById.MaxPlayers > gameById.MinPlayers ? `-${gameById.MaxPlayers}` : ''}
@@ -227,7 +230,8 @@ const GamePage = () => {
                             />
                         </div>
                     </div>
-                    <div className="container">
+                    </div>
+                    <div>
                         <TabContent
                             items={[
                                 {label: 'Overview'},

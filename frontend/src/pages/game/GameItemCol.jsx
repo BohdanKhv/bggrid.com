@@ -15,7 +15,7 @@ const GameItemCol = ({item}) => {
     }, [library, item])
 
     return (
-        <div className="border-radius px-4 pt-4 transition-duration animation-slide-in  display-on-hover-parent">
+        <div className="border-radius px-4 px-sm-3 pt-4 transition-duration animation-slide-in  display-on-hover-parent">
             <div className="flex justify-between">
             <div className="flex gap-3">
                 <Image
@@ -40,7 +40,7 @@ const GameItemCol = ({item}) => {
                         </div>
                         : 
                             <Button
-                                label="Add to Library"
+                                label="Add"
                                 icon={largePlusIcon}
                                 variant="secondary"
                                 type="outline"
@@ -56,10 +56,10 @@ const GameItemCol = ({item}) => {
                             icon={diceIcon}
                             variant="primary"
                             type="filled"
-                            className="display-on-hover"
+                            className="display-on-hover display-on-hover-sm-block"
                             onClick={(e) => {
                                 e.stopPropagation()
-                                searchParams.set('addGame', item._id)
+                                searchParams.set('playGame', item._id)
                                 setSearchParams(searchParams)
                             }}
                         />

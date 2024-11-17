@@ -286,6 +286,7 @@ const SearchPage = () => {
                                             }
                                             setSearchParams(searchParams.toString())
                                         }}
+                                        className="flex-shrink-0"
                                         type="secondary"
                                     />
                                     <FilterDropdown

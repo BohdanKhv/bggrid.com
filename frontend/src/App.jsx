@@ -56,7 +56,7 @@ function App() {
             </ErrBoundary>
           : null}
           <div className="content-body">
-            <div className="flex-grow-1 h-min-100">
+            <div className="flex-grow-1 h-min-100 flex flex-col">
                 <Routes>
                   <Route path="/" element={<ErrBoundary><HomePage /></ErrBoundary>} />
                   <Route path="/search" element={<ErrBoundary><SearchPage /></ErrBoundary>} />

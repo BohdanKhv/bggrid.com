@@ -101,7 +101,7 @@ const AddGame = () => {
                         {window.innerWidth < 800 ?
                             <div>
                                     <div className="flex gap-3">
-                                        <div className="col-3">
+                                        <div>
                                             <Image
                                                 img={gameCard?.thumbnail}
                                                 alt={gameCard?.name}

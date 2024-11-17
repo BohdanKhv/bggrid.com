@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { getGameById } from '../../features/game/gameSlice'
 import { useNavigate, useParams, useSearchParams } from 'react-router-dom'
 import { Avatar, Button, ErrorInfo, HorizontalScroll, Icon, IconButton, Image, TabContent } from '../../components'
-import { boxInIcon, boxOffIcon, checkIcon, clockIcon, largePlusIcon, libraryIcon, noteIcon, shareIcon, starEmptyIcon, starFillIcon, starsIcon, userIcon, usersIcon } from '../../assets/img/icons'
+import { boxInIcon, boxOffIcon, checkIcon, clockIcon, largePlusIcon, libraryIcon, diceIcon, shareIcon, starEmptyIcon, starFillIcon, starsIcon, userIcon, usersIcon } from '../../assets/img/icons'
 import { addCommaToNumber, numberFormatter } from '../../assets/utils'
 
 const CoverImage = ({ img }) => {
@@ -203,7 +203,7 @@ const GamePage = () => {
                                     </div>
                             }
                             <Button
-                                icon={noteIcon}
+                                icon={diceIcon}
                                 variant="primary"
                                 type="filled"
                                 onClick={() => {
@@ -219,8 +219,10 @@ const GamePage = () => {
                                 dataTooltipContent="Share"
                                 type="text"
                                 onClick={() => {
-                                    searchParams.set('play', gameId)
-                                    setSearchParams(searchParams)
+                                    navigator.share({
+                                        title: gameById.name,
+                                        text: gameById.description
+                                    })
                                 }}
                             />
                         </div>

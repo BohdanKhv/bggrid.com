@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const { protect } = require('../middleware/authMiddleware');
+const { protect, loggedIn } = require('../middleware/authMiddleware');
 const {
     getGames,
     getSuggestions,
@@ -9,7 +9,7 @@ const {
 
 
 router
-    .get('/', getGames)
+    .get('/', loggedIn, getGames)
     .get('/suggestions', getSuggestions)
     .get('/:id', getGameById)
 

@@ -14,7 +14,7 @@ const GameItem = ({item}) => {
     }, [library, item])
 
     return (
-        <Link className={`flex flex-col flex-sm-row gap-sm-2 border-radius transition-duration pos-relative bg-secondary-hover p-2 mb-4 m-sm-0 ${window.innerWidth > 800 && !isInLibrary ? " display-on-hover-parent transition-slide-right-hover-parent" : ""}`}
+        <Link className={`flex flex-col flex-sm-row gap-sm-2 border-radius transition-duration pos-relative bg-secondary-hover p-2 mb-4 m-sm-0 ${window.innerWidth > 800 ? " display-on-hover-parent transition-slide-right-hover-parent" : ""}`}
             onClick={(e) => {
                 e.preventDefault()
                 searchParams.set("addGame", item._id)
@@ -23,14 +23,10 @@ const GameItem = ({item}) => {
         >
             <div className={`pointer`}>
                 { window.innerWidth > 800 ?
-                isInLibrary ?
-                    null
-                :
-                    <Button
-                        icon={largePlusIcon}
+                    <IconButton
+                        icon={isInLibrary ? checkIcon : largePlusIcon}
                         variant="filled"
-                        label="Add"
-                        type={"secondary"}
+                        type={isInLibrary ? "success" : "primary"}
                         className="pos-absolute top-0 right-0 m-3 box-shadow-lg display-on-hover border-none transition-slide-right-hover outline-white"
                         dataTooltipContent={isInLibrary ? "In library" : "Add to library"}
                     />
@@ -50,19 +46,19 @@ const GameItem = ({item}) => {
                     {isInLibrary ? <span className="text-success px-2 py-1 border-radius fs-12 bold">In Library</span> : null}
                 </div>
                 <div className="fs-16 pt-1 pt-sm-0 px-2 weight-500 text-ellipsis-2">{item.name}</div>
-                <div className="flex gap-2 pt-2 flex-wrap">
+                {/* <div className="flex gap-2 pt-2 flex-wrap">
                     <div className="flex fs-12 gap-1 text-nowrap tag-secondary px-2 py-1 border-radius-sm">
-                        <Icon icon={weightIcon}/> <strong>{item.gameWeight.toFixed(1)}<span className="weight-500 text-secondary">/5</span></strong>
+                        <Icon icon={weightIcon}/> <strong>{item.gameWeight.toFixed(1)}</strong>
                     </div>
                     <div className="flex fs-12 gap-1 text-nowrap tag-secondary px-2 py-1 border-radius-sm">
                         <Icon icon={usersIcon}/> <strong>{item.MinPlayers}{item.MaxPlayers > item.MinPlayers ? `-${item.MaxPlayers}` : ''}</strong>
                     </div>
                     {item.ComMinPlaytime ?
                     <div className="flex fs-12 gap-1 text-nowrap tag-secondary px-2 py-1 border-radius-sm">
-                        <Icon icon={clockIcon}/> <strong>{item.ComMinPlaytime} Min</strong>
+                        <Icon icon={clockIcon}/> <strong>{item.ComMinPlaytime}</strong>
                     </div>
                     : null}
-                </div>
+                </div> */}
             </div>
         </Link>
     )

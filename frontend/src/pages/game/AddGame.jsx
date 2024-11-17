@@ -115,9 +115,6 @@ const AddGame = () => {
                                                 <div className="fs-24 weight-600 text-ellipsis-2">
                                                     {gameCard?.name}
                                                 </div>
-                                                <div className="fs-14 text-secondary bold pt-1">
-                                                    {gameCard?.yearPublished}
-                                                </div>
                                             </div>
                                             <IconButton
                                                 icon={closeIcon}
@@ -130,7 +127,7 @@ const AddGame = () => {
                                             />
                                         </div>
                                         <Button
-                                            label="Go to Game Page"
+                                            label="Game Page"
                                             variant="outline"
                                             iconRight={linkIcon}
                                             type="secondary"
@@ -149,7 +146,7 @@ const AddGame = () => {
                                     classNameContainer="border-radius bg-secondary h-auto w-sm-fit-content"
                                 />
                                 <Button
-                                    label="Go to Game Page"
+                                    label="Game Page"
                                     variant="outline"
                                     className="mt-4"
                                     iconRight={linkIcon}
@@ -163,9 +160,6 @@ const AddGame = () => {
                             {window.innerWidth > 800 && (
                                 <div className="flex justify-between">
                                     <div>
-                                        <div className="fs-14 text-secondary bold">
-                                            {gameCard?.yearPublished}
-                                        </div>
                                         <div className="fs-24 weight-600">
                                             {gameCard?.name}
                                         </div>
@@ -176,7 +170,6 @@ const AddGame = () => {
                                             searchParam.delete("addGame")
                                             setSearchParam(searchParam)
                                         }}
-                                        size="lg"
                                         variant="text"
                                     />
                                 </div>

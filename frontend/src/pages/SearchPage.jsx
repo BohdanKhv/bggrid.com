@@ -1,15 +1,16 @@
 import React, { useEffect, useMemo, useState } from 'react'
 import { Button, Dropdown, ErrorInfo, FilterDropdown, HorizontalScroll, Icon, IconButton, Image, InputSearch, Modal } from '../components'
 import { Link, useSearchParams } from 'react-router-dom'
-import { clockIcon, closeIcon, filterIcon, searchIcon, toggleSortIcon } from '../assets/img/icons'
+import { clockIcon, closeIcon, filterIcon, gridIcon, listIcon, searchIcon, toggleSortIcon } from '../assets/img/icons'
 import { categoriesEnum, mechanicsEnum, themesEnum, typeEnum } from '../assets/constants'
 import { useDispatch, useSelector } from 'react-redux'
 import { getGames, getSuggestions } from '../features/game/gameSlice'
 import GameItem from './game/GameItem'
 import { setSearchHistory } from '../features/local/localSlice'
+import GameItemCol from './game/GameItemCol'
 
 
-const Items = () => {
+const Items = ({listView}) => {
     const { games, isLoading, loadingId, msg } = useSelector((state) => state.game)
 
     return (
@@ -22,6 +23,16 @@ const Items = () => {
             />
         :
         <>
+        {listView ?
+            <div className="flex flex-col">
+                {games.map((i) => (
+                    <GameItemCol
+                        key={i._id}
+                        item={i}
+                    />
+                ))}
+            </div>
+        :
             <div className="grid flex-wrap animation-slide-in h-fit-content grid-xl-cols-5 grid-lg-cols-4 grid-md-cols-3 grid-sm-cols-1 grid-cols-4">
                 {games.map((i) => (
                     <GameItem
@@ -30,6 +41,7 @@ const Items = () => {
                     />
                 ))}
             </div>
+        }
         </>
     )
 }
@@ -41,6 +53,7 @@ const SearchPage = () => {
     const [searchValue, setSearchValue] = useState(searchParams.get('s') || '')
     const { suggestions } = useSelector((state) => state.game)
     const { searchHistory } = useSelector((state) => state.local)
+    const [listView, setListView] = useState(true)
 
     const filtersCount = useMemo(() => {
         let count = 0
@@ -68,13 +81,14 @@ const SearchPage = () => {
         let q = '?'
 
         if (searchParams.get('s')) q += `s=${searchParams.get('s')}`  
+        if (searchParams.get('hideInLibrary')) q += `&hideInLibrary=${searchParams.get('hideInLibrary')}`
 
         promise = dispatch(getGames(q))
 
         return () => {
             promise && promise.abort()
         }
-    }, [searchParams.get('s')])
+    }, [searchParams.get('s'), searchParams.get('hideInLibrary')])
 
     useEffect(() => {
         let promise;
@@ -261,45 +275,19 @@ const SearchPage = () => {
                                         type="secondary"
                                         onClick={() => setOpen(true)}
                                     />
-                                    <Dropdown
-                                        label="Relevance"
-                                        classNameContainer="p-0 border-none bold"
-                                        widthUnset
-                                        customDropdown={
-                                            <>
-                                            <Button
-                                                type="secondary"
-                                                variant=""
-                                                label="Sort by: Alphabetical"
-                                            />
-                                            </>
-                                        }
-                                    >
-                                        <Button
-                                            borderRadius="sm"
-                                            label="Relevance"
-                                            className="justify-start"
-                                            variant="text"
-                                        />
-                                        <Button
-                                            borderRadius="sm"
-                                            className="justify-start"
-                                            variant="text"
-                                            label="New Releases"
-                                        />
-                                        <Button
-                                            borderRadius="sm"
-                                            className="justify-start"
-                                            variant="text"
-                                            label="Most Popular"
-                                        />
-                                        <Button
-                                            borderRadius="sm"
-                                            className="justify-start"
-                                            variant="text"
-                                            label="Relevance"
-                                        />
-                                    </Dropdown>
+                                    <Button
+                                        label="Hide in Library"
+                                        variant={searchParams.get('hideInLibrary') ? "filled" : "default"}
+                                        onClick={() => {
+                                            if (searchParams.get('hideInLibrary')) {
+                                                searchParams.delete('hideInLibrary')
+                                            } else {
+                                                searchParams.set('hideInLibrary', 'true')
+                                            }
+                                            setSearchParams(searchParams.toString())
+                                        }}
+                                        type="secondary"
+                                    />
                                     <FilterDropdown
                                         label="Types"
                                         mobileDropdown
@@ -426,8 +414,64 @@ const SearchPage = () => {
                                     </FilterDropdown>
                                 </HorizontalScroll>
                             </div>
+                            <div className="px-3 flex justify-between align-center">
+                                <Dropdown
+                                    label="Relevance"
+                                    classNameContainer="p-0 border-none bold"
+                                    widthUnset
+                                    customDropdown={
+                                        <>
+                                        <Button
+                                            type="secondary"
+                                            variant="link"
+                                            label={
+                                                <>
+                                                <span className="weight-400">Sort by: </span>
+                                                <strong>Relevance</strong>
+                                                </>
+                                            }
+                                        />
+                                        </>
+                                    }
+                                >
+                                    <Button
+                                        borderRadius="sm"
+                                        label="Relevance"
+                                        className="justify-start"
+                                        variant="text"
+                                    />
+                                    <Button
+                                        borderRadius="sm"
+                                        className="justify-start"
+                                        variant="text"
+                                        label="New Releases"
+                                    />
+                                    <Button
+                                        borderRadius="sm"
+                                        className="justify-start"
+                                        variant="text"
+                                        label="Most Popular"
+                                    />
+                                    <Button
+                                        borderRadius="sm"
+                                        className="justify-start"
+                                        variant="text"
+                                        label="Relevance"
+                                    />
+                                </Dropdown>
+                                <IconButton
+                                    icon={listView ? listIcon : gridIcon}
+                                    onClick={() => setListView(!listView)}
+                                    className="border-radius"
+                                    variant="secondary"
+                                    type="text"
+                                    dataTooltipContent={listView ? "List view" : "Grid view"}
+                                />
+                            </div>
                             <div>
-                                <Items />
+                                <Items
+                                    listView={listView}
+                                />
                             </div>
                         </div>
                     </div>

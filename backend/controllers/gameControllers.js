@@ -1,4 +1,5 @@
 const Game = require('../models/gameModel');
+const Library = require('../models/libraryModel');
 
 
 // @desc    Get games
@@ -13,11 +14,18 @@ const getGames = async (req, res) => {
             sort: { createdAt: -1 }
         };
 
-        const { s } = req.query;
+        const { s, hideInLibrary } = req.query;
 
-        const games = await Game.paginate({
-            name: { $regex: s || '', $options: 'i' }
-        }, options);
+        const q = {}
+
+        if (s && s.length > 0) { q.name = { $regex: s, $options: 'i' } }
+
+        if (hideInLibrary) {
+            const myLibrary = await Library.find({ user: req.user._id }).select('game');
+            const gameIds = myLibrary.map(item => item.game._id);
+            q._id = { $nin: gameIds };
+        }
+        const games = await Game.paginate(q, options);
         
         // Get current page and total pages
         const currentPage = games.page;

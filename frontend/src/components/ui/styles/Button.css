@@ -324,8 +324,14 @@ a.btn-lg {
 .btn.btn-text.btn-primary {
     color: var(--color-primary);
 }
+.btn.btn-text.btn-primary svg {
+    fill: var(--color-primary);
+}
 .btn.btn-text.btn-primary:hover {
     color: #fff;
+}
+.btn.btn-text.btn-primary:hover svg {
+    fill: #fff;
 }
 .btn.btn-default:hover.btn-secondary::before {
     background-color: rgb(var(--color-general-secondary-bg-hover), 0.2)!important;

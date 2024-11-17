@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { Link, NavLink, useLocation, useSearchParams } from 'react-router-dom'
-import { bellIcon, gamesIcon, homeIcon, largePlusIcon, libraryIcon, loginIcon, logoutIcon, noteIcon, searchIcon, settingsIcon, usersIcon } from '../../assets/img/icons'
+import { bellIcon, gamesIcon, homeIcon, largePlusIcon, libraryIcon, loginIcon, logoutIcon, diceIcon, searchIcon, settingsIcon, usersIcon } from '../../assets/img/icons'
 import "./styles/Navbar.css"
 import { logoNameSvg, logoSvg } from '../../assets/img/logo'
 import Icon from '../ui/Icon'
@@ -103,49 +103,49 @@ const Navbar = () => {
                         // muted={pathname !== '/'}
                         to="/"
                         label="Home"
-                        variant="text"
                         icon={homeIcon}
-                        type="secondary"
+                        type={pathname === '/' ? "secondary" : "secondary"}
+                        variant={pathname === '/' ? "" : "text"}
                     />
                     <Button
                         // muted={pathname !== '/library'}
                         to="/library"
                         label="Library"
-                        variant="text"
                         icon={libraryIcon}
-                        type="secondary"
+                        type={pathname === '/library' ? "secondary" : "secondary"}
+                        variant={pathname === '/library' ? "" : "text"}
                     />
                     <Button
                         // muted={pathname !== '/library'}
                         to="/plays"
                         label="Plays"
-                        variant="text"
-                        icon={noteIcon}
-                        type="secondary"
+                        icon={diceIcon}
+                        type={pathname === '/plays' ? "secondary" : "secondary"}
+                        variant={pathname === '/plays' ? "" : "text"}
                     />
                     <Button
                         // muted
-                        to="/crew"
+                        to="/community"
                         label="Community"
-                        variant="text"
                         icon={usersIcon}
-                        type="secondary"
+                        type={pathname === '/community' ? "secondary" : "secondary"}
+                        variant={pathname === '/community' ? "" : "text"}
                     />
                     <Button
                         // muted={pathname !== '/notifications'}
                         to="/notifications"
                         label="Notifications"
-                        variant="text"
                         icon={bellIcon}
-                        type="secondary"
+                        type={pathname === '/notifications' ? "secondary" : "secondary"}
+                        variant={pathname === '/notifications' ? "" : "text"}
                     />
                     <Button
                         // muted={!pathname.includes('/settings')}
                         to="/settings"
                         label="Settings"
-                        variant="text"
                         icon={settingsIcon}
-                        type="secondary"
+                        type={pathname.startsWith('/settings') ? "secondary" : "secondary"}
+                        variant={pathname.startsWith('/settings') ? "" : "text"}
                     />
                     <Button
                         label="Log Out"

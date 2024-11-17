@@ -1,6 +1,6 @@
 import React from 'react'
 import { NavLink, useLocation, useSearchParams } from 'react-router-dom'
-import { gamesIcon, homeIcon, largePlusIcon, libraryIcon, menuIcon, noteIcon, searchIcon, usersIcon } from '../../assets/img/icons'
+import { gamesIcon, homeIcon, largePlusIcon, libraryIcon, menuIcon, diceIcon, searchIcon, usersIcon } from '../../assets/img/icons'
 import "./styles/NavbarMobile.css"
 import Button from '../ui/Button'
 import Avatar from '../ui/Avatar'
@@ -50,7 +50,7 @@ const NavbarMobile = () => {
                         className={`navbar-mob-item ${pathname === "/plays" ? " active" : ""}`}
                     >
                         <span className="navbar-mob-item-icon">
-                            {noteIcon}
+                            {diceIcon}
                         </span>
                         {/* <span className="navbar-mob-item-label">
                             Logs

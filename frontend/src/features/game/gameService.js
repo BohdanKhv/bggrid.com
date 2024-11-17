@@ -9,8 +9,17 @@ export const getGameById = async (payload) => {
     return response.data;
 }
 
-export const getGames = async (payload) => {
-    const response = await axios.get(API_URL+`${payload || ""}`);
+export const getGames = async (payload, token) => {
+    let config = {};
+    if (token) {
+        config = {
+            headers: {
+                Authorization: `Bearer ${token}`
+            }
+        }
+    }
+
+    const response = await axios.get(API_URL+`${payload || ""}`, config);
 
     return response.data;
 }

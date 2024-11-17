@@ -2,6 +2,40 @@ const Library = require('../models/libraryModel');
 const Game = require('../models/gameModel');
 
 
+// @desc    Get reviews by game
+// @route   GET /api/library/reviews/:gameId
+// @access  Public
+const getReviewsByGame = async (req, res) => {
+    try {
+        const { limit, page } = req.query;
+
+        const options = {
+            page: parseInt(page, 10) || 1,
+            limit: parseInt(limit, 10) || 10,
+            sort: { createdAt: -1 },
+        };
+
+        const reviews = await Library.paginate(
+            { game: req.params.gameId },
+            options
+        )
+        .populate('user', 'username');
+
+        const currentPage = reviews.page;
+        const totalPages = reviews.totalPages;
+
+        res.status(200).json({
+            data: reviews,
+            currentPage,
+            totalPages,
+        });
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ msg: 'Server error' });
+    }
+}
+
+
 // @desc    Get my library
 // @route   GET /api/library/my-library
 // @access  Public
@@ -136,6 +170,7 @@ const removeGameFromLibrary = async (req, res) => {
 
 module.exports = {
     getMyLibrary,
+    getReviewsByGame,
     addGameToLibrary,
     updateGameInLibrary,
     removeGameFromLibrary

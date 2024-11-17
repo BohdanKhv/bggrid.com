@@ -73,7 +73,7 @@ const SearchPage = () => {
 
     useEffect(() => {
         window.scrollTo(0, 0)
-        document.title = 'Search Games'
+        document.title = 'Discover Games'
     }, [])
 
     useEffect(() => {
@@ -120,8 +120,8 @@ const SearchPage = () => {
             <main className="page-body">
                 <div className="animation-slide-in">
                     <div className="container">
-                        <div className="pt-6 pb-3 pt-sm-3 title-1 bold px-sm-2">
-                            Search Games
+                        <div className="pt-6 pb-3 pt-sm-3 title-1 bold px-sm-3">
+                            Discover Games
                         </div>
                         <div className="pb-6 pt-5 pt-sm-0">
                             <div className="flex flex-col gap-3 px-sm-3">

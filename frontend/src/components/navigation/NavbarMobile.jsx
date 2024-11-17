@@ -1,6 +1,6 @@
 import React from 'react'
 import { NavLink, useLocation, useSearchParams } from 'react-router-dom'
-import { gamesIcon, homeIcon, largePlusIcon, libraryIcon, menuIcon, diceIcon, searchIcon, usersIcon } from '../../assets/img/icons'
+import { gamesIcon, homeIcon, largePlusIcon, libraryIcon, menuIcon, diceIcon, searchIcon, usersIcon, discoverIcon } from '../../assets/img/icons'
 import "./styles/NavbarMobile.css"
 import Button from '../ui/Button'
 import Avatar from '../ui/Avatar'
@@ -38,12 +38,16 @@ const NavbarMobile = () => {
                         </span> */}
                     </NavLink>
                     <NavLink 
-                        className={`navbar-mob-item active`}
-                        to={`/search`}
+                        // className={`navbar-mob-item active`}
+                        className={`navbar-mob-item ${pathname === "/discover" ? " active" : ""}`}
+                        to={`/discover`}
                     >
-                        <div className="border flex justify-center align-center btn btn-default btn-secondary">
-                            {searchIcon}
-                        </div>
+                        {/* <div className="border flex justify-center align-center btn btn-default btn-secondary">
+                            {discoverIcon}
+                        </div> */}
+                        <span className="navbar-mob-item-icon">
+                            {discoverIcon}
+                        </span>
                     </NavLink>
                     <NavLink
                         to="/plays"

@@ -8,6 +8,7 @@ import { logoNameSvg, logoRevertSvg, logoSvg } from "../../assets/img/logo"
 import { commonGames } from "../../assets/constants"
 import { setSearchHistory } from "../../features/local/localSlice"
 import UserNotification from "../user/UserNotification"
+import GameSearchModal from "../../pages/game/GameSearchModal"
 
 const Header = () => {
     const dispatch = useDispatch()
@@ -57,7 +58,7 @@ const Header = () => {
         }
     }, [])
 
-    if (pathname === '/search' || pathname === '/library' || pathname === '/community') return
+    if (pathname === '/discover' || pathname === '/library' || pathname === '/community') return
 
     return (
         <>
@@ -95,8 +96,10 @@ const Header = () => {
                                 <div className={`justify-end flex align-center flex-no-wrap gap-3`}>
                                     {user ?
                                     <>
+                                        <GameSearchModal/>
                                         <IconButton
                                             icon={bellIcon}
+                                            variant="text"
                                             to="/notifications"
                                         />
                                         <div

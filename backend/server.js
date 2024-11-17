@@ -39,6 +39,7 @@ app.use(express.urlencoded({ limit: '5mb', extended: false }));
 app.use('/api/auth', require('./routes/authRoutes'));
 app.use('/api/games', require('./routes/gameRoutes'));
 app.use('/api/library', require('./routes/libraryRoutes'));
+app.use('/api/plays', require('./routes/playRoutes'));
 
 
 // Server frontend

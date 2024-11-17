@@ -5,10 +5,10 @@ import { useSearchParams } from "react-router-dom"
 import { getGameCard } from "../../features/game/gameSlice"
 import { closeIcon, linkIcon, upArrowRightIcon } from "../../assets/img/icons"
 import { tagsEnum } from "../../assets/constants"
-import { addGameToLibrary, removeGameFromLibrary, updateGameInLibrary } from "../../features/library/librarySlice"
+// import { playGame } from "../../features/library/librarySlice"
 
 
-const AddGame = () => {
+const PlayGame = () => {
     const dispatch = useDispatch()
 
     const [rating, setRating] = useState(0)
@@ -27,8 +27,8 @@ const AddGame = () => {
 
     useEffect(() => {
         let promise;
-        if (searchParam.get("addGame")) {
-            promise = dispatch(getGameCard(searchParam.get("addGame")))
+        if (searchParam.get("playGame")) {
+            promise = dispatch(getGameCard(searchParam.get("playGame")))
         }
 
         return () => {
@@ -37,11 +37,11 @@ const AddGame = () => {
             setTags([])
             setComment('')
         }
-    }, [searchParam.get("addGame")])
+    }, [searchParam.get("playGame")])
 
     useEffect(() => {
         if (msg === 'success') {
-            searchParam.delete("addGame")
+            searchParam.delete("playGame")
             setSearchParam(searchParam)
         }
     }, [msg])
@@ -55,28 +55,19 @@ const AddGame = () => {
     }, [gameCard, isInLibrary])
 
     const addToLibrary = () => {
-        dispatch(addGameToLibrary({
-            gameId: gameCard._id,
-            rating: rating / 10,
-            tags,
-            comment
-        }))
-    }
-
-    const updateLibrary = () => {
-        dispatch(updateGameInLibrary({
-            gameId: gameCard._id,
-            rating: rating / 10,
-            tags,
-            comment
-        }))
+        // dispatch(playGameToLibrary({
+        //     gameId: gameCard._id,
+        //     rating: rating / 10,
+        //     tags,
+        //     comment
+        // }))
     }
 
     return (
         <Modal
-            modalIsOpen={searchParam.get("addGame")}
+            modalIsOpen={searchParam.get("playGame")}
             onClickOutside={() => {
-                searchParam.delete("addGame")
+                searchParam.delete("playGame")
                 setSearchParam(searchParam)
             }}
             headerNone
@@ -92,7 +83,7 @@ const AddGame = () => {
                 dispatch(removeGameFromLibrary(gameCard._id))
             }}
         >
-            {loadingId === 'addGame' ?
+            {loadingId === 'playGame' ?
                 <ErrorInfo isLoading />
             : gameCard ?
             <>
@@ -119,7 +110,7 @@ const AddGame = () => {
                                             <IconButton
                                                 icon={closeIcon}
                                                 onClick={() => {
-                                                    searchParam.delete("addGame")
+                                                    searchParam.delete("playGame")
                                                     setSearchParam(searchParam)
                                                 }}
                                                 size="lg"
@@ -167,7 +158,7 @@ const AddGame = () => {
                                     <IconButton
                                         icon={closeIcon}
                                         onClick={() => {
-                                            searchParam.delete("addGame")
+                                            searchParam.delete("playGame")
                                             setSearchParam(searchParam)
                                         }}
                                         variant="text"
@@ -243,4 +234,4 @@ const AddGame = () => {
     )
 }
 
-export default AddGame
+export default PlayGame

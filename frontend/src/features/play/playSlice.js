@@ -1,13 +1,10 @@
 import { createAsyncThunk, createSlice, current } from '@reduxjs/toolkit';
-import gameService from './gameService';
+import playService from './playService';
 import { toast } from 'react-toastify';
 
 
 const initialState = {
-    gameById: null,
-    gameCard: null,
-    suggestions: [],
-    games: [],
+    plays: [],
     isLoading: false,
     msg: '',
     loadingId: '',
@@ -19,48 +16,12 @@ const initialState = {
 };
 
 
-export const getGameById = createAsyncThunk(
-    'game/getGameById',
-    async (payload, thunkAPI) => {
-        try {
-            return await gameService.getGameById(payload);
-        } catch (error) {
-            const message =
-                (error.response &&
-                    error.response.data &&
-                    error.response.data.msg) ||
-                error.message ||
-                error.toString();
-            return thunkAPI.rejectWithValue(message);
-        }
-    }
-);
-
-
-export const getGameCard = createAsyncThunk(
-    'game/getGameCard',
-    async (payload, thunkAPI) => {
-        try {
-            return await gameService.getGameById(payload);
-        } catch (error) {
-            const message =
-                (error.response &&
-                    error.response.data &&
-                    error.response.data.msg) ||
-                error.message ||
-                error.toString();
-            return thunkAPI.rejectWithValue(message);
-        }
-    }
-);
-
-
-export const getGames = createAsyncThunk(
-    'game/getGames',
+export const getMyPlays = createAsyncThunk(
+    'game/getMyPlays',
     async (payload, thunkAPI) => {
         try {
             const token = thunkAPI.getState().auth.user ? thunkAPI.getState().auth.user.token : null;
-            return await gameService.getGames(payload, token);
+            return await playService.getMyPlays(payload, token);
         } catch (error) {
             const message =
                 (error.response &&
@@ -73,12 +34,47 @@ export const getGames = createAsyncThunk(
     }
 );
 
-
-export const getSuggestions = createAsyncThunk(
-    'game/getSuggestions',
-    async (searchValue, thunkAPI) => {
+export const getPlaysByGame = createAsyncThunk(
+    'game/getPlaysByGame',
+    async (payload, thunkAPI) => {
         try {
-            return await gameService.getSuggestions(searchValue);
+            return await playService.getPlaysByGame(payload);
+        } catch (error) {
+            const message =
+                (error.response &&
+                    error.response.data &&
+                    error.response.data.msg) ||
+                error.message ||
+                error.toString();
+            return thunkAPI.rejectWithValue(message);
+        }
+    }
+);
+
+export const createPlay = createAsyncThunk(
+    'game/createPlay',
+    async (payload, thunkAPI) => {
+        try {
+            const token = thunkAPI.getState().auth.user ? thunkAPI.getState().auth.user.token : null;
+            return await playService.createPlay(payload, token);
+        } catch (error) {
+            const message =
+                (error.response &&
+                    error.response.data &&
+                    error.response.data.msg) ||
+                error.message ||
+                error.toString();
+            return thunkAPI.rejectWithValue(message);
+        }
+    }
+);
+
+export const deletePlay = createAsyncThunk(
+    'game/deletePlay',
+    async (payload, thunkAPI) => {
+        try {
+            const token = thunkAPI.getState().auth.user ? thunkAPI.getState().auth.user.token : null;
+            return await playService.deletePlay(payload, token);
         } catch (error) {
             const message =
                 (error.response &&
@@ -92,18 +88,15 @@ export const getSuggestions = createAsyncThunk(
 );
 
 
-
-const gameSlice = createSlice({
-    name: 'game',
+const playSlice = createSlice({
+    name: 'play',
     initialState,
     reducers: {
         // Reset state
-        resetGame: (state) => {
+        resetPlay: (state) => {
             state.isLoading = false;
             state.msg = '';
-            state.gameById = null;
-            state.gameCard = null;
-            state.games = [];
+            state.plays = [];
             state.loadingId = '';
             state.page = 0;
             state.hasMore = true;
@@ -111,17 +104,18 @@ const gameSlice = createSlice({
         }
     },
     extraReducers: (builder) => {
-        builder.addCase(getGames.pending, (state) => {
+        builder.addCase(getMyPlays.pending, (state) => {
             state.isLoading = true;
             state.msg = '';
+            state.plays = [];
         });
-        builder.addCase(getGames.fulfilled, (state, action) => {
+        builder.addCase(getMyPlays.fulfilled, (state, action) => {
             state.isLoading = false;
-            state.games = action.payload.data;
+            state.plays = action.payload.data;
             state.pages = action.payload.totalPages;
             state.current = action.payload.page;
         });
-        builder.addCase(getGames.rejected, (state, action) => {
+        builder.addCase(getMyPlays.rejected, (state, action) => {
             if (action.error.message !== 'Aborted') {
                 state.isLoading = false;
                 state.msg = action.payload;
@@ -129,46 +123,52 @@ const gameSlice = createSlice({
             }
         });
 
-        builder.addCase(getGameById.pending, (state) => {
+        builder.addCase(getPlaysByGame.pending, (state) => {
             state.isLoading = true;
             state.msg = '';
+            state.plays = [];
         });
-        builder.addCase(getGameById.fulfilled, (state, action) => {
+        builder.addCase(getPlaysByGame.fulfilled, (state, action) => {
             state.isLoading = false;
-            state.gameById = action.payload.data
+            state.plays = action.payload.data
         });
-        builder.addCase(getGameById.rejected, (state, action) => {
+        builder.addCase(getPlaysByGame.rejected, (state, action) => {
             state.isLoading = false;
             state.msg = action.payload;
             toast.error(action.payload, { toastId: 'toastError', closeButton: true});
         });
 
-        builder.addCase(getGameCard.pending, (state) => {
-            state.loadingId = 'addGame';
+        builder.addCase(createPlay.pending, (state) => {
+            state.loadingId = 'create';
             state.msg = '';
-            state.gameCard = null;
         });
-        builder.addCase(getGameCard.fulfilled, (state, action) => {
+        builder.addCase(createPlay.fulfilled, (state, action) => {
             state.loadingId = '';
-            state.gameCard = action.payload.data
+            toast.success("Play logged successfully!", { toastId: 'toastSuccess', closeButton: true});
         });
-        builder.addCase(getGameCard.rejected, (state, action) => {
+        builder.addCase(createPlay.rejected, (state, action) => {
             state.loadingId = '';
             state.msg = action.payload;
             toast.error(action.payload, { toastId: 'toastError', closeButton: true});
         });
 
-        builder.addCase(getSuggestions.pending, (state) => {
-            state.loadingId = 'suggestions';
+        builder.addCase(deletePlay.pending, (state, action) => {
+            state.loadingId = `delete-${action.meta.arg}`;
+            state.msg = '';
         });
-        builder.addCase(getSuggestions.fulfilled, (state, action) => {
+        builder.addCase(deletePlay.fulfilled, (state, action) => {
             state.loadingId = '';
-            state.suggestions = action.payload.data
+            state.plays = state.plays.filter(play => play._id !== action.payload.data._id);
+        });
+        builder.addCase(deletePlay.rejected, (state, action) => {
+            state.loadingId = '';
+            state.msg = action.payload;
+            toast.error(action.payload, { toastId: 'toastError', closeButton: true});
         });
     }
 });
 
 
 // Export reducer
-export const { resetGame } = gameSlice.actions;
-export default gameSlice.reducer;
+export const { resetPlay } = playSlice.actions;
+export default playSlice.reducer;

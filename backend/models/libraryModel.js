@@ -1,4 +1,5 @@
 const mongoose = require('mongoose');
+const mongoosePaginate = require('mongoose-paginate-v2');
 
 const tagsEnum = ['Favorite', 'Owned', 'Wishlist', 'Played', 'Want to Play']
 
@@ -31,6 +32,9 @@ const librarySchema = mongoose.Schema({
 }, {
     timestamps: true
 });
+
+
+librarySchema.plugin(mongoosePaginate);
 
 
 module.exports = mongoose.model('Library', librarySchema);

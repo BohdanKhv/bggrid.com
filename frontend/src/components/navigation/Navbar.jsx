@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { Link, NavLink, useLocation, useSearchParams } from 'react-router-dom'
-import { bellIcon, gamesIcon, homeIcon, largePlusIcon, libraryIcon, loginIcon, logoutIcon, diceIcon, searchIcon, settingsIcon, usersIcon } from '../../assets/img/icons'
+import { bellIcon, gamesIcon, homeIcon, largePlusIcon, libraryIcon, loginIcon, logoutIcon, diceIcon, searchIcon, settingsIcon, usersIcon, discoverIcon } from '../../assets/img/icons'
 import "./styles/Navbar.css"
 import { logoNameSvg, logoSvg } from '../../assets/img/logo'
 import Icon from '../ui/Icon'
@@ -91,10 +91,10 @@ const Navbar = () => {
                         </div>
                     </Link>
                     <Button
-                        to="/search"
-                        label="Search"
-                        icon={searchIcon}
-                        variant="filled"
+                        to="/discover"
+                        label="Games"
+                        icon={discoverIcon}
+                        // variant="filled"
                         className="justify-start w-fit-content my-4"
                         size="lg"
                         type="primary"

@@ -2,7 +2,7 @@ import { useState, useEffect } from "react"
 import { useDispatch, useSelector } from "react-redux"
 import { Input, Button, IconButton } from "../../components"
 import { resetUser, register } from "../../features/auth/authSlice"
-import { arrowRightShortIcon, emailIcon } from "../../assets/img/icons"
+import { arrowRightShortIcon, emailIcon, googleIcon } from "../../assets/img/icons"
 
 
 const Register = () => {
@@ -34,10 +34,27 @@ const Register = () => {
     return (
         <>
         <div className="animation-fade-in">
-            <div className="flex flex-col gap-3">
-                {/* <div className="fs-24 pb-4 bold">
-                    Sign up
-                </div> */}
+            <div className="flex flex-col gap-3 text-center">
+                <div className="fs-96 weight-500">
+                    Hi there!
+                </div>
+                <div className="fs-16 mb-4">
+                    Let's get started by creating your account.
+                </div>
+                <Button
+                    icon={googleIcon}
+                    size="lg"
+                    borderRadius="md"
+                    className="w-100"
+                    variant="outline"
+                    type="secondary"
+                    label="Continue with Google"
+                />
+                <div className="flex align-center gap-2 py-3">
+                    <div className="flex-grow-1 border-bottom border-secondary"/>
+                    <div className="fs-12 px-4">or</div>
+                    <div className="flex-grow-1 border-bottom border-secondary"/>
+                </div>
                 <Input
                     type="text"
                     value={username}
@@ -45,7 +62,6 @@ const Register = () => {
                     placeholder="Enter your username"
                     error={msg && msg === 'This username is already in use'}
                     errorMsg="This username is already in use"
-                    label="Username"
                     onChange={(e) => setUsername(e.target.value.replaceAll(' ', ''))}
                 />
                 <Input
@@ -55,7 +71,6 @@ const Register = () => {
                     placeholder="Enter your email"
                     error={msg && msg === 'This email is already in use'}
                     errorMsg="This email is already in use"
-                    label="Email"
                     onChange={(e) => setEmail(e.target.value)}
                 />
                 <Input
@@ -64,7 +79,6 @@ const Register = () => {
                     wrapColumn
                     placeholder="Enter your password"
                     error={msg === 'Invalid credentials'}
-                    label="Password"
                     onChange={(e) => setPassword(e.target.value)}
                 />
             </div>
@@ -72,11 +86,11 @@ const Register = () => {
                 <Button
                     size="lg"
                     className="w-100"
-                    type={'primary'}
+                    type={'secondary'}
                     isLoading={isLoading}
-                    disabled={isLoading || !email || !email.match(/^([\w.%+-]+)@([\w-]+\.)+([\w]{2,})$/i)}
+                    disabled={isLoading || !email || !email.match(/^([\w.%+-]+)@([\w-]+\.)+([\w]{2,})$/i) || !username || !password}
                     onClick={() => !isLoading ? handleLogin() : null}
-                    label="Sign up"
+                    label="Sign Up"
                     variant="filled"
                     onKeyPress={(e) => {
                         if (e.key === 'Enter') {
@@ -90,8 +104,8 @@ const Register = () => {
                 By signing up, you agree to our <a href="https://increw.cafe/terms" target="_blank" className="text-underlined-hover">Terms of Service</a> and <a href="https://increw.cafe/privacy" target="_blank" className="text-underlined-hover">Privacy Policy</a>
             </div>
             <div className="pt-6">
-                <div className="fs-12 text-secondary text-center flex align-center gap-1 justify-center weight-600">
-                    Already have a member? <Button to="/login" label="Log in" variant="link" type="primary"/>
+                <div className="fs-12 text-secondary text-center flex align-center gap-1 justify-center weight-500">
+                    Already have a member? <Button to="/login" label="Log in" variant="link" type="primary" className="weight-500"/>
                 </div>
             </div>
         </div>

@@ -57,10 +57,16 @@ const ResetPassword = () => {
 
     return (
         <div className="animation-fade-in">
-        <div className="flex flex-col gap-3">
+            <div className="flex flex-col gap-4 text-center">
+                <div className="fs-54 weight-500">
+                    Almost there!
+                </div>
+                <div className="fs-16 mb-4">
+                    Reset your password to get started.
+                </div>
                 <Input
                     type="password"
-                    label="Password"
+                    placeholder="Enter new password"
                     wrapColumn
                     value={password1}
                     className="border-radius-xl"
@@ -70,7 +76,7 @@ const ResetPassword = () => {
                 />
                 <Input
                     type="password"
-                    label="Re-enter Password"
+                    placeholder="Re-enter new Password"
                     className="border-radius-xl"
                     value={password2}
                     wrapColumn
@@ -89,7 +95,7 @@ const ResetPassword = () => {
                 <Button
                     size="lg"
                     className="w-100"
-                    type={'primary'}
+                    type={'secondary'}
                     isLoading={isLoading}
                     onClick={() => !isLoading ? handleReset() : null}
                     label="Reset Password"
@@ -98,8 +104,8 @@ const ResetPassword = () => {
                     disabled={!password1 || !password2 || password1 !== password2 || checkPasswordStrength(password1) <= 1}
                 />
                 <div className="pt-6">
-                    <div className="fs-12 text-secondary text-center flex align-center gap-1 justify-center weight-600">
-                        Remember you password? <Button to="/login" label="Log in" variant="link" type="primary"/>
+                    <div className="fs-12 text-secondary text-center flex align-center gap-1 justify-center weight-500">
+                        Remember you password? <Button to="/login" label="Log in" variant="link" type="primary" className="weight-500"/>
                     </div>
                 </div>
             </div>

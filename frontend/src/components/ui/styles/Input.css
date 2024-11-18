@@ -153,14 +153,20 @@ select.input-input::-ms-expand {
 .input-focused::before {
     outline-color: var(--color-secondary-bg-hover);
 }
+.input-success.input-focused .input-input,
+.input-warning.input-focused .input-input,
+.input-error.input-focused .input-input {
+    border-color: rgba(var(--color-general-secondary-border),1)!important;
+    outline-color: rgba(var(--color-general-secondary-border), 0.5)!important;
+}
 .input-error::before {
-    outline-color: rgb(var(--color-general-danger-border));
+    outline-color: rgb(var(--color-general-danger-border), 0.5);
 }
 .input-warning::before {
-    outline-color: rgb(var(--color-general-warning-border));
+    outline-color: rgb(var(--color-general-warning-border), 0.5);
 }
 .input-success::before {
-    outline-color: rgb(var(--color-general-success-border));
+    outline-color: rgb(var(--color-general-success-border), 0.5);
 }
 .input-error .input-input {
     color: rgb(var(--color-general-danger-text));
@@ -182,15 +188,15 @@ select.input-input::-ms-expand {
 }
 .input-error .input-input {
     border-color: rgb(var(--color-general-danger-border))!important;
-    outline-color: rgb(var(--color-general-danger-border))!important;
+    outline-color: rgb(var(--color-general-danger-border), 0.5)!important;
 }
 .input-success .input-input  {
     border-color: rgb(var(--color-general-success-border))!important;
-    outline-color: rgb(var(--color-general-success-border))!important;
+    outline-color: rgb(var(--color-general-success-border), 0.5)!important;
 }
 .input-warning .input-input  {
     border-color: rgb(var(--color-general-warning-border))!important;
-    outline-color: rgb(var(--color-general-warning-border))!important;
+    outline-color: rgb(var(--color-general-warning-border), 0.5)!important;
 }
 .input-input input:focus {
     outline-color: 1px solid transparent;

@@ -58,13 +58,13 @@ const Header = () => {
         }
     }, [])
 
-    if (pathname === '/discover' || pathname === '/library' || pathname === '/community') return
+    if (pathname === '/discover' || pathname === '/library' || pathname === '/community' || pathname === '/community') return
 
     return (
         <>
-        <div className={`${pathname == '/login' || pathname.startsWith('/login-with-email') ? " bg-transparent-blur" : " bg-translucent-blur"} pos-fixed w-available header-container`} ref={headerRef}>
+        <div className={`${pathname == '/login' || pathname == '/register' || pathname == '/forgot-password' || pathname === '/reset-password' ? " bg-transparent-blur" : " bg-translucent-blur"} pos-fixed w-available header-container`} ref={headerRef}>
                 <header className="header pos-relative px-sm-3 flex-grow-1">
-                    <div className="w-max-md mx-auto">
+                    <div className={`${pathname == '/login' || pathname == '/register' || pathname == '/forgot-password' || pathname === '/reset-password' ? "flex-1" : "w-max-md mx-auto"}`}>
                         <div className="container">
                             <div className="flex justify-between w-100 align-center gap-2 gap-sm-3">
                                 <div className={`flex justify-start gap-3 align-center gap-sm-3`}>
@@ -81,7 +81,7 @@ const Header = () => {
                                     :
                                     <span className="text-capitalize weight-600 fs-20 text-ellipsis-1 header-title"/>
                                     }
-                                        <div className="d-sm-none">
+                                        {/* <div className="d-sm-none">
                                             <div className="flex gap-2 flex-grow-1">
                                                 <Button
                                                     muted
@@ -91,7 +91,7 @@ const Header = () => {
                                                     type="secondary"
                                                 />
                                             </div>
-                                        </div>
+                                        </div> */}
                                 </div>
                                 <div className={`justify-end flex align-center flex-no-wrap gap-3`}>
                                     {user ?
@@ -117,21 +117,26 @@ const Header = () => {
                                         </div>
                                     </>
                                     :
+                                    pathname === '/forgot-password' || pathname === '/reset-password' ? null :
                                     <>
+                                    {pathname === '/login' ? null :
                                         <Button
                                             to="/login"
                                             label="Log In"
                                             variant="filled"
-                                            type="primary"
-                                            borderRadius="lg"
-                                        />
-                                        <Button
-                                            to="/register"
-                                            label="Sign Up"
-                                            variant="text"
                                             type="secondary"
                                             borderRadius="lg"
                                         />
+                                    }
+                                    {pathname === '/register' ? null :
+                                        <Button
+                                            to="/register"
+                                            label="Sign Up"
+                                            variant="filled"
+                                            type="secondary"
+                                            borderRadius="lg"
+                                        />
+                                    }
                                     </>
                                     }
                                 </div>

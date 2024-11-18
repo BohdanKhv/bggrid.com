@@ -36,29 +36,28 @@ const ForgotPassword = () => {
         <div className="animation-fade-in">
         {msg === "Email sent" ?
                 <div className="flex flex-col justify-center align-center gap-4 py-5 text-center animation-slide-in">
-                    <div className="tag-success border-radius-lg">
-                        <IconButton
-                            icon={checkIcon}
-                            size="lg"
-                            type="success"
-                        />
-                    </div>
                     <div>
-                        <div className="fs-18 pt-3 weight-600">
+                        <div className="fs-54 weight-500">
                             Reset link sent!
                         </div>
                         <p className="fs-14 mt-2">Check your email for a link to reset your password.</p>
                     </div>
                     <div className="pt-5">
-                        <div className="fs-12 text-secondary text-center flex align-center gap-1 justify-center weight-600">
-                            Remember you password? <Button to="/login" label="Log in" variant="link" type="primary"/>
+                        <div className="fs-12 text-secondary text-center flex align-center gap-1 justify-center weight-500">
+                            Remember you password? <Button to="/login" label="Log in" variant="link" type="primary" className="weight-500"/>
                         </div>
                     </div>
                 </div>
             :
             <>
-                <div className="flex flex-col">
-                    <div>
+                <div className="flex flex-col text-center">
+                    <div className="fs-96 weight-500">
+                        Oh no!
+                    </div>
+                    <div className="fs-16 mb-4">
+                        We'll send you a link to reset your password.
+                    </div>
+                    <div className="mt-4">
                         <Input
                             type="text"
                             placeholder="Enter your email"
@@ -66,7 +65,6 @@ const ForgotPassword = () => {
                             value={email}
                             wrapColumn
                             error={email.length > 0 ? !validateEmail(email) : false}
-                            label="Email"
                             onChange={(e) => setEmail(e.target.value)}
                         />
                     </div>
@@ -76,20 +74,20 @@ const ForgotPassword = () => {
                     <Button
                         size="lg"
                         className="w-100"
-                        type={'primary'}
+                        type={'secondary'}
                         isLoading={isLoading}
                         disabled={!validateEmail(email)}
                         onClick={() => !isLoading ? handleSubmit() : null}
-                        label="Send Reset Link"
+                        label="Sent login link"
                         variant="filled"
                         borderRadius="lg"
                     />
                     <div className="pt-6">
-                        <div className="fs-12 text-secondary text-center flex align-center gap-1 justify-center weight-600">
-                            Remember you password? <Button to="/login" label="Log in" variant="link" type="primary"/>
+                        <div className="fs-12 text-secondary text-center flex align-center gap-1 justify-center weight-500">
+                            Remember you password? <Button to="/login" label="Log in" variant="link" type="primary" className="weight-500"/>
                         </div>
-                        <div className="fs-12 mt-2 text-secondary text-center flex align-center gap-1 justify-center weight-600">
-                            Don't have an account? <Button to="/register" label="Sign up" variant="link" type="primary"/>
+                        <div className="fs-12 mt-2 text-secondary text-center flex align-center gap-1 justify-center weight-500">
+                            Don't have an account? <Button to="/register" label="Sign up" variant="link" type="primary" className="weight-500"/>
                         </div>
                     </div>
                 </div>

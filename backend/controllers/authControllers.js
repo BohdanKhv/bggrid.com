@@ -145,6 +145,7 @@ const register = async (req, res) => {
             email,
             username,
             password: hashedPassword,
+            isGoogleOauth: false,
         });
 
         await newUser.save();

@@ -5,8 +5,8 @@ const API_URL = import.meta.env.VITE_API_URL + '/auth/';
 
 
 
-export const sendLoginEmail = async (payload) => {
-    const response = await axios.post(API_URL + "get-login-link", payload);
+export const continueWithGoogle = async (payload) => {
+    const response = await axios.post(API_URL + "google", payload);
 
     return response.data;
 };
@@ -68,7 +68,7 @@ export const resetPassword = async (data) => {
 
 
 const authService = {
-    sendLoginEmail,
+    continueWithGoogle,
     logout,
     register,
     login,

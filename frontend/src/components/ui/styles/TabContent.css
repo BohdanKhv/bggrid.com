@@ -19,7 +19,7 @@
 }
 
 .tabs-content-indicator {
-    background-color: var(--color-primary);
+    background-color: rgb(var(--color-general-secondary-text));
     border-top-left-radius: 12px;
     border-top-right-radius: 12px;
     height: 3px;
@@ -50,8 +50,8 @@
 
 .tab-content.active {
     opacity: 1;
-    color:  var(--color-primary);
-    fill:  var(--color-primary);
+    color: rgb(var(--color-general-secondary-text));;
+    fill: rgb(var(--color-general-secondary-text));;
 }
 
 .tab-content:hover {

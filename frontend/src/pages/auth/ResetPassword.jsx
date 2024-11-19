@@ -90,7 +90,6 @@ const ResetPassword = () => {
                     }}
                 />
             </div>
-            {msg ? <div className="flex mt-4"><div className="border-radius-sm weight-600 fs-12 tag-danger px-2 py-1">{msg}</div></div> : null}
             <div className="mt-4">
                 <Button
                     size="lg"
@@ -103,7 +102,8 @@ const ResetPassword = () => {
                     borderRadius="lg"
                     disabled={!password1 || !password2 || password1 !== password2 || checkPasswordStrength(password1) <= 1}
                 />
-                <div className="pt-6">
+                {msg ? <div className="flex align-center justify-center pt-4"><div className="border-radius-sm weight-600 fs-12 tag-danger px-2 py-1">{msg}</div></div> : null}
+                <div className="pt-4">
                     <div className="fs-12 text-secondary text-center flex align-center gap-1 justify-center weight-500">
                         Remember you password? <Button to="/login" label="Log in" variant="link" type="primary" className="weight-500"/>
                     </div>

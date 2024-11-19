@@ -21,9 +21,10 @@ const userSchema = new mongoose.Schema({
             'Please add a valid email'
         ],
     },
+    isGoogleOauth: { type: Boolean, required: false, default: false },
     password: {
         type: String,
-        required: true,
+        required: false, // Because we are using OAuth for login and registration from google
         select: false,
     },
     firstName: { type: String, required: false, trim: true },

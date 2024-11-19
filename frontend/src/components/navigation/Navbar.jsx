@@ -72,7 +72,7 @@ const Navbar = () => {
                         <div className="flex align-center justify-center align-center">
                             <div className="border border-radius-50">
                                 <Avatar
-                                    img={user && user?.avatar ? `${import.meta.env.VITE_USERS_S3_API_URL}/${user?.avatar}` : null}
+                                    img={user && user?.avatar ? `${user?.avatar}` : null}
                                     name={user ? `${user?.email}` : null}
                                     rounded
                                     defaultColor={user}
@@ -97,7 +97,7 @@ const Navbar = () => {
                         // variant="filled"
                         className="justify-start w-fit-content my-4"
                         size="lg"
-                        type="primary"
+                        type="secondary"
                     />
                     <Button
                         // muted={pathname !== '/'}

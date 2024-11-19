@@ -24,7 +24,7 @@ const Account = () => {
 
     useEffect(() => {
         if (user) {
-            setAvatar(user?.avatar ? `${import.meta.env.VITE_USERS_S3_API_URL}/${user?.avatar}` : null)
+            setAvatar(user?.avatar ? `${user?.avatar}` : null)
             setUsername(user?.username || '')
             setFirstName(user?.firstName || '')
             setLastName(user?.lastName || '')

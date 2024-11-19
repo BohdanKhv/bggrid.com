@@ -10,6 +10,8 @@ const { validateEmail } = require('../utils/utils');
 const { uploadFile, deleteFile } = require('../utils/s3');
 const { checkPasswordStrength } = require('../utils/utils');
 const { DateTime } = require('luxon');
+const { OAuth2Client } = require('google-auth-library');
+const axios = require('axios');
 
 // Email transporter
 const transporter = nodeMailer.createTransport({
@@ -21,6 +23,79 @@ const transporter = nodeMailer.createTransport({
         pass: process.env.EMAIL_PASSWORD
     }
 });
+
+
+
+// @desc    Continue with google
+// @route   POST /api/auth/google
+// @access  Public
+const continueWithGoogle = async (req, res) => {
+    try {
+        const { access_token } = req.body;
+
+        if (!access_token) {
+            return res.status(400).json({
+                msg: 'Invalid token'
+            });
+        }
+
+        // Use the tokens to get user info or authenticate the user in your system
+        const userInfoResponse = await axios.get(`https://www.googleapis.com/oauth2/v3/userinfo?access_token=${access_token}`);
+        const userInfo = userInfoResponse.data;
+
+        const { email, name, picture } = userInfo;
+
+        // Check if user exists
+        const user = await User.findOne({
+            email: { $regex: new RegExp(email, 'i') }
+        });
+
+        if (user) {
+            if (!user.avatar) {
+                user.avatar = picture;
+            }
+            // If user was registered with email and password, but logs in with google for the first time
+            // Set email as verified, as google verifies emails
+            // Delete password, as user won't have a password if they log in with google
+            if (!user.isGoogleOauth) {
+                user.isGoogleOauth = true; // Set email as verified if user logs in with google
+                // Delete password if user logs in with google, as they won't have a password
+                user.password = undefined;
+                await user.save();
+            }
+            user.lastLogin = new Date();
+            await user.save();
+
+            return res.status(200).json({
+                data: {
+                    ...user._doc,
+                    token: generateToken(user._id)
+                }
+            });
+        }
+
+        // Create user
+        const newUser = await User.create({
+            email,
+            username: `${name}${Math.floor(Math.random() * 1000)}`,
+            avatar: picture,
+        });
+
+        await newUser.save();
+
+        return res.status(201).json({
+            data: {
+                ...newUser._doc,
+                token: generateToken(newUser._id)
+            }
+        });
+    } catch (err) {
+        console.log(err);
+        return res.status(500).json({
+            msg: 'Server error'
+        });
+    }
+}
 
 
 
@@ -108,69 +183,6 @@ const getMe = async (req, res) => {
 }
 
 
-// @desc    Send email login link
-// @route   POST /api/auth/get-login-link
-// @access  Public
-const sendLoginEmail = async (req, res) => {
-    try {
-        const { email } = req.body;
-
-        if (!email || validateEmail(email) === false) {
-            return res.status(400).json({
-                msg: 'Invalid email'
-            });
-        }
-
-        // check if user exists if not, then create a new user
-        let user;
-
-        const userExists = await User.findOne
-        ({
-            email: { $regex: new RegExp(email, 'i') }
-        });
-
-        if (!userExists) {
-            user = await User.create({
-                email: email,
-                accountType: 'work',
-            });
-        } else {
-            user = userExists;
-        }
-
-        // Send email
-        const token = generateToken(user._id);
-
-        const emailLink = `${process.env.CLIENT_URL}/login-with-email?token=${token}`;
-
-        const mailOptions = {
-            from: process.env.EMAIL,
-            to: email,
-            subject: 'Your log in link',
-            html: emailLoginLink(emailLink),
-        };
-        
-        transporter.sendMail(mailOptions, (err, info) => {
-            if (err) {
-                console.log(err);
-                return res.status(500).json({
-                    msg: 'Server error'
-                });
-            } else {
-                return res.status(200).json({
-                    msg: 'Email sent'
-                });
-            }
-        });
-    } catch (err) {
-        console.log(err);
-        res.status(500).json({
-            msg: 'Server error'
-        });
-    }
-}
-
-
 
 // @desc    Login user with token
 // @route   POST /api/auth/login
@@ -194,6 +206,13 @@ const login = async (req, res) => {
                 msg: 'User does not exist'
             });
         }
+
+        if (user && user.isGoogleOauth && !user.password) {
+            return res.status(400).json({
+                msg: 'Please login with Google'
+            });
+        }
+
         // Check password
         const isMatch = await bcrypt.compare(password, user.password);
 
@@ -453,9 +472,9 @@ const generateToken = (id) => {
 
 
 module.exports = {
+    continueWithGoogle,
     getMe,
     register,
-    sendLoginEmail,
     login,
     updateUser,
     generateToken,

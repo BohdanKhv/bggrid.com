@@ -18,11 +18,11 @@ const initialState = {
 };
 
 
-export const sendLoginEmail = createAsyncThunk(
-    'auth/sendLoginEmail',
+export const continueWithGoogle = createAsyncThunk(
+    'auth/continueWithGoogle',
     async (payload, thunkAPI) => {
         try {
-            return await authService.sendLoginEmail(payload);
+            return await authService.continueWithGoogle(payload);
         } catch (error) {
             const message =
                 (error.response &&
@@ -165,17 +165,18 @@ const authSlice = createSlice({
         },
     },
     extraReducers: (builder) => {
-        builder.addCase(sendLoginEmail.pending, (state) => {
-            state.isLoading = true;
+        builder.addCase(continueWithGoogle.pending, (state) => {
+            state.loadingId = 'google';
             state.isError = false;
             state.msg = '';
         });
-        builder.addCase(sendLoginEmail.fulfilled, (state, action) => {
-            state.isLoading = false;
-            state.msg = 'email_sent';
+        builder.addCase(continueWithGoogle.fulfilled, (state, action) => {
+            state.loadingId = '';
+            state.user = action.payload.data;
+            localStorage.setItem('user', JSON.stringify(state.user));
         });
-        builder.addCase(sendLoginEmail.rejected, (state, action) => {
-            state.isLoading = false;
+        builder.addCase(continueWithGoogle.rejected, (state, action) => {
+            state.loadingId = '';
             state.isError = true;
             state.msg = action.payload;
         });

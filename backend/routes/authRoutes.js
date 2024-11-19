@@ -3,8 +3,8 @@ const router = express.Router();
 const { protect } = require('../middleware/authMiddleware');
 const { upload } = require('../middleware/uploadMiddleware');
 const {
+    continueWithGoogle,
     getMe,
-    sendLoginEmail,
     login,
     register,
     updateUser,
@@ -14,8 +14,8 @@ const {
 
 
 router
+    .post('/google', continueWithGoogle)
     .get('/me', protect, getMe)
-    .post('/get-login-link', sendLoginEmail)
     .post('/login', login)
     .post('/forgot-password', forgotPassword)
     .post('/reset-password', resetPassword)

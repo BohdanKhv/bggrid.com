@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react"
 import { useDispatch, useSelector } from "react-redux"
 import { Input, Button, IconButton } from "../../components"
-import { resetUser, register } from "../../features/auth/authSlice"
+import { resetUser, register, continueWithGoogle } from "../../features/auth/authSlice"
 import { arrowRightShortIcon, emailIcon, googleIcon } from "../../assets/img/icons"
 
 
@@ -9,7 +9,7 @@ const Register = () => {
     const [username, setUsername] = useState('')
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
-    const { msg, isLoading, user } = useSelector(state => state.auth)
+    const { msg, isLoading, user, loadingId } = useSelector(state => state.auth)
     const dispatch = useDispatch()
 
 
@@ -49,10 +49,15 @@ const Register = () => {
                     variant="outline"
                     type="secondary"
                     label="Continue with Google"
+                    isLoading={loadingId === 'google'}
+                    displayTextOnLoad
+                    onClick={() => {
+                        dispatch(continueWithGoogle())
+                    }}
                 />
                 <div className="flex align-center gap-2 py-3">
                     <div className="flex-grow-1 border-bottom border-secondary"/>
-                    <div className="fs-12 px-4">or</div>
+                    <div className="fs-14 px-4">OR</div>
                     <div className="flex-grow-1 border-bottom border-secondary"/>
                 </div>
                 <Input
@@ -103,7 +108,8 @@ const Register = () => {
             <div className="fs-12 pt-4 text-secondary text-center">
                 By signing up, you agree to our <a href="https://increw.cafe/terms" target="_blank" className="text-underlined-hover">Terms of Service</a> and <a href="https://increw.cafe/privacy" target="_blank" className="text-underlined-hover">Privacy Policy</a>
             </div>
-            <div className="pt-6">
+            {msg ? <div className="flex align-center justify-center pt-4"><div className="border-radius-sm weight-600 fs-12 tag-danger px-2 py-1">{msg}</div></div> : null}
+            <div className="pt-4">
                 <div className="fs-12 text-secondary text-center flex align-center gap-1 justify-center weight-500">
                     Already have a member? <Button to="/login" label="Log in" variant="link" type="primary" className="weight-500"/>
                 </div>

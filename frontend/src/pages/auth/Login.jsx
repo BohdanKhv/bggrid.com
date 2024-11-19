@@ -1,39 +1,10 @@
 import { useState, useEffect } from "react"
 import { useDispatch, useSelector } from "react-redux"
-import { Input, Button, IconButton } from "../../components"
-import { resetUser, login, continueWithGoogle } from "../../features/auth/authSlice"
-import { arrowRightShortIcon, emailIcon, googleIcon } from "../../assets/img/icons"
-import { GoogleOAuthProvider, useGoogleLogin } from '@react-oauth/google';
+import { Input, Button } from "../../components"
+import { resetUser, login } from "../../features/auth/authSlice"
+import { GoogleOAuthProvider } from '@react-oauth/google';
+import LoginWithGoogle from "./LoginWithGoogle"
 
-const GoogleLogin = () => {
-    const dispatch = useDispatch()
-    const { loadingId } = useSelector(state => state.auth)
-
-    const loginWithGoogle = useGoogleLogin({
-        flow: 'implicit',
-        onSuccess: tokenResponse  => {
-            dispatch(continueWithGoogle(tokenResponse))
-        },
-        onError: (error) => { console.log('error', error) },
-    });
-
-    return (
-        <Button
-            icon={googleIcon}
-            size="lg"
-            borderRadius="md"
-            className="w-100"
-            variant="outline"
-            type="secondary"
-            label="Continue with Google"
-            isLoading={loadingId === 'google'}
-            displayTextOnLoad
-            onClick={() => {
-                loginWithGoogle()
-            }}
-        />
-    )
-}
 
 const Login = () => {
     const dispatch = useDispatch()
@@ -70,7 +41,7 @@ const Login = () => {
                     <div className="fs-16 mb-4">
                         Log in to your account to get started.
                     </div>
-                    <GoogleLogin/>
+                    <LoginWithGoogle/>
                     <div className="flex align-center gap-2 py-3">
                         <div className="flex-grow-1 border-bottom border-secondary"/>
                         <div className="fs-14 px-4">OR</div>

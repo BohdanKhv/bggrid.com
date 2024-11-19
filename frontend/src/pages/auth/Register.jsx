@@ -1,8 +1,8 @@
 import { useState, useEffect } from "react"
 import { useDispatch, useSelector } from "react-redux"
-import { Input, Button, IconButton } from "../../components"
-import { resetUser, register, continueWithGoogle } from "../../features/auth/authSlice"
-import { arrowRightShortIcon, emailIcon, googleIcon } from "../../assets/img/icons"
+import { Input, Button } from "../../components"
+import { resetUser, register } from "../../features/auth/authSlice"
+import LoginWithGoogle from "./LoginWithGoogle"
 
 
 const Register = () => {
@@ -41,20 +41,7 @@ const Register = () => {
                 <div className="fs-16 mb-4">
                     Let's get started by creating your account.
                 </div>
-                <Button
-                    icon={googleIcon}
-                    size="lg"
-                    borderRadius="md"
-                    className="w-100"
-                    variant="outline"
-                    type="secondary"
-                    label="Continue with Google"
-                    isLoading={loadingId === 'google'}
-                    displayTextOnLoad
-                    onClick={() => {
-                        dispatch(continueWithGoogle())
-                    }}
-                />
+                <LoginWithGoogle/>
                 <div className="flex align-center gap-2 py-3">
                     <div className="flex-grow-1 border-bottom border-secondary"/>
                     <div className="fs-14 px-4">OR</div>

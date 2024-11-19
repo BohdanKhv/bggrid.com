@@ -163,7 +163,7 @@ const LibraryPage = () => {
                         </div>
                         <div className="flex gap-2 align-center px-sm-3">
                             <Avatar
-                                icon={user.avatar}
+                                img={user.avatar}
                                 rounded
                                 size="xs"
                                 name={user.username}

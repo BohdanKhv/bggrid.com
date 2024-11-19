@@ -601,7 +601,7 @@ label.p-FieldLabel {
   .content {
     flex-direction: column;
   }
-  body:has(.header) .content {
+  body:has(.header) .content-body {
     padding-top: var(--header-height);
   }
   .content-body {

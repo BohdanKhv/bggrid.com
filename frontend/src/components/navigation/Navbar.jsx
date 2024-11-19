@@ -68,8 +68,8 @@ const Navbar = () => {
                     <>
                     <Link
                         to={`/u/${user.username}`}
-                        className="flex gap-3 pointer hover border-radius-lg overflow-hidden px-3 py-3">
-                        <div className="flex align-center justify-center align-center">
+                        className="flex gap-3 pointer hover border-radius-lg overflow-hidden">
+                        <div className="flex align-center justify-center align-center ps-3 py-3">
                             <div className="border border-radius-50">
                                 <Avatar
                                     img={user && user?.avatar ? `${user?.avatar}` : null}
@@ -81,11 +81,11 @@ const Navbar = () => {
                                 />
                             </div>
                         </div>
-                        <div className="flex flex-col justify-center">
-                            <div className="fs-14 weight-600 text-ellipsis-1">
+                        <div className="flex flex-col justify-center pe-3 py-3 overflow-hidden">
+                            <div className="fs-14 weight-600 text-ellipsis">
                                 {user.firstName} {user.lastName}
                             </div>
-                            <div className="fs-14 weight-600 text-secondary text-ellipsis-1">
+                            <div className="fs-14 weight-600 text-secondary text-ellipsis">
                                 @{user.username}
                             </div>
                         </div>

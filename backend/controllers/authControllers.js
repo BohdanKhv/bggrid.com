@@ -43,7 +43,7 @@ const continueWithGoogle = async (req, res) => {
         const userInfoResponse = await axios.get(`https://www.googleapis.com/oauth2/v3/userinfo?access_token=${access_token}`);
         const userInfo = userInfoResponse.data;
 
-        const { email, name, picture } = userInfo;
+        const { email, name, picture, given_name, family_name } = userInfo;
 
         // Check if user exists
         const user = await User.findOne({
@@ -77,8 +77,11 @@ const continueWithGoogle = async (req, res) => {
         // Create user
         const newUser = await User.create({
             email,
-            username: `${name}${Math.floor(Math.random() * 1000)}`,
+            username: name ? `${name.replaceAll(' ', '')}${Math.floor(Math.random() * 1000)}` : `${email.split('@')[0]}${Math.floor(Math.random() * 1000)}`,
+            firstName: given_name,
+            lastName: family_name,
             avatar: picture,
+            isGoogleOauth: true,
         });
 
         await newUser.save();

@@ -2,7 +2,7 @@ import { useEffect, useMemo, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { getMyLibrary } from '../features/library/librarySlice'
 import {Avatar, Button, ErrorInfo, HorizontalScroll, IconButton, InputSearch, Image, Icon} from '../components'
-import { Link, useSearchParams } from 'react-router-dom'
+import { Link, useNavigate, useSearchParams } from 'react-router-dom'
 import { closeIcon, editIcon, gamesIcon, linkIcon, diceIcon, searchIcon, starFillIcon, weightIcon, usersIcon, usersFillIcon } from '../assets/img/icons'
 import { tagsEnum } from '../assets/constants'
 import { numberFormatter } from '../assets/utils'
@@ -131,6 +131,7 @@ const LibraryItem = ({ item }) => {
 
 const LibraryPage = () => {
     const dispatch = useDispatch()
+    const navigate = useNavigate()
 
     const [searchParams, setSearchParams] = useSearchParams()
     const { library, isLoading, msg } = useSelector((state) => state.library)
@@ -263,8 +264,7 @@ const LibraryPage = () => {
                                 btnLabel="Add games"
                                 icon={gamesIcon}
                                 onClick={() => {
-                                    searchParams.set('sg', true)
-                                    setSearchParams(searchParams)
+                                    navigate('/discover')
                                 }}
                                 />
                             )}

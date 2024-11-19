@@ -108,7 +108,7 @@ const Header = () => {
                                             }}
                                         >
                                             <Avatar
-                                                img={user && user?.avatar ? `${import.meta.env.VITE_USERS_S3_API_URL}/${user?.avatar}` : null}
+                                                img={`${user?.avatar}`}
                                                 name={user ? `${user?.email}` : null}
                                                 rounded
                                                 avatarColor="1"

@@ -43,17 +43,17 @@ const GameItem = ({item}) => {
                             <div className="bg-main p-2">
                             <div className="flex flex-col flex-1 flex-wrap z-1">
                                 <div className="flex fs-12 gap-2 py-2 align-center text-nowrap">
-                                    <Icon icon={starEmptyIcon}/> <strong>{item.avgRating.toFixed(1)}</strong> ({numberFormatter(item.numRatings)})
+                                    <Icon icon={starEmptyIcon}/> <strong>{item.avgRating.toFixed(1)}</strong> {numberFormatter(item.numRatings)} reviews
                                 </div>
                                 <div className="flex fs-12 gap-2 py-2 align-center text-nowrap">
-                                    <Icon icon={weightIcon}/> <strong>{item.gameWeight.toFixed(1)}</strong>
+                                    <Icon icon={weightIcon}/> <strong>{item.gameWeight.toFixed(1)}</strong> weight
                                 </div>
                                 <div className="flex fs-12 gap-2 py-2 align-center text-nowrap">
-                                    <Icon icon={usersIcon}/> <strong>{item.MinPlayers}{item.MaxPlayers > item.MinPlayers ? `-${item.MaxPlayers}` : ''}</strong>
+                                    <Icon icon={usersIcon}/> <strong>{item.MinPlayers}{item.MaxPlayers > item.MinPlayers ? `-${item.MaxPlayers}` : ''}</strong> players
                                 </div>
                                 {item.ComMinPlaytime ?
                                 <div className="flex fs-12 gap-2 py-2 align-center text-nowrap">
-                                    <Icon icon={historyIcon}/> <strong>{item.ComMinPlaytime}</strong>
+                                    <Icon icon={historyIcon}/> <strong>{item.ComMinPlaytime}</strong> min
                                 </div>
                                 : null}
                             </div>

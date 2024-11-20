@@ -57,23 +57,22 @@ const getPlaysByGame = async (req, res) => {
 // @access  Private
 const createPlay = async (req, res) => {
     try {
-        const { game, pros, cons, playTimeMinutes, players, playDate } = req.body;
+        const { gameId, comment, playTimeMinutes, players, playDate } = req.body;
 
-        if (!game || !playDate) {
+        if (!gameId || !playDate) {
             return res.status(400).json({ msg: 'Please fill in all fields' });
         }
 
         // Check if game exists
-        const gameExists = await Game.findById(game);
+        const gameExists = await Game.findById(gameId);
 
         if (!gameExists) {
             return res.status(404).json({ msg: 'Game not found' });
         }
 
         const play = await Play.create({
-            game,
-            pros,
-            cons,
+            game: gameId,
+            comment,
             playTimeMinutes,
             players,
             playDate,

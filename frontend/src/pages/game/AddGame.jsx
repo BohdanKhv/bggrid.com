@@ -1,7 +1,7 @@
 import { useState, useEffect, useMemo } from "react"
 import { useDispatch, useSelector } from "react-redux"
 import { Avatar, Button, ErrorInfo, IconButton, Image, Input, Modal, Range } from "../../components"
-import { useSearchParams } from "react-router-dom"
+import { Link, useSearchParams } from "react-router-dom"
 import { getGameCard } from "../../features/game/gameSlice"
 import { closeIcon, linkIcon, upArrowRightIcon } from "../../assets/img/icons"
 import { tagsEnum } from "../../assets/constants"
@@ -94,7 +94,7 @@ const AddGame = () => {
                         size="sm"
                     />
                     <div className="flex flex-col overflow-hidden">
-                        <div className="text-ellipsis-1 fs-18">{gameCard?.name}</div>
+                        <Link to={`/g/${gameCard?._id}`} className="text-ellipsis-1 text-underlined-hover fs-18">{gameCard?.name}</Link>
                         <div className="fs-12 text-secondary">
                             {isInLibrary ? "Update your library" : "Add to your library"}
                         </div>

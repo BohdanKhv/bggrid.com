@@ -209,11 +209,12 @@ const GamePage = () => {
                                 icon={diceIcon}
                                 variant="secondary"
                                 type="filled"
-                                onClick={() => {
-                                    searchParams.set('play', gameId)
+                                onClick={(e) => {
+                                    e.stopPropagation()
+                                    searchParams.set('logPlay', gameById._id)
                                     setSearchParams(searchParams)
                                 }}
-                                label="Play"
+                                label="Log Play"
                             />
                             <IconButton
                                 icon={shareIcon}

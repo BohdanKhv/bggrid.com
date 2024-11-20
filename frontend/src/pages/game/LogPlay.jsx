@@ -1,10 +1,11 @@
 import { useState, useEffect, useMemo } from "react"
 import { useDispatch, useSelector } from "react-redux"
 import { Avatar, Button, CheckBox, ErrorInfo, HorizontalScroll, Icon, IconButton, Image, Input, InputSearch, Modal, ProgressBar, Range } from "../../components"
-import { useSearchParams } from "react-router-dom"
+import { Link, useSearchParams } from "react-router-dom"
 import { getGameCard } from "../../features/game/gameSlice"
 import { closeIcon, linkIcon, searchIcon, trashIcon, upArrowRightIcon, userIcon } from "../../assets/img/icons"
 import { tagsEnum } from "../../assets/constants"
+import { createPlay } from "../../features/play/playSlice"
 // import { playGame } from "../../features/library/librarySlice"
 
 
@@ -30,7 +31,8 @@ const LogPlay = () => {
 
     const [searchParam, setSearchParam] = useSearchParams()
     const { gameCard, loadingId } = useSelector(state => state.game)
-    const { library, isLoading: libraryIsLoading, loadingId: libraryLoadingId, msg } = useSelector(state => state.library)
+    const { library, isLoading: libraryIsLoading, loadingId: libraryLoadingId } = useSelector(state => state.library)
+    const { loadingId: loadingIdPlay, msg: playMsg } = useSelector(state => state.play)
 
     const isInLibrary = useMemo(() => {
         return library.find(i => i?.game?._id === gameCard?._id)
@@ -50,11 +52,11 @@ const LogPlay = () => {
     }, [searchParam.get("logPlay")])
 
     useEffect(() => {
-        if (msg === 'success') {
+        if (playMsg === 'success') {
             searchParam.delete("logPlay")
             setSearchParam(searchParam)
         }
-    }, [msg])
+    }, [playMsg])
 
     useEffect(() => {
         if (gameCard && isInLibrary) {
@@ -63,12 +65,13 @@ const LogPlay = () => {
     }, [gameCard, isInLibrary])
 
     const onSubmit = () => {
-        // dispatch(playGameToLibrary({
-        //     gameId: gameCard._id,
-        //     rating: rating / 10,
-        //     tags,
-        //     comment
-        // }))
+        dispatch(createPlay({
+            gameId: gameCard._id,
+            comment,
+            playTimeMinutes,
+            players,
+            playDate
+        }))
     }
 
     return (
@@ -89,7 +92,7 @@ const LogPlay = () => {
                         size="sm"
                     />
                     <div className="flex flex-col overflow-hidden">
-                        <div className="text-ellipsis-1 fs-18">{gameCard?.name}</div>
+                        <Link to={`/g/${gameCard?._id}`} className="text-ellipsis-1 text-underlined-hover fs-18">{gameCard?.name}</Link>
                         <div className="fs-12 text-secondary">
                             Log play
                         </div>
@@ -101,7 +104,7 @@ const LogPlay = () => {
             actionBtnText={step === 1 ? 'Next' : 'Save'}
             onSubmit={step === 1 ? () => setStep(2) : onSubmit}
             disabledAction={libraryIsLoading}
-            isLoading={libraryLoadingId === `${gameCard?._id}`}
+            isLoading={libraryLoadingId === `${gameCard?._id}` || loadingIdPlay === 'create'}
             actionDangerBtnText={step === 2 ? 'Back' : undefined}
             onSubmitDanger={step === 2 ? () => setStep(1) : undefined}
         >
@@ -180,7 +183,7 @@ const LogPlay = () => {
                         <div>
                             {players.length ?
                             players.map((i, index) => (
-                            <div className="m-2 bg-main border-radius"
+                            <div className="m-2 bg-main border-radius animation-slide-in"
                                 key={index}
                             >
                                 <div

@@ -229,7 +229,7 @@ const LibraryPage = () => {
                                 ))}
                             </HorizontalScroll>
                         </div>
-                        <div className="pb-6 pt-2">
+                        <div className="pb-6">
                             {library.length > 0 && !isLoading ? (
                                 <div className="flex flex-col">
                                 {library

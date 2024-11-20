@@ -17,7 +17,7 @@ const initialState = {
 
 
 export const getMyPlays = createAsyncThunk(
-    'game/getMyPlays',
+    'play/getMyPlays',
     async (payload, thunkAPI) => {
         try {
             const token = thunkAPI.getState().auth.user ? thunkAPI.getState().auth.user.token : null;
@@ -35,7 +35,7 @@ export const getMyPlays = createAsyncThunk(
 );
 
 export const getPlaysByGame = createAsyncThunk(
-    'game/getPlaysByGame',
+    'play/getPlaysByGame',
     async (payload, thunkAPI) => {
         try {
             return await playService.getPlaysByGame(payload);
@@ -52,7 +52,7 @@ export const getPlaysByGame = createAsyncThunk(
 );
 
 export const createPlay = createAsyncThunk(
-    'game/createPlay',
+    'play/createPlay',
     async (payload, thunkAPI) => {
         try {
             const token = thunkAPI.getState().auth.user ? thunkAPI.getState().auth.user.token : null;
@@ -70,7 +70,7 @@ export const createPlay = createAsyncThunk(
 );
 
 export const deletePlay = createAsyncThunk(
-    'game/deletePlay',
+    'play/deletePlay',
     async (payload, thunkAPI) => {
         try {
             const token = thunkAPI.getState().auth.user ? thunkAPI.getState().auth.user.token : null;
@@ -144,6 +144,7 @@ const playSlice = createSlice({
         });
         builder.addCase(createPlay.fulfilled, (state, action) => {
             state.loadingId = '';
+            state.msg = 'success';
             toast.success("Play logged successfully!", { toastId: 'toastSuccess', closeButton: true});
         });
         builder.addCase(createPlay.rejected, (state, action) => {
@@ -158,6 +159,7 @@ const playSlice = createSlice({
         });
         builder.addCase(deletePlay.fulfilled, (state, action) => {
             state.loadingId = '';
+            state.msg = 'success';
             state.plays = state.plays.filter(play => play._id !== action.payload.data._id);
         });
         builder.addCase(deletePlay.rejected, (state, action) => {

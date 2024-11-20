@@ -62,7 +62,7 @@ const Header = () => {
 
     return (
         <>
-        <div className={`${pathname == '/login' || pathname == '/register' || pathname == '/forgot-password' || pathname === '/reset-password' ? " bg-transparent-blur" : " bg-translucent-blur"} pos-fixed w-available header-container`} ref={headerRef}>
+        <div className={`${pathname == '/login' || pathname == '/register' || pathname == '/forgot-password' || pathname === '/reset-password' ? " bg-transparent-blur bg-sm-main" : " bg-translucent-blur"} pos-fixed w-available header-container`} ref={headerRef}>
                 <header className="header pos-relative px-sm-3 flex-grow-1">
                     <div className={`${pathname == '/login' || pathname == '/register' || pathname == '/forgot-password' || pathname === '/reset-password' ? "flex-1" : "w-max-md mx-auto"}`}>
                         <div className="container">

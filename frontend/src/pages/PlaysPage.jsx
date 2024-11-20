@@ -39,7 +39,7 @@ const PlaysPage = () => {
         if (document.querySelector('.header-title')) document.querySelector('.header-title').innerText = 'Play logs'
         return () => {
             if (document.querySelector('.header-title')) document.querySelector('.header-title').innerText = ''
-            promise.abort()
+            promise && promise.abort()
         }
     }, [])
 
@@ -69,63 +69,65 @@ const PlaysPage = () => {
                         <div className="pt-6 pb-3 pt-sm-3 title-1 bold px-sm-3">
                             Plays
                         </div>
-                        {library.length > 0 && !libraryLoading && (
-                        <HorizontalScroll
-                            contentClassName="align-start gap-0"
-                        >
-                            {library.map((item) => (
-                                <div className={`pointer h-100 bg-secondary-hover animation-fade-in border-radius hover-opacity-100 transition-duration clickable flex-shrink-0${selectedGame ? selectedGame === item?.game?._id ? "" : " opacity-25" : ""}`}
-                                    key={item._id}
-                                    onClick={() => {
-                                        if (selectedGame === item?.game?._id) {
-                                            setSelectedGame(null)
-                                        } else {
-                                            setSelectedGame(item?.game?._id)
-                                        }
-                                    }}
-                                >
-                                    <div className="flex flex-col p-2 align-center">
-                                        <Avatar
-                                            img={item?.game?.thumbnail}
-                                            size="lg"
-                                            rounded
-                                            label={item.game.name}
-                                        />
-                                        <div className="fs-12 text-center text-ellipsis-2 w-max-75-px pt-2 weight-500">
-                                            {item.game.name}
-                                        </div>
-                                    </div>
-                                </div>
-                            ))}
-                        </HorizontalScroll>
-                        )}
-                        <div className="sticky top-0 bg-main py-3 px-sm-3">
-                            <HorizontalScroll>
-                                <Button
-                                    label="All"
-                                    variant="secondary"
-                                    className="animation-fade-in flex-shrink-0"
-                                    type={tags === null ? 'filled' : 'default'}
-                                    onClick={() => setTags(null)}
-                                />
-                                {['Wins', 'Losses']
-                                .map((tag) => (
-                                    <Button
-                                        key={tag}
-                                        label={tag}
-                                        variant="secondary"
-                                        className="animation-fade-in flex-shrink-0"
-                                        type={tags === tag ? 'filled' : 'default'}
+                        <div className="sticky top-0 bg-main py-3">
+                            {library.length > 0 && !libraryLoading && (
+                            <HorizontalScroll
+                                contentClassName="align-start gap-0"
+                            >
+                                {library.map((item) => (
+                                    <div className={`pointer h-100 bg-secondary-hover animation-fade-in border-radius hover-opacity-100 transition-duration clickable flex-shrink-0${selectedGame ? selectedGame === item?.game?._id ? "" : " opacity-25" : ""}`}
+                                        key={item._id}
                                         onClick={() => {
-                                            if (tags == tag) {
-                                                setTags(null)
+                                            if (selectedGame === item?.game?._id) {
+                                                setSelectedGame(null)
                                             } else {
-                                                setTags(tag)
+                                                setSelectedGame(item?.game?._id)
                                             }
                                         }}
-                                    />
+                                    >
+                                        <div className="flex flex-col p-2 align-center">
+                                            <Avatar
+                                                img={item?.game?.thumbnail}
+                                                size="lg"
+                                                rounded
+                                                label={item.game.name}
+                                            />
+                                            <div className="fs-12 text-center text-ellipsis-2 w-max-75-px pt-2 weight-500">
+                                                {item.game.name}
+                                            </div>
+                                        </div>
+                                    </div>
                                 ))}
                             </HorizontalScroll>
+                            )}
+                            <div className="py-3 px-sm-3">
+                                <HorizontalScroll>
+                                    <Button
+                                        label="All"
+                                        variant="secondary"
+                                        className="animation-fade-in flex-shrink-0"
+                                        type={tags === null ? 'filled' : 'default'}
+                                        onClick={() => setTags(null)}
+                                    />
+                                    {['Wins', 'Losses']
+                                    .map((tag) => (
+                                        <Button
+                                            key={tag}
+                                            label={tag}
+                                            variant="secondary"
+                                            className="animation-fade-in flex-shrink-0"
+                                            type={tags === tag ? 'filled' : 'default'}
+                                            onClick={() => {
+                                                if (tags == tag) {
+                                                    setTags(null)
+                                                } else {
+                                                    setTags(tag)
+                                                }
+                                            }}
+                                        />
+                                    ))}
+                                </HorizontalScroll>
+                            </div>
                         </div>
                         <div className="pb-6">
                             {plays.length > 0 && !isLoading ? (

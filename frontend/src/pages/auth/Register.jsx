@@ -35,7 +35,7 @@ const Register = () => {
         <>
         <div className="animation-fade-in">
             <div className="flex flex-col gap-3 text-center">
-                <div className="fs-96 weight-500">
+                <div className="fs-96 weight-500 fs-sm-54">
                     Hi there!
                 </div>
                 <div className="fs-16 mb-4">
@@ -51,7 +51,7 @@ const Register = () => {
                     type="text"
                     value={username}
                     wrapColumn
-                    placeholder="Enter your username"
+                    placeholder="Username"
                     error={msg && msg === 'This username is already in use'}
                     errorMsg="This username is already in use"
                     onChange={(e) => setUsername(e.target.value.replaceAll(' ', ''))}
@@ -60,7 +60,7 @@ const Register = () => {
                     type="text"
                     value={email}
                     wrapColumn
-                    placeholder="Enter your email"
+                    placeholder="Email"
                     error={msg && msg === 'This email is already in use'}
                     errorMsg="This email is already in use"
                     onChange={(e) => setEmail(e.target.value)}
@@ -69,7 +69,7 @@ const Register = () => {
                     type="password"
                     value={password}
                     wrapColumn
-                    placeholder="Enter your password"
+                    placeholder="Password"
                     error={msg === 'Invalid credentials'}
                     onChange={(e) => setPassword(e.target.value)}
                 />

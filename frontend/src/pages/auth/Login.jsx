@@ -35,11 +35,11 @@ const Login = () => {
             <>
             <div className="animation-fade-in">
                 <div className="flex flex-col gap-4 text-center">
-                    <div className="fs-96 weight-500">
+                    <div className="fs-96 weight-500 fs-sm-54">
                         Hi there!
                     </div>
                     <div className="fs-16 mb-4">
-                        Log in to your account to get started.
+                        Log in to your account.
                     </div>
                     <LoginWithGoogle/>
                     <div className="flex align-center gap-2 py-3">
@@ -51,7 +51,7 @@ const Login = () => {
                         type="text"
                         value={email}
                         wrapColumn
-                        placeholder="Your email"
+                        placeholder="Email"
                         error={email ? !email.match(/^([\w.%+-]+)@([\w-]+\.)+([\w]{2,})$/i) : msg === 'Invalid credentials'}
                         onChange={(e) => setEmail(e.target.value)}
                     />

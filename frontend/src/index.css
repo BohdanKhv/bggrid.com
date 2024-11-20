@@ -604,10 +604,10 @@ label.p-FieldLabel {
   .content {
     flex-direction: column;
   }
-  body:has(.header) .content-body {
+  body:has(.header) .offset-header {
     padding-top: var(--header-height);
   }
-  .content-body {
+  body:has(.navbar-mob) .content-body {
     padding-bottom: calc(var(--nav-mob-height) + 1px);
   }
 

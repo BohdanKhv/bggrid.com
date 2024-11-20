@@ -49,7 +49,7 @@ const Modal = ({
         if (forbidBackdropClose) {
             return;
         }
-
+        onClose && onClose();
         setModalIsOpen && setModalIsOpen(false);
     }
 

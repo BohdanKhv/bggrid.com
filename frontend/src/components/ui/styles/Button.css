@@ -115,10 +115,10 @@ a.btn-lg {
 .btn.btn-filled.btn-primary {
     background-color: rgb(var(--color-general-primary-bg));
     border-color: rgb(var(--color-general-primary-bg));
-    color: var(--text-light);
+    color: #fff;
 }
 .btn.btn-filled.btn-primary svg {
-    fill: var(--text-light);
+    fill: #fff;
 }
 .btn.btn-filled.btn-secondary {
     color: var(--text-light);
@@ -270,10 +270,10 @@ a.btn-lg {
     border-color: var(--color-border);
 }
 .btn.btn-outline.btn-primary svg {
-    fill: #000;
+    fill: var(--text-dark);
 }
 .btn.btn-outline.btn-primary {
-    color: #000;
+    color: var(--text-dark);
 }
 .btn.btn-outline.btn-success {
     color: rgb(var(--color-general-success-text));

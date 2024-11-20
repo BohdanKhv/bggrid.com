@@ -51,7 +51,7 @@ const FilterDropdown = ({ children, label, applied, onApply, onClear, mobileDrop
                     <Button
                         label="Clear"
                         variant="outline"
-                        type="primary"
+                        type="secondary"
                         onClick={() => {
                             onClear && onClear()
                             setIsOpen(false)
@@ -62,7 +62,7 @@ const FilterDropdown = ({ children, label, applied, onApply, onClear, mobileDrop
                     <Button
                         label="Apply"
                         variant="filled"
-                        type="primary"
+                        type="secondary"
                         onClick={() => {
                             setIsOpen(false)
                             onApply()

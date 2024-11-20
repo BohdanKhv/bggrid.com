@@ -15,7 +15,7 @@ const GameItemCol = ({item}) => {
     }, [library, item])
 
     return (
-        <div className="border-radius px-4 px-sm-3 pt-4 transition-duration animation-slide-in  display-on-hover-parent">
+        <div className="border-radius px-sm-3 px-sm-3 pt-4 transition-duration animation-slide-in  display-on-hover-parent">
             <div className="flex justify-between">
             <div className="flex gap-3">
                 <Image
@@ -35,7 +35,7 @@ const GameItemCol = ({item}) => {
                     </div>
                     <div className="flex gap-2 align-center mt-3">
                         {isInLibrary ?
-                        <div className="fs-12 text-primary weight-600 pe-2 flex">
+                        <div className="fs-12 text-secondary weight-600 pe-2 flex">
                             In Library
                         </div>
                         : 
@@ -54,7 +54,7 @@ const GameItemCol = ({item}) => {
                         <Button
                             label="Log Play"
                             icon={diceIcon}
-                            variant="primary"
+                            variant="secondary"
                             type="filled"
                             className="display-on-hover display-on-hover-sm-block"
                             onClick={(e) => {

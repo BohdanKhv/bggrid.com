@@ -415,7 +415,7 @@ const SearchPage = () => {
                                     </FilterDropdown>
                                 </HorizontalScroll>
                             </div>
-                            <div className="px-3 flex justify-between align-center">
+                            <div className="px-sm-3 flex justify-between align-center">
                                 <Dropdown
                                     label="Relevance"
                                     classNameContainer="p-0 border-none bold"

@@ -177,7 +177,7 @@ a.icon-btn {
     color: var(--text-dark);
 }
 .icon-btn.icon-btn-danger,
-    .icon-btn.icon-btn-danger svg {
+.icon-btn.icon-btn-danger svg {
     fill: rgb(var(--color-general-danger-text));
     color: rgb(var(--color-general-danger-text));
 }

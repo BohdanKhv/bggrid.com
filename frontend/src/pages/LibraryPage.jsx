@@ -12,7 +12,7 @@ const LibraryItem = ({ item }) => {
     const [searchParams, setSearchParams] = useSearchParams()
 
     return (
-        <div className="border-radius px-4 pt-4 transition-duration animation-slide-in display-on-hover-parent">
+        <div className="border-radius px-sm-3 pt-4 transition-duration animation-slide-in display-on-hover-parent">
             <div className="flex justify-between"
                 onClick={(e) => {
                     e.stopPropagation()

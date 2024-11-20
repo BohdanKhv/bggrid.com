@@ -18,9 +18,9 @@
   --color-primary: #1c4bf5;
   --color-primary-10: rgba(30, 156, 241, 0.1);
   --color-primary-20: rgba(30, 156, 241, 0.2);
-  --color-primary-text: #2754f5;
-  --color-primary-bg: #2754f5;
-  --color-primary-bg-hover: #1f4cec;
+  --color-primary-text: #1DA1F2;
+  --color-primary-bg: #1DA1F2;
+  --color-primary-bg-hover: #1c4bf5;
 
   --color-danger: #cc0023;
   --color-danger-text: #dc3545;
@@ -38,9 +38,9 @@
   --color-warning-bg-hover: #fff0cc;
 
   --color-general-primary-text: 255, 255, 255;
-  --color-general-primary-bg: 39, 84, 245;
-  --color-general-primary-bg-hover: 31, 76, 238;
-  --color-general-primary-border: 39, 84, 245;
+  --color-general-primary-bg: 29 161 242;
+  --color-general-primary-bg-hover: 31 76 238;
+  --color-general-primary-border: 29 161 242;
   --color-general-danger-text: 220, 53, 69;
   --color-general-danger-bg: 255, 230, 230;
   --color-general-danger-bg-hover: 255, 204, 204;
@@ -199,16 +199,13 @@
 
   --color-overlay: rgba(0, 0, 0, 0.65);
   
-  --color-primary-100: #ffccd4;
-  --color-primary-200: #ff99a9;
-  --color-primary-300: #ff667f;
-  --color-primary: #ff395c;
-  --color-primary-500: #e2002e;
+  --color-primary-100: #cce1ff;
+  --color-primary: #1c4bf5;
   --color-primary-10: rgba(30, 156, 241, 0.1);
   --color-primary-20: rgba(30, 156, 241, 0.2);
-  --color-primary-text: #ff395c;
-  --color-primary-bg: #e6f0ff;
-  --color-primary-bg-hover: #cce1ff;
+  --color-primary-text: #2754f5;
+  --color-primary-bg: #2754f5;
+  --color-primary-bg-hover: #1f4cec;
   --color-danger: #ed4956;
   --color-danger-text: #ed4956;
   --color-danger-bg: #ed4956;
@@ -225,10 +222,10 @@
   --color-warning-bg-hover: #ffde95;
   --color-warning-bg-light: #ffedc6;
   
-  --color-general-primary-text: 0, 0, 0;
-  --color-general-primary-bg: 255, 255, 255;
-  --color-general-primary-bg-hover: 255, 255, 255;
-  --color-general-primary-border: 255, 57, 92;
+  --color-general-primary-text: 255, 255, 255;
+  --color-general-primary-bg: 39, 84, 245;
+  --color-general-primary-bg-hover: 31, 76, 238;
+  --color-general-primary-border: 39, 84, 245;
   --color-general-danger-text: 231, 35, 54;
   --color-general-danger-bg-hover: 73, 1, 8;
   --color-general-danger-bg: 59, 0, 6;

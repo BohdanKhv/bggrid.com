@@ -894,6 +894,10 @@
     background-color: var(--color-translucent-3);
     backdrop-filter: blur(5px);
 }
+.bg-translucent-blur-lg {
+    background-color: var(--color-translucent-3);
+    backdrop-filter: blur(30px);
+}
 .object-cover {
     object-fit: cover;
 }

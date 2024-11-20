@@ -26,7 +26,7 @@ const CustomHeader = ({
     const months = [ 'January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December' ]
 
     return (
-    <div className="flex justify-center align-center flex-nowrap gap-2 py-2">
+    <div className="flex justify-center align-center flex-nowrap gap-2 py-2 bg-secondary">
         <button type="button"
             onClick={decreaseMonth}
             disabled={prevMonthButtonDisabled}
@@ -38,10 +38,10 @@ const CustomHeader = ({
             onChange={({ target: { value } }) =>
                 changeMonth(months.indexOf(value))
             }
-            className="bg-secondary border-0 text-dark fs-14 opacity-75 outline-none hover-opacity-100 border-none px-2 pointer bg-secondary-hover border-radius-sm box-shadow-none py-1"
+            className="border-0 text-dark fs-14 opacity-75 outline-none hover-opacity-100 border-none px-2 pointer bg-secondary border-radius-sm box-shadow-none py-2"
             >
             {months.map((option) => (
-                <option key={option} value={option} className="bg-main text-dark">
+                <option key={option} value={option} className="text-dark">
                     {option}
                 </option>
             ))}
@@ -49,10 +49,10 @@ const CustomHeader = ({
         <select
             value={new Date(date).getFullYear()}
             onChange={({ target: { value } }) => changeYear(value)}
-            className="bg-secondary border-0 text-dark opacity-75 outline-none hover-opacity-100 fs-14 border-none px-2 pointer bg-secondary-hover border-radius-sm box-shadow-none py-1"
+            className="border-0 text-dark opacity-75 outline-none hover-opacity-100 fs-14 border-none px-2 pointer bg-secondary border-radius-sm box-shadow-none py-2"
         >
         {years.map((option) => (
-            <option key={option} value={option} className="bg-main text-dark">
+            <option key={option} value={option} className="text-dark">
                 { option}
             </option>
         ))}
@@ -85,7 +85,7 @@ const CustomDateSelect = ({ value, onChange, disabled, readOnly, maxDate, minDat
         const minYear = minDate ? new Date(minDate).getFullYear() : 1900
         const maxYear = maxDate ? new Date(maxDate).getFullYear() : 2100
         for (let i = minYear; i <= maxYear; i++) {
-            years.unshift({ label: i, value: i })
+            years.push({ label: i, value: i })
         }
         return years
     }, [maxDate, minDate])
@@ -158,7 +158,7 @@ const CustomDateSelect = ({ value, onChange, disabled, readOnly, maxDate, minDat
                         onChange={(e) => {
                             setMonth(e.target.value)
                         }}
-                        className={`bg-main border-0 text-dark flex-1 outline-none hover-opacity-100 fs-12 py-1 border-none px-2 pointer box-shadow-none bg-secondary-hover border-radius-sm${!month ? " text-secondary" : ""}`}
+                        className={`bg-main border-0 text-dark flex-1 outline-none hover-opacity-100 fs-12 border-none py-2 pointer box-shadow-none border-radius-sm${!month ? " text-secondary" : " bold text-dark"}`}
                         disabled={disabled || readOnly}
                     >
                         {months.map((option) => (
@@ -177,7 +177,7 @@ const CustomDateSelect = ({ value, onChange, disabled, readOnly, maxDate, minDat
                         onChange={({ target: { value } }) => {
                             setDay(value)
                         }}
-                        className={`bg-main border-0 text-dark flex-1 outline-none hover-opacity-100 fs-12 py-1 border-none px-2 pointer box-shadow-none bg-secondary-hover border-radius-sm${!day ? " text-secondary" : ""}`}
+                        className={`bg-main border-0 text-dark flex-1 outline-none hover-opacity-100 fs-12 border-none py-2 pointer box-shadow-none border-radius-sm${!day ? " text-secondary" : " bold text-dark"}`}
                         disabled={disabled || readOnly}
                     >
                         {days.map((option) => (
@@ -196,7 +196,7 @@ const CustomDateSelect = ({ value, onChange, disabled, readOnly, maxDate, minDat
                         onChange={({ target: { value } }) => {
                             setYear(value)
                         }}
-                        className={`bg-main border-0 text-dark flex-1 outline-none hover-opacity-100 fs-12 py-1 border-none px-2 pointer box-shadow-none bg-secondary-hover border-radius-sm${!year ? " text-secondary" : ""}`}
+                        className={`bg-main border-0 text-dark flex-1 outline-none hover-opacity-100 fs-12 border-none py-2 pointer box-shadow-none border-radius-sm${!year ? " text-secondary" : " bold text-dark"}`}
                         disabled={disabled || readOnly}
                     >
                         {years?.map((option) => (
@@ -217,7 +217,7 @@ const CustomDatePickInput = forwardRef(({ value, onClick }, ref) => (
             icon={calendarDefaultIcon}
             onClick={onClick}
             variant="link"
-            size="xs"
+            size="sm"
             className="react-datepicker__view-calendar-icon h-100 opacity-50 hover-opacity-100"
         />
     </div>
@@ -383,7 +383,7 @@ const Input = ({
             <span className="input-arrow pos-absolute right-0 pointer-events-none">{selectOptionsIcon}</span>
             </div>
             : type === 'date' ?
-            <div className="input-input flex-grow-1 align-center p-0 input-input-date"
+            <div className="input-input flex-grow-1 align-center p-0 input-input-date overflow-hidden"
                 onClick={(e) => {
                     if (disabled || readOnly) return
                     // if (datePickerRef.current) {
@@ -413,7 +413,21 @@ const Input = ({
                             calendarStartDay={1}
                             withPortal
                             ref={datePickerRef}
-                            renderCustomHeader={({ date, changeYear, changeMonth, decreaseMonth, increaseMonth, prevMonthButtonDisabled, nextMonthButtonDisabled }) => ( 
+                            renderCustomHeader={({ date, changeYear, changeMonth, decreaseMonth, increaseMonth, prevMonthButtonDisabled, nextMonthButtonDisabled }) => (
+                                <>
+                                <div className="flex flex-col w-100 gap-2">
+                                    <Button
+                                        iconRight={closeIcon}
+                                        label="Select date"
+                                        className="w-100 justify-between border-radius weight-400 bg-secondary-hover border-radius-bottom-none"
+                                        variant="text"
+                                        onClick={() => {
+                                            if (datePickerRef.current) {
+                                                datePickerRef.current.setOpen(false)
+                                            }
+                                        }}
+                                    />
+                                </div>
                                 <CustomHeader
                                     date={date}
                                     changeYear={changeYear}
@@ -425,21 +439,9 @@ const Input = ({
                                     minYear={minDate ? new Date(minDate).getFullYear() : 1900}
                                     maxYear={maxDate ? new Date(maxDate).getFullYear() : 2100}
                                 />
+                                </>
                             )}
                         >
-                        <div className="flex flex-col w-100 gap-2">
-                            <Button
-                                label="Close"
-                                className="w-100 border-radius"
-                                muted
-                                variant="text"
-                                onClick={() => {
-                                    if (datePickerRef.current) {
-                                        datePickerRef.current.setOpen(false)
-                                    }
-                                }}
-                            />
-                        </div>
                         </DatePicker>
                     </div>
                 : null}

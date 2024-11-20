@@ -1,6 +1,6 @@
 import { useState, useEffect, useMemo } from "react"
 import { useDispatch, useSelector } from "react-redux"
-import { Button, ErrorInfo, IconButton, Image, Input, Modal, Range } from "../../components"
+import { Button, ErrorInfo, HorizontalScroll, IconButton, Image, Input, Modal, Range } from "../../components"
 import { useSearchParams } from "react-router-dom"
 import { getGameCard } from "../../features/game/gameSlice"
 import { closeIcon, linkIcon, upArrowRightIcon } from "../../assets/img/icons"
@@ -94,21 +94,43 @@ const LogPlay = () => {
                             variant="text"
                         />
                     </div>
-                    <div>
-                        <div className="fs-14 weight-600 pb-2">
-                            Playtime
-                        </div>
-                        <div className="flex gap-2">
-                            {['20 min', '30 min', '45 min', '1h', '1h 30m'].map(i => (
-                                <Button
-                                    key={i}
-                                    label={`${i}`}
-                                    type="secondary"
-                                    onClick={() => setPlayTimeMinutes(i)}
-                                    variant={`${playTimeMinutes === i ? 'filled' : 'outline'}`}
-                                />
-                            ))}
-                        </div>
+                    <Input
+                        label="When did you play?"
+                        value={playDate}
+                        onChange={(e) => setPlayDate(e.target.value)}
+                        wrapColumn
+                        maxDate={new Date()}
+                        minDate={new Date('2020-01-01')}
+                        type="date"
+                    />
+                    <div className="flex gap-2 flex-col">
+                            <div className="fs-14 weight-600 pb-2">
+                                Playtime
+                            </div>
+                                {/* <input
+                                    type="number"
+                                    className="border border-radius-lg py-2 px-4 w-max-50-px"
+                                    placeholder="Minutes"
+                                    value={playTimeMinutes}
+                                    onFocus={(e) => e.target.select()}
+                                    onChange={(e) => {
+                                        if (e.target.value < 0) return
+                                        if (e.target.value > 10000) return
+                                        setPlayTimeMinutes(e.target.value)
+                                    }}
+                                /> */}
+                                <HorizontalScroll>
+                                    {[{value: 20, label: '20 min'}, {value: 30, label: '30 min'}, {value: 45, label: '45 min'}, {value: 60, label: '1 hour'}, {value: 90, label: '1 hour 30 min'}, {value: 120, label: '2 hours'}].map(i => (
+                                        <Button
+                                            key={i.value}
+                                            label={`${i.label}`}
+                                            type="secondary"
+                                            className="flex-shrink-0"
+                                            onClick={() => setPlayTimeMinutes(i.value)}
+                                            variant={`${playTimeMinutes === i.value ? 'filled' : 'outline'}`}
+                                        />
+                                    ))}
+                                </HorizontalScroll>
                     </div>
                     <Input
                         label="Comment"

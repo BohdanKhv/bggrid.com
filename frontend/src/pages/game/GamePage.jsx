@@ -186,7 +186,7 @@ const GamePage = () => {
                                     <div>
                                         <Button
                                             icon={largePlusIcon}
-                                            variant="primary"
+                                            variant="secondary"
                                             type="outline"
                                             onClick={() => {
                                                 searchParams.set('addGame', gameId)
@@ -198,7 +198,7 @@ const GamePage = () => {
                                 :
                                     <div>
                                         <Button
-                                            variant="primary"
+                                            variant="secondary"
                                             type="outline"
                                             to="/login"
                                             label="Sign in to add to library"
@@ -207,7 +207,7 @@ const GamePage = () => {
                             }
                             <Button
                                 icon={diceIcon}
-                                variant="primary"
+                                variant="secondary"
                                 type="filled"
                                 onClick={() => {
                                     searchParams.set('play', gameId)

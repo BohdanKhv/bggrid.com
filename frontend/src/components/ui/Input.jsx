@@ -151,14 +151,14 @@ const CustomDateSelect = ({ value, onChange, disabled, readOnly, maxDate, minDat
     return (
         <div className="flex ps-0 flex-1">
             {!fields || !fields?.length || fields.includes('m') ?
-                <div className="border-right flex flex-1 align-center border-secondary border-right">
+                <div className="flex flex-1 align-center border-secondary border-right">
                     <select
                         value={month}
                         placeholder="Month"
                         onChange={(e) => {
                             setMonth(e.target.value)
                         }}
-                        className={`bg-main select-no-arrow border-0 text-dark flex-1 outline-none fs-12 border-none py-2 pointer box-shadow-none border-radius-sm${!month ? " text-secondary" : " bold text-dark"}`}
+                        className={`bg-main select-no-arrow border-0 ps-2 text-dark flex-1 outline-none fs-12 border-none py-2 pointer box-shadow-none border-radius-sm${!month ? " text-secondary" : " bold text-dark"}`}
                         disabled={disabled || readOnly}
                     >
                         {months.map((option) => (
@@ -170,14 +170,14 @@ const CustomDateSelect = ({ value, onChange, disabled, readOnly, maxDate, minDat
                 </div>
             : null }
             {!fields || !fields?.length || fields.includes('d') ?
-                <div className="border-right flex flex-1 align-center border-secondary">
+                <div className="flex flex-1 align-center border-secondary border-right">
                     <select
                         value={day}
                         placeholder="Day"
                         onChange={({ target: { value } }) => {
                             setDay(value)
                         }}
-                        className={`bg-main select-no-arrow border-0 text-dark flex-1 outline-none fs-12 border-none py-2 pointer box-shadow-none border-radius-sm${!day ? " text-secondary" : " bold text-dark"}`}
+                        className={`bg-main select-no-arrow ps-2 border-0 text-dark flex-1 outline-none fs-12 border-none py-2 pointer box-shadow-none border-radius-sm${!day ? " text-secondary" : " bold text-dark"}`}
                         disabled={disabled || readOnly}
                     >
                         {days.map((option) => (
@@ -196,7 +196,7 @@ const CustomDateSelect = ({ value, onChange, disabled, readOnly, maxDate, minDat
                         onChange={({ target: { value } }) => {
                             setYear(value)
                         }}
-                        className={`bg-main select-no-arrow border-0 text-dark flex-1 outline-none fs-12 border-none py-2 pointer box-shadow-none border-radius-sm${!year ? " text-secondary" : " bold text-dark"}`}
+                        className={`bg-main select-no-arrow ps-2 border-0 text-dark flex-1 outline-none fs-12 border-none py-2 pointer box-shadow-none border-radius-sm${!year ? " text-secondary" : " bold text-dark"}`}
                         disabled={disabled || readOnly}
                     >
                         {years?.map((option) => (
@@ -212,7 +212,7 @@ const CustomDateSelect = ({ value, onChange, disabled, readOnly, maxDate, minDat
 }
 
 const CustomDatePickInput = forwardRef(({ value, onClick }, ref) => (
-    <div className="border-right">
+    <div className="border-right pe-1">
         <IconButton
             icon={calendarDefaultIcon}
             onClick={onClick}

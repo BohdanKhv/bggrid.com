@@ -33,7 +33,7 @@ const Items = ({listView}) => {
                 ))}
             </div>
         :
-            <div className="grid flex-wrap animation-slide-in h-fit-content grid-xl-cols-5 grid-lg-cols-4 grid-md-cols-3 grid-sm-cols-1 grid-cols-4">
+            <div className="grid flex-wrap animation-slide-in h-fit-content grid-xl-cols-5 grid-lg-cols-4 grid-md-cols-3 grid-sm-cols-2 grid-cols-4">
                 {games.map((i) => (
                     <GameItem
                         key={i._id}

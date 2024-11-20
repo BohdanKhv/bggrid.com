@@ -177,7 +177,7 @@ const LogPlay = () => {
                                 }
                             />
                         </div>
-                        <div className="mt-2">
+                        <div>
                             {players.length ?
                             players.map((i, index) => (
                             <div className="m-2 bg-main border-radius"
@@ -265,7 +265,7 @@ const LogPlay = () => {
                         </div>
                     </div>
                 </div>
-            :
+            : step === 2 && players.length > 0 &&
                 <div className="flex flex-col gap-4 p-3">
                     <Input
                         label="Play Date"

@@ -15,7 +15,7 @@ const GameItem = ({item}) => {
     }, [library, item])
 
     return (
-        <Link className={`flex flex-col pos-relative flex-sm-row gap-sm-2 border-radius p-2 show-on-hover-parent box-shadow-hover transition-duration pos-relative mb-4 m-sm-0 ${window.innerWidth > 800 ? " display-on-hover-parent transition-slide-right-hover-parent" : ""}`}
+        <Link className={`flex flex-col pos-relative gap-sm-2 border-radius p-2 show-on-hover-parent box-shadow-hover transition-duration pos-relative mb-4 m-sm-0 display-on-hover-parent transition-slide-right-hover-parent`}
             onClick={(e) => {
                 e.preventDefault()
                 searchParams.set("addGame", item._id)
@@ -28,7 +28,7 @@ const GameItem = ({item}) => {
                         icon={isInLibrary ? checkIcon : largePlusIcon}
                         variant="filled"
                         type={isInLibrary ? "success" : "secondary"}
-                        className="pos-absolute top-0 right-0 m-3 box-shadow-lg display-on-hover border-none transition-slide-right-hover outline-white"
+                        className={`pos-absolute top-0 right-0 m-3 box-shadow-lg border-none outline-white${window.innerWidth > 800 ? " display-on-hover transition-slide-right-hover" : ""}`}
                         dataTooltipContent={isInLibrary ? "In library" : "Add to library"}
                     />
                     : null }
@@ -36,25 +36,25 @@ const GameItem = ({item}) => {
                     alt={item.name}
                     img={item.thumbnail}
                     classNameImg="w-100 h-100 object-cover border-radius"
-                    classNameContainer="border-radius bg-secondary bg-hover-after flex-1 h-sm-set-250-px h-set-250-px h-sm-set-100-px w-sm-set-75-px"
+                    classNameContainer="border-radius bg-secondary bg-hover-after flex-1 h-sm-set-250-px h-set-250-px"
                 />
                 <div className="display-on-hover">
-                    <div className="pos-absolute bottom-0 w-100">
-                            <div className="bg-main p-2">
+                    <div className="pos-absolute top-0 h-100 w-100">
+                            <div className="bg-main p-2 border-radius m-1">
                             <div className="flex flex-col flex-1 flex-wrap z-1">
-                                <div className="flex fs-12 gap-2 py-2 align-center text-nowrap">
-                                    <Icon icon={starEmptyIcon}/> <strong>{item.avgRating.toFixed(1)}</strong> {numberFormatter(item.numRatings)} reviews
-                                </div>
-                                <div className="flex fs-12 gap-2 py-2 align-center text-nowrap">
-                                    <Icon icon={weightIcon}/> <strong>{item.gameWeight.toFixed(1)}</strong> weight
-                                </div>
-                                <div className="flex fs-12 gap-2 py-2 align-center text-nowrap">
-                                    <Icon icon={usersIcon}/> <strong>{item.MinPlayers}{item.MaxPlayers > item.MinPlayers ? `-${item.MaxPlayers}` : ''}</strong> players
-                                </div>
+                                    <div className="flex fs-12 gap-2 py-2 align-center text-nowrap">
+                                        <Icon icon={starEmptyIcon}/> <strong>{item.avgRating.toFixed(1)}</strong>
+                                    </div>
+                                    <div className="flex fs-12 gap-2 py-2 align-center text-nowrap">
+                                    <Icon icon={weightIcon}/> <strong>{item.gameWeight.toFixed(1)}</strong>
+                                    </div>
+                                    <div className="flex fs-12 gap-2 py-2 align-center text-nowrap">
+                                    <Icon icon={usersIcon}/> <strong>{item.MinPlayers}{item.MaxPlayers > item.MinPlayers ? `-${item.MaxPlayers}` : ''}</strong>
+                                    </div>
                                 {item.ComMinPlaytime ?
-                                <div className="flex fs-12 gap-2 py-2 align-center text-nowrap">
-                                    <Icon icon={historyIcon}/> <strong>{item.ComMinPlaytime}</strong> min
-                                </div>
+                                    <div className="flex fs-12 gap-2 py-2 align-center text-nowrap">
+                                    <Icon icon={historyIcon}/> <strong>{item.ComMinPlaytime}</strong>
+                                    </div>
                                 : null}
                             </div>
                         </div>
@@ -62,7 +62,7 @@ const GameItem = ({item}) => {
                 </div>
             </div>
             <div
-                className="flex flex-col pb-4 pointer"
+                className="flex flex-col pointer"
             >
                 <div className="flex justify-between align-center pt-2">
                     <div className="fs-12 weight-600 text-main">{item.yearPublished}</div>

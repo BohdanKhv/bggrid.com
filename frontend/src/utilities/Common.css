@@ -234,6 +234,14 @@
 .tag-secondary svg {
     fill: rgb(var(--color-general-secondary-text));
 }
+.tag-text {
+    border-color: var(--text-dark)!important;
+    background-color: var(--text-dark);
+    color: var(--text-light);
+}
+.tag-text svg {
+    fill: var(--text-light)!important;
+}
 .tag-secondary {
     border-color: rgb(var(--color-general-secondary-border))!important;
     background-color: rgb(var(--color-general-secondary-bg));

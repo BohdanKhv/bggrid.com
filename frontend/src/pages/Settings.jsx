@@ -1,11 +1,12 @@
 import React, { useEffect, useRef, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { useNavigate, useParams } from 'react-router-dom'
-import { Avatar, Button, IconButton, Input, TabContent } from '../components'
-import { uploadIcon } from '../assets/img/icons'
+import { Avatar, Button, Icon, IconButton, Input, TabContent } from '../components'
+import { checkIcon, uploadIcon } from '../assets/img/icons'
 import { updateUser } from '../features/auth/authSlice'
 import Compressor from 'compressorjs'
 import { DateTime } from 'luxon'
+import { setTheme } from '../features/local/localSlice'
 
 
 
@@ -68,10 +69,10 @@ const Account = () => {
                         <div className="flex">
                             <Button
                                 label="Save Changes"
-                                variant="primary"
+                                variant="secondary"
+                                displayTextOnLoad
                                 type="filled"
                                 isLoading={loadingId === 'profile'}
-                                displayTextOnLoad
                                 disabled={loadingId}
                                 size="sm"
                                 onClick={() => {
@@ -170,6 +171,90 @@ const Account = () => {
     )
 }
 
+const Preferences = () => {
+    const dispatch = useDispatch()
+
+    const { theme, searchHistory } = useSelector((state) => state.local)
+
+    useEffect(() => {
+        window.scrollTo(0, 0)
+        document.title = 'Settings - Preferences'
+    }, [])
+
+    return (
+        <div className="flex flex-col gap-5 gap-sm-3 animation-slide-in">
+            <div>
+                <div className="flex gap-6 flex-sm-col">
+                    <div className="col-8 flex flex-col gap-5 gap-sm-3 col-sm-12">
+                        <div className="fs-14 bold">
+                            Theme
+                        </div>
+                        <div className="flex gap-2">
+                            <div className="border border-radius flex-1 overflow-hidden pointer color-border-on-hover-text transition-duration"
+                                onClick={() => dispatch(setTheme('system'))}
+                            >
+                                <div className="h-set-100-px"
+                                    style={{
+                                        backgroundColor: '#f5f5f5'
+                                    }}
+                                />
+                                <div className="p-3 border-top fs-14 flex gap-2 justify-between align-center">
+                                    System
+                                    {theme === 'system' ? 
+                                    <Icon
+                                        icon={theme === 'system' ? checkIcon : ''}
+                                        className="tag-text border-radius-50"
+                                    />
+                                    : null}
+                                </div>
+                            </div>
+                            <div className="border border-radius flex-1 overflow-hidden pointer color-border-on-hover-text transition-duration"
+                                onClick={() => dispatch(setTheme('light'))}
+                            >
+                                <div className="h-set-100-px"
+                                    style={{
+                                        backgroundColor: '#fff'
+                                    }}
+                                />
+                                <div className="p-3 border-top fs-14 flex gap-2 justify-between align-center">
+                                    Light
+                                    {theme === 'light' ? 
+                                    <Icon
+                                        icon={theme === 'light' ? checkIcon : ''}
+                                        className="tag-text border-radius-50"
+                                        size="sm"
+                                    />
+                                    : null}
+                                </div>
+                            </div>
+                            <div className="border border-radius flex-1 overflow-hidden pointer color-border-on-hover-text transition-duration"
+                                onClick={() => dispatch(setTheme('dark'))}
+                            >
+                                <div className="h-set-100-px"
+                                    style={{
+                                        backgroundColor: '#000'
+                                    }}
+                                />
+                                <div className="p-3 border-top fs-14 flex gap-2 justify-between align-center">
+                                    Dark
+                                    {theme === 'dark' ? 
+                                    <Icon
+                                        icon={theme === 'dark' ? checkIcon : ''}
+                                        className="tag-text border-radius-50"
+                                        size="sm"
+                                    />
+                                    : null}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    )
+}
+
+
 const Redirect = () => {
     const navigate = useNavigate()
 
@@ -207,19 +292,19 @@ const Settings = () => {
                                     items={
                                         [
                                             {label: 'Account'},
+                                            {label: 'Preferences'},
                                         ]
                                     }
                                     activeTabName={activeTab}
                                     setActiveTabName={e => {
-                                        navigate(`/account/${e}`)
+                                        navigate(`/settings/${e}`)
                                     }}
                                 />
                         </div>
                         <div className="pb-6 pt-5 px-sm-3">
                             {activeTab === 'account' ? <Account />
-                            :
-                                <Redirect />
-                            }
+                            : activeTab === 'preferences' ? <Preferences />
+                            : <Redirect /> }
                         </div>
                     </div>
                 </div>

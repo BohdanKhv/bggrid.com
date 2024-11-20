@@ -24,15 +24,29 @@ import UserPage from "./pages/UserPage";
 import GamePage from "./pages/game/GamePage";
 import CategoryPage from "./pages/game/CategoryPage";
 import LogPlay from "./pages/game/LogPlay";
+import { useEffect } from "react";
 
 function App() {
   const { user } = useSelector(state => state.auth);
+
+  const { theme } = useSelector(state => state.local);
+
+  useEffect(() => {
+    if(theme === 'system') {
+      const systemTheme = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+      document?.body?.setAttribute('data-theme', systemTheme);
+    } else if (theme === 'dark') {
+      document?.body?.setAttribute('data-theme', 'dark');
+    } else {
+      document?.body?.setAttribute('data-theme', 'light');
+    }
+}, [theme]);
 
   return (
     <Router>
       <Alerts />
       <Me/>
-        <div className="flex flex-col" data-theme="light">
+        <div className="flex flex-col" data-theme={theme === 'system' ? window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light' : theme}>
         {/* <div className="flex flex-col h-min-100-pct" data-theme={theme === 'system' ? window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light' : theme}> */}
         <Tooltip id="tooltip-default" className="z-999 w-max-200-px d-sm-none" place="bottom" closeOnEsc closeOnScroll globalCloseEvents="click" positionStrategy="fixed" opacity="0.95" noArrow />
         <ErrBoundary>

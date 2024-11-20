@@ -51,7 +51,7 @@ const LibraryItem = ({ item }) => {
                         <Button
                             label="Log Play"
                             icon={diceIcon}
-                            variant="primary"
+                            variant="secondary"
                             type="filled"
                             className="display-on-hover display-on-hover-sm-block"
                             onClick={(e) => {

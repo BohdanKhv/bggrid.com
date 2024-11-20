@@ -324,6 +324,12 @@
   -webkit-tap-highlight-color: transparent;
   font-family: var(--font-family);
 }
+select.select-no-arrow {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  padding-right: 1.5rem;
+}
 /* *::-webkit-scrollbar {
   width: 6px;
   height: 6px;

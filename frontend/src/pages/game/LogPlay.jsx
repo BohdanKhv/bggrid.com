@@ -1,9 +1,9 @@
 import { useState, useEffect, useMemo } from "react"
 import { useDispatch, useSelector } from "react-redux"
-import { Avatar, Button, ErrorInfo, HorizontalScroll, IconButton, Image, Input, Modal, ProgressBar, Range } from "../../components"
+import { Avatar, Button, CheckBox, ErrorInfo, HorizontalScroll, Icon, IconButton, Image, Input, InputSearch, Modal, ProgressBar, Range } from "../../components"
 import { useSearchParams } from "react-router-dom"
 import { getGameCard } from "../../features/game/gameSlice"
-import { closeIcon, linkIcon, upArrowRightIcon } from "../../assets/img/icons"
+import { closeIcon, linkIcon, searchIcon, trashIcon, upArrowRightIcon, userIcon } from "../../assets/img/icons"
 import { tagsEnum } from "../../assets/constants"
 // import { playGame } from "../../features/library/librarySlice"
 
@@ -11,9 +11,20 @@ import { tagsEnum } from "../../assets/constants"
 const LogPlay = () => {
     const dispatch = useDispatch()
 
+    const [searchValue, setSearchValue] = useState('')
+
     const [comment, setComment] = useState('')
     const [playTimeMinutes, setPlayTimeMinutes] = useState(0)
-    const [players, setPlayers] = useState([])
+    const { user } = useSelector(state => state.auth)
+    const [players, setPlayers] = useState([{
+        id: user?._id,
+        name: user.firstName ? `${user.firstName} ${user.lastName}` : user?.username,
+        username: user?.username,
+        avatar: user?.avatar,
+        score: 0,
+        color: '',
+        winner: false
+    }])
     const [playDate, setPlayDate] = useState(new Date())
     const [step, setStep] = useState(1)
 
@@ -86,7 +97,7 @@ const LogPlay = () => {
                 </div>
             }
             noAction={libraryIsLoading}
-            classNameContent="p-0"
+            classNameContent="p-0 scrollbar-none"
             actionBtnText={step === 1 ? 'Next' : 'Save'}
             onSubmit={step === 1 ? () => setStep(2) : onSubmit}
             disabledAction={libraryIsLoading}
@@ -94,7 +105,7 @@ const LogPlay = () => {
             actionDangerBtnText={step === 2 ? 'Back' : undefined}
             onSubmitDanger={step === 2 ? () => setStep(1) : undefined}
         >
-            <div>
+            <div className="sticky top-0 z-3">
                 <ProgressBar
                     type="primary"
                     size="2"
@@ -106,8 +117,153 @@ const LogPlay = () => {
             : gameCard ?
             <>
             {step === 1 ?
-                <div className="flex flex-col">
-                    
+                <div className="flex flex-col pt-4 gap-4">
+                    <div className="flex flex-col">
+                        <div className="border border-radius mx-2">
+                            <InputSearch
+                                className="flex-1 py-1 ps-4"
+                                placeholder="Search or add players"
+                                value={searchValue}
+                                clearable
+                                onChange={(e) => setSearchValue(e.target.value)}
+                                onSubmit={(e) => {
+                                    setSearchValue('')
+                                    setPlayers([...players, {
+                                        name: searchValue.trim(),
+                                        score: 0,
+                                        color: '',
+                                        winner: false
+                                    }])
+                                }}
+                                searchable={searchValue.length}
+                                searchChildren={
+                                    <div className="py-2">
+                                        {searchValue.length ?
+                                        <div className="flex justify-between align-center">
+                                            <div
+                                                onClick={(e) => {
+                                                    e.stopPropagation()
+                                                    setSearchValue('')
+                                                    setPlayers([...players, {
+                                                        name: searchValue.trim(),
+                                                        score: 0,
+                                                        color: '',
+                                                        winner: false
+                                                    }])
+                                                }}
+                                                className="fs-16 flex align-center py-3 gap-3 px-2 pointer bg-secondary-hover flex-1 overflow-hidden"
+                                            >
+                                                <div className="flex gap-2 align-center">
+                                                    <Avatar
+                                                        icon={userIcon}
+                                                        defaultColor
+                                                        name={searchValue}
+                                                        size="sm"
+                                                        rounded
+                                                    />
+                                                    <div className="flex flex-col">
+                                                        <div className="fs-14 text-ellipsis-1">
+                                                            {searchValue}
+                                                        </div>
+                                                        <div className="fs-12 text-secondary">
+                                                            (non-user) player
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        : null}
+                                    </div>
+                                }
+                            />
+                        </div>
+                        <div className="mt-2">
+                            {players.length ?
+                            players.map((i, index) => (
+                            <div className="m-2 bg-main border-radius"
+                                key={index}
+                            >
+                                <div
+                                    className="fs-16 flex py-3 gap-3 px-2 flex-1 overflow-hidden justify-between px-sm-0"
+                                >
+                                    <div className="flex gap-2 align-center">
+                                        <Avatar
+                                            icon={userIcon}
+                                            avatarColor={i.name.length}
+                                            name={searchValue}
+                                            size="sm"
+                                            rounded
+                                        />
+                                        <div className="flex flex-col">
+                                            <div className="fs-14 text-ellipsis-1 weight-600">
+                                                {i.name}
+                                            </div>
+                                            <div className="fs-12 text-secondary">
+                                                {i.id ? `@${i.username}` : '(non-user) player'}
+                                            </div>
+                                        </div>
+                                    </div>
+                                    {i.id === user?._id ? <div className="fs-12 weight-600">YOU</div> :
+                                    <IconButton
+                                        icon={trashIcon}
+                                        variant="link"
+                                        muted
+                                        onClick={() => {
+                                            setPlayers(players.filter((_, j) => j !== index))
+                                        }}
+                                    />
+                                    }
+                                </div>
+                                <div className="px-2 pb-2 px-sm-0">
+                                    <div className="flex gap-2">
+                                        <div className="flex-1">
+                                            <Input
+                                                type="text"
+                                                placeholder="Color/Team"
+                                                value={i.color}
+                                                onFocus={(e) => e.target.select()}
+                                                onChange={(e) => {
+                                                    const newPlayers = [...players]
+                                                    newPlayers[index].color = e.target.value
+                                                    setPlayers(newPlayers)
+                                                }}
+                                            />
+                                        </div>
+                                        <div className="flex-1">
+                                            <Input
+                                                type="number"
+                                                placeholder="Score"
+                                                max={1000}
+                                                value={i.score || ''}
+                                                onFocus={(e) => e.target.select()}
+                                                onChange={(e) => {
+                                                    if (e.target.value > 10000) return
+                                                    const newPlayers = [...players]
+                                                    newPlayers[index].score = e.target.value
+                                                    setPlayers(newPlayers)
+                                                }}
+                                            />
+                                        </div>
+                                        <CheckBox
+                                            label="Winner"
+                                            checked={i.winner}
+                                            className="border border-radius px-4 py-3"
+                                            onClick={() => {
+                                                const newPlayers = [...players]
+                                                newPlayers[index].winner = !i.winner
+                                                setPlayers(newPlayers)
+                                            }}
+                                        />
+                                    </div>
+                                </div>
+                            </div>
+                            ))
+                            : <div className="fs-12 text-secondary px-2 text-center py-4">
+                                No players added yet
+                            </div>
+                            }
+                        </div>
+                    </div>
                 </div>
             :
                 <div className="flex flex-col gap-4 p-3">

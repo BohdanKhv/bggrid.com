@@ -158,7 +158,7 @@ const CustomDateSelect = ({ value, onChange, disabled, readOnly, maxDate, minDat
                         onChange={(e) => {
                             setMonth(e.target.value)
                         }}
-                        className={`bg-main border-0 text-dark flex-1 outline-none hover-opacity-100 fs-12 border-none py-2 pointer box-shadow-none border-radius-sm${!month ? " text-secondary" : " bold text-dark"}`}
+                        className={`bg-main select-no-arrow border-0 text-dark flex-1 outline-none fs-12 border-none py-2 pointer box-shadow-none border-radius-sm${!month ? " text-secondary" : " bold text-dark"}`}
                         disabled={disabled || readOnly}
                     >
                         {months.map((option) => (
@@ -177,7 +177,7 @@ const CustomDateSelect = ({ value, onChange, disabled, readOnly, maxDate, minDat
                         onChange={({ target: { value } }) => {
                             setDay(value)
                         }}
-                        className={`bg-main border-0 text-dark flex-1 outline-none hover-opacity-100 fs-12 border-none py-2 pointer box-shadow-none border-radius-sm${!day ? " text-secondary" : " bold text-dark"}`}
+                        className={`bg-main select-no-arrow border-0 text-dark flex-1 outline-none fs-12 border-none py-2 pointer box-shadow-none border-radius-sm${!day ? " text-secondary" : " bold text-dark"}`}
                         disabled={disabled || readOnly}
                     >
                         {days.map((option) => (
@@ -196,7 +196,7 @@ const CustomDateSelect = ({ value, onChange, disabled, readOnly, maxDate, minDat
                         onChange={({ target: { value } }) => {
                             setYear(value)
                         }}
-                        className={`bg-main border-0 text-dark flex-1 outline-none hover-opacity-100 fs-12 border-none py-2 pointer box-shadow-none border-radius-sm${!year ? " text-secondary" : " bold text-dark"}`}
+                        className={`bg-main select-no-arrow border-0 text-dark flex-1 outline-none fs-12 border-none py-2 pointer box-shadow-none border-radius-sm${!year ? " text-secondary" : " bold text-dark"}`}
                         disabled={disabled || readOnly}
                     >
                         {years?.map((option) => (

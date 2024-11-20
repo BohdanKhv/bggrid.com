@@ -57,7 +57,7 @@ const ErrorInfo = ({icon, btnIcon, size, label, secondary, tertiary, onClick, bt
                     icon={btnIcon}
                     label={btnLabel}
                     onClick={onClick}
-                    type="primary"
+                    type="secondary"
                     variant={variant || "filled"}
                     className="mt-4"
                 />
@@ -67,7 +67,7 @@ const ErrorInfo = ({icon, btnIcon, size, label, secondary, tertiary, onClick, bt
                     icon={btnIcon}
                     label={btnLabel}
                     to={to}
-                    type="primary"
+                    type="secondary"
                     variant={variant || "filled"}
                     className="mt-4"
                 />

@@ -18,7 +18,7 @@ const LogPlay = () => {
     const [playTimeMinutes, setPlayTimeMinutes] = useState(0)
     const { user } = useSelector(state => state.auth)
     const [players, setPlayers] = useState([{
-        id: user?._id,
+        user: user?._id,
         name: user.firstName ? `${user.firstName} ${user.lastName}` : user?.username,
         username: user?.username,
         avatar: user?.avatar,

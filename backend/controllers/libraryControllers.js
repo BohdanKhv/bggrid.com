@@ -43,9 +43,13 @@ const getMyLibrary = async (req, res) => {
     try {
         const games = await Library.find({ user: req.user._id })
         .populate('game');
+
+        const sortedGames = games.sort((a, b) => {
+            return a.game.name.localeCompare(b.game.name);
+        });
     
         res.status(200).json({
-            data: games,
+            data: sortedGames,
         });
     } catch (error) {
         console.error(error);

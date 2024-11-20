@@ -7,18 +7,55 @@ const Play = require('../models/playModel');
 // @access  Private
 const getMyPlays = async (req, res) => {
     try {
-        const { page, limit } = req.query;
+        const { page, limit, selectedGame, tags } = req.query;
+
+        let q = {}
+
+        if (selectedGame) {
+            q.game = selectedGame;
+        }
+        if (tags) {
+            if (tags.toLowerCase() === 'wins') {
+                q.players = {
+                    $elemMatch: {
+                        user: req.user._id,
+                        winner: true
+                    }
+                }
+            } else if (tags.toLowerCase() === 'losses') {
+                q.players = {
+                    $elemMatch: {
+                        user: req.user._id,
+                        winner: false
+                    }
+                }
+            }
+        } else {
+            q.$or = [
+                { 'players.user': req.user._id },
+                { user: req.user._id }
+            ]
+        }
 
         const options = {
             page: parseInt(page) || 1,
             limit: parseInt(limit) || 40,
-            sort: { playDate: -1 }
-        };
+            sort: { playDate: -1 },
+                populate: {
+                    path: 'game players.user',
+                    select: 'avatar username firstName lastName name thumbnail'
+                }
+            };
 
-        const plays = await Play.paginate({ user: req.user._id }, options);
+        const plays = await Play.paginate(q, options)
+
+        const currentPage = plays.page;
+        const totalPages = plays.totalPages;
 
         return res.status(200).json({
-            data: plays
+            data: plays.docs,
+            currentPage,
+            totalPages
         });
     } catch (error) {
         console.error(error);

@@ -20,8 +20,10 @@ export const getMyPlays = createAsyncThunk(
     'play/getMyPlays',
     async (payload, thunkAPI) => {
         try {
+            const {tags, selectedGame} = payload;
             const token = thunkAPI.getState().auth.user ? thunkAPI.getState().auth.user.token : null;
-            return await playService.getMyPlays(payload, token);
+            const { page, limit } = thunkAPI.getState().play;
+            return await playService.getMyPlays(`?page=${page}&limit=${limit}${tags ? `&tags=${tags}` : ""}${selectedGame ? `&selectedGame=${selectedGame}` : ""}`, token);
         } catch (error) {
             const message =
                 (error.response &&
@@ -114,6 +116,7 @@ const playSlice = createSlice({
             state.plays = action.payload.data;
             state.pages = action.payload.totalPages;
             state.current = action.payload.page;
+            state.hasMore = action.payload.page < action.payload.totalPages;
         });
         builder.addCase(getMyPlays.rejected, (state, action) => {
             if (action.error.message !== 'Aborted') {

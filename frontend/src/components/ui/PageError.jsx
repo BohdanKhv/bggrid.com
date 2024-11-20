@@ -16,7 +16,7 @@ const PageError = () => {
             </p>
             <div className="flex align-center mt-4 gap-2">
                 <Button
-                    type="primary"
+                    type="secondary"
                     variant="outline"
                     label="Support"
                     borderRadius="lg"
@@ -25,7 +25,7 @@ const PageError = () => {
                 <Button
                     label="Try again"
                     onClick={() => window.location.reload()}
-                    type="primary"
+                    type="secondary"
                     variant="filled"
                     borderRadius="lg"
                 />

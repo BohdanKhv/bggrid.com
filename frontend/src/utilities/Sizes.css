@@ -680,6 +680,9 @@ margin-right: auto;
 .w-max-50-px {
     max-width: 50px;
 }
+.w-max-75-px {
+    max-width: 75px;
+}
 .w-max-100-px {
     max-width: 100px;
 }

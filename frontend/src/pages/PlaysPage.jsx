@@ -7,16 +7,8 @@ import { closeIcon, editIcon, gamesIcon, linkIcon, diceIcon, searchIcon, starFil
 import { tagsEnum } from '../assets/constants'
 import { numberFormatter } from '../assets/utils'
 import { getMyPlays, resetPlay } from '../features/play/playSlice'
+import PlayItem from './PlayItems'
 
-const PlayItem = ({ item }) => {
-
-    const [searchParams, setSearchParams] = useSearchParams()
-
-    return (
-        <div className="border-radius px-sm-3 pt-4 transition-duration animation-slide-in display-on-hover-parent">
-        </div>
-    )
-}
 
 const PlaysPage = () => {
     const dispatch = useDispatch()
@@ -34,14 +26,19 @@ const PlaysPage = () => {
     }
 
     useEffect(() => {
-        const promise = getData()
-
         if (document.querySelector('.header-title')) document.querySelector('.header-title').innerText = 'Play logs'
         return () => {
             if (document.querySelector('.header-title')) document.querySelector('.header-title').innerText = ''
-            promise && promise.abort()
         }
     }, [])
+
+    useEffect(() => {
+        const promise = dispatch(getMyPlays({ tags, selectedGame }))
+        return () => {
+            promise && promise.abort()
+            dispatch(resetPlay())
+        }
+    }, [tags, selectedGame])
 
     const observer = useRef();
     const lastElementRef = useCallback(node => {
@@ -69,7 +66,7 @@ const PlaysPage = () => {
                         <div className="pt-6 pb-3 pt-sm-3 title-1 bold px-sm-3">
                             Plays
                         </div>
-                        <div className="sticky top-0 bg-main py-3">
+                        <div className="sticky top-0 bg-main pb-3">
                             {library.length > 0 && !libraryLoading && (
                             <HorizontalScroll
                                 contentClassName="align-start gap-0"
@@ -92,7 +89,7 @@ const PlaysPage = () => {
                                                 rounded
                                                 label={item.game.name}
                                             />
-                                            <div className="fs-12 text-center text-ellipsis-2 w-max-75-px pt-2 weight-500">
+                                            <div className="fs-12 text-center text-ellipsis-1 w-max-75-px pt-2 weight-500">
                                                 {item.game.name}
                                             </div>
                                         </div>
@@ -100,7 +97,7 @@ const PlaysPage = () => {
                                 ))}
                             </HorizontalScroll>
                             )}
-                            <div className="py-3 px-sm-3">
+                            <div className="pt-3 px-sm-3">
                                 <HorizontalScroll>
                                     <Button
                                         label="All"

@@ -29,7 +29,7 @@
     border-radius: 50%;
 }
 .checkbox-wrapper:hover .checkbox {
-    border-color: rgb(var(--color-general-secondary-border));
+    border-color: rgb(var(--color-general-secondary-text));
     background-color: transparent;
 }
 .checkbox-wrapper:hover .checkbox {
@@ -37,8 +37,8 @@
     background-color: transparent;
 }
 .checkbox-wrapper:active .checkbox {
-    border-color: rgb(var(--color-general-secondary-border))!important;
-    box-shadow: var(--color-border) 0px 0px 0px 2px, rgb(var(--color-general-secondary-border)) 0px 0px 0px 4px;
+    border-color: rgb(var(--color-general-secondary-text))!important;
+    box-shadow: var(--color-border) 0px 0px 0px 2px, rgb(var(--color-general-secondary-text)) 0px 0px 0px 4px;
 }
 .checkbox-wrapper .checkbox-checked {
     width: 20px;
@@ -50,7 +50,7 @@
 .checkbox-wrapper .checkbox-checked svg {
     width: 100%;
     height: 100%;
-    fill: #fff;
+    fill: black;
 }
 .checkbox-label {
     line-height: 1.43;
@@ -61,8 +61,8 @@
 }
 .checkbox-wrapper-checked:hover .checkbox,
 .checkbox-wrapper-checked .checkbox {
-    border-color: rgb(var(--color-general-secondary-border));
-    background-color: rgb(var(--color-general-secondary-border));
+    border-color: rgb(var(--color-general-secondary-text));
+    background-color: rgb(var(--color-general-secondary-text));
 }
 .checkbox-success.checkbox-wrapper-checked:hover .checkbox,
 .checkbox-success.checkbox-wrapper-checked .checkbox {

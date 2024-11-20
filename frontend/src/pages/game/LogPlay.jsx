@@ -202,7 +202,7 @@ const LogPlay = () => {
                                                 {i.name}
                                             </div>
                                             <div className="fs-12 text-secondary">
-                                                {i.id ? `@${i.username}` : '(non-user) player'}
+                                                {i.user ? `@${i.username}` : '(non-user) player'}
                                             </div>
                                         </div>
                                     </div>

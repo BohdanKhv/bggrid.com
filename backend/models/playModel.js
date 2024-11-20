@@ -8,7 +8,7 @@ const playSchema = new mongoose.Schema({
     playTimeMinutes: { type: Number, required: false },
     players: [{
         user: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: false }, // in case you tagged a user
-        name: { type: String, required: false }, // in case the user is not registered
+        name: { type: String, required: true }, // in case the user is not registered
         score: { type: Number, required: false },
         color: { type: String, required: false },
         winner: { type: Boolean, required: false },

@@ -55,7 +55,7 @@ const PlayItem = ({ item }) => {
                             {item.comment}
                         </div>
                     : null}
-                    <div className="flex gap-2 flex flex-col border border-radius overflow-hidden mt-3">
+                    <div className="flex gap-2 flex flex-col border border-radius border-secondary overflow-hidden mt-3">
                         {item?.players.length &&
                         [...item?.players]
                         .sort((a, b) => b.score - a.score)
@@ -74,7 +74,7 @@ const PlayItem = ({ item }) => {
                                     <div className="flex flex-col">
                                         <div className={`flex gap-1 align-center`}>
                                             {player.user ?
-                                                <Link target="_blank" to={`/u/${player.user.username}`} className="fs-14 weight-600 pointer text-underlined-hover text-ellipsis-1">
+                                                <Link target="_blank" to={`/u/${player.user.username}`} className="fs-12 weight-600 pointer text-underlined-hover text-ellipsis-1">
                                                     @{player.user.username}
                                                 </Link>
                                             : 

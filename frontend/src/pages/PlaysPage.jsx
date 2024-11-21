@@ -7,7 +7,7 @@ import { closeIcon, editIcon, gamesIcon, linkIcon, diceIcon, searchIcon, starFil
 import { tagsEnum } from '../assets/constants'
 import { numberFormatter } from '../assets/utils'
 import { getMyPlays, resetPlay } from '../features/play/playSlice'
-import PlayItem from './PlayItems'
+import PlayItem from './PlayItem'
 
 
 const PlaysPage = () => {

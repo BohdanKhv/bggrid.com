@@ -187,7 +187,7 @@ const UpdateLogPlay = () => {
                         <div>
                             {players.length ?
                             players.map((i, index) => (
-                            <div className="m-2 bg-main border-radius animation-slide-in"
+                            <div className="m-2 bg-secondary border-radius animation-slide-in"
                                 key={index}
                             >
                                 <div
@@ -210,11 +210,12 @@ const UpdateLogPlay = () => {
                                             </div>
                                         </div>
                                     </div>
-                                    {i?.user?._id === user?._id ? <div className="fs-12 weight-600">YOU</div> :
+                                    {i?.user?._id === user?._id ? <div className="fs-12 weight-600 px-4">YOU</div> :
                                     <IconButton
                                         icon={trashIcon}
                                         variant="link"
                                         muted
+                                        className="mx-2"
                                         onClick={() => {
                                             setPlayers(players.filter((_, j) => j !== index))
                                         }}
@@ -240,6 +241,7 @@ const UpdateLogPlay = () => {
                                             <Input
                                                 type="number"
                                                 placeholder="Score"
+                                                className="bg-main border-radius"
                                                 max={1000}
                                                 value={i.score || ''}
                                                 onFocus={(e) => e.target.select()}
@@ -256,7 +258,7 @@ const UpdateLogPlay = () => {
                                         <CheckBox
                                             label="Winner"
                                             checked={i.winner}
-                                            className="border border-radius px-4 py-3"
+                                            className="px-4 py-3"
                                             onClick={() => {
                                                 setPlayers(prevPlayers => {
                                                     const updatedPlayers = [...prevPlayers]

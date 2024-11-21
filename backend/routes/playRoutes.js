@@ -5,6 +5,8 @@ const {
     getMyPlays,
     getPlaysByGame,
     createPlay,
+    getPlayById,
+    updatePlay,
     deletePlay,
 } = require('../controllers/playControllers');
 
@@ -12,6 +14,8 @@ const {
 router
     .get('/my-plays', protect, getMyPlays)
     .get('/game/:gameId', getPlaysByGame)
+    .get('/:playId', protect, getPlayById)
+    .put('/:playId', protect, updatePlay)
     .post('/', protect, createPlay)
     .delete('/:playId', protect, deletePlay)
 

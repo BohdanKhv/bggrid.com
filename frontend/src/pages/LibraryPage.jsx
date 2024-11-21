@@ -7,6 +7,7 @@ import { closeIcon, editIcon, gamesIcon, linkIcon, diceIcon, searchIcon, starFil
 import { tagsEnum } from '../assets/constants'
 import { numberFormatter } from '../assets/utils'
 import GameSearchModal from './game/GameSearchModal'
+import UpdateLogPlay from './game/UpdateLogPlay'
 
 const LibraryItem = ({ item }) => {
 

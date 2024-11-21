@@ -3,6 +3,73 @@ const Game = require('../models/gameModel');
 const Play = require('../models/playModel');
 
 
+// @desc    Get play by ID
+// @route   GET /api/plays/:playId
+// @access  Private
+const getPlayById = async (req, res) => {
+    try {
+        const play = await Play.findById(req.params.playId)
+            .populate([{
+                path: 'game players.user user',
+                select: 'avatar username firstName lastName name thumbnail'
+            }]);
+
+        if (!play) {
+            return res.status(404).json({ msg: '404' });
+        }
+
+        res.status(200).json({
+            data: play
+        });
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ msg: 'Server error' });
+    }
+}
+
+
+// @desc    Update play
+// @route   PUT /api/plays/:playId
+// @access  Private
+const updatePlay = async (req, res) => {
+    try {
+        const { comment, playTimeMinutes, players } = req.body;
+
+        const play = await Play.findOne({
+            _id: req.params.playId,
+            $or: [
+                { user: req.user._id },
+                { 'players.user': req.user._id }
+            ]
+        });
+
+        if (!play) {
+            return res.status(404).json({ msg: 'Play not found' });
+        }
+
+        play.comment = comment;
+        play.playTimeMinutes = playTimeMinutes;
+        play.players = players;
+
+        await play.save();
+
+        // Populate game and user
+        await play.populate([{
+            path: 'game players.user user',
+            select: 'avatar username firstName lastName name thumbnail'
+        }])
+
+        res.status(200).json({
+            data: play
+        });
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ msg: 'Server error' });
+    }
+}
+
+
+
 // @desc    Get my plays
 // @route   GET /api/plays/my-plays
 // @access  Private
@@ -161,6 +228,8 @@ const deletePlay = async (req, res) => {
 
 module.exports = {
     getMyPlays,
+    getPlayById,
+    updatePlay,
     getPlaysByGame,
     createPlay,
     deletePlay,

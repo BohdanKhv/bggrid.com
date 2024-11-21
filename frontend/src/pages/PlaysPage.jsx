@@ -8,6 +8,7 @@ import { tagsEnum } from '../assets/constants'
 import { numberFormatter } from '../assets/utils'
 import { getMyPlays, resetPlay } from '../features/play/playSlice'
 import PlayItem from './PlayItem'
+import UpdateLogPlay from './game/UpdateLogPlay'
 
 
 const PlaysPage = () => {
@@ -60,6 +61,7 @@ const PlaysPage = () => {
 
     return (
         <div>
+            <UpdateLogPlay/>
             <main className="page-body">
                 <div className="animation-slide-in">
                     <div className="container">

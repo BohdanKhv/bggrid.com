@@ -1,9 +1,11 @@
 import { DateTime } from 'luxon'
 import { Avatar, Icon, IconButton, Image } from '../components'
-import { Link } from 'react-router-dom'
+import { Link, useSearchParams } from 'react-router-dom'
 import { awardIcon, moreIcon } from '../assets/img/icons'
 
 const PlayItem = ({ item }) => {
+
+    const [searchParams, setSearchParams] = useSearchParams()
 
     return (
         <div className="px-3 border-bottom border-secondary transition-duration animation-slide-in display-on-hover-parent">
@@ -48,6 +50,10 @@ const PlayItem = ({ item }) => {
                             type="secondary"
                             muted
                             size="sm"
+                            onClick={() => {
+                                searchParams.set('updatePlay', item._id)
+                                setSearchParams(searchParams)
+                            }}
                         />
                     </div>
                     {item.comment ?

@@ -31,6 +31,28 @@ export const createPlay = async (payload, token) => {
     return response.data;
 }
 
+export const getPlayById = async (payload, token) => {
+    const config = {
+        headers: {
+            Authorization: `Bearer ${token}`
+        }
+    }
+    const response = await axios.get(API_URL+`/${payload}`, config);
+
+    return response.data;
+}
+
+export const updatePlay = async (payload, token) => {
+    const config = {
+        headers: {
+            Authorization: `Bearer ${token}`
+        }
+    }
+    const response = await axios.put(API_URL+`/${payload.playId}`, payload, config);
+
+    return response.data;
+}
+
 export const deletePlay = async (payload, token) => {
     const config = {
         headers: {
@@ -47,6 +69,8 @@ export const deletePlay = async (payload, token) => {
 
 const playService = {
     getMyPlays,
+    getPlayById,
+    updatePlay,
     getPlaysByGame,
     createPlay,
     deletePlay

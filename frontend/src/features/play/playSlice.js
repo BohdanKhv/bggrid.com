@@ -5,6 +5,7 @@ import { toast } from 'react-toastify';
 
 const initialState = {
     plays: [],
+    playById: null,
     isLoading: false,
     msg: '',
     loadingId: '',
@@ -24,6 +25,42 @@ export const getMyPlays = createAsyncThunk(
             const token = thunkAPI.getState().auth.user ? thunkAPI.getState().auth.user.token : null;
             const { page, limit } = thunkAPI.getState().play;
             return await playService.getMyPlays(`?page=${page}&limit=${limit}${tags ? `&tags=${tags}` : ""}${selectedGame ? `&selectedGame=${selectedGame}` : ""}`, token);
+        } catch (error) {
+            const message =
+                (error.response &&
+                    error.response.data &&
+                    error.response.data.msg) ||
+                error.message ||
+                error.toString();
+            return thunkAPI.rejectWithValue(message);
+        }
+    }
+);
+
+export const getPlayById = createAsyncThunk(
+    'play/getPlayById',
+    async (payload, thunkAPI) => {
+        try {
+            const token = thunkAPI.getState().auth.user ? thunkAPI.getState().auth.user.token : null;
+            return await playService.getPlayById(payload, token);
+        } catch (error) {
+            const message =
+                (error.response &&
+                    error.response.data &&
+                    error.response.data.msg) ||
+                error.message ||
+                error.toString();
+            return thunkAPI.rejectWithValue(message);
+        }
+    }
+);
+
+export const updatePlay = createAsyncThunk(
+    'play/updatePlay',
+    async (payload, thunkAPI) => {
+        try {
+            const token = thunkAPI.getState().auth.user ? thunkAPI.getState().auth.user.token : null;
+            return await playService.updatePlay(payload, token);
         } catch (error) {
             const message =
                 (error.response &&
@@ -124,6 +161,37 @@ const playSlice = createSlice({
                 state.msg = action.payload;
                 toast.error(action.payload, { toastId: 'toastError', closeButton: true});
             }
+        });
+
+        builder.addCase(getPlayById.pending, (state) => {
+            state.loadingId = 'get-one';
+            state.msg = '';
+            state.playById = null;
+        });
+        builder.addCase(getPlayById.fulfilled, (state, action) => {
+            state.loadingId = '';
+            state.playById = action.payload.data;
+        });
+        builder.addCase(getPlayById.rejected, (state, action) => {
+            state.loadingId = '';
+            state.msg = action.payload;
+            toast.error(action.payload, { toastId: 'toastError', closeButton: true});
+        });
+
+        builder.addCase(updatePlay.pending, (state, action) => {
+            state.loadingId = `update-${action.meta.arg.playId}`;
+            state.msg = '';
+        });
+        builder.addCase(updatePlay.fulfilled, (state, action) => {
+            state.loadingId = '';
+            state.msg = 'success';
+            state.playById = action.payload.data;
+            state.plays = state.plays.map(play => play._id === action.payload.data._id ? action.payload.data : play);
+        });
+        builder.addCase(updatePlay.rejected, (state, action) => {
+            state.loadingId = '';
+            state.msg = action.payload;
+            toast.error(action.payload, { toastId: 'toastError', closeButton: true});
         });
 
         builder.addCase(getPlaysByGame.pending, (state) => {

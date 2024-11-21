@@ -14,10 +14,9 @@ connectDB();
 // Initialize express
 const app = express();
 
-
 // Cors
 app.use(cors({
-    origin: [process.env.CLIENT_URL]
+    origin: [process.env.CLIENT_URL, 'http://192.168.1.101:5173'],
 }));
 
 app.use((req, res, next) => {
@@ -52,8 +51,10 @@ if(process.env.NODE_ENV === 'production') {
     app.get('/', (req, res) => res.send('Please set to production'))
 }
 
+// run on http://192.168.1.101:5000
 
 // Server
-app.listen(port, () => {
+app.listen(port, '192.168.1.101', () => {
+// app.listen(port, () => {
     console.log(`Server running on port ${port}`);
 });

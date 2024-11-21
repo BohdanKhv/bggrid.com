@@ -68,37 +68,37 @@ const PlaysPage = () => {
                         </div>
                         <div className="sticky top-0 bg-main pb-3">
                             {library.length > 0 && !libraryLoading && (
-                            <HorizontalScroll
-                                contentClassName="align-start gap-0"
-                            >
-                                {library.map((item) => (
-                                    <div className={`pointer h-100 bg-secondary-hover animation-fade-in border-radius hover-opacity-100 transition-duration clickable flex-shrink-0${selectedGame ? selectedGame === item?.game?._id ? "" : " opacity-25" : ""}`}
-                                        key={item._id}
-                                        onClick={() => {
-                                            if (selectedGame === item?.game?._id) {
-                                                setSelectedGame(null)
-                                            } else {
-                                                setSelectedGame(item?.game?._id)
-                                            }
-                                        }}
-                                    >
-                                        <div className="flex flex-col p-2 align-center">
-                                            <Avatar
-                                                img={item?.game?.thumbnail}
-                                                size="lg"
-                                                rounded
-                                                label={item.game.name}
-                                            />
-                                            <div className="fs-12 text-center text-ellipsis-1 w-max-75-px pt-2 weight-500">
-                                                {item.game.name}
+                                <HorizontalScroll
+                                    contentClassName="align-start gap-0"
+                                >
+                                    {library.map((item) => (
+                                        <div className={`pointer h-100 bg-secondary-hover animation-fade-in border-radius hover-opacity-100 transition-duration clickable flex-shrink-0${selectedGame ? selectedGame === item?.game?._id ? "" : " opacity-25" : ""}`}
+                                            key={item._id}
+                                            onClick={() => {
+                                                if (selectedGame === item?.game?._id) {
+                                                    setSelectedGame(null)
+                                                } else {
+                                                    setSelectedGame(item?.game?._id)
+                                                }
+                                            }}
+                                        >
+                                            <div className="flex flex-col p-2 align-center">
+                                                <Avatar
+                                                    img={item?.game?.thumbnail}
+                                                    size="lg"
+                                                    rounded
+                                                    label={item.game.name}
+                                                />
+                                                <div className="fs-12 text-center text-ellipsis-1 w-max-75-px pt-2 weight-500">
+                                                    {item.game.name}
+                                                </div>
                                             </div>
                                         </div>
-                                    </div>
-                                ))}
-                            </HorizontalScroll>
+                                    ))}
+                                </HorizontalScroll>
                             )}
-                            <div className="pt-3 px-sm-3">
-                                <HorizontalScroll>
+                            <div className="pt-3 px-sm-3 flex">
+                                <HorizontalScroll className="flex-1">
                                     <Button
                                         label="All"
                                         variant="secondary"
@@ -124,6 +124,18 @@ const PlaysPage = () => {
                                         />
                                     ))}
                                 </HorizontalScroll>
+                                {selectedGame ?
+                                    <Button
+                                        icon={diceIcon}
+                                        variant="secondary"
+                                        className="animation-fade-in"
+                                        label="Log a Play"
+                                        onClick={() => {
+                                            searchParams.set('logPlay', selectedGame)
+                                            setSearchParams(searchParams)
+                                        }}
+                                    />
+                                : null }
                             </div>
                         </div>
                         <div className="pb-6">

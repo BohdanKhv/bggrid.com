@@ -6,6 +6,7 @@ import { getGameCard } from "../../features/game/gameSlice"
 import { closeIcon, linkIcon, searchIcon, trashIcon, upArrowRightIcon, userIcon } from "../../assets/img/icons"
 import { tagsEnum } from "../../assets/constants"
 import { createPlay } from "../../features/play/playSlice"
+import { DateTime } from "luxon"
 // import { playGame } from "../../features/library/librarySlice"
 
 
@@ -26,7 +27,7 @@ const LogPlay = () => {
         color: '',
         winner: false
     }])
-    const [playDate, setPlayDate] = useState(new Date())
+    const [playDate, setPlayDate] = useState(DateTime.now().toISO())
     const [step, setStep] = useState(1)
 
     const [searchParam, setSearchParam] = useSearchParams()
@@ -38,7 +39,6 @@ const LogPlay = () => {
         return library.find(i => i?.game?._id === gameCard?._id)
     }, [library, gameCard])
 
-
     useEffect(() => {
         let promise;
         if (searchParam.get("logPlay")) {
@@ -47,7 +47,6 @@ const LogPlay = () => {
 
         return () => {
             promise && promise?.abort()
-            setComment('')
         }
     }, [searchParam.get("logPlay")])
 
@@ -55,22 +54,54 @@ const LogPlay = () => {
         if (playMsg === 'success') {
             searchParam.delete("logPlay")
             setSearchParam(searchParam)
+            setStep(1)
+            setPlayers([{
+                user: user?._id,
+                name: user.firstName ? `${user.firstName} ${user.lastName}` : user?.username,
+                username: user?.username,
+                avatar: user?.avatar,
+                score: 0,
+                color: '',
+                winner: false
+            }])
+            setPlayTimeMinutes(0)
+            setComment('')
         }
     }, [playMsg])
 
     useEffect(() => {
         if (gameCard && isInLibrary) {
-            setComment(isInLibrary.comment || '') 
+            setComment('') 
+        }
+
+        return () => {
+            setComment('')
+            setStep(1)
+            setPlayTimeMinutes(0)
+            setPlayers([{
+                user: user?._id,
+                name: user.firstName ? `${user.firstName} ${user.lastName}` : user?.username,
+                username: user?.username,
+                avatar: user?.avatar,
+                score: 0,
+                color: '',
+                winner: false
+            }])
         }
     }, [gameCard, isInLibrary])
 
     const onSubmit = () => {
+        const currentDate = new Date(playDate);
+        const now = new Date();
+        currentDate.setHours(now.getHours());
+        currentDate.setMinutes(now.getMinutes());
+
         dispatch(createPlay({
             gameId: gameCard._id,
             comment,
             playTimeMinutes,
             players,
-            playDate
+            playDate: currentDate
         }))
     }
 
@@ -187,7 +218,7 @@ const LogPlay = () => {
                                 key={index}
                             >
                                 <div
-                                    className="fs-16 flex py-3 gap-3 px-2 flex-1 overflow-hidden justify-between px-sm-0"
+                                    className="fs-16 flex py-3 gap-3 px-2 flex-1 overflow-hidden justify-between px-sm-0 align-center"
                                 >
                                     <div className="flex gap-2 align-center">
                                         <Avatar
@@ -206,7 +237,7 @@ const LogPlay = () => {
                                             </div>
                                         </div>
                                     </div>
-                                    {i.id === user?._id ? <div className="fs-12 weight-600">YOU</div> :
+                                    {i.id === user?.user ? <div className="fs-12 weight-600">YOU</div> :
                                     <IconButton
                                         icon={trashIcon}
                                         variant="link"
@@ -296,7 +327,7 @@ const LogPlay = () => {
                                     }}
                                 /> */}
                                 <HorizontalScroll>
-                                    {[{value: 20, label: '20 min'}, {value: 30, label: '30 min'}, {value: 45, label: '45 min'}, {value: 60, label: '1 hour'}, {value: 90, label: '1 hour 30 min'}, {value: 120, label: '2 hours'}].map(i => (
+                                    {[{value: 20, label: '20 min'}, {value: 30, label: '30 min'}, {value: 45, label: '45 min'}, {value: 60, label: '1 hour'}, {value: 90, label: '1 h 30 min'}, {value: 120, label: '2 hours'}, {value: 180, label: '2 h 30 min'}].map(i => (
                                         <Button
                                             key={i.value}
                                             label={`${i.label}`}

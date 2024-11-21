@@ -43,6 +43,9 @@ const AddGame = () => {
         if (msg === 'success') {
             searchParam.delete("addGame")
             setSearchParam(searchParam)
+            setRating(0)
+            setTags([])
+            setComment('')
         }
     }, [msg])
 

@@ -38,6 +38,7 @@
     cursor: pointer;
     display: flex;
     z-index: 2;
+    pointer-events: none;
 }
 .horizontal-scroll-prev::after {
     content: ''; /* Simple right arrow indicator */
@@ -72,6 +73,7 @@
     cursor: pointer;
     display: flex;
     z-index: 3;
+    pointer-events: none;
 }
 
 .horizontal-scroll .horizontal-scroll:first-of-type {

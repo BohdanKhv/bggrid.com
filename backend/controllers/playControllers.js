@@ -1,3 +1,4 @@
+const { DateTime } = require('luxon');
 const Game = require('../models/gameModel');
 const Play = require('../models/playModel');
 
@@ -115,6 +116,13 @@ const createPlay = async (req, res) => {
             playDate,
             user: req.user._id
         });
+
+        // Populate game and user
+        await play.populate([
+            { path: 'game', select: 'name thumbnail' },
+            { path: 'players.user', select: 'avatar username firstName lastName' },
+            { path: 'user', select: 'avatar username firstName lastName' }
+        ]);
 
         res.status(201).json({
             data: play

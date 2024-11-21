@@ -4,6 +4,7 @@
     transition-duration: var(--transition-duration);
     position: relative;
     cursor: text;
+    min-height: 44px
 }
 .input input[type="time"] {
     -webkit-appearance: none;

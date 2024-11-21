@@ -148,6 +148,7 @@ const playSlice = createSlice({
         builder.addCase(createPlay.fulfilled, (state, action) => {
             state.loadingId = '';
             state.msg = 'success';
+            state.plays.unshift(action.payload.data);
             toast.success("Play logged successfully!", { toastId: 'toastSuccess', closeButton: true});
         });
         builder.addCase(createPlay.rejected, (state, action) => {

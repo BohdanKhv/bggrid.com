@@ -214,7 +214,7 @@ const GamePage = () => {
                                     searchParams.set('logPlay', gameById._id)
                                     setSearchParams(searchParams)
                                 }}
-                                label="Log Play"
+                                label="Log a Play"
                             />
                             <IconButton
                                 icon={shareIcon}

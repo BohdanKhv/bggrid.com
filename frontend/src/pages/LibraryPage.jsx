@@ -49,7 +49,7 @@ const LibraryItem = ({ item }) => {
                             }}
                         />
                         <Button
-                            label="Log Play"
+                            label="Log a Play"
                             icon={diceIcon}
                             variant="secondary"
                             type="filled"

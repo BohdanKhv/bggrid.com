@@ -66,13 +66,13 @@ const PlaysPage = () => {
                         <div className="pt-6 pb-3 pt-sm-3 title-1 bold px-sm-3">
                             Plays
                         </div>
-                        <div className="sticky top-0 bg-main pb-3">
+                        <div className="sticky top-0 bg-main py-1 z-3 py-sm-0">
                             {library.length > 0 && !libraryLoading && (
                                 <HorizontalScroll
                                     contentClassName="align-start gap-0"
                                 >
                                     {library.map((item) => (
-                                        <div className={`pointer h-100 bg-secondary-hover animation-fade-in border-radius hover-opacity-100 transition-duration clickable flex-shrink-0${selectedGame ? selectedGame === item?.game?._id ? "" : " opacity-25" : ""}`}
+                                        <div className={`pointer h-100 bg-secondary-hover animation-fade-in border-radius border-radius-sm-none hover-opacity-100 transition-duration clickable flex-shrink-0${selectedGame ? selectedGame === item?.game?._id ? "" : " opacity-25" : ""}`}
                                             key={item._id}
                                             onClick={() => {
                                                 if (selectedGame === item?.game?._id) {
@@ -97,6 +97,8 @@ const PlaysPage = () => {
                                     ))}
                                 </HorizontalScroll>
                             )}
+                        </div>
+                        <div>
                             <div className="pt-3 px-sm-3 flex">
                                 <HorizontalScroll className="flex-1">
                                     <Button
@@ -138,7 +140,7 @@ const PlaysPage = () => {
                                 : null }
                             </div>
                         </div>
-                        <div className="pb-6">
+                        <div>
                             {plays.length > 0 && !isLoading ? (
                                 <div className="flex flex-col">
                                 {plays

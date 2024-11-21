@@ -279,6 +279,14 @@ const Settings = () => {
         window.scrollTo(0, 0)
     }, [tab])
 
+    useEffect(() => {
+        document.title = 'Settings'
+        if (document.querySelector('.header-title')) document.querySelector('.header-title').innerText = "Settings"
+        return () => {
+            if (document.querySelector('.header-title')) document.querySelector('.header-title').innerText = ''
+        }
+    }, [])
+
     return (
         <div>
             <main className="page-body">

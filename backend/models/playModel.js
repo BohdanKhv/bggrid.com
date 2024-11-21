@@ -13,7 +13,7 @@ const playSchema = new mongoose.Schema({
         color: { type: String, required: false },
         winner: { type: Boolean, required: false },
     }],
-    playDate: { type: Date, required: true },
+    playDate: { type: Date, required: false, default: Date.now },
 }, { timestamps: true });
 
 

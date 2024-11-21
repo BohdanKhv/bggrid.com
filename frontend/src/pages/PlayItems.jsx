@@ -32,7 +32,7 @@ const PlayItem = ({ item }) => {
                                 // if more than 1 day, show the date
                                 // if less than 1 day, show relative time
                                 DateTime.now().diff(DateTime.fromISO(item.playDate), ['days']).days > 1 ? DateTime.fromISO(item.playDate).toFormat('LLL dd') :
-                            DateTime.fromISO(item.playDate).toRelative().replace(' day', 'd').replace(' days', 'd').replace(' hours', 'h').replace(' hour', 'h').replace(' minutes', 'm').replace(' minute', 'm').replace(' seconds', 's').replace(' ago', '')}</span>
+                            DateTime.fromISO(item.playDate).toRelative().replace(' days', 'd').replace(' day', 'd').replace(' hours', 'h').replace(' hour', 'h').replace(' minutes', 'm').replace(' minute', 'm').replace(' seconds', 's').replace(' second', 's').replace(' ago', '')}</span>
                         </div>
                         <div className="flex fs-14 gap-2 text-secondary pt-1">
                             Played <Link target="_blank" to={`/g/${item.game._id}`} className="fs-14 text-main bold pointer text-ellipsis-1 text-underlined-hover">{item.game.name}</Link> {item?.playTimeMinutes ? `for ${item.playTimeMinutes} min` : null}

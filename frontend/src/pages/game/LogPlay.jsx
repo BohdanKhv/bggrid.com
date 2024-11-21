@@ -101,7 +101,7 @@ const LogPlay = () => {
             comment,
             playTimeMinutes,
             players,
-            playDate: currentDate
+            // playDate: currentDate
         }))
     }
 
@@ -250,7 +250,7 @@ const LogPlay = () => {
                                 </div>
                                 <div className="px-2 pb-2 px-sm-0">
                                     <div className="flex gap-2">
-                                        <div className="flex-1">
+                                        {/* <div className="flex-1">
                                             <Input
                                                 type="text"
                                                 placeholder="Color/Team"
@@ -262,7 +262,7 @@ const LogPlay = () => {
                                                     setPlayers(newPlayers)
                                                 }}
                                             />
-                                        </div>
+                                        </div> */}
                                         <div className="flex-1">
                                             <Input
                                                 type="number"
@@ -301,7 +301,7 @@ const LogPlay = () => {
                 </div>
             : step === 2 && players.length > 0 &&
                 <div className="flex flex-col gap-4 p-3">
-                    <Input
+                    {/* <Input
                         label="Play Date"
                         value={playDate}
                         onChange={(e) => setPlayDate(e.target.value)}
@@ -309,7 +309,7 @@ const LogPlay = () => {
                         maxDate={new Date()}
                         minDate={new Date('2020-01-01')}
                         type="date"
-                    />
+                    /> */}
                     <div className="flex gap-2 flex-col">
                             <div className="fs-14 weight-600 pb-2">
                                 Playtime

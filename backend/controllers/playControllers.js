@@ -97,7 +97,7 @@ const createPlay = async (req, res) => {
     try {
         const { gameId, comment, playTimeMinutes, players, playDate } = req.body;
 
-        if (!gameId || !playDate) {
+        if (!gameId) {
             return res.status(400).json({ msg: 'Please fill in all fields' });
         }
 

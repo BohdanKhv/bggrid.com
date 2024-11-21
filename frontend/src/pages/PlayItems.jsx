@@ -18,10 +18,14 @@ const PlayItem = ({ item }) => {
                     <div className="flex flex-col justify-between flex-1">
                         <div className="flex gap-2 justify-between">
                             <div className="flex gap-2">
-                                <div target="_blank" to={`/u/${item.user.username}`} className="fs-14 bold text-ellipsis-1">
-                                    {item.user.firstName} {item.user.lastName}
-                                </div>
-                                <span className="fs-14 weight-400 text-secondary">·</span>
+                                {item.user.firstName || item.user.lastName ?
+                                    <>
+                                        <div target="_blank" to={`/u/${item.user.username}`} className="fs-14 bold text-ellipsis-1">
+                                            {item.user.firstName} {item.user.lastName}
+                                        </div>
+                                        <span className="fs-14 weight-400 text-secondary">·</span>
+                                    </>
+                                : null}
                                 <Link className="text-secondary weight-400 fs-12 text-underlined-hover">@{item.user.username}</Link>
                             </div>
                             <span className="weight-400 text-secondary fs-12 text-wrap-nowrap">{

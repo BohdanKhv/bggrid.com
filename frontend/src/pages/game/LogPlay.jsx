@@ -237,7 +237,7 @@ const LogPlay = () => {
                                             </div>
                                         </div>
                                     </div>
-                                    {i.id === user?.user ? <div className="fs-12 weight-600">YOU</div> :
+                                    {i.user === user?._id ? <div className="fs-12 weight-600">YOU</div> :
                                     <IconButton
                                         icon={trashIcon}
                                         variant="link"

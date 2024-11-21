@@ -26,6 +26,7 @@ import CategoryPage from "./pages/game/CategoryPage";
 import LogPlay from "./pages/game/LogPlay";
 import { useEffect } from "react";
 import PlaysPage from "./pages/PlaysPage";
+import CommunityPage from "./pages/CommunityPage";
 
 function App() {
   const { user } = useSelector(state => state.auth);
@@ -88,6 +89,7 @@ function App() {
                     <Route path="/settings/:tab" element={<ErrBoundary><Settings/></ErrBoundary>} />
                     <Route path="/library" element={<ErrBoundary><LibraryPage /></ErrBoundary>} />
                     <Route path="/plays" element={<ErrBoundary><PlaysPage /></ErrBoundary>} />
+                    <Route path="/community" element={<ErrBoundary><CommunityPage /></ErrBoundary>} />
                   </>
                   :
                     <>

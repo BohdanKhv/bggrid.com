@@ -1,6 +1,6 @@
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { Avatar, Button, ErrorInfo, HorizontalScroll, IconButton, PlayItem } from '../components'
+import { Avatar, Button, ErrorInfo, HorizontalScroll, IconButton } from '../components'
 import { getMyFriends } from '../features/friend/friendSlice'
 import { linkIcon } from '../assets/img/icons'
 
@@ -81,12 +81,12 @@ const CommunityPage = () => {
                         <div className="pt-3 px-sm-3">
                             <div className="flex">
                                 <HorizontalScroll className="flex-1">
-                                    {selectedFriend || tags ?
+                                    {selectedFriend || tag ?
                                         <IconButton
                                             icon={closeIcon}
                                             variant="secondary"
                                             className="animation-fade-in flex-shrink-0"
-                                            type={tags === null ? 'filled' : 'default'}
+                                            type={tag === null ? 'filled' : 'default'}
                                             onClick={() => {
                                                 setSelectedFriend(null)
                                                 setTag(null)
@@ -97,7 +97,7 @@ const CommunityPage = () => {
                                         label="All"
                                         variant="secondary"
                                         className="animation-fade-in flex-shrink-0"
-                                        type={tags === null ? 'filled' : 'default'}
+                                        type={tag === null ? 'filled' : 'default'}
                                         onClick={() => setTag(null)}
                                     />
                                     {['Plays', 'Library']
@@ -134,7 +134,7 @@ const CommunityPage = () => {
                         </div>
                     </div>
                     <div>
-                        {plays.length > 0 && !isLoading ? (
+                        {/* {plays.length > 0 && !isLoading ? (
                             <div className="flex flex-col">
                             {plays
                             .map((item, index, arr) =>
@@ -154,7 +154,7 @@ const CommunityPage = () => {
                             secondary="Once you start logging plays, they will appear here."
                             icon={diceIcon}
                             />
-                        )}
+                        )} */}
                     </div>
                 </div>
             </div>

@@ -157,6 +157,7 @@ const LogPlay = () => {
                             <InputSearch
                                 className="flex-1 py-1 ps-4"
                                 placeholder="Search or add players"
+                                icon={searchIcon}
                                 value={searchValue}
                                 clearable
                                 onChange={(e) => setSearchValue(e.target.value)}
@@ -214,11 +215,11 @@ const LogPlay = () => {
                         <div>
                             {players.length ?
                             players.map((i, index) => (
-                            <div className="m-2 bg-main border-radius animation-slide-in"
+                            <div className="m-2 bg-secondary border-radius animation-slide-in"
                                 key={index}
                             >
                                 <div
-                                    className="fs-16 flex py-3 gap-3 px-2 flex-1 overflow-hidden justify-between px-sm-0 align-center"
+                                    className="fs-16 flex py-3 gap-3 px-2 flex-1 overflow-hidden justify-between align-center"
                                 >
                                     <div className="flex gap-2 align-center">
                                         <Avatar
@@ -237,10 +238,11 @@ const LogPlay = () => {
                                             </div>
                                         </div>
                                     </div>
-                                    {i.user === user?._id ? <div className="fs-12 weight-600">YOU</div> :
+                                    {i.user === user?._id ? <div className="fs-12 weight-600 px-4">YOU</div> :
                                     <IconButton
                                         icon={trashIcon}
                                         variant="link"
+                                        className="mx-2"
                                         muted
                                         onClick={() => {
                                             setPlayers(players.filter((_, j) => j !== index))
@@ -248,7 +250,7 @@ const LogPlay = () => {
                                     />
                                     }
                                 </div>
-                                <div className="px-2 pb-2 px-sm-0">
+                                <div className="px-2 pb-2">
                                     <div className="flex gap-2">
                                         {/* <div className="flex-1">
                                             <Input
@@ -268,6 +270,7 @@ const LogPlay = () => {
                                                 type="number"
                                                 placeholder="Score"
                                                 max={1000}
+                                                className="bg-main border-radius"
                                                 value={i.score || ''}
                                                 onFocus={(e) => e.target.select()}
                                                 onChange={(e) => {
@@ -281,7 +284,7 @@ const LogPlay = () => {
                                         <CheckBox
                                             label="Winner"
                                             checked={i.winner}
-                                            className="border border-radius px-4 py-3"
+                                            className="px-4 py-3"
                                             onClick={() => {
                                                 const newPlayers = [...players]
                                                 newPlayers[index].winner = !i.winner

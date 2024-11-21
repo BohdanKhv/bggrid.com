@@ -1,19 +1,19 @@
 import { DateTime } from 'luxon'
 import { Avatar, Icon, IconButton, Image } from '../components'
 import { Link, useSearchParams } from 'react-router-dom'
-import { awardIcon, moreIcon } from '../assets/img/icons'
+import { awardIcon, editIcon, moreIcon } from '../assets/img/icons'
 
 const PlayItem = ({ item }) => {
 
     const [searchParams, setSearchParams] = useSearchParams()
 
     return (
-        <div className="px-3 border-bottom border-secondary transition-duration animation-slide-in display-on-hover-parent">
+        <div className="px-3 border-bottom show-on-hover-parent border-secondary transition-duration animation-slide-in display-on-hover-parent">
             <div className="flex gap-3 py-5">
                 <Avatar
                     img={item?.user?.avatar}
                     rounded
-                    defaultColor
+                    avatarColor={item?.user?.username?.length}
                     name={item?.user?.username}
                 />
                 <div className="flex flex-col justify-between flex-1">
@@ -36,7 +36,7 @@ const PlayItem = ({ item }) => {
                                         // if more than 1 day, show the date
                                         // if less than 1 day, show relative time
                                         DateTime.now().diff(DateTime.fromISO(item.playDate), ['days']).days > 1 ? DateTime.fromISO(item.playDate).toFormat('LLL dd') :
-                                        DateTime.fromISO(item.playDate).toRelative().replace(' days', 'd').replace(' day', 'd').replace(' hours', 'h').replace(' hour', 'h').replace(' minutes', 'm').replace(' minute', 'm').replace(' seconds', 's').replace(' second', 's').replace(' ago', '')}
+                                        DateTime.fromISO(item.playDate).toRelative().replace(' days', 'd').replace(' day', 'd').replace(' hours', 'h').replace(' hour', 'h').replace(' minutes', 'm').replace(' minute', 'm').replace(' seconds', 's').replace(' second', 's')}
                                     </span>
                                 </div>
                             </div>
@@ -45,9 +45,10 @@ const PlayItem = ({ item }) => {
                             </div>
                         </div>
                         <IconButton
-                            icon={moreIcon}
+                            icon={editIcon}
                             variant="text"
                             type="secondary"
+                            className="show-on-hover"
                             muted
                             size="sm"
                             onClick={() => {
@@ -57,16 +58,16 @@ const PlayItem = ({ item }) => {
                         />
                     </div>
                     {item.comment ?
-                        <div className="fs-14 pt-3">
+                        <div className="fs-14">
                             {item.comment}
                         </div>
                     : null}
-                    <div className="flex gap-2 flex flex-col border border-radius border-secondary overflow-hidden mt-3">
+                    <div className="flex flex flex-col border border-radius overflow-hidden mt-3">
                         {item?.players.length &&
                         [...item?.players]
                         .sort((a, b) => b.score - a.score)
                         ?.map((player, index) => (
-                            <div className="flex justify-between align-center bg-tertiary-hover px-3 py-2"
+                            <div className="flex justify-between align-center px-3 py-2"
                                 key={index}
                             >
                                 <div className="flex gap-2 align-center">
@@ -77,6 +78,9 @@ const PlayItem = ({ item }) => {
                                         avatarColor={player?.name?.length}
                                         name={player?.name}
                                     />
+                                    {player.winner ?
+                                        <Icon icon="🥇" size="sm"/>
+                                    : null}
                                     <div className="flex flex-col">
                                         <div className={`flex gap-1 align-center`}>
                                             {player.user ?
@@ -97,9 +101,6 @@ const PlayItem = ({ item }) => {
                                     </div>
                                 </div>
                                 <div className={`flex fs-14 align-center gap-2 text-center`}>
-                                    {player.winner ?
-                                        <Icon icon="🥇" size="sm"/>
-                                    : null}
                                 </div>
                             </div>
                         ))}

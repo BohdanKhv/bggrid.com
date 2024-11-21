@@ -58,7 +58,7 @@ const Header = () => {
         }
     }, [])
 
-    if (pathname === '/discover' || pathname === '/library' || pathname === '/community' || pathname === '/community' || pathname === '/plays') return
+    if (pathname === '/discover' || pathname === '/library' || pathname === '/community' || pathname === '/community' || pathname === '/plays' || pathname.includes('/settings')) return
 
     return (
         <>

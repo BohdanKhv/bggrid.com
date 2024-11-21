@@ -19,7 +19,7 @@ const PlaysPage = () => {
     const { plays, isLoading, loadingId, hasMore } = useSelector((state) => state.play)
     const [tags, setTags] = useState(null)
     const [selectedGame, setSelectedGame] = useState(null)
-
+    const user = useSelector((state) => state.auth.user)
 
     const getData = () => {
         dispatch(getMyPlays({ tags, selectedGame }))
@@ -63,8 +63,25 @@ const PlaysPage = () => {
             <main className="page-body">
                 <div className="animation-slide-in">
                     <div className="container">
-                        <div className="pt-6 pb-3 pt-sm-3 title-1 bold px-sm-3">
-                            Plays
+                        <div className="flex justify-between px-sm-3">
+                            <div className="pt-6 pb-3 pt-sm-3 title-1 bold">
+                                Plays
+                            </div>
+                            <div className="justify-end flex align-center flex-no-wrap gap-3">
+                                <div
+                                    onClick={() => {
+                                        document.querySelector('.open-navbar-button').click()
+                                    }}
+                                >
+                                    <Avatar
+                                        img={`${user?.avatar}`}
+                                        name={user ? `${user?.email}` : null}
+                                        rounded
+                                        avatarColor="1"
+                                        size="sm"
+                                    />
+                                </div>
+                            </div>
                         </div>
                         <div className="sticky top-0 bg-main py-1 z-3 py-sm-0">
                             {library.length > 0 && !libraryLoading && (
@@ -72,7 +89,7 @@ const PlaysPage = () => {
                                     contentClassName="align-start gap-0"
                                 >
                                     {library.map((item) => (
-                                        <div className={`pointer h-100 animation-fade-in border-radius border-radius-sm-none hover-opacity-100 transition-duration clickable flex-shrink-0${selectedGame ? selectedGame === item?.game?._id ? "" : " opacity-25" : " bg-secondary-hover"}`}
+                                        <div className={`pointer h-100 animation-fade-in border-radius-sm hover-opacity-100 transition-duration clickable flex-shrink-0${selectedGame ? selectedGame === item?.game?._id ? "" : " opacity-25" : " bg-secondary-hover"}`}
                                             key={item._id}
                                             onClick={() => {
                                                 if (selectedGame === item?.game?._id) {

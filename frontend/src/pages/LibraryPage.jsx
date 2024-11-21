@@ -3,9 +3,10 @@ import { useDispatch, useSelector } from 'react-redux'
 import { getMyLibrary } from '../features/library/librarySlice'
 import {Avatar, Button, ErrorInfo, HorizontalScroll, IconButton, InputSearch, Image, Icon} from '../components'
 import { Link, useNavigate, useSearchParams } from 'react-router-dom'
-import { closeIcon, editIcon, gamesIcon, linkIcon, diceIcon, searchIcon, starFillIcon, weightIcon, usersIcon, usersFillIcon } from '../assets/img/icons'
+import { closeIcon, editIcon, gamesIcon, linkIcon, diceIcon, searchIcon, starFillIcon, weightIcon, usersIcon, usersFillIcon, bellIcon } from '../assets/img/icons'
 import { tagsEnum } from '../assets/constants'
 import { numberFormatter } from '../assets/utils'
+import GameSearchModal from './game/GameSearchModal'
 
 const LibraryItem = ({ item }) => {
 
@@ -159,8 +160,25 @@ const LibraryPage = () => {
             <main className="page-body">
                 <div className="animation-slide-in">
                     <div className="container">
-                        <div className="pt-6 pb-3 pt-sm-3 title-1 bold px-sm-3">
-                            Library
+                        <div className="flex justify-between px-sm-3">
+                            <div className="pt-6 pb-3 pt-sm-3 title-1 bold">
+                                Library
+                            </div>
+                            <div className="justify-end flex align-center flex-no-wrap gap-3">
+                                <div
+                                    onClick={() => {
+                                        document.querySelector('.open-navbar-button').click()
+                                    }}
+                                >
+                                    <Avatar
+                                        img={`${user?.avatar}`}
+                                        name={user ? `${user?.email}` : null}
+                                        rounded
+                                        avatarColor="1"
+                                        size="sm"
+                                    />
+                                </div>
+                            </div>
                         </div>
                         <div className="flex gap-2 align-center px-sm-3">
                             <Avatar

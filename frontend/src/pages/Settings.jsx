@@ -189,7 +189,7 @@ const Preferences = () => {
                         <div className="fs-14 bold">
                             Theme
                         </div>
-                        <div className="flex gap-2">
+                        <div className="flex gap-2 flex-sm-col">
                             <div className="border border-radius flex-1 overflow-hidden pointer color-border-on-hover-text transition-duration"
                                 onClick={() => dispatch(setTheme('system'))}
                             >
@@ -292,8 +292,8 @@ const Settings = () => {
             <main className="page-body">
                 <div className="animation-slide-in">
                     <div className="container">
-                            <div className="pt-6 pb-3 title-1 bold px-sm-2 pt-sm-0">
-                                Account
+                            <div className="pt-6 pb-3 pt-sm-3 title-1 bold px-sm-3">
+                                Settings
                             </div>
                             <div className="border-bottom">
                                 <TabContent

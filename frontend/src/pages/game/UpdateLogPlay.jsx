@@ -5,7 +5,7 @@ import { Link, useSearchParams } from "react-router-dom"
 import { getGameCard } from "../../features/game/gameSlice"
 import { closeIcon, linkIcon, searchIcon, trashIcon, upArrowRightIcon, userIcon } from "../../assets/img/icons"
 import { tagsEnum } from "../../assets/constants"
-import { createPlay, getPlayById, updatePlay } from "../../features/play/playSlice"
+import { createPlay, deletePlay, getPlayById, updatePlay } from "../../features/play/playSlice"
 import { DateTime } from "luxon"
 
 
@@ -70,6 +70,10 @@ const UpdateLogPlay = () => {
         }
     }, [searchParam.get("updatePlay")])
 
+    const handleDelete = () => {
+        dispatch(deletePlay(playById._id))
+    }
+
     return (
         <Modal
             modalIsOpen={searchParam.get("updatePlay")}
@@ -82,6 +86,7 @@ const UpdateLogPlay = () => {
                 setSearchParam(searchParam)
             }}
             label={
+                playById?.game ?
                 <div className="flex align-center gap-2 overflow-hidden">
                     <Avatar
                         img={playById?.game?.thumbnail}
@@ -94,16 +99,23 @@ const UpdateLogPlay = () => {
                         </div>
                     </div>
                 </div>
+                : 'Log Play'
             }
-            noAction={loadingIdPlay === 'get-one'}
+            noAction={!playById}
             classNameContent="p-0 scrollbar-none"
             actionBtnText={step === 1 ? 'Next' : 'Save'}
             onSubmit={step === 1 ? () => setStep(2) : onSubmit}
-            disabledAction={loadingIdPlay === `update-${searchParam.get("updatePlay")}`}
+            disabledAction={loadingIdPlay === `update-${searchParam.get("updatePlay")}` || loadingIdPlay === `delete-${searchParam.get("updatePlay")}`}
             isLoading={loadingIdPlay === `update-${playById?._id}`}
-            actionDangerBtnText={step === 2 ? 'Back' : undefined}
-            onSubmitDanger={step === 2 ? () => setStep(1) : undefined}
+            actionDangerBtnText={step === 2 ? 'Back' : 'Delete'}
+            onSubmitDanger={step === 2 ? () => setStep(1) : handleDelete}
         >
+            {loadingIdPlay === 'get-one' ?
+                <ErrorInfo isLoading />
+            :
+            <>
+            {playById ?
+            <>
             <div className="sticky top-0 z-3">
                 <ProgressBar
                     type="primary"
@@ -111,10 +123,6 @@ const UpdateLogPlay = () => {
                     value={step === 1 ? 50 : 100}
                 />
             </div>
-            {loadingIdPlay === 'get-one' ?
-                <ErrorInfo isLoading />
-            : playById ?
-            <>
             {step === 1 ?
                 <div className="flex flex-col pt-4 gap-4">
                     <div className="flex flex-col">
@@ -323,6 +331,8 @@ const UpdateLogPlay = () => {
                 label="Play not found"
                 secondary="Unfortunately I could not find the play you are looking for."
             />
+            }
+            </>
             }
         </Modal>
     )

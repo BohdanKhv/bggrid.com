@@ -232,7 +232,7 @@ const playSlice = createSlice({
         builder.addCase(deletePlay.fulfilled, (state, action) => {
             state.loadingId = '';
             state.msg = 'success';
-            state.plays = state.plays.filter(play => play._id !== action.payload.data._id);
+            state.plays = state.plays.filter(play => play._id !== action.meta.arg);
         });
         builder.addCase(deletePlay.rejected, (state, action) => {
             state.loadingId = '';

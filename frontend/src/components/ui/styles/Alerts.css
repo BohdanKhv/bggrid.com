@@ -2,8 +2,8 @@
     box-shadow: var(--box-shadow-sm)!important;
     border: 1px solid var(--color-main)!important;
     border-radius: var(--border-radius)!important;
-    color: var(--text-dark)!important;
-    background-color: var(--color-main);
+    color: var(--text-light)!important;
+    background-color: var(--text-dark);
     align-items: center;
     font-size: 14px;
 }
@@ -20,14 +20,17 @@
     transform: translate3d(0, 0, 0)!important;
 }
 
+.Toastify__toast--success svg,
 .Toastify__toast--error svg {
-    fill: rgb(var(--color-general-danger-text));
+    fill: var(--text-light)!important;
+    /* fill: rgb(var(--color-general-danger-text)); */
+    
 }
 .Toastify__toast--error {
     color: var(--text-dark);
 }
 .Toastify__toast--success svg {
-    fill: rgb(var(--color-general-success-text));
+    /* fill: rgb(var(--color-general-success-text)); */
 }
 .Toastify__toast--success {
     color: var(--text-dark);

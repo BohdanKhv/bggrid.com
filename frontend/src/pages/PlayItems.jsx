@@ -55,9 +55,9 @@ const PlayItem = ({ item }) => {
                                         name={player?.name}
                                     />
                                     <div className="flex flex-col">
-                                        <div className="flex gap-1 align-center">
+                                        <div className={`flex gap-1 align-center${player.winner ? " text-success fill-success" : ""}`}>
                                             {player.winner ?
-                                                <Icon icon={awardIcon} size="sm"/>
+                                                <Icon icon="🥇" size="sm" className="me-1"/>
                                             : null}
                                             {player.user ?
                                                 <Link target="_blank" to={`/u/${player.user.username}`} className="fs-14 weight-600 pointer text-underlined-hover text-ellipsis-1">

@@ -196,6 +196,7 @@
   --color-border-secondary: #1e1e1e;
   --color-translucent: rgba(15, 15, 15, 0.1);
   --text-shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.1);
+  --color-translucent-3: rgba(15, 15, 15, 0.3);
 
   --color-overlay: rgba(0, 0, 0, 0.65);
   
@@ -604,7 +605,7 @@ label.p-FieldLabel {
   .content {
     flex-direction: column;
   }
-  body:has(.header) .offset-header {
+  body:has(.header) .offset-header-sm {
     padding-top: var(--header-height);
   }
   body:has(.navbar-mob) .content-body {

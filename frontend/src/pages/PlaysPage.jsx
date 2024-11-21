@@ -72,7 +72,7 @@ const PlaysPage = () => {
                                     contentClassName="align-start gap-0"
                                 >
                                     {library.map((item) => (
-                                        <div className={`pointer h-100 bg-secondary-hover animation-fade-in border-radius border-radius-sm-none hover-opacity-100 transition-duration clickable flex-shrink-0${selectedGame ? selectedGame === item?.game?._id ? "" : " opacity-25" : ""}`}
+                                        <div className={`pointer h-100 animation-fade-in border-radius border-radius-sm-none hover-opacity-100 transition-duration clickable flex-shrink-0${selectedGame ? selectedGame === item?.game?._id ? "" : " opacity-25" : " bg-secondary-hover"}`}
                                             key={item._id}
                                             onClick={() => {
                                                 if (selectedGame === item?.game?._id) {
@@ -99,45 +99,81 @@ const PlaysPage = () => {
                             )}
                         </div>
                         <div>
-                            <div className="pt-3 px-sm-3 flex">
-                                <HorizontalScroll className="flex-1">
-                                    <Button
-                                        label="All"
-                                        variant="secondary"
-                                        className="animation-fade-in flex-shrink-0"
-                                        type={tags === null ? 'filled' : 'default'}
-                                        onClick={() => setTags(null)}
-                                    />
-                                    {['Wins', 'Losses']
-                                    .map((tag) => (
+                            <div className="pt-3 px-sm-3">
+                                <div className="flex">
+                                    <HorizontalScroll className="flex-1">
+                                        {selectedGame || tags ?
+                                            <IconButton
+                                                icon={closeIcon}
+                                                variant="secondary"
+                                                className="animation-fade-in flex-shrink-0"
+                                                type={tags === null ? 'filled' : 'default'}
+                                                onClick={() => {
+                                                    setSelectedGame(null)
+                                                    setTags(null)
+                                                }}
+                                            />
+                                        : null}
                                         <Button
-                                            key={tag}
-                                            label={tag}
+                                            label="All"
                                             variant="secondary"
                                             className="animation-fade-in flex-shrink-0"
-                                            type={tags === tag ? 'filled' : 'default'}
+                                            type={tags === null ? 'filled' : 'default'}
+                                            onClick={() => setTags(null)}
+                                        />
+                                        {['Wins', 'Losses']
+                                        .map((tag) => (
+                                            <Button
+                                                key={tag}
+                                                label={tag}
+                                                variant="secondary"
+                                                className="animation-fade-in flex-shrink-0"
+                                                type={tags === tag ? 'filled' : 'default'}
+                                                onClick={() => {
+                                                    if (tags == tag) {
+                                                        setTags(null)
+                                                    } else {
+                                                        setTags(tag)
+                                                    }
+                                                }}
+                                            />
+                                        ))}
+                                    </HorizontalScroll>
+                                </div>
+                                    {selectedGame ?
+                                    <div className="pt-3 flex gap-2 overflow-auto">
+                                        <Button
+                                            icon={linkIcon}
+                                            variant="secondary"
+                                            type="outline"
+                                            className="flex-shrink-0"
+                                            label="Details"
+                                            onClick={() => navigate(`/g/${selectedGame}/edit`)}
+                                        />
+                                        <Button
+                                            icon={editIcon}
+                                            variant="secondary"
+                                            type="outline"
+                                            className="flex-shrink-0"
+                                            label="Review"
                                             onClick={() => {
-                                                if (tags == tag) {
-                                                    setTags(null)
-                                                } else {
-                                                    setTags(tag)
-                                                }
+                                                searchParams.set('addGame', selectedGame)
+                                                setSearchParams(searchParams)
                                             }}
                                         />
-                                    ))}
-                                </HorizontalScroll>
-                                {selectedGame ?
-                                    <Button
-                                        icon={diceIcon}
-                                        variant="secondary"
-                                        className="animation-fade-in"
-                                        label="Log a Play"
-                                        onClick={() => {
-                                            searchParams.set('logPlay', selectedGame)
-                                            setSearchParams(searchParams)
-                                        }}
-                                    />
-                                : null }
+                                        <Button
+                                            icon={diceIcon}
+                                            variant="secondary"
+                                            type="outline"
+                                            className="flex-shrink-0"
+                                            label="Play"
+                                            onClick={() => {
+                                                searchParams.set('logPlay', selectedGame)
+                                                setSearchParams(searchParams)
+                                            }}
+                                        />
+                                    </div>
+                                    : null }
                             </div>
                         </div>
                         <div>

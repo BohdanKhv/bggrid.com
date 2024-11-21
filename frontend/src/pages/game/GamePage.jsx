@@ -85,7 +85,7 @@ const GamePage = () => {
 
     return (
         <div
-            className="h-min-100"
+            className="h-min-100 offset-header-sm"
         >
             {isLoading ?
                 <ErrorInfo
@@ -97,7 +97,7 @@ const GamePage = () => {
                         {window.innerWidth >= 1100 ?
                             <CoverImage img={gameById.thumbnail}/>
                         : null }
-                        <div className="z-3 w-max-600-px bg-translucent-blur border-radius">
+                        <div className="z-3 w-max-600-px bg-translucent-blur border-radius bg-sm-main">
                         <div className="flex gap-4">
                             {window.innerWidth < 1100 ?
                                 <div>

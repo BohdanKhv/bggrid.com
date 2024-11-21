@@ -85,6 +85,7 @@ const PlaysPage = () => {
                                 </div>
                             </div>
                         </div>
+                        {window.innerWidth <= 800 ?
                         <div className="sticky top-0 bg-main py-1 z-3 py-sm-0">
                             {library.length > 0 && !libraryLoading && (
                                 <HorizontalScroll
@@ -117,106 +118,143 @@ const PlaysPage = () => {
                                 </HorizontalScroll>
                             )}
                         </div>
-                        <div>
-                            <div className="pt-3 px-sm-3">
-                                <div className="flex">
-                                    <HorizontalScroll className="flex-1">
-                                        {selectedGame || tags ?
-                                            <IconButton
-                                                icon={closeIcon}
+                        : null}
+                        <div className="flex gap-6">
+                            <div className="col-8 col-sm-12">
+                            <div>
+                                <div className="pt-3 px-sm-3">
+                                    <div className="flex">
+                                        <HorizontalScroll className="flex-1">
+                                            {selectedGame || tags ?
+                                                <IconButton
+                                                    icon={closeIcon}
+                                                    variant="secondary"
+                                                    className="animation-fade-in flex-shrink-0"
+                                                    type={tags === null ? 'filled' : 'default'}
+                                                    onClick={() => {
+                                                        setSelectedGame(null)
+                                                        setTags(null)
+                                                    }}
+                                                />
+                                            : null}
+                                            <Button
+                                                label="All"
                                                 variant="secondary"
                                                 className="animation-fade-in flex-shrink-0"
                                                 type={tags === null ? 'filled' : 'default'}
-                                                onClick={() => {
-                                                    setSelectedGame(null)
-                                                    setTags(null)
-                                                }}
+                                                onClick={() => setTags(null)}
                                             />
-                                        : null}
-                                        <Button
-                                            label="All"
-                                            variant="secondary"
-                                            className="animation-fade-in flex-shrink-0"
-                                            type={tags === null ? 'filled' : 'default'}
-                                            onClick={() => setTags(null)}
-                                        />
-                                        {['Wins', 'Losses']
-                                        .map((tag) => (
-                                            <Button
-                                                key={tag}
-                                                label={tag}
-                                                variant="secondary"
-                                                className="animation-fade-in flex-shrink-0"
-                                                type={tags === tag ? 'filled' : 'default'}
-                                                onClick={() => {
-                                                    if (tags == tag) {
-                                                        setTags(null)
-                                                    } else {
-                                                        setTags(tag)
-                                                    }
-                                                }}
-                                            />
-                                        ))}
-                                    </HorizontalScroll>
-                                </div>
-                                    {selectedGame ?
-                                    <div className="pt-3 flex gap-2 overflow-auto">
-                                        <Button
-                                            icon={linkIcon}
-                                            variant="secondary"
-                                            type="outline"
-                                            className="flex-shrink-0"
-                                            label="Details"
-                                            onClick={() => navigate(`/g/${selectedGame}/edit`)}
-                                        />
-                                        <Button
-                                            icon={editIcon}
-                                            variant="secondary"
-                                            type="outline"
-                                            className="flex-shrink-0"
-                                            label="Review"
-                                            onClick={() => {
-                                                searchParams.set('addGame', selectedGame)
-                                                setSearchParams(searchParams)
-                                            }}
-                                        />
-                                        <Button
-                                            icon={diceIcon}
-                                            variant="secondary"
-                                            type="outline"
-                                            className="flex-shrink-0"
-                                            label="Play"
-                                            onClick={() => {
-                                                searchParams.set('logPlay', selectedGame)
-                                                setSearchParams(searchParams)
-                                            }}
-                                        />
+                                            {['Wins', 'Losses']
+                                            .map((tag) => (
+                                                <Button
+                                                    key={tag}
+                                                    label={tag}
+                                                    variant="secondary"
+                                                    className="animation-fade-in flex-shrink-0"
+                                                    type={tags === tag ? 'filled' : 'default'}
+                                                    onClick={() => {
+                                                        if (tags == tag) {
+                                                            setTags(null)
+                                                        } else {
+                                                            setTags(tag)
+                                                        }
+                                                    }}
+                                                />
+                                            ))}
+                                        </HorizontalScroll>
                                     </div>
-                                    : null }
+                                        {selectedGame ?
+                                        <div className="pt-3 flex gap-2 overflow-auto">
+                                            <Button
+                                                icon={linkIcon}
+                                                variant="secondary"
+                                                type="outline"
+                                                className="flex-shrink-0"
+                                                label="Details"
+                                                onClick={() => navigate(`/g/${selectedGame}/edit`)}
+                                            />
+                                            <Button
+                                                icon={editIcon}
+                                                variant="secondary"
+                                                type="outline"
+                                                className="flex-shrink-0"
+                                                label="Review"
+                                                onClick={() => {
+                                                    searchParams.set('addGame', selectedGame)
+                                                    setSearchParams(searchParams)
+                                                }}
+                                            />
+                                            <Button
+                                                icon={diceIcon}
+                                                variant="secondary"
+                                                type="outline"
+                                                className="flex-shrink-0"
+                                                label="Play"
+                                                onClick={() => {
+                                                    searchParams.set('logPlay', selectedGame)
+                                                    setSearchParams(searchParams)
+                                                }}
+                                            />
+                                        </div>
+                                        : null }
+                                </div>
+                            </div>
+                            <div>
+                                {plays.length > 0 && !isLoading ? (
+                                    <div className="flex flex-col">
+                                    {plays
+                                    .map((item, index, arr) =>
+                                        <div
+                                            key={item._id}
+                                            ref={arr.length === index + 1 ? lastElementRef : undefined}
+                                        >
+                                            <PlayItem item={item}/>
+                                        </div>
+                                    )}
+                                    </div>
+                                ) : isLoading ? (
+                                    <ErrorInfo isLoading/>
+                                ) : (
+                                    plays.length === 0 && <ErrorInfo
+                                    label="No plays found"
+                                    secondary="Once you start logging plays, they will appear here."
+                                    icon={diceIcon}
+                                    />
+                                )}
                             </div>
                         </div>
-                        <div>
-                            {plays.length > 0 && !isLoading ? (
-                                <div className="flex flex-col">
-                                {plays
-                                .map((item, index, arr) =>
-                                    <div
+                        {window.innerWidth > 800 &&
+                        <div className="flex flex-col col-4">
+                            <div className="fs-20 bold pb-3">
+                                Library
+                            </div>
+                            {library.length > 0 && !libraryLoading && (
+                                library.map((item) => (
+                                    <div className={`pointer animation-fade-in border-radius-sm hover-opacity-100 transition-duration clickable flex-shrink-0${selectedGame ? selectedGame === item?.game?._id ? "" : " opacity-25" : " bg-secondary-hover"}`}
                                         key={item._id}
-                                        ref={arr.length === index + 1 ? lastElementRef : undefined}
+                                        onClick={() => {
+                                            if (selectedGame === item?.game?._id) {
+                                                setSelectedGame(null)
+                                            } else {
+                                                setSelectedGame(item?.game?._id)
+                                            }
+                                        }}
                                     >
-                                        <PlayItem item={item}/>
+                                        <div className="flex p-2 gap-3">
+                                            <Avatar
+                                                img={item?.game?.thumbnail}
+                                                rounded
+                                                label={item.game.name}
+                                            />
+                                            <div className="fs-14 text-ellipsis-2 pt-2 weight-500">
+                                                {item.game.name}
+                                            </div>
+                                        </div>
                                     </div>
-                                )}
-                                </div>
-                            ) : isLoading ? (
-                                <ErrorInfo isLoading/>
-                            ) : (
-                                plays.length === 0 && <ErrorInfo
-                                label="No plays found"
-                                secondary="Once you start logging plays, they will appear here."
-                                icon={diceIcon}
-                                />
+                                ))
                             )}
+                        </div>
+                        }
                         </div>
                     </div>
                 </div>

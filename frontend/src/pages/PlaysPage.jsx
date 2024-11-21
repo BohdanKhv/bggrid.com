@@ -225,7 +225,7 @@ const PlaysPage = () => {
                         </div>
                         {window.innerWidth > 800 &&
                         <div className="flex flex-col col-4">
-                            <div className="fs-20 bold pb-3">
+                            <div className="fs-20 bold py-3">
                                 Library
                             </div>
                             {library.length > 0 && !libraryLoading && (

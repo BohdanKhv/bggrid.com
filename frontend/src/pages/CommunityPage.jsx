@@ -16,7 +16,7 @@ const CommunityPage = () => {
     const { user } = useSelector((state) => state.auth)
     const { friends, isLoading } = useSelector((state) => state.friend)
     const { plays, hasMore, isLoading: isLoadingPlays } = useSelector((state) => state.play)
-    const [tag, setTag] = useState('Plays')
+    const [tag, setTag] = useState(null)
     const [selectedFriend, setSelectedFriend] = useState(null)
 
     useEffect(() => {
@@ -120,7 +120,7 @@ const CommunityPage = () => {
                             <div className="pt-3 px-sm-3">
                                 <div className="flex">
                                     <HorizontalScroll className="flex-1">
-                                        {selectedFriend ?
+                                        {selectedFriend || tag ?
                                             <IconButton
                                                 icon={closeIcon}
                                                 variant="secondary"
@@ -131,7 +131,17 @@ const CommunityPage = () => {
                                                     setTag(null)
                                                 }}
                                             />
-                                        : null}
+                                        :
+                                        <Button
+                                            label="All"
+                                            variant="secondary"
+                                            className="animation-fade-in flex-shrink-0"
+                                            type={tag === null ? 'filled' : 'default'}
+                                            onClick={() => {
+                                                setTag(null)
+                                            }}
+                                        />
+                                        }
                                         {['Plays', 'Library']
                                         .map((a) => (
                                             <Button

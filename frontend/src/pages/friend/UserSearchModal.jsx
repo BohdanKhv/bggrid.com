@@ -49,6 +49,10 @@ const UserSearchModal = () => {
                 searchParams.delete('su')
                 setSearchParams(searchParams.toString())
             }}
+            onClose={() => {
+                searchParams.delete('su')
+                setSearchParams(searchParams.toString())
+            }}
             classNameContent="p-0"
             // headerNone={window.innerWidth > 800}
             noAction
@@ -77,15 +81,12 @@ const UserSearchModal = () => {
                     onChange={(e) => setSearchValue(e.target.value)}
                 />
             </div>
-            <div className="py-4">
+            <div className="pb-4">
                 {users && users.length > 0 ?
                 <>
-                    <div className="fs-20 pb-3 bold px-3">
-                        Search results
-                    </div>
                     {users
                     .map((searchItem) => (
-                        <div className="flex justify-between align-center bg-secondary-hover"
+                        <div className="flex justify-between align-center"
                             key={searchItem._id}
                         >
                             <div

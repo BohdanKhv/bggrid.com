@@ -215,7 +215,7 @@ const LogPlay = () => {
                         <div>
                             {players.length ?
                             players.map((i, index) => (
-                            <div className="m-2 bg-secondary border-radius animation-slide-in"
+                            <div className="m-2 border-radius animation-slide-in"
                                 key={index}
                             >
                                 <div
@@ -239,8 +239,8 @@ const LogPlay = () => {
                                         </div>
                                     </div>
                                     {i.user === user?._id ? <div className="fs-12 weight-600 px-4">YOU</div> :
-                                    <IconButton
-                                        icon={trashIcon}
+                                    <Button
+                                        label="Remove"
                                         variant="link"
                                         className="mx-2"
                                         muted

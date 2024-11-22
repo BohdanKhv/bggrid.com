@@ -29,6 +29,7 @@ const CommunityPage = () => {
                         <div className="pt-6 pb-3 pt-sm-3 title-1 bold">
                             Community
                         </div>
+                        {window.innerWidth <= 800 && user ? (
                         <div className="justify-end flex align-center flex-no-wrap gap-3">
                             <div
                                 onClick={() => {
@@ -44,6 +45,7 @@ const CommunityPage = () => {
                                 />
                             </div>
                         </div>
+                        ) : null}
                     </div>
                     <div className="sticky top-0 bg-main py-1 z-3 py-sm-0">
                         {friends.length > 0 && !isLoading && (

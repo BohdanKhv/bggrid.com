@@ -66,9 +66,10 @@ const PlaysPage = () => {
                 <div className="animation-slide-in">
                     <div className="container">
                         <div className="flex justify-between px-sm-3">
-                            <div className="pt-6 pb-3 pt-sm-3 title-1 bold">
+                            <div className="pt-6 pt-sm-3 title-1 bold">
                                 Plays
                             </div>
+                            {window.innerWidth <= 800 && user ? (
                             <div className="justify-end flex align-center flex-no-wrap gap-3">
                                 <div
                                     onClick={() => {
@@ -84,6 +85,7 @@ const PlaysPage = () => {
                                     />
                                 </div>
                             </div>
+                            ) : null}
                         </div>
                         {window.innerWidth <= 800 ?
                         <div className="sticky top-0 bg-main py-1 z-3 py-sm-0">
@@ -120,9 +122,9 @@ const PlaysPage = () => {
                         </div>
                         : null}
                         <div className="flex gap-6">
-                            <div className="col-8 col-sm-12">
-                            <div>
-                                <div className="pt-3 px-sm-3">
+                            <div className="col-8 col-sm-12 flex flex-col">
+                            <div className="sticky top-0 z-3 bg-main">
+                                <div className="py-3 px-sm-3">
                                     <div className="flex">
                                         <HorizontalScroll className="flex-1">
                                             {selectedGame || tags ?

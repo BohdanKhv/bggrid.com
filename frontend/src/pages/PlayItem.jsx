@@ -9,7 +9,7 @@ const PlayItem = ({ item }) => {
     const [searchParams, setSearchParams] = useSearchParams()
 
     return (
-        <div className="px-3 border-bottom show-on-hover-parent border-secondary transition-duration animation-slide-in display-on-hover-parent">
+        <div className="px-sm-3 border-bottom show-on-hover-parent border-secondary transition-duration animation-slide-in display-on-hover-parent">
             <div className="flex gap-3 py-5 py-sm-3">
                 <Avatar
                     img={item?.user?.avatar}

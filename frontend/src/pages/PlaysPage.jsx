@@ -108,7 +108,6 @@ const PlaysPage = () => {
                                                 <Avatar
                                                     img={item?.game?.thumbnail}
                                                     size="lg"
-                                                    rounded
                                                     label={item.game.name}
                                                 />
                                                 <div className="fs-12 text-center text-ellipsis-1 w-max-75-px pt-2 weight-500">
@@ -247,7 +246,6 @@ const PlaysPage = () => {
                                         <div className="flex p-2 gap-3">
                                             <Avatar
                                                 img={item?.game?.thumbnail}
-                                                rounded
                                                 label={item.game.name}
                                             />
                                             <div className="fs-14 text-ellipsis-2 pt-2 weight-500">

@@ -188,10 +188,11 @@ const CommunityPage = () => {
                                     <div className="fs-20 bold">
                                         Friends <span className="text-secondary weight-400 fs-14">({friends.length})</span>
                                     </div>
-                                    <IconButton
+                                    <Button
                                         icon={largePlusIcon}
+                                        label="Add"
                                         variant="secondary"
-                                        type="text"
+                                        type="default"
                                     />
                                 </div>
                                 {

@@ -14,10 +14,29 @@ const getMyFriends = async (req, res) => {
             ],
         })
         .populate('user', 'username avatar firstName lastName')
-        .populate('friend', 'username avatar firstName lastName');
+        .populate('friend', 'username avatar firstName lastName')
+
+        // return friend as not me (user)
+        // because if someone sends me a friend request, I will see myself as a friend
+
+        const friendList = friends.map(friend => {
+            if (friend.user._id.toString() === req.user._id.toString()) {
+                return {
+                    friend: friend.friend._doc,
+                    _id: friend._id,
+                    pending: friend.pending
+                }
+            } else {
+                return {
+                    friend: friend.user._doc,
+                    _id: friend._id,
+                    pending: friend.pending
+                }
+            }
+        });
 
         res.status(200).json({
-            data: friends,
+            data: friendList,
         });
     } catch (error) {
         console.error(error);

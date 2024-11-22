@@ -50,8 +50,9 @@ const UserSearchModal = () => {
                 setSearchParams(searchParams.toString())
             }}
             classNameContent="p-0"
-            headerNone
+            // headerNone={window.innerWidth > 800}
             noAction
+            label="Search friends"
         >
             <div className="border-bottom align-center flex">
                 <IconButton
@@ -85,7 +86,7 @@ const UserSearchModal = () => {
                             key={searchItem._id}
                         >
                             <div
-                                className="fs-14 flex align-center justify-between px-4 py-2 gap-3 flex-1 overflow-hidden opacity-75-active"
+                                className="fs-14 flex align-center justify-between px-4 py-2 gap-3 flex-1 overflow-hidden"
                             >
                                 <div className="flex gap-3 align-center">
                                     <Avatar
@@ -98,6 +99,7 @@ const UserSearchModal = () => {
                                     />
                                     <div className="flex flex-col">
                                         <Link
+                                            target='_blank'
                                             to={`/u/${searchItem.username}`}
                                             className="fs-14 weight-500 text-ellipsis-2 text-underlined-hover pointer">
                                             @{highlightText(searchItem.username, searchValue)}
@@ -107,13 +109,13 @@ const UserSearchModal = () => {
                                         </div>
                                     </div>
                                 </div>
-                                {friends.find((friend) => friend._id === searchItem._id) ?
-                                    friends.find((friend) => friend._id === searchItem._id).status === 'pending' ?
-                                        <div className="fs-12 text-secondary">
+                                {friends.find((friend) => friend?.friend?._id === searchItem._id) ?
+                                    friends.find((friend) => friend?.friend?._id === searchItem._id).status === 'pending' ?
+                                        <div className="fs-14 text-secondary weight-500 px-4">
                                             Pending
                                         </div>
                                     :
-                                    <div className="fs-12 text-secondary">
+                                    <div className="fs-14 text-secondary weight-500 px-4">
                                         Friends 
                                     </div>
                                 :

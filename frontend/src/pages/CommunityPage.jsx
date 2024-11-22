@@ -1,11 +1,12 @@
 import { useCallback, useEffect, useRef, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { Avatar, Button, ErrorInfo, HorizontalScroll, IconButton } from '../components'
+import { Avatar, Button, ErrorInfo, HorizontalScroll, Icon, IconButton } from '../components'
 import { getMyFriends } from '../features/friend/friendSlice'
-import { closeIcon, diceIcon, largePlusIcon, linkIcon } from '../assets/img/icons'
+import { arrowRightShortIcon, closeIcon, diceIcon, largePlusIcon, linkIcon, rightArrowIcon } from '../assets/img/icons'
 import { resetPlay } from '../features/play/playSlice'
 import UserSearchModal from './game/UserSearchModal'
 import { useSearchParams } from 'react-router-dom'
+import FriendsModal from './friend/FriendsModal'
 
 
 const CommunityPage = () => {
@@ -54,6 +55,7 @@ const CommunityPage = () => {
     return (
         <div>
             <UserSearchModal/>
+            <FriendsModal friends={friends}/>
             <main className="page-body">
                 <div className="animation-slide-in">
                     <div className="container">
@@ -162,7 +164,7 @@ const CommunityPage = () => {
                                     </div>
                                     : null }
                                 <div>
-                                    {plays.length > 0 && !isLoading ? (
+                                    {plays.length > 0 && !isLoadingPlays ? (
                                         <div className="flex flex-col">
                                         {plays
                                         .map((item, index, arr) =>
@@ -174,8 +176,8 @@ const CommunityPage = () => {
                                             </div>
                                         )}
                                         </div>
-                                    ) : isLoading ? (
-                                        <ErrorInfo isLoading/>
+                                    ) : isLoadingPlays ? (
+                                        <ErrorInfo isLoadingPlays/>
                                     ) : (
                                         plays.length === 0 && 
                                         <div className="border border-radius border-dashed mt-3"><ErrorInfo
@@ -189,21 +191,19 @@ const CommunityPage = () => {
                         {window.innerWidth > 800 &&
                             <div className="flex flex-col col-4">
                                 <div className="flex justify-between align-center py-3">
-                                    <div className="fs-20 bold">
-                                        Friends <span className="text-secondary weight-400 fs-14">({friends.length})</span>
-                                    </div>
-                                    <Button
-                                        icon={largePlusIcon}
-                                        label="Add"
-                                        variant="secondary"
-                                        type="default"
+                                    <div className="fs-20 bold flex gap-3 align-center pointer transition-slide-right-hover-parent"
                                         onClick={() => {
-                                            searchParams.set('su', 'true')
+                                            searchParams.set('friends', 'true')
                                             setSearchParams(searchParams.toString())
                                         }}
-                                    />
+                                    >
+                                        Friends
+                                        <Icon icon={rightArrowIcon} size="sm" className="transition-slide-right-hover"/>
+                                    </div>
                                 </div>
-                                {
+                                { isLoading ?
+                                    <ErrorInfo isLoading/>
+                                :
                                 friends.length === 0 && !isLoading ?
                                 <div className="border border-radius border-dashed">
                                     <ErrorInfo
@@ -228,18 +228,20 @@ const CommunityPage = () => {
                                     >
                                         <div className="flex gap-3 p-2 align-center">
                                             <Avatar
-                                                img={item.user?.avatar}
+                                                img={item.friend?.avatar}
+                                                name={item.friend.username}
+                                                size="md"
+                                                avatarColor={item.friend.username.length}
                                                 rounded
-                                                label={item.user.username}
                                             />
                                             <div className="flex flex-col">
-                                                {item.user.firstName && item.user.lastName ?
+                                                {item.friend.firstName && item.friend.lastName ?
                                                 <div className="fs-14 weight-500 text-ellipsis-1">
-                                                    {item.user.firstName} {item.user.lastName}  
+                                                    {item.friend.firstName} {item.friend.lastName}  
                                                 </div>
                                                 : null}
                                                 <div className="fs-12 text-ellipsis-1 weight-500">
-                                                    @{item.user.username}
+                                                    @{item.friend.username}
                                                 </div>
                                             </div>
                                         </div>

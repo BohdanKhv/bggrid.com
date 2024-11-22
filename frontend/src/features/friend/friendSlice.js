@@ -135,8 +135,8 @@ const friendSlice = createSlice({
             }
         });
 
-        builder.addCase(sendFriendRequest.pending, (state) => {
-            state.loadingId = 'create';
+        builder.addCase(sendFriendRequest.pending, (state, action) => {
+            state.loadingId = `send-${action.meta.arg}`;
             state.msg = '';
         });
         builder.addCase(sendFriendRequest.fulfilled, (state, action) => {

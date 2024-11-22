@@ -38,9 +38,9 @@
   --color-warning-bg-hover: #fff0cc;
 
   --color-general-primary-text: 255, 255, 255;
-  --color-general-primary-bg: 29 161 242;
+  --color-general-primary-bg: 28, 75, 245;
   --color-general-primary-bg-hover: 31 76 238;
-  --color-general-primary-border: 29 161 242;
+  --color-general-primary-border: 28, 75, 245;
   --color-general-danger-text: 220, 53, 69;
   --color-general-danger-bg: 255, 230, 230;
   --color-general-danger-bg-hover: 255, 204, 204;
@@ -224,9 +224,9 @@
   --color-warning-bg-light: #ffedc6;
   
   --color-general-primary-text: 255, 255, 255;
-  --color-general-primary-bg: 39, 84, 245;
+  --color-general-primary-bg: 28, 75, 245;
   --color-general-primary-bg-hover: 31, 76, 238;
-  --color-general-primary-border: 39, 84, 245;
+  --color-general-primary-border: 28, 75, 245;
   --color-general-danger-text: 231, 35, 54;
   --color-general-danger-bg-hover: 73, 1, 8;
   --color-general-danger-bg: 59, 0, 6;

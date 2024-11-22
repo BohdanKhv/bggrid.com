@@ -20,7 +20,7 @@ export const store = configureStore({
         review: reviewReducer,
         play: playReducer,
         user: userReducer,
-        friends: friendReducer,
+        friend: friendReducer,
         notification: notificationReducer,
     },
     devTools: import.meta.env.VITE_REDUX_DEV_TOOLS === 'true' ? true : false,

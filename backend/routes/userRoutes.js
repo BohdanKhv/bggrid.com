@@ -8,8 +8,8 @@ const {
 
 
 router
-    .get('/username', getUserProfile)
-    .get('/search', protect, searchUsers);
+    .get('/search', protect, searchUsers)
+    .get('/:username', getUserProfile)
 
 
 module.exports = router;

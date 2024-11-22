@@ -4,13 +4,16 @@ import { Avatar, Button, ErrorInfo, HorizontalScroll, IconButton } from '../comp
 import { getMyFriends } from '../features/friend/friendSlice'
 import { closeIcon, diceIcon, largePlusIcon, linkIcon } from '../assets/img/icons'
 import { resetPlay } from '../features/play/playSlice'
+import UserSearchModal from './game/UserSearchModal'
+import { useSearchParams } from 'react-router-dom'
 
 
 const CommunityPage = () => {
     const dispatch = useDispatch()
 
+    const [searchParams, setSearchParams] = useSearchParams()
     const { user } = useSelector((state) => state.auth)
-    const { friends, isLoading } = useSelector((state) => state.friends)
+    const { friends, isLoading } = useSelector((state) => state.friend)
     const { plays, hasMore, isLoading: isLoadingPlays } = useSelector((state) => state.play)
     const [tag, setTag] = useState('Plays')
     const [selectedFriend, setSelectedFriend] = useState(null)
@@ -50,6 +53,7 @@ const CommunityPage = () => {
 
     return (
         <div>
+            <UserSearchModal/>
             <main className="page-body">
                 <div className="animation-slide-in">
                     <div className="container">
@@ -96,13 +100,13 @@ const CommunityPage = () => {
                                             >
                                                 <div className="flex flex-col p-2 align-center">
                                                     <Avatar
-                                                        img={item?.game?.thumbnail}
+                                                        img={item?.user?.avatar}
                                                         size="lg"
                                                         rounded
-                                                        label={item.game.name}
+                                                        label={item.user.username}
                                                     />
                                                     <div className="fs-12 text-center text-ellipsis-1 w-max-75-px pt-2 weight-500">
-                                                        {item.game.name}
+                                                        {item.user.username}
                                                     </div>
                                                 </div>
                                             </div>
@@ -193,6 +197,10 @@ const CommunityPage = () => {
                                         label="Add"
                                         variant="secondary"
                                         type="default"
+                                        onClick={() => {
+                                            searchParams.set('su', 'true')
+                                            setSearchParams(searchParams.toString())
+                                        }}
                                     />
                                 </div>
                                 {
@@ -205,7 +213,7 @@ const CommunityPage = () => {
                                 :
                                 friends.length > 0 && !isLoading && (
                                     friends.map((item) => (
-                                        <div className={`pointer h-100 animation-fade-in border-radius-sm hover-opacity-100 transition-duration clickable flex-shrink-0${selectedFriend ? selectedFriend === item?.game?._id ? "" : " opacity-25" : " bg-secondary-hover"}`}
+                                        <div className={`pointer align-center animation-fade-in border-radius-sm hover-opacity-100 transition-duration clickable flex-shrink-0${selectedFriend ? selectedFriend === item?.game?._id ? "" : " opacity-25" : " bg-secondary-hover"}`}
                                             key={item._id}
                                             onClick={() => {
                                                 if (selectedFriend === item?.game?._id) {
@@ -218,15 +226,21 @@ const CommunityPage = () => {
                                             }
                                         }
                                     >
-                                        <div className="flex flex-col p-2 align-center">
+                                        <div className="flex gap-3 p-2 align-center">
                                             <Avatar
-                                                img={item?.avatar}
-                                                size="lg"
+                                                img={item.user?.avatar}
                                                 rounded
-                                                label={item.username}
+                                                label={item.user.username}
                                             />
-                                            <div className="fs-12 text-center text-ellipsis-1 w-max-75-px pt-2 weight-500">
-                                                {item.username}
+                                            <div className="flex flex-col">
+                                                {item.user.firstName && item.user.lastName ?
+                                                <div className="fs-14 weight-500 text-ellipsis-1">
+                                                    {item.user.firstName} {item.user.lastName}  
+                                                </div>
+                                                : null}
+                                                <div className="fs-12 text-ellipsis-1 weight-500">
+                                                    @{item.user.username}
+                                                </div>
                                             </div>
                                         </div>
                                     </div>

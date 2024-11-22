@@ -10,7 +10,7 @@ const getUserProfile = async (req, res) => {
         User.findOne({
             username: { $regex: req.params.username, $options: 'i' }
         })
-            .select('-password');
+        .select('-password');
 
     if (!user) {
         res.status(404);
@@ -27,10 +27,15 @@ const getUserProfile = async (req, res) => {
 // @route   GET /api/users/search
 // @access  Private
 const searchUsers = async (req, res) => {
-    const { username } = req.query;
+    const { q } = req.query;
 
     const users = await User.find({
-        username: { $regex: username, $options: 'i' }
+        $or: [
+            {username: { $regex: q, $options: 'i' }},
+            {firstName: { $regex: q, $options: 'i' }},
+            {lastName: { $regex: q, $options: 'i' }}
+        ],
+        _id: { $ne: req.user._id }
     })
     .limit(10)
     .select('-password');

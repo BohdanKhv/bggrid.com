@@ -13,7 +13,8 @@ const getMyFriends = async (req, res) => {
                 { friend: req.user._id }
             ],
         })
-        .populate('friend', 'username');
+        .populate('user', 'username avatar firstName lastName')
+        .populate('friend', 'username avatar firstName lastName');
 
         res.status(200).json({
             data: friends,
@@ -30,7 +31,7 @@ const getMyFriends = async (req, res) => {
 // @access  Private
 const sendFriendRequest = async (req, res) => {
     try {
-        const user = await User.findById(req.params.userId);
+        const user = await User.findById(req.params.userId).select('avatar username firstName lastName');
 
         if (!user) {
             return res.status(404).json({ msg: 'User not found' });
@@ -56,6 +57,11 @@ const sendFriendRequest = async (req, res) => {
         });
 
         await newFriend.save();
+
+        // populate friend field with username
+        await newFriend.populate([
+            { path: 'user', select: 'avatar username firstName lastName' },
+        ])
 
         res.status(201).json({
             data: newFriend,

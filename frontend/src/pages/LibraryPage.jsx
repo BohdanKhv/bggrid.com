@@ -165,6 +165,7 @@ const LibraryPage = () => {
                             <div className="pt-6 pb-3 pt-sm-3 title-1 bold">
                                 Library
                             </div>
+                            {window.innerWidth < 800 && (
                             <div className="justify-end flex align-center flex-no-wrap gap-3">
                                 <div
                                     onClick={() => {
@@ -180,6 +181,7 @@ const LibraryPage = () => {
                                     />
                                 </div>
                             </div>
+                            )}
                         </div>
                         <div className="flex gap-2 align-center px-sm-3">
                             <Avatar

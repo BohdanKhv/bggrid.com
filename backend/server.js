@@ -40,6 +40,7 @@ app.use('/api/games', require('./routes/gameRoutes'));
 app.use('/api/library', require('./routes/libraryRoutes'));
 app.use('/api/plays', require('./routes/playRoutes'));
 app.use('/api/users', require('./routes/userRoutes'));
+app.use('/api/friends', require('./routes/friendRoutes'));
 
 
 // Server frontend

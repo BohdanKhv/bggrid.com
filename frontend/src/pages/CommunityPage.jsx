@@ -2,9 +2,9 @@ import { useCallback, useEffect, useRef, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { Avatar, Button, ErrorInfo, HorizontalScroll, Icon, IconButton } from '../components'
 import { getMyFriends } from '../features/friend/friendSlice'
-import { arrowRightShortIcon, closeIcon, diceIcon, largePlusIcon, linkIcon, rightArrowIcon } from '../assets/img/icons'
+import { arrowRightShortIcon, closeIcon, diceIcon, largePlusIcon, linkIcon, plusIcon, rightArrowIcon } from '../assets/img/icons'
 import { resetPlay } from '../features/play/playSlice'
-import UserSearchModal from './game/UserSearchModal'
+import UserSearchModal from './friend/UserSearchModal'
 import { useSearchParams } from 'react-router-dom'
 import FriendsModal from './friend/FriendsModal'
 
@@ -200,6 +200,16 @@ const CommunityPage = () => {
                                         Friends
                                         <Icon icon={rightArrowIcon} size="sm" className="transition-slide-right-hover"/>
                                     </div>
+                                    <IconButton
+                                        icon={largePlusIcon}
+                                        variant="text"
+                                        dataTooltipContent="Add a friend"
+                                        type="secondary"
+                                        onClick={() => {
+                                            searchParams.set('su', 'true')
+                                            setSearchParams(searchParams.toString())
+                                        }}
+                                    />
                                 </div>
                                 { isLoading ?
                                     <ErrorInfo isLoading/>

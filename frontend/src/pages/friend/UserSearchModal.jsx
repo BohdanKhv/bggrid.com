@@ -52,23 +52,26 @@ const UserSearchModal = () => {
             classNameContent="p-0"
             // headerNone={window.innerWidth > 800}
             noAction
-            label="Search friends"
+            label="Search users"
         >
-            <div className="border-bottom align-center flex">
-                <IconButton
-                    icon={arrowLeftShortIcon}
-                    variant="link"
-                    size="lg"
-                    type="secondary"
-                    onClick={() => {
-                        searchParams.delete('su')
-                        setSearchParams(searchParams.toString())
-                    }}
-                />
+            <div className="border-sm-bottom align-center flex">
+                {window.innerWidth <= 800 ?
+                    <IconButton
+                        icon={arrowLeftShortIcon}
+                        variant="link"
+                        size="lg"
+                        type="secondary"
+                        onClick={() => {
+                            searchParams.delete('su')
+                            setSearchParams(searchParams.toString())
+                        }}
+                    />
+                : null}
                 <InputSearch
-                    className="flex-1 py-1"
+                    className="flex-1 py-1 border border-sm-none my-4 mx-3 m-sm-0 border-radius-md"
                     placeholder="Search users"
                     value={searchValue}
+                    icon={window.innerWidth > 800 ? searchIcon : null}
                     clearable
                     autoFocus
                     onChange={(e) => setSearchValue(e.target.value)}

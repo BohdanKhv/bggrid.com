@@ -94,7 +94,7 @@ const PlaysPage = () => {
                                     contentClassName="align-start gap-0"
                                 >
                                     {library.map((item) => (
-                                        <div className={`pointer h-100 animation-fade-in border-radius-sm hover-opacity-100 transition-duration clickable flex-shrink-0${selectedGame ? selectedGame === item?.game?._id ? "" : " opacity-25" : " bg-secondary-hover"}`}
+                                        <div className={`pointer h-100 w-max-75-px animation-fade-in border-radius-sm hover-opacity-100 transition-duration clickable flex-shrink-0${selectedGame ? selectedGame === item?.game?._id ? "" : " opacity-25" : " bg-secondary-hover"}`}
                                             key={item._id}
                                             onClick={() => {
                                                 if (selectedGame === item?.game?._id) {
@@ -110,7 +110,7 @@ const PlaysPage = () => {
                                                     size="lg"
                                                     label={item.game.name}
                                                 />
-                                                <div className="fs-12 text-center text-ellipsis-1 w-max-75-px pt-2 weight-500">
+                                                <div className="fs-12 text-center text-ellipsis-1 pt-2 weight-500">
                                                     {item.game.name}
                                                 </div>
                                             </div>
@@ -217,7 +217,7 @@ const PlaysPage = () => {
                                     <ErrorInfo isLoading/>
                                 ) : (
                                     plays.length === 0 && 
-                                    <div className="border border-radius border-dashed mt-3"><ErrorInfo
+                                    <div className="border border-radius border-dashed mt-3 mx-sm-3"><ErrorInfo
                                     label={selectedGame ? `No plays found for "${library.find(l => l?.game?._id === selectedGame)?.game?.name}"` : "No plays found."}
                                     secondary="Once you start logging plays, they will appear here."
                                     icon={diceIcon}

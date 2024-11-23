@@ -117,6 +117,7 @@ const LogPlay = () => {
                 setSearchParam(searchParam)
             }}
             label={
+                !libraryIsLoading && !gameCard ? 'Log play' :
                 <div className="flex align-center gap-2 overflow-hidden">
                     <Avatar
                         img={gameCard?.thumbnail}
@@ -130,7 +131,7 @@ const LogPlay = () => {
                     </div>
                 </div>
             }
-            noAction={libraryIsLoading}
+            noAction={libraryIsLoading || !gameCard}
             classNameContent="p-0 scrollbar-none"
             actionBtnText={step === 1 ? 'Next' : 'Save'}
             onSubmit={step === 1 ? () => setStep(2) : onSubmit}
@@ -139,6 +140,10 @@ const LogPlay = () => {
             actionDangerBtnText={step === 2 ? 'Back' : undefined}
             onSubmitDanger={step === 2 ? () => setStep(1) : undefined}
         >
+            {!gameCard && !loadingId ?
+                <ErrorInfo label="Game not found" secondary="Unfortunately I could not find the game you are looking for." />
+            : gameCard && !loadingId ?
+            <>
             <div className="sticky top-0 z-3">
                 <ProgressBar
                     type="primary"
@@ -357,6 +362,9 @@ const LogPlay = () => {
                 label="Game not found"
                 secondary="Unfortunately I could not find the game you are looking for."
             />
+            }
+            </>
+            : null
             }
         </Modal>
     )

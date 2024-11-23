@@ -8,20 +8,22 @@ import playReducer from '../features/play/playSlice';
 import userReducer from '../features/user/userSlice';
 import friendReducer from '../features/friend/friendSlice';
 import notificationReducer from '../features/notification/notificationSlice';
+import feedReducer from '../features/feed/feedSlice';
 
 
 
 export const store = configureStore({
     reducer: {
-        local: localReducer,
-        auth: authReducer,
-        game: gameReducer,
-        library: libraryReducer,
-        review: reviewReducer,
-        play: playReducer,
-        user: userReducer,
-        friend: friendReducer,
-        notification: notificationReducer,
+        local: localReducer, // local storage
+        auth: authReducer, // login, register, logout
+        game: gameReducer, // game page, game search, game card
+        library: libraryReducer, // library page, my library
+        review: reviewReducer, // game page reviews
+        play: playReducer, // game page play history, my plays
+        user: userReducer, // user profiles, user search
+        friend: friendReducer, // community, friend list
+        notification: notificationReducer, // notification, friend request
+        feed: feedReducer, // home, community page feed
     },
     devTools: import.meta.env.VITE_REDUX_DEV_TOOLS === 'true' ? true : false,
 });

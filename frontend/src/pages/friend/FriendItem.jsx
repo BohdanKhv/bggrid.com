@@ -75,7 +75,7 @@ const FriendItem = ({ item, showRemoveButton }) => {
                 isFriend.pending && isFriend.myRequest ?
                     <Button
                         size="sm"
-                        label="Cancel request"
+                        label="Cancel"
                         variant="default"
                         type="secondary"
                         className="flex-shrink-0"

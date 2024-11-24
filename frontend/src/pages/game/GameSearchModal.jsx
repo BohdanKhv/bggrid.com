@@ -17,7 +17,9 @@ const GameSearchModal = () => {
     useEffect(() => {
         let promise;
 
-        promise = dispatch(getSuggestions(searchValue))
+        if (searchValue.length > 0) {
+            promise = dispatch(getSuggestions(searchValue))
+        }
 
         return () => {
             promise?.abort()

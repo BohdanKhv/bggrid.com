@@ -129,9 +129,9 @@ const UpdateLogPlay = () => {
                 />
             </div>
             {step === 1 ?
-                <div className="flex flex-col pt-4 gap-4">
+                <div className="flex flex-col pt-4 gap-4 pb-2">
                     <div className="flex flex-col">
-                        <div className="border border-radius mx-4 mb-4 bg-tertiary">
+                        <div className="border border-radius mx-4 bg-tertiary">
                             <InputSearch
                                 className="flex-1 py-1 ps-4"
                                 placeholder="Search or add players"
@@ -190,7 +190,9 @@ const UpdateLogPlay = () => {
                                         .filter(i => !players.find(j => j?.user?._id === i.friend._id))
                                         .filter(i => i.friend.username.toLowerCase().includes(searchValue.toLowerCase()))
                                         .map(i => (
-                                            <div className="flex justify-between align-center">
+                                            <div className="flex justify-between align-center"
+                                                key={i.friend._id}
+                                            >
                                                 <div
                                                     onClick={(e) => {
                                                         e.stopPropagation()

@@ -1,13 +1,76 @@
 import { useCallback, useEffect, useRef, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { Avatar, Button, ErrorInfo, HorizontalScroll, Icon, IconButton, Skeleton } from '../components'
-import { arrowRightShortIcon, closeIcon, diceIcon, largePlusIcon, linkIcon, plusIcon, rightArrowIcon } from '../assets/img/icons'
+import { arrowRightShortIcon, closeIcon, diceIcon, largePlusIcon, linkIcon, plusIcon, rightArrowIcon, starEmptyIcon, starFillIcon, starsIcon } from '../assets/img/icons'
 import UserSearchModal from './friend/UserSearchModal'
 import { Link, useSearchParams } from 'react-router-dom'
 import FriendsModal from './friend/FriendsModal'
 import { resetFeed, getCommunityFeed } from '../features/feed/feedSlice'
 import PlayItem from './PlayItem'
 import FriendItem from './friend/FriendItem'
+import { DateTime } from 'luxon'
+
+
+const LibraryItem = ({ item }) => {
+    return (
+        <div className="px-sm-3 border-bottom show-on-hover-parent border-secondary transition-duration animation-slide-in display-on-hover-parent">
+            <div className="flex gap-3 py-5 py-sm-3">
+                <Avatar
+                    img={item?.user?.avatar}
+                    rounded
+                    avatarColor={item?.user?.username?.length}
+                    name={item?.user?.username}
+                />
+                <div className="flex flex-col justify-between flex-1">
+                    <div className="flex gap-2 justify-between">
+                        <div className="flex flex-col justify-between flex-1">
+                            <div className="flex gap-2 align-center flex-1">
+                                <div className="flex gap-2 flex-1 align-center">
+                                    <div className="flex align-center">
+                                        {item.user.firstName ?
+                                            <>
+                                                <div className="fs-14 bold text-ellipsis-1 me-1">
+                                                    {item.user.firstName}
+                                                </div>
+                                            </>
+                                        : null}
+                                        <Link className="text-secondary weight-400 fs-12 text-underlined-hover">@{item.user.username}</Link>
+                                    </div>
+                                    <span className="fs-14 weight-400 text-secondary">·</span>
+                                    <span className="weight-400 text-secondary fs-12 text-wrap-nowrap">{
+                                        // if more than 1 day, show the date
+                                        // if less than 1 day, show relative time
+                                        DateTime.now().diff(DateTime.fromISO(item.updatedAt), ['days']).days > 1 ? DateTime.fromISO(item.updatedAt).toFormat('LLL dd') :
+                                        DateTime.fromISO(item.updatedAt).toRelative().replace(' days', 'd').replace(' day', 'd').replace(' hours', 'h').replace(' hour', 'h').replace(' minutes', 'm').replace(' minute', 'm').replace(' seconds', 's').replace(' second', 's')}
+                                    </span>
+                                </div>
+                            </div>
+                            <div className="flex fs-12 gap-2 text-secondary pt-1">
+                                Added <Link target="_blank" to={`/g/${item.game._id}`} className="fs-12 text-main bold pointer text-ellipsis-1 text-underlined-hover">{item.game.name}</Link> to their library
+                            </div>
+                        </div>
+                    </div>
+                    <div className="pt-4">
+                        <div className="flex gap-2">
+                            <div className="flex align-center tag-warning px-2 py-1 border-radius gap-1">
+                                <Icon icon={starFillIcon} size="sm" className="fill-warning"/>
+                                <span className="text-warning fs-14">{item.rating || 0}</span>
+                            </div>
+                            {item.tags.map((tag, index) => (
+                                <div key={index} className="tag-secondary px-2 py-1 fs-12 border-radius">{tag}</div>
+                            ))}
+                        </div>
+                        {item.comment ?
+                            <div className="fs-14 pt-3">
+                                {item.comment}
+                            </div>
+                        : null}
+                    </div>
+                </div>
+            </div>
+        </div>
+    )
+}
 
 
 const CommunityPage = () => {
@@ -28,12 +91,6 @@ const CommunityPage = () => {
     useEffect(() => {
         window.scrollTo(0, 0)
         document.title = 'Community'
-
-        const promise2 = getData()
-
-        return () => {
-            promise2 && promise2.abort()
-        }
     }, [])
 
     const observer = useRef();
@@ -41,7 +98,7 @@ const CommunityPage = () => {
         if (isLoading) return;
         if (observer.current) observer.current.disconnect();
         observer.current = new IntersectionObserver(entries => {
-            if (entries[0].isIntersecting && hasMore) {
+            if (entries[0].isIntersecting && hasMore && !isLoadingFeed) {
                 const promise = getData();
         
                 return () => {
@@ -84,7 +141,7 @@ const CommunityPage = () => {
                             ) : null}
                         </div>
                         <div className="flex gap-6">
-                            <div className="col-8 col-sm-12 flex flex-col">
+                            <div className="flex-1 flex flex-col">
                             {window.innerWidth <= 800 && user ? (
                             <div className="sticky top-0 bg-main py-1 z-3 py-sm-0">
                                 {friends.length > 0 && !isLoading && (
@@ -141,14 +198,14 @@ const CommunityPage = () => {
                                             {feed
                                             .map((item, index, arr) =>
                                                 <div
-                                                    key={item._id}
-                                                    ref={arr.length === index + 1 ? lastElementRef : undefined}
+                                                    key={index}
                                                 >
                                                     {item.type === 'play' ?
                                                         <PlayItem item={item.play}
-                                                            key={item.play._id}
                                                         />
-                                                    : 'library' }
+                                                    : item.type === 'library' ?<LibraryItem
+                                                        item={item.libraryItem}
+                                                    /> : null}
                                                 </div>
                                             )}
                                         </div>
@@ -160,6 +217,9 @@ const CommunityPage = () => {
                                             />
                                         </div>
                                     }
+                                    <div
+                                        ref={lastElementRef}
+                                    />
                                     { isLoadingFeed ?
                                         <ErrorInfo isLoadingFeed/>
                                     : null }
@@ -167,7 +227,7 @@ const CommunityPage = () => {
                             </div>
                         </div>
                         {window.innerWidth > 800 &&
-                            <div className="flex flex-col col-4">
+                            <div className="flex flex-col w-set-300-px">
                                 <div className="flex justify-between align-center py-3">
                                     <div className="fs-20 bold flex gap-3 align-center pointer transition-slide-right-hover-parent"
                                         onClick={() => {

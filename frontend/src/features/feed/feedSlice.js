@@ -50,7 +50,7 @@ const feedSlice = createSlice({
         });
         builder.addCase(getCommunityFeed.fulfilled, (state, action) => {
             state.isLoading = false;
-            state.feed.push(...action.payload.data);
+            state.feed = [...state.feed, ...action.payload.data];
             state.hasMore = action.payload.hasMore;
         });
         builder.addCase(getCommunityFeed.rejected, (state, action) => {

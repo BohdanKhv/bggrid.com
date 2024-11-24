@@ -20,7 +20,9 @@ const UserSearchModal = () => {
     useEffect(() => {
         let promise;
 
-        promise = dispatch(searchUsers(`?q=${searchValue}`))
+        if (searchValue.length > 0) {
+            promise = dispatch(searchUsers(`?q=${searchValue}`))
+        }
 
         return () => {
             promise?.abort()

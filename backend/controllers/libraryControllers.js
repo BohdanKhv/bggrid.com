@@ -1,5 +1,6 @@
 const Library = require('../models/libraryModel');
 const Game = require('../models/gameModel');
+const mongoose = require('mongoose');
 
 
 // @desc    Get reviews by game
@@ -174,11 +175,49 @@ const removeGameFromLibrary = async (req, res) => {
 }
 
 
+// @desc    Get game stats
+// @route   GET /api/library/stats/:gameId
+// @access  Public
+const getGameStats = async (req, res) => {
+    try {
+        // Get stats
+        // total rating, avg rating, (from tags: total favorites, total owned, total played, total wishlisted, total want to play)
+
+        const stats = await Library.aggregate([
+            { $match: { game: new mongoose.Types.ObjectId(req.params.gameId) } },
+            { $project: { rating: 1, tags: 1 } }, // Project fields to verify the match stage
+            {
+                $group: {
+                    _id: null,
+                    totalRating: { $sum: '$rating' },
+                    avgRating: { $avg: '$rating' },
+                    totalFavorites: { $sum: { $cond: { if: { $in: ['Favorite', '$tags'] }, then: 1, else: 0 } } },
+                    totalOwned: { $sum: { $cond: { if: { $in: ['Owned', '$tags'] }, then: 1, else: 0 } } },
+                    totalPlayed: { $sum: { $cond: { if: { $in: ['Played', '$tags'] }, then: 1, else: 0 } } },
+                    totalWishlist: { $sum: { $cond: { if: { $in: ['Wishlist', '$tags'] }, then: 1, else: 0 } } },
+                    totalWantToPlay: { $sum: { $cond: { if: { $in: ['Want to Play', '$tags'] }, then: 1, else: 0 } } },
+                }
+            }
+        ]);
+
+        console.log(stats);
+
+        res.status(200).json({
+            data: stats[0],
+        });
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ msg: 'Server error' });
+    }
+}
+
+
 
 module.exports = {
     getMyLibrary,
     getReviewsByGame,
     addGameToLibrary,
     updateGameInLibrary,
-    removeGameFromLibrary
+    removeGameFromLibrary,
+    getGameStats
 }

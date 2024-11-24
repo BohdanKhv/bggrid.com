@@ -64,6 +64,12 @@ export const deletePlay = async (payload, token) => {
     return response.data;
 }
 
+export const getGamePlayStats = async (payload) => {
+    const response = await axios.get(API_URL+`/stats/${payload}`);
+
+    return response.data;
+}
+
 
 
 
@@ -73,7 +79,8 @@ const playService = {
     updatePlay,
     getPlaysByGame,
     createPlay,
-    deletePlay
+    deletePlay,
+    getGamePlayStats
 };
 
 export default playService;

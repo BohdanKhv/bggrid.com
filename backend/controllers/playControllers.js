@@ -1,6 +1,7 @@
 const { DateTime } = require('luxon');
 const Game = require('../models/gameModel');
 const Play = require('../models/playModel');
+const mongoose = require('mongoose');
 
 
 // @desc    Get play by ID
@@ -235,6 +236,40 @@ const deletePlay = async (req, res) => {
 }
 
 
+// @desc    Get my plays
+// @route   GET /api/plays/my-plays
+// @access  Private
+const getGameStats = async (req, res) => {
+    try {
+        // Get stats
+        // average playtime, average players, total plays, avg win rate, avg score
+
+        const stats = await Play.aggregate([
+            { $match: { game: new mongoose.Types.ObjectId(req.params.gameId) } },
+            {
+                $group: {
+                    _id: null,
+                    totalPlays: { $sum: 1 },
+                    avgPlayTime: { $avg: '$playTimeMinutes' },
+                    avgPlayers: { $avg: { $size: '$players' } },
+                    avgWinRate: { $avg: { $cond: { if: { $arrayElemAt: ['$players.winner', 0] }, then: 1, else: 0 } } },
+                    avgScore: { $avg: '$score' }
+                }
+            }
+        ]);
+
+        console.log(stats);
+
+        res.status(200).json({
+            data: stats[0],
+        });
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ msg: 'Server error' });
+    }
+}
+
+
 module.exports = {
     getMyPlays,
     getPlayById,
@@ -242,4 +277,5 @@ module.exports = {
     getPlaysByGame,
     createPlay,
     deletePlay,
+    getGameStats
 };

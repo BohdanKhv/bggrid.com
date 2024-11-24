@@ -9,9 +9,17 @@ export const getReviewsByGame = async (payload) => {
     return response.data;
 }
 
+export const getGameStats = async (payload) => {
+    const response = await axios.get(API_URL+`/stats/${payload || ""}`);
+
+    return response.data;
+}
+
+
 
 const reviewService = {
     getReviewsByGame,
+    getGameStats
 };
 
 export default reviewService;

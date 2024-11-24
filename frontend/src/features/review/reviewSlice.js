@@ -11,7 +11,12 @@ const initialState = {
     page: 1,
     current: 1,
     pages: 1,
-    hasMore: true
+    hasMore: true,
+    stats: {
+        isLoading: false,
+        isError: false,
+        data: {}
+    }
 };
 
 
@@ -21,6 +26,24 @@ export const getReviewsByGame = createAsyncThunk(
         try {
             const { page, limit } = thunkAPI.getState().review;
             return await reviewService.getReviewsByGame({ gameId: payload, page, limit });
+        } catch (error) {
+            const message =
+                (error.response &&
+                    error.response.data &&
+                    error.response.data.msg) ||
+                error.message ||
+                error.toString();
+            return thunkAPI.rejectWithValue(message);
+        }
+    }
+);
+
+
+export const getGameStats = createAsyncThunk(
+    'review/getGameStats',
+    async (payload, thunkAPI) => {
+        try {
+            return await reviewService.getGameStats(payload);
         } catch (error) {
             const message =
                 (error.response &&
@@ -48,6 +71,11 @@ const reviewSlice = createSlice({
             state.current = 1;
             state.pages = 1;
             state.limit = 50;
+            state.stats = {
+                isLoading: false,
+                isError: false,
+                data: {}
+            };
         }
     },
     extraReducers: (builder) => {
@@ -69,6 +97,19 @@ const reviewSlice = createSlice({
                 state.isError = true;
                 toast.error(action.payload, { toastId: 'toastError', closeButton: true});
             }
+        });
+
+        builder.addCase(getGameStats.pending, (state) => {
+            state.stats.isLoading = true;
+            state.stats.isError = false;
+        });
+        builder.addCase(getGameStats.fulfilled, (state, action) => {
+            state.stats.isLoading = false;
+            state.stats.data = action.payload.data;
+        });
+        builder.addCase(getGameStats.rejected, (state, action) => {
+            state.stats.isLoading = false;
+            state.stats.isError = true;
         });
     }
 });

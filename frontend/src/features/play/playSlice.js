@@ -13,7 +13,12 @@ const initialState = {
     page: 0,
     current: 1,
     pages: 1,
-    hasMore: true
+    hasMore: true,
+    stats: {
+        isLoading: false,
+        isError: false,
+        data: null
+    }
 };
 
 
@@ -115,6 +120,23 @@ export const deletePlay = createAsyncThunk(
         try {
             const token = thunkAPI.getState().auth.user ? thunkAPI.getState().auth.user.token : null;
             return await playService.deletePlay(payload, token);
+        } catch (error) {
+            const message =
+                (error.response &&
+                    error.response.data &&
+                    error.response.data.msg) ||
+                error.message ||
+                error.toString();
+            return thunkAPI.rejectWithValue(message);
+        }
+    }
+);
+
+export const getGamePlayStats = createAsyncThunk(
+    'play/getGamePlayStats',
+    async (payload, thunkAPI) => {
+        try {
+            return await playService.getGamePlayStats(payload);
         } catch (error) {
             const message =
                 (error.response &&
@@ -241,6 +263,19 @@ const playSlice = createSlice({
             state.loadingId = '';
             state.msg = action.payload;
             toast.error(action.payload, { toastId: 'toastError', closeButton: true});
+        });
+
+        builder.addCase(getGamePlayStats.pending, (state, action) => {
+            state.stats.isLoading = true;
+            state.stats.isError = false;
+        });
+        builder.addCase(getGamePlayStats.fulfilled, (state, action) => {
+            state.stats.isLoading = false;
+            state.stats.data = action.payload.data;
+        });
+        builder.addCase(getGamePlayStats.rejected, (state, action) => {
+            state.stats.isLoading = false;
+            state.stats.isError = true;
         });
     }
 });

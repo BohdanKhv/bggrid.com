@@ -6,12 +6,14 @@ const {
     addGameToLibrary,
     updateGameInLibrary,
     removeGameFromLibrary,
-    getReviewsByGame
+    getReviewsByGame,
+    getGameStats
 } = require('../controllers/libraryControllers');
 
 
 router
     .get('/my-library', protect, getMyLibrary)
+    .get('/stats/:gameId', getGameStats)
     .get('/reviews/:gameId', getReviewsByGame)
     .post('/', protect, addGameToLibrary)
     .put('/:gameId', protect, updateGameInLibrary)

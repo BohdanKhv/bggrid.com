@@ -2,11 +2,11 @@ import React, { memo, useCallback, useEffect, useMemo, useRef, useState } from '
 import { useDispatch, useSelector } from 'react-redux'
 import { getGameById } from '../../features/game/gameSlice'
 import { Link, useNavigate, useParams, useSearchParams } from 'react-router-dom'
-import { Avatar, Button, ErrorInfo, HorizontalScroll, Icon, IconButton, Image, TabContent } from '../../components'
+import { Avatar, Button, ErrorInfo, HorizontalScroll, Icon, IconButton, Image, Skeleton, TabContent } from '../../components'
 import { boxInIcon, boxOffIcon, checkIcon, clockIcon, largePlusIcon, libraryIcon, diceIcon, shareIcon, starEmptyIcon, starFillIcon, starsIcon, userIcon, usersIcon, plugIcon } from '../../assets/img/icons'
 import { addCommaToNumber, numberFormatter } from '../../assets/utils'
-import { getReviewsByGame, resetReview } from '../../features/review/reviewSlice'
-import { getPlaysByGame, resetPlay } from '../../features/play/playSlice'
+import { getGameStats, getReviewsByGame, resetReview } from '../../features/review/reviewSlice'
+import { getPlaysByGame, resetPlay, getGamePlayStats } from '../../features/play/playSlice'
 import { DateTime } from 'luxon'
 import { resetFeed } from '../../features/feed/feedSlice'
 
@@ -160,6 +160,152 @@ const ReviewItem = ({ item }) => {
     )
 }
 
+const GamePlayStats = () => {
+    const dispatch = useDispatch()
+    const { gameId } = useParams()
+
+    const { stats } = useSelector((state) => state.play)
+
+    useEffect(() => {
+        const promise = dispatch(getGamePlayStats(gameId))
+
+        return () => {
+            promise && promise.abort()
+        }
+    }, [gameId])
+
+    return (
+        !stats.isError &&
+        <div className="w-set-300-px flex-1 border-radius-lg bg-tertiary p-5 h-fit-content my-3">
+            {stats.isLoading ?
+                <Skeleton animation="wave"/>
+            :
+            <>
+            <div className="flex flex-col">
+                <div className="flex pb-4 gap-3 align-center">
+                    <div className="fs-18 weight-500">
+                        Plays:
+                    </div>
+                    <div className="fs-20 weight-500 flex align-center text-nowrap text-warning gap-1">
+                        <Icon icon={starFillIcon} size="md" className="fill-warning"/> {stats?.data?.totalPlays?.toFixed(1) || 0}
+                    </div>
+                </div>
+                <div className="justify-between flex gap-2 border-bottom pb-3 pt-3">
+                    <div className="fs-14 text-secondary">
+                        Avg. Playtime:
+                    </div>
+                    <div className="fs-14 text-end text-nowrap">
+                        {stats?.data?.avgPlayTime || 0} min
+                    </div>
+                </div>
+                <div className="justify-between flex gap-2 border-bottom pb-3 pt-3">
+                    <div className="fs-14 text-secondary">
+                        Avg. Players:
+                    </div>
+                    <div className="fs-14 text-end text-nowrap">
+                        {stats?.data?.avgPlayers || 0}
+                    </div>
+                </div>
+                <div className="justify-between flex gap-2 border-bottom pb-3 pt-3">
+                    <div className="fs-14 text-secondary">
+                        Win Rate:
+                    </div>
+                    <div className="fs-14 text-end text-nowrap">
+                        {stats?.data?.avgWinRate || 0}
+                    </div>
+                </div>
+                <div className="justify-between flex gap-2 pt-2">
+                    <div className="fs-14 text-secondary">
+                        Avg. Score:
+                    </div>
+                    <div className="fs-14 text-end text-nowrap">
+                        {stats?.data?.avgScore || 0}
+                    </div>
+                </div>
+            </div>
+            </>
+            }
+        </div>
+    )
+}
+
+const GameReviewStats = () => {
+    const dispatch = useDispatch()
+    const { gameId } = useParams()
+
+    const { stats } = useSelector((state) => state.review)
+
+    useEffect(() => {
+        const promise = dispatch(getGameStats(gameId))
+
+        return () => {
+            promise && promise.abort()
+        }
+    }, [gameId])
+
+    return (
+        !stats.isError &&
+        <div className="w-set-300-px flex-1 border-radius-lg bg-tertiary p-5 h-fit-content my-3">
+            {stats.isLoading ?
+                <Skeleton animation="wave"/>
+            :
+            <>
+            <div className="flex flex-col">
+                <div className="flex pb-4 gap-3 align-center">
+                    <div className="fs-18 weight-500">
+                        Avg. Rating:
+                    </div>
+                    <div className="fs-20 weight-500 flex align-center text-nowrap text-warning gap-1">
+                        <Icon icon={starFillIcon} size="md" className="fill-warning"/> {stats?.data?.avgRating?.toFixed(1) || 0}
+                    </div>
+                </div>
+                <div className="justify-between flex gap-2 border-bottom pb-3 pt-3">
+                    <div className="fs-14 text-secondary">
+                        Favorite:
+                    </div>
+                    <div className="fs-14 text-end text-nowrap">
+                        {stats?.data?.totalFavorites || 0}
+                    </div>
+                </div>
+                <div className="justify-between flex gap-2 border-bottom pb-3 pt-3">
+                    <div className="fs-14 text-secondary">
+                        Owned
+                    </div>
+                    <div className="fs-14 text-end text-nowrap">
+                        {stats?.data?.totalOwned || 0}
+                    </div>
+                </div>
+                <div className="justify-between flex gap-2 border-bottom pb-3 pt-3">
+                    <div className="fs-14 text-secondary">
+                        Wishlist:
+                    </div>
+                    <div className="fs-14 text-end text-nowrap">
+                        {stats?.data?.totalWishlist || 0}
+                    </div>
+                </div>
+                <div className="justify-between flex gap-2 border-bottom pb-3 pt-3">
+                    <div className="fs-14 text-secondary">
+                        Played
+                    </div>
+                    <div className="fs-14 text-end text-nowrap">
+                        {stats?.data?.totalPlayed || 0}
+                    </div>
+                </div>
+                <div className="justify-between flex gap-2 pt-2">
+                    <div className="fs-14 text-secondary">
+                        Want to Play
+                    </div>
+                    <div className="fs-14 text-end text-nowrap">
+                        {stats?.data?.totalWantToPlay || 0}
+                    </div>
+                </div>
+                </div>
+            </>
+            }
+        </div>
+    )
+}
+
 
 const ReviewsTab = () => {
     const dispatch = useDispatch()
@@ -208,58 +354,7 @@ const ReviewsTab = () => {
                         />
                     ))}
                 </div>
-                <div className="w-set-300-px flex-1 border-radius-lg bg-tertiary p-5 h-fit-content my-3">
-                    <div className="flex flex-col">
-                        <div className="flex pb-4 gap-3">
-                            <div className="fs-18 weight-500">
-                                Avg. Rating:
-                            </div>
-                            <div className="fs-20 weight-500 flex align-center text-nowrap text-warning gap-1">
-                                <Icon icon={starFillIcon} size="md" className="fill-warning"/> 4.5
-                            </div>
-                        </div>
-                        <div className="justify-between flex gap-2 border-bottom pb-3 pt-3">
-                            <div className="fs-14 text-secondary">
-                                Favorite:
-                            </div>
-                            <div className="fs-14 text-end text-nowrap">
-                                40k
-                            </div>
-                        </div>
-                        <div className="justify-between flex gap-2 border-bottom pb-3 pt-3">
-                            <div className="fs-14 text-secondary">
-                                Owned
-                            </div>
-                            <div className="fs-14 text-end text-nowrap">
-                                4k
-                            </div>
-                        </div>
-                        <div className="justify-between flex gap-2 border-bottom pb-3 pt-3">
-                            <div className="fs-14 text-secondary">
-                                Wishlist:
-                            </div>
-                            <div className="fs-14 text-end text-nowrap">
-                                1k
-                            </div>
-                        </div>
-                        <div className="justify-between flex gap-2 border-bottom pb-3 pt-3">
-                            <div className="fs-14 text-secondary">
-                                Played
-                            </div>
-                            <div className="fs-14 text-end text-nowrap">
-                                45k
-                            </div>
-                        </div>
-                        <div className="justify-between flex gap-2 pt-2">
-                            <div className="fs-14 text-secondary">
-                                Want to Play
-                            </div>
-                            <div className="fs-14 text-end text-nowrap">
-                                5k
-                            </div>
-                        </div>
-                    </div>
-                </div>
+                <GameReviewStats/>
             </div>
         }
         {isLoading ?
@@ -321,50 +416,7 @@ const PlaysTab = () => {
                         />
                     ))}
                 </div>
-                <div className="w-set-300-px flex-1 border-radius-lg bg-tertiary p-5 h-fit-content my-3">
-                    <div className="flex flex-col">
-                        <div className="flex pb-4 gap-3">
-                            <div className="fs-18 weight-500">
-                            Plays:
-                            </div>
-                            <div className="fs-20 weight-500 flex align-center text-nowrap gap-1">
-                                <Icon icon={diceIcon} size="md"/> 45k
-                            </div>
-                        </div>
-                        <div className="justify-between flex gap-2 border-bottom pb-3 pt-3">
-                            <div className="fs-14 text-secondary">
-                                Avg. Playtime:
-                            </div>
-                            <div className="fs-14 text-end text-nowrap">
-                                1h 30m
-                            </div>
-                        </div>
-                        <div className="justify-between flex gap-2 border-bottom pb-3 pt-3">
-                            <div className="fs-14 text-secondary">
-                                Avg. Players:
-                            </div>
-                            <div className="fs-14 text-end text-nowrap">
-                                3.5
-                            </div>
-                        </div>
-                        <div className="justify-between flex gap-2 border-bottom pb-3 pt-3">
-                            <div className="fs-14 text-secondary">
-                                Avg. Playtime:
-                            </div>
-                            <div className="fs-14 text-end text-nowrap">
-                                1h 30m
-                            </div>
-                        </div>
-                        <div className="justify-between flex gap-2 pt-2">
-                            <div className="fs-14 text-secondary">
-                                Win Rate:
-                            </div>
-                            <div className="fs-14 text-end text-nowrap">
-                                45%
-                            </div>
-                        </div>
-                    </div>
-                </div>
+                <GamePlayStats/>
             </div>
         }
         {isLoading ?
@@ -461,9 +513,11 @@ const GamePage = () => {
             className="h-min-100 offset-header-sm"
         >
             {isLoading ?
-                <ErrorInfo
-                    isLoading
-                />
+                <div className="h-min-100 justify-center align-center flex">
+                    <ErrorInfo
+                        isLoading
+                    />
+                </div>
             : gameById ? 
                 <div className="flex flex-col h-min-100 container px-sm-3 animation-slide-in">
                     <div className="flex flex-col mt-6 pos-relative mt-sm-4">
@@ -630,9 +684,12 @@ const GamePage = () => {
                 </div>
             </div>
             :
-                <ErrorInfo
-                    code="404"
-                />
+            <div className="h-min-100 justify-center align-center flex">
+                    <ErrorInfo
+                        code="404"
+                        info="Game not found"
+                    />
+                </div>
             }
         </div>
     )

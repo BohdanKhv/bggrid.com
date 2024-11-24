@@ -3,7 +3,7 @@ const router = express.Router();
 const { protect, loggedIn } = require('../middleware/authMiddleware');
 const {
     getCommunityFeed,
-} = require('../controllers/communityControllers.js');
+} = require('../controllers/feedControllers.js');
 
 
 router

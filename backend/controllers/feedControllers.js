@@ -68,19 +68,19 @@ const getCommunityFeed = async (req, res) => {
         if (type === 'all' || type === 'plays') {
             feedItems.push(...friendsRecentPlays.docs.map(play => ({
                 type: 'play',
-                play
+                item: play
             })));
         }
 
         if (type === 'all' || type === 'library') {
             feedItems.push(...friendsLibraryItems.docs.map(libraryItem => ({
                 type: 'library',
-                libraryItem
+                item: libraryItem
             })));
         }
 
         // Sort feed items by updatedAt
-        feedItems.sort((a, b) => b.play.updatedAt - a.play.updatedAt);
+        feedItems.sort((a, b) => (b.item.updatedAt || b.item.createdAt ) - (a.item.updatedAt || a.item.createdAt ));
 
         // Determine if there are more items to fetch
         const hasMore = (friendsRecentPlays.hasNextPage || friendsLibraryItems.hasNextPage);

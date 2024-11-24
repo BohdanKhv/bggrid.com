@@ -208,10 +208,10 @@ const CommunityPage = () => {
                                                     key={index}
                                                 >
                                                     {item.type === 'play' ?
-                                                        <PlayItem item={item.play}
+                                                        <PlayItem item={item.item}
                                                         />
                                                     : item.type === 'library' ?<LibraryItem
-                                                        item={item.libraryItem}
+                                                        item={item.item}
                                                     /> : null}
                                                 </div>
                                             )}

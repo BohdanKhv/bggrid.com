@@ -5,6 +5,7 @@ import { arrowLeftShortIcon, gamesIcon, leftArrowIcon, searchIcon, userIcon } fr
 import { useDispatch, useSelector } from 'react-redux'
 import { searchUsers } from '../../features/user/userSlice'
 import { sendFriendRequest } from '../../features/friend/friendSlice'
+import FriendItem from './FriendItem'
 
 const UserSearchModal = () => {
     const dispatch = useDispatch()
@@ -86,57 +87,10 @@ const UserSearchModal = () => {
                 <>
                     {users
                     .map((searchItem) => (
-                        <div className="flex justify-between align-center"
+                        <FriendItem
+                            item={searchItem}
                             key={searchItem._id}
-                        >
-                            <div
-                                className="fs-14 flex align-center justify-between px-4 py-2 gap-3 flex-1 overflow-hidden"
-                            >
-                                <div className="flex gap-3 align-center">
-                                    <Avatar
-                                        img={searchItem.avatar}
-                                        rounded
-                                        avatarColor={searchItem.username.length}
-                                        name={searchItem.username}
-                                        alt={searchItem.username}
-                                        classNameContainer="w-set-50-px h-set-50-px border-radius-sm overflow-hidden"
-                                    />
-                                    <div className="flex flex-col">
-                                        <Link
-                                            target='_blank'
-                                            to={`/u/${searchItem.username}`}
-                                            className="fs-14 weight-500 text-ellipsis-2 text-underlined-hover pointer">
-                                            @{highlightText(searchItem.username, searchValue)}
-                                        </Link>
-                                        <div className="fs-12 text-secondary">
-                                            {searchItem.firstName} {searchItem.lastName}
-                                        </div>
-                                    </div>
-                                </div>
-                                {friends.find((friend) => friend?.friend?._id === searchItem._id) ?
-                                    friends.find((friend) => friend?.friend?._id === searchItem._id).status === 'pending' ?
-                                        <div className="fs-14 text-secondary weight-500 px-4">
-                                            Pending
-                                        </div>
-                                    :
-                                    <div className="fs-14 text-secondary weight-500 px-4">
-                                        Friends 
-                                    </div>
-                                :
-                                    <Button
-                                        label="Add friend"
-                                        variant="filled"
-                                        type="primary"
-                                        borderRadius="md"
-                                        isLoading={loadingId === `send-${searchItem._id}`}
-                                        disabled={loadingId}
-                                        onClick={(e) => {
-                                            dispatch(sendFriendRequest(searchItem._id))
-                                        }}
-                                    />
-                                }
-                            </div>
-                        </div>
+                        />
                     ))}
                 </>
                 :

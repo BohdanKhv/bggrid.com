@@ -5,7 +5,7 @@ import { getMyFriends } from '../features/friend/friendSlice'
 import { arrowRightShortIcon, closeIcon, diceIcon, largePlusIcon, linkIcon, plusIcon, rightArrowIcon } from '../assets/img/icons'
 import { resetPlay } from '../features/play/playSlice'
 import UserSearchModal from './friend/UserSearchModal'
-import { useSearchParams } from 'react-router-dom'
+import { Link, useSearchParams } from 'react-router-dom'
 import FriendsModal from './friend/FriendsModal'
 
 
@@ -86,48 +86,20 @@ const CommunityPage = () => {
                             {window.innerWidth <= 800 && user ? (
                             <div className="sticky top-0 bg-main py-1 z-3 py-sm-0">
                                 {friends.length > 0 && !isLoading && (
-                                    <HorizontalScroll
-                                        contentClassName="align-start gap-0"
-                                    >
-                                        {friends.map((item) => (
-                                            <div className={`pointer h-100 animation-fade-in border-radius-sm hover-opacity-100 transition-duration clickable flex-shrink-0${selectedFriend ? selectedFriend === item?.game?._id ? "" : " opacity-25" : " bg-secondary-hover"}`}
-                                                key={item._id}
-                                                onClick={() => {
-                                                    if (selectedFriend === item?.game?._id) {
-                                                        setSelectedFriend(null)
-                                                    } else {
-                                                        setSelectedFriend(item?.game?._id)
-                                                    }
-                                                }}
-                                            >
-                                                <div className="flex flex-col p-2 align-center">
-                                                    <Avatar
-                                                        img={item?.user?.avatar}
-                                                        size="lg"
-                                                        rounded
-                                                        label={item.user.username}
-                                                    />
-                                                    <div className="fs-12 text-center text-ellipsis-1 w-max-75-px pt-2 weight-500">
-                                                        {item.user.username}
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        ))}
-                                    </HorizontalScroll>
+                                    <></>
                                 )}
                             </div>
                             ) : null}
                             <div className="pt-3 px-sm-3">
                                 <div className="flex">
                                     <HorizontalScroll className="flex-1">
-                                        {selectedFriend || tag ?
+                                        {tag ?
                                             <IconButton
                                                 icon={closeIcon}
                                                 variant="secondary"
                                                 className="animation-fade-in flex-shrink-0"
                                                 type={tag === null ? 'filled' : 'default'}
                                                 onClick={() => {
-                                                    setSelectedFriend(null)
                                                     setTag(null)
                                                 }}
                                             />
@@ -161,18 +133,6 @@ const CommunityPage = () => {
                                         ))}
                                     </HorizontalScroll>
                                 </div>
-                                    {selectedFriend ?
-                                    <div className="pt-3 flex gap-2 overflow-auto">
-                                        <Button
-                                            icon={linkIcon}
-                                            variant="secondary"
-                                            type="outline"
-                                            className="flex-shrink-0"
-                                            label="Details"
-                                            onClick={() => navigate(`/u/${selectedFriend}`)}
-                                        />
-                                    </div>
-                                    : null }
                                 <div>
                                     {plays.length > 0 && !isLoadingPlays ? (
                                         <div className="flex flex-col">
@@ -225,7 +185,7 @@ const CommunityPage = () => {
                                     <ErrorInfo isLoading/>
                                 :
                                 friends.length === 0 && !isLoading ?
-                                <div className="border border-radius border-dashed">
+                                <div className="border border-radius border-dashed animation-slide-in">
                                     <ErrorInfo
                                         secondary="Oops! No friends found"
                                         />
@@ -233,18 +193,9 @@ const CommunityPage = () => {
                                 :
                                 friends.length > 0 && !isLoading && (
                                     friends.map((item) => (
-                                        <div className={`pointer align-center animation-fade-in border-radius-sm hover-opacity-100 transition-duration clickable flex-shrink-0${selectedFriend ? selectedFriend === item?.game?._id ? "" : " opacity-25" : " bg-secondary-hover"}`}
+                                        <Link className={`pointer align-center border-radius-sm hover-opacity-100 transition-duration clickable flex-shrink-0 bg-secondary-hover`}
                                             key={item._id}
-                                            onClick={() => {
-                                                if (selectedFriend === item?.game?._id) {
-                                                    setSelectedFriend(null
-                                                    )
-                                                }
-                                                else {
-                                                    setSelectedFriend(item?.game?._id)
-                                                }
-                                            }
-                                        }
+                                            to={`/u/${item.friend.username}`}
                                     >
                                         <div className="flex gap-3 p-2 align-center">
                                             <Avatar
@@ -256,16 +207,16 @@ const CommunityPage = () => {
                                             />
                                             <div className="flex flex-col">
                                                 {item.friend.firstName && item.friend.lastName ?
-                                                <div className="fs-14 weight-500 text-ellipsis-1">
-                                                    {item.friend.firstName} {item.friend.lastName}  
-                                                </div>
+                                                    <div className="fs-14 weight-500 text-ellipsis-1">
+                                                        @{item.friend.username}
+                                                    </div>
                                                 : null}
-                                                <div className="fs-12 text-ellipsis-1 weight-500">
-                                                    @{item.friend.username}
+                                                <div className="fs-12 text-secondary text-ellipsis-1 weight-500">
+                                                    {item.friend.firstName} {item.friend.lastName}  
                                                 </div>
                                             </div>
                                         </div>
-                                    </div>
+                                    </Link>
                                 ))
                             )}
                             </div>

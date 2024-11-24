@@ -168,9 +168,12 @@ const AddGame = () => {
                     </div>
                     <Input
                         value={comment}
-                        onChange={(e) => setComment(e.target.value)}
+                        onChange={(e) => {
+                            setComment(e.target.value.slice(0, 500))
+                        }}
                         wrapColumn
                         type="textarea"
+                        maxLength={500}
                         placeholder="Write your review in less than 500 characters..."
                     />
                 </div>

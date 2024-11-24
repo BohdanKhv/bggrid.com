@@ -12,16 +12,23 @@ const PlayItem = ({ item }) => {
         <div className="px-sm-3 border-bottom show-on-hover-parent border-secondary transition-duration animation-slide-in display-on-hover-parent">
             <div className="flex gap-3 py-5 py-sm-3">
                 <Avatar
-                    img={item?.user?.avatar}
-                    rounded
-                    avatarColor={item?.user?.username?.length}
-                    name={item?.user?.username}
+                    img={item?.game?.thumbnail}
+                    avatarColor={item?.game?.name?.length}
+                    name={item?.game?.name}
+                    size="lg"
                 />
                 <div className="flex flex-col justify-between flex-1">
                     <div className="flex gap-2 justify-between">
                         <div className="flex flex-col justify-between flex-1">
                             <div className="flex gap-2 align-center flex-1">
                                 <div className="flex gap-2 flex-1 align-center">
+                                    <Avatar
+                                        img={item?.user?.avatar}
+                                        rounded
+                                        size="sm"
+                                        avatarColor={item?.user?.username?.length}
+                                        name={item?.user?.username}
+                                    />
                                     <div className="flex align-center">
                                         {item.user.firstName ?
                                             <>

@@ -123,7 +123,7 @@ const PlaysPage = () => {
                         </div>
                         : null}
                         <div className="flex gap-6">
-                            <div className="col-8 col-sm-12 flex flex-col">
+                            <div className="flex-1 flex flex-col">
                             <div className="sticky top-0 z-3 bg-main">
                                 <div className="py-3 px-sm-3">
                                     <div className="flex">
@@ -235,7 +235,7 @@ const PlaysPage = () => {
                             </div>
                         </div>
                         {window.innerWidth > 800 &&
-                        <div className="flex flex-col col-4">
+                        <div className="flex flex-col w-set-300-px flex-1">
                             <div className="fs-20 bold py-3">
                                 Library
                             </div>

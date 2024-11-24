@@ -16,16 +16,23 @@ const LibraryItem = ({ item }) => {
         <div className="px-sm-3 border-bottom show-on-hover-parent border-secondary transition-duration animation-slide-in display-on-hover-parent">
             <div className="flex gap-3 py-5 py-sm-3">
                 <Avatar
-                    img={item?.user?.avatar}
-                    rounded
-                    avatarColor={item?.user?.username?.length}
-                    name={item?.user?.username}
+                    img={item?.game?.thumbnail}
+                    avatarColor={item?.game?.name?.length}
+                    name={item?.game?.name}
+                    size="lg"
                 />
                 <div className="flex flex-col justify-between flex-1">
                     <div className="flex gap-2 justify-between">
                         <div className="flex flex-col justify-between flex-1">
                             <div className="flex gap-2 align-center flex-1">
                                 <div className="flex gap-2 flex-1 align-center">
+                                    <Avatar
+                                        img={item?.user?.avatar}
+                                        rounded
+                                        size="sm"
+                                        avatarColor={item?.user?.username?.length}
+                                        name={item?.user?.username}
+                                    />
                                     <div className="flex align-center">
                                         {item.user.firstName ?
                                             <>
@@ -34,7 +41,7 @@ const LibraryItem = ({ item }) => {
                                                 </div>
                                             </>
                                         : null}
-                                        <Link className="text-secondary weight-400 fs-12 text-underlined-hover">@{item.user.username}</Link>
+                                        <Link to={`/u/${item.user.username}`} className="text-secondary weight-400 fs-12 text-underlined-hover">@{item.user.username}</Link>
                                     </div>
                                     <span className="fs-14 weight-400 text-secondary">·</span>
                                     <span className="weight-400 text-secondary fs-12 text-wrap-nowrap">{
@@ -45,7 +52,7 @@ const LibraryItem = ({ item }) => {
                                     </span>
                                 </div>
                             </div>
-                            <div className="flex fs-12 gap-2 text-secondary pt-1">
+                            <div className="flex fs-12 gap-2 text-secondary pt-2">
                                 Added <Link target="_blank" to={`/g/${item.game._id}`} className="fs-12 text-main bold pointer text-ellipsis-1 text-underlined-hover">{item.game.name}</Link> to their library
                             </div>
                         </div>
@@ -79,8 +86,8 @@ const CommunityPage = () => {
     const [searchParams, setSearchParams] = useSearchParams()
 
     const { user } = useSelector((state) => state.auth)
-    const { friends, isLoading, loadingId } = useSelector((state) => state.friend)
-    const { feed, hasMore, isLoading: isLoadingFeed } = useSelector((state) => state.feed)
+    const { friends } = useSelector((state) => state.friend)
+    const { feed, hasMore, isLoading, isError } = useSelector((state) => state.feed)
 
     const [type, setType] = useState(null)
 
@@ -98,7 +105,7 @@ const CommunityPage = () => {
         if (isLoading) return;
         if (observer.current) observer.current.disconnect();
         observer.current = new IntersectionObserver(entries => {
-            if (entries[0].isIntersecting && hasMore && !isLoadingFeed) {
+            if (entries[0].isIntersecting && hasMore && !isError) {
                 const promise = getData();
         
                 return () => {
@@ -109,7 +116,7 @@ const CommunityPage = () => {
             }
         });
         if (node) observer.current.observe(node);
-    }, [isLoadingFeed, hasMore]);
+    }, [isLoading, hasMore, isError]);
 
     return (
         <div>
@@ -193,7 +200,7 @@ const CommunityPage = () => {
                                     </HorizontalScroll>
                                 </div>
                                 <div className="pt-3">
-                                    {feed.length > 0 && !isLoadingFeed ?
+                                    {feed.length > 0 && !isLoading ?
                                         <div className="flex flex-col">
                                             {feed
                                             .map((item, index, arr) =>
@@ -210,7 +217,7 @@ const CommunityPage = () => {
                                             )}
                                         </div>
                                     :
-                                        feed.length === 0 && !isLoadingFeed &&
+                                        feed.length === 0 && !isLoading &&
                                         <div className="border border-radius border-dashed mt-3">
                                             <ErrorInfo
                                                 secondary={!hasMore ? "You're all caught up!" : "Oops! Something went wrong"}
@@ -220,8 +227,8 @@ const CommunityPage = () => {
                                     <div
                                         ref={lastElementRef}
                                     />
-                                    { isLoadingFeed ?
-                                        <ErrorInfo isLoadingFeed/>
+                                    { isLoading ?
+                                        <ErrorInfo isLoading/>
                                     : null }
                                 </div>
                             </div>

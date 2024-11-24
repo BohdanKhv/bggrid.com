@@ -127,6 +127,7 @@ const UserSearchModal = () => {
                                         label="Add friend"
                                         variant="filled"
                                         type="primary"
+                                        borderRadius="md"
                                         isLoading={loadingId === `send-${searchItem._id}`}
                                         disabled={loadingId}
                                         onClick={(e) => {

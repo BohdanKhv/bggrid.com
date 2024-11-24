@@ -1,11 +1,12 @@
 import React, { useMemo, useState } from 'react'
 import { Avatar, Button, ErrorInfo, InputSearch, Modal } from '../../components'
 import { Link, useSearchParams } from 'react-router-dom'
-import { useSelector } from 'react-redux'
-import { searchIcon } from '../../assets/img/icons'
+import { useDispatch, useSelector } from 'react-redux'
+import { searchIcon, usersIcon } from '../../assets/img/icons'
 import { removeFriend } from '../../features/friend/friendSlice'
 
 const FriendItem = ({item, friends}) => {
+    const dispatch = useDispatch()
 
     const { loadingId } = useSelector((state) => state.friend)
 
@@ -52,7 +53,6 @@ const FriendItem = ({item, friends}) => {
                         variant="default"
                         type="secondary"
                         borderRadius="md"
-                        isLoading={loadingId === `delete-${item.friend?._id}`}
                         disabled={loadingId}
                         onClick={(e) => {
                             dispatch(removeFriend(item._id))
@@ -62,9 +62,8 @@ const FriendItem = ({item, friends}) => {
                 <Button
                     label="Add friend"
                     variant="filled"
-                        borderRadius="md"
+                    borderRadius="md"
                     type="primary"
-                    isLoading={loadingId === `send-${item.friend?._id}`}
                     disabled={loadingId}
                     onClick={(e) => {
                         dispatch(sendFriendRequest(item.friend?._id))
@@ -119,7 +118,14 @@ const FriendsModal = ({ friends }) => {
                     :
                     friends.length === 0 && searchValue.length < 3 ?
                         <ErrorInfo
+                            label="Oops! No friends found"
                             secondary="Search for friends by username, first name, or last name"
+                            onClick={() => {
+                                searchParams.set('su', 'true')
+                                searchParams.delete('friends')
+                                setSearchParams(searchParams.toString())
+                            }}
+                            btnLabel="Find friends"
                         />
                     :
                     friends.length === 0 ?

@@ -164,7 +164,7 @@ const removeFriend = async (req, res) => {
             return res.status(404).json({ msg: 'Friend not found' });
         }
 
-        await friend.remove();
+        await friend.deleteOne();
 
         res.status(200).json({
             data: friend,

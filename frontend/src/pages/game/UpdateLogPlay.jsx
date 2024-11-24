@@ -22,6 +22,7 @@ const UpdateLogPlay = () => {
 
     const [searchParam, setSearchParam] = useSearchParams()
     const { loadingId: loadingIdPlay, msg: playMsg, playById } = useSelector(state => state.play)
+    const { friends } = useSelector(state => state.friend)
 
     useEffect(() => {
         if (playMsg === 'success') {
@@ -39,7 +40,11 @@ const UpdateLogPlay = () => {
             playId: playById._id,
             comment,
             playTimeMinutes,
-            players,
+            players: players.map(i => ({
+                user: i.user?._id,
+                score: i.score,
+                winner: i.winner
+            }))
         }))
     }
 
@@ -102,7 +107,7 @@ const UpdateLogPlay = () => {
                 : 'Log Play'
             }
             noAction={!playById}
-            classNameContent="p-0 scrollbar-none"
+            classNameContent="p-0 scrollbar-none overflow-y-visible"
             actionBtnText={step === 1 ? 'Next' : 'Save'}
             onSubmit={step === 1 ? () => setStep(2) : onSubmit}
             disabledAction={loadingIdPlay === `update-${searchParam.get("updatePlay")}` || loadingIdPlay === `delete-${searchParam.get("updatePlay")}`}
@@ -126,7 +131,7 @@ const UpdateLogPlay = () => {
             {step === 1 ?
                 <div className="flex flex-col pt-4 gap-4">
                     <div className="flex flex-col">
-                        <div className="border border-radius mx-2">
+                        <div className="border border-radius mx-4 mb-4 bg-tertiary">
                             <InputSearch
                                 className="flex-1 py-1 ps-4"
                                 placeholder="Search or add players"
@@ -180,6 +185,48 @@ const UpdateLogPlay = () => {
                                             </div>
                                         </div>
                                         : null}
+                                        {friends.length ?
+                                        friends
+                                        .filter(i => !players.find(j => j?.user?._id === i.friend._id))
+                                        .filter(i => i.friend.username.toLowerCase().includes(searchValue.toLowerCase()))
+                                        .map(i => (
+                                            <div className="flex justify-between align-center">
+                                                <div
+                                                    onClick={(e) => {
+                                                        e.stopPropagation()
+                                                        setSearchValue('')
+                                                        setPlayers([...players, {
+                                                            user: i.friend,
+                                                            name: `${i.friend.firstName} ${i.friend.lastName}`,
+                                                            username: i.friend.username,
+                                                            score: 0,
+                                                            color: '',
+                                                            winner: false
+                                                        }])
+                                                    }}
+                                                    className="fs-16 flex align-center py-3 gap-3 px-2 pointer bg-secondary-hover flex-1 overflow-hidden"
+                                                >
+                                                    <div className="flex gap-2 align-center">
+                                                        <Avatar
+                                                            img={i.friend.avatar}
+                                                            rounded
+                                                            avatarColor={i.friend.username.length}
+                                                            name={i.friend.username}
+                                                            alt={i.friend.username}
+                                                            size="sm"
+                                                        />
+                                                        <div className="flex flex-col">
+                                                            <div className="fs-14 text-ellipsis-1">
+                                                                {i.friend?.username}
+                                                            </div>
+                                                            <div className="fs-12 text-secondary">
+                                                                {i.friend?.firstName} {i.friend?.lastName}
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        )) : null}
                                     </div>
                                 }
                             />
@@ -187,7 +234,7 @@ const UpdateLogPlay = () => {
                         <div>
                             {players.length ?
                             players.map((i, index) => (
-                            <div className="m-2 border-radius animation-slide-in"
+                            <div className="my-2 mx-4 border-radius animation-slide-in bg-secondary show-on-hover-parent"
                                 key={index}
                             >
                                 <div
@@ -198,6 +245,7 @@ const UpdateLogPlay = () => {
                                             icon={userIcon}
                                             avatarColor={i.name.length}
                                             name={searchValue}
+                                            img={i?.user?.avatar}
                                             size="sm"
                                             rounded
                                         />
@@ -210,12 +258,11 @@ const UpdateLogPlay = () => {
                                             </div>
                                         </div>
                                     </div>
-                                    {i?.user?._id === user?._id ? <div className="fs-12 weight-600 px-4">YOU</div> :
+                                    {i.user === user?._id || i.user?._id === user?._id ? <div className="fs-12 weight-600 px-4 show-on-hover">YOU</div> :
                                     <Button
-                                        label="Remove"
+                                        icon={trashIcon}
                                         variant="link"
-                                        muted
-                                        className="mx-2"
+                                        className="mx-2 weight-400 show-on-hover"
                                         onClick={() => {
                                             setPlayers(players.filter((_, j) => j !== index))
                                         }}
@@ -224,19 +271,6 @@ const UpdateLogPlay = () => {
                                 </div>
                                 <div className="px-2 pb-2 px-sm-0">
                                     <div className="flex gap-2">
-                                        {/* <div className="flex-1">
-                                            <Input
-                                                type="text"
-                                                placeholder="Color/Team"
-                                                value={i.color}
-                                                onFocus={(e) => e.target.select()}
-                                                onChange={(e) => {
-                                                    const newPlayers = [...players]
-                                                    newPlayers[index].color = e.target.value
-                                                    setPlayers(newPlayers)
-                                                }}
-                                            />
-                                        </div> */}
                                         <div className="flex-1">
                                             <Input
                                                 type="number"

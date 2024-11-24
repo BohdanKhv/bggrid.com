@@ -168,6 +168,12 @@ const PlaysPage = () => {
                                     </div>
                                         {selectedGame ?
                                         <div className="pt-3 flex gap-2 overflow-auto">
+                                            <Avatar
+                                                img={library.find(l => l?.game?._id === selectedGame)?.game?.thumbnail}
+                                                label={library.find(l => l?.game?._id === selectedGame)?.game?.name}
+                                                size="sm"
+                                            />
+                                            <div className="border-left my-2"/>
                                             <Button
                                                 icon={linkIcon}
                                                 variant="secondary"
@@ -241,7 +247,7 @@ const PlaysPage = () => {
                                 </div>
                             : library.length > 0 && !libraryLoading && (
                                 library.map((item) => (
-                                    <div className={`pointer animation-fade-in border-radius-sm hover-opacity-100 transition-duration clickable flex-shrink-0${selectedGame ? selectedGame === item?.game?._id ? "" : " opacity-25" : " bg-secondary-hover"}`}
+                                    <div className={`pointer align-center animation-fade-in border-radius-sm hover-opacity-100 transition-duration clickable flex-shrink-0${selectedGame ? selectedGame === item?.game?._id ? "" : " opacity-25" : " bg-secondary-hover"}`}
                                         key={item._id}
                                         onClick={() => {
                                             if (selectedGame === item?.game?._id) {
@@ -251,12 +257,12 @@ const PlaysPage = () => {
                                             }
                                         }}
                                     >
-                                        <div className="flex p-2 gap-3">
+                                        <div className="flex p-2 gap-3 align-center">
                                             <Avatar
                                                 img={item?.game?.thumbnail}
                                                 label={item.game.name}
                                             />
-                                            <div className="fs-14 text-ellipsis-2 pt-2 weight-500">
+                                            <div className="fs-14 text-ellipsis-2 weight-500">
                                                 {item.game.name}
                                             </div>
                                         </div>

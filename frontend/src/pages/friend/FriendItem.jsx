@@ -17,9 +17,9 @@ const FriendItem = ({ item, showRemoveButton }) => {
 
     return (
         <div className="flex justify-between align-center">
-        <div
-            className="fs-14 flex align-center justify-between py-2 gap-3 flex-1 overflow-hidden"
-        >
+            <div
+                className="fs-14 flex align-center justify-between py-2 gap-3 flex-1 overflow-hidden"
+            >
             <div className="flex gap-3 align-center flex-1 overflow-hidden">
                 <Avatar
                     img={item.avatar}

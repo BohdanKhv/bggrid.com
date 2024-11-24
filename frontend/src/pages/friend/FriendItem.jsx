@@ -1,11 +1,11 @@
 import React, { useMemo } from 'react'
 import { Avatar, Button } from '../../components'
-import { removeFriend, sendFriendRequest } from '../../features/friend/friendSlice'
+import { acceptFriendRequest, removeFriend, sendFriendRequest } from '../../features/friend/friendSlice'
 import { useDispatch, useSelector } from 'react-redux'
 import { Link } from 'react-router-dom'
 
 
-const FriendItem = ({item}) => {
+const FriendItem = ({ item, showRemoveButton }) => {
     const dispatch = useDispatch()
 
     const { loadingId } = useSelector((state) => state.friend)
@@ -18,9 +18,9 @@ const FriendItem = ({item}) => {
     return (
         <div className="flex justify-between align-center">
         <div
-            className="fs-14 flex align-center justify-between px-4 py-2 gap-3 flex-1 overflow-hidden"
+            className="fs-14 flex align-center justify-between py-2 gap-3 flex-1 overflow-hidden"
         >
-            <div className="flex gap-3 align-center">
+            <div className="flex gap-3 align-center flex-1 overflow-hidden">
                 <Avatar
                     img={item.avatar}
                     rounded
@@ -29,36 +29,69 @@ const FriendItem = ({item}) => {
                     alt={item.username}
                     classNameContainer="w-set-50-px h-set-50-px border-radius-sm overflow-hidden"
                 />
-                <div className="flex flex-col">
+                <div className="flex flex-col text-ellipsis-1">
                     <Link
                         target='_blank'
                         to={`/u/${item?.username}`}
-                        className="fs-14 weight-500 text-ellipsis-2 text-underlined-hover pointer">
-                        @{item?.username}
+                        className="fs-14 weight-500 text-ellipsis text-underlined-hover pointer">
+                        {item?.username}
                     </Link>
-                    <div className="fs-12 text-secondary">
+                    <div className="fs-12 text-secondary text-ellipsis">
                         {item?.firstName} {item?.lastName}
                     </div>
                 </div>
             </div>
             {isFriend ?
-                isFriend.pending ?
+                isFriend.pending && !isFriend.myRequest ?
+                    <div className="flex gap-2 align-center justify-center">
+                        <Button
+                        size="sm"
+                            label="Decline"
+                            borderRadius="sm"
+                            variant="secondary"
+                            type="default"
+                            className="flex-shrink-0"
+                            onClick={(e) => {
+                                e.preventDefault()
+                                dispatch(removeFriend(isFriend._id))
+                            }}
+                            disabled={loadingId}
+                        />
+                        <Button
+                        size="sm"
+                            label="Accept"
+                            variant="primary"
+                            type="filled"
+                            className="flex-shrink-0"
+                            borderRadius="sm"
+                            onClick={(e) => {
+                                e.preventDefault()
+                                dispatch(acceptFriendRequest(isFriend._id))
+                            }}
+                            disabled={loadingId}
+                        />
+                    </div>
+                :
+                isFriend.pending && isFriend.myRequest ?
                     <Button
-                        label="Pending"
+                        size="sm"
+                        label="Cancel request"
                         variant="default"
                         type="secondary"
-                        borderRadius="md"
+                        className="flex-shrink-0"
+                        borderRadius="sm"
                         disabled={loadingId}
                         onClick={(e) => {
                             dispatch(removeFriend(isFriend?._id))
                         }}
                     />
-                :
+                : showRemoveButton &&
                     <Button
-                        label="Friend"
+                        size="sm"
+                        label="Remove"
                         variant="default"
                         type="secondary"
-                        borderRadius="md"
+                        borderRadius="sm"
                         disabled={loadingId}
                         onClick={(e) => {
                             dispatch(removeFriend(isFriend?._id))
@@ -66,9 +99,10 @@ const FriendItem = ({item}) => {
                     />
             :
                 <Button
+                    size="sm"
                     label="Add friend"
                     variant="filled"
-                    borderRadius="md"
+                    borderRadius="sm"
                     type="primary"
                     disabled={loadingId}
                     onClick={(e) => {

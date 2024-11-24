@@ -17,9 +17,7 @@ const GameSearchModal = () => {
     useEffect(() => {
         let promise;
 
-        if (searchValue.length > 3) {
-            promise = dispatch(getSuggestions(searchValue))
-        }
+        promise = dispatch(getSuggestions(searchValue))
 
         return () => {
             promise?.abort()
@@ -113,9 +111,6 @@ const GameSearchModal = () => {
                 : null}
                 {suggestions && suggestions.length > 0 ?
                 <>
-                    <div className="fs-20 pb-3 bold px-3">
-                        Search results
-                    </div>
                     {suggestions
                     .map((searchItem) => (
                         <div className="flex justify-between align-center bg-secondary-hover"
@@ -157,15 +152,6 @@ const GameSearchModal = () => {
                 : null}
             </div>
         </Modal>
-        <IconButton
-            icon={searchIcon}
-            variant="text"
-            type="secondary"
-            onClick={() => {
-                searchParams.set('sg', 'true')
-                setSearchParams(searchParams.toString())
-            }}
-        />
         </>
     )
 }

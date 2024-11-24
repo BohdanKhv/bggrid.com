@@ -1,5 +1,6 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import libraryService from './libraryService';
+import { getMe } from '../auth/authSlice';
 import { toast } from 'react-toastify';
 
 
@@ -103,6 +104,13 @@ const librarySlice = createSlice({
         }
     },
     extraReducers: (builder) => {
+        builder.addCase(getMe.fulfilled, (state, action) => {
+            state.isLoading = false;
+            state.library = action.payload.data.library;
+            // Save to local storage
+            localStorage.setItem('library', JSON.stringify(state.library));
+        });
+
         builder.addCase(getMyLibrary.pending, (state) => {
             state.isLoading = true;
             state.msg = '';
@@ -111,7 +119,7 @@ const librarySlice = createSlice({
             state.isLoading = false;
             state.library = action.payload.data;
             // Save to local storage
-            localStorage.setItem('library', JSON.stringify(action.payload.data));
+            localStorage.setItem('library', JSON.stringify(state.library));
         });
         builder.addCase(getMyLibrary.rejected, (state, action) => {
             if (action.error.message !== 'Aborted') {

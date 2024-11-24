@@ -96,7 +96,15 @@ const Header = () => {
                                 <div className={`justify-end flex align-center flex-no-wrap gap-3`}>
                                     {user ?
                                     <>
-                                        <GameSearchModal/>
+                                        <IconButton
+                                            icon={searchIcon}
+                                            variant="text"
+                                            type="secondary"
+                                            onClick={() => {
+                                                searchParams.set('sg', 'true')
+                                                setSearchParams(searchParams.toString())
+                                            }}
+                                        />
                                         <IconButton
                                             icon={bellIcon}
                                             variant="text"

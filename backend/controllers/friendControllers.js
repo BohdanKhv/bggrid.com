@@ -35,7 +35,9 @@ const getMyFriends = async (req, res) => {
                     pending: friend.pending
                 }
             }
-        });
+        })
+        .sort((a, b) => a.pending - b.pending)
+        .sort((a, b) => a.friend.username.localeCompare(b.friend.username));
 
         res.status(200).json({
             data: friendList,

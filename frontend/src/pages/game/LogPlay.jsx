@@ -34,6 +34,7 @@ const LogPlay = () => {
     const { gameCard, loadingId } = useSelector(state => state.game)
     const { library, isLoading: libraryIsLoading, loadingId: libraryLoadingId } = useSelector(state => state.library)
     const { loadingId: loadingIdPlay, msg: playMsg } = useSelector(state => state.play)
+    const { friends } = useSelector(state => state.friend)
 
     const isInLibrary = useMemo(() => {
         return library.find(i => i?.game?._id === gameCard?._id)
@@ -158,7 +159,7 @@ const LogPlay = () => {
             {step === 1 ?
                 <div className="flex flex-col pt-4 gap-4">
                     <div className="flex flex-col">
-                        <div className="border border-radius mx-2">
+                        <div className="border border-radius mx-4">
                             <InputSearch
                                 className="flex-1 py-1 ps-4"
                                 placeholder="Search or add players"
@@ -175,7 +176,7 @@ const LogPlay = () => {
                                         winner: false
                                     }])
                                 }}
-                                searchable={searchValue.length}
+                                searchable={searchValue.length || friends.length > 0}
                                 searchChildren={
                                     <div className="py-2">
                                         {searchValue.length ?

@@ -1,4 +1,6 @@
 const User = require('../models/userModel');
+const Library = require('../models/libraryModel');
+const Friend = require('../models/friendModel');
 const ResetToken = require('../models/resetTokenModel');
 const nodeMailer = require('nodemailer');
 const jwt = require('jsonwebtoken');
@@ -172,10 +174,52 @@ const register = async (req, res) => {
 // @access  Private
 const getMe = async (req, res) => {
     try {
+        // get my library
+        // get my friends
+        const games = await Library.find({ user: req.user._id })
+        .populate('game');
+
+        const friends = await Friend.find({
+            $or: [
+                { user1: req.user._id },
+                { user2: req.user._id }
+            ],
+        })
+        .populate('user1', 'username avatar firstName lastName')
+        .populate('user2', 'username avatar firstName lastName')
+
+        // return friend as not me (user)
+        // because if someone sends me a friend request, I will see myself as a friend
+
+        const friendList = friends.map(friend => {
+            if (friend.user1._id.toString() === req.user._id.toString()) {
+                return {
+                    _id: friend._id,
+                    friend: friend.user2._doc,
+                    myRequest: true,
+                    pending: friend.pending
+                }
+            } else {
+                return {
+                    _id: friend._id,
+                    friend: friend.user1._doc,
+                    myRequest: false,
+                    pending: friend.pending
+                }
+            }
+        })
+        .sort((a, b) => b.pending - a.pending)
+        .sort((a, b) => a.friend.username.localeCompare(b.friend.username));
+
+
         return res.status(200).json({
             data: {
-                ...req.user,
-                token: generateToken(req.user._id)
+                user: {
+                    ...req.user,
+                    token: generateToken(req.user._id)
+                },
+                library: games,
+                friends: friendList
             }
         });
     } catch (err) {

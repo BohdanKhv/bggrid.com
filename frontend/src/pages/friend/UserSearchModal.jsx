@@ -20,9 +20,7 @@ const UserSearchModal = () => {
     useEffect(() => {
         let promise;
 
-        if (searchValue.length >= 3) {
-            promise = dispatch(searchUsers(`?q=${searchValue}`))
-        }
+        promise = dispatch(searchUsers(`?q=${searchValue}`))
 
         return () => {
             promise?.abort()
@@ -69,7 +67,7 @@ const UserSearchModal = () => {
                     onChange={(e) => setSearchValue(e.target.value)}
                 />
             </div>
-            <div className="pb-4">
+            <div className="pb-4 px-4">
                 {users && users.length > 0 ?
                 <>
                     {users
@@ -77,6 +75,7 @@ const UserSearchModal = () => {
                         <FriendItem
                             item={searchItem}
                             key={searchItem._id}
+                            showRemoveButton
                         />
                     ))}
                 </>

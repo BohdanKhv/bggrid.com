@@ -1,5 +1,6 @@
 import { createAsyncThunk, createSlice, current } from '@reduxjs/toolkit';
 import friendService from './friendService';
+import { getMe } from '../auth/authSlice';
 import { toast } from 'react-toastify';
 
 
@@ -100,6 +101,11 @@ const friendSlice = createSlice({
         }
     },
     extraReducers: (builder) => {
+        builder.addCase(getMe.fulfilled, (state, action) => {
+            state.isLoading = false;
+            state.friends = action.payload.data.friends;
+        });
+
         builder.addCase(getMyFriends.pending, (state) => {
             state.isLoading = true;
             state.msg = '';
@@ -138,7 +144,9 @@ const friendSlice = createSlice({
         });
         builder.addCase(acceptFriendRequest.fulfilled, (state, action) => {
             state.loadingId = '';
-            state.friends.push(action.payload.data);
+            state.friends = state.friends.map(friend => friend._id === action.payload.data._id ?
+                    { ...friend, pending: false }
+                : friend);
         });
         builder.addCase(acceptFriendRequest.rejected, (state, action) => {
             if (action.error.message !== 'Aborted') {

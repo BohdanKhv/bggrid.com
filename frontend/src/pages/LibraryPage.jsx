@@ -147,12 +147,9 @@ const LibraryPage = () => {
     }, [library])
 
     useEffect(() => {
-        const promise = dispatch(getMyLibrary())
-
         if (document.querySelector('.header-title')) document.querySelector('.header-title').innerText = 'Library'
         return () => {
             if (document.querySelector('.header-title')) document.querySelector('.header-title').innerText = ''
-            promise.abort()
         }
     }, [])
 

@@ -2,7 +2,6 @@ import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { Header, Alerts, IsOffline, ErrBoundary } from "./components";
 import { Tooltip } from "react-tooltip";
-import Me from "./pages/auth/Me";
 import Auth from "./pages/auth/Auth";
 import Login from "./pages/auth/Login";
 import Terms from "./pages/Terms";
@@ -27,6 +26,8 @@ import LogPlay from "./pages/game/LogPlay";
 import { useEffect } from "react";
 import PlaysPage from "./pages/PlaysPage";
 import CommunityPage from "./pages/CommunityPage";
+import GameSearchModal from "./pages/game/GameSearchModal";
+import UserGuard from "./pages/auth/UserGuard";
 
 function App() {
   const { user } = useSelector(state => state.auth);
@@ -47,7 +48,6 @@ function App() {
   return (
     <Router>
       <Alerts />
-      <Me/>
         <div className="flex flex-col" data-theme={theme === 'system' ? window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light' : theme}>
         {/* <div className="flex flex-col h-min-100-pct" data-theme={theme === 'system' ? window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light' : theme}> */}
         <Tooltip id="tooltip-default" className="z-999 w-max-200-px d-sm-none" place="bottom" closeOnEsc closeOnScroll globalCloseEvents="click" positionStrategy="fixed" opacity="0.95" noArrow />
@@ -65,12 +65,47 @@ function App() {
           </ErrBoundary>
         : null}
         <IsOffline />
+        {user ?
+        <UserGuard>
+          <div className="content">
+            <ErrBoundary>
+              <Navbar/>
+              <AddGame/>
+              <LogPlay/>
+              <GameSearchModal/>
+            </ErrBoundary>
+            <div className="content-body">
+              <div className="flex-grow-1 h-min-100 flex flex-col">
+                  <Routes>
+                    <Route path="/" element={<ErrBoundary><HomePage /></ErrBoundary>} />
+                    <Route path="/discover" element={<ErrBoundary><SearchPage /></ErrBoundary>} />
+                    <Route path="/u/:username" element={<ErrBoundary><UserPage /></ErrBoundary>} />
+                    <Route path="/g/:gameId" element={<ErrBoundary><GamePage /></ErrBoundary>} />
+                    <Route path="/g/:gameId/:tab" element={<ErrBoundary><GamePage /></ErrBoundary>} />
+                    <Route path="/c/:category" element={<ErrBoundary><CategoryPage /></ErrBoundary>} />
+                    <Route path="/collection/:collection" element={<ErrBoundary><CategoryPage /></ErrBoundary>} />
+                    <Route path="/settings" element={<ErrBoundary><Settings/></ErrBoundary>} />
+                    <Route path="/settings/:tab" element={<ErrBoundary><Settings/></ErrBoundary>} />
+                    <Route path="/library" element={<ErrBoundary><LibraryPage /></ErrBoundary>} />
+                    <Route path="/plays" element={<ErrBoundary><PlaysPage /></ErrBoundary>} />
+                    <Route path="/community" element={<ErrBoundary><CommunityPage /></ErrBoundary>} />
+                    <Route path="/terms" element={<ErrBoundary><Terms /></ErrBoundary>} />
+                    <Route path="/privacy" element={<ErrBoundary><Privacy /></ErrBoundary>} />
+                    <Route path="/*" element={<ErrBoundary><NotFound /></ErrBoundary>} />
+                  </Routes>
+                  </div>
+                  <Footer/>
+                </div>
+              </div>
+          </UserGuard>
+        : 
         <div className={user ? "content" : ""}>
           {user ?
             <ErrBoundary>
               <Navbar/>
               <AddGame/>
               <LogPlay/>
+              <GameSearchModal/>
             </ErrBoundary>
           : null}
           <div className="content-body">
@@ -107,6 +142,7 @@ function App() {
                 <Footer/>
               </div>
             </div>
+            }
           </div>
         <Tooltip id="tooltip-click" className="z-999 w-max-200-px" place="bottom" closeOnEsc openOnClick closeOnScroll positionStrategy="fixed" opacity="0.95" noArrow />
     </Router>

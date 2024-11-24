@@ -35,7 +35,7 @@ const FriendsModal = ({ friends }) => {
                     onChange={(e) => setSearchValue(e.target.value)}
                 />
             </div> */}
-            <div className="py-2">
+            <div className="py-2 px-4">
                 {friends && friends.length > 0 ?
                 <>
                     {friends
@@ -43,6 +43,7 @@ const FriendsModal = ({ friends }) => {
                         <FriendItem
                             item={item.friend}
                             key={item._id}
+                            showRemoveButton
                         />
                     ))}
                 </>

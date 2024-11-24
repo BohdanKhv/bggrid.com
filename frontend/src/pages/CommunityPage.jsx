@@ -1,13 +1,13 @@
 import { useCallback, useEffect, useRef, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { Avatar, Button, ErrorInfo, HorizontalScroll, Icon, IconButton, Skeleton } from '../components'
-import { getMyFriends, removeFriend } from '../features/friend/friendSlice'
 import { arrowRightShortIcon, closeIcon, diceIcon, largePlusIcon, linkIcon, plusIcon, rightArrowIcon } from '../assets/img/icons'
 import UserSearchModal from './friend/UserSearchModal'
 import { Link, useSearchParams } from 'react-router-dom'
 import FriendsModal from './friend/FriendsModal'
 import { resetFeed, getCommunityFeed } from '../features/feed/feedSlice'
 import PlayItem from './PlayItem'
+import FriendItem from './friend/FriendItem'
 
 
 const CommunityPage = () => {
@@ -29,11 +29,9 @@ const CommunityPage = () => {
         window.scrollTo(0, 0)
         document.title = 'Community'
 
-        const promise = dispatch(getMyFriends())
         const promise2 = getData()
 
         return () => {
-            promise && promise.abort()
             promise2 && promise2.abort()
         }
     }, [])
@@ -94,7 +92,7 @@ const CommunityPage = () => {
                                 )}
                             </div>
                             ) : null}
-                            <div className="pt-3 px-sm-3">
+                            <div className="px-sm-3">
                                 <div className="flex">
                                     <HorizontalScroll className="flex-1">
                                         {type ?
@@ -147,7 +145,9 @@ const CommunityPage = () => {
                                                     ref={arr.length === index + 1 ? lastElementRef : undefined}
                                                 >
                                                     {item.type === 'play' ?
-                                                        <PlayItem item={item}/>
+                                                        <PlayItem item={item.play}
+                                                            key={item.play._id}
+                                                        />
                                                     : 'library' }
                                                 </div>
                                             )}
@@ -175,7 +175,7 @@ const CommunityPage = () => {
                                             setSearchParams(searchParams.toString())
                                         }}
                                     >
-                                        Friends
+                                        Friends {friends.filter((item) => item.pending).length > 0 ? <span className="fs-14 border-radius text-danger">{friends.filter((item) => item.pending).length}</span> : null}
                                         <Icon icon={rightArrowIcon} size="sm" className="transition-slide-right-hover"/>
                                     </div>
                                     <IconButton
@@ -198,65 +198,18 @@ const CommunityPage = () => {
                                     </div>
                                 :
                                 friends.length === 0 && !isLoading ?
-                                <div className="border border-radius border-dashed animation-slide-in">
+                                    <div className="border border-radius border-dashed animation-slide-in">
                                         <ErrorInfo
                                             secondary="Oops! No friends found"
                                         />
                                     </div>
                                 :
                                 friends.length > 0 && !isLoading && (
-                                    friends.map((item) => (
-                                        <div className={`align-center flex justify-between align-center border-radius-sm hover-opacity-100 transition-duration flex-shrink-0`}
-                                            key={item._id}
-                                        >
-                                        <div className="flex gap-3 py-2 align-center flex-1">
-                                            <Avatar
-                                                img={item.friend?.avatar}
-                                                name={item.friend.username}
-                                                size="md"
-                                                avatarColor={item.friend.username.length}
-                                                rounded
-                                            />
-                                            <div className="flex flex-col">
-                                                {item.friend.firstName && item.friend.lastName ?
-                                                    <Link className="fs-14 weight-500 text-ellipsis-1 text-underlined-hover"
-                                                        to={`/u/${item.friend.username}`}
-                                                    >
-                                                        @{item.friend.username}
-                                                    </Link>
-                                                : null}
-                                                <div className="fs-12 text-secondary text-ellipsis-1 weight-500">
-                                                    {item.friend.firstName} {item.friend.lastName}  
-                                                </div>
-                                            </div>
-                                        </div>
-                                        {item.pending && !item.myRequest &&
-                                            <div className="flex gap-2 align-center justify-center">
-                                                <Button
-                                                    label="Decline"
-                                                    borderRadius="md"
-                                                    variant="secondary"
-                                                    type="default"
-                                                    onClick={(e) => {
-                                                        e.preventDefault()
-                                                        dispatch(removeFriend(item._id))
-                                                    }}
-                                                    disabled={loadingId}
-                                                />
-                                                <Button
-                                                    label="Accept"
-                                                    variant="primary"
-                                                    type="filled"
-                                                    borderRadius="md"
-                                                    onClick={(e) => {
-                                                        e.preventDefault()
-                                                        dispatch(acceptFriendRequest(item._id))
-                                                    }}
-                                                    disabled={loadingId}
-                                                    />
-                                            </div>
-                                        }
-                                    </div>
+                                friends.map((item) => (
+                                    <FriendItem
+                                        key={item._id}
+                                        item={item.friend}
+                                    />
                                 ))
                             )}
                             </div>

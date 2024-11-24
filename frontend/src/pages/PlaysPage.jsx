@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { getMyLibrary } from '../features/library/librarySlice'
 import {Avatar, Button, ErrorInfo, HorizontalScroll, IconButton, InputSearch, Image, Icon} from '../components'
 import { Link, useNavigate, useSearchParams } from 'react-router-dom'
-import { closeIcon, editIcon, gamesIcon, linkIcon, diceIcon, searchIcon, starFillIcon, weightIcon, usersIcon, usersFillIcon } from '../assets/img/icons'
+import { closeIcon, editIcon, gamesIcon, linkIcon, diceIcon, searchIcon, starFillIcon, weightIcon, usersIcon, usersFillIcon, libraryIcon } from '../assets/img/icons'
 import { tagsEnum } from '../assets/constants'
 import { numberFormatter } from '../assets/utils'
 import { getMyPlays, resetPlay } from '../features/play/playSlice'
@@ -89,7 +89,9 @@ const PlaysPage = () => {
                         </div>
                         {window.innerWidth <= 800 ?
                         <div className="sticky top-0 bg-main py-1 z-3 py-sm-0">
-                            {library.length > 0 && !libraryLoading && (
+                            {
+                            library.length == 0 && !libraryLoading ? null
+                            : library.length > 0 && !libraryLoading && (
                                 <HorizontalScroll
                                     contentClassName="align-start gap-0"
                                 >
@@ -231,7 +233,13 @@ const PlaysPage = () => {
                             <div className="fs-20 bold py-3">
                                 Library
                             </div>
-                            {library.length > 0 && !libraryLoading && (
+                            { library.length == 0 && !libraryLoading ?
+                                <div className="border border-radius border-dashed mt-3">
+                                    <ErrorInfo label="Library is empty"
+                                        secondary="Add games to your library to log plays" icon={libraryIcon}
+                                    />
+                                </div>
+                            : library.length > 0 && !libraryLoading && (
                                 library.map((item) => (
                                     <div className={`pointer animation-fade-in border-radius-sm hover-opacity-100 transition-duration clickable flex-shrink-0${selectedGame ? selectedGame === item?.game?._id ? "" : " opacity-25" : " bg-secondary-hover"}`}
                                         key={item._id}

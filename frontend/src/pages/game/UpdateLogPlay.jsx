@@ -42,6 +42,7 @@ const UpdateLogPlay = () => {
             playTimeMinutes,
             players: players.map(i => ({
                 user: i.user?._id,
+                name: i.name,
                 score: i.score,
                 winner: i.winner
             }))
@@ -357,7 +358,7 @@ const UpdateLogPlay = () => {
                     <Input
                         label="Comment"
                         value={comment}
-                        onChange={(e) => setComment(e.target.value)}
+                        onChange={(e) => setComment(e.target.value.slice(0, 500))}
                         wrapColumn
                         type="textarea"
                         placeholder="Write a comment in less than 500 characters..."

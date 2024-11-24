@@ -103,6 +103,7 @@ const LogPlay = () => {
             playTimeMinutes,
             players: players.map(i => ({
                 user: i.user?._id,
+                name: i.name,
                 score: i.score,
                 winner: i.winner
             })),
@@ -231,7 +232,7 @@ const LogPlay = () => {
                                                         setSearchValue('')
                                                         setPlayers([...players, {
                                                             user: i.friend,
-                                                            name: `${i.friend.firstName} ${i.friend.lastName}`,
+                                                            name: i.friend.firstName ? `${i.friend.firstName} ${i.friend.lastName}` : i.friend.username,
                                                             username: i.friend.username,
                                                             score: 0,
                                                             color: '',
@@ -292,7 +293,7 @@ const LogPlay = () => {
                                             </div>
                                         </div>
                                     </div>
-                                    {i.user === user?._id ? <div className="fs-12 weight-600 px-4 show-on-hover">YOU</div> :
+                                    {i.user === user?._id || i?.user?._id === user?._id ? <div className="fs-12 weight-600 px-4 show-on-hover">YOU</div> :
                                     <Button
                                         icon={trashIcon}
                                         variant="link"
@@ -399,7 +400,7 @@ const LogPlay = () => {
                     <Input
                         label="Comment"
                         value={comment}
-                        onChange={(e) => setComment(e.target.value)}
+                        onChange={(e) => setComment(e.target.value.slice(0, 500))}
                         wrapColumn
                         type="textarea"
                         placeholder="Write a comment in less than 500 characters..."

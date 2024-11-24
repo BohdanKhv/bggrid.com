@@ -71,6 +71,9 @@ const PlayItem = ({ item }) => {
                         </div>
                     : null}
                     <div className="flex flex flex-col border border-radius overflow-hidden mt-3">
+                        <div className="fs-12 bold py-1 text-center border-bottom bg-secondary">
+                            Players
+                        </div>
                         {item?.players.length &&
                         [...item?.players]
                         .sort((a, b) => b.score - a.score)

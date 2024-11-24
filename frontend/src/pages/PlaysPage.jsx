@@ -27,6 +27,9 @@ const PlaysPage = () => {
     }
 
     useEffect(() => {
+        window.scrollTo(0, 0)
+        document.title = 'Plays'
+
         if (document.querySelector('.header-title')) document.querySelector('.header-title').innerText = 'Play logs'
         return () => {
             if (document.querySelector('.header-title')) document.querySelector('.header-title').innerText = ''

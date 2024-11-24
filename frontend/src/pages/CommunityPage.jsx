@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useRef, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { Avatar, Button, ErrorInfo, HorizontalScroll, Icon, IconButton, Skeleton } from '../components'
-import { arrowRightShortIcon, closeIcon, diceIcon, largePlusIcon, linkIcon, plusIcon, rightArrowIcon, starEmptyIcon, starFillIcon, starsIcon } from '../assets/img/icons'
+import { arrowRightShortIcon, closeIcon, diceIcon, largePlusIcon, linkIcon, plusIcon, rightArrowIcon, starEmptyIcon, starFillIcon, starsIcon, usersIcon } from '../assets/img/icons'
 import UserSearchModal from './friend/UserSearchModal'
 import { Link, useSearchParams } from 'react-router-dom'
 import FriendsModal from './friend/FriendsModal'
@@ -147,6 +147,74 @@ const CommunityPage = () => {
                             </div>
                             ) : null}
                         </div>
+                        {window.innerWidth <= 800 ?
+                        <div className="px-3">
+                            <HorizontalScroll
+                                className="align-start gap-0 flex-1"
+                                contentClassName="gap-0"
+                            >
+                                <div className={`pointer h-100 w-max-75-px animation-fade-in border-radius-sm hover-opacity-100 transition-duration clickable flex-shrink-0`}
+                                    onClick={() => {
+                                        searchParams.set('su', 'true')
+                                        setSearchParams(searchParams.toString())
+                                    }}
+                                >
+                                    <div className="flex flex-col p-2 align-center">
+                                        <Avatar
+                                            icon={largePlusIcon}
+                                            rounded
+                                            defaultColor
+                                            contentClassName="border border-w-2"
+                                            size="lg"
+                                        />
+                                        <div className="fs-12 text-center text-ellipsis-1 pt-2 bold">
+                                            Add
+                                        </div>
+                                    </div>
+                                </div>
+                                <div className={`pointer h-100 w-max-75-px animation-fade-in border-radius-sm hover-opacity-100 transition-duration clickable flex-shrink-0`}
+                                    onClick={() => {
+                                        searchParams.set('friends', 'true')
+                                        setSearchParams(searchParams.toString())
+                                    }}
+                                >
+                                    <div className="flex flex-col p-2 align-center">
+                                        <Avatar
+                                            icon={usersIcon}
+                                            rounded
+                                            defaultColor
+                                            size="lg"
+                                        />
+                                        <div className="fs-12 text-center text-ellipsis-1 pt-2 bold">
+                                            {friends.filter((item) => item.pending).length > 0 ? <span className="fs-14 border-radius text-danger">{friends.filter((item) => item.pending).length}</span> : 'All'}
+                                        </div>
+                                    </div>
+                                </div>
+                                {friends.map((item) => (
+                                        <Link className={`pointer h-100 w-max-75-px w-100 p-2 animation-fade-in border-radius-sm hover-opacity-100 transition-duration clickable flex-shrink-0 bg-secondary-hover`}
+                                            key={item._id}
+                                            to={`/u/${item.friend.username}`}
+                                        >
+                                            <div className="flex flex-col align-center text-ellipsis-1">
+                                                <Avatar
+                                                    img={item?.friend?.avatar}
+                                                    rounded
+                                                    size="lg"
+                                                    name={item.friend.username}
+                                                    avatarColor={item.friend.username.length}
+                                                    label={item.friend.username}
+                                                />
+                                                <div className="text-ellipsis-1">
+                                                    <div className="fs-12 w-max-75-px text-center text-ellipsis pt-2 weight-500">
+                                                        {item.friend.username}
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </Link>
+                                ))}
+                            </HorizontalScroll>
+                        </div>
+                        : null}
                         <div className="flex gap-6">
                             <div className="flex-1 flex flex-col">
                             {window.innerWidth <= 800 && user ? (
@@ -156,22 +224,11 @@ const CommunityPage = () => {
                                 )}
                             </div>
                             ) : null}
-                            <div className="px-sm-3">
-                                <div className="flex">
-                                    <HorizontalScroll className="flex-1">
-                                        {type ?
-                                            <IconButton
-                                                icon={closeIcon}
-                                                variant="secondary"
-                                                className="animation-fade-in flex-shrink-0"
-                                                type={type === null ? 'filled' : 'default'}
-                                                onClick={() => {
-                                                    setType(null)
-                                                }}
-                                            />
-                                        :
-                                        <Button
-                                            label="All"
+                            <div  className="px-sm-3 py-3 sticky top-0 z-3 bg-main">
+                                <HorizontalScroll className="flex-1">
+                                    {type ?
+                                        <IconButton
+                                            icon={closeIcon}
                                             variant="secondary"
                                             className="animation-fade-in flex-shrink-0"
                                             type={type === null ? 'filled' : 'default'}
@@ -179,58 +236,67 @@ const CommunityPage = () => {
                                                 setType(null)
                                             }}
                                         />
-                                        }
-                                        {['Plays', 'Library']
-                                        .map((a) => (
-                                            <Button
-                                                key={a}
-                                                label={a}
-                                                variant="secondary"
-                                                className="animation-fade-in flex-shrink-0"
-                                                type={type === a ? 'filled' : 'default'}
-                                                onClick={() => {
-                                                    if (type == a) {
-                                                        setType(null)
-                                                    } else {
-                                                        setType(a)
-                                                    }
-                                                }}
-                                            />
-                                        ))}
-                                    </HorizontalScroll>
-                                </div>
-                                <div className="pt-3">
-                                    {feed.length > 0 && !isLoading ?
-                                        <div className="flex flex-col">
-                                            {feed
-                                            .map((item, index, arr) =>
-                                                <div
-                                                    key={index}
-                                                >
-                                                    {item.type === 'play' ?
-                                                        <PlayItem item={item.item}
-                                                        />
-                                                    : item.type === 'library' ?<LibraryItem
-                                                        item={item.item}
-                                                    /> : null}
-                                                </div>
-                                            )}
-                                        </div>
                                     :
-                                        feed.length === 0 && !isLoading &&
-                                        <div className="border border-radius border-dashed mt-3">
-                                            <ErrorInfo
-                                                secondary={!hasMore ? "You're all caught up!" : "Oops! Something went wrong"}
-                                            />
-                                        </div>
-                                    }
-                                    <div
-                                        ref={lastElementRef}
+                                    <Button
+                                        label="All"
+                                        variant="secondary"
+                                        className="animation-fade-in flex-shrink-0"
+                                        type={type === null ? 'filled' : 'default'}
+                                        onClick={() => {
+                                            setType(null)
+                                        }}
                                     />
-                                    { isLoading ?
-                                        <ErrorInfo isLoading/>
-                                    : null }
-                                </div>
+                                    }
+                                    {['Plays', 'Library']
+                                    .map((a) => (
+                                        <Button
+                                            key={a}
+                                            label={a}
+                                            variant="secondary"
+                                            className="animation-fade-in flex-shrink-0"
+                                            type={type === a ? 'filled' : 'default'}
+                                            onClick={() => {
+                                                if (type == a) {
+                                                    setType(null)
+                                                } else {
+                                                    setType(a)
+                                                }
+                                            }}
+                                        />
+                                    ))}
+                                </HorizontalScroll>
+                            </div>
+                            <div>
+                                {feed.length > 0 && !isLoading ?
+                                    <div className="flex flex-col">
+                                        {feed
+                                        .map((item, index, arr) =>
+                                            <div
+                                                key={index}
+                                            >
+                                                {item.type === 'play' ?
+                                                    <PlayItem item={item.item}
+                                                    />
+                                                : item.type === 'library' ?<LibraryItem
+                                                    item={item.item}
+                                                /> : null}
+                                            </div>
+                                        )}
+                                    </div>
+                                :
+                                    feed.length === 0 && !isLoading &&
+                                    <div className="border border-radius border-dashed mt-3">
+                                        <ErrorInfo
+                                            secondary={!hasMore ? "You're all caught up!" : "Oops! Something went wrong"}
+                                        />
+                                    </div>
+                                }
+                                <div
+                                    ref={lastElementRef}
+                                />
+                                { isLoading ?
+                                    <ErrorInfo isLoading/>
+                                : null }
                             </div>
                         </div>
                         {window.innerWidth > 800 &&

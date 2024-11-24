@@ -206,6 +206,7 @@
 }
 
 .avatar.avatar-default {
+    border-color: var(--color-border)!important;
     background-color: var(--color-main)!important;
     color: var(--text-dark)!important;
 }

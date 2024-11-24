@@ -292,7 +292,7 @@ const Settings = () => {
                             <div className="pt-6 pb-3 pt-sm-3 title-1 bold px-sm-3">
                                 Settings
                             </div>
-                            <div className="border-bottom">
+                            <div>
                                 <TabContent
                                     items={
                                         [

@@ -147,6 +147,9 @@ const LibraryPage = () => {
     }, [library])
 
     useEffect(() => {
+        window.scrollTo(0, 0)
+        document.title = 'Library'
+
         if (document.querySelector('.header-title')) document.querySelector('.header-title').innerText = 'Library'
         return () => {
             if (document.querySelector('.header-title')) document.querySelector('.header-title').innerText = ''

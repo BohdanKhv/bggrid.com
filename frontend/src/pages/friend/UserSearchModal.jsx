@@ -42,7 +42,7 @@ const UserSearchModal = () => {
                 setSearchParams(searchParams.toString())
             }}
             classNameContent="p-0"
-            // headerNone={window.innerWidth > 800}
+            headerNone={window.innerWidth <= 800}
             noAction
             label="Search users"
         >

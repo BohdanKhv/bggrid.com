@@ -9,27 +9,29 @@ const getMyFriends = async (req, res) => {
     try {
         const friends = await Friend.find({
             $or: [
-                { user: req.user._id },
-                { friend: req.user._id }
+                { user1: req.user._id },
+                { user2: req.user._id }
             ],
         })
-        .populate('user', 'username avatar firstName lastName')
-        .populate('friend', 'username avatar firstName lastName')
+        .populate('user1', 'username avatar firstName lastName')
+        .populate('user2', 'username avatar firstName lastName')
 
         // return friend as not me (user)
         // because if someone sends me a friend request, I will see myself as a friend
 
         const friendList = friends.map(friend => {
-            if (friend.user._id.toString() === req.user._id.toString()) {
+            if (friend.user1._id.toString() === req.user._id.toString()) {
                 return {
-                    friend: friend.friend._doc,
                     _id: friend._id,
+                    friend: friend.user2._doc,
+                    myRequest: true,
                     pending: friend.pending
                 }
             } else {
                 return {
-                    friend: friend.user._doc,
                     _id: friend._id,
+                    friend: friend.user1._doc,
+                    myRequest: false,
                     pending: friend.pending
                 }
             }
@@ -61,8 +63,8 @@ const sendFriendRequest = async (req, res) => {
         }
 
         const friend = await Friend.findOne({
-            user: req.user._id,
-            friend: req.params.userId
+            user1: req.user._id,
+            user2: req.params.userId
         });
 
         if (friend) {
@@ -70,20 +72,20 @@ const sendFriendRequest = async (req, res) => {
         }
 
         const newFriend = new Friend({
-            user: req.user._id,
-            friend: user,
+            user1: req.user._id,
+            user2: user,
             pending: true
         });
 
         await newFriend.save();
 
-        // populate friend field with username
-        await newFriend.populate([
-            { path: 'user', select: 'avatar username firstName lastName' },
-        ])
-
         res.status(201).json({
-            data: newFriend,
+            data: {
+                friend: user,
+                _id: newFriend._id,
+                myRequest: true,
+                pending: newFriend.pending
+            },
         });
     } catch (error) {
         console.error(error);
@@ -99,7 +101,7 @@ const acceptFriendRequest = async (req, res) => {
     try {
         const friend = await Friend.findOne({
             _id: req.params.inviteId,
-            friend: req.user._id,
+            user2: req.user._id,
             pending: true
         });
 
@@ -111,34 +113,12 @@ const acceptFriendRequest = async (req, res) => {
         await friend.save();
 
         res.status(200).json({
-            data: friend,
-        });
-    } catch (error) {
-        console.error(error);
-        res.status(500).json({ msg: 'Server error' });
-    }
-}
-
-
-// @desc    Decline a friend request
-// @route   POST /api/friends/decline/:inviteId
-// @access  Private
-const declineFriendRequest = async (req, res) => {
-    try {
-        const friend = await Friend.findOne({
-            _id: req.params.inviteId,
-            friend: req.user._id,
-            pending: true
-        });
-
-        if (!friend) {
-            return res.status(404).json({ msg: 'Friend request not found' });
-        }
-
-        await friend.remove();
-
-        res.status(200).json({
-            data: friend,
+            data: {
+                friend: friend.user1,
+                _id: friend._id,
+                myRequest: false,
+                pending: friend.pending
+            },
         });
     } catch (error) {
         console.error(error);
@@ -155,8 +135,8 @@ const removeFriend = async (req, res) => {
         const friend = await Friend.findOne({
             _id: req.params.inviteId,
             $or: [
-                { user: req.user._id },
-                { friend: req.user._id }
+                { user1: req.user._id },
+                { user2: req.user._id }
             ],
         });
 
@@ -181,6 +161,5 @@ module.exports = {
     getMyFriends,
     sendFriendRequest,
     acceptFriendRequest,
-    declineFriendRequest,
     removeFriend,
 };

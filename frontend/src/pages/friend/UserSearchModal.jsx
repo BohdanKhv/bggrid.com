@@ -20,7 +20,7 @@ const UserSearchModal = () => {
     useEffect(() => {
         let promise;
 
-        if (searchValue.length > 3) {
+        if (searchValue.length >= 3) {
             promise = dispatch(searchUsers(`?q=${searchValue}`))
         }
 
@@ -28,19 +28,6 @@ const UserSearchModal = () => {
             promise?.abort()
         }
     }, [searchValue])
-
-    const highlightText = (text, query) => {
-        if (!query) {
-            return text;
-        }
-    
-        const regex = new RegExp(`(${query})`, 'gi');
-        const parts = text.split(regex);
-    
-        return parts.map((part, index) =>
-            regex.test(part) ? <strong key={index} className="text-primary">{part}</strong> : part
-        );
-    };
 
     return (
         <>

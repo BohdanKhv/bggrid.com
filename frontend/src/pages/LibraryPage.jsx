@@ -161,7 +161,7 @@ const LibraryPage = () => {
             <main className="page-body">
                 <div className="animation-slide-in">
                     <div className="container">
-                        <div className="flex justify-between px-sm-3">
+                        <div className="flex justify-between px-sm-3 pb-3">
                             <div className="pt-6 pb-3 pt-sm-3 title-1 bold">
                                 Library
                             </div>

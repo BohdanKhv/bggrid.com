@@ -260,7 +260,8 @@ const updateUser = async (req, res) => {
 
         // Check if user exists
         const user = await User
-        .findOne({ _id: req.user._id })
+        .findById(req.user._id)
+        .select('-password');
 
         if (!user) {
             return res.status(400).json({
@@ -276,15 +277,15 @@ const updateUser = async (req, res) => {
 
             if (uCheck) {
                 return res.status(400).json({
-                    msg: 'This username is already in use'
+                    msg: 'Username already in use'
                 });
-            } else P
-            user.username = username.trim()
+            } else {
+                user.username = username.trim()
+            }
         }
 
         if (firstName !== undefined) user.firstName = firstName;
         if (lastName !== undefined) user.lastName = lastName;
-
 
         if (req.file) {
             const fileExtension = req.file.originalname.split('.').pop() || '';
@@ -301,7 +302,7 @@ const updateUser = async (req, res) => {
 
         const updatedUser = await user.save();
 
-            res.status(200).json({
+        return res.status(200).json({
                 data: {
                     ...updatedUser._doc,
                     token: generateToken(updatedUser._id)
@@ -309,7 +310,7 @@ const updateUser = async (req, res) => {
             });
     } catch (err) {
         console.log(err);
-        res.status(500).json({
+        return res.status(500).json({
             msg: 'Server error'
         });
     }

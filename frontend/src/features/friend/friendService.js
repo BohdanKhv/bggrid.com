@@ -39,18 +39,6 @@ export const acceptFriendRequest = async (payload, token) => {
 }
 
 
-export const declineFriendRequest = async (payload, token) => {
-    const config = {
-        headers: {
-            Authorization: `Bearer ${token}`
-        }
-    }
-    const response = await axios.post(API_URL+`/decline/${payload}`, null, config);
-
-    return response.data;
-}
-
-
 export const removeFriend = async (payload, token) => {
     const config = {
         headers: {
@@ -67,7 +55,6 @@ const friendService = {
     getMyFriends,
     sendFriendRequest,
     acceptFriendRequest,
-    declineFriendRequest,
     removeFriend
 };
 

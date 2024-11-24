@@ -1,38 +1,42 @@
 import { useCallback, useEffect, useRef, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { Avatar, Button, ErrorInfo, HorizontalScroll, Icon, IconButton } from '../components'
-import { getMyFriends } from '../features/friend/friendSlice'
+import { Avatar, Button, ErrorInfo, HorizontalScroll, Icon, IconButton, Skeleton } from '../components'
+import { getMyFriends, removeFriend } from '../features/friend/friendSlice'
 import { arrowRightShortIcon, closeIcon, diceIcon, largePlusIcon, linkIcon, plusIcon, rightArrowIcon } from '../assets/img/icons'
-import { resetPlay } from '../features/play/playSlice'
 import UserSearchModal from './friend/UserSearchModal'
 import { Link, useSearchParams } from 'react-router-dom'
 import FriendsModal from './friend/FriendsModal'
+import { resetFeed, getCommunityFeed } from '../features/feed/feedSlice'
+import PlayItem from './PlayItem'
 
 
 const CommunityPage = () => {
     const dispatch = useDispatch()
 
     const [searchParams, setSearchParams] = useSearchParams()
+
     const { user } = useSelector((state) => state.auth)
-    const { friends, isLoading } = useSelector((state) => state.friend)
-    const { plays, hasMore, isLoading: isLoadingPlays } = useSelector((state) => state.play)
-    const [tag, setTag] = useState(null)
-    const [selectedFriend, setSelectedFriend] = useState(null)
+    const { friends, isLoading, loadingId } = useSelector((state) => state.friend)
+    const { feed, hasMore, isLoading: isLoadingFeed } = useSelector((state) => state.feed)
+
+    const [type, setType] = useState(null)
+
+    const getData = () => {
+        dispatch(getCommunityFeed(!type ? 'all' : type))
+    }
 
     useEffect(() => {
         window.scrollTo(0, 0)
         document.title = 'Community'
 
         const promise = dispatch(getMyFriends())
+        const promise2 = getData()
 
         return () => {
-            promise.abort()
-            dispatch(resetPlay())
+            promise && promise.abort()
+            promise2 && promise2.abort()
         }
     }, [])
-
-    const getData = () => {
-    }
 
     const observer = useRef();
     const lastElementRef = useCallback(node => {
@@ -40,17 +44,17 @@ const CommunityPage = () => {
         if (observer.current) observer.current.disconnect();
         observer.current = new IntersectionObserver(entries => {
             if (entries[0].isIntersecting && hasMore) {
-                // const promise = getData();
+                const promise = getData();
         
                 return () => {
-                    // promise && promise.abort();
-                    dispatch(resetPlay());
+                    promise && promise.abort();
+                    dispatch(resetFeed());
                     observer.current && observer.current.disconnect();
                 }
             }
         });
         if (node) observer.current.observe(node);
-    }, [isLoadingPlays, hasMore]);
+    }, [isLoadingFeed, hasMore]);
 
     return (
         <div>
@@ -59,7 +63,7 @@ const CommunityPage = () => {
             <main className="page-body">
                 <div className="animation-slide-in">
                     <div className="container">
-                        <div className="flex justify-between px-sm-3">
+                        <div className="flex justify-between px-sm-3 pb-3">
                             <div className="pt-6 pt-sm-3 title-1 bold">
                                 Community
                             </div>
@@ -93,14 +97,14 @@ const CommunityPage = () => {
                             <div className="pt-3 px-sm-3">
                                 <div className="flex">
                                     <HorizontalScroll className="flex-1">
-                                        {tag ?
+                                        {type ?
                                             <IconButton
                                                 icon={closeIcon}
                                                 variant="secondary"
                                                 className="animation-fade-in flex-shrink-0"
-                                                type={tag === null ? 'filled' : 'default'}
+                                                type={type === null ? 'filled' : 'default'}
                                                 onClick={() => {
-                                                    setTag(null)
+                                                    setType(null)
                                                 }}
                                             />
                                         :
@@ -108,9 +112,9 @@ const CommunityPage = () => {
                                             label="All"
                                             variant="secondary"
                                             className="animation-fade-in flex-shrink-0"
-                                            type={tag === null ? 'filled' : 'default'}
+                                            type={type === null ? 'filled' : 'default'}
                                             onClick={() => {
-                                                setTag(null)
+                                                setType(null)
                                             }}
                                         />
                                         }
@@ -121,40 +125,44 @@ const CommunityPage = () => {
                                                 label={a}
                                                 variant="secondary"
                                                 className="animation-fade-in flex-shrink-0"
-                                                type={tag === a ? 'filled' : 'default'}
+                                                type={type === a ? 'filled' : 'default'}
                                                 onClick={() => {
-                                                    if (tag == a) {
-                                                        setTag(null)
+                                                    if (type == a) {
+                                                        setType(null)
                                                     } else {
-                                                        setTag(a)
+                                                        setType(a)
                                                     }
                                                 }}
                                             />
                                         ))}
                                     </HorizontalScroll>
                                 </div>
-                                <div>
-                                    {plays.length > 0 && !isLoadingPlays ? (
+                                <div className="pt-3">
+                                    {feed.length > 0 && !isLoadingFeed ?
                                         <div className="flex flex-col">
-                                        {plays
-                                        .map((item, index, arr) =>
-                                            <div
-                                                key={item._id}
-                                                ref={arr.length === index + 1 ? lastElementRef : undefined}
-                                            >
-                                                <PlayItem item={item}/>
-                                            </div>
-                                        )}
+                                            {feed
+                                            .map((item, index, arr) =>
+                                                <div
+                                                    key={item._id}
+                                                    ref={arr.length === index + 1 ? lastElementRef : undefined}
+                                                >
+                                                    {item.type === 'play' ?
+                                                        <PlayItem item={item}/>
+                                                    : 'library' }
+                                                </div>
+                                            )}
                                         </div>
-                                    ) : isLoadingPlays ? (
-                                        <ErrorInfo isLoadingPlays/>
-                                    ) : (
-                                        plays.length === 0 && 
-                                        <div className="border border-radius border-dashed mt-3"><ErrorInfo
-                                            secondary="When your friends play games, their plays will show up here."
-                                        />
+                                    :
+                                        feed.length === 0 && !isLoadingFeed &&
+                                        <div className="border border-radius border-dashed mt-3">
+                                            <ErrorInfo
+                                                secondary={!hasMore ? "You're all caught up!" : "Oops! Something went wrong"}
+                                            />
                                         </div>
-                                    )}
+                                    }
+                                    { isLoadingFeed ?
+                                        <ErrorInfo isLoadingFeed/>
+                                    : null }
                                 </div>
                             </div>
                         </div>
@@ -182,22 +190,26 @@ const CommunityPage = () => {
                                     />
                                 </div>
                                 { isLoading ?
-                                    <ErrorInfo isLoading/>
+                                    <div className="flex flex-col gap-2">
+                                        <Skeleton height="48" animation="wave"/>
+                                        <Skeleton height="48" animation="wave"/>
+                                        <Skeleton height="48" animation="wave"/>
+                                        <Skeleton height="48" animation="wave"/>
+                                    </div>
                                 :
                                 friends.length === 0 && !isLoading ?
                                 <div className="border border-radius border-dashed animation-slide-in">
-                                    <ErrorInfo
-                                        secondary="Oops! No friends found"
+                                        <ErrorInfo
+                                            secondary="Oops! No friends found"
                                         />
                                     </div>
                                 :
                                 friends.length > 0 && !isLoading && (
                                     friends.map((item) => (
-                                        <Link className={`pointer align-center border-radius-sm hover-opacity-100 transition-duration clickable flex-shrink-0 bg-secondary-hover`}
+                                        <div className={`align-center flex justify-between align-center border-radius-sm hover-opacity-100 transition-duration flex-shrink-0`}
                                             key={item._id}
-                                            to={`/u/${item.friend.username}`}
-                                    >
-                                        <div className="flex gap-3 p-2 align-center">
+                                        >
+                                        <div className="flex gap-3 py-2 align-center flex-1">
                                             <Avatar
                                                 img={item.friend?.avatar}
                                                 name={item.friend.username}
@@ -207,16 +219,44 @@ const CommunityPage = () => {
                                             />
                                             <div className="flex flex-col">
                                                 {item.friend.firstName && item.friend.lastName ?
-                                                    <div className="fs-14 weight-500 text-ellipsis-1">
+                                                    <Link className="fs-14 weight-500 text-ellipsis-1 text-underlined-hover"
+                                                        to={`/u/${item.friend.username}`}
+                                                    >
                                                         @{item.friend.username}
-                                                    </div>
+                                                    </Link>
                                                 : null}
                                                 <div className="fs-12 text-secondary text-ellipsis-1 weight-500">
                                                     {item.friend.firstName} {item.friend.lastName}  
                                                 </div>
                                             </div>
                                         </div>
-                                    </Link>
+                                        {item.pending && !item.myRequest &&
+                                            <div className="flex gap-2 align-center justify-center">
+                                                <Button
+                                                    label="Decline"
+                                                    borderRadius="md"
+                                                    variant="secondary"
+                                                    type="default"
+                                                    onClick={(e) => {
+                                                        e.preventDefault()
+                                                        dispatch(removeFriend(item._id))
+                                                    }}
+                                                    disabled={loadingId}
+                                                />
+                                                <Button
+                                                    label="Accept"
+                                                    variant="primary"
+                                                    type="filled"
+                                                    borderRadius="md"
+                                                    onClick={(e) => {
+                                                        e.preventDefault()
+                                                        dispatch(acceptFriendRequest(item._id))
+                                                    }}
+                                                    disabled={loadingId}
+                                                    />
+                                            </div>
+                                        }
+                                    </div>
                                 ))
                             )}
                             </div>

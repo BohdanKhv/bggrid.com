@@ -9,6 +9,7 @@ import userReducer from '../features/user/userSlice';
 import friendReducer from '../features/friend/friendSlice';
 import notificationReducer from '../features/notification/notificationSlice';
 import feedReducer from '../features/feed/feedSlice';
+import collectionReducer from '../features/collection/collectionSlice';
 
 
 
@@ -23,7 +24,8 @@ export const store = configureStore({
         user: userReducer, // user profiles, user search
         friend: friendReducer, // community, friend list
         notification: notificationReducer, // notification, friend request
-        feed: feedReducer, // home, community page feed
+        feed: feedReducer, // community page feed
+        collection: collectionReducer, // collections, (homepage, collection page)
     },
     devTools: import.meta.env.VITE_REDUX_DEV_TOOLS === 'true' ? true : false,
 });

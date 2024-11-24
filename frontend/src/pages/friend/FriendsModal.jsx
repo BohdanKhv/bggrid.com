@@ -19,6 +19,10 @@ const FriendsModal = ({ friends }) => {
                 searchParams.delete('friends')
                 setSearchParams(searchParams.toString())
             }}
+            onClose={() => {
+                searchParams.delete('friends')
+                setSearchParams(searchParams.toString())
+            }}
             classNameContent="p-0"
             noAction
             label="Friends"

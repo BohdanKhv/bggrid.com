@@ -68,25 +68,6 @@ export const acceptFriendRequest = createAsyncThunk(
 );
 
 
-export const declineFriendRequest = createAsyncThunk(
-    'friend/declineFriendRequest',
-    async (payload, thunkAPI) => {
-        try {
-            const token = thunkAPI.getState().auth.user ? thunkAPI.getState().auth.user.token : null;
-            return await friendService.declineFriendRequest(payload, token);
-        } catch (error) {
-            const message =
-                (error.response &&
-                    error.response.data &&
-                    error.response.data.msg) ||
-                error.message ||
-                error.toString();
-            return thunkAPI.rejectWithValue(message);
-        }
-    }
-);
-
-
 export const removeFriend = createAsyncThunk(
     'friend/removeFriend',
     async (payload, thunkAPI) => {
@@ -160,23 +141,6 @@ const friendSlice = createSlice({
             state.friends.push(action.payload.data);
         });
         builder.addCase(acceptFriendRequest.rejected, (state, action) => {
-            if (action.error.message !== 'Aborted') {
-                state.loadingId = '';
-                state.msg = action.payload;
-                toast.error(action.payload, { toastId: 'toastError', closeButton: true});
-            }
-        });
-
-        builder.addCase(declineFriendRequest.pending, (state, action) => {
-            state.loadingId = `resolve-${action.meta.arg}`;
-            state.msg = '';
-        });
-        builder.addCase(declineFriendRequest.fulfilled, (state, action) => {
-            state.loadingId = '';
-            state.friends = state.friends.filter(friend => friend._id !== action.payload.data._id);
-        });
-
-        builder.addCase(declineFriendRequest.rejected, (state, action) => {
             if (action.error.message !== 'Aborted') {
                 state.loadingId = '';
                 state.msg = action.payload;

@@ -40,19 +40,17 @@ const Account = () => {
                         <Input
                             label="Username"
                             description="Your username is unique. Changing your username will change your profile URL."
-                            value={user?.username}
+                            value={username}
                             error={msg == 'Username already in use'}
                             errorMsg="Username already in use"
                             onChange={(e) => setUsername(e.target.value)}
                             wrapColumn
-                            size="sm"
                             type="text"
                         />
                         <Input
                             label="First Name"
                             placeholder="Your first Name"
-                            value={user?.firstName}
-                            size="sm"
+                            value={firstName}
                             onChange={(e) => setFirstName(e.target.value)}
                             wrapColumn
                             type="text"
@@ -60,10 +58,9 @@ const Account = () => {
                         <Input
                             label="Last Name"
                             placeholder="Your last name"
-                            value={user?.lastName}
+                            value={lastName}
                             onChange={(e) => setLastName(e.target.value)}
                             wrapColumn
-                            size="sm"
                             type="text"
                         />
                         <div className="flex">
@@ -72,9 +69,9 @@ const Account = () => {
                                 variant="secondary"
                                 displayTextOnLoad
                                 type="filled"
+                                borderRadius="sm"
                                 isLoading={loadingId === 'profile'}
                                 disabled={loadingId}
-                                size="sm"
                                 onClick={() => {
                                     const data = {}
                                     if (username !== user.username) data.username = username

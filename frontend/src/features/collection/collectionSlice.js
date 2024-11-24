@@ -1,25 +1,33 @@
 import { createAsyncThunk, createSlice, current } from '@reduxjs/toolkit';
-import feedService from './feedService';
+import collectionService from './collectionService';
 import { toast } from 'react-toastify';
 
 
 const initialState = {
-    feed: [],
-    isLoading: false,
-    isError: false,
-    limit: 40,
-    page: 1,
-    hasMore: true,
+    forYou: {
+        games: [],
+        isLoading: false,
+        isError: false,
+    },
+    popular: {
+        games: [],
+        isLoading: false,
+        isError: false,
+    },
+    new: {
+        games: [],
+        isLoading: false,
+        isError: false,
+    },
 };
 
 
 export const getCommunityFeed = createAsyncThunk(
-    'feed/getCommunityFeed',
-    async (payload, thunkAPI) => {
+    'collection/getCommunityFeed',
+    async (_, thunkAPI) => {
         try {
-            const { page, limit } = thunkAPI.getState().feed;
             const token = thunkAPI.getState().auth.user ? thunkAPI.getState().auth.user.token : null;
-            return await feedService.getCommunityFeed({ type: payload, page, limit }, token);
+            return await collectionService.getCommunityFeed(token);
         } catch (error) {
             const message =
                 (error.response &&
@@ -32,31 +40,32 @@ export const getCommunityFeed = createAsyncThunk(
     }
 );
 
-const feedSlice = createSlice({
-    name: 'feed',
+const collectionSlice = createSlice({
+    name: 'collection',
     initialState,
     reducers: {
         // Reset state
-        resetFeed: (state) => {
-            state.feed = [];
+        resetCollection: (state) => {
+            state.feed = null;
             state.isLoading = false;
-            state.isError = false;
+            state.msg = '';
+            state.loadingId = '';
         }
     },
     extraReducers: (builder) => {
         builder.addCase(getCommunityFeed.pending, (state) => {
             state.isLoading = true;
-            state.isError = false;
+            state.msg = '';
+            state.feed = null;  
         });
         builder.addCase(getCommunityFeed.fulfilled, (state, action) => {
             state.isLoading = false;
-            state.feed.push(...action.payload.data);
-            state.hasMore = action.payload.hasMore;
+            state.feed = action.payload.data;
         });
         builder.addCase(getCommunityFeed.rejected, (state, action) => {
             if (action.error.message !== 'Aborted') {
                 state.isLoading = false;
-                state.isError = true;
+                state.msg = action.payload;
                 toast.error(action.payload, { toastId: 'toastError', closeButton: true});
             }
         });
@@ -65,5 +74,5 @@ const feedSlice = createSlice({
 
 
 // Export reducer
-export const { resetFeed } = feedSlice.actions;
-export default feedSlice.reducer;
+export const { resetCollection } = collectionSlice.actions;
+export default collectionSlice.reducer;

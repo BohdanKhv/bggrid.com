@@ -199,11 +199,69 @@ const ReviewsTab = () => {
         <>
         {reviews.length === 0 && !hasMore ?
             <ErrorInfo label="No reviews found" icon={starsIcon}/>
-        : reviews.map((item, index, arr) => (
-                <ReviewItem item={item}
-                key={item._id}
-            />
-        ))}
+        : 
+            <div className="flex gap-6">
+                <div className="flex-1">
+                    {reviews.map((item, index, arr) => (
+                        <ReviewItem item={item}
+                        key={item._id}
+                        />
+                    ))}
+                </div>
+                <div className="w-set-300-px flex-1 border-radius-lg bg-tertiary p-5 h-fit-content my-3">
+                    <div className="flex flex-col">
+                        <div className="flex pb-4 gap-3">
+                            <div className="fs-18 weight-500">
+                                Avg. Rating:
+                            </div>
+                            <div className="fs-20 weight-500 flex align-center text-nowrap text-warning gap-1">
+                                <Icon icon={starFillIcon} size="md" className="fill-warning"/> 4.5
+                            </div>
+                        </div>
+                        <div className="justify-between flex gap-2 border-bottom pb-3 pt-3">
+                            <div className="fs-14 text-secondary">
+                                Favorite:
+                            </div>
+                            <div className="fs-14 text-end text-nowrap">
+                                40k
+                            </div>
+                        </div>
+                        <div className="justify-between flex gap-2 border-bottom pb-3 pt-3">
+                            <div className="fs-14 text-secondary">
+                                Owned
+                            </div>
+                            <div className="fs-14 text-end text-nowrap">
+                                4k
+                            </div>
+                        </div>
+                        <div className="justify-between flex gap-2 border-bottom pb-3 pt-3">
+                            <div className="fs-14 text-secondary">
+                                Wishlist:
+                            </div>
+                            <div className="fs-14 text-end text-nowrap">
+                                1k
+                            </div>
+                        </div>
+                        <div className="justify-between flex gap-2 border-bottom pb-3 pt-3">
+                            <div className="fs-14 text-secondary">
+                                Played
+                            </div>
+                            <div className="fs-14 text-end text-nowrap">
+                                45k
+                            </div>
+                        </div>
+                        <div className="justify-between flex gap-2 pt-2">
+                            <div className="fs-14 text-secondary">
+                                Want to Play
+                            </div>
+                            <div className="fs-14 text-end text-nowrap">
+                                5k
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        }
         {isLoading ?
             <ErrorInfo isLoading/>
             :
@@ -253,11 +311,62 @@ const PlaysTab = () => {
         <>
         {plays.length === 0 && !hasMore ?
             <ErrorInfo label="No plays found" icon={plugIcon}/>
-        : plays.map((item, index, arr) => (
-                <PlayItem item={item}
-                key={item._id}
-            />
-        ))}
+        :
+            <div className="flex gap-6">
+                <div className="flex-1">
+                    {plays.map((item, index, arr) => (
+                        <PlayItem
+                            item={item}
+                            key={item._id}
+                        />
+                    ))}
+                </div>
+                <div className="w-set-300-px flex-1 border-radius-lg bg-tertiary p-5 h-fit-content my-3">
+                    <div className="flex flex-col">
+                        <div className="flex pb-4 gap-3">
+                            <div className="fs-18 weight-500">
+                            Plays:
+                            </div>
+                            <div className="fs-20 weight-500 flex align-center text-nowrap gap-1">
+                                <Icon icon={diceIcon} size="md"/> 45k
+                            </div>
+                        </div>
+                        <div className="justify-between flex gap-2 border-bottom pb-3 pt-3">
+                            <div className="fs-14 text-secondary">
+                                Avg. Playtime:
+                            </div>
+                            <div className="fs-14 text-end text-nowrap">
+                                1h 30m
+                            </div>
+                        </div>
+                        <div className="justify-between flex gap-2 border-bottom pb-3 pt-3">
+                            <div className="fs-14 text-secondary">
+                                Avg. Players:
+                            </div>
+                            <div className="fs-14 text-end text-nowrap">
+                                3.5
+                            </div>
+                        </div>
+                        <div className="justify-between flex gap-2 border-bottom pb-3 pt-3">
+                            <div className="fs-14 text-secondary">
+                                Avg. Playtime:
+                            </div>
+                            <div className="fs-14 text-end text-nowrap">
+                                1h 30m
+                            </div>
+                        </div>
+                        <div className="justify-between flex gap-2 pt-2">
+                            <div className="fs-14 text-secondary">
+                                Win Rate:
+                            </div>
+                            <div className="fs-14 text-end text-nowrap">
+                                45%
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        }
         {isLoading ?
             <ErrorInfo isLoading/>
             :

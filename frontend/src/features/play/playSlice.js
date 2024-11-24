@@ -77,7 +77,8 @@ export const getPlaysByGame = createAsyncThunk(
     'play/getPlaysByGame',
     async (payload, thunkAPI) => {
         try {
-            return await playService.getPlaysByGame(payload);
+            const { page, limit } = thunkAPI.getState().play;
+            return await playService.getPlaysByGame({ gameId: payload, page, limit });
         } catch (error) {
             const message =
                 (error.response &&
@@ -196,16 +197,18 @@ const playSlice = createSlice({
 
         builder.addCase(getPlaysByGame.pending, (state) => {
             state.isLoading = true;
-            state.msg = '';
-            state.plays = [];
+            state.isError = false;
         });
         builder.addCase(getPlaysByGame.fulfilled, (state, action) => {
             state.isLoading = false;
-            state.plays = action.payload.data
+            state.plays.push(...action.payload.data);
+            state.pages = action.payload.totalPages;
+            state.current = action.payload.page;
+            state.hasMore = action.payload.page < action.payload.totalPages;
         });
         builder.addCase(getPlaysByGame.rejected, (state, action) => {
             state.isLoading = false;
-            state.msg = action.payload;
+            state.isError = true;
             toast.error(action.payload, { toastId: 'toastError', closeButton: true});
         });
 

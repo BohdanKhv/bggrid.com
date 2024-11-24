@@ -15,7 +15,7 @@ export const getMyPlays = async (query, token) => {
 }
 
 export const getPlaysByGame = async (payload) => {
-    const response = await axios.get(API_URL+`${payload || ""}`);
+    const response = await axios.get(API_URL+`/game/${payload.gameId || ""}?page=${payload.page || 0}&limit=${payload.limit || 50}`);
 
     return response.data;
 }

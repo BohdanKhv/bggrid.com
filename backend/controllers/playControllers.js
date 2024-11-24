@@ -142,13 +142,22 @@ const getPlaysByGame = async (req, res) => {
         const options = {
             page: parseInt(page) || 1,
             limit: parseInt(limit) || 40,
-            sort: { playDate: -1 }
+            sort: { playDate: -1 },
+            populate: {
+                path: 'user players.user',
+                select: 'avatar username firstName lastName'
+            }
         };
 
         const plays = await Play.paginate({ game: req.params.gameId }, options);
 
+        const currentPage = plays.page;
+        const totalPages = plays.totalPages;
+
         return res.status(200).json({
-            data: plays
+            data: plays.docs,
+            currentPage,
+            totalPages
         });
     } catch (error) {
         console.error(error);

@@ -1,11 +1,12 @@
-import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react'
+import React, { memo, useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { getGameById } from '../../features/game/gameSlice'
 import { Link, useNavigate, useParams, useSearchParams } from 'react-router-dom'
 import { Avatar, Button, ErrorInfo, HorizontalScroll, Icon, IconButton, Image, TabContent } from '../../components'
-import { boxInIcon, boxOffIcon, checkIcon, clockIcon, largePlusIcon, libraryIcon, diceIcon, shareIcon, starEmptyIcon, starFillIcon, starsIcon, userIcon, usersIcon } from '../../assets/img/icons'
+import { boxInIcon, boxOffIcon, checkIcon, clockIcon, largePlusIcon, libraryIcon, diceIcon, shareIcon, starEmptyIcon, starFillIcon, starsIcon, userIcon, usersIcon, plugIcon } from '../../assets/img/icons'
 import { addCommaToNumber, numberFormatter } from '../../assets/utils'
 import { getReviewsByGame, resetReview } from '../../features/review/reviewSlice'
+import { getPlaysByGame, resetPlay } from '../../features/play/playSlice'
 import { DateTime } from 'luxon'
 import { resetFeed } from '../../features/feed/feedSlice'
 
@@ -18,9 +19,10 @@ const PlayItem = ({ item }) => {
         <div className="px-sm-3 border-bottom show-on-hover-parent border-secondary transition-duration animation-slide-in display-on-hover-parent">
             <div className="flex gap-3 py-5 py-sm-3">
                 <Avatar
-                    img={item?.game?.thumbnail}
-                    avatarColor={item?.game?.name?.length}
-                    name={item?.game?.name}
+                    img={item?.user?.avatar}
+                    rounded
+                    avatarColor={item?.user?.username?.length}
+                    name={item?.user?.username}
                     size="lg"
                 />
                 <div className="flex flex-col justify-between flex-1">
@@ -45,22 +47,7 @@ const PlayItem = ({ item }) => {
                                         DateTime.fromISO(item.playDate).toRelative().replace(' days', 'd').replace(' day', 'd').replace(' hours', 'h').replace(' hour', 'h').replace(' minutes', 'm').replace(' minute', 'm').replace(' seconds', 's').replace(' second', 's')}
                                     </span>
                             </div>
-                            <div className="flex fs-12 gap-2 text-secondary pt-1">
-                                Played <Link target="_blank" to={`/g/${item.game._id}`} className="fs-12 text-main bold pointer text-ellipsis-1 text-underlined-hover">{item.game.name}</Link> {item?.playTimeMinutes ? `for ${item.playTimeMinutes} min` : null}
-                            </div>
                         </div>
-                        <IconButton
-                            icon={editIcon}
-                            variant="text"
-                            type="secondary"
-                            className="show-on-hover"
-                            muted
-                            size="sm"
-                            onClick={() => {
-                                searchParams.set('updatePlay', item._id)
-                                setSearchParams(searchParams)
-                            }}
-                        />
                     </div>
                     {item.comment ?
                         <div className="fs-14 pt-3">
@@ -121,9 +108,10 @@ const ReviewItem = ({ item }) => {
         <div className="px-sm-3 border-bottom show-on-hover-parent border-secondary transition-duration animation-slide-in display-on-hover-parent">
             <div className="flex gap-3 py-5 py-sm-3">
                 <Avatar
-                    img={item?.game?.thumbnail}
-                    avatarColor={item?.game?.name?.length}
-                    name={item?.game?.name}
+                    img={item?.user?.avatar}
+                    rounded
+                    avatarColor={item?.user?.username?.length}
+                    name={item?.user?.username}
                     size="lg"
                 />
                 <div className="flex flex-col justify-between flex-1">
@@ -147,9 +135,6 @@ const ReviewItem = ({ item }) => {
                                     DateTime.now().diff(DateTime.fromISO(item.updatedAt), ['days']).days > 1 ? DateTime.fromISO(item.updatedAt).toFormat('LLL dd') :
                                     DateTime.fromISO(item.updatedAt).toRelative().replace(' days', 'd').replace(' day', 'd').replace(' hours', 'h').replace(' hour', 'h').replace(' minutes', 'm').replace(' minute', 'm').replace(' seconds', 's').replace(' second', 's')}
                                 </span>
-                            </div>
-                            <div className="flex fs-12 gap-2 text-secondary pt-2">
-                                Added <Link target="_blank" to={`/g/${item.game._id}`} className="fs-12 text-main bold pointer text-ellipsis-1 text-underlined-hover">{item.game.name}</Link> to their library
                             </div>
                         </div>
                     </div>
@@ -213,7 +198,7 @@ const ReviewsTab = () => {
     return (
         <>
         {reviews.length === 0 && !hasMore ?
-            <ErrorInfo label="No reviews found" secondary="Once you start reviewing games, they will appear here." icon={weightIcon}/>
+            <ErrorInfo label="No reviews found" icon={starsIcon}/>
         : reviews.map((item, index, arr) => (
                 <ReviewItem item={item}
                 key={item._id}
@@ -223,12 +208,9 @@ const ReviewsTab = () => {
             <ErrorInfo isLoading/>
             :
             <div
-                // ref={lastElementRef}
+                ref={lastElementRef}
             />
         }
-        <div
-            ref={lastElementRef}
-        />
         </>
     )
 }
@@ -236,10 +218,11 @@ const ReviewsTab = () => {
 const PlaysTab = () => {
     const dispatch = useDispatch()
 
-    const { reviews, isLoading, isError, hasMore } = useSelector((state) => state.review)
+    const { plays, isLoading, isError, hasMore } = useSelector((state) => state.play)
+    const { gameId } = useParams()
 
     const getData = () => {
-        dispatch(getReviewsByGame())
+        dispatch(getPlaysByGame(gameId))
     }
 
 
@@ -263,24 +246,25 @@ const PlaysTab = () => {
 
     useEffect(() => {
         window.scrollTo(0, 0)
-        document.title = `${document.title} - Reviews`
+        document.title = `${document.title} - plays`
     }, [])
 
     return (
         <>
-        {reviews.length === 0 && !hasMore ?
-            <ErrorInfo label="No reviews found" secondary="Once you start reviewing games, they will appear here." icon={weightIcon}/>
-        : reviews.map((item, index, arr) => (
-                <ReviewItem item={item}
+        {plays.length === 0 && !hasMore ?
+            <ErrorInfo label="No plays found" icon={plugIcon}/>
+        : plays.map((item, index, arr) => (
+                <PlayItem item={item}
                 key={item._id}
             />
         ))}
-        <div
-            ref={lastElementRef}
-        />
-        {isLoading &&
+        {isLoading ?
             <ErrorInfo isLoading/>
-        }            
+            :
+            <div
+                ref={lastElementRef}
+            />
+        }
         </>
     )
 }
@@ -349,13 +333,14 @@ const GamePage = () => {
 
     useEffect(() => {
         window.scrollTo(0, 0)
+        if (!gameId) return
 
         const promise = dispatch(getGameById(gameId))
 
         return () => {
             promise && promise.abort()
         }
-    }, [])
+    }, [gameId])
 
     useEffect(() => {
         document.title = gameById?.name || 'Game'

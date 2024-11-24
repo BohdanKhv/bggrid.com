@@ -61,6 +61,7 @@ const reviewSlice = createSlice({
             state.reviews = action.payload.data;
             state.pages = action.payload.totalPages;
             state.current = action.payload.page;
+            state.hasMore = action.payload.totalPages > action.payload.page;
         });
         builder.addCase(getReviewsByGame.rejected, (state, action) => {
             if (action.error.message !== 'Aborted') {

@@ -1,10 +1,289 @@
-import React, { useEffect, useMemo, useState } from 'react'
+import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { getGameById } from '../../features/game/gameSlice'
-import { useNavigate, useParams, useSearchParams } from 'react-router-dom'
+import { Link, useNavigate, useParams, useSearchParams } from 'react-router-dom'
 import { Avatar, Button, ErrorInfo, HorizontalScroll, Icon, IconButton, Image, TabContent } from '../../components'
 import { boxInIcon, boxOffIcon, checkIcon, clockIcon, largePlusIcon, libraryIcon, diceIcon, shareIcon, starEmptyIcon, starFillIcon, starsIcon, userIcon, usersIcon } from '../../assets/img/icons'
 import { addCommaToNumber, numberFormatter } from '../../assets/utils'
+import { getReviewsByGame, resetReview } from '../../features/review/reviewSlice'
+import { DateTime } from 'luxon'
+import { resetFeed } from '../../features/feed/feedSlice'
+
+
+const PlayItem = ({ item }) => {
+
+    const [searchParams, setSearchParams] = useSearchParams()
+
+    return (
+        <div className="px-sm-3 border-bottom show-on-hover-parent border-secondary transition-duration animation-slide-in display-on-hover-parent">
+            <div className="flex gap-3 py-5 py-sm-3">
+                <Avatar
+                    img={item?.game?.thumbnail}
+                    avatarColor={item?.game?.name?.length}
+                    name={item?.game?.name}
+                    size="lg"
+                />
+                <div className="flex flex-col justify-between flex-1">
+                    <div className="flex gap-2 justify-between">
+                        <div className="flex flex-col justify-between flex-1">
+                            <div className="flex gap-2 align-center flex-1">
+                                    <div className="flex align-center">
+                                        {item.user.firstName ?
+                                            <>
+                                                <div className="fs-14 bold text-ellipsis-1 me-1">
+                                                    {item.user.firstName}
+                                                </div>
+                                            </>
+                                        : null}
+                                        <Link className="text-secondary weight-400 fs-12 text-underlined-hover">@{item.user.username}</Link>
+                                    </div>
+                                    <span className="fs-14 weight-400 text-secondary">·</span>
+                                    <span className="weight-400 text-secondary fs-12 text-wrap-nowrap">{
+                                        // if more than 1 day, show the date
+                                        // if less than 1 day, show relative time
+                                        DateTime.now().diff(DateTime.fromISO(item.playDate), ['days']).days > 1 ? DateTime.fromISO(item.playDate).toFormat('LLL dd') :
+                                        DateTime.fromISO(item.playDate).toRelative().replace(' days', 'd').replace(' day', 'd').replace(' hours', 'h').replace(' hour', 'h').replace(' minutes', 'm').replace(' minute', 'm').replace(' seconds', 's').replace(' second', 's')}
+                                    </span>
+                            </div>
+                            <div className="flex fs-12 gap-2 text-secondary pt-1">
+                                Played <Link target="_blank" to={`/g/${item.game._id}`} className="fs-12 text-main bold pointer text-ellipsis-1 text-underlined-hover">{item.game.name}</Link> {item?.playTimeMinutes ? `for ${item.playTimeMinutes} min` : null}
+                            </div>
+                        </div>
+                        <IconButton
+                            icon={editIcon}
+                            variant="text"
+                            type="secondary"
+                            className="show-on-hover"
+                            muted
+                            size="sm"
+                            onClick={() => {
+                                searchParams.set('updatePlay', item._id)
+                                setSearchParams(searchParams)
+                            }}
+                        />
+                    </div>
+                    {item.comment ?
+                        <div className="fs-14 pt-3">
+                            {item.comment}
+                        </div>
+                    : null}
+                    <div className="flex flex flex-col border border-radius overflow-hidden mt-3">
+                        <div className="fs-12 bold py-1 text-center border-bottom bg-secondary">
+                            Players
+                        </div>
+                        {item?.players.length &&
+                        [...item?.players]
+                        .sort((a, b) => b.score - a.score)
+                        ?.map((player, index) => (
+                            <div className="flex justify-between align-center px-3 py-2"
+                                key={index}
+                            >
+                                <div className="flex gap-2 align-center">
+                                    <Avatar
+                                        img={player?.user?.avatar}
+                                        size="xs"
+                                        rounded
+                                        avatarColor={player?.name?.length}
+                                        name={player?.name}
+                                    />
+                                    {player.winner ?
+                                        <Icon icon="🥇" size="sm"/>
+                                    : null}
+                                    <div className="flex flex-col">
+                                        <div className={`flex gap-1 align-center`}>
+                                            {player.user ?
+                                                <Link target="_blank" to={`/u/${player.user.username}`} className="fs-14 weight-500 pointer text-underlined-hover text-ellipsis-1">
+                                                    @{player.user.username}
+                                                </Link>
+                                            : 
+                                                <div className="fs-14 weight-500 pointer text-ellipsis-1">
+                                                    {player.name}
+                                                </div>
+                                            }
+                                        </div>
+                                    </div>
+                                </div>
+                                <div className="fs-14 bold">
+                                    {addCommaToNumber(player.score) || 0}
+                                </div>
+                            </div>
+                        ))}
+                    </div>
+                </div>
+            </div>
+        </div>
+    )
+}
+
+
+const ReviewItem = ({ item }) => {
+    return (
+        <div className="px-sm-3 border-bottom show-on-hover-parent border-secondary transition-duration animation-slide-in display-on-hover-parent">
+            <div className="flex gap-3 py-5 py-sm-3">
+                <Avatar
+                    img={item?.game?.thumbnail}
+                    avatarColor={item?.game?.name?.length}
+                    name={item?.game?.name}
+                    size="lg"
+                />
+                <div className="flex flex-col justify-between flex-1">
+                    <div className="flex gap-2 justify-between">
+                        <div className="flex flex-col justify-between flex-1">
+                            <div className="flex gap-2 align-center flex-1">
+                                <div className="flex align-center">
+                                    {item.user.firstName ?
+                                        <>
+                                            <div className="fs-14 bold text-ellipsis-1 me-1">
+                                                {item.user.firstName}
+                                            </div>
+                                        </>
+                                    : null}
+                                    <Link to={`/u/${item.user.username}`} className="text-secondary weight-400 fs-12 text-underlined-hover">@{item.user.username}</Link>
+                                </div>
+                                <span className="fs-14 weight-400 text-secondary">·</span>
+                                <span className="weight-400 text-secondary fs-12 text-wrap-nowrap">{
+                                    // if more than 1 day, show the date
+                                    // if less than 1 day, show relative time
+                                    DateTime.now().diff(DateTime.fromISO(item.updatedAt), ['days']).days > 1 ? DateTime.fromISO(item.updatedAt).toFormat('LLL dd') :
+                                    DateTime.fromISO(item.updatedAt).toRelative().replace(' days', 'd').replace(' day', 'd').replace(' hours', 'h').replace(' hour', 'h').replace(' minutes', 'm').replace(' minute', 'm').replace(' seconds', 's').replace(' second', 's')}
+                                </span>
+                            </div>
+                            <div className="flex fs-12 gap-2 text-secondary pt-2">
+                                Added <Link target="_blank" to={`/g/${item.game._id}`} className="fs-12 text-main bold pointer text-ellipsis-1 text-underlined-hover">{item.game.name}</Link> to their library
+                            </div>
+                        </div>
+                    </div>
+                    <div className="pt-4">
+                        <div className="flex gap-2">
+                            <div className="flex align-center tag-warning px-2 py-1 border-radius gap-1">
+                                <Icon icon={starFillIcon} size="sm" className="fill-warning"/>
+                                <span className="text-warning fs-14">{item.rating || 0}</span>
+                            </div>
+                            {item.tags.map((tag, index) => (
+                                <div key={index} className="tag-secondary px-2 py-1 fs-12 border-radius">{tag}</div>
+                            ))}
+                        </div>
+                        {item.comment ?
+                            <div className="fs-14 pt-3">
+                                {item.comment}
+                            </div>
+                        : null}
+                    </div>
+                </div>
+            </div>
+        </div>
+    )
+}
+
+
+const ReviewsTab = () => {
+    const dispatch = useDispatch()
+    const { gameId } = useParams()
+
+    const { reviews, isLoading, isError, hasMore } = useSelector((state) => state.review)
+
+    const getData = () => {
+        dispatch(getReviewsByGame(gameId))
+    }
+
+
+    const observer = useRef();
+    const lastElementRef = useCallback(node => {
+        if (isLoading) return;
+        if (observer.current) observer.current.disconnect();
+        observer.current = new IntersectionObserver(entries => {
+            if (entries[0].isIntersecting && hasMore && !isError && !isLoading) {
+                const promise = getData();
+        
+                return () => {
+                    promise && promise.abort();
+                    dispatch(resetFeed());
+                    observer.current && observer.current.disconnect();
+                }
+            }
+        });
+        if (node) observer.current.observe(node);
+    }, [isLoading, hasMore, isError]);
+
+    useEffect(() => {
+        window.scrollTo(0, 0)
+        document.title = `${document.title} - Reviews`
+    }, [])
+
+    return (
+        <>
+        {reviews.length === 0 && !hasMore ?
+            <ErrorInfo label="No reviews found" secondary="Once you start reviewing games, they will appear here." icon={weightIcon}/>
+        : reviews.map((item, index, arr) => (
+                <ReviewItem item={item}
+                key={item._id}
+            />
+        ))}
+        {isLoading ?
+            <ErrorInfo isLoading/>
+            :
+            <div
+                // ref={lastElementRef}
+            />
+        }
+        <div
+            ref={lastElementRef}
+        />
+        </>
+    )
+}
+
+const PlaysTab = () => {
+    const dispatch = useDispatch()
+
+    const { reviews, isLoading, isError, hasMore } = useSelector((state) => state.review)
+
+    const getData = () => {
+        dispatch(getReviewsByGame())
+    }
+
+
+    const observer = useRef();
+    const lastElementRef = useCallback(node => {
+        if (isLoading) return;
+        if (observer.current) observer.current.disconnect();
+        observer.current = new IntersectionObserver(entries => {
+            if (entries[0].isIntersecting && hasMore && !isError) {
+                const promise = getData();
+        
+                return () => {
+                    promise && promise.abort();
+                    dispatch(resetFeed());
+                    observer.current && observer.current.disconnect();
+                }
+            }
+        });
+        if (node) observer.current.observe(node);
+    }, [isLoading, hasMore, isError]);
+
+    useEffect(() => {
+        window.scrollTo(0, 0)
+        document.title = `${document.title} - Reviews`
+    }, [])
+
+    return (
+        <>
+        {reviews.length === 0 && !hasMore ?
+            <ErrorInfo label="No reviews found" secondary="Once you start reviewing games, they will appear here." icon={weightIcon}/>
+        : reviews.map((item, index, arr) => (
+                <ReviewItem item={item}
+                key={item._id}
+            />
+        ))}
+        <div
+            ref={lastElementRef}
+        />
+        {isLoading &&
+            <ErrorInfo isLoading/>
+        }            
+        </>
+    )
+}
 
 const CoverImage = ({ img }) => {
     const [isLoading, setIsLoading] = useState(true)
@@ -231,7 +510,7 @@ const GamePage = () => {
                             />
                         </div>
                     </div>
-                    </div>
+                </div>
                     <div>
                         <TabContent
                             items={[
@@ -248,10 +527,14 @@ const GamePage = () => {
                     </div>
                     {tab === 'overview' ?
                         <Overview/>
-                    : <Overview/>}
+                    : tab === 'reviews' ?
+                        <ReviewsTab/>
+                    : tab === 'plays' ?
+                        <PlaysTab/>
+                    : <Overview/> }
                     <div className="flex gap-3 px-4">
-                    </div>
                 </div>
+            </div>
             :
                 <ErrorInfo
                     code="404"

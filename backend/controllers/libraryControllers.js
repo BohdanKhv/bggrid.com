@@ -13,19 +13,22 @@ const getReviewsByGame = async (req, res) => {
             page: parseInt(page, 10) || 1,
             limit: parseInt(limit, 10) || 10,
             sort: { createdAt: -1 },
+            populate: {
+                path: 'user',
+                select: 'avatar username firstName lastName'
+            }
         };
 
         const reviews = await Library.paginate(
             { game: req.params.gameId },
             options
         )
-        .populate('user', 'username');
 
         const currentPage = reviews.page;
         const totalPages = reviews.totalPages;
 
         res.status(200).json({
-            data: reviews,
+            data: reviews.docs,
             currentPage,
             totalPages,
         });

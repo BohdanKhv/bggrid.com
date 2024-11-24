@@ -109,11 +109,11 @@ const getMyPlays = async (req, res) => {
             page: parseInt(page) || 1,
             limit: parseInt(limit) || 40,
             sort: { playDate: -1 },
-                populate: {
-                    path: 'game players.user user',
-                    select: 'avatar username firstName lastName name thumbnail'
-                }
-            };
+            populate: {
+                path: 'game players.user user',
+                select: 'avatar username firstName lastName name thumbnail'
+            }
+        };
 
         const plays = await Play.paginate(q, options)
 

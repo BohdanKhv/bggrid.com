@@ -6,10 +6,9 @@ import { toast } from 'react-toastify';
 const initialState = {
     reviews: [],
     isLoading: false,
-    msg: '',
-    loadingId: '',
+    isError: false,
     limit: 50,
-    page: 0,
+    page: 1,
     current: 1,
     pages: 1,
     hasMore: true
@@ -20,7 +19,8 @@ export const getReviewsByGame = createAsyncThunk(
     'review/getReviewsByGame',
     async (payload, thunkAPI) => {
         try {
-            return await reviewService.getReviewsByGame(payload);
+            const { page, limit } = thunkAPI.getState().review;
+            return await reviewService.getReviewsByGame({ gameId: payload, page, limit });
         } catch (error) {
             const message =
                 (error.response &&
@@ -41,9 +41,8 @@ const reviewSlice = createSlice({
         // Reset state
         resetReview: (state) => {
             state.isLoading = false;
-            state.msg = '';
             state.reviews = [];
-            state.loadingId = '';
+            state.isError = false;
             state.page = 0;
             state.hasMore = true;
             state.current = 1;
@@ -55,6 +54,7 @@ const reviewSlice = createSlice({
         builder.addCase(getReviewsByGame.pending, (state) => {
             state.isLoading = true;
             state.msg = '';
+            state.isError = false;
         });
         builder.addCase(getReviewsByGame.fulfilled, (state, action) => {
             state.isLoading = false;
@@ -65,7 +65,7 @@ const reviewSlice = createSlice({
         builder.addCase(getReviewsByGame.rejected, (state, action) => {
             if (action.error.message !== 'Aborted') {
                 state.isLoading = false;
-                state.msg = action.payload;
+                state.isError = true;
                 toast.error(action.payload, { toastId: 'toastError', closeButton: true});
             }
         });

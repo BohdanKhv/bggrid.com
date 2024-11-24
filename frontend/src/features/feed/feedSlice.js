@@ -41,6 +41,8 @@ const feedSlice = createSlice({
             state.feed = [];
             state.isLoading = false;
             state.isError = false;
+            state.page = 1;
+            state.hasMore = true;
         }
     },
     extraReducers: (builder) => {

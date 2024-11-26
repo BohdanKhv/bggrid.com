@@ -9,7 +9,10 @@ const Friend = require('../models/friendModel');
 // @route   GET /api/feed/community
 // @access  Private
 const getCommunityFeed = async (req, res) => {
-    const { page = 1, limit = 10, type = 'all' } = req.query;
+    let { page, limit, type } = req.query;
+    type = type ? type.toLowerCase() : 'all';
+    page = parseInt(page) || 1;
+    limit = parseInt(limit) || 20;
 
     try {
         let myFriends = await Friend.find({

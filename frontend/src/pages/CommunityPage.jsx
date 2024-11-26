@@ -100,6 +100,15 @@ const CommunityPage = () => {
         document.title = 'Community'
     }, [])
 
+    useEffect(() => {
+        console.log('d')
+        const promise = dispatch(getCommunityFeed(!type ? 'all' : type))
+        return () => {
+            promise && promise.abort()
+            dispatch(resetFeed())
+        }
+    }, [type])
+
     const observer = useRef();
     const lastElementRef = useCallback(node => {
         if (isLoading) return;
@@ -228,17 +237,6 @@ const CommunityPage = () => {
                             ) : null}
                             <div  className="px-sm-3 py-3 sticky top-0 z-3 bg-main">
                                 <HorizontalScroll className="flex-1">
-                                    {type ?
-                                        <IconButton
-                                            icon={closeIcon}
-                                            variant="secondary"
-                                            className="animation-fade-in flex-shrink-0"
-                                            type={type === null ? 'filled' : 'default'}
-                                            onClick={() => {
-                                                setType(null)
-                                            }}
-                                        />
-                                    :
                                     <Button
                                         label="All"
                                         variant="secondary"
@@ -248,7 +246,6 @@ const CommunityPage = () => {
                                             setType(null)
                                         }}
                                     />
-                                    }
                                     {['Plays', 'Library']
                                     .map((a) => (
                                         <Button
@@ -275,6 +272,7 @@ const CommunityPage = () => {
                                         .map((item, index, arr) =>
                                             <div
                                                 key={index}
+                                                ref={index === arr.length - 1 ? lastElementRef : null}
                                             >
                                                 {item.type === 'play' ?
                                                     <PlayItem item={item.item}
@@ -293,11 +291,33 @@ const CommunityPage = () => {
                                         />
                                     </div>
                                 }
-                                <div
-                                    ref={lastElementRef}
-                                />
                                 { isLoading ?
-                                    <ErrorInfo isLoading/>
+                                    <div className="flex flex-col gap-5 py-5">
+                                        <div className="flex gap-2">
+                                            <Skeleton height="56" width="56" animation="wave" rounded/>
+                                            <div className="flex flex-col gap-2 flex-1">
+                                                <Skeleton height="34" width={225} animation="wave"/>
+                                                <Skeleton height="18" width={250} animation="wave"/>
+                                                <Skeleton height="200" animation="wave"/>
+                                            </div>
+                                        </div>
+                                        <div className="flex gap-2">
+                                            <Skeleton height="56" width="56" animation="wave" rounded/>
+                                            <div className="flex flex-col gap-2 flex-1">
+                                                <Skeleton height="34" width={225} animation="wave"/>
+                                                <Skeleton height="18" width={250} animation="wave"/>
+                                                <Skeleton height="200" animation="wave"/>
+                                            </div>
+                                        </div>
+                                        <div className="flex gap-2">
+                                            <Skeleton height="56" width="56" animation="wave" rounded/>
+                                            <div className="flex flex-col gap-2 flex-1">
+                                                <Skeleton height="34" width={225} animation="wave"/>
+                                                <Skeleton height="18" width={250} animation="wave"/>
+                                                <Skeleton height="200" animation="wave"/>
+                                            </div>
+                                        </div>
+                                    </div>
                                 : null }
                             </div>
                         </div>
@@ -324,22 +344,23 @@ const CommunityPage = () => {
                                         }}
                                     />
                                 </div>
-                                { isLoading ?
+                                {/* { isLoading ?
                                     <div className="flex flex-col gap-2">
                                         <Skeleton height="48" animation="wave"/>
                                         <Skeleton height="48" animation="wave"/>
                                         <Skeleton height="48" animation="wave"/>
                                         <Skeleton height="48" animation="wave"/>
                                     </div>
-                                :
-                                friends.length === 0 && !isLoading ?
+                                : */}
+                                {
+                                friends.length === 0 ?
                                     <div className="border border-radius border-dashed animation-slide-in">
                                         <ErrorInfo
                                             secondary="Oops! No friends found"
                                         />
                                     </div>
                                 :
-                                friends.length > 0 && !isLoading && (
+                                friends.length > 0 && (
                                 friends.map((item) => (
                                     <FriendItem
                                         key={item._id}

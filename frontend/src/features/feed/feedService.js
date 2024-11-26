@@ -9,7 +9,7 @@ export const getCommunityFeed = async (payload, token) => {
             Authorization: `Bearer ${token}`
         }
     }
-    const response = await axios.get(API_URL + '/community' + `?limit=${payload.limit}&page=${payload.page}$type=${payload.type}`, config);
+    const response = await axios.get(API_URL + '/community' + `?limit=${payload.limit}&page=${payload.page}&type=${payload.type}`, config);
 
     return response.data;
 }

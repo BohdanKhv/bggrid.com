@@ -12,7 +12,6 @@ const getGames = async (req, res) => {
         const options = {
             page: parseInt(page) || 1,
             limit: parseInt(limit) || 10,
-            sort: { createdAt: -1 }
         };
 
         const { s, hideInLibrary } = req.query;

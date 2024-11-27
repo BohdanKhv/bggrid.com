@@ -279,7 +279,7 @@ const LibraryPage = () => {
                                 @{user.username}
                             </div>
                             <HorizontalScroll>
-                                <div className="justify-between flex-shrink-0 flex gap-2 bg-secondary border-radius p-2">
+                                <div className="justify-between flex-shrink-0 flex gap-2 bg-secondary border-radius px-3 py-2">
                                     <div className="fs-12 text-secondary">
                                     Games:
                                     </div>
@@ -287,7 +287,7 @@ const LibraryPage = () => {
                                     {library.length}
                                     </div>
                                 </div>
-                                <div className="justify-between flex-shrink-0 flex gap-2 bg-secondary border-radius p-2">
+                                <div className="justify-between flex-shrink-0 flex gap-2 bg-secondary border-radius px-3 py-2">
                                     <div className="fs-12 text-secondary">
                                         Plays:
                                     </div>
@@ -295,7 +295,7 @@ const LibraryPage = () => {
                                     {library.reduce((acc, item) => acc + (item.totalPlays || 0), 0)}
                                     </div>
                                 </div>
-                                <div className="justify-between flex-shrink-0 flex gap-2 bg-secondary border-radius p-2">
+                                <div className="justify-between flex-shrink-0 flex gap-2 bg-secondary border-radius px-3 py-2">
                                     <div className="fs-12 text-secondary">
                                         Playtime:
                                     </div>
@@ -303,7 +303,7 @@ const LibraryPage = () => {
                                         {library.reduce((acc, item) => acc + (item.totalPlayTime || 0), 0)} Min
                                     </div>
                                 </div>
-                                <div className="justify-between flex-shrink-0 flex gap-2 bg-secondary border-radius p-2">
+                                <div className="justify-between flex-shrink-0 flex gap-2 bg-secondary border-radius px-3 py-2">
                                     <div className="fs-12 text-secondary">
                                         Win Rate:
                                     </div>

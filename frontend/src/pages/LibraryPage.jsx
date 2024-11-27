@@ -10,30 +10,55 @@ import GameSearchModal from './game/GameSearchModal'
 import UpdateLogPlay from './game/UpdateLogPlay'
 import { DateTime } from 'luxon'
 
-const LibraryItem = ({ item, hideInfo }) => {
+const LibraryItem = ({ item, index, hideInfo }) => {
 
     const [searchParams, setSearchParams] = useSearchParams()
 
     const { user } = useSelector((state) => state.auth)
 
     return (
-        <div className="border-radius px-sm-3 transition-duration animation-slide-in display-on-hover-parent">
+        <div className="border-radius px-sm-3 transition-duration animation-slide-in show-on-hover-parent hide-on-hover-parent">
             <div className="flex justify-between"
             >
                 <div className="flex gap-3 flex-1 py-3">
+                    {window.innerWidth > 800 ?
                     <div
-                        className="flex justify-center align-center px-3 opacity-50 hover-opacity-100 clickable"
+                        className="flex justify-center align-center opacity-50 hover-opacity-100 w-set-50-px"
                         onClick={(e) => {
                             e.stopPropagation()
                             searchParams.set('logPlay', item.game._id)
                             setSearchParams(searchParams)
                         }}
                     >
-                        <Icon
-                            icon={diceIcon}
-                            size="md"
-                        />
+                        <div>
+                            <Icon
+                                icon={diceIcon}
+                                size="md"
+                                className="show-on-hover"
+                                dataTooltipContent={`Play ${item.game.name}`}
+                            />
+                            <div className="hide-on-hover text-center fs-12 text-secondary">
+                                {index + 1}
+                            </div>
+                        </div>
                     </div>
+                    : 
+                    <div
+                        className="flex justify-center align-center opacity-50 hover-opacity-100 w-set-25-px"
+                        onClick={(e) => {
+                            e.stopPropagation()
+                            searchParams.set('logPlay', item.game._id)
+                            setSearchParams(searchParams)
+                        }}
+                    >
+                        <div>
+                            <Icon
+                                icon={diceIcon}
+                                size="md"
+                                dataTooltipContent={`Play ${item.game.name}`}
+                            />
+                        </div>
+                    </div>}
                     <Image
                         img={item?.game?.thumbnail}
                         classNameContainer="w-set-50-px h-set-50-px border-radius"
@@ -241,16 +266,52 @@ const LibraryPage = () => {
                             </div>
                             )}
                         </div>
-                        <div className="flex gap-2 align-center px-sm-3">
+                        <div className="flex align-center gap-2 px-sm-3 overflow-hidden">
                             <Avatar
                                 img={user.avatar}
                                 rounded
-                                size="xs"
+                                size="lg"
                                 name={user.username}
                                 avatarColor="1"
                             />
-                            <div className="fs-14 weight-600">
-                                {user.username} <span className="text-secondary"> • {library.length} games</span>
+                            <div className="flex flex-col overflow-hidden">
+                            <div className="fs-14 weight-600 pb-1">
+                                @{user.username}
+                            </div>
+                            <HorizontalScroll>
+                                <div className="justify-between flex-shrink-0 flex gap-2 bg-secondary border-radius p-2">
+                                    <div className="fs-12 text-secondary">
+                                    Games:
+                                    </div>
+                                    <div className="fs-12 text-end weight-500 text-nowrap">
+                                    {library.length}
+                                    </div>
+                                </div>
+                                <div className="justify-between flex-shrink-0 flex gap-2 bg-secondary border-radius p-2">
+                                    <div className="fs-12 text-secondary">
+                                        Plays:
+                                    </div>
+                                    <div className="fs-12 text-end weight-500 text-nowrap">
+                                    {library.reduce((acc, item) => acc + (item.totalPlays || 0), 0)}
+                                    </div>
+                                </div>
+                                <div className="justify-between flex-shrink-0 flex gap-2 bg-secondary border-radius p-2">
+                                    <div className="fs-12 text-secondary">
+                                        Playtime:
+                                    </div>
+                                    <div className="fs-12 text-end weight-500 text-nowrap">
+                                        {library.reduce((acc, item) => acc + (item.totalPlayTime || 0), 0)} Min
+                                    </div>
+                                </div>
+                                <div className="justify-between flex-shrink-0 flex gap-2 bg-secondary border-radius p-2">
+                                    <div className="fs-12 text-secondary">
+                                        Win Rate:
+                                    </div>
+                                    <div className="fs-12 text-end weight-500 text-nowrap">
+                                        {library.reduce((acc, item) => acc + (item.totalWins || 0), 0) / library.reduce((acc, item) => acc + (item.totalPlays || 0), 0) * 100 || 0}%
+                                    </div>
+                                </div>
+                                </HorizontalScroll>
                             </div>
                         </div>
                         <div className="pt-3 px-sm-3">
@@ -386,8 +447,8 @@ const LibraryPage = () => {
                                         return sortOrder === 'asc' ? a.plays - b.plays : b.plays - a.plays
                                     }
                                 })
-                                .map((item) =>
-                                    <LibraryItem key={item._id} item={item} hideInfo />
+                                .map((item, index) =>
+                                    <LibraryItem key={item._id} item={item} hideInfo index={index} />
                                 )}
                                 
                                 {library

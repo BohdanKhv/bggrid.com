@@ -844,6 +844,9 @@
     opacity: 1;
     visibility: visible;
 }
+.hide-on-hover-parent:hover .hide-on-hover {
+    display: none;
+}
 .show-on-hover-parent .show-on-hover{
     display: none;
 }

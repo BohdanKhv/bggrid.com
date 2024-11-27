@@ -108,11 +108,11 @@ const LibraryItem = ({ item, hideInfo }) => {
                         </div>
                         <div className="flex justify-between gap-3">
                             <div className="fs-12 text-secondary text-ellipsis-1">
-                                Last played: {item.lastPlayed ? DateTime.now().diff(DateTime.fromISO(item.playDate), ['days']).days > 1 ? DateTime.fromISO(item.playDate).toFormat('LLL dd') :
-                                DateTime.fromISO(item.playDate).toRelative().replace(' days', 'd').replace(' day', 'd').replace(' hours', 'h').replace(' hour', 'h').replace(' minutes', 'm').replace(' minute', 'm').replace(' seconds', 's').replace(' second', 's') : 'never'}
+                                Last played: {item.lastPlayDate ? DateTime.now().diff(DateTime.fromISO(item.lastPlayDate), ['days']).days > 1 ? DateTime.fromISO(item.lastPlayDate).toFormat('LLL dd') :
+                                DateTime.fromISO(item.lastPlayDate).toRelative().replace(' days', 'd').replace(' day', 'd').replace(' hours', 'h').replace(' hour', 'h').replace(' minutes', 'm').replace(' minute', 'm').replace(' seconds', 's').replace(' second', 's') : 'never'}
                             </div>
                             <div className="fs-12 text-secondary">
-                                {item.plays || 0} plays
+                                {item.totalPlays || 0} plays
                             </div>
                         </div>
                     </div>

@@ -29,6 +29,25 @@ const librarySchema = mongoose.Schema({
         required: false,
         maxlength: 500
     },
+    totalPlayTime: {
+        type: Number,
+        required: false,
+        default: 0,
+    },
+    totalPlays: {
+        type: Number,
+        required: false,
+        default: 0,
+    },
+    totalWins: {
+        type: Number,
+        required: false,
+        default: 0,
+    },
+    lastPlayDate: {
+        type: Date,
+        required: false,
+    }
 }, {
     timestamps: true
 });

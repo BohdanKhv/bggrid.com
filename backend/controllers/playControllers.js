@@ -1,6 +1,7 @@
 const { DateTime } = require('luxon');
 const Game = require('../models/gameModel');
 const Play = require('../models/playModel');
+const Library = require('../models/libraryModel');
 const mongoose = require('mongoose');
 
 
@@ -53,6 +54,20 @@ const updatePlay = async (req, res) => {
         play.players = players;
 
         await play.save();
+
+        // Update library
+        const library = await Library.findOne({ user: req.user._id, game: play.game });
+
+        if (library) {
+            library.totalPlayTime += playTimeMinutes;
+            library.totalPlays += 1;
+            // Check if user is a winner
+            const winner = players.find(player => player.winner);
+            if (winner) {
+                library.totalWins += 1;
+            }
+            library.save();
+        }
 
         // Populate game and user
         await play.populate([{
@@ -194,6 +209,21 @@ const createPlay = async (req, res) => {
             user: req.user._id
         });
 
+        // Update library
+        const library = await Library.findOne({ user: req.user._id, game: gameId });
+
+        if (library) {
+            library.totalPlays += 1;
+            library.totalPlayTime += playTimeMinutes;
+            // Check if user is a winner
+            const winner = players.find(player => player.winner);
+            if (winner) {
+                library.totalWins += 1;
+            }
+            library.lastPlayDate = DateTime.now();
+            library.save();
+        }
+
         // Populate game and user
         await play.populate([
             { path: 'game', select: 'name thumbnail' },
@@ -228,10 +258,24 @@ const deletePlay = async (req, res) => {
 
         await play.deleteOne();
 
-        res.status(200).json({ msg: 'Play removed' });
+        // Update library
+        const library = await Library.findOne({ user: req.user._id, game: play.game });
+
+        if (library) {
+            library.totalPlays -= 1;
+            library.totalPlayTime -= play.playTimeMinutes;
+            // Check if user is a winner
+            const winner = play.players.find(player => player.winner);
+            if (winner) {
+                library.totalWins -= 1;
+            }
+            library.save();
+        }
+
+        return res.status(200).json({ msg: 'Play removed' });
     } catch (error) {
         console.error(error);
-        res.status(500).json({ msg: 'Server error' });
+        return res.status(500).json({ msg: 'Server error' });
     }
 }
 

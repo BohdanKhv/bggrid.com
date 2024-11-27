@@ -1,5 +1,6 @@
 const Library = require('../models/libraryModel');
 const Game = require('../models/gameModel');
+const Play = require('../models/playModel');
 const mongoose = require('mongoose');
 
 
@@ -84,12 +85,30 @@ const addGameToLibrary = async (req, res) => {
             return res.status(400).json({ msg: 'Rating must be between 0 and 10' });
         }
 
+        // calculate my total plays for this game, total play time, total wins
+        const playData = await Play.aggregate([
+            { $match: { game: new mongoose.Types.ObjectId(gameId), user: req.user._id } },
+            {
+                $group: {
+                    _id: null,
+                    totalPlays: { $sum: 1 },
+                    totalPlayTime: { $sum: '$playTimeMinutes' },
+                    totalWins: { $sum: { $cond: { if: { $arrayElemAt: ['$players.winner', 0] }, then: 1, else: 0 } } },
+                    lastPlayDate: { $max: '$playDate' }
+                }
+            }
+        ]);
+
         const newGame = new Library({
             user: req.user._id,
             game: gameExists,
             tags,
             comment,
             rating,
+            totalPlays: playData[0].totalPlays,
+            totalPlayTime: playData[0].totalPlayTime,
+            totalWins: playData[0].totalWins,
+            lastPlayDate: playData[0].lastPlayDate
         });
 
         await newGame.save();

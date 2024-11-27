@@ -11,9 +11,8 @@ const initialState = {
     isLoading: false,
     msg: '',
     loadingId: '',
-    limit: 50,
-    page: 0,
-    current: 1,
+    limit: 10,
+    page: 1,
     pages: 1,
     hasMore: true
 };
@@ -60,7 +59,8 @@ export const getGames = createAsyncThunk(
     async (payload, thunkAPI) => {
         try {
             const token = thunkAPI.getState().auth.user ? thunkAPI.getState().auth.user.token : null;
-            return await gameService.getGames(payload, token);
+            const { page, limit } = thunkAPI.getState().game;
+            return await gameService.getGames(`?page=${page}&limit=${limit}${payload}`, token);
         } catch (error) {
             const message =
                 (error.response &&
@@ -117,9 +117,10 @@ const gameSlice = createSlice({
         });
         builder.addCase(getGames.fulfilled, (state, action) => {
             state.isLoading = false;
-            state.games = action.payload.data;
+            state.games.push(...action.payload.data);
             state.pages = action.payload.totalPages;
-            state.current = action.payload.page;
+            state.hasMore = action.payload.currentPage < action.payload.totalPages;
+            state.page = action.payload.currentPage + 1;
         });
         builder.addCase(getGames.rejected, (state, action) => {
             if (action.error.message !== 'Aborted') {

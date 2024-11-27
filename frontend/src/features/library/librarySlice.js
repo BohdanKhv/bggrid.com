@@ -96,7 +96,7 @@ const librarySlice = createSlice({
     initialState,
     reducers: {
         // Reset state
-        resetGame: (state) => {
+        resetLibrary: (state) => {
             state.isLoading = false;
             state.library = [];
             state.loadingId = '';
@@ -183,5 +183,5 @@ const librarySlice = createSlice({
 
 
 // Export reducer
-export const { resetGame } = librarySlice.actions;
+export const { resetLibrary } = librarySlice.actions;
 export default librarySlice.reducer;

@@ -8,9 +8,10 @@ const Library = require('../models/libraryModel');
 const getGames = async (req, res) => {
     try {
         const { page, limit } = req.query;
+        console.log(`Page: ${page}`);
         const options = {
             page: parseInt(page) || 1,
-            limit: parseInt(limit) || 40,
+            limit: parseInt(limit) || 10,
             sort: { createdAt: -1 }
         };
 

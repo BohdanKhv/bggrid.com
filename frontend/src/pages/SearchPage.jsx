@@ -1,50 +1,14 @@
-import React, { useEffect, useMemo, useState } from 'react'
+import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { Button, Dropdown, ErrorInfo, FilterDropdown, HorizontalScroll, Icon, IconButton, Image, InputSearch, Modal } from '../components'
 import { Link, useSearchParams } from 'react-router-dom'
 import { clockIcon, closeIcon, filterIcon, gridIcon, listIcon, searchIcon, toggleSortIcon } from '../assets/img/icons'
 import { categoriesEnum, mechanicsEnum, themesEnum, typeEnum } from '../assets/constants'
 import { useDispatch, useSelector } from 'react-redux'
-import { getGames, getSuggestions } from '../features/game/gameSlice'
+import { getGames, getSuggestions, resetGame } from '../features/game/gameSlice'
 import GameItem from './game/GameItem'
 import { setSearchHistory } from '../features/local/localSlice'
 import GameItemCol from './game/GameItemCol'
 
-
-const Items = ({listView}) => {
-    const { games, isLoading, loadingId, msg } = useSelector((state) => state.game)
-
-    return (
-        isLoading ?
-            <ErrorInfo isLoading/>
-        : msg === 'No games found' ?
-            <ErrorInfo
-                label="No results found"
-                secondary='Unfortunately I could not find any results matching your search.'
-            />
-        :
-        <>
-        {listView ?
-            <div className="flex flex-col">
-                {games.map((i) => (
-                    <GameItemCol
-                        key={i._id}
-                        item={i}
-                    />
-                ))}
-            </div>
-        :
-            <div className="grid flex-wrap animation-slide-in h-fit-content grid-xl-cols-5 grid-lg-cols-4 grid-md-cols-3 grid-sm-cols-2 grid-cols-4">
-                {games.map((i) => (
-                    <GameItem
-                        key={i._id}
-                        item={i}
-                    />
-                ))}
-            </div>
-        }
-        </>
-    )
-}
 
 const SearchPage = () => {
     const dispatch = useDispatch()
@@ -78,20 +42,6 @@ const SearchPage = () => {
 
     useEffect(() => {
         let promise;
-        let q = '?'
-
-        if (searchParams.get('s')) q += `s=${searchParams.get('s')}`  
-        if (searchParams.get('hideInLibrary')) q += `&hideInLibrary=${searchParams.get('hideInLibrary')}`
-
-        promise = dispatch(getGames(q))
-
-        return () => {
-            promise && promise.abort()
-        }
-    }, [searchParams.get('s'), searchParams.get('hideInLibrary')])
-
-    useEffect(() => {
-        let promise;
 
         if (searchValue.length > 3) {
             promise = dispatch(getSuggestions(searchValue))
@@ -114,6 +64,51 @@ const SearchPage = () => {
             regex.test(part) ? <strong key={index} className="text-primary">{part}</strong> : part
         );
     };
+
+    const { games, isLoading, isError, hasMore, msg } = useSelector((state) => state.game)
+
+    const getData = () => {
+        let q = '&'
+
+
+        if (searchParams.get('s')) q += `s=${searchParams.get('s')}`  
+        if (searchParams.get('hideInLibrary')) q += `&hideInLibrary=${searchParams.get('hideInLibrary')}`
+
+        dispatch(getGames(q))
+    }
+
+    useEffect(() => {
+        let promise;
+        let q = '&'
+
+        if (searchParams.get('s')) q += `s=${searchParams.get('s')}`  
+        if (searchParams.get('hideInLibrary')) q += `&hideInLibrary=${searchParams.get('hideInLibrary')}`
+
+        promise = dispatch(getGames(q))
+
+        return () => {
+            promise && promise.abort()
+        }
+    }, [searchParams.get('s'), searchParams.get('hideInLibrary')])
+
+    const observer = useRef();
+    const lastElementRef = useCallback(node => {
+        if (isLoading) return;
+        if (observer.current) observer.current.disconnect();
+        observer.current = new IntersectionObserver(entries => {
+            if (entries[0].isIntersecting && hasMore && !isError) {
+                const promise = getData();
+        
+                return () => {
+                    promise && promise.abort();
+                    dispatch(resetGame());
+                    observer.current && observer.current.disconnect();
+                }
+            }
+        });
+        if (node) observer.current.observe(node);
+    }, [isLoading, hasMore, isError]);
+
 
     return (
         <div>
@@ -470,9 +465,45 @@ const SearchPage = () => {
                                 />
                             </div>
                             <div>
-                                <Items
-                                    listView={listView}
-                                />
+                                {msg === 'No games found' ?
+                                    <ErrorInfo
+                                        label="No results found"
+                                        secondary='Unfortunately I could not find any results matching your search.'
+                                    />
+                                :
+                                <>
+                                {listView ?
+                                    <div className="flex flex-col">
+                                        {games.map((i, inx, arr) => (
+                                            <div
+                                                ref={inx === arr.length - 1 ? lastElementRef : null}
+                                                key={i._id}
+                                            >
+                                                <GameItemCol
+                                                    key={i._id}
+                                                    item={i}
+                                                />
+                                            </div>
+                                        ))}
+                                    </div>
+                                :
+                                    <div className="grid flex-wrap animation-slide-in h-fit-content grid-xl-cols-5 grid-lg-cols-4 grid-md-cols-3 grid-sm-cols-2 grid-cols-4">
+                                        {games.map((i, inx, arr) => (
+                                            <div
+                                                ref={inx === arr.length - 1 ? lastElementRef : null}
+                                                key={i._id}
+                                            >
+                                            <GameItem
+                                                    item={i}
+                                                />
+                                            </div>
+                                        ))}
+                                    </div>
+                                }
+                                </>}
+                                {isLoading ?
+                                    <ErrorInfo isLoading/>
+                                : null}
                             </div>
                         </div>
                     </div>

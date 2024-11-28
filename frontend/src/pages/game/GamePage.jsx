@@ -186,8 +186,8 @@ const GamePlayStats = () => {
                     <div className="fs-18 weight-500">
                         Plays:
                     </div>
-                    <div className="fs-20 weight-500 flex align-center text-nowrap text-warning gap-1">
-                        <Icon icon={starFillIcon} size="md" className="fill-warning"/> {stats?.data?.totalPlays?.toFixed(1) || 0}
+                    <div className="fs-20 weight-500 flex align-center text-nowrap  gap-1">
+                        <Icon icon={diceIcon} size="md" className=""/> {stats?.data?.totalPlays?.toFixed(1) || 0}
                     </div>
                 </div>
                 <div className="justify-between flex gap-2 border-bottom pb-3 pt-3">

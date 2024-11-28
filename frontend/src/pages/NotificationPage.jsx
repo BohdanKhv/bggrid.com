@@ -19,18 +19,19 @@ const FriendRequestNotification = ({item}) => {
                 rounded
             />
             <div className="flex flex-col">
-                <div className="fs-14">
-                    Fried request from <Link
+                <div className="fs-16 weight-500">
+                    <Link
                         to={`/u/${item.user?.username}`}
                         className="text-underlined-hover bold"
-                    >{item.user?.username}</Link>
+                    >@{item.user?.username}</Link>
+                    <span className="fs-12 text-secondary"> sent you a friend request</span>
                 </div>
-                <div className="pt-1">
+                <div className="pt-3 flex gap-2">
                     <Button
                         label="Accept"
                         variant="filled"
                         type="primary"
-                        borderRadius="md"
+                        borderRadius="sm"
                         onClick={() => {
                             dispatch(acceptFriendRequest(item.friendRequest._id))
                         }}
@@ -39,7 +40,7 @@ const FriendRequestNotification = ({item}) => {
                         label="Delete"
                         variant="default"
                         type="secondary"
-                        borderRadius="md"
+                        borderRadius="sm"
                         onClick={() => {
                             dispatch(removeFriend(item.friendRequest._id))
                         }}
@@ -172,19 +173,19 @@ const NotificationPage = () => {
                                 secondary="You have no new notifications."
                             />
                         :
-                        <div className="flex align-center gap-2 px-sm-3 overflow-hidden">
+                        <div className="flex align-center gap-2 px-sm-3 overflow-hidden py-6">
                             {notifications.map((notification, index) => (
                                 <div
                                     key={notification._id}
                                 >
                                     {notification.type === 'friendRequest' ?
-                                        <FriendRequestNotification item={item}/>
+                                        <FriendRequestNotification item={notification}/>
                                     : notification.type === 'library' ?
-                                        <LibraryNotification item={item}/>
+                                        <LibraryNotification item={notification}/>
                                     : notification.type === 'play' ?
-                                        <PlayNotification item={item}/>
+                                        <PlayNotification item={notification}/>
                                     : notification.type === 'system' ?
-                                        <SystemNotification item={item}/>
+                                        <SystemNotification item={notification}/>
                                     : null}
                                 </div>
                             ))}

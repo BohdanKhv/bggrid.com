@@ -202,7 +202,9 @@ const CommunityPage = () => {
                                         </div>
                                     </div>
                                 </div>
-                                {friends.map((item) => (
+                                {friends
+                                .filter((item) => !item.pending)
+                                .map((item) => (
                                         <Link className={`pointer h-100 w-max-75-px w-sm-max-50-px w-100 p-2 animation-fade-in border-radius-sm hover-opacity-100 transition-duration clickable flex-shrink-0 bg-secondary-hover`}
                                             key={item._id}
                                             to={`/u/${item.friend.username}`}

@@ -27,7 +27,7 @@ const UserGuard = ({children}) => {
         return () => {
             notificationPromise && notificationPromise.abort()
         }
-    }, [user])
+    }, [])
 
     return (
         isLoading ?

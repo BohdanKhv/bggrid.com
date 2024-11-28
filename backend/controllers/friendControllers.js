@@ -83,8 +83,8 @@ const sendFriendRequest = async (req, res) => {
         await newFriend.save();
 
         const notification = new Notification({
-            receiver: req.user._id,
-            user: user._id,
+            receiver: user._id,
+            user: req.user._id,
             type: 'friendRequest',
             friendRequest: newFriend._id,
             read: false,

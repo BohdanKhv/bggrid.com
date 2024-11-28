@@ -1,5 +1,5 @@
-import React, { useEffect } from 'react'
-import { Avatar, Button, ErrorInfo } from '../components'
+import React, { useEffect, useState } from 'react'
+import { Avatar, Button, ErrorInfo, HorizontalScroll } from '../components'
 import { useSelector, useDispatch } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { acceptFriendRequest, removeFriend } from '../features/friend/friendSlice';
@@ -26,23 +26,21 @@ const FriendRequestNotification = ({item}) => {
                     >@{item.user?.username}</Link>
                     <span className="fs-12 text-secondary"> sent you a friend request</span>
                 </div>
-                <div className="pt-3 flex gap-2">
+                <div className="pt-2 flex gap-2">
                     <Button
                         label="Accept"
                         variant="filled"
                         type="primary"
-                        borderRadius="sm"
                         onClick={() => {
-                            dispatch(acceptFriendRequest(item.friendRequest._id))
+                            dispatch(acceptFriendRequest(item.friendRequest))
                         }}
                     />
                     <Button
                         label="Delete"
                         variant="default"
                         type="secondary"
-                        borderRadius="sm"
                         onClick={() => {
-                            dispatch(removeFriend(item.friendRequest._id))
+                            dispatch(removeFriend(item.friendRequest))
                         }}
                     />
                 </div>
@@ -130,6 +128,7 @@ const NotificationPage = () => {
     const dispatch = useDispatch();
 
     const { user } = useSelector(state => state.auth);
+    const [type, setType] = useState('All');
 
     const { notifications } = useSelector(state => state.notification);
 
@@ -166,6 +165,26 @@ const NotificationPage = () => {
                                 </div>
                             )}
                         </div>
+                        <div  className="px-sm-3 py-3 sticky top-0 z-3 bg-main">
+                            <HorizontalScroll className="flex-1">
+                                {['All', 'Friend Requests', 'Library', 'Plays', 'System'].map((a) => (
+                                    <Button
+                                        key={a}
+                                        label={a}
+                                        variant="secondary"
+                                        className="animation-fade-in flex-shrink-0"
+                                        type={type === a ? 'filled' : 'default'}
+                                        onClick={() => {
+                                            if (type == a) {
+                                                setType(null)
+                                            } else {
+                                                setType(a)
+                                            }
+                                        }}
+                                    />
+                                ))}
+                            </HorizontalScroll>
+                        </div>
                         {notifications.length === 0 ?
                             <ErrorInfo
                                 icon={bellIcon}
@@ -173,7 +192,7 @@ const NotificationPage = () => {
                                 secondary="You have no new notifications."
                             />
                         :
-                        <div className="flex align-center gap-2 px-sm-3 overflow-hidden py-6">
+                        <div className="flex align-center gap-2 px-sm-3 overflow-hidden py-3">
                             {notifications.map((notification, index) => (
                                 <div
                                     key={notification._id}

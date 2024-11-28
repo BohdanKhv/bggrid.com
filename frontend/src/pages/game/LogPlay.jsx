@@ -105,6 +105,7 @@ const LogPlay = () => {
                 user: i.user?._id,
                 name: i.name,
                 score: i.score,
+                color: i.color,
                 winner: i.winner
             })),
             // playDate: currentDate
@@ -164,7 +165,7 @@ const LogPlay = () => {
             {step === 1 ?
                 <div className="flex flex-col pt-4 pb-2 gap-4">
                     <div className="flex flex-col">
-                        <div className="border border-radius bg-tertiary mx-4">
+                        <div className="border border-radius mx-4">
                             <InputSearch
                                 className="flex-1 py-1 ps-4"
                                 placeholder="Search or add players"
@@ -269,7 +270,7 @@ const LogPlay = () => {
                         <div>
                             {players.length ?
                             players.map((i, index) => (
-                            <div className="my-2 mx-4 border-radius animation-slide-in bg-secondary show-on-hover-parent"
+                            <div className="my-2 mx-4 border-radius animation-slide-in show-on-hover-parent"
                                 key={index}
                             >
                                 <div
@@ -320,21 +321,39 @@ const LogPlay = () => {
                                                 }}
                                             />
                                         </div> */}
-                                        <div className="flex-1">
-                                            <Input
-                                                type="number"
-                                                placeholder="Score"
-                                                max={1000}
-                                                className="bg-main border-radius"
-                                                value={i.score || ''}
-                                                onFocus={(e) => e.target.select()}
-                                                onChange={(e) => {
-                                                    if (e.target.value > 10000) return
-                                                    const newPlayers = [...players]
-                                                    newPlayers[index].score = e.target.value
-                                                    setPlayers(newPlayers)
-                                                }}
-                                            />
+                                        <div className="flex-1 flex gap-3">
+                                            <div className="flex-1">
+                                                <Input
+                                                    type="text"
+                                                    placeholder="Team/Color"
+                                                    max={1000}
+                                                    className="bg-main border-radius"
+                                                    value={i.color || ''}
+                                                    onFocus={(e) => e.target.select()}
+                                                    onChange={(e) => {
+                                                        if (e.target.value > 10000) return
+                                                        const newPlayers = [...players]
+                                                        newPlayers[index].color = e.target.value
+                                                        setPlayers(newPlayers)
+                                                    }}
+                                                />
+                                            </div>
+                                            <div className="flex-1">
+                                                <Input
+                                                    type="number"
+                                                    placeholder="Score"
+                                                    max={1000}
+                                                    className="bg-main border-radius"
+                                                    value={i.score || ''}
+                                                    onFocus={(e) => e.target.select()}
+                                                    onChange={(e) => {
+                                                        if (e.target.value > 10000) return
+                                                        const newPlayers = [...players]
+                                                        newPlayers[index].score = e.target.value
+                                                        setPlayers(newPlayers)
+                                                    }}
+                                                />
+                                            </div>
                                         </div>
                                         <CheckBox
                                             label="Winner"

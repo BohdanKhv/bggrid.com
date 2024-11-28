@@ -92,18 +92,21 @@ const PlayItem = ({ item }) => {
                                     {player.winner ?
                                         <Icon icon="🥇" size="sm"/>
                                     : null}
-                                    <div className="flex flex-col">
-                                        <div className={`flex gap-1 align-center`}>
-                                            {player.user ?
-                                                <Link target="_blank" to={`/u/${player.user.username}`} className="fs-14 weight-500 pointer text-underlined-hover text-ellipsis-1">
-                                                    @{player.user.username}
-                                                </Link>
-                                            : 
-                                                <div className="fs-14 weight-500 pointer text-ellipsis-1">
-                                                    {player.name}
-                                                </div>
-                                            }
-                                        </div>
+                                    <div className={`flex flex-col`}>
+                                        {player.user ?
+                                            <Link target="_blank" to={`/u/${player.user.username}`} className="fs-14 weight-500 pointer text-underlined-hover text-ellipsis-1">
+                                                @{player.user.username}
+                                            </Link>
+                                        : 
+                                            <div className="fs-14 weight-500 pointer text-ellipsis-1">
+                                                {player.name}
+                                            </div>
+                                        }
+                                        {player.color ?
+                                            <div className="fs-12 text-secondary">
+                                                {player.color}
+                                            </div>
+                                        : null}
                                     </div>
                                 </div>
                                 <div className="fs-14 bold">

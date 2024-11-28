@@ -44,6 +44,7 @@ const UpdateLogPlay = () => {
                 user: i.user?._id,
                 name: i.name,
                 score: i.score,
+                color: i.color,
                 winner: i.winner
             }))
         }))
@@ -274,23 +275,41 @@ const UpdateLogPlay = () => {
                                 </div>
                                 <div className="px-2 pb-2 px-sm-0">
                                     <div className="flex gap-2">
-                                        <div className="flex-1">
-                                            <Input
-                                                type="number"
-                                                placeholder="Score"
-                                                className="bg-main border-radius"
-                                                max={1000}
-                                                value={i.score || ''}
-                                                onFocus={(e) => e.target.select()}
-                                                onChange={(e) => {
-                                                    if (e.target.value > 10000) return
-                                                    setPlayers(prevPlayers => {
-                                                        const updatedPlayers = [...prevPlayers]
-                                                        updatedPlayers[index] = { ...updatedPlayers[index], score: e.target.value }
-                                                        return updatedPlayers
-                                                    })
-                                                }}
-                                            />
+                                        <div className="flex-1 flex gap-3">
+                                            <div className="flex-1">
+                                                <Input
+                                                    type="text"
+                                                    placeholder="Team/Color"
+                                                    max={1000}
+                                                    className="bg-main border-radius"
+                                                    value={i.color || ''}
+                                                    onFocus={(e) => e.target.select()}
+                                                    onChange={(e) => {
+                                                        if (e.target.value > 10000) return
+                                                        const newPlayers = [...players]
+                                                        newPlayers[index].color = e.target.value
+                                                        setPlayers(newPlayers)
+                                                    }}
+                                                />
+                                            </div>
+                                            <div className="flex-1">
+                                                <Input
+                                                    type="number"
+                                                    placeholder="Score"
+                                                    className="bg-main border-radius"
+                                                    max={1000}
+                                                    value={i.score || ''}
+                                                    onFocus={(e) => e.target.select()}
+                                                    onChange={(e) => {
+                                                        if (e.target.value > 10000) return
+                                                        setPlayers(prevPlayers => {
+                                                            const updatedPlayers = [...prevPlayers]
+                                                            updatedPlayers[index] = { ...updatedPlayers[index], score: e.target.value }
+                                                            return updatedPlayers
+                                                        })
+                                                    }}
+                                                />
+                                            </div>
                                         </div>
                                         <CheckBox
                                             label="Winner"

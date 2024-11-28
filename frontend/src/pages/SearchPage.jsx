@@ -88,6 +88,7 @@ const SearchPage = () => {
 
         return () => {
             promise && promise.abort()
+            dispatch(resetGame())
         }
     }, [searchParams.get('s'), searchParams.get('hideInLibrary')])
 

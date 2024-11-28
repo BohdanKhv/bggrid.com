@@ -23,7 +23,6 @@ const PlayItem = ({ item }) => {
                     rounded
                     avatarColor={item?.user?.username?.length}
                     name={item?.user?.username}
-                    size="lg"
                 />
                 <div className="flex flex-col justify-between flex-1">
                     <div className="flex gap-2 justify-between">
@@ -76,22 +75,25 @@ const PlayItem = ({ item }) => {
                                     {player.winner ?
                                         <Icon icon="🥇" size="sm"/>
                                     : null}
-                                    <div className="flex flex-col">
-                                        <div className={`flex gap-1 align-center`}>
-                                            {player.user ?
-                                                <Link target="_blank" to={`/u/${player.user.username}`} className="fs-14 weight-500 pointer text-underlined-hover text-ellipsis-1">
-                                                    @{player.user.username}
-                                                </Link>
-                                            : 
-                                                <div className="fs-14 weight-500 pointer text-ellipsis-1">
-                                                    {player.name}
-                                                </div>
-                                            }
-                                        </div>
+                                    <div className={`flex flex-col`}>
+                                        {player.user ?
+                                            <Link target="_blank" to={`/u/${player.user.username}`} className="fs-14 weight-500 pointer text-underlined-hover text-ellipsis-1">
+                                                @{player.user.username}
+                                            </Link>
+                                        : 
+                                            <div className="fs-14 weight-500 pointer text-ellipsis-1">
+                                                {player.name}
+                                            </div>
+                                        }
+                                        {player.color ?
+                                            <div className="fs-12 text-secondary">
+                                                {player.color}
+                                            </div>
+                                        : null}
                                     </div>
                                 </div>
                                 <div className="fs-14 bold">
-                                    {addCommaToNumber(player.score) || 0}
+                                    {addCommaToNumber(player.score) || ''}
                                 </div>
                             </div>
                         ))}
@@ -112,9 +114,8 @@ const ReviewItem = ({ item }) => {
                     rounded
                     avatarColor={item?.user?.username?.length}
                     name={item?.user?.username}
-                    size="lg"
                 />
-                <div className="flex flex-col justify-between flex-1">
+                <div className="flex flex-col flex-1">
                     <div className="flex gap-2 justify-between">
                         <div className="flex flex-col justify-between flex-1">
                             <div className="flex gap-2 align-center flex-1">
@@ -138,14 +139,14 @@ const ReviewItem = ({ item }) => {
                             </div>
                         </div>
                     </div>
-                    <div className="pt-4">
+                    <div className="pt-2">
                         <div className="flex gap-2">
-                            <div className="flex align-center tag-warning px-2 py-1 border-radius gap-1">
-                                <Icon icon={starFillIcon} size="sm" className="fill-warning"/>
-                                <span className="text-warning fs-14">{item.rating || 0}</span>
+                            <div className="flex align-center px-2 py-1 border-radius gap-1">
+                                <Icon icon={starFillIcon} size="sm" className={`${item.rating === 10 ? 'fill-primary' : item.rating >= 7 ? 'fill-success' : item.rating >= 5 ? 'fill-warning' : 'fill-danger'}`}/>
+                                <span className={`fs-14 ${item.rating === 10 ? 'text-primary' : item.rating >= 7 ? 'text-success' : item.rating >= 5 ? 'text-warning' : 'text-danger'}`}>{item.rating || 0}</span>
                             </div>
                             {item.tags.map((tag, index) => (
-                                <div key={index} className="tag-secondary px-2 py-1 fs-12 border-radius">{tag}</div>
+                                <div key={index} className="px-2 flex align-center fs-12 weight-500">{tag}</div>
                             ))}
                         </div>
                         {item.comment ?
@@ -182,12 +183,12 @@ const GamePlayStats = () => {
             :
             <>
             <div className="flex flex-col">
-                <div className="flex pb-4 gap-3 align-center">
+                <div className="flex pb-4 gap-3 align-center justify-between">
                     <div className="fs-18 weight-500">
                         Plays:
                     </div>
                     <div className="fs-20 weight-500 flex align-center text-nowrap  gap-1">
-                        <Icon icon={diceIcon} size="md" className=""/> {stats?.data?.totalPlays?.toFixed(1) || 0}
+                        {stats?.data?.totalPlays || 0}
                     </div>
                 </div>
                 <div className="justify-between flex gap-2 border-bottom pb-3 pt-3">
@@ -203,7 +204,7 @@ const GamePlayStats = () => {
                         Avg. Players:
                     </div>
                     <div className="fs-14 text-end text-nowrap">
-                        {stats?.data?.avgPlayers || 0}
+                        {stats?.data?.avgPlayers?.toFixed(2) || 0}
                     </div>
                 </div>
                 <div className="justify-between flex gap-2 border-bottom pb-3 pt-3">
@@ -211,7 +212,7 @@ const GamePlayStats = () => {
                         Win Rate:
                     </div>
                     <div className="fs-14 text-end text-nowrap">
-                        {stats?.data?.avgWinRate || 0}
+                        {stats?.data?.avgWinRate?.toFixed(2) || 0}%
                     </div>
                 </div>
                 <div className="justify-between flex gap-2 pt-2">
@@ -219,7 +220,7 @@ const GamePlayStats = () => {
                         Avg. Score:
                     </div>
                     <div className="fs-14 text-end text-nowrap">
-                        {stats?.data?.avgScore || 0}
+                        {stats?.data?.avgScore?.toFixed(2) || 0}
                     </div>
                 </div>
             </div>
@@ -251,7 +252,7 @@ const GameReviewStats = () => {
             :
             <>
             <div className="flex flex-col">
-                <div className="flex pb-4 gap-3 align-center">
+                <div className="flex pb-4 gap-3 align-center justify-between">
                     <div className="fs-18 weight-500">
                         Avg. Rating:
                     </div>
@@ -344,7 +345,7 @@ const ReviewsTab = () => {
     return (
         <>
         {reviews.length === 0 && !hasMore ?
-            <ErrorInfo label="No reviews found" icon={starsIcon}/>
+            <ErrorInfo label="No reviews found" icon={starEmptyIcon}/>
         : 
             <div className="flex gap-6">
                 <div className="flex-1">
@@ -405,7 +406,7 @@ const PlaysTab = () => {
     return (
         <>
         {plays.length === 0 && !hasMore ?
-            <ErrorInfo label="No plays found" icon={plugIcon}/>
+            <ErrorInfo label="No plays found" icon={diceIcon}/>
         :
             <div className="flex gap-6">
                 <div className="flex-1">

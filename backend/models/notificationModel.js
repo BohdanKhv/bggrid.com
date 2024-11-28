@@ -29,22 +29,22 @@ const notificationSchema = new mongoose.Schema({
     game: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Game',
-        required: true
+        required: false
     },
     library: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Library',
-        required: true
+        required: false
     },
     play: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Play',
-        required: true
+        required: false
     },
     friendRequest: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Friend',
-        required: true
+        required: false
     },
     type: {
         type: String,

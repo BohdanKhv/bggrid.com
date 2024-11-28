@@ -172,11 +172,12 @@ const CommunityPage = () => {
                                         <Avatar
                                             icon={largePlusIcon}
                                             rounded
+                                            sizeSm="md"
                                             defaultColor
                                             contentClassName="border border-w-2"
                                             size="lg"
                                         />
-                                        <div className="fs-12 text-center text-ellipsis-1 pt-2 bold">
+                                        <div className="fs-12 text-center text-ellipsis-1 pt-2 weight-500">
                                             Add
                                         </div>
                                     </div>
@@ -191,18 +192,18 @@ const CommunityPage = () => {
                                         {friends.filter((item) => item.pending).length > 0 ? <span className="fs-14 flex align-center justify-center w-set-25-px h-set-25-px m-1 z-3 bg-danger border-radius-50 border-radius pos-absolute top-0 right-0">{friends.filter((item) => item.pending).length}</span> : 'All'}
                                         <Avatar
                                             icon={usersIcon}
+                                            sizeSm="md"
                                             rounded
                                             defaultColor
                                             size="lg"
                                         />
-                                        <div className="fs-12 text-center text-ellipsis-1 pt-2 bold">
+                                        <div className="fs-12 text-center text-ellipsis-1 pt-2 weight-500">
                                             Friends
                                         </div>
                                     </div>
                                 </div>
-                                <div className="border-right border-w-2 h-100 py-4 mx-4"></div>
                                 {friends.map((item) => (
-                                        <Link className={`pointer h-100 w-max-75-px w-100 p-2 animation-fade-in border-radius-sm hover-opacity-100 transition-duration clickable flex-shrink-0 bg-secondary-hover`}
+                                        <Link className={`pointer h-100 w-max-75-px w-sm-max-50-px w-100 p-2 animation-fade-in border-radius-sm hover-opacity-100 transition-duration clickable flex-shrink-0 bg-secondary-hover`}
                                             key={item._id}
                                             to={`/u/${item.friend.username}`}
                                         >
@@ -210,13 +211,14 @@ const CommunityPage = () => {
                                                 <Avatar
                                                     img={item?.friend?.avatar}
                                                     rounded
+                                                    sizeSm="md"
                                                     size="lg"
                                                     name={item.friend.username}
                                                     avatarColor={item.friend.username.length}
                                                     label={item.friend.username}
                                                 />
                                                 <div className="text-ellipsis-1">
-                                                    <div className="fs-12 w-max-75-px text-center text-ellipsis pt-2 weight-500">
+                                                    <div className="fs-12 w-max-75-px w-sm-max-50-px text-center text-ellipsis pt-2 weight-500">
                                                         {item.friend.username}
                                                     </div>
                                                 </div>
@@ -292,7 +294,7 @@ const CommunityPage = () => {
                                     </div>
                                 }
                                 { isLoading ?
-                                    <div className="flex flex-col gap-5 py-5">
+                                    <div className="flex flex-col gap-5 py-5 px-sm-3">
                                         <div className="flex gap-2">
                                             <Skeleton height="56" width="56" animation="wave" rounded/>
                                             <div className="flex flex-col gap-2 flex-1">

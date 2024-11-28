@@ -235,6 +235,20 @@
 } */
 
 @media (max-width: 800px) {
+    .avatar.avatar-sm-sm svg {
+        width: 18px;
+        height: 18px;
+        min-width: 18px;
+        min-height: 18px;
+    }
+
+    .avatar.avatar-sm-md svg{
+        width: 20px;
+        height: 20px;
+        min-width: 20px;
+        min-height: 20px;
+    }
+
     .avatar.avatar-sm-sm {
         width: 32px;
         height: 32px;

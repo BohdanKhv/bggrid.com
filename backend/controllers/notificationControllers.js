@@ -10,7 +10,7 @@ const getMyNotification = async (req, res) => {
         limit = parseInt(limit) || 10;
         page = parseInt(page) || 1;
 
-        const notifications = await Notification.find({ user: req.user._id })
+        const notifications = await Notification.find({ receiver: req.user._id })
             .limit(limit)
             .skip(limit * (page - 1))
             .sort({ createdAt: -1 });
@@ -31,7 +31,7 @@ const getMyNotification = async (req, res) => {
 // @access  Private
 const readNotifications = async (req, res) => {
     try {
-        await Notification.updateMany({ user: req.user._id }, { read: true });
+        await Notification.updateMany({ receiver: req.user._id }, { read: true });
 
         return res.status(200).json({
             message: 'All notifications marked as read'

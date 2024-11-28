@@ -41,19 +41,16 @@ const notificationSchema = new mongoose.Schema({
         ref: 'Play',
         required: true
     },
+    friendRequest: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Friend',
+        required: true
+    },
     type: {
         type: String,
         required: true,
         enum: typesEnum
     },
-    linkTo: {
-        type: String,
-        required: true
-    },
-    linkTitle: {
-        type: String,
-        required: true
-    }
 }, { timestamps: true });
 
 

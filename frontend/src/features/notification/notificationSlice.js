@@ -14,7 +14,7 @@ export const getMyNotification = createAsyncThunk(
     async (_, thunkAPI) => {
         try {
             const { page, limit } = thunkAPI.getState().notification;
-            const token = thunkAPI.getState().user.auth ? thunkAPI.getState().user.auth.token : null;
+            const token = thunkAPI.getState().auth.user ? thunkAPI.getState().auth.user.token : null;
             return await notificationService.getMyNotification({ page, limit }, token);
         } catch (error) {
             const message =

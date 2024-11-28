@@ -127,7 +127,7 @@ const PlaysPage = () => {
                         : null}
                         <div className="flex gap-6">
                             <div className="flex-1 flex flex-col">
-                            <div className="sticky top-0 z-3 bg-main">
+                            <div>
                                 <div className="py-3 px-sm-3">
                                     <div className="flex">
                                         <HorizontalScroll className="flex-1">

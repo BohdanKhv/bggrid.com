@@ -1,5 +1,6 @@
 const User = require('../models/userModel');
 const Friend = require('../models/friendModel');
+const Notification = require('../models/notificationModel');
 
 
 // @desc    Get my friends
@@ -80,6 +81,18 @@ const sendFriendRequest = async (req, res) => {
         });
 
         await newFriend.save();
+
+        const notification = new Notification({
+            receiver: req.user._id,
+            user: user._id,
+            type: 'friendRequest',
+            friendRequest: newFriend._id,
+            read: false,
+            title: 'Friend Request',
+            message: `${req.user.username} sent you a friend request`,
+        });
+
+        notification.save();
 
         res.status(201).json({
             data: {

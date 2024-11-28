@@ -1,14 +1,10 @@
 import { useState, useEffect, useRef } from "react"
 import { useDispatch, useSelector } from "react-redux"
-import {  Avatar, Button, ErrorInfo, Icon, IconButton, InputSearch, Modal, UserProfile } from "../"
+import {  Avatar, Button, IconButton } from "../"
 import './styles/Header.css'
-import { arrowDoubleBottomIcon, arrowDownShortIcon, arrowUpShortIcon, basketFillIcon, basketIcon, bellIcon, clockIcon, closeIcon, deliveryIcon, gamesIcon, historyIcon, homeFillIcon, homeIcon, leftArrowIcon, libraryIcon, locationIcon, mapIcon, menuIcon, searchIcon, selectOptionsIcon, userIcon, usersFillIcon, usersIcon } from "../../assets/img/icons"
+import { bellIcon, searchIcon } from "../../assets/img/icons"
 import { Link, NavLink, useLocation, useSearchParams } from "react-router-dom"
-import { logoNameSvg, logoRevertSvg, logoSvg } from "../../assets/img/logo"
-import { commonGames } from "../../assets/constants"
-import { setSearchHistory } from "../../features/local/localSlice"
-import UserNotification from "../user/UserNotification"
-import GameSearchModal from "../../pages/game/GameSearchModal"
+import { logoNameSvg } from "../../assets/img/logo"
 
 const Header = () => {
     const dispatch = useDispatch()

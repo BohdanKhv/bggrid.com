@@ -42,7 +42,7 @@ app.use('/api/plays', require('./routes/playRoutes'));
 app.use('/api/users', require('./routes/userRoutes'));
 app.use('/api/friends', require('./routes/friendRoutes'));
 app.use('/api/feed', require('./routes/feedRoutes'));
-app.use('/api/notification', require('./routes/notificationRoutes'));
+app.use('/api/notifications', require('./routes/notificationRoutes'));
 
 
 // Server frontend

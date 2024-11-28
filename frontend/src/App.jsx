@@ -28,6 +28,7 @@ import PlaysPage from "./pages/PlaysPage";
 import CommunityPage from "./pages/CommunityPage";
 import GameSearchModal from "./pages/game/GameSearchModal";
 import UserGuard from "./pages/auth/UserGuard";
+import NotificationPage from "./pages/NotificationPage";
 
 function App() {
   const { user } = useSelector(state => state.auth);
@@ -54,11 +55,6 @@ function App() {
         <ErrBoundary>
           <ImportantUserAlert/>
         </ErrBoundary>
-        {!user || (user && window.innerWidth <= 800) ?
-          <ErrBoundary>
-            <Header/>
-          </ErrBoundary>
-        : null}
         {window.innerWidth <= 800 && user ?
           <ErrBoundary>
             <NavbarMobile/>
@@ -88,6 +84,7 @@ function App() {
                     <Route path="/settings/:tab" element={<ErrBoundary><Settings/></ErrBoundary>} />
                     <Route path="/library" element={<ErrBoundary><LibraryPage /></ErrBoundary>} />
                     <Route path="/plays" element={<ErrBoundary><PlaysPage /></ErrBoundary>} />
+                    <Route path="/notifications" element={<ErrBoundary><NotificationPage /></ErrBoundary>} />
                     <Route path="/community" element={<ErrBoundary><CommunityPage /></ErrBoundary>} />
                     <Route path="/terms" element={<ErrBoundary><Terms /></ErrBoundary>} />
                     <Route path="/privacy" element={<ErrBoundary><Privacy /></ErrBoundary>} />
@@ -100,14 +97,9 @@ function App() {
           </UserGuard>
         : 
         <div className={user ? "content" : ""}>
-          {user ?
-            <ErrBoundary>
-              <Navbar/>
-              <AddGame/>
-              <LogPlay/>
-              <GameSearchModal/>
-            </ErrBoundary>
-          : null}
+          <ErrBoundary>
+            <Header/>
+          </ErrBoundary>
           <div className="content-body">
             <div className="flex-grow-1 h-min-100 flex flex-col">
                 <Routes>

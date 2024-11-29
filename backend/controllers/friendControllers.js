@@ -84,12 +84,12 @@ const sendFriendRequest = async (req, res) => {
 
         const notification = new Notification({
             receiver: user._id,
-            user: req.user._id,
+            sender: req.user._id,
             type: 'friendRequest',
-            friendRequest: newFriend._id,
             read: false,
             title: 'Friend Request',
-            message: `${req.user.username} sent you a friend request`,
+            message: `sent you a friend request`,
+            link: `/community?friends=true`,
         });
 
         notification.save();

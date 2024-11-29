@@ -2,6 +2,7 @@ const { DateTime } = require('luxon');
 const Game = require('../models/gameModel');
 const Play = require('../models/playModel');
 const Library = require('../models/libraryModel');
+const Notification = require('../models/notificationModel');
 const mongoose = require('mongoose');
 
 
@@ -230,6 +231,22 @@ const createPlay = async (req, res) => {
             { path: 'players.user', select: 'avatar username firstName lastName' },
             { path: 'user', select: 'avatar username firstName lastName' }
         ]);
+
+        const uIds = players.map(player => player.user).filter(id => id !== req.user._id.toString());
+
+        if (uIds.length) {
+            const notifications = [];
+            uIds.forEach(uId => {
+                notifications.push(new Notification({
+                    sender: req.user._id,
+                    receiver: uId,
+                    type: 'play',
+                    message: `played "${gameExists.name}" with you`,
+                }));
+            });
+
+            Notification.insertMany(notifications);
+        }
 
         res.status(201).json({
             data: play

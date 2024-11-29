@@ -15,7 +15,7 @@ export const getMyNotification = async (payload, token) => {
     return res.data;
 }
 
-export const readNotifications = async (id, token) => {
+export const readNotifications = async (token) => {
     const config = {
         headers: {
             Authorization: `Bearer ${token}`,

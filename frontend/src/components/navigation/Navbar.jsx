@@ -16,6 +16,8 @@ const Navbar = () => {
     const [navOpen, setNavOpen] = useState(false);
     const [isOpen, setIsOpen] = useState(false);
 
+    const { notifications } = useSelector(state => state.notification)
+
     const { user } = useSelector(state => state.auth)
     const { pathname } = useLocation()
     const [searchParams, setSearchParams] = useSearchParams()
@@ -134,7 +136,14 @@ const Navbar = () => {
                     <Button
                         // muted={pathname !== '/notifications'}
                         to="/notifications"
-                        label="Notifications"
+                        label={
+                        <>
+                            Notifications
+                            <span className="fs-14 text-danger ps-1">
+                                {notifications.filter(notification => !notification.read).length || ""}
+                            </span>
+                        </>
+                        }
                         icon={bellIcon}
                         type={pathname === '/notifications' ? "secondary" : "secondary"}
                         variant={pathname === '/notifications' ? "" : "text"}

@@ -1,6 +1,8 @@
 const Library = require('../models/libraryModel');
 const Game = require('../models/gameModel');
 const Play = require('../models/playModel');
+const Notification = require('../models/notificationModel');
+const Friend = require('../models/friendModel');
 const mongoose = require('mongoose');
 
 
@@ -86,7 +88,7 @@ const addGameToLibrary = async (req, res) => {
         }
 
         // calculate my total plays for this game, total play time, total wins
-        const playData = await Play.aggregate([
+        let playData = await Play.aggregate([
             { $match: { game: new mongoose.Types.ObjectId(gameId), user: req.user._id } },
             {
                 $group: {
@@ -98,6 +100,8 @@ const addGameToLibrary = async (req, res) => {
                 }
             }
         ]);
+        
+        playData = playData[0];
 
         const newGame = new Library({
             user: req.user._id,
@@ -105,13 +109,36 @@ const addGameToLibrary = async (req, res) => {
             tags,
             comment,
             rating,
-            totalPlays: playData[0].totalPlays,
-            totalPlayTime: playData[0].totalPlayTime,
-            totalWins: playData[0].totalWins,
-            lastPlayDate: playData[0].lastPlayDate
+            totalPlays: playData ? playData.totalPlays || 0 : 0,
+            totalPlayTime: playData ? playData.totalPlayTime || 0 : 0,
+            totalWins: playData ? playData.totalWins || 0 : 0,
+            lastPlayDate: playData ? playData.lastPlayDate || null : null,
         });
 
         await newGame.save();
+
+        // Create a notification for friends
+        const friends = await Friend.find({
+            $or: [
+                { user1: req.user._id },
+                { user2: req.user._id }
+            ],
+            pending: false
+        });
+
+        if (friends.length) {
+            const notifications = [];
+            friends.forEach(friend => {
+                notifications.push(new Notification({
+                    sender: req.user._id,
+                    receiver: friend.user1.toString() === req.user._id.toString() ? friend.user2 : friend.user1,
+                    type: 'library',
+                    message: `added "${gameExists.name}" to their library and rated it ${rating}/10`,
+                }));
+            });
+
+            Notification.insertMany(notifications);
+        }
 
         res.status(201).json({
             data: newGame,
@@ -154,6 +181,29 @@ const updateGameInLibrary = async (req, res) => {
 
         await game.save();
 
+        // Create a notification for friends
+        const friends = await Friend.find({
+            $or: [
+                { user1: req.user._id },
+                { user2: req.user._id }
+            ],
+            pending: false
+        });
+
+        if (friends.length) {
+            const notifications = [];
+            friends.forEach(friend => {
+                notifications.push(new Notification({
+                    sender: req.user._id,
+                    receiver: friend.user1.toString() === req.user._id.toString() ? friend.user2 : friend.user1,
+                    type: 'library',
+                    message: `updated "${game.game.name}" in their library and rated it ${rating}/10`,
+                }));
+            });
+
+            Notification.insertMany(notifications);
+        }
+
         res.status(200).json({
             data: game,
         });
@@ -172,7 +222,8 @@ const removeGameFromLibrary = async (req, res) => {
         const game = await Library.findOne({
             user: req.user._id,
             game: req.params.gameId,
-        });
+        })
+        .populate('game');
 
         if (!game) {
             return res.status(404).json({ msg: 'Game not found' });
@@ -183,6 +234,33 @@ const removeGameFromLibrary = async (req, res) => {
         }
 
         await game.deleteOne();
+
+        // Create a notification for friends
+        const friends = await Friend.find({
+            $or: [
+                { user1: req.user._id },
+                { user2: req.user._id }
+            ],
+            pending: false
+        });
+
+        if (friends.length) {
+            const notification = new Notification({
+                sender: req.user._id,
+                receiver: friends.map(friend => {
+                    if (friend.user1.toString() === req.user._id.toString()) {
+                        return friend.user2;
+                    } else {
+                        return friend.user1;
+                    }
+                }),
+                type: 'library',
+                message: `removed "${game.game.name}" from their library`,
+            });
+
+            await notification.save();
+        }
+
 
         res.status(200).json({
             msg: 'Game removed',

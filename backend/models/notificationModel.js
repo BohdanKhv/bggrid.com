@@ -4,6 +4,11 @@ const typesEnum = ['library', 'friendRequest', 'play', 'system'];
 
 
 const notificationSchema = new mongoose.Schema({
+    sender: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'User',
+        required: false
+    },
     receiver: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'User',
@@ -11,40 +16,23 @@ const notificationSchema = new mongoose.Schema({
     },
     title: {
         type: String,
-        required: true
+        required: false
     },
     message: {
         type: String,
         required: true
     },
+    link: { 
+        type: String,
+        required: false
+    },
+    linkText: {
+        type: String,
+        required: false
+    },
     read: {
         type: Boolean,
         default: false
-    },
-    user: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'User',
-        required: true
-    },
-    game: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'Game',
-        required: false
-    },
-    library: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'Library',
-        required: false
-    },
-    play: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'Play',
-        required: false
-    },
-    friendRequest: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'Friend',
-        required: false
     },
     type: {
         type: String,

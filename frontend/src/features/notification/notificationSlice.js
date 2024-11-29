@@ -33,7 +33,7 @@ export const readNotifications = createAsyncThunk(
     "notification/readNotifications",
     async (_, thunkAPI) => {
         try {
-            const token = thunkAPI.getState().user.auth ? thunkAPI.getState().user.auth.token : null;
+            const token = thunkAPI.getState().auth.user ? thunkAPI.getState().auth.user.token : null;
             return await notificationService.readNotifications(token);
         } catch (error) {
             const message =

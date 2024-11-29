@@ -14,7 +14,7 @@ const getMyNotification = async (req, res) => {
         .limit(limit)
         .skip(limit * (page - 1))
         .sort({ createdAt: -1 })
-        .populate('user', 'username avatar');
+        .populate('sender', 'username avatar firstName lastName')
 
         return res.status(200).json({
             data: notifications

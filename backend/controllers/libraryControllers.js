@@ -83,6 +83,16 @@ const addGameToLibrary = async (req, res) => {
             return res.status(404).json({ msg: 'Game not found' });
         }
 
+        // Check if the game is already in the library
+        const gameInLibrary = await Library.findOne({
+            user: req.user._id,
+            game: gameId,
+        });
+
+        if (gameInLibrary) {
+            return res.status(400).json({ msg: 'Game already in library' });
+        }
+
         if (rating && (rating < 0 || rating > 10)) {
             return res.status(400).json({ msg: 'Rating must be between 0 and 10' });
         }
@@ -245,22 +255,18 @@ const removeGameFromLibrary = async (req, res) => {
         });
 
         if (friends.length) {
-            const notification = new Notification({
-                sender: req.user._id,
-                receiver: friends.map(friend => {
-                    if (friend.user1.toString() === req.user._id.toString()) {
-                        return friend.user2;
-                    } else {
-                        return friend.user1;
-                    }
-                }),
-                type: 'library',
-                message: `removed "${game.game.name}" from their library`,
+            const notifications = [];
+            friends.forEach(friend => {
+                notifications.push(new Notification({
+                    sender: req.user._id,
+                    receiver: friend.user1.toString() === req.user._id.toString() ? friend.user2 : friend.user1,
+                    type: 'library',
+                    message: `removed "${game.game.name}" from their library`,
+                }));
             });
 
-            await notification.save();
+            Notification.insertMany(notifications);
         }
-
 
         res.status(200).json({
             msg: 'Game removed',

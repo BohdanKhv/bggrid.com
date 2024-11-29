@@ -34,8 +34,7 @@ const LibraryItem = ({ item, index, hideInfo }) => {
                             <Icon
                                 icon={diceIcon}
                                 size="md"
-                                className="show-on-hover"
-                                dataTooltipContent={`Play ${item.game.name}`}
+                                className="show-on-hover pointer"
                             />
                             <div className="hide-on-hover text-center fs-12 text-secondary">
                                 {index + 1}
@@ -308,7 +307,7 @@ const LibraryPage = () => {
                                         Win Rate:
                                     </div>
                                     <div className="fs-12 text-end weight-500 text-nowrap">
-                                        {library.reduce((acc, item) => acc + (item.totalWins || 0), 0) / library.reduce((acc, item) => acc + (item.totalPlays || 0), 0) * 100 || 0}%
+                                        {(library.reduce((acc, item) => acc + (item.totalWins || 0), 0) / library.reduce((acc, item) => acc + (item.totalPlays || 0), 0) * 100 || 0).toFixed(2)}%
                                     </div>
                                 </div>
                                 </HorizontalScroll>

@@ -1,4 +1,5 @@
 const Game = require('../models/gameModel');
+const Play = require('../models/playModel');
 const Library = require('../models/libraryModel');
 
 
@@ -116,11 +117,77 @@ const getGameById = async (req, res) => {
 }
 
 
+// @desc   Get game stats
+// @route  GET /api/games/:gameId/overview
+// @access Public
+const getGameOverview = async (req, res) => {
+    try {
+        const game = await Game.findById(req.params.gameId);
+
+        if (!game) {
+            return res.status(404).json({ msg: '404' });
+        }
+
+        const playStats = await Play.aggregate([
+            { $match: { game: new mongoose.Types.ObjectId(req.params.gameId) } },
+            {
+                $group: {
+                    _id: null,
+                    totalPlays: { $sum: 1 },
+                    avgPlayTime: { $avg: '$playTimeMinutes' },
+                    avgPlayers: { $avg: { $size: '$players' } },
+                    avgWinRate: { $avg: { $cond: { if: { $arrayElemAt: ['$players.winner', 0] }, then: 1, else: 0 } } },
+                    // Players.score
+                    avgScore: { $avg: { $avg: '$players.score' } }
+                }
+            }
+        ]);
+        const reviewStats = await Library.aggregate([
+            { $match: { game: new mongoose.Types.ObjectId(req.params.gameId) } },
+            { $project: { rating: 1, tags: 1 } }, // Project fields to verify the match stage
+            {
+                $group: {
+                    _id: null,
+                    totalRating: { $sum: '$rating' },
+                    avgRating: { $avg: '$rating' },
+                    total1Star: { $sum: { $cond: { if: { $lte: ['$rating', 1], $gte: ['$rating', 0] }, then: 1, else: 0 } } },
+                    total2Star: { $sum: { $cond: { if: { $lte: ['$rating', 2], $gt: ['$rating', 1] }, then: 1, else: 0 } } },
+                    total3Star: { $sum: { $cond: { if: { $lte: ['$rating', 3], $gt: ['$rating', 2] }, then: 1, else: 0 } } },
+                    total4Star: { $sum: { $cond: { if: { $lte: ['$rating', 4], $gt: ['$rating', 3] }, then: 1, else: 0 } } },
+                    total5Star: { $sum: { $cond: { if: { $lte: ['$rating', 5], $gt: ['$rating', 4] }, then: 1, else: 0 } } },
+                    totalFavorites: { $sum: { $cond: { if: { $in: ['Favorite', '$tags'] }, then: 1, else: 0 } } },
+                    totalOwned: { $sum: { $cond: { if: { $in: ['Owned', '$tags'] }, then: 1, else: 0 } } },
+                    totalPlayed: { $sum: { $cond: { if: { $in: ['Played', '$tags'] }, then: 1, else: 0 } } },
+                    totalWishlist: { $sum: { $cond: { if: { $in: ['Wishlist', '$tags'] }, then: 1, else: 0 } } },
+                    totalWantToPlay: { $sum: { $cond: { if: { $in: ['Want to Play', '$tags'] }, then: 1, else: 0 } } },
+                }
+            }
+        ]);
+
+        const last5Plays = await Play.find({ game: req.params.gameId }).sort({ createdAt: -1 }).limit(5).populate('players.user user', 'username firstName lastName avatar');
+        const last5Reviews = await Library.find({ game: req.params.gameId }).sort({ createdAt: -1 }).limit(5).populate('user', 'username firstName lastName avatar');
+
+        res.status(200).json({
+            data: {
+                ...game._doc,
+                last5Plays,
+                last5Reviews,
+                playStats: playStats[0],
+                reviewStats: reviewStats[0]
+            }
+        });
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ msg: 'Server error' });
+    }
+}
+
 
 
 module.exports = {
     getGames,
     getSuggestions,
     createGame,
-    getGameById
+    getGameById,
+    getGameOverview
 }

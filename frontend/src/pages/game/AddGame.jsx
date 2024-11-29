@@ -118,7 +118,7 @@ const AddGame = () => {
             <>
                 <div className="flex flex-col gap-4">
                     <div>
-                        <div className={`fs-54 bold mb-3${rating / 10 == 0 ? " text-secondary" : rating / 10 > 0 && rating / 10 <= 4 ? " text-danger" : rating / 10 > 4 && rating / 10 <= 7 ? " text-warning" : rating / 10 == 10 ? " text-primary" : " text-success"}`}>
+                        <div className={`fs-54 bold mb-3${rating / 10 == 0 ? " text-secondary" : rating / 10 >= 4 && rating / 10 < 5 ? " text-success" : rating / 10 > 0 && rating / 10 < 3 ? " text-danger" : rating / 10 >= 3 && rating / 10 < 4 ? " text-warning" : rating / 10 == 5 ? " text-primary" : ""}`}>
                             {rating / 10} {
                                     rating / 10 == 10 ?
                                     "Perfect"
@@ -138,14 +138,14 @@ const AddGame = () => {
                                 </span>
                                 Slide to rate {`> > > > > > >`}
                             </div>
-                            <div className="fs-16 bold pos-absolute right-0 px-4 text-secondary pointer-events-none">
-                                10
+                            <div className="fs-16 bold pos-absolute right-0 px-4 me-1 text-secondary pointer-events-none">
+                                5
                             </div>
                             <Range
                                 value={rating}
                                 onChange={setRating}
                                 min={0}
-                                max={100}
+                                max={50}
                             />
                         </div>
                     </div>

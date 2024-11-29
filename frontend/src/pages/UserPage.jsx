@@ -95,9 +95,9 @@ const LibraryItem = ({ item, index, hideInfo }) => {
                             <div className="flex flex-col">
                                 <div className="flex gap-2">
                                     <div className="flex align-center  border-radius gap-1 pointer">
-                                        <Icon icon={starFillIcon} size="sm" className={`${item.rating === 10 ? 'fill-primary' : item.rating >= 7 ? 'fill-success' : item.rating >= 5 ? 'fill-warning' : 'fill-danger'}`}
+                                        <Icon icon={starFillIcon} size="sm" className={`${item.rating == 0 ? 'fill-secondary' : item.rating === 5 ? 'fill-primary' : item.rating >= 4 && item.rating < 5 ? 'fill-success' : item.rating >= 3 && item.rating < 4 ? 'fill-warning' : 'fill-danger'}`}
                                         />
-                                        <span className={`fs-14 weight-600 ${item.rating === 10 ? 'text-primary' : item.rating >= 7 ? 'text-success' : item.rating >= 5 ? 'text-warning' : 'text-danger'}`}
+                                        <span className={`fs-14 weight-600 ${item.rating == 0 ? 'text-secondary' : item.rating === 5 ? 'text-primary' : item.rating >= 4 && item.rating < 5 ? 'text-success' : item.rating >= 3 && item.rating < 4 ? 'text-warning' : 'text-danger'}`}
                                         >{item.rating || 0}</span>
                                     </div>
                                     <Link className="fs-16 text-underlined-hover w-fit-content text-ellipsis-1 h-fit-content"

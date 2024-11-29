@@ -59,8 +59,8 @@ const LibraryItem = ({ item }) => {
                     </div>
                     <div className="pt-4">
                         <div className="flex gap-2">
-                            <div className={`flex align-center px-2 py-1 border-radius gap-1 ${item.rating === 10 ? 'text-primary' : item.rating >= 7 ? 'text-success' : item.rating >= 5 ? 'text-warning' : 'text-danger'}`}>
-                                <Icon icon={starFillIcon} size="sm" className={` ${item.rating === 10 ? 'fill-primary' : item.rating >= 7 ? 'fill-success' : item.rating >= 5 ? 'fill-warning' : 'fill-danger'}`}/>
+                            <div className={`flex align-center px-2 py-1 border-radius gap-1 ${item.rating == 0 ? 'text-secondary' : item.rating === 5 ? 'text-primary' : item.rating >= 4 && item.rating < 5 ? 'text-success' : item.rating >= 3 && item.rating < 4 ? 'text-warning' : 'text-danger'}`}>
+                                <Icon icon={starFillIcon} size="sm" className={` ${item.rating == 0 ? 'fill-secondary' : item.rating === 5 ? 'fill-primary' : item.rating >= 4 && item.rating < 5 ? 'fill-success' : item.rating >= 3 && item.rating < 4 ? 'fill-warning' : 'fill-danger'}`}/>
                                 <span className="fs-14">{item.rating || 0}</span>
                             </div>
                             {item.tags.map((tag, index) => (

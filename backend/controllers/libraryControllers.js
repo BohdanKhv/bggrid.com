@@ -93,8 +93,8 @@ const addGameToLibrary = async (req, res) => {
             return res.status(400).json({ msg: 'Game already in library' });
         }
 
-        if (rating && (rating < 0 || rating > 10)) {
-            return res.status(400).json({ msg: 'Rating must be between 0 and 10' });
+        if (rating && (rating < 0 || rating > 5)) {
+            return res.status(400).json({ msg: 'Rating must be between 0 and 5' });
         }
 
         // calculate my total plays for this game, total play time, total wins

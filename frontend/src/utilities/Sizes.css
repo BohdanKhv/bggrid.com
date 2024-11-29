@@ -886,7 +886,7 @@ margin-right: auto;
     fill: var(--color-warning-text)!important;
 }
 .fill-secondary svg {
-    fill: var(--color-secondary)!important;
+    fill: var(--text-secondary)!important;
 }
 .fill-black svg {
     fill: #000!important;

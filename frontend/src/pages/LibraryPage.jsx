@@ -20,7 +20,7 @@ const LibraryItem = ({ item, index, hideInfo }) => {
         <div className="border-radius px-sm-3 transition-duration animation-slide-in show-on-hover-parent hide-on-hover-parent">
             <div className="flex justify-between"
             >
-                <div className="flex gap-3 flex-1 py-3">
+                <div className="flex gap-3 flex-1 py-3 align-center">
                     {window.innerWidth > 800 ?
                     <div
                         className="flex justify-center align-center opacity-50 hover-opacity-100 w-set-50-px"
@@ -33,7 +33,6 @@ const LibraryItem = ({ item, index, hideInfo }) => {
                         <div>
                             <Icon
                                 icon={diceIcon}
-                                size="md"
                                 className="show-on-hover pointer"
                             />
                             <div className="hide-on-hover text-center fs-12 text-secondary">
@@ -60,25 +59,13 @@ const LibraryItem = ({ item, index, hideInfo }) => {
                     </div>}
                     <Image
                         img={item?.game?.thumbnail}
-                        classNameContainer="w-set-50-px h-set-50-px border-radius"
-                        classNameImg="border-radius"
+                        classNameContainer="w-set-50-px h-set-50-px border-radius-sm"
+                        classNameImg="border-radius-sm"
                     />
                     <div className="flex flex-col justify-between flex-1">
                         <div className="flex justify-between gap-3">
                             <div className="flex flex-col">
                                 <div className="flex gap-2">
-                                    <div className="flex align-center  border-radius gap-1 pointer"
-                                        onClick={(e) => {
-                                            e.stopPropagation()
-                                            searchParams.set('addGame', item.game._id)
-                                            setSearchParams(searchParams)
-                                        }}
-                                    >
-                                        <Icon icon={starFillIcon} size="sm" className={`${item.rating == 0 ? 'fill-secondary' : item.rating === 5 ? 'fill-primary' : item.rating >= 4 && item.rating < 5 ? 'fill-success' : item.rating >= 3 && item.rating < 4 ? 'fill-warning' : 'fill-danger'}`}
-                                        />
-                                        <span className={`fs-14 weight-600 ${item.rating == 0 ? 'text-secondary' : item.rating === 5 ? 'text-primary' : item.rating >= 4 && item.rating < 5 ? 'text-success' : item.rating >= 3 && item.rating < 4 ? 'text-warning' : 'text-danger'}`}
-                                        >{item.rating || 0}</span>
-                                    </div>
                                     <Link className="fs-16 text-underlined-hover w-fit-content text-ellipsis-1 h-fit-content"
                                         to={`/g/${item.game._id}`}
                                         target='_blank'
@@ -86,62 +73,81 @@ const LibraryItem = ({ item, index, hideInfo }) => {
                                         {item.game.name}
                                     </Link>
                                     </div>
+                                    <div className="flex align-center gap-2 pointer pt-1"
+                                        onClick={(e) => {
+                                            e.stopPropagation()
+                                            searchParams.set('addGame', item.game._id)
+                                            setSearchParams(searchParams)
+                                        }}>
+                                        <div className="flex align-center gap-1">
+                                            <span className={`fs-14 weight-600 text-warning`}>{item.rating || 0}</span>
+                                            {[...Array(5)].map((_, i) => (
+                                                <Icon icon={starFillIcon} size="sm" className={`text-warning ${i + 1 <= item.rating ? 'fill-warning' : 'fill-secondary'}`}/>
+                                            ))}
+                                        </div>
+                                        {window.innerWidth > 800 && (
+                                        <div className="flex align-center gap-1">
+                                            {item.tags.map((tag, index) => (
+                                                <div key={index} className="px-2 py-1 bg-secondary border-radius weight-500 flex align-center fs-12 weight-500">{tag}</div>
+                                            ))}
+                                        </div>
+                                        )}
+                                    </div>
                                 </div>
-                            <Dropdown
-                                classNameDropdown="p-0 border-radius-sm bg-tertiary"
-                                customDropdown={<IconButton
-                                    icon={moreIcon}
-                                    className="display-on-hover display-on-hover-sm-block"
-                                    variant="secondary"
-                                    dataTooltipContent="More"
-                                    type="link"
-                                    muted
-                                    size="sm"
-                                />}
-                            >
-                                <Button
-                                    label="Update Library"
-                                    icon={editIcon}
-                                    variant="secondary"
-                                    onClick={(e) => {
-                                        e.stopPropagation()
-                                        searchParams.set('addGame', item.game._id)
-                                        setSearchParams(searchParams)
-                                    }}
-                                    className="w-100 border-radius-none justify-start weight-400"
-                                />
-                                <Button
-                                    label="Log play"
-                                    icon={diceIcon}
-                                    variant="secondary"
-                                    onClick={(e) => {
-                                        e.stopPropagation()
-                                        searchParams.set('logPlay', item.game._id)
-                                        setSearchParams(searchParams)
-                                    }}
-                                    className="w-100 border-radius-none justify-start weight-400"
-                                />
-                                <Button
-                                    label="Go to game page"
-                                    icon={upArrowRightIcon}
-                                    variant="secondary"
-                                    to={`/g/${item.game._id}`}
-                                    className=" border-radius-none justify-start weight-400"
-                                />
-                            </Dropdown>
-                        </div>
-                        <div className="flex justify-between gap-3">
-                            <div className="fs-12 text-secondary text-ellipsis-1">
-                                Last played: {item.lastPlayDate ? DateTime.now().diff(DateTime.fromISO(item.lastPlayDate), ['days']).days > 1 ? DateTime.fromISO(item.lastPlayDate).toFormat('LLL dd') :
-                                DateTime.fromISO(item.lastPlayDate).toRelative().replace(' days', 'd').replace(' day', 'd').replace(' hours', 'h').replace(' hour', 'h').replace(' minutes', 'm').replace(' minute', 'm').replace(' seconds', 's').replace(' second', 's') : 'never'}
-                            </div>
-                            <div className="fs-12 text-secondary">
-                                {item.totalPlays || 0} plays
+                                    <Dropdown
+                                        classNameDropdown="p-0 border-radius-sm bg-tertiary"
+                                        customDropdown={<IconButton
+                                            icon={moreIcon}
+                                            className="display-on-hover display-on-hover-sm-block"
+                                            variant="secondary"
+                                            type="link"
+                                            muted
+                                            size="sm"
+                                        />}
+                                    >
+                                        <Button
+                                            label="Update Library"
+                                            icon={editIcon}
+                                            variant="secondary"
+                                            onClick={(e) => {
+                                                e.stopPropagation()
+                                                searchParams.set('addGame', item.game._id)
+                                                setSearchParams(searchParams)
+                                            }}
+                                            className="w-100 border-radius-none justify-start weight-400"
+                                        />
+                                        <Button
+                                            label="Log play"
+                                            icon={diceIcon}
+                                            variant="secondary"
+                                            onClick={(e) => {
+                                                e.stopPropagation()
+                                                searchParams.set('logPlay', item.game._id)
+                                                setSearchParams(searchParams)
+                                            }}
+                                            className="w-100 border-radius-none justify-start weight-400"
+                                        />
+                                        <Button
+                                            label="Go to game page"
+                                            icon={upArrowRightIcon}
+                                            variant="secondary"
+                                            to={`/g/${item.game._id}`}
+                                            className=" border-radius-none justify-start weight-400"
+                                        />
+                                    </Dropdown>
+                                </div>
+                            <div className="flex justify-between gap-3 pt-1">
+                                <div className="fs-12 text-secondary text-ellipsis-1">
+                                    Last played: {item.lastPlayDate ? DateTime.now().diff(DateTime.fromISO(item.lastPlayDate), ['days']).days > 1 ? DateTime.fromISO(item.lastPlayDate).toFormat('LLL dd') :
+                                    DateTime.fromISO(item.lastPlayDate).toRelative().replace(' days', 'd').replace(' day', 'd').replace(' hours', 'h').replace(' hour', 'h').replace(' minutes', 'm').replace(' minute', 'm').replace(' seconds', 's').replace(' second', 's') : 'never'}
+                                </div>
+                                <div className="fs-12 text-secondary">
+                                    {item.totalPlays || 0} plays
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
-            </div>
         {hideInfo ? 
             <div className="border-bottom flex gap-3"/>
         :

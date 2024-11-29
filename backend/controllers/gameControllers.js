@@ -1,6 +1,7 @@
 const Game = require('../models/gameModel');
 const Play = require('../models/playModel');
 const Library = require('../models/libraryModel');
+const mongoose = require('mongoose');
 
 
 // @desc    Get games
@@ -129,7 +130,7 @@ const getGameOverview = async (req, res) => {
         }
 
         const playStats = await Play.aggregate([
-            { $match: { game: new mongoose.Types.ObjectId(req.params.gameId) } },
+            { $match: { game: game._id } },
             {
                 $group: {
                     _id: null,
@@ -143,18 +144,18 @@ const getGameOverview = async (req, res) => {
             }
         ]);
         const reviewStats = await Library.aggregate([
-            { $match: { game: new mongoose.Types.ObjectId(req.params.gameId) } },
+            { $match: { game: game._id } },
             { $project: { rating: 1, tags: 1 } }, // Project fields to verify the match stage
             {
                 $group: {
                     _id: null,
                     totalRating: { $sum: '$rating' },
                     avgRating: { $avg: '$rating' },
-                    total1Star: { $sum: { $cond: { if: { $lte: ['$rating', 1], $gte: ['$rating', 0] }, then: 1, else: 0 } } },
-                    total2Star: { $sum: { $cond: { if: { $lte: ['$rating', 2], $gt: ['$rating', 1] }, then: 1, else: 0 } } },
-                    total3Star: { $sum: { $cond: { if: { $lte: ['$rating', 3], $gt: ['$rating', 2] }, then: 1, else: 0 } } },
-                    total4Star: { $sum: { $cond: { if: { $lte: ['$rating', 4], $gt: ['$rating', 3] }, then: 1, else: 0 } } },
-                    total5Star: { $sum: { $cond: { if: { $lte: ['$rating', 5], $gt: ['$rating', 4] }, then: 1, else: 0 } } },
+                    total1Star: { $sum: { $cond: { if: { $and: [{ $gte: ['$rating', 0] }, { $lte: ['$rating', 1] }] }, then: 1, else: 0 } } },
+                    total2Star: { $sum: { $cond: { if: { $and: [{ $gt: ['$rating', 1] }, { $lte: ['$rating', 2] }] }, then: 1, else: 0 } } },
+                    total3Star: { $sum: { $cond: { if: { $and: [{ $gt: ['$rating', 2] }, { $lte: ['$rating', 3] }] }, then: 1, else: 0 } } },
+                    total4Star: { $sum: { $cond: { if: { $and: [{ $gt: ['$rating', 3] }, { $lte: ['$rating', 4] }] }, then: 1, else: 0 } } },
+                    total5Star: { $sum: { $cond: { if: { $and: [{ $gt: ['$rating', 4] }, { $lte: ['$rating', 5] }] }, then: 1, else: 0 } } },
                     totalFavorites: { $sum: { $cond: { if: { $in: ['Favorite', '$tags'] }, then: 1, else: 0 } } },
                     totalOwned: { $sum: { $cond: { if: { $in: ['Owned', '$tags'] }, then: 1, else: 0 } } },
                     totalPlayed: { $sum: { $cond: { if: { $in: ['Played', '$tags'] }, then: 1, else: 0 } } },

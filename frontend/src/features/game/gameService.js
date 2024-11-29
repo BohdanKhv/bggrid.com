@@ -9,6 +9,12 @@ export const getGameById = async (payload) => {
     return response.data;
 }
 
+export const getGameOverview = async (payload) => {
+    const response = await axios.get(API_URL + `/` + payload + '/overview');
+
+    return response.data;
+}
+
 export const getGames = async (payload, token) => {
     let config = {};
     if (token) {
@@ -34,6 +40,7 @@ export const getSuggestions = async (payload) => {
 const listingService = {
     getGames,
     getGameById,
+    getGameOverview,
     getSuggestions
 };
 

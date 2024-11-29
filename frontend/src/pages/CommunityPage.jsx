@@ -33,23 +33,26 @@ const LibraryItem = ({ item }) => {
                                         avatarColor={item?.user?.username?.length}
                                         name={item?.user?.username}
                                     />
-                                    <div className="flex align-center">
-                                        {item.user.firstName ?
-                                            <>
-                                                <div className="fs-14 bold text-ellipsis-1 me-1">
-                                                    {item.user.firstName}
-                                                </div>
-                                            </>
-                                        : null}
-                                        <Link to={`/u/${item.user.username}`} className="text-secondary weight-400 fs-12 text-underlined-hover">@{item.user.username}</Link>
+                                    <div className="flex flex-col flex-1">
+                                        <div className="flex gap-2 justify-between">
+                                            <div className="flex flex-col flex-1">
+                                                {item.user.firstName ?
+                                                    <>
+                                                        <div className="fs-14 bold text-ellipsis-1 me-1">
+                                                            {item.user.firstName} {item.user.lastName}
+                                                        </div>
+                                                    </>
+                                                : null}
+                                                <Link to={`/u/${item.user.username}`} className="text-secondary weight-400 fs-12 text-underlined-hover">@{item.user.username}</Link>
+                                            </div>
+                                            <span className="weight-400 text-secondary fs-12 text-wrap-nowrap">{
+                                                // if more than 1 day, show the date
+                                                // if less than 1 day, show relative time
+                                                DateTime.now().diff(DateTime.fromISO(item.updatedAt), ['days']).days > 1 ? DateTime.fromISO(item.updatedAt).toFormat('LLL dd') :
+                                                DateTime.fromISO(item.updatedAt).toRelative().replace(' days', 'd').replace(' day', 'd').replace(' hours', 'h').replace(' hour', 'h').replace(' minutes', 'm').replace(' minute', 'm').replace(' seconds', 's').replace(' second', 's')}
+                                            </span>
+                                        </div>
                                     </div>
-                                    <span className="fs-14 weight-400 text-secondary">·</span>
-                                    <span className="weight-400 text-secondary fs-12 text-wrap-nowrap">{
-                                        // if more than 1 day, show the date
-                                        // if less than 1 day, show relative time
-                                        DateTime.now().diff(DateTime.fromISO(item.updatedAt), ['days']).days > 1 ? DateTime.fromISO(item.updatedAt).toFormat('LLL dd') :
-                                        DateTime.fromISO(item.updatedAt).toRelative().replace(' days', 'd').replace(' day', 'd').replace(' hours', 'h').replace(' hour', 'h').replace(' minutes', 'm').replace(' minute', 'm').replace(' seconds', 's').replace(' second', 's')}
-                                    </span>
                                 </div>
                             </div>
                             <div className="flex fs-12 gap-2 text-secondary pt-2">
@@ -58,14 +61,22 @@ const LibraryItem = ({ item }) => {
                         </div>
                     </div>
                     <div className="pt-4">
-                        <div className="flex gap-2">
-                            <div className={`flex align-center px-2 py-1 border-radius gap-1 ${item.rating == 0 ? 'text-secondary' : item.rating === 5 ? 'text-primary' : item.rating >= 4 && item.rating < 5 ? 'text-success' : item.rating >= 3 && item.rating < 4 ? 'text-warning' : 'text-danger'}`}>
-                                <Icon icon={starFillIcon} size="sm" className={` ${item.rating == 0 ? 'fill-secondary' : item.rating === 5 ? 'fill-primary' : item.rating >= 4 && item.rating < 5 ? 'fill-success' : item.rating >= 3 && item.rating < 4 ? 'fill-warning' : 'fill-danger'}`}/>
-                                <span className="fs-14">{item.rating || 0}</span>
+                        <div className="flex align-center gap-2 pt-1">
+                            <div className="flex align-center gap-2">
+                                <span className={`fs-14 weight-600 text-warning`}>{item.rating || 0}</span>
+                                <div className="flex gap-1 align-center">
+                                    {[...Array(5)].map((_, i) => (
+                                        <Icon icon={starFillIcon} size="sm" className={`text-warning ${i + 1 <= item.rating ? 'fill-warning' : 'fill-secondary'}`}/>
+                                    ))}
+                                </div>
                             </div>
-                            {item.tags.map((tag, index) => (
-                                <div key={index} className="tag-secondary px-2 py-1 fs-12 border-radius">{tag}</div>
-                            ))}
+                            {window.innerWidth > 800 && (
+                            <div className="flex align-center gap-1">
+                                {item.tags.map((tag, index) => (
+                                    <div key={index} className="px-2 py-1 bg-secondary border-radius weight-500 flex align-center fs-12 weight-500">{tag}</div>
+                                ))}
+                            </div>
+                            )}
                         </div>
                         {item.comment ?
                             <div className="fs-14 pt-3">
@@ -280,6 +291,7 @@ const CommunityPage = () => {
                                             >
                                                 {item.type === 'play' ?
                                                     <PlayItem item={item.item}
+                                                        hideUpdate
                                                     />
                                                 : item.type === 'library' ?<LibraryItem
                                                     item={item.item}

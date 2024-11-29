@@ -14,35 +14,45 @@ const PlayItem = ({ item, hideUpdate }) => {
                 <Avatar
                     img={item?.game?.thumbnail}
                     avatarColor={item?.game?.name?.length}
-                    name={item?.game?.name || 'G'}
-                    defaultColor
+                    name={item?.game?.name}
                     size="lg"
                 />
                 <div className="flex flex-col justify-between flex-1">
                     <div className="flex gap-2 justify-between">
                         <div className="flex flex-col justify-between flex-1">
-                            <div className="flex flex-col flex-1 py-1">
-                                <div className="flex gap-2 justify-between">
+                            <div className="flex gap-2 align-center flex-1">
+                                <div className="flex gap-2 flex-1 align-center">
+                                    <Avatar
+                                        img={item?.user?.avatar}
+                                        rounded
+                                        size="sm"
+                                        avatarColor={item?.user?.username?.length}
+                                        name={item?.user?.username}
+                                    />
                                     <div className="flex flex-col flex-1">
-                                        {item.user.firstName ?
-                                            <>
-                                                <div className="fs-14 bold text-ellipsis-1 me-1">
-                                                    {item.user.firstName} {item.user.lastName}
-                                                </div>
-                                            </>
-                                        : null}
-                                        <Link to={`/u/${item.user.username}`} className="text-secondary weight-400 fs-12 text-underlined-hover">@{item.user.username}</Link>
+                                        <div className="flex gap-2 justify-between">
+                                            <div className="flex flex-col flex-1">
+                                                {item.user.firstName ?
+                                                    <>
+                                                        <div className="fs-14 bold text-ellipsis-1 me-1">
+                                                            {item.user.firstName} {item.user.lastName}
+                                                        </div>
+                                                    </>
+                                                : null}
+                                                <Link to={`/u/${item.user.username}`} className="text-secondary weight-400 fs-12 text-underlined-hover">@{item.user.username}</Link>
+                                            </div>
+                                            <span className="weight-400 text-secondary fs-12 text-wrap-nowrap">{
+                                                // if more than 1 day, show the date
+                                                // if less than 1 day, show relative time
+                                                DateTime.now().diff(DateTime.fromISO(item.updatedAt), ['days']).days > 1 ? DateTime.fromISO(item.updatedAt).toFormat('LLL dd') :
+                                                DateTime.fromISO(item.updatedAt).toRelative().replace(' days', 'd').replace(' day', 'd').replace(' hours', 'h').replace(' hour', 'h').replace(' minutes', 'm').replace(' minute', 'm').replace(' seconds', 's').replace(' second', 's')}
+                                            </span>
+                                        </div>
                                     </div>
-                                    <span className="weight-400 text-secondary fs-12 text-wrap-nowrap">{
-                                        // if more than 1 day, show the date
-                                        // if less than 1 day, show relative time
-                                        DateTime.now().diff(DateTime.fromISO(item.updatedAt), ['days']).days > 1 ? DateTime.fromISO(item.updatedAt).toFormat('LLL dd') :
-                                        DateTime.fromISO(item.updatedAt).toRelative().replace(' days', 'd').replace(' day', 'd').replace(' hours', 'h').replace(' hour', 'h').replace(' minutes', 'm').replace(' minute', 'm').replace(' seconds', 's').replace(' second', 's')}
-                                    </span>
                                 </div>
                             </div>
                             <div className="flex fs-12 gap-2 text-secondary pt-1">
-                                Played <Link target="_blank" to={`/g/${item.game._id}`} className="fs-12 text-main bold pointer text-ellipsis-1 text-underlined-hover">{item.game.name}</Link> {item?.playTimeMinutes ? `for ${item.playTimeMinutes} min` : null}
+                                Played  <Link to={`/g/${item.game._id}`} className="fs-12 text-main bold pointer text-ellipsis-1 text-underlined-hover">{item.game.name}</Link> {item?.playTimeMinutes ? `for ${item.playTimeMinutes} min` : null}
                             </div>
                         </div>
                         {hideUpdate ? null :

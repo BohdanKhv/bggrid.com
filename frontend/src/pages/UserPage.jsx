@@ -83,7 +83,7 @@ const LibraryItem = ({ item, index, hideInfo }) => {
 
     return (
         <div className="border-radius px-sm-3 transition-duration animation-slide-in">
-            <div className="flex justify-between border-bottom">
+            <div className="border-bottom pb-3">
                 <div className="flex gap-3 flex-1 py-3">
                     <Image
                         img={item?.game?.thumbnail}
@@ -93,45 +93,43 @@ const LibraryItem = ({ item, index, hideInfo }) => {
                     <div className="flex flex-col justify-between flex-1">
                         <div className="flex justify-between gap-3">
                             <div className="flex flex-col">
-                                <div className="flex gap-2">
-                                    <div className="flex align-center  border-radius gap-1 pointer">
-                                        <Icon icon={starFillIcon} size="sm" className={`${item.rating == 0 ? 'fill-secondary' : item.rating === 5 ? 'fill-primary' : item.rating >= 4 && item.rating < 5 ? 'fill-success' : item.rating >= 3 && item.rating < 4 ? 'fill-warning' : 'fill-danger'}`}
-                                        />
-                                        <span className={`fs-14 weight-600 ${item.rating == 0 ? 'text-secondary' : item.rating === 5 ? 'text-primary' : item.rating >= 4 && item.rating < 5 ? 'text-success' : item.rating >= 3 && item.rating < 4 ? 'text-warning' : 'text-danger'}`}
-                                        >{item.rating || 0}</span>
-                                    </div>
+                                <div className="flex gap-2 align-center">
                                     <Link className="fs-16 text-underlined-hover w-fit-content text-ellipsis-1 h-fit-content"
                                         to={`/g/${item.game._id}`}
-                                        target='_blank'
                                         >
                                         {item.game.name}
                                     </Link>
+                                </div>
+                            </div>
+                        </div>
+                        <div className="flex flex-col">
+                            <div className="flex align-center gap-2 pt-1">
+                                <div className="flex align-center gap-2">
+                                    <span className={`fs-14 weight-600 text-warning`}>{item.rating || 0}</span>
+                                    <div className="flex gap-1 align-center">
+                                        {[...Array(5)].map((_, i) => (
+                                            <Icon icon={starFillIcon} size="sm" className={`text-warning ${i + 1 <= item.rating ? 'fill-warning' : 'fill-secondary'}`}/>
+                                        ))}
                                     </div>
                                 </div>
+                                {window.innerWidth > 800 && (
+                                <div className="flex align-center gap-1">
+                                    {item.tags.map((tag, index) => (
+                                        <div key={index} className="px-2 py-1 bg-secondary border-radius weight-500 flex align-center fs-12 weight-500">{tag}</div>
+                                    ))}
+                                </div>
+                                )}
+                            </div>
+                            {item.comment ?
+                                <div className="fs-14 pt-2">
+                                    {item.comment}
+                                </div>
+                            : null}
+                            <span className="text-secondary weight-400 fs-14 pt-4">
+                                {DateTime.now().diff(DateTime.fromISO(item.updatedAt), ['days']).days > 1 ? DateTime.fromISO(item.updatedAt).toFormat('LLL dd') :
+                                DateTime.fromISO(item.updatedAt).toRelative()}
+                            </span>
                         </div>
-                        {/* {item.tags.length > 0 ?
-                            <div className="flex gap-2 pt-2">
-                                {item.tags.map((tag) => (
-                                    <div className="fs-12 weight-500">
-                                        {tag}
-                                    </div>
-                                ))}
-                            </div>
-                        : null} */}
-                        <div className="flex pt-2 gap-3 justify-between">
-                            <div className="fs-12 text-secondary text-ellipsis-1">
-                                Last played: {item.lastPlayDate ? DateTime.now().diff(DateTime.fromISO(item.lastPlayDate), ['days']).days > 1 ? DateTime.fromISO(item.lastPlayDate).toFormat('LLL dd') :
-                                DateTime.fromISO(item.lastPlayDate).toRelative().replace(' days', 'd').replace(' day', 'd').replace(' hours', 'h').replace(' hour', 'h').replace(' minutes', 'm').replace(' minute', 'm').replace(' seconds', 's').replace(' second', 's') : 'never'}
-                            </div>
-                            <div className="fs-12 text-secondary">
-                                {item.totalPlays || 0} plays
-                            </div>
-                        </div>
-                        {/* {item.comment ?
-                            <div className="fs-14 pt-3">
-                                {item.comment}
-                            </div>
-                        : null} */}
                     </div>
                 </div>
             </div>

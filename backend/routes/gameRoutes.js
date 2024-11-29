@@ -5,12 +5,14 @@ const {
     getGames,
     getSuggestions,
     getGameById,
+    getGameOverview,
 } = require('../controllers/gameControllers');
 
 
 router
     .get('/', loggedIn, getGames)
     .get('/suggestions', getSuggestions)
+    .get('/:gameId/overview', getGameOverview)
     .get('/:id', getGameById)
 
 

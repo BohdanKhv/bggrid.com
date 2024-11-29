@@ -53,6 +53,22 @@ export const getGameCard = createAsyncThunk(
     }
 );
 
+export const getGameOverview = createAsyncThunk(
+    'game/getGameOverview',
+    async (payload, thunkAPI) => {
+        try {
+            return await gameService.getGameOverview(payload);
+        } catch (error) {
+            const message =
+                (error.response &&
+                    error.response.data &&
+                    error.response.data.msg) ||
+                error.message ||
+                error.toString();
+            return thunkAPI.rejectWithValue(message);
+        }
+    }
+);
 
 export const getGames = createAsyncThunk(
     'game/getGames',
@@ -139,6 +155,20 @@ const gameSlice = createSlice({
             state.gameById = action.payload.data
         });
         builder.addCase(getGameById.rejected, (state, action) => {
+            state.isLoading = false;
+            state.msg = action.payload;
+            toast.error(action.payload, { toastId: 'toastError', closeButton: true});
+        });
+
+        builder.addCase(getGameOverview.pending, (state) => {
+            state.isLoading = true;
+            state.msg = '';
+        });
+        builder.addCase(getGameOverview.fulfilled, (state, action) => {
+            state.isLoading = false;
+            state.gameById = action.payload.data
+        });
+        builder.addCase(getGameOverview.rejected, (state, action) => {
             state.isLoading = false;
             state.msg = action.payload;
             toast.error(action.payload, { toastId: 'toastError', closeButton: true});

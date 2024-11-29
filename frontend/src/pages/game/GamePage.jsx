@@ -1,6 +1,6 @@
 import React, { memo, useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { getGameById } from '../../features/game/gameSlice'
+import { getGameById, getGameOverview } from '../../features/game/gameSlice'
 import { Link, useNavigate, useParams, useSearchParams } from 'react-router-dom'
 import { Avatar, Button, Collapse, ErrorInfo, HorizontalScroll, Icon, IconButton, Image, Skeleton, TabContent } from '../../components'
 import { boxInIcon, boxOffIcon, checkIcon, clockIcon, largePlusIcon, libraryIcon, diceIcon, shareIcon, starEmptyIcon, starFillIcon, starsIcon, userIcon, usersIcon, plugIcon } from '../../assets/img/icons'
@@ -45,6 +45,11 @@ const PlayItem = ({ item }) => {
                             </span>
                         </div>
                     </div>
+                    {item.playTimeMinutes ?
+                        <div className="fs-14 pt-3">
+                            <span className="text-secondary">Played for</span> {item.playTimeMinutes} min
+                        </div>
+                    : null}
                     {item.comment ?
                         <div className="fs-14 pt-3">
                             {item.comment}
@@ -136,12 +141,14 @@ const ReviewItem = ({ item }) => {
             <div className="flex flex-col flex-1 pb-5">
                 <div>
                     <div className="flex gap-2">
-                        <div className="flex align-center px-2 py-1 border-radius gap-1">
-                            <Icon icon={starFillIcon} size="sm" className={`${item.rating == 0 ? 'fill-secondary' : item.rating === 5 ? 'fill-primary' : item.rating >= 4 && item.rating < 5 ? 'fill-success' : item.rating >= 3 && item.rating < 4 ? 'fill-warning' : 'fill-danger'}`}/>
-                            <span className={`fs-14 bold ${item.rating == 0 ? 'text-secondary' : item.rating === 5 ? 'text-primary' : item.rating >= 4 && item.rating < 5 ? 'text-success' : item.rating >= 3 && item.rating < 4 ? 'text-warning' : 'text-danger'}`}>{item.rating || 0}</span>
+                        <div className="flex align-center  border-radius gap-1">
+                            <span className={`fs-14 weight-600 text-warning`}>{item.rating || 0}</span>
+                            {[...Array(5)].map((_, i) => (
+                                <Icon icon={starFillIcon} size="sm" className={`text-warning ${i + 1 <= item.rating ? 'fill-warning' : 'fill-secondary'}`}/>
+                            ))}
                         </div>
                         {item.tags.map((tag, index) => (
-                            <div key={index} className="px-2 bg-secondary border-radius weight-500 flex align-center fs-12 weight-500">{tag}</div>
+                            <div key={index} className="px-2 py-1 bg-secondary border-radius weight-500 flex align-center fs-12 weight-500">{tag}</div>
                         ))}
                     </div>
                     {item.comment ?
@@ -366,7 +373,9 @@ const ReviewsTab = () => {
                         />
                     ))}
                 </div>
+                {window.innerWidth >= 800 ?
                 <GameReviewStats/>
+                : null}
             </div>
         }
         {isLoading ?
@@ -432,7 +441,7 @@ const PlaysTab = () => {
                         />
                     ))}
                 </div>
-                {/* <GamePlayStats/> */}
+                <GamePlayStats/>
             </div>
         }
         {isLoading ?
@@ -512,7 +521,7 @@ const GamePage = () => {
         window.scrollTo(0, 0)
         if (!gameId) return
 
-        const promise = dispatch(getGameById(gameId))
+        const promise = dispatch(getGameOverview(gameId))
 
         return () => {
             promise && promise.abort()

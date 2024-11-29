@@ -549,6 +549,24 @@ const themesEnum = [
 
 const tagsEnum = ['Favorite', 'Owned', 'Wishlist', 'Played', 'Want to Play']
 
+
+// { 
+//     label: "Favorite",
+//     icon: "❤️"
+// }, {
+//     label: "Owned",
+//     icon: "👑"
+// }, {
+//     label: "Wishlist",
+//     icon: "🎁"
+// }, {
+//     label: "Played",
+//     icon: "🎲"
+// }, {
+//     label: "Want to Play",
+//     icon: "✨"
+// }
+
 export {
     commonGames,
     categoriesEnum,

@@ -59,6 +59,7 @@ const PlayTab = () => {
                         >
                             <PlayItem
                                 item={item}
+                                hideUpdate
                             />
                         </div>
                     ))}

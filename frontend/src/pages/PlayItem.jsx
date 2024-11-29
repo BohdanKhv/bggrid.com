@@ -4,7 +4,7 @@ import { Link, useSearchParams } from 'react-router-dom'
 import { awardIcon, editIcon, moreIcon } from '../assets/img/icons'
 import { addCommaToNumber } from '../assets/utils'
 
-const PlayItem = ({ item }) => {
+const PlayItem = ({ item, hideUpdate }) => {
 
     const [searchParams, setSearchParams] = useSearchParams()
 
@@ -21,31 +21,23 @@ const PlayItem = ({ item }) => {
                 <div className="flex flex-col justify-between flex-1">
                     <div className="flex gap-2 justify-between">
                         <div className="flex flex-col justify-between flex-1">
-                            <div className="flex gap-2 align-center flex-1">
-                                <div className="flex gap-2 flex-1 align-center">
-                                    <Avatar
-                                        img={item?.user?.avatar}
-                                        rounded
-                                        size="sm"
-                                        avatarColor={item?.user?.username?.length}
-                                        name={item?.user?.username}
-                                    />
-                                    <div className="flex align-center">
+                            <div className="flex flex-col flex-1 py-1">
+                                <div className="flex gap-2 justify-between">
+                                    <div className="flex flex-col flex-1">
                                         {item.user.firstName ?
                                             <>
                                                 <div className="fs-14 bold text-ellipsis-1 me-1">
-                                                    {item.user.firstName}
+                                                    {item.user.firstName} {item.user.lastName}
                                                 </div>
                                             </>
                                         : null}
-                                        <Link className="text-secondary weight-400 fs-12 text-underlined-hover">@{item.user.username}</Link>
+                                        <Link to={`/u/${item.user.username}`} className="text-secondary weight-400 fs-12 text-underlined-hover">@{item.user.username}</Link>
                                     </div>
-                                    <span className="fs-14 weight-400 text-secondary">·</span>
                                     <span className="weight-400 text-secondary fs-12 text-wrap-nowrap">{
                                         // if more than 1 day, show the date
                                         // if less than 1 day, show relative time
-                                        DateTime.now().diff(DateTime.fromISO(item.playDate), ['days']).days > 1 ? DateTime.fromISO(item.playDate).toFormat('LLL dd') :
-                                        DateTime.fromISO(item.playDate).toRelative().replace(' days', 'd').replace(' day', 'd').replace(' hours', 'h').replace(' hour', 'h').replace(' minutes', 'm').replace(' minute', 'm').replace(' seconds', 's').replace(' second', 's')}
+                                        DateTime.now().diff(DateTime.fromISO(item.updatedAt), ['days']).days > 1 ? DateTime.fromISO(item.updatedAt).toFormat('LLL dd') :
+                                        DateTime.fromISO(item.updatedAt).toRelative().replace(' days', 'd').replace(' day', 'd').replace(' hours', 'h').replace(' hour', 'h').replace(' minutes', 'm').replace(' minute', 'm').replace(' seconds', 's').replace(' second', 's')}
                                     </span>
                                 </div>
                             </div>
@@ -53,6 +45,7 @@ const PlayItem = ({ item }) => {
                                 Played <Link target="_blank" to={`/g/${item.game._id}`} className="fs-12 text-main bold pointer text-ellipsis-1 text-underlined-hover">{item.game.name}</Link> {item?.playTimeMinutes ? `for ${item.playTimeMinutes} min` : null}
                             </div>
                         </div>
+                        {hideUpdate ? null :
                         <IconButton
                             icon={editIcon}
                             variant="text"
@@ -65,6 +58,7 @@ const PlayItem = ({ item }) => {
                                 setSearchParams(searchParams)
                             }}
                         />
+                        }
                     </div>
                     {item.comment ?
                         <div className="fs-14 pt-3">
@@ -110,8 +104,8 @@ const PlayItem = ({ item }) => {
                                         : null}
                                     </div>
                                 </div>
-                                <div className="fs-14 bold">
-                                    {addCommaToNumber(player.score) || 0}
+                                <div className={`fs-14 ${!player.score ? ' opacity-50' : " bold" }`}>
+                                    {addCommaToNumber(player.score || 0)}
                                 </div>
                             </div>
                         ))}

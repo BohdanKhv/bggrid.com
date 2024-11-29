@@ -25,29 +25,24 @@ const PlayItem = ({ item }) => {
                     name={item?.user?.username}
                 />
                 <div className="flex flex-col justify-between flex-1">
-                    <div className="flex gap-2 justify-between">
-                        <div className="flex flex-col justify-between flex-1">
-                            <div className="flex gap-2 align-center flex-1">
-                                    <div className="flex align-center">
-                                        {item.user.firstName ?
-                                            <>
-                                                <div className="fs-14 bold text-ellipsis-1 me-1">
-                                                    {item.user.firstName}
-                                                </div>
-                                            </>
-                                        : null}
-                                        <Link
-                                            to={`/u/${item.user.username}`}
-                                        className="text-secondary weight-400 fs-12 text-underlined-hover">@{item.user.username}</Link>
-                                    </div>
-                                    <span className="fs-14 weight-400 text-secondary">·</span>
-                                    <span className="weight-400 text-secondary fs-12 text-wrap-nowrap">{
-                                        // if more than 1 day, show the date
-                                        // if less than 1 day, show relative time
-                                        DateTime.now().diff(DateTime.fromISO(item.playDate), ['days']).days > 1 ? DateTime.fromISO(item.playDate).toFormat('LLL dd') :
-                                        DateTime.fromISO(item.playDate).toRelative().replace(' days', 'd').replace(' day', 'd').replace(' hours', 'h').replace(' hour', 'h').replace(' minutes', 'm').replace(' minute', 'm').replace(' seconds', 's').replace(' second', 's')}
-                                    </span>
+                    <div className="flex flex-col flex-1 py-1">
+                        <div className="flex gap-2 justify-between">
+                            <div className="flex flex-col flex-1">
+                                {item.user.firstName ?
+                                    <>
+                                        <div className="fs-14 bold text-ellipsis-1 me-1">
+                                            {item.user.firstName} {item.user.lastName}
+                                        </div>
+                                    </>
+                                : null}
+                                <Link to={`/u/${item.user.username}`} className="text-secondary weight-400 fs-12 text-underlined-hover">@{item.user.username}</Link>
                             </div>
+                            <span className="weight-400 text-secondary fs-12 text-wrap-nowrap">{
+                                // if more than 1 day, show the date
+                                // if less than 1 day, show relative time
+                                DateTime.now().diff(DateTime.fromISO(item.updatedAt), ['days']).days > 1 ? DateTime.fromISO(item.updatedAt).toFormat('LLL dd') :
+                                DateTime.fromISO(item.updatedAt).toRelative().replace(' days', 'd').replace(' day', 'd').replace(' hours', 'h').replace(' hour', 'h').replace(' minutes', 'm').replace(' minute', 'm').replace(' seconds', 's').replace(' second', 's')}
+                            </span>
                         </div>
                     </div>
                     {item.comment ?
@@ -94,7 +89,7 @@ const PlayItem = ({ item }) => {
                                         : null}
                                     </div>
                                 </div>
-                                <div className="fs-14 bold">
+                                <div className={`fs-14 ${!player.score ? " opacity-50" : " bold"}`}>
                                     {addCommaToNumber(player.score) || ''}
                                 </div>
                             </div>
@@ -110,53 +105,50 @@ const PlayItem = ({ item }) => {
 const ReviewItem = ({ item }) => {
     return (
         <div className="border-bottom show-on-hover-parent border-secondary transition-duration animation-slide-in display-on-hover-parent">
-            <div className="flex gap-3 py-5 py-sm-3">
+            <div className="flex gap-3 pt-5 pb-3 py-sm-3">
                 <Avatar
                     img={item?.user?.avatar}
                     rounded
                     avatarColor={item?.user?.username?.length}
                     name={item?.user?.username}
                 />
-                <div className="flex flex-col flex-1">
+                <div className="flex flex-col flex-1 py-1">
                     <div className="flex gap-2 justify-between">
-                        <div className="flex flex-col justify-between flex-1">
-                            <div className="flex gap-2 align-center flex-1">
-                                <div className="flex align-center">
-                                    {item.user.firstName ?
-                                        <>
-                                            <div className="fs-14 bold text-ellipsis-1 me-1">
-                                                {item.user.firstName}
-                                            </div>
-                                        </>
-                                    : null}
-                                    <Link to={`/u/${item.user.username}`} className="text-secondary weight-400 fs-12 text-underlined-hover">@{item.user.username}</Link>
-                                </div>
-                                <span className="fs-14 weight-400 text-secondary">·</span>
-                                <span className="weight-400 text-secondary fs-12 text-wrap-nowrap">{
-                                    // if more than 1 day, show the date
-                                    // if less than 1 day, show relative time
-                                    DateTime.now().diff(DateTime.fromISO(item.updatedAt), ['days']).days > 1 ? DateTime.fromISO(item.updatedAt).toFormat('LLL dd') :
-                                    DateTime.fromISO(item.updatedAt).toRelative().replace(' days', 'd').replace(' day', 'd').replace(' hours', 'h').replace(' hour', 'h').replace(' minutes', 'm').replace(' minute', 'm').replace(' seconds', 's').replace(' second', 's')}
-                                </span>
-                            </div>
+                        <div className="flex flex-col flex-1">
+                            {item.user.firstName ?
+                                <>
+                                    <div className="fs-14 bold text-ellipsis-1 me-1">
+                                        {item.user.firstName} {item.user.lastName}
+                                    </div>
+                                </>
+                            : null}
+                            <Link to={`/u/${item.user.username}`} className="text-secondary weight-400 fs-12 text-underlined-hover">@{item.user.username}</Link>
                         </div>
+                        <span className="weight-400 text-secondary fs-12 text-wrap-nowrap">{
+                            // if more than 1 day, show the date
+                            // if less than 1 day, show relative time
+                            DateTime.now().diff(DateTime.fromISO(item.updatedAt), ['days']).days > 1 ? DateTime.fromISO(item.updatedAt).toFormat('LLL dd') :
+                            DateTime.fromISO(item.updatedAt).toRelative().replace(' days', 'd').replace(' day', 'd').replace(' hours', 'h').replace(' hour', 'h').replace(' minutes', 'm').replace(' minute', 'm').replace(' seconds', 's').replace(' second', 's')}
+                        </span>
                     </div>
-                    <div className="pt-2">
-                        <div className="flex gap-2">
-                            <div className="flex align-center px-2 py-1 border-radius gap-1">
-                                <Icon icon={starFillIcon} size="sm" className={`${item.rating === 10 ? 'fill-primary' : item.rating >= 7 ? 'fill-success' : item.rating >= 5 ? 'fill-warning' : 'fill-danger'}`}/>
-                                <span className={`fs-14 ${item.rating === 10 ? 'text-primary' : item.rating >= 7 ? 'text-success' : item.rating >= 5 ? 'text-warning' : 'text-danger'}`}>{item.rating || 0}</span>
-                            </div>
-                            {item.tags.map((tag, index) => (
-                                <div key={index} className="px-2 flex align-center fs-12 weight-500">{tag}</div>
-                            ))}
+                </div>
+            </div>
+            <div className="flex flex-col flex-1 pb-5">
+                <div>
+                    <div className="flex gap-2">
+                        <div className="flex align-center px-2 py-1 border-radius gap-1">
+                            <Icon icon={starFillIcon} size="sm" className={`${item.rating === 10 ? 'fill-primary' : item.rating >= 7 ? 'fill-success' : item.rating >= 5 ? 'fill-warning' : 'fill-danger'}`}/>
+                            <span className={`fs-14 bold ${item.rating === 10 ? 'text-primary' : item.rating >= 7 ? 'text-success' : item.rating >= 5 ? 'text-warning' : 'text-danger'}`}>{item.rating || 0}</span>
                         </div>
-                        {item.comment ?
-                            <div className="fs-14 pt-3">
-                                {item.comment}
-                            </div>
-                        : null}
+                        {item.tags.map((tag, index) => (
+                            <div key={index} className="px-2 bg-secondary border-radius weight-500 flex align-center fs-12 weight-500">{tag}</div>
+                        ))}
                     </div>
+                    {item.comment ?
+                        <div className="fs-14 pt-3">
+                            {item.comment}
+                        </div>
+                    : null}
                 </div>
             </div>
         </div>
@@ -185,6 +177,7 @@ const GamePlayStats = () => {
             :
             <>
             <Collapse
+                isOpen
                 classNameContainer="p-5"
                 customLabel={
                     <div className="flex gap-3 align-center justify-between">
@@ -260,6 +253,7 @@ const GameReviewStats = () => {
             :
             <>
             <Collapse
+                isOpen
                 classNameContainer="p-5"
                 customLabel={
                     <div className="flex gap-3 align-center justify-between">

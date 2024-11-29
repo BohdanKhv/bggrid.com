@@ -76,6 +76,7 @@ function App() {
                     <Route path="/" element={<ErrBoundary><HomePage /></ErrBoundary>} />
                     <Route path="/discover" element={<ErrBoundary><SearchPage /></ErrBoundary>} />
                     <Route path="/u/:username" element={<ErrBoundary><UserPage /></ErrBoundary>} />
+                    <Route path="/u/:username/:tab" element={<ErrBoundary><UserPage /></ErrBoundary>} />
                     <Route path="/g/:gameId" element={<ErrBoundary><GamePage /></ErrBoundary>} />
                     <Route path="/g/:gameId/:tab" element={<ErrBoundary><GamePage /></ErrBoundary>} />
                     <Route path="/c/:category" element={<ErrBoundary><CategoryPage /></ErrBoundary>} />

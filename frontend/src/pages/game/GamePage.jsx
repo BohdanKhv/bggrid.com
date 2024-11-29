@@ -2,7 +2,7 @@ import React, { memo, useCallback, useEffect, useMemo, useRef, useState } from '
 import { useDispatch, useSelector } from 'react-redux'
 import { getGameById } from '../../features/game/gameSlice'
 import { Link, useNavigate, useParams, useSearchParams } from 'react-router-dom'
-import { Avatar, Button, ErrorInfo, HorizontalScroll, Icon, IconButton, Image, Skeleton, TabContent } from '../../components'
+import { Avatar, Button, Collapse, ErrorInfo, HorizontalScroll, Icon, IconButton, Image, Skeleton, TabContent } from '../../components'
 import { boxInIcon, boxOffIcon, checkIcon, clockIcon, largePlusIcon, libraryIcon, diceIcon, shareIcon, starEmptyIcon, starFillIcon, starsIcon, userIcon, usersIcon, plugIcon } from '../../assets/img/icons'
 import { addCommaToNumber, numberFormatter } from '../../assets/utils'
 import { getGameStats, getReviewsByGame, resetReview } from '../../features/review/reviewSlice'
@@ -16,7 +16,7 @@ const PlayItem = ({ item }) => {
     const [searchParams, setSearchParams] = useSearchParams()
 
     return (
-        <div className="px-sm-3 border-bottom show-on-hover-parent border-secondary transition-duration animation-slide-in display-on-hover-parent">
+        <div className="border-bottom show-on-hover-parent border-secondary transition-duration animation-slide-in display-on-hover-parent">
             <div className="flex gap-3 py-5 py-sm-3">
                 <Avatar
                     img={item?.user?.avatar}
@@ -36,7 +36,9 @@ const PlayItem = ({ item }) => {
                                                 </div>
                                             </>
                                         : null}
-                                        <Link className="text-secondary weight-400 fs-12 text-underlined-hover">@{item.user.username}</Link>
+                                        <Link
+                                            to={`/u/${item.user.username}`}
+                                        className="text-secondary weight-400 fs-12 text-underlined-hover">@{item.user.username}</Link>
                                     </div>
                                     <span className="fs-14 weight-400 text-secondary">·</span>
                                     <span className="weight-400 text-secondary fs-12 text-wrap-nowrap">{
@@ -107,7 +109,7 @@ const PlayItem = ({ item }) => {
 
 const ReviewItem = ({ item }) => {
     return (
-        <div className="px-sm-3 border-bottom show-on-hover-parent border-secondary transition-duration animation-slide-in display-on-hover-parent">
+        <div className="border-bottom show-on-hover-parent border-secondary transition-duration animation-slide-in display-on-hover-parent">
             <div className="flex gap-3 py-5 py-sm-3">
                 <Avatar
                     img={item?.user?.avatar}
@@ -177,20 +179,25 @@ const GamePlayStats = () => {
 
     return (
         !stats.isError &&
-        <div className="w-set-300-px flex-1 border-radius-lg bg-tertiary p-5 h-fit-content my-3">
+        <div className="w-set-300-px flex-1 border-radius-lg bg-secondary h-fit-content my-3 w-set-sm-auto order-sm-1">
             {stats.isLoading ?
-                <Skeleton animation="wave"/>
+                <Skeleton animation="wave" height={60} className="border-radius-lg"/>
             :
             <>
-            <div className="flex flex-col">
-                <div className="flex pb-4 gap-3 align-center justify-between">
-                    <div className="fs-18 weight-500">
-                        Plays:
+            <Collapse
+                classNameContainer="p-5"
+                customLabel={
+                    <div className="flex gap-3 align-center justify-between">
+                        <div className="fs-18 weight-500">
+                            Plays:
+                        </div>
+                        <div className={`fs-20 weight-500 flex align-center text-nowrap gap-1`}>
+                            {stats?.data?.totalPlays || 0}
+                        </div>
                     </div>
-                    <div className="fs-20 weight-500 flex align-center text-nowrap  gap-1">
-                        {stats?.data?.totalPlays || 0}
-                    </div>
-                </div>
+                }
+            >
+            <div className="flex flex-col px-5 pb-5">
                 <div className="justify-between flex gap-2 border-bottom pb-3 pt-3">
                     <div className="fs-14 text-secondary">
                         Avg. Playtime:
@@ -224,6 +231,7 @@ const GamePlayStats = () => {
                     </div>
                 </div>
             </div>
+            </Collapse>
             </>
             }
         </div>
@@ -246,20 +254,28 @@ const GameReviewStats = () => {
 
     return (
         !stats.isError &&
-        <div className="w-set-300-px flex-1 border-radius-lg bg-tertiary p-5 h-fit-content my-3">
+        <div className="w-set-300-px flex-1 border-radius-lg bg-secondary h-fit-content my-3 w-set-sm-auto order-sm-1">
             {stats.isLoading ?
-                <Skeleton animation="wave"/>
+                <Skeleton animation="wave" height={60} className="border-radius-lg"/>
             :
             <>
-            <div className="flex flex-col">
-                <div className="flex pb-4 gap-3 align-center justify-between">
-                    <div className="fs-18 weight-500">
-                        Avg. Rating:
+            <Collapse
+                classNameContainer="p-5"
+                customLabel={
+                    <div className="flex gap-3 align-center justify-between">
+                        <div className="fs-18 weight-500">
+                            Avg. Rating:
+                        </div>
+                        <div className={`fs-20 weight-500 flex align-center text-nowrap gap-1 ${stats?.data?.avgRating === 10 ? 'text-primary' : stats?.data?.avgRating >= 7 ? 'text-success' : stats?.data?.avgRating >= 5 ? 'text-warning' : 'text-danger'}`}>
+                            <Icon icon={starFillIcon} size="md" className={stats?.data?.avgRating === 10 ? 'fill-primary' : stats?.data?.avgRating >= 7 ? 'fill-success' : stats?.data?.avgRating >= 5 ? 'fill-warning' : 'fill-danger'}/>
+                            <span>
+                                {stats?.data?.avgRating?.toFixed(1) || 0}
+                            </span>
+                        </div>
                     </div>
-                    <div className="fs-20 weight-500 flex align-center text-nowrap text-warning gap-1">
-                        <Icon icon={starFillIcon} size="md" className="fill-warning"/> {stats?.data?.avgRating?.toFixed(1) || 0}
-                    </div>
-                </div>
+                }
+            >
+            <div className="flex flex-col pb-5 px-5">
                 <div className="justify-between flex gap-2 border-bottom pb-3 pt-3">
                     <div className="fs-14 text-secondary">
                         Favorite:
@@ -301,6 +317,7 @@ const GameReviewStats = () => {
                     </div>
                 </div>
                 </div>
+                </Collapse>
             </>
             }
         </div>
@@ -347,8 +364,8 @@ const ReviewsTab = () => {
         {reviews.length === 0 && !hasMore ?
             <ErrorInfo label="No reviews found" icon={starEmptyIcon}/>
         : 
-            <div className="flex gap-6">
-                <div className="flex-1">
+            <div className="flex gap-6 flex-sm-col gap-sm-0 pt-4">
+                <div className="flex-1 order-sm-2">
                     {reviews.map((item, index, arr) => (
                         <ReviewItem item={item}
                         key={item._id}
@@ -401,6 +418,10 @@ const PlaysTab = () => {
     useEffect(() => {
         window.scrollTo(0, 0)
         document.title = `${document.title} - plays`
+
+        return () => {
+            dispatch(resetPlay())
+        }
     }, [])
 
     return (
@@ -408,8 +429,8 @@ const PlaysTab = () => {
         {plays.length === 0 && !hasMore ?
             <ErrorInfo label="No plays found" icon={diceIcon}/>
         :
-            <div className="flex gap-6">
-                <div className="flex-1">
+        <div className="flex gap-6 flex-sm-col gap-sm-0 pt-4">
+                <div className="flex-1 order-sm-2">
                     {plays.map((item, index, arr) => (
                         <PlayItem
                             item={item}
@@ -595,7 +616,7 @@ const GamePage = () => {
                                 </span>
                             </div>
                         </HorizontalScroll>
-                        <div className="flex align-center gap-4 mb-4">
+                        <div className="flex align-center gap-4 mb-6">
                             { user ?
                                 isInLibrary ?
                                     <div>

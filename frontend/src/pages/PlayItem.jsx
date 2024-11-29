@@ -14,7 +14,8 @@ const PlayItem = ({ item }) => {
                 <Avatar
                     img={item?.game?.thumbnail}
                     avatarColor={item?.game?.name?.length}
-                    name={item?.game?.name}
+                    name={item?.game?.name || 'G'}
+                    defaultColor
                     size="lg"
                 />
                 <div className="flex flex-col justify-between flex-1">

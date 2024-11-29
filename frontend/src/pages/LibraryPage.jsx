@@ -66,25 +66,25 @@ const LibraryItem = ({ item, index, hideInfo }) => {
                     <div className="flex flex-col justify-between flex-1">
                         <div className="flex justify-between gap-3">
                             <div className="flex flex-col">
-                        <div className="flex gap-2">
-                                <Link className="fs-16 text-underlined-hover w-fit-content text-ellipsis-1 h-fit-content"
-                                    to={`/g/${item.game._id}`}
-                                    target='_blank'
+                                <div className="flex gap-2">
+                                    <div className="flex align-center  border-radius gap-1 pointer"
+                                        onClick={(e) => {
+                                            e.stopPropagation()
+                                            searchParams.set('addGame', item.game._id)
+                                            setSearchParams(searchParams)
+                                        }}
                                     >
-                                    {item.game.name}
-                                </Link>
-                                        <div className="flex align-center  border-radius gap-1 pointer"
-                                            onClick={(e) => {
-                                                e.stopPropagation()
-                                                searchParams.set('addGame', item.game._id)
-                                                setSearchParams(searchParams)
-                                            }}
+                                        <Icon icon={starFillIcon} size="sm" className={`${item.rating === 10 ? 'fill-primary' : item.rating >= 7 ? 'fill-success' : item.rating >= 5 ? 'fill-warning' : 'fill-danger'}`}
+                                        />
+                                        <span className={`fs-14 weight-600 ${item.rating === 10 ? 'text-primary' : item.rating >= 7 ? 'text-success' : item.rating >= 5 ? 'text-warning' : 'text-danger'}`}
+                                        >{item.rating || 0}</span>
+                                    </div>
+                                    <Link className="fs-16 text-underlined-hover w-fit-content text-ellipsis-1 h-fit-content"
+                                        to={`/g/${item.game._id}`}
+                                        target='_blank'
                                         >
-                                            <Icon icon={starFillIcon} size="sm" className={`${item.rating === 10 ? 'fill-primary' : item.rating >= 7 ? 'fill-success' : item.rating >= 5 ? 'fill-warning' : 'fill-danger'}`}
-                                            />
-                                            <span className={`fs-14 weight-600 ${item.rating === 10 ? 'text-primary' : item.rating >= 7 ? 'text-success' : item.rating >= 5 ? 'text-warning' : 'text-danger'}`}
-                                            >{item.rating || 0}</span>
-                                        </div>
+                                        {item.game.name}
+                                    </Link>
                                     </div>
                                 </div>
                             <Dropdown

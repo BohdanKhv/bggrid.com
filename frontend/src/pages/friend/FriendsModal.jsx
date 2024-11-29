@@ -41,7 +41,7 @@ const FriendsModal = ({ friends }) => {
                     {friends
                     .map((item) => (
                         <FriendItem
-                            item={item.friend}
+                            item={item.friend || item}
                             key={item._id}
                             showRemoveButton
                         />

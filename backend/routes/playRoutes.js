@@ -4,6 +4,7 @@ const { protect } = require('../middleware/authMiddleware');
 const {
     getMyPlays,
     getPlaysByGame,
+    getPlaysByUsername,
     getGameStats,
     createPlay,
     getPlayById,
@@ -15,6 +16,7 @@ const {
 router
     .get('/my-plays', protect, getMyPlays)
     .get('/game/:gameId', getPlaysByGame)
+    .get('/username/:username', getPlaysByUsername)
     .get('/stats/:gameId', getGameStats)
     .get('/:playId', getPlayById)
     .put('/:playId', protect, updatePlay)

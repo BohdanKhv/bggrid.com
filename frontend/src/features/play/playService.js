@@ -20,6 +20,12 @@ export const getPlaysByGame = async (payload) => {
     return response.data;
 }
 
+export const getPlaysByUsername = async (payload) => {
+    const response = await axios.get(API_URL+`/username/${payload.username || ""}?page=${payload.page || 0}&limit=${payload.limit || 50}`);
+
+    return response.data;
+}
+
 export const createPlay = async (payload, token) => {
     const config = {
         headers: {
@@ -78,6 +84,7 @@ const playService = {
     getPlayById,
     updatePlay,
     getPlaysByGame,
+    getPlaysByUsername,
     createPlay,
     deletePlay,
     getGamePlayStats

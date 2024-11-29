@@ -10,6 +10,7 @@ const FriendItem = ({ item, showRemoveButton }) => {
 
     const { loadingId } = useSelector((state) => state.friend)
     const { friends } = useSelector((state) => state.friend)
+    const { user } = useSelector((state) => state.auth)
 
     const isFriend = useMemo(() => {
         return friends.find((friend) => friend?.friend?._id === item?._id)
@@ -41,7 +42,9 @@ const FriendItem = ({ item, showRemoveButton }) => {
                     </div>
                 </div>
             </div>
-            {isFriend ?
+            {user?._id === item?._id ?
+                <div className="fs-12 text-secondary px-3">You</div>
+            : isFriend ?
                 isFriend.pending && !isFriend.myRequest ?
                     <div className="flex gap-2 align-center justify-center">
                         <Button

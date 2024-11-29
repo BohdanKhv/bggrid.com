@@ -96,6 +96,24 @@ export const getPlaysByGame = createAsyncThunk(
     }
 );
 
+export const getPlaysByUsername = createAsyncThunk(
+    'play/getPlaysByUsername',
+    async (payload, thunkAPI) => {
+        try {
+            const { page, limit } = thunkAPI.getState().play;
+            return await playService.getPlaysByUsername({ username: payload, page, limit });
+        } catch (error) {
+            const message =
+                (error.response &&
+                    error.response.data &&
+                    error.response.data.msg) ||
+                error.message ||
+                error.toString();
+            return thunkAPI.rejectWithValue(message);
+        }
+    }
+);
+
 export const createPlay = createAsyncThunk(
     'play/createPlay',
     async (payload, thunkAPI) => {
@@ -229,6 +247,23 @@ const playSlice = createSlice({
             state.hasMore = action.payload.page < action.payload.totalPages;
         });
         builder.addCase(getPlaysByGame.rejected, (state, action) => {
+            state.isLoading = false;
+            state.isError = true;
+            toast.error(action.payload, { toastId: 'toastError', closeButton: true});
+        });
+
+        builder.addCase(getPlaysByUsername.pending, (state) => {
+            state.isLoading = true;
+            state.isError = false;
+        });
+        builder.addCase(getPlaysByUsername.fulfilled, (state, action) => {
+            state.isLoading = false;
+            state.plays.push(...action.payload.data);
+            state.pages = action.payload.totalPages;
+            state.current = action.payload.page;
+            state.hasMore = action.payload.page < action.payload.totalPages;
+        });
+        builder.addCase(getPlaysByUsername.rejected, (state, action) => {
             state.isLoading = false;
             state.isError = true;
             toast.error(action.payload, { toastId: 'toastError', closeButton: true});

@@ -38,7 +38,7 @@ const ErrorInfo = ({icon, btnIcon, size, label, secondary, tertiary, onClick, bt
                 />
             )}
             {label && (
-            <p className="fs-16 text-center weight-500 text-capitalize w-max-400-px text-ellipsis-1">
+            <p className="fs-16 text-center weight-500 w-max-400-px text-ellipsis-1">
                 {label}
             </p>
             )}

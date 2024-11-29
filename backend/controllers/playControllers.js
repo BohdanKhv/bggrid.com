@@ -1,4 +1,5 @@
 const { DateTime } = require('luxon');
+const User = require('../models/userModel');
 const Game = require('../models/gameModel');
 const Play = require('../models/playModel');
 const Library = require('../models/libraryModel');
@@ -133,6 +134,52 @@ const getMyPlays = async (req, res) => {
         };
 
         const plays = await Play.paginate(q, options)
+
+        const currentPage = plays.page;
+        const totalPages = plays.totalPages;
+
+        return res.status(200).json({
+            data: plays.docs,
+            currentPage,
+            totalPages
+        });
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ msg: 'Server error' });
+    }
+}
+
+
+// @desc    Get plays by game
+// @route   GET /api/plays/game/:username
+// @access  Public
+const getPlaysByUsername = async (req, res) => {
+    try {
+        const { page, limit } = req.query;
+
+        // Get user
+        const user = await User.findOne({ username: { $regex: req.params.username, $options: 'i' } });
+
+        if (!user) {
+            return res.status(404).json({ msg: 'User not found' });
+        }
+
+        const options = {
+            page: parseInt(page) || 1,
+            limit: parseInt(limit) || 40,
+            sort: { playDate: -1 },
+            populate: {
+                path: 'user players.user game',
+                select: 'avatar username firstName lastName name thumbnail'
+            }
+        };
+
+        const plays = await Play.paginate({
+            $or: [
+                { 'players.user': user._id },
+                { user: user._id }
+            ]
+        }, options);
 
         const currentPage = plays.page;
         const totalPages = plays.totalPages;
@@ -337,6 +384,7 @@ module.exports = {
     getPlayById,
     updatePlay,
     getPlaysByGame,
+    getPlaysByUsername,
     createPlay,
     deletePlay,
     getGameStats

@@ -74,7 +74,7 @@
   --text-dark: #0f0f0f;
   --color-alert-bg: #474e5a;
   --nav-item: #6c7688;
-  --text-secondary: #737373;
+  --text-secondary: #5f6368;
 
   --color-overlay: rgba(0, 0, 0, 0.25);
 
@@ -256,7 +256,7 @@
   --text-dark: #ffffff;
   --color-alert-bg: #dddddd;
   --nav-item: #acacac;
-  --text-secondary: #acacac;
+  --text-secondary: #8b8b8c;
 
   --border: 1px solid #363636;
   --border-light: 1px solid rgba(0, 0, 0, 0.25%);

@@ -2,8 +2,8 @@ import React, { memo, useCallback, useEffect, useMemo, useRef, useState } from '
 import { useDispatch, useSelector } from 'react-redux'
 import { getGameById, getGameOverview } from '../../features/game/gameSlice'
 import { Link, useNavigate, useParams, useSearchParams } from 'react-router-dom'
-import { Avatar, Button, Collapse, ErrorInfo, HorizontalScroll, Icon, IconButton, Image, Skeleton, TabContent } from '../../components'
-import { boxInIcon, boxOffIcon, checkIcon, clockIcon, largePlusIcon, libraryIcon, diceIcon, shareIcon, starEmptyIcon, starFillIcon, starsIcon, userIcon, usersIcon, plugIcon } from '../../assets/img/icons'
+import { Avatar, Button, Collapse, ErrorInfo, HorizontalScroll, Icon, IconButton, Image, ProgressBar, Skeleton, TabContent } from '../../components'
+import { boxInIcon, boxOffIcon, checkIcon, clockIcon, largePlusIcon, libraryIcon, diceIcon, shareIcon, starEmptyIcon, starFillIcon, starsIcon, userIcon, usersIcon, plugIcon, rightArrowIcon } from '../../assets/img/icons'
 import { addCommaToNumber, numberFormatter } from '../../assets/utils'
 import { getGameStats, getReviewsByGame, resetReview } from '../../features/review/reviewSlice'
 import { getPlaysByGame, resetPlay, getGamePlayStats } from '../../features/play/playSlice'
@@ -264,14 +264,21 @@ const GameReviewStats = () => {
                 classNameContainer="p-5"
                 customLabel={
                     <div className="flex gap-3 align-center justify-between">
-                        <div className="fs-18 weight-500">
-                            Avg. Rating:
+                        <div className="fs-14 text-secondary">
+                            Reviews:
                         </div>
-                        <div className={`fs-20 weight-500 flex align-center text-nowrap gap-1 ${stats?.data?.avgRating === 10 ? 'text-primary' : stats?.data?.avgRating >= 7 ? 'text-success' : stats?.data?.avgRating >= 5 ? 'text-warning' : 'text-danger'}`}>
-                            <Icon icon={starFillIcon} size="md" className={stats?.data?.avgRating === 10 ? 'fill-primary' : stats?.data?.avgRating >= 7 ? 'fill-success' : stats?.data?.avgRating >= 5 ? 'fill-warning' : 'fill-danger'}/>
+                        <div className={`fs-24 weight-600 flex align-center text-nowrap gap-2 text-warning`}>
                             <span>
                                 {stats?.data?.avgRating?.toFixed(1) || 0}
                             </span>
+                            <div className="flex gap-1 align-center">
+                                {[...Array(5)].map((_, i) => (
+                                <Icon icon={starFillIcon} size="sm"
+                                    className={`${i + 1 <= stats?.data?.avgRating ? 'fill-warning' : 'fill-secondary'}`}
+                                    key={i}
+                                />
+                                ))}
+                            </div>
                         </div>
                     </div>
                 }
@@ -487,17 +494,92 @@ const CoverImage = ({ img }) => {
 }
 
 const Overview = () => {
+    const navigate = useNavigate()
     const { gameById } = useSelector(state => state.game)
 
     return (
         <div className="flex justify-between gap-6 mt-5 animation-slide-in">
             <div className="col-sm-12 col-8">
-                <div className="fs-18 weight-500">
-                    About this game
+                <div className="flex flex-col gap-6">
+                    <div>
+                        <div className="fs-24 weight-500">
+                            About this game
+                        </div>
+                        <p className="fs-14 pt-5 text-secondary">
+                            {gameById.description.slice(0, 1).toUpperCase() + gameById.description.slice(1)}
+                        </p>
+                    </div>
+                    <div>
+                        <div className="fs-24 flex align-center gap-4 weight-500 transition-slide-right-hover-parent pointer"
+                            onClick={() => { navigate(`/g/${gameById._id}/reviews`) }}
+                        >
+                            Ratings and reviews
+                            <Icon icon={rightArrowIcon} size="sm" className="transition-slide-right-hover"/>
+                        </div>
+                        <div className="flex gap-6 pt-5 align-center">
+                            <div className="flex flex-col align-center justify-center">
+                                <div className="fs-54">
+                                    {gameById?.reviewStats?.avgRating.toFixed(1)}
+                                </div>
+                                <div className="flex gap-1">
+                                    {[...Array(5)].map((_, i) => (
+                                        <Icon icon={starFillIcon} size="sm" className={`${i + 1 <= gameById?.reviewStats?.avgRating ? 'fill-warning' : 'fill-secondary'}`}/>
+                                    ))}
+                                </div>
+                                <div className="fs-12 text-secondary pt-4 flex justify-start w-100">
+                                    {numberFormatter(gameById?.reviewStats?.totalReviews)} reviews
+                                </div>
+                            </div>
+                            <div className="flex flex-col flex-1 gap-1">
+                                <div className="flex gap-3">
+                                    <div className="fs-12 text-secondary w-set-10-px">
+                                        5
+                                    </div>
+                                    <ProgressBar
+                                    // calculate percentage of 5 star ratings
+                                    value={gameById?.reviewStats?.ratings?.total5Star / gameById?.reviewStats?.totalReviews * 100 || 0}
+                                    type="primary"/>
+                                </div>
+                                <div className="flex gap-3">
+                                    <div className="fs-12 text-secondary w-set-10-px">
+                                        4
+                                    </div>
+                                    <ProgressBar
+                                    // calculate percentage of 5 star ratings
+                                    value={gameById?.reviewStats?.ratings?.total4Star / gameById?.reviewStats?.totalReviews * 100 || 0}
+                                    type="primary"/>
+                                </div>
+                                <div className="flex gap-3">
+                                    <div className="fs-12 text-secondary w-set-10-px">
+                                        3
+                                    </div>
+                                    <ProgressBar
+                                    // calculate percentage of 5 star ratings
+                                    value={gameById?.reviewStats?.ratings?.total3Star / gameById?.reviewStats?.totalReviews * 100 || 0}
+                                    type="primary"/>
+                                </div>
+                                <div className="flex gap-3">
+                                    <div className="fs-12 text-secondary w-set-10-px">
+                                        2
+                                    </div>
+                                    <ProgressBar
+                                    // calculate percentage of 5 star ratings
+                                    value={gameById?.reviewStats?.ratings?.total2Star / gameById?.reviewStats?.totalReviews * 100 || 0}
+                                    type="primary"/>
+                                </div>
+                                <div className="flex gap-3">
+                                    <div className="fs-12 text-secondary w-set-10-px">
+                                        1
+                                    </div>
+                                    <ProgressBar
+                                    // calculate percentage of 5 star ratings
+                                    value={gameById?.reviewStats?.ratings?.total1Star / gameById?.reviewStats?.totalReviews * 100 || 0}
+                                    type="primary"/>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
-                <p className="fs-14 opacity-75 mt-4">
-                    {gameById.description.slice(0, 1).toUpperCase() + gameById.description.slice(1)}
-                </p>
             </div>
         </div>
     )

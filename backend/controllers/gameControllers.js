@@ -137,8 +137,7 @@ const getGameOverview = async (req, res) => {
                     totalPlays: { $sum: 1 },
                     avgPlayTime: { $avg: '$playTimeMinutes' },
                     avgPlayers: { $avg: { $size: '$players' } },
-                    avgWinRate: { $avg: { $cond: { if: { $arrayElemAt: ['$players.winner', 0] }, then: 1, else: 0 } } },
-                    // Players.score
+                    // avgWinRate: { $avg: { $cond: { if: { $arrayElemAt: ['$players.winner', 0] }, then: 1, else: 0 } } },
                     avgScore: { $avg: { $avg: '$players.score' } }
                 }
             }

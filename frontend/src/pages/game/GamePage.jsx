@@ -163,77 +163,47 @@ const ReviewItem = ({ item }) => {
 }
 
 const GamePlayStats = () => {
-    const dispatch = useDispatch()
-    const { gameId } = useParams()
+    const { gameById } = useSelector((state) => state.game)
 
-    const { stats } = useSelector((state) => state.play)
-
-    useEffect(() => {
-        const promise = dispatch(getGamePlayStats(gameId))
-
-        return () => {
-            promise && promise.abort()
-        }
-    }, [gameId])
 
     return (
-        !stats.isError &&
         <div className="w-set-300-px flex-1 border-radius-lg bg-secondary h-fit-content w-set-sm-auto order-sm-1">
-            {stats.isLoading ?
-                <Skeleton animation="wave" height={60} className="border-radius-lg"/>
-            :
-            <>
-            <Collapse
-                isOpen
-                classNameContainer="p-5"
-                customLabel={
-                    <div className="flex gap-3 align-center justify-between">
-                        <div className="fs-18 weight-500">
-                            Plays:
-                        </div>
-                        <div className={`fs-20 weight-500 flex align-center text-nowrap gap-1`}>
-                            {stats?.data?.totalPlays || 0}
+            <div>
+                <div className="flex flex-col p-3">
+                    <div className="flex-1 flex justify-between py-4 mx-4 border-bottom align-center">
+                        <span className="fs-14 opacity-75 pt-2 weight-500">
+                            Plays
+                        </span>
+                        <div className="fs-14 bold flex align-center">
+                            {numberFormatter(gameById?.playStats?.totalPlays)}
                         </div>
                     </div>
-                }
-            >
-            <div className="flex flex-col px-5 pb-5">
-                <div className="justify-between flex gap-2 border-bottom pb-3 pt-3">
-                    <div className="fs-14 text-secondary">
-                        Avg. Playtime:
+                    <div className="flex-1 flex justify-between py-4 mx-4 border-bottom align-center">
+                        <span className="fs-14 opacity-75 pt-2 weight-500">
+                            Avg. Players
+                        </span>
+                        <div className="fs-14 bold flex align-center">
+                            {gameById?.playStats?.avgPlayers.toFixed(0)}
+                        </div>
                     </div>
-                    <div className="fs-14 text-end text-nowrap">
-                        {stats?.data?.avgPlayTime || 0} min
+                    <div className="flex-1 flex justify-between py-4 mx-4 border-bottom align-center">
+                        <span className="fs-14 opacity-75 pt-2 weight-500">
+                            Avg. Playtime
+                        </span>
+                        <div className="fs-14 bold flex align-center">
+                            {gameById?.playStats?.avgPlayTime.toFixed(0)} Min
+                        </div>
                     </div>
-                </div>
-                <div className="justify-between flex gap-2 border-bottom pb-3 pt-3">
-                    <div className="fs-14 text-secondary">
-                        Avg. Players:
-                    </div>
-                    <div className="fs-14 text-end text-nowrap">
-                        {stats?.data?.avgPlayers?.toFixed(2) || 0}
-                    </div>
-                </div>
-                <div className="justify-between flex gap-2 border-bottom pb-3 pt-3">
-                    <div className="fs-14 text-secondary">
-                        Win Rate:
-                    </div>
-                    <div className="fs-14 text-end text-nowrap">
-                        {stats?.data?.avgWinRate?.toFixed(2) || 0}%
-                    </div>
-                </div>
-                <div className="justify-between flex gap-2 pt-2">
-                    <div className="fs-14 text-secondary">
-                        Avg. Score:
-                    </div>
-                    <div className="fs-14 text-end text-nowrap">
-                        {stats?.data?.avgScore?.toFixed(2) || 0}
+                    <div className="flex-1 flex justify-between py-4 mx-4 align-center">
+                        <span className="fs-14 opacity-75 pt-2 weight-500">
+                            Avg. Score
+                        </span>
+                        <div className="fs-14 bold flex align-center">
+                            {gameById?.playStats?.avgScore}
+                        </div>
                     </div>
                 </div>
             </div>
-            </Collapse>
-            </>
-            }
         </div>
     )
 }
@@ -470,7 +440,7 @@ const PlaysTab = () => {
         {plays.length === 0 && !hasMore ?
             <ErrorInfo label="No plays found" icon={diceIcon}/>
         :
-        <div className="flex gap-6 flex-sm-col gap-sm-0 pt-4">
+        <div className="flex gap-6 flex-sm-col gap-sm-0 pt-6">
                 <div className="flex-1 order-sm-2">
                     {plays.map((item, index, arr) => (
                         <PlayItem
@@ -490,6 +460,16 @@ const PlaysTab = () => {
             />
         }
         </>
+    )
+}
+
+const RulesTab = () => {
+    return (
+        <div className="flex flex-col gap-6 pt-6">
+            <div className="fs-14 text-secondary text-center">
+                Coming soon...
+            </div>
+        </div>
     )
 }
 
@@ -529,7 +509,7 @@ const Overview = () => {
     const { gameById } = useSelector(state => state.game)
 
     return (
-        <div className="flex justify-between gap-6 mt-6 animation-slide-in">
+        <div className="flex justify-between gap-6 my-6 animation-slide-in">
             <div>
                 <div className="flex flex-col gap-6">
                     <div>
@@ -541,7 +521,7 @@ const Overview = () => {
                         </p>
                     </div>
                     <div>
-                        <div className="fs-24 flex align-center gap-4 weight-500 transition-slide-right-hover-parent pointer"
+                        <div className="fs-24 flex align-center gap-4 weight-500 transition-slide-right-hover-parent pointer mt-4"
                             onClick={() => { navigate(`/g/${gameById._id}/reviews`) }}
                         >
                             Ratings and reviews
@@ -618,59 +598,44 @@ const Overview = () => {
                         : null}
                     </div>
                     <div>
-                        <div className="fs-24 flex align-center gap-4 weight-500 transition-slide-right-hover-parent pointer"
+                        <div className="fs-24 flex align-center gap-4 weight-500 transition-slide-right-hover-parent pointer mt-4"
                             onClick={() => { navigate(`/g/${gameById._id}/plays`) }}
                         >
                             Plays and stats
                             <Icon icon={rightArrowIcon} size="sm" className="transition-slide-right-hover"/>
                         </div>
-                        <div className="flex gap-6 pt-5 align-center">
-                            <div className="flex flex-col flex-1 gap-1">
-                                <div className="flex gap-3">
-                                    <div className="fs-12 text-secondary w-set-10-px">
-                                        5
-                                    </div>
-                                    <ProgressBar
-                                    // calculate percentage of 5 star ratings
-                                    value={gameById?.reviewStats?.total5Star / gameById?.reviewStats?.totalReviews * 100 || 0}
-                                    type="primary"/>
+                        <div className="flex gap-3 align-center flex-wrap pt-5 align-center">
+                            <div className="flex-1 flex flex-col p-4 bg-secondary border-radius align-center justify-center">
+                                <div className="fs-24 bold flex align-center">
+                                    {numberFormatter(gameById?.playStats?.totalPlays)}
                                 </div>
-                                <div className="flex gap-3">
-                                    <div className="fs-12 text-secondary w-set-10-px">
-                                        4
-                                    </div>
-                                    <ProgressBar
-                                    // calculate percentage of 5 star ratings
-                                    value={gameById?.reviewStats?.total4Star / gameById?.reviewStats?.totalReviews * 100 || 0}
-                                    type="primary"/>
+                                <span className="fs-12 opacity-75 pt-2 weight-500">
+                                    Plays
+                                </span>
+                            </div>
+                            <div className="flex-1 flex flex-col p-4 bg-secondary border-radius align-center justify-center">
+                                <div className="fs-24 bold flex align-center">
+                                    {gameById?.playStats?.avgPlayers.toFixed(0)}
                                 </div>
-                                <div className="flex gap-3">
-                                    <div className="fs-12 text-secondary w-set-10-px">
-                                        3
-                                    </div>
-                                    <ProgressBar
-                                    // calculate percentage of 5 star ratings
-                                    value={gameById?.reviewStats?.total3Star / gameById?.reviewStats?.totalReviews * 100 || 0}
-                                    type="primary"/>
+                                <span className="fs-12 opacity-75 pt-2 weight-500">
+                                    Avg. Players
+                                </span>
+                            </div>
+                            <div className="flex-1 flex flex-col p-4 bg-secondary border-radius align-center justify-center">
+                                <div className="fs-24 bold flex align-center">
+                                    {gameById?.playStats?.avgPlayTime.toFixed(0)} Min
                                 </div>
-                                <div className="flex gap-3">
-                                    <div className="fs-12 text-secondary w-set-10-px">
-                                        2
-                                    </div>
-                                    <ProgressBar
-                                    // calculate percentage of 5 star ratings
-                                    value={gameById?.reviewStats?.total2Star / gameById?.reviewStats?.totalReviews * 100 || 0}
-                                    type="primary"/>
+                                <span className="fs-12 opacity-75 pt-2 weight-500">
+                                    Avg. Playtime
+                                </span>
+                            </div>
+                            <div className="flex-1 flex flex-col p-4 bg-secondary border-radius align-center justify-center">
+                                <div className="fs-24 bold flex align-center">
+                                    {gameById?.playStats?.avgScore}
                                 </div>
-                                <div className="flex gap-3">
-                                    <div className="fs-12 text-secondary w-set-10-px">
-                                        1
-                                    </div>
-                                    <ProgressBar
-                                    // calculate percentage of 5 star ratings
-                                    value={gameById?.reviewStats?.total1Star / gameById?.reviewStats?.totalReviews * 100 || 0}
-                                    type="primary"/>
-                                </div>
+                                <span className="fs-12 opacity-75 pt-2 weight-500">
+                                    Avg. Score
+                                </span>
                             </div>
                         </div>
                         {gameById?.last3Plays?.length > 0 ?
@@ -755,19 +720,6 @@ const GamePage = () => {
                         <HorizontalScroll 
                             className="my-6 my-sm-5"
                         >
-                            <div className="flex flex-col pe-4 align-center justify-center w-min-100-px border-right pe-sm-2">
-                                <div className="fs-14 bold flex align-center">
-                                    {gameById.avgRating.toFixed(1)}
-                                    <Icon
-                                        icon={starFillIcon}
-                                        className="ms-1"
-                                        size="sm"
-                                    />
-                                </div>
-                                <span className="fs-12 opacity-75 pt-2 weight-500">
-                                    {numberFormatter(gameById.numRatings)} reviews
-                                </span>
-                            </div>
                             <div className="flex flex-col pe-4 align-center justify-center w-min-100-px border-right pe-sm-2">
                                 <div className="fs-14 bold flex align-center">
                                     {gameById.gameWeight.toFixed(1)}<span className="weight-500 text-secondary">/5</span>
@@ -888,6 +840,8 @@ const GamePage = () => {
                         <ReviewsTab/>
                     : tab === 'plays' ?
                         <PlaysTab/>
+                    : tab === 'rules' ?
+                        <RulesTab />
                     : <Overview/> }
                     <div className="flex gap-3 px-4">
                 </div>

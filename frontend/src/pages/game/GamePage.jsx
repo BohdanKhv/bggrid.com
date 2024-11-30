@@ -630,34 +630,34 @@ const Overview = () => {
                             Plays and stats
                             <Icon icon={rightArrowIcon} size="sm" className="transition-slide-right-hover"/>
                         </div>
-                        <div className="flex gap-3 align-center flex-wrap pt-5 align-center">
-                            <div className="flex-1 flex flex-col p-4 bg-secondary border-radius align-center justify-center">
+                        <div className="flex gap-3 gap-sm-2 pt-5">
+                            <div className="flex-1 flex flex-col p-4 bg-secondary border-radius align-center justify-center col-sm-6">
                                 <div className="fs-24 bold flex align-center">
-                                    {numberFormatter(gameById?.playStats?.totalPlays)}
+                                    {numberFormatter(gameById?.playStats?.totalPlays || 0)}
                                 </div>
                                 <span className="fs-12 opacity-75 pt-2 weight-500">
                                     Plays
                                 </span>
                             </div>
-                            <div className="flex-1 flex flex-col p-4 bg-secondary border-radius align-center justify-center">
+                            <div className="flex-1 flex flex-col p-4 bg-secondary border-radius align-center justify-center col-sm-6">
                                 <div className="fs-24 bold flex align-center">
-                                    {gameById?.playStats?.avgPlayers.toFixed(0)}
+                                    {gameById?.playStats?.avgPlayers.toFixed(0) || 0}
                                 </div>
                                 <span className="fs-12 opacity-75 pt-2 weight-500">
                                     Avg. Players
                                 </span>
                             </div>
-                            <div className="flex-1 flex flex-col p-4 bg-secondary border-radius align-center justify-center">
+                            <div className="flex-1 flex flex-col p-4 bg-secondary border-radius align-center justify-center col-sm-6">
                                 <div className="fs-24 bold flex align-center">
-                                    {gameById?.playStats?.avgPlayTime.toFixed(0)} Min
+                                    {gameById?.playStats?.avgPlayTime.toFixed(0) || 0} Min
                                 </div>
                                 <span className="fs-12 opacity-75 pt-2 weight-500">
                                     Avg. Playtime
                                 </span>
                             </div>
-                            <div className="flex-1 flex flex-col p-4 bg-secondary border-radius align-center justify-center">
+                            <div className="flex-1 flex flex-col p-4 bg-secondary border-radius align-center justify-center col-sm-6">
                                 <div className="fs-24 bold flex align-center">
-                                    {gameById?.playStats?.avgScore}
+                                    {gameById?.playStats?.avgScore || 0}
                                 </div>
                                 <span className="fs-12 opacity-75 pt-2 weight-500">
                                     Avg. Score

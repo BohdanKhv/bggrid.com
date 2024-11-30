@@ -7,27 +7,6 @@ import { arrowRightShortIcon, lockIcon, rightArrowIcon, searchIcon, targetIcon, 
 const wordsToTypeForPlaceholder = ['Barista', 'Bartender', 'Server', 'Chef', 'Cook', 'Host', 'Busser', 'Manager', 'Barback', 'Sommelier', 'Bar Manager', 'General Manager', 'Restaurant Manager', 'Kitchen Manager', 'Shift Manager', 'Assistant Manager', 'Front of House Manager', 'Back of House Manager', 'Food Runner', 'Expeditor', 'Line Cook', 'Prep Cook', 'Pastry Chef', 'Sous Chef', 'Executive Chef', 'Head Chef', 'Catering Chef', 'Private Chef', 'Personal Chef', 'Culinary Instructor', 'Culinary Consultant', 'Culinary Director', 'Culinary Manager', 'Culinary Supervisor', 'Culinary Specialist', 'Culinary Coordinator', 'Culinary Assistant', 'Culinary Intern', 'Culinary Apprentice', 'Culinary Trainee', 'Culinary Student', 'Culinary Graduate', 'Culinary Professional', 'Culinary Expert', 'Culinary Enthusiast', 'Culinary Artist', 'Culinary Innovator', 'Culinary Visionary', 'Culinary Pioneer', 'Culinary Trailblazer', 'Culinary Maestro', 'Culinary Genius', 'Culinary Virtuoso', 'Culinary Prodigy']
 
 
-const BusinessType = () => {
-    return (
-        <section className="gap-2 grid grid-cols-4 grid-md-cols-2 w-100">
-                <Link
-                    to="/jobs"
-                    className="flex-shrink-0 border-radius-md text-capitalize box-shadow-hover-sm p-4 fs-24 weight-600 pointer bg-main"
-                >
-                    <div className="flex flex-col gap-4">
-                        <div>
-                            🏢 
-                        </div>
-                        <div>
-                            Browse all
-                        </div>
-                    </div>
-                </Link>
-        </section>
-    )
-}
-
-
 const Section4 = () => {
     return (
         <section>

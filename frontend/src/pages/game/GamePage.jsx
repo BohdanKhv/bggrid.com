@@ -46,8 +46,8 @@ const PlayItem = ({ item }) => {
                         </div>
                     </div>
                     {item.playTimeMinutes ?
-                        <div className="fs-14 pt-3">
-                            <span className="text-secondary">Played for</span> {item.playTimeMinutes} min
+                        <div className="fs-12 text-secondary">
+                            <span className="text-secondary">Played for</span> {item.playTimeMinutes} <span className="text-secondary">min</span>
                         </div>
                     : null}
                     {item.comment ?
@@ -373,7 +373,7 @@ const ReviewsTab = () => {
         {reviews.length === 0 && !hasMore ?
             <ErrorInfo label="No reviews found" icon={starEmptyIcon}/>
         : 
-            <div className="flex gap-6 flex-sm-col gap-sm-0 pt-6">
+            <div className="flex gap-6 flex-sm-col gap-sm-0 pt-4">
                 <div className="flex-1 order-sm-2">
                     {reviews.map((item, index, arr) => (
                         <ReviewItem item={item}
@@ -440,7 +440,7 @@ const PlaysTab = () => {
         {plays.length === 0 && !hasMore ?
             <ErrorInfo label="No plays found" icon={diceIcon}/>
         :
-        <div className="flex gap-6 flex-sm-col gap-sm-0 pt-6">
+        <div className="flex gap-6 flex-sm-col gap-sm-0 pt-4">
                 <div className="flex-1 order-sm-2">
                     {plays.map((item, index, arr) => (
                         <PlayItem

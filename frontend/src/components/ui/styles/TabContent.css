@@ -20,8 +20,9 @@
 
 .tabs-content-indicator {
     background-color: rgb(var(--color-general-secondary-text));
-    border-top-left-radius: 12px;
-    border-top-right-radius: 12px;
+    /* border-top-left-radius: 12px;
+    border-top-right-radius: 12px; */
+    border-radius: 14px;
     height: 3px;
     position: absolute;
     transition-duration: var(--transition-duration);

@@ -52,7 +52,7 @@ const PlayItem = ({ item, hideUpdate }) => {
                                 </div>
                             </div>
                             <div className="flex fs-12 gap-2 text-secondary pt-1">
-                                Played  <Link to={`/g/${item.game._id}`} className="fs-12 text-main bold pointer text-ellipsis-1 text-underlined-hover">{item.game.name}</Link> {item?.playTimeMinutes ? `for ${item.playTimeMinutes} min` : null}
+                                Played <Link to={`/g/${item.game._id}`} className="fs-12 text-main bold pointer text-ellipsis-1 text-underlined-hover">{item.game.name}</Link> {item?.playTimeMinutes ? `for ${item.playTimeMinutes} min` : null}
                             </div>
                         </div>
                         {hideUpdate ? null :

@@ -519,6 +519,32 @@ const Overview = () => {
                         <p className="fs-14 pt-5 text-secondary">
                             {gameById.description.slice(0, 1).toUpperCase() + gameById.description.slice(1)}
                         </p>
+                        <div className="pt-5 flex flex-col gap-3">
+                            <div className="flex flex-col gap-1">
+                                <div className="fs-14 weight-600">Year Published</div>
+                                <div className="fs-14 text-secondary">
+                                    {gameById.yearPublished}
+                                </div>
+                            </div>
+                            <div className="flex flex-col gap-1">
+                                <div className="fs-14 weight-600">Type</div>
+                                <div className="fs-14 text-secondary">
+                                    {gameById.type || 'N/A'}
+                                </div>
+                            </div>
+                            <div className="flex flex-col gap-1">
+                                <div className="fs-14 weight-600">Mechanics</div>
+                                <div className="fs-14 text-secondary">
+                                    {gameById.mechanics || 'N/A'}
+                                </div>
+                            </div>
+                            <div className="flex flex-col gap-1">
+                                <div className="fs-14 weight-600">Theme</div>
+                                <div className="fs-14 text-secondary">
+                                    {gameById.theme || 'N/A'}
+                                </div>
+                            </div>
+                        </div>
                     </div>
                     <div>
                         <div className="fs-24 flex align-center gap-4 weight-500 transition-slide-right-hover-parent pointer mt-4"

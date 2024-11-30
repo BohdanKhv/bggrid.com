@@ -151,10 +151,10 @@ const getGameOverview = async (req, res) => {
                     _id: null,
                     totalReviews: { $sum: 1 },
                     avgRating: { $avg: '$rating' },
-                    total1Star: { $sum: { $cond: { if: { $and: [{ $gte: ['$rating', 0.01] }, { $lte: ['$rating', 1] }] }, then: 1, else: 0 } } },
-                    total2Star: { $sum: { $cond: { if: { $and: [{ $gt: ['$rating', 1] }, { $lte: ['$rating', 2] }] }, then: 1, else: 0 } } },
-                    total3Star: { $sum: { $cond: { if: { $and: [{ $gt: ['$rating', 2.01] }, { $lte: ['$rating', 3] }] }, then: 1, else: 0 } } },
-                    total4Star: { $sum: { $cond: { if: { $and: [{ $gt: ['$rating', 3.01] }, { $lte: ['$rating', 4.99] }] }, then: 1, else: 0 } } },
+                    total1Star: { $sum: { $cond: { if: { $and: [{ $gte: ['$rating', 0.01] }, { $lte: ['$rating', 1.99] }] }, then: 1, else: 0 } } },
+                    total2Star: { $sum: { $cond: { if: { $and: [{ $gt: ['$rating', 2] }, { $lte: ['$rating', 2.99] }] }, then: 1, else: 0 } } },
+                    total3Star: { $sum: { $cond: { if: { $and: [{ $gt: ['$rating', 3] }, { $lte: ['$rating', 3.99] }] }, then: 1, else: 0 } } },
+                    total4Star: { $sum: { $cond: { if: { $and: [{ $gt: ['$rating', 4] }, { $lte: ['$rating', 4.99] }] }, then: 1, else: 0 } } },
                     total5Star: { $sum: { $cond: { if: { $and: [{ $eq: ['$rating', 5] }] }, then: 1, else: 0 } } },
                     totalFavorites: { $sum: { $cond: { if: { $in: ['Favorite', '$tags'] }, then: 1, else: 0 } } },
                     totalOwned: { $sum: { $cond: { if: { $in: ['Owned', '$tags'] }, then: 1, else: 0 } } },
@@ -165,23 +165,23 @@ const getGameOverview = async (req, res) => {
             }
         ]);
 
-        const last5Plays = await Play.find({
+        const last3Plays = await Play.find({
             game: req.params.gameId,
             playTimeMinutes: { $gt: 0 },
-            'players.0': { $exists: true },
-            comment: { $exists: false }
-        }).sort({ createdAt: -1 }).limit(5).populate('players.user user', 'username firstName lastName avatar');
-        const last5Reviews = await Library.find({
+            players: { $exists: true, $not: { $size: 0 } },
+            comment: { $exists: true }
+        }).sort({ createdAt: -1 }).limit(3).populate('players.user user', 'username firstName lastName avatar');
+        const last3Reviews = await Library.find({
             game: req.params.gameId,
             rating: { $gt: 0 },
             comment: { $exists: true }
-        }).sort({ createdAt: -1 }).limit(5).populate('user', 'username firstName lastName avatar');
+        }).sort({ createdAt: -1 }).limit(3).populate('user', 'username firstName lastName avatar');
 
         res.status(200).json({
             data: {
                 ...game._doc,
-                last5Plays,
-                last5Reviews,
+                last3Plays,
+                last3Reviews,
                 playStats: playStats[0],
                 reviewStats: reviewStats[0]
             }

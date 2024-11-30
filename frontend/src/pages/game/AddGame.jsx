@@ -120,11 +120,11 @@ const AddGame = () => {
                     <div>
                         <div className={`fs-54 bold mb-3${rating / 10 == 0 ? " text-secondary" : rating / 10 >= 4 && rating / 10 < 5 ? " text-success" : rating / 10 > 0 && rating / 10 < 3 ? " text-danger" : rating / 10 >= 3 && rating / 10 < 4 ? " text-warning" : rating / 10 == 5 ? " text-primary" : ""}`}>
                             {rating / 10} {
-                                    rating / 10 == 10 ?
+                                    rating / 10 == 5 ?
                                     "Perfect"
-                                    : rating / 10 > 7 ?
-                                    "Great"
                                     : rating / 10 > 4 ?
+                                    "Great"
+                                    : rating / 10 > 3 ?
                                     "Good"
                                     : rating / 10 > 0 ?
                                     "Poor"

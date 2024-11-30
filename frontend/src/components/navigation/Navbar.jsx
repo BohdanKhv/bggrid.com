@@ -139,7 +139,7 @@ const Navbar = () => {
                         label={
                         <>
                             Notifications
-                            <span className="fs-14 text-danger ps-1">
+                            <span className="fs-14 text-danger ps-3">
                                 {notifications.filter(notification => !notification.read).length || ""}
                             </span>
                         </>

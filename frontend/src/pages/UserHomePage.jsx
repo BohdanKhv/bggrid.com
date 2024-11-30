@@ -221,7 +221,7 @@ const UserHomepage = () => {
                             </div>
                         </div>
                         {library && library?.length > 0 ?
-                            <div className="grid grid-cols-4 grid-cols-sm-2 gap-3">
+                            <div className="grid grid-cols-4 px-sm-3 grid-sm-cols-2 gap-3">
                                 {[...library]
                                 .sort((a, b) => DateTime.fromISO(b.createdAt) - DateTime.fromISO(a.createdAt))
                                 .slice(0, 8)

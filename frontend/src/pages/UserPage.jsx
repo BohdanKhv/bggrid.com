@@ -289,7 +289,7 @@ const UserPage = () => {
                                             type="primary"
                                             disabled={loadingId}
                                             onClick={(e) => {
-                                                dispatch(sendFriendRequest(item?._id))
+                                                dispatch(sendFriendRequest(userById?._id))
                                             }}
                                         />}
                                     </div>
@@ -447,8 +447,8 @@ const UserPage = () => {
                                     </div>
                                 :
                                     <ErrorInfo
-                                        label="No games in library"
-                                        secondary="Add games to your library to keep track of your collection"
+                                        label="Oops, no games found"
+                                        secondary={`Once ${userById?.username} adds games to their library, they will appear here`}
                                     />
                                 }
                             </div>

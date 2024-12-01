@@ -129,7 +129,12 @@
 }
 
 .input-search-searchable-dropdown-content::-webkit-scrollbar {
-    display: none;
+    background-color: var(--color-main);
+    width: 8px;
+}
+.input-search-searchable-dropdown-content::-webkit-scrollbar-thumb {
+    border-radius: 14px;
+    background-color: var(--color-border);
 }
 
 @keyframes drop {
@@ -144,6 +149,9 @@
 }
 
 @media (max-width: 800px) {
+    .input-search-searchable-dropdown-content::-webkit-scrollbar {
+        display: none;
+    }
     .input-search-placeholder-print {
         font-size: 24px;
     }

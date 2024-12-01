@@ -212,7 +212,7 @@ const GameReviewStats = () => {
     const { gameById } = useSelector((state) => state.game)
 
     return (
-        <div className="w-set-300-px flex-1 border-radius-lg bg-secondary h-fit-content w-set-sm-auto order-sm-1">
+        <div className="w-set-300-px flex-1 border-radius-lg bg-secondary h-fit-content w-set-sm-auto order-sm-1 mb-4">
             <div className="bg-secondary border-radius-lg">
                 
                 <div className="flex flex-col gap-3 pt-5 px-5">

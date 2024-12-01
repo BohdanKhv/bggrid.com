@@ -147,8 +147,11 @@ const LogPlay = () => {
             actionDangerBtnText={step === 2 ? 'Back' : undefined}
             onSubmitDanger={step === 2 ? () => setStep(1) : undefined}
         >
-            {!gameCard && !loadingId ?
-                <ErrorInfo label="Game not found" secondary="Unfortunately I could not find the game you are looking for." />
+            {loadingId === 'addGame' ?
+                <ErrorInfo isLoading />
+            :
+            !gameCard && !loadingId ?
+                <ErrorInfo label="Game not found" secondary="We couldn't find the game you are looking for." />
             : gameCard && !loadingId ?
             <>
             <div className="sticky top-0 z-3">

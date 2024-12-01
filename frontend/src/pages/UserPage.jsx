@@ -1,6 +1,6 @@
 import { useState, useEffect, useMemo, useRef, useCallback } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { Avatar, Button, Dropdown, ErrorInfo, HorizontalScroll, Icon, IconButton, Image, TabContent } from '../components'
+import { Avatar, Button, Dropdown, ErrorInfo, HorizontalScroll, Icon, IconButton, Image, Skeleton, TabContent } from '../components'
 import { Link, useNavigate, useParams, useSearchParams } from 'react-router-dom'
 import { getUserProfile } from '../features/user/userSlice'
 import { acceptFriendRequest, removeFriend, sendFriendRequest } from '../features/friend/friendSlice'
@@ -66,7 +66,34 @@ const PlayTab = () => {
                 </div>
             </div>
         }
-        {isLoading ?
+        {plays.length === 0 && isLoading ?
+            <div className="flex flex-col gap-5 py-5 px-sm-3">
+                <div className="flex gap-2">
+                    <Skeleton height="56" width="56" animation="wave" rounded/>
+                    <div className="flex flex-col gap-2 flex-1">
+                        <Skeleton height="34" width={225} animation="wave"/>
+                        <Skeleton height="18" width={250} animation="wave"/>
+                        <Skeleton height="200" animation="wave"/>
+                    </div>
+                </div>
+                <div className="flex gap-2">
+                    <Skeleton height="56" width="56" animation="wave" rounded/>
+                    <div className="flex flex-col gap-2 flex-1">
+                        <Skeleton height="34" width={225} animation="wave"/>
+                        <Skeleton height="18" width={250} animation="wave"/>
+                        <Skeleton height="200" animation="wave"/>
+                    </div>
+                </div>
+                <div className="flex gap-2">
+                    <Skeleton height="56" width="56" animation="wave" rounded/>
+                    <div className="flex flex-col gap-2 flex-1">
+                        <Skeleton height="34" width={225} animation="wave"/>
+                        <Skeleton height="18" width={250} animation="wave"/>
+                        <Skeleton height="200" animation="wave"/>
+                    </div>
+                </div>
+            </div>
+        : isLoading ?
             <ErrorInfo isLoading/>
             :
             null
@@ -108,7 +135,9 @@ const LibraryItem = ({ item, index, hideInfo }) => {
                                     <span className={`fs-14 weight-600 text-warning`}>{item.rating || 0}</span>
                                     <div className="flex gap-1 align-center">
                                         {[...Array(5)].map((_, i) => (
-                                            <Icon icon={starFillIcon} size="sm" className={`text-warning ${i + 1 <= item.rating ? 'fill-warning' : 'fill-secondary'}`}/>
+                                            <Icon icon={starFillIcon} size="sm" className={`text-warning ${i + 1 <= item.rating ? 'fill-warning' : 'fill-secondary'}`}
+                                                key={i}
+                                            />
                                         ))}
                                     </div>
                                 </div>
@@ -440,6 +469,7 @@ const UserPage = () => {
                                     })
                                     .map((item, index) => (
                                         <LibraryItem
+                                            key={item._id}
                                             item={item}
                                             index={index}
                                         />

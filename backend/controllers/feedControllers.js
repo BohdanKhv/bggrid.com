@@ -99,7 +99,20 @@ const getCommunityFeed = async (req, res) => {
 }
 
 
+// @desc   Get home feed
+// @route  GET /api/feed/home
+// @access Private
+const getHomeFeed = async (req, res) => {
+    try {
+
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ message: error.message });
+    }
+}
+
 
 module.exports = {
     getCommunityFeed,
+    getHomeFeed
 }

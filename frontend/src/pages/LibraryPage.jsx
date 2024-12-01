@@ -68,8 +68,7 @@ const LibraryItem = ({ item, index, hideInfo }) => {
                                 <div className="flex gap-2">
                                     <Link className="fs-16 text-underlined-hover w-fit-content text-ellipsis-1 h-fit-content"
                                         to={`/g/${item.game._id}`}
-                                        target='_blank'
-                                        >
+                                    >
                                         {item.game.name}
                                     </Link>
                                     </div>
@@ -271,7 +270,7 @@ const LibraryPage = () => {
                                 </div>
                             </div>
                         )}
-                        <div className="flex align-center gap-2 px-sm-3 overflow-hidden pt-3">
+                        <div className="px-sm-3 overflow-hidden pt-3">
                             <HorizontalScroll>
                                 <div className="justify-between flex-shrink-0 flex gap-2 bg-secondary border-radius px-3 py-2">
                                     <div className="fs-12 text-secondary">

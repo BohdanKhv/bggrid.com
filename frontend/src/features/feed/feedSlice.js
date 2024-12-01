@@ -5,6 +5,7 @@ import { toast } from 'react-toastify';
 
 const initialState = {
     feed: [],
+    home: [],
     isLoading: false,
     isError: false,
     limit: 40,
@@ -20,6 +21,26 @@ export const getCommunityFeed = createAsyncThunk(
             const { page, limit } = thunkAPI.getState().feed;
             const token = thunkAPI.getState().auth.user ? thunkAPI.getState().auth.user.token : null;
             return await feedService.getCommunityFeed({ type: payload, page, limit }, token);
+        } catch (error) {
+            const message =
+                (error.response &&
+                    error.response.data &&
+                    error.response.data.msg) ||
+                error.message ||
+                error.toString();
+            return thunkAPI.rejectWithValue(message);
+        }
+    }
+);
+
+
+export const getHomeFeed = createAsyncThunk(
+    'feed/getHomeFeed',
+    async (payload, thunkAPI) => {
+        try {
+            const { page, limit } = thunkAPI.getState().feed;
+            const token = thunkAPI.getState().auth.user ? thunkAPI.getState().auth.user.token : null;
+            return await feedService.getHomeFeed({ type: payload, page, limit }, token);
         } catch (error) {
             const message =
                 (error.response &&
@@ -56,6 +77,21 @@ const feedSlice = createSlice({
             state.hasMore = action.payload.hasMore;
         });
         builder.addCase(getCommunityFeed.rejected, (state, action) => {
+            if (action.error.message !== 'Aborted') {
+                state.isLoading = false;
+                state.isError = true;
+                toast.error(action.payload, { toastId: 'toastError', closeButton: true});
+            }
+        });
+
+        builder.addCase(getHomeFeed.pending, (state) => {
+            state.isLoading = true;
+        });
+        builder.addCase(getHomeFeed.fulfilled, (state, action) => {
+            state.isLoading = false;
+            state.home = action.payload.data;
+        });
+        builder.addCase(getHomeFeed.rejected, (state, action) => {
             if (action.error.message !== 'Aborted') {
                 state.isLoading = false;
                 state.isError = true;

@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { getMyLibrary } from '../features/library/librarySlice'
-import {Avatar, Button, ErrorInfo, HorizontalScroll, IconButton, InputSearch, Image, Icon} from '../components'
+import {Avatar, Button, ErrorInfo, HorizontalScroll, IconButton, InputSearch, Image, Icon, Skeleton} from '../components'
 import { Link, useNavigate, useSearchParams } from 'react-router-dom'
 import { closeIcon, editIcon, gamesIcon, linkIcon, diceIcon, searchIcon, starFillIcon, weightIcon, usersIcon, usersFillIcon, libraryIcon } from '../assets/img/icons'
 import { tagsEnum } from '../assets/constants'
@@ -212,7 +212,34 @@ const PlaysPage = () => {
                                 </div>
                             </div>
                             <div>
-                                {plays.length > 0 && !isLoading ? (
+                                {plays.length === 0 && isLoading ?
+                                    <div className="flex flex-col gap-5 py-5 px-sm-3">
+                                        <div className="flex gap-2">
+                                            <Skeleton height="56" width="56" animation="wave" rounded/>
+                                            <div className="flex flex-col gap-2 flex-1">
+                                                <Skeleton height="34" width={225} animation="wave"/>
+                                                <Skeleton height="18" width={250} animation="wave"/>
+                                                <Skeleton height="200" animation="wave"/>
+                                            </div>
+                                        </div>
+                                        <div className="flex gap-2">
+                                            <Skeleton height="56" width="56" animation="wave" rounded/>
+                                            <div className="flex flex-col gap-2 flex-1">
+                                                <Skeleton height="34" width={225} animation="wave"/>
+                                                <Skeleton height="18" width={250} animation="wave"/>
+                                                <Skeleton height="200" animation="wave"/>
+                                            </div>
+                                        </div>
+                                        <div className="flex gap-2">
+                                            <Skeleton height="56" width="56" animation="wave" rounded/>
+                                            <div className="flex flex-col gap-2 flex-1">
+                                                <Skeleton height="34" width={225} animation="wave"/>
+                                                <Skeleton height="18" width={250} animation="wave"/>
+                                                <Skeleton height="200" animation="wave"/>
+                                            </div>
+                                        </div>
+                                    </div>
+                                : plays.length > 0 && !isLoading ? (
                                     <div className="flex flex-col">
                                     {plays
                                     .map((item, index, arr) =>

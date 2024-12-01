@@ -1,22 +1,24 @@
 import { useEffect, useState } from 'react'
-import { Avatar, Button, Icon, IconButton, Image, InputSearch } from '../components'
+import { Avatar, Button, ErrorInfo, Icon, IconButton, Image, InputSearch, Modal } from '../components'
 import { useDispatch, useSelector } from 'react-redux'
 import { DateTime } from 'luxon'
-import { clockIcon, diceIcon, searchIcon, usersIcon } from '../assets/img/icons'
+import { arrowLeftShortIcon, bellIcon, clockIcon, diceIcon, searchIcon, usersIcon } from '../assets/img/icons'
 import { getSuggestions } from '../features/game/gameSlice'
-import { useSearchParams } from 'react-router-dom'
+import { Link, useNavigate, useSearchParams } from 'react-router-dom'
 import { setSearchHistory } from '../features/local/localSlice'
 import FriendsModal from './friend/FriendsModal'
 
 
 const SearchGames = () => {
     const dispatch = useDispatch()
+    const navigate = useNavigate()
 
     const [searchParams, setSearchParams] = useSearchParams()
     const [searchValue, setSearchValue] = useState(searchParams.get('s') || '')
 
-    const { suggestions } = useSelector((state) => state.game)
+    const { suggestions, loadingId } = useSelector((state) => state.game)
     const { searchHistory } = useSelector((state) => state.local)
+    const { library } = useSelector((state) => state.library)
 
     useEffect(() => {
         let promise;
@@ -44,7 +46,139 @@ const SearchGames = () => {
     };
 
     return (
-
+        window.innerWidth < 800 ?
+        <>
+            <Modal
+                modalIsOpen={searchParams.get('sg') === 'true'}
+                closeModal={() => {
+                    searchParams.delete('sg')
+                    setSearchParams(searchParams.toString())
+                }}
+                classNameContent="p-0"
+                headerNone
+                noAction
+            >
+                <div className="border-bottom align-center flex">
+                    <IconButton
+                        icon={arrowLeftShortIcon}
+                        variant="link"
+                        size="lg"
+                        type="secondary"
+                        onClick={() => {
+                            searchParams.delete('sg')
+                            setSearchParams(searchParams.toString())
+                        }}
+                    />
+                    <InputSearch
+                        className="flex-1 py-1"
+                        placeholder="What do you wanna play?"
+                        value={searchValue}
+                        clearable
+                        autoFocus
+                        onChange={(e) => setSearchValue(e.target.value)}
+                    />
+                </div>
+                <div className="py-4">
+                    {library && library
+                    .filter((item) => item.game.name.toLowerCase().includes(searchValue.toLowerCase()))
+                    .length > 0 ?
+                    <>
+                        <div className="fs-20 pb-3 bold px-3">
+                            Your library
+                        </div>
+                        {library
+                        .filter((item) => item.game.name.toLowerCase().includes(searchValue.toLowerCase()))
+                        .slice(0, 10)
+                        .map((searchItem, i) => (
+                            <div className="flex justify-between align-center bg-secondary-hover"
+                                key={i}
+                            >
+                                <Link
+                                    key={searchItem}
+                                    to={`/g/${searchItem._id}`}
+                                    className="fs-14 flex align-center px-4 py-2 gap-3 pointer flex-1 overflow-hidden clickable opacity-75-active"
+                                >
+                                    <div className="flex gap-3 align-center">
+                                        <Image
+                                            img={searchItem.game.thumbnail}
+                                            alt={searchItem.game.name}
+                                            classNameContainer="w-set-50-px h-set-50-px border-radius-sm overflow-hidden"
+                                        />
+                                        <div className="flex flex-col">
+                                            <div className="fs-14 weight-500 text-ellipsis-2">
+                                                {highlightText(searchItem.game.name, searchValue)}
+                                            </div>
+                                            <div className="fs-12 text-secondary">
+                                                {searchItem.game.yearPublished}
+                                            </div>
+                                        </div>
+                                    </div>
+                                </Link>
+                            </div>
+                        ))}
+                    </>
+                    : null}
+                    {suggestions && suggestions.length > 0 ?
+                    <>
+                        <div className="fs-20 py-3 bold px-3">
+                            Search results
+                        </div>
+                        {suggestions
+                        .map((searchItem, i) => (
+                            <div className="flex justify-between align-center bg-secondary-hover"
+                                key={searchItem._id}
+                            >
+                                <Link
+                                    key={searchItem}
+                                    to={`/g/${searchItem._id}`}
+                                    className="fs-14 flex align-center px-4 py-2 gap-3 pointer flex-1 overflow-hidden clickable opacity-75-active"
+                                >
+                                    <div className="flex gap-3 align-center">
+                                        <Image
+                                            img={searchItem.thumbnail}
+                                            alt={searchItem.name}
+                                            classNameContainer="w-set-50-px h-set-50-px border-radius-sm overflow-hidden"
+                                        />
+                                        <div className="flex flex-col">
+                                            <div className="fs-14 weight-500 text-ellipsis-2">
+                                                {highlightText(searchItem.name, searchValue)}
+                                            </div>
+                                            <div className="fs-12 text-secondary">
+                                                {searchItem.yearPublished}
+                                            </div>
+                                        </div>
+                                    </div>
+                                </Link>
+                            </div>
+                        ))}
+                    </>
+                    :
+                        loadingId === 'suggestions' ?
+                            <ErrorInfo isLoading/>
+                        :
+                        library.filter((item) => item.game.name.toLowerCase().includes(searchValue.toLowerCase())).length === 0 ?
+                            <ErrorInfo
+                                label="No games found"
+                                secondary={`Nothing matched your search for "${searchValue}"`}
+                            />
+                    : null}
+                </div>
+            </Modal>
+            <div className="border border-radius-lg py-2 px-3 flex align-center gap-2 fs-12 weight-600 flex-1"
+                onClick={() => {
+                    searchParams.set('sg', true)
+                    setSearchParams(searchParams)
+                }}
+            >
+                <Icon
+                    icon={searchIcon}
+                    size="sm"
+                    className="fill-secondary"
+                />
+                {searchValue.length ? `${searchValue}` : 'Search games'}
+            </div>
+            </>
+        :
         <div className="border flex border-radius-lg flex-1 w-max-400-px w-100 flex-1">
         <InputSearch
             icon={searchIcon}
@@ -54,9 +188,6 @@ const SearchGames = () => {
             clearable
             onChange={(e) => setSearchValue(e.target.value)}
             onSubmit={() => {
-                if (searchValue === '') searchParams.delete('s')
-                else searchParams.set('s', searchValue)
-                setSearchParams(searchParams.toString())
                 if (searchValue !== "" && !searchHistory.includes(searchValue.trim())) {
                     dispatch(setSearchHistory([...new Set([searchValue.trim(), ...searchHistory])]))
                 }
@@ -68,56 +199,79 @@ const SearchGames = () => {
                     <div className="flex justify-between align-center">
                         <div
                             onClick={(e) => {
+                                e.stopPropagation()
                                 setSearchValue(searchValue)
-                                searchParams.set('s', searchValue)
-                                if (searchValue === '') searchParams.delete('s')
-                                setSearchParams(searchParams.toString())
-                                if (searchValue !== "" && !searchHistory.includes(searchValue.trim())) {
-                                    dispatch(setSearchHistory([...new Set([searchValue.trim(), ...searchHistory])]))
-                                }
                             }}
                             className="fs-16 flex align-center px-4 py-3 gap-3 text-secondary pointer bg-secondary-hover flex-1 overflow-hidden"
                         >
-                            <Icon icon={searchIcon}/><span className="text-ellipsis-1 text-primary">{searchValue}<span className="text-secondary"> - search games</span></span>
+                            <Icon icon={searchIcon} className="fill-secondary"/><span className="text-ellipsis-1 text-primary">{searchValue}<span className="text-secondary"> - search games</span></span>
                         </div>
                     </div>
                     : searchParams.get('s') && searchParams.get('s').length ?
                         <div className="flex justify-between align-center">
                             <div
                                 onClick={(e) => {
+                                    e.stopPropagation()
                                     setSearchValue('')
-                                    searchParams.delete('s')
-                                    setSearchParams(searchParams.toString())
                                 }}
                                 className="fs-16 flex align-center px-4 py-3 gap-3 text-secondary text-center pointer bg-secondary-hover flex-1 overflow-hidden"
                             >
-                                <Icon icon={searchIcon}/><span className="text-ellipsis-1">
+                                <Icon icon={searchIcon} className="fill-secondary"/><span className="text-ellipsis-1">
                                     Show all</span>
                             </div>
                         </div>
                     : null}
-                    {searchHistory && searchHistory.length > 0 ?
+                    {library && library
+                    .filter((item) => item.game.name.toLowerCase().includes(searchValue.toLowerCase()))
+                    .length > 0 ?
+                    <>
+                        <div className="fs-14 px-4 py-2 flex align-center gap-3 text-secondary weight-600">
+                            Your library
+                        </div>
+                        {library
+                        .filter((item) => item.game.name.toLowerCase().includes(searchValue.toLowerCase()))
+                        .slice(0, 5)
+                        .map((searchItem, i) => (
+                            <div className="flex justify-between align-center bg-secondary-hover"
+                                key={i}
+                            >
+                                <Link
+                                    key={searchItem}
+                                    to={`/g/${searchItem.game._id}`}
+                                    className="fs-14 flex align-center px-4 py-2 gap-3 text-secondary pointer flex-1 overflow-hidden"
+                                >
+                                    <Avatar 
+                                        img={searchItem.game.thumbnail}
+                                        name={searchItem.game.name}
+                                        rounded
+                                        size="xs"
+                                    />
+                                    <span className="text-ellipsis-1">{searchItem.game.name}</span>
+                                </Link>
+                            </div>
+                        ))}
+                    </>
+                    : null}
+                    {searchHistory && searchHistory.length > 0 && searchValue.length === 0 ?
                     <>
                         <div className="fs-14 px-4 py-2 flex align-center gap-3 text-secondary weight-600">
                             Search history
                         </div>
                         {searchHistory
                         .slice(0, 5)
-                        .map((searchItem) => (
+                        .map((searchItem, i) => (
                             <div className="flex justify-between align-center bg-secondary-hover"
-                                key={searchItem}
+                                key={i}
                             >
                                 <div
                                     key={searchItem}
                                     onClick={(e) => {
+                                        e.stopPropagation()
                                         setSearchValue(searchItem)
-                                        searchParams.set('s', searchItem)
-                                        if (searchItem === '') searchParams.delete('s')
-                                        setSearchParams(searchParams.toString())
                                     }}
                                     className="fs-14 flex align-center px-4 py-2 gap-3 text-secondary pointer flex-1 overflow-hidden"
                                 >
-                                    <Icon icon={clockIcon}/><span className="text-ellipsis-1">{searchItem}</span>
+                                    <Icon icon={clockIcon} className="fill-secondary"/><span className="text-ellipsis-1">{searchItem}</span>
                                 </div>
                                 <Button
                                     label="Remove"
@@ -135,30 +289,28 @@ const SearchGames = () => {
                     {suggestions && suggestions.length > 0 ?
                     <>
                         <div className="fs-14 px-4 py-2 flex align-center gap-3 text-secondary weight-600">
-                            Search history
+                            Search results
                         </div>
                         {suggestions
-                        .map((item) => (
+                        .map((item, i) => (
                             <div className="flex justify-between align-center bg-secondary-hover"
-                                key={item._id}
+                                key={i}
                             >
-                                <div
+                                <Link
                                     key={item._id}
-                                    onClick={(e) => {
-                                        setSearchValue(item.name)
-                                        searchParams.set('s', item.name)
-                                        if (item.name === '') searchParams.delete('s')
-                                        setSearchParams(searchParams.toString())
-                                        if (item.name !== "" && !searchHistory.includes(item.name.trim())) {
-                                            dispatch(setSearchHistory([...new Set([item.name.trim(), ...searchHistory])]))
-                                        }
-                                    }}
+                                    to={`/g/${item._id}`}
                                     className="fs-14 flex align-center px-4 py-2 gap-3 text-secondary pointer flex-1 overflow-hidden"
                                 >
-                                    <Icon icon={searchIcon}/><span className="text-ellipsis-1">
+                                    <Avatar 
+                                        img={item.thumbnail}
+                                        name={item.name}
+                                        rounded
+                                        size="xs"
+                                    />
+                                    <span className="text-ellipsis-1">
                                         {highlightText(item.name, searchValue)} ({item.yearPublished})
                                     </span>
-                                </div>
+                                </Link>
                             </div>
                         ))}
                     </>
@@ -176,6 +328,7 @@ const UserHomepage = () => {
     const { friends } = useSelector((state) => state.friend)
     const { library } = useSelector((state) => state.library)
     const [searchParams, setSearchParams] = useSearchParams()
+    const { notifications } = useSelector((state) => state.notification)
 
     useEffect(() => {
         window.scrollTo(0, 0)
@@ -190,7 +343,7 @@ const UserHomepage = () => {
             <main className="page-body">
                 <div className="animation-slide-in">
                     <div className="container">
-                        <div className="flex pt-3 pt-sm-3 justify-between px-sm-3 pb-3">
+                        <div className="flex pt-3 pt-sm-3 justify-between px-sm-3 pb-3 gap-3">
                             <SearchGames/>
                             <div className="justify-end flex align-center flex-no-wrap gap-3">
                                 <IconButton
@@ -204,19 +357,28 @@ const UserHomepage = () => {
                                     }}
                                 />
                                 {window.innerWidth < 800 && (
-                                    <div
-                                        onClick={() => {
-                                            document.querySelector('.open-navbar-button').click()
-                                        }}
-                                    >
-                                        <Avatar
-                                            img={`${user?.avatar}`}
-                                            name={user ? `${user?.email}` : null}
-                                            rounded
-                                            avatarColor="1"
-                                            size="sm"
+                                    <>
+                                        <IconButton
+                                            icon={bellIcon}
+                                            variant="text"
+                                            type="secondary"
+                                            to="/notifications"
+                                            notifyCount={notifications.filter(notification => !notification.read).length || ""}
                                         />
-                                    </div>
+                                        <div
+                                            onClick={() => {
+                                                document.querySelector('.open-navbar-button').click()
+                                            }}
+                                        >
+                                            <Avatar
+                                                img={`${user?.avatar}`}
+                                                name={user ? `${user?.email}` : null}
+                                                rounded
+                                                avatarColor="1"
+                                                size="sm"
+                                            />
+                                        </div>
+                                    </>
                                 )}
                             </div>
                         </div>

@@ -68,28 +68,28 @@ const PlaysPage = () => {
             <main className="page-body">
                 <div className="animation-slide-in">
                     <div className="container">
-                        <div className="flex pt-6 pt-sm-3 justify-between px-sm-3 pb-3">
-                            <div className="title-1 bold">
-                                Plays
-                            </div>
-                            {window.innerWidth <= 800 && user ? (
-                            <div className="justify-end flex align-center flex-no-wrap gap-3">
-                                <div
-                                    onClick={() => {
-                                        document.querySelector('.open-navbar-button').click()
-                                    }}
-                                >
-                                    <Avatar
-                                        img={`${user?.avatar}`}
-                                        name={user ? `${user?.email}` : null}
-                                        rounded
-                                        avatarColor="1"
-                                        size="sm"
-                                    />
+                        {window.innerWidth <= 800 && user ? (
+                            <div className="flex pt-6 pt-sm-3 justify-between px-sm-3 pb-3">
+                                <div className="title-1 bold">
+                                    Plays
+                                </div>
+                                <div className="justify-end flex align-center flex-no-wrap gap-3">
+                                    <div
+                                        onClick={() => {
+                                            document.querySelector('.open-navbar-button').click()
+                                        }}
+                                    >
+                                        <Avatar
+                                            img={`${user?.avatar}`}
+                                            name={user ? `${user?.email}` : null}
+                                            rounded
+                                            avatarColor="1"
+                                            size="sm"
+                                        />
+                                    </div>
                                 </div>
                             </div>
-                            ) : null}
-                        </div>
+                        ) : null}
                         {window.innerWidth <= 800 ?
                         <div className="sticky top-0 bg-main py-1 z-3 py-sm-0">
                             {

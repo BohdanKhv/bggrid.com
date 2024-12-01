@@ -249,40 +249,29 @@ const LibraryPage = () => {
             <main className="page-body">
                 <div className="animation-slide-in">
                     <div className="container">
-                        <div className="flex pt-6 pb-3 pt-sm-3 justify-between px-sm-3 pb-3">
-                            <div className="title-1 bold">
-                                Library
-                            </div>
-                            {window.innerWidth < 800 && (
-                            <div className="justify-end flex align-center flex-no-wrap gap-3">
-                                <div
-                                    onClick={() => {
-                                        document.querySelector('.open-navbar-button').click()
-                                    }}
-                                >
-                                    <Avatar
-                                        img={`${user?.avatar}`}
-                                        name={user ? `${user?.email}` : null}
-                                        rounded
-                                        avatarColor="1"
-                                        size="sm"
-                                    />
+                        {window.innerWidth < 800 && (
+                            <div className="flex pt-6 pt-sm-3 justify-between px-sm-3">
+                                <div className="title-1 bold">
+                                    Library
+                                </div>
+                                <div className="justify-end flex align-center flex-no-wrap gap-3">
+                                    <div
+                                        onClick={() => {
+                                            document.querySelector('.open-navbar-button').click()
+                                        }}
+                                    >
+                                        <Avatar
+                                            img={`${user?.avatar}`}
+                                            name={user ? `${user?.email}` : null}
+                                            rounded
+                                            avatarColor="1"
+                                            size="sm"
+                                        />
+                                    </div>
                                 </div>
                             </div>
-                            )}
-                        </div>
-                        <div className="flex align-center gap-2 px-sm-3 overflow-hidden">
-                            <Avatar
-                                img={user.avatar}
-                                rounded
-                                size="lg"
-                                name={user.username}
-                                avatarColor="1"
-                            />
-                            <div className="flex flex-col overflow-hidden">
-                            <div className="fs-14 weight-600 pb-1">
-                                @{user.username}
-                            </div>
+                        )}
+                        <div className="flex align-center gap-2 px-sm-3 overflow-hidden pt-3">
                             <HorizontalScroll>
                                 <div className="justify-between flex-shrink-0 flex gap-2 bg-secondary border-radius px-3 py-2">
                                     <div className="fs-12 text-secondary">
@@ -316,8 +305,7 @@ const LibraryPage = () => {
                                         {(library.reduce((acc, item) => acc + (item.totalWins || 0), 0) / library.reduce((acc, item) => acc + (item.totalPlays || 0), 0) * 100 || 0).toFixed(2)}%
                                     </div>
                                 </div>
-                                </HorizontalScroll>
-                            </div>
+                            </HorizontalScroll>
                         </div>
                         <div className="pt-3 px-sm-3">
                             <div className="flex flex-col gap-3">

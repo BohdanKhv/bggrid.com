@@ -1,7 +1,7 @@
 import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react'
-import { Button, Dropdown, ErrorInfo, FilterDropdown, HorizontalScroll, Icon, IconButton, Image, InputSearch, Modal } from '../components'
+import { Avatar, Button, Dropdown, ErrorInfo, FilterDropdown, HorizontalScroll, Icon, IconButton, Image, InputSearch, Modal } from '../components'
 import { Link, useSearchParams } from 'react-router-dom'
-import { clockIcon, closeIcon, filterIcon, gridIcon, listIcon, searchIcon, toggleSortIcon } from '../assets/img/icons'
+import { arrowLeftShortIcon, clockIcon, closeIcon, filterIcon, gridIcon, listIcon, searchIcon, toggleSortIcon } from '../assets/img/icons'
 import { categoriesEnum, mechanicsEnum, themesEnum, typeEnum } from '../assets/constants'
 import { useDispatch, useSelector } from 'react-redux'
 import { getGames, getSuggestions, resetGame } from '../features/game/gameSlice'
@@ -15,7 +15,7 @@ const SearchPage = () => {
 
     const [searchParams, setSearchParams] = useSearchParams()
     const [searchValue, setSearchValue] = useState(searchParams.get('s') || '')
-    const { suggestions } = useSelector((state) => state.game)
+    const { suggestions, loadingId } = useSelector((state) => state.game)
     const { searchHistory } = useSelector((state) => state.local)
     const [listView, setListView] = useState(true)
 
@@ -116,12 +116,175 @@ const SearchPage = () => {
             <main className="page-body">
                 <div className="animation-slide-in">
                     <div className="container">
+                        {window.innerWidth < 800 ?
                         <div className="pt-6 pb-3 pt-sm-3 title-1 bold px-sm-3">
                             Discover Games
                         </div>
+                        : null}
                         <div className="pb-6 pt-5 pt-sm-0">
                             <div className="flex flex-col gap-3 px-sm-3">
                                 <div className="border flex border-radius-lg flex-1 w-max-400-px">
+                                    {
+                                    window.innerWidth < 800 ?
+                                    <>
+                                        <Modal
+                                            modalIsOpen={searchParams.get('sg') === 'true'}
+                                            closeModal={() => {
+                                                searchParams.delete('sg')
+                                                setSearchParams(searchParams.toString())
+                                            }}
+                                            classNameContent="p-0"
+                                            headerNone
+                                            noAction
+                                        >
+                                            <div className="border-bottom align-center flex">
+                                                <IconButton
+                                                    icon={arrowLeftShortIcon}
+                                                    variant="link"
+                                                    size="lg"
+                                                    type="secondary"
+                                                    onClick={() => {
+                                                        searchParams.delete('sg')
+                                                        setSearchParams(searchParams.toString())
+                                                    }}
+                                                />
+                                                <InputSearch
+                                                    className="flex-1 py-1"
+                                                    placeholder="What do you wanna play?"
+                                                    value={searchValue}
+                                                    clearable
+                                                    autoFocus
+                                                    onChange={(e) => setSearchValue(e.target.value)}
+                                                />
+                                            </div>
+                                            <div className="py-4">
+                                                {searchValue.length > 2 ?
+                                                <div className="flex justify-between align-center">
+                                                    <div
+                                                        onClick={(e) => {
+                                                            setSearchValue(searchValue)
+                                                            searchParams.set('s', searchValue)
+                                                            searchParams.delete('sg')
+                                                            if (searchValue === '') searchParams.delete('s')
+                                                            setSearchParams(searchParams.toString())
+                                                            if (searchValue !== "" && !searchHistory.includes(searchValue.trim())) {
+                                                                dispatch(setSearchHistory([...new Set([searchValue.trim(), ...searchHistory])]))
+                                                            }
+                                                        }}
+                                                        className="fs-16 flex align-center px-4 py-3 gap-3 text-secondary pointer bg-secondary-hover flex-1 overflow-hidden"
+                                                    >
+                                                        <Icon icon={searchIcon} className="fill-secondary"/><span className="text-ellipsis-1 text-primary weight-600">{searchValue}<span className="text-secondary"> - search games</span></span>
+                                                    </div>
+                                                </div>
+                                                : searchParams.get('s') && searchParams.get('s').length ?
+                                                    <div className="flex justify-between align-center">
+                                                        <div
+                                                            onClick={(e) => {
+                                                                setSearchValue('')
+                                                                searchParams.delete('s')
+                                                                searchParams.delete('sg')
+                                                                setSearchParams(searchParams.toString())
+                                                            }}
+                                                            className="fs-16 flex align-center px-4 py-3 gap-3 text-center pointer bg-secondary-hover flex-1 overflow-hidden weight-500"
+                                                        >
+                                                            <Icon icon={searchIcon} className="fill-secondary"/><span className="text-ellipsis-1">
+                                                                Show all</span>
+                                                        </div>
+                                                    </div>
+                                                : null}
+                                                {searchHistory && searchHistory.length > 0 && searchValue.length === 0 ?
+                                                <>
+                                                    <div className="fs-14 px-4 py-2 flex align-center gap-3 text-secondary weight-600">
+                                                        Search history
+                                                    </div>
+                                                    {searchHistory
+                                                    .slice(0, 5)
+                                                    .map((searchItem) => (
+                                                        <div className="flex justify-between align-center bg-secondary-hover"
+                                                            key={searchItem}
+                                                        >
+                                                            <div
+                                                                key={searchItem}
+                                                                onClick={(e) => {
+                                                                    setSearchValue(searchItem)
+                                                                    searchParams.set('s', searchItem)
+                                                                    if (searchItem === '') searchParams.delete('s')
+                                                                    setSearchParams(searchParams.toString())
+                                                                }}
+                                                                className="fs-14 flex align-center px-4 py-2 gap-3 pointer flex-1 overflow-hidden weight-500"
+                                                            >
+                                                                <Icon icon={clockIcon} className="fill-secondary"/><span className="text-ellipsis-1">{searchItem}</span>
+                                                            </div>
+                                                            <Button
+                                                                label="Remove"
+                                                                variant="link"
+                                                                className="mx-3"
+                                                                onClick={(e) => {
+                                                                    e.stopPropagation()
+                                                                    dispatch(setSearchHistory(searchHistory.filter((item) => item !== searchItem)))
+                                                                }}
+                                                            />
+                                                        </div>
+                                                    ))}
+                                                </>
+                                                : null}
+                                                {suggestions && suggestions.length > 0 ?
+                                                <>
+                                                    <div className="fs-14 px-4 py-2 flex align-center gap-3 text-secondary weight-600">
+                                                        Search results
+                                                    </div>
+                                                    {suggestions
+                                                    .map((searchItem, i) => (
+                                                        <div className="flex justify-between align-center bg-secondary-hover"
+                                                            key={searchItem._id}
+                                                        >
+                                                            <Link
+                                                                key={searchItem}
+                                                                to={`/g/${searchItem._id}`}
+                                                                className="fs-14 flex align-center px-4 py-2 gap-3 pointer flex-1 overflow-hidden clickable opacity-75-active"
+                                                            >
+                                                                <div className="flex gap-3 align-center">
+                                                                    <Avatar
+                                                                        img={searchItem.thumbnail}
+                                                                        alt={searchItem.name}
+                                                                        rounded
+                                                                        classNameContainer="border-none"
+                                                                        size="sm"
+                                                                    />
+                                                                    <div className="flex flex-col">
+                                                                        <div className="fs-14 weight-500 text-ellipsis-2">
+                                                                            {highlightText(searchItem.name, searchValue)}
+                                                                        </div>
+                                                                        <div className="fs-12 text-secondary">
+                                                                            {searchItem.yearPublished}
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </Link>
+                                                        </div>
+                                                    ))}
+                                                </>
+                                                :
+                                                    loadingId === 'suggestions' ?
+                                                        <ErrorInfo isLoading/>
+                                                    : null}
+                                            </div>
+                                        </Modal>
+                                        <div className="border border-radius-lg py-2 px-3 flex align-center gap-2 fs-12 weight-600 flex-1"
+                                            onClick={() => {
+                                                searchParams.set('sg', true)
+                                                setSearchParams(searchParams)
+                                            }}
+                                        >
+                                            <Icon
+                                                icon={searchIcon}
+                                                size="sm"
+                                                className="fill-secondary"
+                                            />
+                                            {searchValue.length ? `${searchValue}` : 'Search games'}
+                                        </div>
+                                        </>
+                                    :
                                     <InputSearch
                                         icon={searchIcon}
                                         className="flex-1 py-1"
@@ -154,7 +317,7 @@ const SearchPage = () => {
                                                         }}
                                                         className="fs-16 flex align-center px-4 py-3 gap-3 text-secondary pointer bg-secondary-hover flex-1 overflow-hidden"
                                                     >
-                                                        <Icon icon={searchIcon}/><span className="text-ellipsis-1 text-primary">{searchValue}<span className="text-secondary"> - search games</span></span>
+                                                        <Icon icon={searchIcon} className="fill-secondary"/><span className="text-ellipsis-1 text-primary weight-600">{searchValue}<span className="text-secondary"> - search games</span></span>
                                                     </div>
                                                 </div>
                                                 : searchParams.get('s') && searchParams.get('s').length ?
@@ -165,9 +328,9 @@ const SearchPage = () => {
                                                                 searchParams.delete('s')
                                                                 setSearchParams(searchParams.toString())
                                                             }}
-                                                            className="fs-16 flex align-center px-4 py-3 gap-3 text-secondary text-center pointer bg-secondary-hover flex-1 overflow-hidden"
+                                                            className="fs-16 flex align-center px-4 py-3 gap-3 text-center pointer bg-secondary-hover flex-1 overflow-hidden weight-500"
                                                         >
-                                                            <Icon icon={searchIcon}/><span className="text-ellipsis-1">
+                                                            <Icon icon={searchIcon} className="fill-secondary"/><span className="text-ellipsis-1">
                                                                 Show all</span>
                                                         </div>
                                                     </div>
@@ -191,9 +354,9 @@ const SearchPage = () => {
                                                                     if (searchItem === '') searchParams.delete('s')
                                                                     setSearchParams(searchParams.toString())
                                                                 }}
-                                                                className="fs-14 flex align-center px-4 py-2 gap-3 text-secondary pointer flex-1 overflow-hidden"
+                                                                className="fs-14 flex align-center px-4 py-2 gap-3 pointer flex-1 overflow-hidden weight-500"
                                                             >
-                                                                <Icon icon={clockIcon}/><span className="text-ellipsis-1">{searchItem}</span>
+                                                                <Icon icon={clockIcon} className="fill-secondary"/><span className="text-ellipsis-1">{searchItem}</span>
                                                             </div>
                                                             <Button
                                                                 label="Remove"
@@ -229,9 +392,16 @@ const SearchPage = () => {
                                                                         dispatch(setSearchHistory([...new Set([item.name.trim(), ...searchHistory])]))
                                                                     }
                                                                 }}
-                                                                className="fs-14 flex align-center px-4 py-2 gap-3 text-secondary pointer flex-1 overflow-hidden"
+                                                                className="fs-14 flex align-center px-4 py-2 gap-3 pointer flex-1 overflow-hidden"
                                                             >
-                                                                <Icon icon={searchIcon}/><span className="text-ellipsis-1">
+                                                                <Avatar
+                                                                    img={item.thumbnail}
+                                                                    alt={item.name}
+                                                                    rounded
+                                                                    size="xs"
+                                                                    classNameContainer="border-none"
+                                                                />
+                                                                <span className="text-ellipsis-1">
                                                                     {highlightText(item.name, searchValue)} ({item.yearPublished})
                                                                 </span>
                                                             </div>
@@ -242,20 +412,7 @@ const SearchPage = () => {
                                         </div>
                                     }
                                     />
-                                    {/* <Button
-                                        icon={searchIcon}
-                                        variant="filled"
-                                        type="primary"
-                                        className="m-1"
-                                        onClick={() => {
-                                            if (searchValue === '') searchParams.delete('s')
-                                            else searchParams.set('s', searchValue)
-                                            setSearchParams(searchParams.toString())
-                                            if (searchValue !== "" && !searchHistory.includes(searchValue.trim())) {
-                                                dispatch(setSearchHistory([...new Set([searchValue.trim(), ...searchHistory])]))
-                                            }
-                                        }}
-                                    /> */}
+                                }
                                 </div>
                             </div>
                             <div className="py-3 top-0 z-3 sticky px-sm-3 bg-main">

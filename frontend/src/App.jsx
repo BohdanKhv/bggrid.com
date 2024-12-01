@@ -93,7 +93,6 @@ function App() {
                     <Route path="/*" element={<ErrBoundary><NotFound /></ErrBoundary>} />
                   </Routes>
                   </div>
-                  <Footer/>
                 </div>
               </div>
           </UserGuard>

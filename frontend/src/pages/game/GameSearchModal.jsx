@@ -84,7 +84,7 @@ const GameSearchModal = () => {
                     .slice(0, 10)
                     .map((searchItem) => (
                         <div className="flex justify-between align-center bg-secondary-hover"
-                            key={searchItem}
+                            key={searchItem._id}
                         >
                             <Link
                                 key={searchItem}

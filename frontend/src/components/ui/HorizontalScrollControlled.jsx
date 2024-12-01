@@ -67,7 +67,7 @@ const HorizontalScrollControlled = ({items, label, maxVisibleItems, contentClass
                 onScroll={() => setTimeout(updateScrollPosition, 300)} // Adjust the timeout duration to match your animation duration
             >
                 {items.map((item, index) => (
-                    <div className="carousel-item" key={index}
+                    <div className="carousel-item bg-secondary-hover py-2 border-radius pointer" key={index}
                         style={{
                             '--max-visible-items': maxVisibleItems || 3
                         }}

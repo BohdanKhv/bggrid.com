@@ -11,7 +11,7 @@ const Footer = () => {
     return (
         (['/','/terms','/faq','/pricing','/privacy'].includes(pathname) || pathname.startsWith('/salaries') || pathname.startsWith('/interviews')) &&
         <footer className="bg-black container px-sm-2 py-6 flex flex-col">
-            <div className="w-max-md mx-auto h-100 flex flex-col flex-1 gap-6">
+            <div className="w-max-xl w-100 mx-auto h-100 flex flex-col flex-1 gap-6">
                 <div className="flex justify-between flex-1 flex-sm-col gap-sm-6">
                     <div className="flex flex-col gap-1">
                         <div className="fs-14 weight-600 text-white text-uppercase pb-4">

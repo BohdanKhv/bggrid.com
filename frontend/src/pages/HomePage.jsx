@@ -12,51 +12,14 @@ import HorizontalScrollControlled from '../components/ui/HorizontalScrollControl
 import { typeEnum } from '../assets/constants'
 
 
-const PlayItem = ({ item }) => {
-    const { user } = useSelector((state) => state.auth)
-
-    const [searchParams, setSearchParams] = useSearchParams()
-
-    return  (
-        <div className="flex flex-col gap-3"
-            onClick={() => {
-                searchParams.set('logPlay', item.game._id)
-                setSearchParams(searchParams)
-            }}
-        >
-            <Image img={item?.game?.thumbnail} classNameContainer="h-set-200-px border-radius overflow-hidden"/>
-            <div className="flex align-center pos-relative flex-1">
-                <div className="fs-14 bold text-ellipsis-2 flex-1">
-                    {item?.game?.name}
-                </div>
-            </div>
-            <div className="flex gap-2">
-                {item?.players?.find((player) => player.user === user._id && player.winner) ?
-                    <div className="tag-success fs-12 px-2 py-1 border-radius-sm">
-                        Winner
-                    </div>
-                : null}
-                {item.playTimeMinutes ?
-                    <div className="tag-secondary fs-12 px-2 py-1 border-radius-sm">
-                        {item.playTimeMinutes} min
-                    </div>
-                : null}
-            </div>
-        </div>
-    )
-}
-
 const GameItem = ({ item }) => {
     const { user } = useSelector((state) => state.auth)
 
     const [searchParams, setSearchParams] = useSearchParams()
 
     return  (
-        <div className="flex flex-col gap-3"
-            onClick={() => {
-                searchParams.set('addGame', item._id)
-                setSearchParams(searchParams)
-            }}
+        <Link className="flex flex-col gap-3"
+            to={`/g/${item?.game?._id}`}
         >
             <Image img={item?.thumbnail} classNameContainer="h-set-200-px border-radius overflow-hidden"/>
             <div className="flex align-center pos-relative flex-1">
@@ -76,7 +39,7 @@ const GameItem = ({ item }) => {
                     </div>
                 : null}
             </div>
-        </div>
+        </Link>
     )
 }
 
@@ -125,12 +88,52 @@ const HomeFeed = () => {
                 </div>
             </div>
         :
-            <div className="py-6 flex flex-col gap-6 overflow-hidden px-sm-3 py-sm-3">
+            <div className="py-6 flex flex-col gap-6 overflow-hidden px-sm-3 py-sm-3 gap-sm-3">
+                {home?.recommended?.length ?
+                    <HorizontalScrollControlled
+                        label={
+                            <div className="fs-24 flex align-center gap-4 weight-500 transition-slide-right-hover-parent">
+                                Recommended
+                            </div>
+                        }
+                        maxVisibleItems={window.innerWidth < 800 ? 2 : 5}
+                        items={home.recommended.map((item, i) => (
+                            <GameItem key={i} item={item}/>
+                        ))}
+                    />
+                : null}
+                <div>
+                    <div className="fs-24 flex align-center gap-4 weight-500 transition-slide-right-hover-parent pb-4">
+                        Popular Types
+                    </div>
+                    <HorizontalScroll>
+                        {typeEnum
+                        .slice(0, 15)
+                        .map((item, i) => (
+                            <div
+                                key={i}
+                                className="flex justify-between transition-slide-right-hover-parent h-set-30-px align-center transition-opacity-hover-parent gap-1 bg-secondary border-radius p-4 pointer w-set-150-px"
+                            >
+                                <div className="flex align-center gap-4">
+                                    <Icon icon={item.icon} size="lg"/>
+                                    <div className="fs-14 weight-500">
+                                        {item.type}
+                                    </div>
+                                </div>
+                                <Icon
+                                    icon={rightArrowIcon}
+                                    size="sm"
+                                    className="transition-slide-right-hover transition-opacity-hover"
+                                />
+                            </div>
+                    ))}
+                    </HorizontalScroll>
+                </div>
                 {home?.mostPlayed?.length ?
                     <HorizontalScrollControlled
                         label={
                             <div className="fs-24 flex align-center gap-4 weight-500 transition-slide-right-hover-parent">
-                                Games for you
+                                Most Played
                             </div>
                         }
                         maxVisibleItems={window.innerWidth < 800 ? 2 : 5}
@@ -146,291 +149,112 @@ const HomeFeed = () => {
 }
 
 
-const Section4 = () => {
-    return (
-        <section>
-            <div className="mx-auto w-max-md h-min-100 flex flex-col bg-main">
-                <div className="flex justify-center align-center flex-col gap-6 container px-sm-2 pt-6 flex-1">
-                    <div className="flex flex-sm-col justify-between w-100 gap-4 text-sm-center align-center">
-                        <div className="title-2 weight-600 col-6 col-sm-12">
-                            Optimize your search
-                        </div>
-                        <div className="flex flex-col col-6 col-sm-12 gap-4">
-                            <div className="fs-18 text-secondary">
-                                Simple and easy to use job search platform made for the service industry.
-                            </div>
-                        </div>
-                    </div>
-                    <div className="flex flex-col w-100">
-                        <div className="flex justify-between border-bottom py-6">
-                            <div className="title-2 fs-sm-20 weight-600 col-6 col-sm-12">
-                                YOUR GOAL
-                            </div>
-                            <div className="title-2 fs-sm-20 weight-600 col-6 col-sm-12">
-                                HOW WE HELP
-                            </div>
-                        </div>
-                        <div className="border-bottom py-6">
-                            <div className="flex justify-between gap-4">
-                                <div className="title-2 fs-sm-20 weight-600 col-6 col-sm-12">
-                                    1. Job Search
-                                </div>
-                                <div className="flex flex-col col-6 col-sm-12 gap-4">
-                                    <div className="fs-20 text-secondary fs-sm-16">
-                                        - Customize your search with filters and find the job that fits you best.
-                                    </div>
-                                    <div className="fs-20 text-secondary fs-sm-16">
-                                        - Bookmark jobs to view them later.
-                                    </div>
-                                    <div className="fs-20 text-secondary fs-sm-16">
-                                        - Apply to jobs with a single click.
-                                    </div>
-                                    <div className="fs-20 text-secondary fs-sm-16">
-                                        - Track job you've applied to.
-                                    </div>
-                                    <div className="fs-20 text-secondary fs-sm-16">
-                                        - Save your resume and work preferences.
-                                    </div>
-                                    <div className="fs-20 text-secondary fs-sm-16">
-                                        - Build your In Crew profile and get discovered by employers.
-                                    </div>
-                                    <div className="fs-20 text-secondary fs-sm-16">
-                                        - Get notified when new jobs are posted.
-                                    </div>
-                                </div>
-                            </div>
-                            <div className="flex justify-center align-center">
-                                <Button
-                                    label="Create a Profile"
-                                    to="/login"
-                                    variant="outline"
-                                    className="mt-6"
-                                    type="primary"
-                                    size="lg"
-                                    iconRight={arrowRightShortIcon}
-                                    borderRadius="lg"
-                                    />
-                            </div>
-                        </div>
-                        <div className="border-bottom py-6">
-                            <div className="flex justify-between gap-4">
-                                <div className="title-2 fs-sm-20 weight-600 col-6 col-sm-12">
-                                    2. Hiring
-                                </div>
-                                <div className="flex flex-col col-6 col-sm-12 gap-4">
-                                    <div className="fs-20 text-secondary fs-sm-16">
-                                        - In Crew profiles help you find the best talent for your business.
-                                    </div>
-                                    <div className="fs-20 text-secondary fs-sm-16">
-                                        - Get notified when new applications are submitted.
-                                    </div>
-                                    <div className="fs-20 text-secondary fs-sm-16">
-                                        - Job posting easy and customizable.
-                                    </div>
-                                    <div className="fs-20 text-secondary fs-sm-16">
-                                        - Transparent pricing.
-                                    </div>
-                                </div>
-                            </div>
-                            <div className="flex justify-center align-center">
-                                <Button
-                                    label="Create a Job Listing"
-                                    to="/new"
-                                    variant="filled"
-                                    className="mt-6"
-                                    type="primary"
-                                    size="lg"
-                                    iconRight={arrowRightShortIcon}
-                                    borderRadius="lg"
-                                />
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
-    )
-}
-
-const Section3 = () => {
-    return (
-        <section
-            className="py-6 container px-sm-2 flex align-center justify-center flex-col"
-        >
-            <div className="mx-auto w-max-default">
-                <div className="flex justify-center align-center text-center flex-col gap-4">
-                <div className="weight-500 title-1 text-center fs-sm-28">
-                    Find the best crew<br/>for your business
-                </div>
-                    <Button
-                        label="Create a Job Listing"
-                        to="/new"
-                        variant="filled"
-                        type="primary"
-                        size="lg"
-                        borderRadius="lg"
-                    />
-                </div>
-            </div>
-        </section>
-    )
-}
-
 const Section5 = () => {
 
     return (
-        <section
-            className="py-6 container px-sm-2 h-min-100 flex align-center justify-center flex-col"
-        >
-            <div className="mx-auto w-max-md">
-                <div className="bg-black px-sm-4 border-radius-lg p-6 text-white">
-                <div className="flex justify-center align-center text-center flex-col gap-6">
-                <div className="weight-500 fs-54 pb-6 pb-sm-0 text-center fs-sm-28">
-                        Create your profile<br/>& stay on top of your career.
-                </div>
-                <div className="flex gap-6 justify-center flex-sm-col">
-                    <div className="flex-1 flex flex-col">
-                        <div className="flex flex-col gap-3 align-center">
-                            <div className="p-4 border-radius-lg bg-white">
-                                <Icon
-                                    icon={lockIcon}
-                                    size="xl"
-                                />
+        <section className="flex gap-4 pb-6 flex-col px-sm-3">
+            <div className="flex border-radius-lg text-white pos-relative h-set-400-px h-sm-100 flex-sm-col overflow-hidden"
+            style={{
+                background: "radial-gradient(50% 120% at 60% 100%, rgb(51, 0, 255) 0%, rgb(0, 0, 0) 100%)"
+            }}>
+                <div className="flex flex-1 p-6 pb-sm-0 text-sm-center">
+                    <div className="flex-2 d-sm-none"/>
+                    <div className="flex align-center gap-6 flex-1">
+                        <div>
+                            <div className="fs-24 bold pb-3 text-shadow-hard">
+                                List of Boardgames
                             </div>
-                            <div>
-                                <div className="pb-2 fs-24 fs-sm-20 weight-600">
-                                    No more passwords
-                                </div>
-                                <p>
-                                    You only need your email to register and start using In Crew Cafe.
-                                </p>
-                            </div>
-                        </div>
-                    </div>
-                    <div className="flex-1 flex flex-col">
-                        <div className="flex flex-col gap-3 align-center">
-                            <div className="p-4 border-radius-lg bg-white">
-                                <Icon
-                                    icon={userCardIcon}
-                                    size="xl"
-                                />
-                            </div>
-                            <div>
-                                <div className="pb-2 fs-24 fs-sm-20 weight-600">
-                                    Establish a presence
-                                </div>
-                                <p>
-                                    Your profile lets thousands of businesses discover you and your unique talents.
-                                </p>
-                            </div>
-                        </div>
-                    </div>
-                    <div className="flex-1 flex flex-col">
-                        <div className="flex flex-col gap-3 align-center">
-                            <div className="p-4 border-radius-lg bg-white">
-                                <Icon
-                                    icon={targetIcon}
-                                    size="xl"
-                                    className="text-black"
-                                />
-                            </div>
-                                <div>
-                                    <div className="pb-2 fs-24 fs-sm-20 weight-600">
-                                        Fuel your career
-                                    </div>
-                                    <p>
-                                        The more you share with us, the better we can customize your experience on In Cere Cafe.
-                                    </p>
-                                </div>
+                            <div className="fs-14 text-shadow-hard">
+                                Keep track of the games you've played or want to play.
                             </div>
                         </div>
                     </div>
                 </div>
+                <div className="flex-2 px-6 pt-6 p-sm-0 flex align-end">
+                    <img
+                        src='./assets/section-5.png'
+                        className="w-100 h-100 object-cover"
+                    />
+                </div>
+            </div>
+            <div className="flex gap-4 flex-sm-col">
+                <div className="flex border-radius-lg overflow-hidden text-white pos-relative flex-1 bg-black">
+                    <div className="pos-absolute mask-image-100">
+                        <img
+                            src='./assets/section-5-1.png'
+                            className="w-100 h-100 object-cover"
+                        />
+                    </div>
+                    <div className="flex align-center justify-center text-center gap-6 flex-1 h-set-300-px h-sm-set-250-px p-6 z-3">
+                        <div>
+                            <div className="fs-24 bold pb-3 text-shadow-hard">
+                                Write Reviews and Ratings
+                            </div>
+                            <div className="fs-14 text-shadow-hard">
+                                Share your thoughts and opinions on games you've played.
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div className="flex border-radius-lg overflow-hidden text-white pos-relative flex-1 bg-black">
+                    <div className="pos-absolute mask-image-100">
+                        <img
+                            src='./assets/section-5-2.png'
+                            className="w-100 h-100 right-0"
+                        />
+                    </div>
+                    <div className="flex align-center justify-center text-center gap-6 flex-1 h-set-300-px h-sm-set-250-px p-6 z-3">
+                        <div>
+                            <div className="fs-24 bold pb-3 text-shadow-hard">
+                                Record Your Plays
+                            </div>
+                            <div className="fs-14 text-shadow-hard">
+                                Keep track of the games you've played with your friends.
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div className="flex border-radius-lg p-6 text-white pos-relative flex-1 bg-black"
+                style={{
+                    background: "radial-gradient(50% 120% at 80% 100%, rgb(134, 0, 255) 0%, rgb(0, 0, 0) 100%)"
+                }}>
+                <div className="flex align-center gap-6 flex-1">
+                    <div>
+                        <div className="fs-14 bold pb-4">
+                            Let's get your boardgames collection started
+                        </div>
+                        <Button
+                            label="Create an Account"
+                            to="/register"
+                            variant="filled"
+                            type="secondary"
+                            size="lg"
+                            className="transition-slide-right-hover-parent"
+                            iconRight={<span
+                                className="transition-slide-right-hover"
+                            >
+                                {rightArrowIcon}
+                            </span>}
+                            borderRadius="lg"
+                        />
+                    </div>
                 </div>
             </div>
         </section>
-    )
-}
-
-const Section6 = () => {
-    return (
-        <HorizontalScroll
-            noControllers
-        >
-            {[{ label: 'New York', value: 'new-york', geo: 'lat=40.7128&lng=-74.0060'},
-            { label: 'Los Angeles', value: 'la', geo: 'lat=34.0522&lng=-118.2437'},
-            { label: 'Chicago', value: 'chicago', geo: 'lat=41.8781&lng=-87.6298'},
-            { label: 'Philadelphia', value: 'philadelphia', geo: 'lat=39.9526&lng=-75.1652'},
-            { label: "Seattle", value: 'seattle', geo: 'lat=47.6062&lng=-122.3321'},
-            { label: "San Francisco", value: 'san-francisco', geo: 'lat=37.7749&lng=-122.4194'},
-            { label: "Miami", value: 'miami', geo: 'lat=25.7617&lng=-80.1918'},
-            { label: "Las Vegas", value: 'las-vegas', geo: 'lat=36.1699&lng=-115.1398'},
-            ]
-            .map((state) => (
-                <Link
-                    key={state.label}
-                    to={`/jobs?${state.geo}`}
-                    className="flex-shrink-0 opacity-75-active border-radius-md text-capitalize box-shadow-hover-sm p-4 fs-24 weight-600 pointer bg-main h-min-150-px w-min-300-px pos-relative overflow-hidden display-on-hover-parent transition-slide-right-hover-parent overflow-hidden flex align-end"
-                    style={{
-                        backgroundImage: `url(${import.meta.env.VITE_CLIENT_URL}/assets/cities/${state.value}.png)`,
-                        backgroundSize: 'cover',
-                        backgroundPosition: 'center',
-                        backgroundRepeat: 'no-repeat',
-                        backgroundBlendMode: 'multiply'
-                    }}
-                >
-                    <div
-                        className="pos-absolute bottom-fade-effect bottom-0 w-100 h-100 left-0 z-0"
-                    />
-                    <div className="flex flex-col justify-end align-start h-100 w-100 fs-24 bold text-white text-shadow-hard z-2 pos-relative flex-1 h-100"
-                    >
-                        <div className="flex justify-between align-center w-100">
-                            <span className="flex-1">{`${state.label}`}</span>
-                            <Icon
-                                icon={rightArrowIcon}
-                                className="display-on-hover transition-slide-right-hover fill-white"
-                            />
-                        </div>
-                    </div>
-                </Link>
-            ))} 
-        </HorizontalScroll>
     )
 }
 
 const HomePage = () => {
     useEffect(() => {
-        window.scrollTo(0, 0)
+        // window.scrollTo(0, 0)
         document.title = "Home"
     }, [])
 
     return (
         <div>
-        <div className="pt-3 px-sm-3">
-            <HorizontalScroll>
-                {typeEnum
-                .slice(0, 15)
-                .map((item, i) => (
-                    <div
-                        key={i}
-                        className="flex justify-between transition-slide-right-hover-parent h-set-30-px align-center transition-opacity-hover-parent gap-1 bg-secondary border-radius p-4 pointer w-set-150-px"
-                    >
-                        <div className="flex align-center gap-4">
-                            <Icon icon={item.icon} size="lg"/>
-                            <div className="fs-14 weight-500">
-                                {item.type}
-                            </div>
-                        </div>
-                        <Icon
-                            icon={rightArrowIcon}
-                            size="sm"
-                            className="transition-slide-right-hover transition-opacity-hover"
-                        />
-                    </div>
-            ))}
-            </HorizontalScroll>
-        </div>
-        <HomeFeed/>
+            <HomeFeed/>
+            <Section5/>
         </div>
     )
 }

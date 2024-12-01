@@ -45,6 +45,7 @@
     background: linear-gradient(to right,var(--color-main) 20%,rgba(33,33,33,0) 80%);
     height: 100%;
     width: 38px;
+    margin-left: -1px;
     pointer-events: none;
     display: block;
 }
@@ -53,6 +54,7 @@
     background: linear-gradient(to left,var(--color-main) 20%,rgba(33,33,33,0) 80%);
     height: 100%;
     width: 38px;
+    margin-right: -1px;
     pointer-events: none;
     display: block;
 }

@@ -89,7 +89,14 @@ const Header = () => {
                                         type="secondary"
                                         borderRadius="lg"
                                     />
-                                    : null
+                                    : 
+                                    <Button
+                                        to="/login"
+                                        label="Log In"
+                                        variant="filled"
+                                        type="secondary"
+                                        borderRadius="lg"
+                                    />
                                     }
                                     </>
                                     }

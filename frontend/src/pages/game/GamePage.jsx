@@ -199,7 +199,7 @@ const GamePlayStats = () => {
                             Avg. Score
                         </span>
                         <div className="fs-14 bold flex align-center">
-                            {gameById?.playStats?.avgScore}
+                            {gameById?.playStats?.avgScore.toFixed(0)}
                         </div>
                     </div>
                 </div>
@@ -440,7 +440,7 @@ const PlaysTab = () => {
         {plays.length === 0 && !hasMore ?
             <ErrorInfo label="No plays found" icon={diceIcon}/>
         :
-        <div className="flex gap-6 flex-sm-col gap-sm-0 pt-4">
+            <div className="flex gap-6 flex-sm-col gap-sm-0 pt-4">
                 <div className="flex-1 order-sm-2">
                     {plays.map((item, index, arr) => (
                         <PlayItem
@@ -449,7 +449,9 @@ const PlaysTab = () => {
                         />
                     ))}
                 </div>
+                {window.innerWidth >= 800 ?
                 <GamePlayStats/>
+                : null}
             </div>
         }
         {isLoading ?
@@ -630,38 +632,42 @@ const Overview = () => {
                             Plays and stats
                             <Icon icon={rightArrowIcon} size="sm" className="transition-slide-right-hover"/>
                         </div>
-                        <div className="flex gap-3 gap-sm-2 pt-5">
-                            <div className="flex-1 flex flex-col p-4 bg-secondary border-radius align-center justify-center col-sm-6">
-                                <div className="fs-24 bold flex align-center">
-                                    {numberFormatter(gameById?.playStats?.totalPlays || 0)}
+                        <div className="flex gap-3 gap-sm-2 pt-5 flex-sm-col">
+                            <div className="flex gap-3 flex-1">
+                                <div className="flex-1 flex flex-col p-4 bg-secondary border-radius align-center justify-center col-sm-6">
+                                    <div className="fs-24 bold flex align-center">
+                                        {numberFormatter(gameById?.playStats?.totalPlays || 0)}
+                                    </div>
+                                    <span className="fs-12 opacity-75 pt-2 weight-500">
+                                        Plays
+                                    </span>
                                 </div>
-                                <span className="fs-12 opacity-75 pt-2 weight-500">
-                                    Plays
-                                </span>
+                                <div className="flex-1 flex flex-col p-4 bg-secondary border-radius align-center justify-center col-sm-6">
+                                    <div className="fs-24 bold flex align-center">
+                                        {gameById?.playStats?.avgPlayers.toFixed(0) || 0}
+                                    </div>
+                                    <span className="fs-12 opacity-75 pt-2 weight-500">
+                                        Avg. Players
+                                    </span>
+                                </div>
                             </div>
-                            <div className="flex-1 flex flex-col p-4 bg-secondary border-radius align-center justify-center col-sm-6">
-                                <div className="fs-24 bold flex align-center">
-                                    {gameById?.playStats?.avgPlayers.toFixed(0) || 0}
+                            <div className="flex gap-3 flex-1">
+                                <div className="flex-1 flex flex-col p-4 bg-secondary border-radius align-center justify-center col-sm-6">
+                                    <div className="fs-24 bold flex align-center">
+                                        {gameById?.playStats?.avgPlayTime.toFixed(0) || 0} Min
+                                    </div>
+                                    <span className="fs-12 opacity-75 pt-2 weight-500">
+                                        Avg. Playtime
+                                    </span>
                                 </div>
-                                <span className="fs-12 opacity-75 pt-2 weight-500">
-                                    Avg. Players
-                                </span>
-                            </div>
-                            <div className="flex-1 flex flex-col p-4 bg-secondary border-radius align-center justify-center col-sm-6">
-                                <div className="fs-24 bold flex align-center">
-                                    {gameById?.playStats?.avgPlayTime.toFixed(0) || 0} Min
+                                <div className="flex-1 flex flex-col p-4 bg-secondary border-radius align-center justify-center col-sm-6">
+                                    <div className="fs-24 bold flex align-center">
+                                        {gameById?.playStats?.avgScore.toFixed(0) || 0}
+                                    </div>
+                                    <span className="fs-12 opacity-75 pt-2 weight-500">
+                                        Avg. Score
+                                    </span>
                                 </div>
-                                <span className="fs-12 opacity-75 pt-2 weight-500">
-                                    Avg. Playtime
-                                </span>
-                            </div>
-                            <div className="flex-1 flex flex-col p-4 bg-secondary border-radius align-center justify-center col-sm-6">
-                                <div className="fs-24 bold flex align-center">
-                                    {gameById?.playStats?.avgScore || 0}
-                                </div>
-                                <span className="fs-12 opacity-75 pt-2 weight-500">
-                                    Avg. Score
-                                </span>
                             </div>
                         </div>
                         {gameById?.last3Plays?.length > 0 ?

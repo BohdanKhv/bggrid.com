@@ -196,6 +196,10 @@
     background-size: 6px 6px;
     background-image: repeating-linear-gradient(45deg, var(--color-border) 0, var(--color-border) 1px, var(--text-light) 0, var(--text-light) 50%);
 }
+.mask-image-100 {
+    -webkit-mask-image: linear-gradient(90deg, transparent, #000 100%);
+    mask-image: linear-gradient(90deg, transparent, #000 100%);
+}
 .bg-unavailable {
     /* background-color: var(--color-overlay); */
     background-size: 10px 10px;

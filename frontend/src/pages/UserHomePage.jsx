@@ -30,6 +30,16 @@ const PlayItem = ({ item }) => {
                     {item?.game?.name}
                 </div>
             </div>
+            {item.lastPlayDate ?
+            <div className="flex justify-between">
+                <div className="fs-12 text-secondary">
+                    Last played: 
+                </div>
+                <div className="fs-12 text-secondary">{DateTime.now().diff(DateTime.fromISO(item.lastPlayDate), ['days']).days > 1 ? DateTime.fromISO(item.lastPlayDate).toFormat('LLL dd') :
+                    DateTime.fromISO(item.lastPlayDate).toRelative().replace(' days', 'd').replace(' day', 'd').replace(' hours', 'h').replace(' hour', 'h').replace(' minutes', 'm').replace(' minute', 'm').replace(' seconds', 's').replace(' second', 's')}
+                </div>
+            </div>
+            :
             <div className="flex gap-2">
                 {item?.players?.find((player) => player.user === user._id && player.winner) ?
                     <div className="tag-success fs-12 px-2 py-1 border-radius-sm">
@@ -42,6 +52,7 @@ const PlayItem = ({ item }) => {
                     </div>
                 : null}
             </div>
+            }
         </div>
     )
 }
@@ -187,6 +198,19 @@ const HomeFeed = () => {
                         ))}
                     />
                 : null}
+                {home?.mostPlayed?.length ?
+                    <HorizontalScrollControlled
+                        label={
+                            <div className="fs-24 flex align-center gap-4 weight-500 transition-slide-right-hover-parent">
+                                Most played games
+                            </div>
+                        }
+                        maxVisibleItems={window.innerWidth < 800 ? 2 : 5}
+                        items={home.mostPlayed.map((item, i) => (
+                            <PlayItem key={i} item={item}/>
+                        ))}
+                    />
+                : null}
                 {home?.recommended?.length ?
                     <HorizontalScrollControlled
                         label={
@@ -196,7 +220,7 @@ const HomeFeed = () => {
                         }
                         maxVisibleItems={window.innerWidth < 800 ? 2 : 5}
                         items={home.recommended.map((item, i) => (
-                            <GameItem key={i} item={item}/>
+                            <GameItem key={i} item={item} />
                         ))}
                     />
                 : null}
@@ -595,6 +619,31 @@ const UserHomepage = () => {
                                 )}
                             </div>
                         </div>
+                        <div className="pb-3 px-sm-3">
+                            <HorizontalScroll>
+                                {typeEnum
+                                .slice(0, 15)
+                                .map((item, i) => (
+                                    <Link
+                                        key={i}
+                                        to={`/discover?type=${item.type}`}
+                                        className="flex justify-between transition-slide-right-hover-parent align-center transition-opacity-hover-parent gap-1 bg-secondary border-radius px-4 py-3 pointer w-set-150-px"
+                                    >
+                                        <div className="flex align-center gap-4">
+                                            <Icon icon={item.icon} size="lg"/>
+                                            <div className="fs-14 weight-500">
+                                                {item.type}
+                                            </div>
+                                        </div>
+                                        <Icon
+                                            icon={rightArrowIcon}
+                                            size="sm"
+                                            className="transition-slide-right-hover transition-opacity-hover"
+                                        />
+                                    </Link>
+                            ))}
+                            </HorizontalScroll>
+                        </div>
                         {library && library?.length > 0 ?
                             <div className="grid grid-cols-4 px-sm-3 grid-sm-cols-2 gap-3">
                                 {[...library]
@@ -628,31 +677,6 @@ const UserHomepage = () => {
                                 ))}
                             </div>
                         : null}
-                        <div className="pt-3 px-sm-3">
-                            <HorizontalScroll>
-                                
-                                {typeEnum
-                                .slice(0, 15)
-                                .map((item, i) => (
-                                    <div
-                                        key={i}
-                                        className="flex justify-between transition-slide-right-hover-parent h-set-30-px align-center transition-opacity-hover-parent gap-1 bg-secondary border-radius p-4 pointer w-set-150-px"
-                                    >
-                                        <div className="flex align-center gap-4">
-                                            <Icon icon={item.icon} size="lg"/>
-                                            <div className="fs-14 weight-500">
-                                                {item.type}
-                                            </div>
-                                        </div>
-                                        <Icon
-                                            icon={rightArrowIcon}
-                                            size="sm"
-                                            className="transition-slide-right-hover transition-opacity-hover"
-                                        />
-                                    </div>
-                            ))}
-                            </HorizontalScroll>
-                        </div>
                         <HomeFeed/>
                     </div>
                 </div>

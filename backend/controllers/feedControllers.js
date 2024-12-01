@@ -144,7 +144,8 @@ const getHomeFeed = async (req, res) => {
         // .limit(15)
         // most played
         const mostPlayed = await Library.aggregate([
-            { $group: { _id: '$game', count: { $sum: 1 } } },
+            { $match: { user: req.user._id } },
+            { $group: { _id: '$game', count: { $sum: 1 }, lastPlayDate: { $max: '$lastPlayDate' }, totalPlays: { $sum: '$totalPlays' } } },
             { $sort: { count: -1 } },
             { $limit: 15 },
             { $lookup: { from: 'games', localField: '_id', foreignField: '_id', as: 'game' } },

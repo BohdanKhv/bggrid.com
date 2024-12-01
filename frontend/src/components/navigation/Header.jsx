@@ -73,7 +73,7 @@ const Header = () => {
                                     />
                                     {pathname === '/forgot-password' || pathname === '/reset-password' ? null :
                                     <>
-                                    {pathname === '/login' ? null :
+                                    {pathname === '/register' ? 
                                         <Button
                                             to="/login"
                                             label="Log In"
@@ -81,15 +81,15 @@ const Header = () => {
                                             type="secondary"
                                             borderRadius="lg"
                                         />
-                                    }
-                                    {pathname === '/register' ? null :
-                                        <Button
-                                            to="/register"
-                                            label="Sign Up"
-                                            variant="filled"
-                                            type="secondary"
-                                            borderRadius="lg"
-                                        />
+                                    : pathname === '/login' ? 
+                                    <Button
+                                        to="/register"
+                                        label="Sign Up"
+                                        variant="filled"
+                                        type="secondary"
+                                        borderRadius="lg"
+                                    />
+                                    : null
                                     }
                                     </>
                                     }

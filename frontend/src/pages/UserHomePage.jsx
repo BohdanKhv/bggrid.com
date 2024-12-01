@@ -9,6 +9,7 @@ import { setSearchHistory } from '../features/local/localSlice'
 import FriendsModal from './friend/FriendsModal'
 import { getHomeFeed } from '../features/feed/feedSlice'
 import HorizontalScrollControlled from '../components/ui/HorizontalScrollControlled'
+import { typeEnum } from '../assets/constants'
 
 
 const PlayItem = ({ item }) => {
@@ -126,7 +127,7 @@ const HomeFeed = () => {
         :
             <div className="py-6 flex flex-col gap-6 overflow-hidden px-sm-3">
                 <div>
-                    <div className="fs-24 flex align-center gap-4 weight-500 transition-slide-right-hover-parent pointer pb-4">
+                    <div className="fs-24 flex align-center gap-4 weight-500 transition-slide-right-hover-parent pb-4">
                         Your stats in the last 30 days
                     </div>
                     <div className="flex gap-3 overflow-x-auto scrollbar-none">
@@ -625,6 +626,31 @@ const UserHomepage = () => {
                                 ))}
                             </div>
                         : null}
+                        <div className="pt-6">
+                            <HorizontalScroll>
+                                
+                                {typeEnum
+                                .slice(0, 15)
+                                .map((item, i) => (
+                                    <div
+                                        key={i}
+                                        className="flex justify-between transition-slide-right-hover-parent h-set-30-px align-center transition-opacity-hover-parent gap-1 bg-secondary border-radius p-4 pointer w-set-150-px"
+                                    >
+                                        <div className="flex align-center gap-4">
+                                            <Icon icon={item.icon} size="lg"/>
+                                            <div className="fs-14 weight-500">
+                                                {item.type}
+                                            </div>
+                                        </div>
+                                        <Icon
+                                            icon={rightArrowIcon}
+                                            size="sm"
+                                            className="transition-slide-right-hover transition-opacity-hover"
+                                        />
+                                    </div>
+                            ))}
+                            </HorizontalScroll>
+                        </div>
                         <HomeFeed/>
                     </div>
                 </div>

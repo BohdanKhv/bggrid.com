@@ -56,12 +56,6 @@ const loggedIn = async (req, res, next) => {
         token = req.headers.authorization.split(' ')[1];
     }
 
-    if (!token) {
-        return res.status(401).json({
-            msg: 'No token provided'
-        });
-    }
-
     try {
         // Verify token
         // Ignore expiration
@@ -75,17 +69,7 @@ const loggedIn = async (req, res, next) => {
 
         next();
     } catch (error) {
-        // if error is token expired 
-        if (error instanceof jwt?.TokenExpiredError || error?.name === 'TokenExpiredError') {
-            return res.status(401).json({
-                msg: 'Token expired'
-            });
-        } else {
-            console.log('Not authorized error', error)
-            return res.status(401).json({
-                msg: 'Token failed'
-            });
-        }
+        next();
     }
 };
 

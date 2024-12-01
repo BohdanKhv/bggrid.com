@@ -14,7 +14,7 @@ export const getCommunityFeed = async (payload, token) => {
     return response.data;
 }
 
-export const getHomeFeed = async (payload, token) => {
+export const getHomeFeed = async (token) => {
     const config = {
         headers: {
             Authorization: `Bearer ${token}`
@@ -25,9 +25,16 @@ export const getHomeFeed = async (payload, token) => {
     return response.data;
 }
 
+export const getGeneralHomeFeed = async () => {
+    const response = await axios.get(API_URL + '/general-home');
+
+    return response.data;
+}
+
 const feedService = {
     getCommunityFeed,
-    getHomeFeed
+    getHomeFeed,
+    getGeneralHomeFeed
 };
 
 export default feedService;

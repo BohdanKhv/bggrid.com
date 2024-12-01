@@ -20,7 +20,6 @@ const NotFound = () => {
     }, [pathname, user]);
 
     return (
-        user && pathname !== '/' &&
         <div className="h-min-100 flex-1 flex">
             <div className="w-100 flex justify-center align-center flex-1">
                 <div className="title-2 border-right px-4 weight-500">

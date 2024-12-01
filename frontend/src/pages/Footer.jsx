@@ -28,150 +28,21 @@ const Footer = () => {
                             muted
                             className="text-white justify-start weight-400"
                             variant="link"
-                            label="Salaries"
-                            to="/salaries"
+                            label="Discover Games"
+                            to="/discover"
                         />
                         <Button
                             muted
                             className="text-white justify-start weight-400"
                             variant="link"
-                            label="Interviews"
-                            to="/interviews"
+                            label="Login"
+                            to="/login"
                         />
-                        {user && user.accountType === 'employer' ?
-                        <>
-                        <Button
-                            muted
-                            className="text-white justify-start weight-400"
-                            variant="link"
-                            label="Account"
-                            to="/settings/account"
-                        />
-                        <Button
-                            muted
-                            className="text-white justify-start weight-400"
-                            variant="link"
-                            label="Company Settings"
-                            to="/account/company"
-                        />
-                        <Button
-                            muted
-                            className="text-white justify-start weight-400"
-                            variant="link"
-                            label="Company Profile"
-                            to={`/employers/${user._id}`}
-                        />
-                        <Button
-                            muted
-                            className="text-white justify-start weight-400"
-                            variant="link"
-                            label="Jobs"
-                            to="/jobs"
-                        />
-                        <Button
-                            muted
-                            className="text-white justify-start weight-400"
-                            variant="link"
-                            label="Manage Jobs"
-                            to="/manage-jobs"
-                        />
-                        <Button
-                            muted
-                            className="text-white justify-start weight-400"
-                            variant="link"
-                            label="Post Job"
-                            to="/new"
-                        />
-                        <Button
-                            muted
-                            className="text-white justify-start weight-400"
-                            variant="link"
-                            label="Post for Free"
-                            to="/free"
-                        />
-                        </>
-                        : user && user.accountType === 'jobSeeker' ?
-                        <>
-                            <Button
-                                muted
-                                className="text-white justify-start weight-400"
-                                variant="link"
-                                label="Account"
-                                to="/settings/account"
-                            />
-                            <Button
-                                muted
-                                className="text-white justify-start weight-400"
-                                variant="link"
-                                label="Resume"
-                                to="/account/resume"
-                            />
-                            <Button
-                                muted
-                                className="text-white justify-start weight-400"
-                                variant="link"
-                                label="Jobs"
-                                to="/jobs"
-                            />
-                            <Button
-                                muted
-                                className="text-white justify-start weight-400"
-                                variant="link"
-                                label="Saved Jobs"
-                                to="/my-jobs/saved"
-                            />
-                            <Button
-                                muted
-                                className="text-white justify-start weight-400"
-                                variant="link"
-                                label="Recently Viewed"
-                                to="/my-jobs/viewed"
-                            />
-                            <Button
-                                muted
-                                className="text-white justify-start weight-400"
-                                variant="link"
-                                label="Applied"
-                                to="/my-jobs/applied"
-                            />
-                        </>
-                        : 
-                        <>
-                            <Button
-                                muted
-                                className="text-white justify-start weight-400"
-                                variant="link"
-                                label="Jobs"
-                                to="/jobs"
-                            />
-                            <Button
-                                muted
-                                className="text-white justify-start weight-400"
-                                variant="link"
-                                label="Login"
-                                to="/login"
-                            />
-                        </>
-                        }
                     </div>
                     <div className="flex flex-col gap-1">
                         <div className="fs-14 weight-600 text-white text-uppercase pb-4">
                             About
                         </div>
-                        <Button
-                            muted
-                            className="text-white justify-start weight-400"
-                            variant="link"
-                            label="Pricing"
-                            to="/pricing"
-                        />
-                        <Button
-                            muted
-                            className="text-white justify-start weight-400"
-                            variant="link"
-                            label="FAQ"
-                            to="/faq"
-                        />
                         <Button
                             muted
                             className="text-white justify-start weight-400"
@@ -196,23 +67,14 @@ const Footer = () => {
                             className="text-white justify-start weight-400 fill-white"
                             variant="link"
                             icon={emailIcon}
-                            label="contact@increw.cafe"
-                            to="mailto:contact@increw.cafe"
+                            label="contact@[domain]"
+                            to="mailto:contact@[domain]"
                             target="_blank"
-                        />
-                        <Button
-                            muted
-                            className="text-white justify-start weight-400"
-                            variant="link"
-                            label="Instagram"
-                            icon={instagramIcon}
-                            to="https://www.instagram.com/increw.cafe/"
-                        target="_blank"
                         />
                     </div>
                 </div>
                     <div className="fs-12 text-white opacity-75 text-center">
-                        © 2024 In Crew Cafe. All rights reserved.
+                        © {new Date().getFullYear()} In Crew Cafe. All rights reserved.
                     </div>
             </div>
         </footer>

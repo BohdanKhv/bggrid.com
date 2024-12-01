@@ -103,40 +103,26 @@ function App() {
             <ErrBoundary>
               <Header/>
             </ErrBoundary>
-            <div className="content-body">
-              <div className="flex-grow-1 h-min-100 flex flex-col">
-                  <Routes>
-                    <Route path="/" element={<ErrBoundary><HomePage /></ErrBoundary>} />
-                    <Route path="/discover" element={<ErrBoundary><SearchPage /></ErrBoundary>} />
-                    <Route path="/u/:username" element={<ErrBoundary><UserPage /></ErrBoundary>} />
-                    <Route path="/g/:gameId" element={<ErrBoundary><GamePage /></ErrBoundary>} />
-                    <Route path="/g/:gameId/:tab" element={<ErrBoundary><GamePage /></ErrBoundary>} />
-                    <Route path="/c/:category" element={<ErrBoundary><CategoryPage /></ErrBoundary>} />
-                    <Route path="/collection/:collection" element={<ErrBoundary><CategoryPage /></ErrBoundary>} />
-                    {user ?
-                    <>
-                      <Route path="/settings" element={<ErrBoundary><Settings/></ErrBoundary>} />
-                      <Route path="/settings/:tab" element={<ErrBoundary><Settings/></ErrBoundary>} />
-                      <Route path="/library" element={<ErrBoundary><LibraryPage /></ErrBoundary>} />
-                      <Route path="/plays" element={<ErrBoundary><PlaysPage /></ErrBoundary>} />
-                      <Route path="/community" element={<ErrBoundary><CommunityPage /></ErrBoundary>} />
-                    </>
-                    :
-                      <>
-                        <Route path="/forgot-password" element={<ErrBoundary><Auth><ForgotPassword /></Auth></ErrBoundary>} />
-                        <Route path="/reset-password" element={<ErrBoundary><Auth><ResetPassword /></Auth></ErrBoundary>} />
-                        <Route path="/register" element={<ErrBoundary><Auth><Register /></Auth></ErrBoundary>} />
-                        <Route path="/login" element={<ErrBoundary><Auth><Login /></Auth></ErrBoundary>} />
-                      </>
-                    }
-                    <Route path="/terms" element={<ErrBoundary><Terms /></ErrBoundary>} />
-                    <Route path="/privacy" element={<ErrBoundary><Privacy /></ErrBoundary>} />
-                    <Route path="/*" element={<ErrBoundary><NotFound /></ErrBoundary>} />
-                  </Routes>
-                  </div>
-                  <Footer/>
+                <div className="flex-grow-1 h-min-100 flex flex-col">
+                    <Routes>
+                      <Route path="/" element={<ErrBoundary><div className="mx-auto w-max-xl offset-header w-100"><HomePage /></div></ErrBoundary>} />
+                      <Route path="/discover" element={<ErrBoundary><div className="mx-auto w-max-xl offset-header w-100"><SearchPage /></div></ErrBoundary>} />
+                      <Route path="/u/:username" element={<ErrBoundary><div className="mx-auto w-max-xl offset-header w-100"><UserPage /></div></ErrBoundary>} />
+                      <Route path="/g/:gameId" element={<ErrBoundary><div className="mx-auto w-max-xl offset-header w-100"><GamePage /></div></ErrBoundary>} />
+                      <Route path="/g/:gameId/:tab" element={<ErrBoundary><div className="mx-auto w-max-xl offset-header w-100"><GamePage /></div></ErrBoundary>} />
+                      <Route path="/c/:category" element={<ErrBoundary><div className="mx-auto w-max-xl offset-header w-100"><CategoryPage /></div></ErrBoundary>} />
+                      <Route path="/collection/:collection" element={<ErrBoundary><div className="mx-auto w-max-xl offset-header w-100"><CategoryPage /></div></ErrBoundary>} />
+                      <Route path="/forgot-password" element={<ErrBoundary><div><Auth><ForgotPassword /></Auth></div></ErrBoundary>} />
+                      <Route path="/reset-password" element={<ErrBoundary><div><Auth><ResetPassword /></Auth></div></ErrBoundary>} />
+                      <Route path="/register" element={<ErrBoundary><div><Auth><Register /></Auth></div></ErrBoundary>} />
+                      <Route path="/login" element={<ErrBoundary><div><Auth><Login /></Auth></div></ErrBoundary>} />
+                      <Route path="/terms" element={<ErrBoundary><div className="mx-auto w-max-xl offset-header w-100"><Terms /></div></ErrBoundary>} />
+                      <Route path="/privacy" element={<ErrBoundary><div className="mx-auto w-max-xl offset-header w-100"><Privacy /></div></ErrBoundary>} />
+                      <Route path="/*" element={<ErrBoundary><div className="mx-auto w-max-xl offset-header w-100"><NotFound /></div></ErrBoundary>} />
+                    </Routes>
+                    </div>
+                    <Footer/>
                 </div>
-              </div>
               }
           </div>
         <Tooltip id="tooltip-click" className="z-999 w-max-200-px" place="bottom" closeOnEsc openOnClick closeOnScroll positionStrategy="fixed" opacity="0.95" noArrow />

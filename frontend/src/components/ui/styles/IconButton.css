@@ -331,20 +331,23 @@ a.icon-btn {
 }
 .icon-btn-notify .icon-svg::after {
     content: attr(data-notify-count);
-    font-size: 12px;
+    font-size: 13px;
     padding: 0 4px;
     position: absolute;
-    top: -16px;
-    left: 12px;
-    max-width: 18px;
+    top: -14px;
+    left: 10px;
+    display: flex;
+    justify-content: center;
+    max-width: 14px;
     overflow: hidden;
     display: inline-flex;
     min-width: 7px;
     border-radius: var(--border-radius-lg);
-    background-color: rgb(var(--color-general-primary-text));
-    border: 1px solid rgb(var(--color-general-primary-border));
+    background-color: rgb(var(--color-general-primary-bg));
+    border: 1px solid rgb(var(--color-general-primary-bg));
     color: #fff;
     line-height: 16px;
+    min-height: 16px;
     box-shadow: 0 0 0 2px var(--color-main);
     z-index: 1;
 }

@@ -186,6 +186,20 @@ const Navbar = () => {
                     }
                 </div>
                 <div className="navbar-footer">
+                    <div className="flex flex-col px-4 gap-2">
+                        <Button
+                            to="/terms"
+                            label="Terms"
+                            variant="link"
+                            type="secondary"
+                        />
+                        <Button
+                            to="/privacy"
+                            label="Privacy"
+                            variant="link"
+                            type="secondary"
+                        />
+                    </div>
                     <div className="fs-12 text-secondary p-4">
                         © {new Date().getFullYear()} Game
                     </div>

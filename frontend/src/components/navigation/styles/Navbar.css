@@ -33,6 +33,14 @@
     border: none;
     justify-content: start;
 }
+.navbar-footer .btn.btn-link {
+    padding: 0;
+    font-size: 14px;
+    font-weight: 400;
+    height: auto;
+    border: none;
+    justify-content: start;
+}
 .navbar .btn svg {
     width: 20px;
     height: 20px;

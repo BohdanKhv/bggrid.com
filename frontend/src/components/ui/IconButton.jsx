@@ -45,7 +45,9 @@ const IconButton = ({
                 <div className="icon-svg spinner-animation">
                     {spinnerIcon}
                 </div> : 
-                <div className="icon-svg">
+                <div className="icon-svg"
+                    data-notify-count={notifyCount > 9 ? '9+' : notifyCount}
+                >
                     {icon && icon}
                 </div>
             }
@@ -66,7 +68,7 @@ const IconButton = ({
                     {spinnerIcon}
                 </div> : 
                 <div className="icon-svg"
-                    data-notify-count={notifyCount > 99 ? '99+' : notifyCount}
+                    data-notify-count={notifyCount > 9 ? '9+' : notifyCount}
                 >
                     {icon && icon}
                 </div>

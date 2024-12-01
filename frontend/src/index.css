@@ -597,6 +597,9 @@ label.p-FieldLabel {
     transform: rotate(360deg);
   }
 }
+body:has(.header) .offset-header {
+  padding-top: var(--header-height);
+}
 
 .game-card-img {
   width: 65px;

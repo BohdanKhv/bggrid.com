@@ -1,10 +1,149 @@
-import React, { useEffect, useState } from 'react'
-import { Button, HorizontalScroll, Icon, InputSearch } from '../components'
-import { useSelector } from 'react-redux'
-import { Link, useNavigate } from 'react-router-dom'
-import { arrowRightShortIcon, lockIcon, rightArrowIcon, searchIcon, targetIcon, userCardIcon } from '../assets/img/icons'
+import { useEffect, useState } from 'react'
+import { Avatar, Button, ErrorInfo, HorizontalScroll, Icon, IconButton, Image, InputSearch, Modal, Skeleton } from '../components'
+import { useDispatch, useSelector } from 'react-redux'
+import { DateTime } from 'luxon'
+import { arrowLeftShortIcon, arrowRightShortIcon, bellIcon, clockIcon, diceIcon, rightArrowIcon, searchIcon, usersIcon } from '../assets/img/icons'
+import { getSuggestions } from '../features/game/gameSlice'
+import { Link, useNavigate, useSearchParams } from 'react-router-dom'
+import { setSearchHistory } from '../features/local/localSlice'
+import FriendsModal from './friend/FriendsModal'
+import { getGeneralHomeFeed } from '../features/feed/feedSlice'
+import HorizontalScrollControlled from '../components/ui/HorizontalScrollControlled'
+import { typeEnum } from '../assets/constants'
 
-const wordsToTypeForPlaceholder = ['Barista', 'Bartender', 'Server', 'Chef', 'Cook', 'Host', 'Busser', 'Manager', 'Barback', 'Sommelier', 'Bar Manager', 'General Manager', 'Restaurant Manager', 'Kitchen Manager', 'Shift Manager', 'Assistant Manager', 'Front of House Manager', 'Back of House Manager', 'Food Runner', 'Expeditor', 'Line Cook', 'Prep Cook', 'Pastry Chef', 'Sous Chef', 'Executive Chef', 'Head Chef', 'Catering Chef', 'Private Chef', 'Personal Chef', 'Culinary Instructor', 'Culinary Consultant', 'Culinary Director', 'Culinary Manager', 'Culinary Supervisor', 'Culinary Specialist', 'Culinary Coordinator', 'Culinary Assistant', 'Culinary Intern', 'Culinary Apprentice', 'Culinary Trainee', 'Culinary Student', 'Culinary Graduate', 'Culinary Professional', 'Culinary Expert', 'Culinary Enthusiast', 'Culinary Artist', 'Culinary Innovator', 'Culinary Visionary', 'Culinary Pioneer', 'Culinary Trailblazer', 'Culinary Maestro', 'Culinary Genius', 'Culinary Virtuoso', 'Culinary Prodigy']
+
+const PlayItem = ({ item }) => {
+    const { user } = useSelector((state) => state.auth)
+
+    const [searchParams, setSearchParams] = useSearchParams()
+
+    return  (
+        <div className="flex flex-col gap-3"
+            onClick={() => {
+                searchParams.set('logPlay', item.game._id)
+                setSearchParams(searchParams)
+            }}
+        >
+            <Image img={item?.game?.thumbnail} classNameContainer="h-set-200-px border-radius overflow-hidden"/>
+            <div className="flex align-center pos-relative flex-1">
+                <div className="fs-14 bold text-ellipsis-2 flex-1">
+                    {item?.game?.name}
+                </div>
+            </div>
+            <div className="flex gap-2">
+                {item?.players?.find((player) => player.user === user._id && player.winner) ?
+                    <div className="tag-success fs-12 px-2 py-1 border-radius-sm">
+                        Winner
+                    </div>
+                : null}
+                {item.playTimeMinutes ?
+                    <div className="tag-secondary fs-12 px-2 py-1 border-radius-sm">
+                        {item.playTimeMinutes} min
+                    </div>
+                : null}
+            </div>
+        </div>
+    )
+}
+
+const GameItem = ({ item }) => {
+    const { user } = useSelector((state) => state.auth)
+
+    const [searchParams, setSearchParams] = useSearchParams()
+
+    return  (
+        <div className="flex flex-col gap-3"
+            onClick={() => {
+                searchParams.set('addGame', item._id)
+                setSearchParams(searchParams)
+            }}
+        >
+            <Image img={item?.thumbnail} classNameContainer="h-set-200-px border-radius overflow-hidden"/>
+            <div className="flex align-center pos-relative flex-1">
+                <div className="fs-14 bold text-ellipsis-2 flex-1">
+                    {item?.name}
+                </div>
+            </div>
+            <div className="flex gap-2">
+                {item?.players?.find((player) => player.user === user._id && player.winner) ?
+                    <div className="tag-success fs-12 px-2 py-1 border-radius-sm">
+                        Winner
+                    </div>
+                : null}
+                {item.playTimeMinutes ?
+                    <div className="tag-secondary fs-12 px-2 py-1 border-radius-sm">
+                        {item.playTimeMinutes} min
+                    </div>
+                : null}
+            </div>
+        </div>
+    )
+}
+
+const HomeFeed = () => {
+    const dispatch = useDispatch()
+
+    const { home, isLoading, hasMore } = useSelector((state) => state.feed)
+
+    useEffect(() => {
+        if (home) return
+
+        const promise = dispatch(getGeneralHomeFeed())
+
+        return () => {
+            promise.abort()
+        }
+    }, [])
+
+    return (
+        <>
+        {isLoading ?
+            <div className="flex flex-col gap-6 py-6 overflow-hidden py-sm-3">
+                <div className="flex flex-col gap-3">
+                    <Skeleton animation="wave" width="100" height="30"/>
+                    <div className="flex gap-3">
+                        <Skeleton animation="wave" height="300"/>
+                        <Skeleton animation="wave" height="300"/>
+                        <Skeleton animation="wave" height="300"/>
+                    </div>
+                </div>
+                <div className="flex flex-col gap-3">
+                    <Skeleton animation="wave" width="100" height="30"/>
+                    <div className="flex gap-3">
+                        <Skeleton animation="wave" height="300"/>
+                        <Skeleton animation="wave" height="300"/>
+                        <Skeleton animation="wave" height="300"/>
+                    </div>
+                </div>
+                <div className="flex flex-col gap-3">
+                    <Skeleton animation="wave" width="100" height="30"/>
+                    <div className="flex gap-3">
+                        <Skeleton animation="wave" height="300"/>
+                        <Skeleton animation="wave" height="300"/>
+                        <Skeleton animation="wave" height="300"/>
+                    </div>
+                </div>
+            </div>
+        :
+            <div className="py-6 flex flex-col gap-6 overflow-hidden px-sm-3 py-sm-3">
+                {home?.mostPlayed?.length ?
+                    <HorizontalScrollControlled
+                        label={
+                            <div className="fs-24 flex align-center gap-4 weight-500 transition-slide-right-hover-parent">
+                                Games for you
+                            </div>
+                        }
+                        maxVisibleItems={window.innerWidth < 800 ? 2 : 5}
+                        items={home.mostPlayed.map((item, i) => (
+                            <GameItem key={i} item={item.game}/>
+                        ))}
+                    />
+                : null}
+            </div>
+        }
+        </>
+    )
+}
 
 
 const Section4 = () => {
@@ -260,60 +399,38 @@ const Section6 = () => {
 }
 
 const HomePage = () => {
-    const navigate = useNavigate()
-
-    const { user } = useSelector(state => state.auth)
-
-    const [searchValue, setSearchValue] = React.useState('')
-
-    const [currentWordIndex, setCurrentWordIndex] = useState(0);
-    const [displayText, setDisplayText] = useState('');
-    const [isDeleting, setIsDeleting] = useState(false);
-    const [delay, setDelay] = useState(false);
-
-    useEffect(() => {
-        const handleTyping = () => {
-            const currentWord = wordsToTypeForPlaceholder[currentWordIndex];
-            if (isDeleting) {
-                setDisplayText(prev => prev.slice(0, -1));
-                if (displayText === '') {
-                    setIsDeleting(false);
-                    setCurrentWordIndex((prevIndex) => (prevIndex + 1) % wordsToTypeForPlaceholder.length);
-                }
-            } else {
-                setDisplayText(prev => currentWord.slice(0, prev.length + 1));
-                if (displayText === currentWord) {
-                    setIsDeleting(true);
-                    setDelay(true);
-                    setTimeout(() => setDelay(false), 1000); // 1 second delay before deleting
-                }
-            }
-        };
-
-        if (!delay) {
-            const interval = setInterval(handleTyping, isDeleting ? 50 : 100); // Adjust typing speed here
-            return () => clearInterval(interval);
-        }
-    }, [displayText, isDeleting, currentWordIndex, delay, wordsToTypeForPlaceholder]);
-
-
     useEffect(() => {
         window.scrollTo(0, 0)
-        document.title = 'In Crew cafe - find a job in the food, beverage and hospitality industry.'
+        document.title = "Home"
     }, [])
 
     return (
         <div>
-            {!user ?
-            <>
-                <Section5/>
-                <Section4/>
-            </>
-            :
-                user?.accountType === 'employer' ?
-                <Section3/>
-                : null
-            }
+        <div className="pt-3 px-sm-3">
+            <HorizontalScroll>
+                {typeEnum
+                .slice(0, 15)
+                .map((item, i) => (
+                    <div
+                        key={i}
+                        className="flex justify-between transition-slide-right-hover-parent h-set-30-px align-center transition-opacity-hover-parent gap-1 bg-secondary border-radius p-4 pointer w-set-150-px"
+                    >
+                        <div className="flex align-center gap-4">
+                            <Icon icon={item.icon} size="lg"/>
+                            <div className="fs-14 weight-500">
+                                {item.type}
+                            </div>
+                        </div>
+                        <Icon
+                            icon={rightArrowIcon}
+                            size="sm"
+                            className="transition-slide-right-hover transition-opacity-hover"
+                        />
+                    </div>
+            ))}
+            </HorizontalScroll>
+        </div>
+        <HomeFeed/>
         </div>
     )
 }

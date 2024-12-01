@@ -125,7 +125,7 @@ const HomeFeed = () => {
                 </div>
             </div>
         :
-            <div className="py-6 flex flex-col gap-6 overflow-hidden px-sm-3 py-sm-3">
+            <div className="py-6 flex flex-col gap-6 gap-sm-3 overflow-hidden px-sm-3 py-sm-3">
                 <div>
                     <div className="fs-24 flex align-center gap-4 weight-500 transition-slide-right-hover-parent pb-4">
                         Your stats in the last 30 days
@@ -200,19 +200,19 @@ const HomeFeed = () => {
                         ))}
                     />
                 : null}
-                {/* {home?.newGames?.length ?
+                {home?.mostPlayed?.length ?
                     <HorizontalScrollControlled
                         label={
                             <div className="fs-24 flex align-center gap-4 weight-500 transition-slide-right-hover-parent">
-                                New games
+                                Most popular games
                             </div>
                         }
                         maxVisibleItems={window.innerWidth < 800 ? 2 : 5}
-                        items={home.newGames.map((item, i) => (
-                            <GameItem key={i} item={item}/>
+                        items={home.mostPlayed.map((item, i) => (
+                            <GameItem key={i} item={item.game}/>
                         ))}
                     />
-                : null} */}
+                : null}
             </div>
         }
         </>
@@ -558,6 +558,7 @@ const UserHomepage = () => {
                             <SearchGames/>
                             <div className="justify-end flex align-center flex-no-wrap gap-3">
                                 <IconButton
+                                    notify
                                     notifyCount={friends?.filter((friend) => friend.pending).length}
                                     icon={usersIcon}
                                     variant="text"
@@ -574,7 +575,8 @@ const UserHomepage = () => {
                                             variant="text"
                                             type="secondary"
                                             to="/notifications"
-                                            notifyCount={notifications.filter(notification => !notification.read).length || ""}
+                                            notify
+                                            notifyCount={notifications.filter(notification => !notification.read).length || 1}
                                         />
                                         <div
                                             onClick={() => {

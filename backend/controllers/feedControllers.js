@@ -142,11 +142,20 @@ const getHomeFeed = async (req, res) => {
         // .find()
         // .sort({ yearPublished: -1 })
         // .limit(15)
+        // most played
+        const mostPlayed = await Library.aggregate([
+            { $group: { _id: '$game', count: { $sum: 1 } } },
+            { $sort: { count: -1 } },
+            { $limit: 15 },
+            { $lookup: { from: 'games', localField: '_id', foreignField: '_id', as: 'game' } },
+            { $unwind: '$game' }
+        ]);
 
         return res.status(200).json({
             data: {
                 recentlyPlayed,
                 // newGames,
+                mostPlayed,
                 playStats: playStats[0],
                 recommended
             }
@@ -158,7 +167,70 @@ const getHomeFeed = async (req, res) => {
 }
 
 
+// @desc   Get home feed
+// @route  GET /api/feed/general-home
+// @access Private
+const getGeneralHomeFeed = async (req, res) => {
+    try {
+        // just a few random games for now
+        const recommended = await Game.aggregate(
+            [ { $sample: { size: 15 } } ]
+        )
+
+        // most played
+        const mostPlayed = await Library.aggregate([
+            { $group: { _id: '$game', count: { $sum: 1 } } },
+            { $sort: { count: -1 } },
+            { $limit: 15 },
+            { $lookup: { from: 'games', localField: '_id', foreignField: '_id', as: 'game' } },
+            { $unwind: '$game' }
+        ]);
+
+        const mostFavorite = await Library.aggregate([
+            { $match: { tags: 'Favorite' } },
+            { $group: { _id: '$game', count: { $sum: 1 } } },
+            { $sort: { count: -1 } },
+            { $limit: 10 },
+            { $lookup: { from: 'games', localField: '_id', foreignField: '_id', as: 'game' } },
+            { $unwind: '$game' }
+        ]);
+
+        const mostOwned = await Library.aggregate([
+            { $match: { tags: 'Owned' } },
+            { $group: { _id: '$game', count: { $sum: 1 } } },
+            { $sort: { count: -1 } },
+            { $limit: 10 },
+            { $lookup: { from: 'games', localField: '_id', foreignField: '_id', as: 'game' } },
+            { $unwind: '$game' }
+        ]);
+
+        const mostWanted = await Library.aggregate([
+            { $match: { tags: 'Wishlist' } },
+            { $group: { _id: '$game', count: { $sum: 1 } } },
+            { $sort: { count: -1 } },
+            { $limit: 10 },
+            { $lookup: { from: 'games', localField: '_id', foreignField: '_id', as: 'game' } },
+            { $unwind: '$game' }
+        ]);
+
+        return res.status(200).json({
+            data: {
+                recommended,
+                mostPlayed,
+                mostFavorite,
+                mostOwned,
+                mostWanted
+            }
+        });
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ message: error.message });
+    }
+}
+
+
 module.exports = {
     getCommunityFeed,
+    getGeneralHomeFeed,
     getHomeFeed
 }

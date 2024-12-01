@@ -38,9 +38,26 @@ export const getHomeFeed = createAsyncThunk(
     'feed/getHomeFeed',
     async (payload, thunkAPI) => {
         try {
-            const { page, limit } = thunkAPI.getState().feed;
             const token = thunkAPI.getState().auth.user ? thunkAPI.getState().auth.user.token : null;
-            return await feedService.getHomeFeed({ type: payload, page, limit }, token);
+            return await feedService.getHomeFeed(token);
+        } catch (error) {
+            const message =
+                (error.response &&
+                    error.response.data &&
+                    error.response.data.msg) ||
+                error.message ||
+                error.toString();
+            return thunkAPI.rejectWithValue(message);
+        }
+    }
+);
+
+
+export const getGeneralHomeFeed = createAsyncThunk(
+    'feed/getGeneralHomeFeed',
+    async (_, thunkAPI) => {
+        try {
+            return await feedService.getGeneralHomeFeed();
         } catch (error) {
             const message =
                 (error.response &&
@@ -92,6 +109,21 @@ const feedSlice = createSlice({
             state.home = action.payload.data;
         });
         builder.addCase(getHomeFeed.rejected, (state, action) => {
+            if (action.error.message !== 'Aborted') {
+                state.isLoading = false;
+                state.isError = true;
+                toast.error(action.payload, { toastId: 'toastError', closeButton: true});
+            }
+        });
+
+        builder.addCase(getGeneralHomeFeed.pending, (state) => {
+            state.isLoading = true;
+        });
+        builder.addCase(getGeneralHomeFeed.fulfilled, (state, action) => {
+            state.isLoading = false;
+            state.home = action.payload.data;
+        });
+        builder.addCase(getGeneralHomeFeed.rejected, (state, action) => {
             if (action.error.message !== 'Aborted') {
                 state.isLoading = false;
                 state.isError = true;

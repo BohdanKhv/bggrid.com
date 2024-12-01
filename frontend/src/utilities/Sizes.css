@@ -763,6 +763,9 @@ margin-right: auto;
     max-width: var(--w-max-md, 100%);
     width: 100%;
 }
+.w-max-xl {
+    max-width: var(--w-max-xl);
+}
 .w-max-lg {
     max-width: var(--w-max-lg, 100%);
     width: 100%;

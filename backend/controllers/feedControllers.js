@@ -104,7 +104,53 @@ const getCommunityFeed = async (req, res) => {
 // @access Private
 const getHomeFeed = async (req, res) => {
     try {
+    
+        const recentlyPlayed = await Play
+        .find({ user: req.user._id })
+        .sort({ updatedAt: -1 })
+        .limit(15)
+        .populate('game')
 
+        // My stats in the last 30 days
+        const playStats = await Play.aggregate([
+            { $match: {
+                user: req.user._id,
+                updatedAt: { $gte: new Date(Date.now() - 30 * 24 * 60 * 60 * 1000) }
+            } },
+            {
+                $group: {
+                    _id: null,
+                    totalPlays: { $sum: 1 },
+                    totalPlayTime: { $sum: '$playTimeMinutes' },
+                    avgPlayTime: { $avg: '$playTimeMinutes' },
+                    avgPlayers: { $avg: { $size: '$players' } },
+                    uniqueGamesPlayed: { $addToSet: '$game' },
+                    uniquePlayersPlayed: { $addToSet: '$players.user' },
+                    totalWins: { $sum: { $cond: { if: { $arrayElemAt: ['$players.winner', 0] }, then: 1, else: 0 } } },
+                    avgWinRate: { $avg: { $cond: { if: { $arrayElemAt: ['$players.winner', 0] }, then: 1, else: 0 } } },
+                    avgScore: { $avg: { $avg: '$players.score' } }
+                }
+            }
+        ]);
+
+        // just a few random games for now
+        const recommended = await Game.aggregate(
+            [ { $sample: { size: 15 } } ]
+        )
+
+        // const newGames = await Game
+        // .find()
+        // .sort({ yearPublished: -1 })
+        // .limit(15)
+
+        return res.status(200).json({
+            data: {
+                recentlyPlayed,
+                // newGames,
+                playStats: playStats[0],
+                recommended
+            }
+        });
     } catch (error) {
         console.error(error);
         res.status(500).json({ message: error.message });

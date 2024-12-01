@@ -1,12 +1,222 @@
 import { useEffect, useState } from 'react'
-import { Avatar, Button, ErrorInfo, Icon, IconButton, Image, InputSearch, Modal } from '../components'
+import { Avatar, Button, ErrorInfo, HorizontalScroll, Icon, IconButton, Image, InputSearch, Modal, Skeleton } from '../components'
 import { useDispatch, useSelector } from 'react-redux'
 import { DateTime } from 'luxon'
-import { arrowLeftShortIcon, bellIcon, clockIcon, diceIcon, searchIcon, usersIcon } from '../assets/img/icons'
+import { arrowLeftShortIcon, arrowRightShortIcon, bellIcon, clockIcon, diceIcon, rightArrowIcon, searchIcon, usersIcon } from '../assets/img/icons'
 import { getSuggestions } from '../features/game/gameSlice'
 import { Link, useNavigate, useSearchParams } from 'react-router-dom'
 import { setSearchHistory } from '../features/local/localSlice'
 import FriendsModal from './friend/FriendsModal'
+import { getHomeFeed } from '../features/feed/feedSlice'
+import HorizontalScrollControlled from '../components/ui/HorizontalScrollControlled'
+
+
+const PlayItem = ({ item }) => {
+    const { user } = useSelector((state) => state.auth)
+
+    const [searchParams, setSearchParams] = useSearchParams()
+
+    return  (
+        <div className="flex flex-col gap-3"
+            onClick={() => {
+                searchParams.set('logPlay', item.game._id)
+                setSearchParams(searchParams)
+            }}
+        >
+            <Image img={item?.game?.thumbnail} classNameContainer="h-set-200-px border-radius overflow-hidden"/>
+            <div className="flex align-center pos-relative flex-1">
+                <div className="fs-14 bold text-ellipsis-2 flex-1">
+                    {item?.game?.name}
+                </div>
+            </div>
+            <div className="flex gap-2">
+                {item?.players?.find((player) => player.user === user._id && player.winner) ?
+                    <div className="tag-success fs-12 px-2 py-1 border-radius-sm">
+                        Winner
+                    </div>
+                : null}
+                {item.playTimeMinutes ?
+                    <div className="tag-secondary fs-12 px-2 py-1 border-radius-sm">
+                        {item.playTimeMinutes} min
+                    </div>
+                : null}
+            </div>
+        </div>
+    )
+}
+
+const GameItem = ({ item }) => {
+    const { user } = useSelector((state) => state.auth)
+
+    const [searchParams, setSearchParams] = useSearchParams()
+
+    return  (
+        <div className="flex flex-col gap-3"
+            onClick={() => {
+                searchParams.set('addGame', item._id)
+                setSearchParams(searchParams)
+            }}
+        >
+            <Image img={item?.thumbnail} classNameContainer="h-set-200-px border-radius overflow-hidden"/>
+            <div className="flex align-center pos-relative flex-1">
+                <div className="fs-14 bold text-ellipsis-2 flex-1">
+                    {item?.name}
+                </div>
+            </div>
+            <div className="flex gap-2">
+                {item?.players?.find((player) => player.user === user._id && player.winner) ?
+                    <div className="tag-success fs-12 px-2 py-1 border-radius-sm">
+                        Winner
+                    </div>
+                : null}
+                {item.playTimeMinutes ?
+                    <div className="tag-secondary fs-12 px-2 py-1 border-radius-sm">
+                        {item.playTimeMinutes} min
+                    </div>
+                : null}
+            </div>
+        </div>
+    )
+}
+
+const HomeFeed = () => {
+    const dispatch = useDispatch()
+
+    const { home, isLoading, hasMore } = useSelector((state) => state.feed)
+
+    useEffect(() => {
+        if (home) return
+
+        const promise = dispatch(getHomeFeed())
+
+        return () => {
+            promise.abort()
+        }
+    }, [])
+
+    return (
+        <>
+        {isLoading ?
+            <div className="flex flex-col gap-6 py-6 overflow-hidden">
+                <div className="flex flex-col gap-3">
+                    <Skeleton animation="wave" width="100" height="30"/>
+                    <div className="flex gap-3">
+                        <Skeleton animation="wave" height="300"/>
+                        <Skeleton animation="wave" height="300"/>
+                        <Skeleton animation="wave" height="300"/>
+                    </div>
+                </div>
+                <div className="flex flex-col gap-3">
+                    <Skeleton animation="wave" width="100" height="30"/>
+                    <div className="flex gap-3">
+                        <Skeleton animation="wave" height="300"/>
+                        <Skeleton animation="wave" height="300"/>
+                        <Skeleton animation="wave" height="300"/>
+                    </div>
+                </div>
+                <div className="flex flex-col gap-3">
+                    <Skeleton animation="wave" width="100" height="30"/>
+                    <div className="flex gap-3">
+                        <Skeleton animation="wave" height="300"/>
+                        <Skeleton animation="wave" height="300"/>
+                        <Skeleton animation="wave" height="300"/>
+                    </div>
+                </div>
+            </div>
+        :
+            <div className="py-6 flex flex-col gap-6 overflow-hidden px-sm-3">
+                <div>
+                    <div className="fs-24 flex align-center gap-4 weight-500 transition-slide-right-hover-parent pointer pb-4">
+                        Your stats in the last 30 days
+                    </div>
+                    <div className="flex gap-3 overflow-x-auto scrollbar-none">
+                        <div className="flex flex-col gap-2 flex-1 bg-secondary p-4 border-radius w-min-100-px">
+                            <div className="fs-20 weight-600">
+                                {home?.playStats?.totalPlays || 0}
+                            </div>
+                            <div className="fs-14 text-secondary">
+                                plays
+                            </div>
+                        </div>
+                        <div className="flex flex-col gap-2 flex-1 bg-secondary p-4 border-radius w-min-100-px">
+                            <div className="fs-20 weight-600">
+                                {home?.playStats?.totalWins || 0}
+                            </div>
+                            <div className="fs-14 text-secondary">
+                                wins
+                            </div>
+                        </div>
+                        <div className="flex flex-col gap-2 flex-1 bg-secondary p-4 border-radius w-min-100-px">
+                            <div className="fs-20 weight-600">
+                                {home?.playStats?.totalPlayTime || 0} min
+                            </div>
+                            <div className="fs-14 text-secondary">
+                                total playtime
+                            </div>
+                        </div>
+                        <div className="flex flex-col gap-2 flex-1 bg-secondary p-4 border-radius w-min-100-px">
+                            <div className="fs-20 weight-600">
+                                {home?.playStats?.avgPlayTime.toFixed() || 0} min
+                            </div>
+                            <div className="fs-14 text-secondary">
+                                avg. playtime
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                {home?.recentlyPlayed?.length ?
+                    <HorizontalScrollControlled
+                        label={
+                            <Link className="fs-24 flex align-center gap-4 weight-500 transition-slide-right-hover-parent pointer"
+                                to="/plays"
+                            >
+                                <div>
+                                    Recently played
+                                </div>
+                                    <Icon
+                                        icon={rightArrowIcon}
+                                        className="transition-slide-right-hover"
+                                        size="sm"
+                                    />
+                            </Link>
+                        }
+                        maxVisibleItems={window.innerWidth < 800 ? 2 : 5}
+                        items={home.recentlyPlayed.map((item, i) => (
+                            <PlayItem key={i} item={item}/>
+                        ))}
+                    />
+                : null}
+                {home?.recommended?.length ?
+                    <HorizontalScrollControlled
+                        label={
+                            <div className="fs-24 flex align-center gap-4 weight-500 transition-slide-right-hover-parent">
+                                Games for you
+                            </div>
+                        }
+                        maxVisibleItems={window.innerWidth < 800 ? 2 : 5}
+                        items={home.recommended.map((item, i) => (
+                            <GameItem key={i} item={item}/>
+                        ))}
+                    />
+                : null}
+                {/* {home?.newGames?.length ?
+                    <HorizontalScrollControlled
+                        label={
+                            <div className="fs-24 flex align-center gap-4 weight-500 transition-slide-right-hover-parent">
+                                New games
+                            </div>
+                        }
+                        maxVisibleItems={window.innerWidth < 800 ? 2 : 5}
+                        items={home.newGames.map((item, i) => (
+                            <GameItem key={i} item={item}/>
+                        ))}
+                    />
+                : null} */}
+            </div>
+        }
+        </>
+    )
+}
 
 
 const SearchGames = () => {
@@ -415,6 +625,7 @@ const UserHomepage = () => {
                                 ))}
                             </div>
                         : null}
+                        <HomeFeed/>
                     </div>
                 </div>
             </main>

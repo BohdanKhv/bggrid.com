@@ -1,0 +1,24 @@
+.horizontal-scroll-container {
+    display: flex;
+    align-items: center;
+}
+
+.scrollable-content {
+    display: flex;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    scroll-behavior: smooth;
+    -webkit-overflow-scrolling: touch;
+    width: 100%;
+}
+.scrollable-content::-webkit-scrollbar {
+    display: none;
+}
+
+.carousel-item {
+    scroll-snap-align: start;
+    flex: 0 0 calc(100% / var(--max-visible-items)); /* Adjust width based on maxVisibleItems */
+    width: calc(100% / var(--max-visible-items)); /* Adjust width based on maxVisibleItems */
+    box-sizing: border-box;
+    padding: 0 8px;
+}

@@ -63,79 +63,81 @@ function App() {
         : null}
         <IsOffline />
         {user ?
-        <UserGuard>
-          <div className="content">
+          <UserGuard>
+          <div className="content-wrapper">
+              <div className="content">
+                <ErrBoundary>
+                  <Navbar/>
+                  <AddGame/>
+                  <LogPlay/>
+                  <GameSearchModal/>
+                </ErrBoundary>
+                <div className="content-body">
+                  <div className="flex-grow-1 h-min-100 flex flex-col">
+                      <Routes>
+                        <Route path="/" element={<ErrBoundary><UserHomepage /></ErrBoundary>} />
+                        <Route path="/discover" element={<ErrBoundary><SearchPage /></ErrBoundary>} />
+                        <Route path="/u/:username" element={<ErrBoundary><UserPage /></ErrBoundary>} />
+                        <Route path="/u/:username/:tab" element={<ErrBoundary><UserPage /></ErrBoundary>} />
+                        <Route path="/g/:gameId" element={<ErrBoundary><GamePage /></ErrBoundary>} />
+                        <Route path="/g/:gameId/:tab" element={<ErrBoundary><GamePage /></ErrBoundary>} />
+                        <Route path="/c/:category" element={<ErrBoundary><CategoryPage /></ErrBoundary>} />
+                        <Route path="/collection/:collection" element={<ErrBoundary><CategoryPage /></ErrBoundary>} />
+                        <Route path="/settings" element={<ErrBoundary><Settings/></ErrBoundary>} />
+                        <Route path="/settings/:tab" element={<ErrBoundary><Settings/></ErrBoundary>} />
+                        <Route path="/library" element={<ErrBoundary><LibraryPage /></ErrBoundary>} />
+                        <Route path="/plays" element={<ErrBoundary><PlaysPage /></ErrBoundary>} />
+                        <Route path="/notifications" element={<ErrBoundary><NotificationPage /></ErrBoundary>} />
+                        <Route path="/community" element={<ErrBoundary><CommunityPage /></ErrBoundary>} />
+                        <Route path="/terms" element={<ErrBoundary><Terms /></ErrBoundary>} />
+                        <Route path="/privacy" element={<ErrBoundary><Privacy /></ErrBoundary>} />
+                        <Route path="/*" element={<ErrBoundary><NotFound /></ErrBoundary>} />
+                      </Routes>
+                      </div>
+                    </div>
+                  </div>
+              </div>
+          </UserGuard>
+        : 
+          <div>
             <ErrBoundary>
-              <Navbar/>
-              <AddGame/>
-              <LogPlay/>
-              <GameSearchModal/>
+              <Header/>
             </ErrBoundary>
             <div className="content-body">
               <div className="flex-grow-1 h-min-100 flex flex-col">
                   <Routes>
-                    <Route path="/" element={<ErrBoundary><UserHomepage /></ErrBoundary>} />
+                    <Route path="/" element={<ErrBoundary><HomePage /></ErrBoundary>} />
                     <Route path="/discover" element={<ErrBoundary><SearchPage /></ErrBoundary>} />
                     <Route path="/u/:username" element={<ErrBoundary><UserPage /></ErrBoundary>} />
-                    <Route path="/u/:username/:tab" element={<ErrBoundary><UserPage /></ErrBoundary>} />
                     <Route path="/g/:gameId" element={<ErrBoundary><GamePage /></ErrBoundary>} />
                     <Route path="/g/:gameId/:tab" element={<ErrBoundary><GamePage /></ErrBoundary>} />
                     <Route path="/c/:category" element={<ErrBoundary><CategoryPage /></ErrBoundary>} />
                     <Route path="/collection/:collection" element={<ErrBoundary><CategoryPage /></ErrBoundary>} />
-                    <Route path="/settings" element={<ErrBoundary><Settings/></ErrBoundary>} />
-                    <Route path="/settings/:tab" element={<ErrBoundary><Settings/></ErrBoundary>} />
-                    <Route path="/library" element={<ErrBoundary><LibraryPage /></ErrBoundary>} />
-                    <Route path="/plays" element={<ErrBoundary><PlaysPage /></ErrBoundary>} />
-                    <Route path="/notifications" element={<ErrBoundary><NotificationPage /></ErrBoundary>} />
-                    <Route path="/community" element={<ErrBoundary><CommunityPage /></ErrBoundary>} />
+                    {user ?
+                    <>
+                      <Route path="/settings" element={<ErrBoundary><Settings/></ErrBoundary>} />
+                      <Route path="/settings/:tab" element={<ErrBoundary><Settings/></ErrBoundary>} />
+                      <Route path="/library" element={<ErrBoundary><LibraryPage /></ErrBoundary>} />
+                      <Route path="/plays" element={<ErrBoundary><PlaysPage /></ErrBoundary>} />
+                      <Route path="/community" element={<ErrBoundary><CommunityPage /></ErrBoundary>} />
+                    </>
+                    :
+                      <>
+                        <Route path="/forgot-password" element={<ErrBoundary><Auth><ForgotPassword /></Auth></ErrBoundary>} />
+                        <Route path="/reset-password" element={<ErrBoundary><Auth><ResetPassword /></Auth></ErrBoundary>} />
+                        <Route path="/register" element={<ErrBoundary><Auth><Register /></Auth></ErrBoundary>} />
+                        <Route path="/login" element={<ErrBoundary><Auth><Login /></Auth></ErrBoundary>} />
+                      </>
+                    }
                     <Route path="/terms" element={<ErrBoundary><Terms /></ErrBoundary>} />
                     <Route path="/privacy" element={<ErrBoundary><Privacy /></ErrBoundary>} />
                     <Route path="/*" element={<ErrBoundary><NotFound /></ErrBoundary>} />
                   </Routes>
                   </div>
+                  <Footer/>
                 </div>
               </div>
-          </UserGuard>
-        : 
-        <div className={user ? "content" : ""}>
-          <ErrBoundary>
-            <Header/>
-          </ErrBoundary>
-          <div className="content-body">
-            <div className="flex-grow-1 h-min-100 flex flex-col">
-                <Routes>
-                  <Route path="/" element={<ErrBoundary><HomePage /></ErrBoundary>} />
-                  <Route path="/discover" element={<ErrBoundary><SearchPage /></ErrBoundary>} />
-                  <Route path="/u/:username" element={<ErrBoundary><UserPage /></ErrBoundary>} />
-                  <Route path="/g/:gameId" element={<ErrBoundary><GamePage /></ErrBoundary>} />
-                  <Route path="/g/:gameId/:tab" element={<ErrBoundary><GamePage /></ErrBoundary>} />
-                  <Route path="/c/:category" element={<ErrBoundary><CategoryPage /></ErrBoundary>} />
-                  <Route path="/collection/:collection" element={<ErrBoundary><CategoryPage /></ErrBoundary>} />
-                  {user ?
-                  <>
-                    <Route path="/settings" element={<ErrBoundary><Settings/></ErrBoundary>} />
-                    <Route path="/settings/:tab" element={<ErrBoundary><Settings/></ErrBoundary>} />
-                    <Route path="/library" element={<ErrBoundary><LibraryPage /></ErrBoundary>} />
-                    <Route path="/plays" element={<ErrBoundary><PlaysPage /></ErrBoundary>} />
-                    <Route path="/community" element={<ErrBoundary><CommunityPage /></ErrBoundary>} />
-                  </>
-                  :
-                    <>
-                      <Route path="/forgot-password" element={<ErrBoundary><Auth><ForgotPassword /></Auth></ErrBoundary>} />
-                      <Route path="/reset-password" element={<ErrBoundary><Auth><ResetPassword /></Auth></ErrBoundary>} />
-                      <Route path="/register" element={<ErrBoundary><Auth><Register /></Auth></ErrBoundary>} />
-                      <Route path="/login" element={<ErrBoundary><Auth><Login /></Auth></ErrBoundary>} />
-                    </>
-                  }
-                  <Route path="/terms" element={<ErrBoundary><Terms /></ErrBoundary>} />
-                  <Route path="/privacy" element={<ErrBoundary><Privacy /></ErrBoundary>} />
-                  <Route path="/*" element={<ErrBoundary><NotFound /></ErrBoundary>} />
-                </Routes>
-                </div>
-                <Footer/>
-              </div>
-            </div>
-            }
+              }
           </div>
         <Tooltip id="tooltip-click" className="z-999 w-max-200-px" place="bottom" closeOnEsc openOnClick closeOnScroll positionStrategy="fixed" opacity="0.95" noArrow />
     </Router>

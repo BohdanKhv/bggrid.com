@@ -5,7 +5,7 @@ import { toast } from 'react-toastify';
 
 const initialState = {
     feed: [],
-    home: [],
+    home: null,
     isLoading: false,
     isError: false,
     limit: 40,

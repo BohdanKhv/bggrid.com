@@ -574,15 +574,19 @@ label.p-FieldLabel {
   color: var(--text-dark)!important;
 }
 
-.content {
+.content-wrapper {
   max-width: var(--w-max-xl);
   width: 100%;
+  overflow: hidden;
   margin: 0 auto;
+}
+.content {
   display: flex;
   gap: 1rem;
 }
 .content-body {
   flex-grow: 1;
+  max-width: calc(var(--w-max-xl) - var(--nav-width) - 24px);
 }
 
 @keyframes spin {
@@ -610,6 +614,9 @@ label.p-FieldLabel {
   }
   body:has(.navbar-mob) .content-body {
     padding-bottom: calc(var(--nav-mob-height) + 1px);
+  }
+  .content-body {
+    max-width: 100%;
   }
 
   body {

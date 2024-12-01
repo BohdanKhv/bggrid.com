@@ -4,9 +4,9 @@
     overflow-x: hidden;
     min-width: var(--nav-width);
     background-color: var(--color-main);
+    padding: 0 12px;
 }
 .navbar {
-    padding: 0 12px;
     position: fixed;
     display: flex;
     flex-direction: column;

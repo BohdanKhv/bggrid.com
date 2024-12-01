@@ -201,6 +201,7 @@ const Preferences = () => {
                                     <Icon
                                         icon={theme === 'system' ? checkIcon : ''}
                                         className="tag-text border-radius-50"
+                                        size="sm"
                                     />
                                     : null}
                                 </div>
@@ -289,8 +290,27 @@ const Settings = () => {
             <main className="page-body">
                 <div className="animation-slide-in">
                     <div className="container">
-                            <div className="pt-6 pb-3 pt-sm-3 title-1 bold px-sm-3">
+                        <div className="flex pt-6 pt-sm-3 justify-between px-sm-3">
+                            <div className="title-1 bold">
                                 Settings
+                            </div>
+                            {window.innerWidth < 800 && (
+                                <div className="justify-end flex align-center flex-no-wrap gap-3">
+                                    <div
+                                        onClick={() => {
+                                            document.querySelector('.open-navbar-button').click()
+                                        }}
+                                    >
+                                        <Avatar
+                                            img={`${user?.avatar}`}
+                                            name={user ? `${user?.email}` : null}
+                                            rounded
+                                            avatarColor="1"
+                                            size="sm"
+                                        />
+                                    </div>
+                                </div>
+                            )}
                             </div>
                             <div>
                                 <TabContent

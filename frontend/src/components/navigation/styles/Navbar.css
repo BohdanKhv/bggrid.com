@@ -64,6 +64,7 @@
         z-index: 999;
         background-color: var(--color-overlay);
         position: fixed;
+        padding: 0;
     }
     .navbar {
         width: 70%;
@@ -71,6 +72,7 @@
         background-color: var(--color-main);
         height: 100%;
         z-index: 1000;
+        padding: 0 12px;
         box-shadow: var(--box-shadow);
     }
     .navbar-open .navbar {

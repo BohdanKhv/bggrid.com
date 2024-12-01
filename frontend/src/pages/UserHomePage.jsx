@@ -98,7 +98,7 @@ const HomeFeed = () => {
     return (
         <>
         {isLoading ?
-            <div className="flex flex-col gap-6 py-6 overflow-hidden">
+            <div className="flex flex-col gap-6 py-6 overflow-hidden py-sm-3">
                 <div className="flex flex-col gap-3">
                     <Skeleton animation="wave" width="100" height="30"/>
                     <div className="flex gap-3">
@@ -125,7 +125,7 @@ const HomeFeed = () => {
                 </div>
             </div>
         :
-            <div className="py-6 flex flex-col gap-6 overflow-hidden px-sm-3">
+            <div className="py-6 flex flex-col gap-6 overflow-hidden px-sm-3 py-sm-3">
                 <div>
                     <div className="fs-24 flex align-center gap-4 weight-500 transition-slide-right-hover-parent pb-4">
                         Your stats in the last 30 days
@@ -626,7 +626,7 @@ const UserHomepage = () => {
                                 ))}
                             </div>
                         : null}
-                        <div className="pt-6">
+                        <div className="pt-3 px-sm-3">
                             <HorizontalScroll>
                                 
                                 {typeEnum

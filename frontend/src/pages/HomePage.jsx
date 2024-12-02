@@ -197,10 +197,10 @@ const Section5 = () => {
                     </div>
                 </div>
                 <div className="flex border-radius-lg overflow-hidden text-white pos-relative flex-1 bg-black">
-                    <div className="pos-absolute mask-image-100">
+                    <div className="pos-absolute mask-image-100 h-100 w-100">
                         <img
                             src='./assets/section-5-2.png'
-                            className="w-100 h-100 right-0"
+                            className="w-100 h-100 object-cover"
                         />
                     </div>
                     <div className="flex align-center justify-center text-center gap-6 flex-1 h-set-300-px h-sm-set-250-px p-6 z-3">

@@ -929,6 +929,12 @@ body:has(.header) .sticky {
 .object-top {
     object-position: top;
 }
+.object-right {
+    object-position: right;
+}
+.object-left {
+    object-position: left;
+}
 .object-center {
     object-position: center;
 }

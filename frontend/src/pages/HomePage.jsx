@@ -19,7 +19,7 @@ const GameItem = ({ item }) => {
 
     return  (
         <Link className="flex flex-col gap-3"
-            to={`/g/${item?.game?._id}`}
+            to={`/g/${item?.game?._id || item?._id}`}
         >
             <Image img={item?.thumbnail} classNameContainer="h-set-200-px border-radius overflow-hidden"/>
             <div className="flex align-center pos-relative flex-1">
@@ -269,7 +269,7 @@ const Section1 = () => {
                         <div className="flex gap-2 pt-4">
                             <Button
                                 label="Log In"
-                                to="/register"
+                                to="/login"
                                 type="secondary"
                                 className="transition-slide-right-hover-parent"
                                 variant="outline"

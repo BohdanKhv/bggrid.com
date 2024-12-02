@@ -9,6 +9,7 @@ import { getGameStats, getReviewsByGame, resetReview } from '../../features/revi
 import { getPlaysByGame, resetPlay, getGamePlayStats } from '../../features/play/playSlice'
 import { DateTime } from 'luxon'
 import { resetFeed } from '../../features/feed/feedSlice'
+import UserGuardLoginModal from '../auth/UserGuardLoginModal'
 
 
 const PlayItem = ({ item }) => {
@@ -218,7 +219,7 @@ const GameReviewStats = () => {
                 <div className="flex flex-col gap-3 pt-5 px-5">
                 <div className="flex flex-col align-center justify-center">
                     <div className="fs-54">
-                        {gameById?.reviewStats?.avgRating.toFixed(1)}
+                        {(gameById?.reviewStats?.avgRating || 0)?.toFixed(1)}
                     </div>
                     <div className="flex gap-1">
                         {[...Array(5)].map((_, i) => (
@@ -788,54 +789,47 @@ const GamePage = () => {
                             </div>
                         </HorizontalScroll>
                         <div className="flex align-center gap-4 mb-6">
-                            { user ?
-                                isInLibrary ?
-                                    <div>
-                                        <Button
-                                            icon={libraryIcon}
-                                            variant="secondary"
-                                            type="outline"
-                                            onClick={() => {
-                                                searchParams.set('addGame', gameId)
-                                                setSearchParams(searchParams)
-                                            }}
-                                            label="In Library"
-                                        />
-                                    </div>
-                                :
-                                    <div>
-                                        <Button
-                                            icon={largePlusIcon}
-                                            variant="secondary"
-                                            type="outline"
-                                            onClick={() => {
-                                                searchParams.set('addGame', gameId)
-                                                setSearchParams(searchParams)
-                                            }}
-                                            label="Add to Library"
-                                        />
-                                    </div>
-                                :
-                                    <div>
-                                        <Button
-                                            variant="secondary"
-                                            type="outline"
-                                            to="/login"
-                                            label="Sign in to add to library"
-                                        />
-                                    </div>
-                            }
-                            <Button
-                                icon={diceIcon}
-                                variant="secondary"
-                                type="filled"
-                                onClick={(e) => {
-                                    e.stopPropagation()
-                                    searchParams.set('logPlay', gameById._id)
-                                    setSearchParams(searchParams)
-                                }}
-                                label="Log a Play"
-                            />
+                            <UserGuardLoginModal>
+                                { isInLibrary ?
+                                        <div>
+                                            <Button
+                                                icon={libraryIcon}
+                                                variant="secondary"
+                                                type="outline"
+                                                onClick={() => {
+                                                    searchParams.set('addGame', gameId)
+                                                    setSearchParams(searchParams)
+                                                }}
+                                                label="In Library"
+                                            />
+                                        </div>
+                                    :
+                                        <div>
+                                            <Button
+                                                icon={largePlusIcon}
+                                                variant="secondary"
+                                                type="outline"
+                                                onClick={() => {
+                                                    searchParams.set('addGame', gameId)
+                                                    setSearchParams(searchParams)
+                                                }}
+                                                label="Add to Library"
+                                            />
+                                        </div>
+                                }
+                            </UserGuardLoginModal>
+                            <UserGuardLoginModal>
+                                <Button
+                                    icon={diceIcon}
+                                    variant="secondary"
+                                    type="filled"
+                                    onClick={(e) => {
+                                        searchParams.set('logPlay', gameById._id)
+                                        setSearchParams(searchParams)
+                                    }}
+                                    label="Log a Play"
+                                />
+                            </UserGuardLoginModal>
                             <IconButton
                                 icon={shareIcon}
                                 variant="secondary"

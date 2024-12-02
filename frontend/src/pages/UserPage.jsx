@@ -10,6 +10,7 @@ import { DateTime } from 'luxon'
 import { tagsEnum } from '../assets/constants'
 import { getPlaysByUsername } from '../features/play/playSlice'
 import PlayItem from './PlayItem'
+import UserGuardLoginModal from './auth/UserGuardLoginModal'
 
 
 const PlayTab = () => {
@@ -175,7 +176,7 @@ const UserPage = () => {
     const { friends, loadingId } = useSelector((state) => state.friend)
     const [searchParams, setSearchParams] = useSearchParams()
     const { user } = useSelector((state) => state.auth)
-    const [tags, setTags] = useState('')
+    const [tags, setTags] = useState(searchParams.get('tag') ? [searchParams.get('tag')] : '')
     const [sortBy, setSortBy] = useState('dateAdded')
     const [sortOrder, setSortOrder] = useState('desc')
 
@@ -253,7 +254,7 @@ const UserPage = () => {
                                         </div>
                                     </div>
                                     {
-                                    user._id === userById?._id ?
+                                    user?._id === userById?._id ?
                                     null
                                     :
                                     <div>
@@ -311,16 +312,20 @@ const UserPage = () => {
                                                 }}
                                             />
                                     :
-                                        <Button
-                                            label="Add friend"
-                                            variant="filled"
-                                            borderRadius="lg"
-                                            type="primary"
-                                            disabled={loadingId}
-                                            onClick={(e) => {
-                                                dispatch(sendFriendRequest(userById?._id))
-                                            }}
-                                        />}
+                                        <UserGuardLoginModal>
+                                            <Button
+                                                label="Add friend"
+                                                variant="filled"
+                                                borderRadius="lg"
+                                                type="secondary"
+                                                disabled={loadingId}
+                                                onClick={() => {
+                                                    console.log('send friend request')
+                                                    dispatch(sendFriendRequest(userById?._id))
+                                                }}
+                                            />
+                                        </UserGuardLoginModal>
+                                        }
                                     </div>
                                     }
                                 </div>
@@ -349,7 +354,11 @@ const UserPage = () => {
                                                     icon={closeIcon}
                                                     variant="secondary"
                                                     type="default"
-                                                    onClick={() => setTags([])}
+                                                    onClick={() => {
+                                                        searchParams.delete('tag')
+                                                        setSearchParams(searchParams.toString())
+                                                        setTags([])
+                                                    }}
                                                 />
                                             ) : 
                                                 <Button
@@ -375,8 +384,12 @@ const UserPage = () => {
                                                     onClick={() => {
                                                         if (tags.includes(tag)) {
                                                             setTags(tags.filter((t) => t !== tag))
+                                                            searchParams.delete('tag')
+                                                            setSearchParams(searchParams.toString())
                                                         } else {
                                                             setTags([...tags, tag])
+                                                            searchParams.set('tag', [...tags, tag].join(','))
+                                                            setSearchParams(searchParams.toString())
                                                         }
                                                     }}
                                                 />
@@ -447,7 +460,7 @@ const UserPage = () => {
                                     userById?.library
                                     .filter((item) => {
                                         if (tags.length === 0) return true
-                                        return tags.some((tag) => item.tags.includes(tag))
+                                        return tags?.some((tag) => item.tags.includes(tag))
                                     }).length === 0 ?
                                         <ErrorInfo
                                             label="No games found"
@@ -456,7 +469,7 @@ const UserPage = () => {
                                     : userById?.library
                                     .filter((item) => {
                                         if (tags.length === 0) return true
-                                        return tags.some((tag) => item.tags.includes(tag))
+                                        return tags?.some((tag) => item.tags.includes(tag))
                                     })
                                     .sort((a, b) => {
                                         if (sortBy === 'dateAdded') {

@@ -4,6 +4,7 @@ import { checkIcon, clockIcon, historyIcon, largePlusIcon, libraryIcon, patchPlu
 import { Link, useSearchParams } from 'react-router-dom'
 import { useSelector } from 'react-redux'
 import { numberFormatter } from '../../assets/utils'
+import UserGuardLoginModal from '../auth/UserGuardLoginModal'
 
 const GameItem = ({item}) => {
 
@@ -24,13 +25,15 @@ const GameItem = ({item}) => {
         >
             <div className={`pointer pos-relative`}>
                 { window.innerWidth > 800 ?
-                    <IconButton
-                        icon={isInLibrary ? checkIcon : largePlusIcon}
-                        variant="filled"
-                        type={isInLibrary ? "success" : "secondary"}
-                        className={`pos-absolute top-0 right-0 m-3 box-shadow-lg border-none outline-white${window.innerWidth > 800 ? " display-on-hover transition-slide-right-hover" : ""}`}
-                        dataTooltipContent={isInLibrary ? "In library" : "Add to library"}
-                    />
+                    <UserGuardLoginModal>
+                        <IconButton
+                            icon={isInLibrary ? checkIcon : largePlusIcon}
+                            variant="filled"
+                            type={isInLibrary ? "success" : "secondary"}
+                            className={`pos-absolute top-0 right-0 m-3 box-shadow-lg border-none outline-white${window.innerWidth > 800 ? " display-on-hover transition-slide-right-hover" : ""}`}
+                            dataTooltipContent={isInLibrary ? "In library" : "Add to library"}
+                        />
+                    </UserGuardLoginModal>
                     : null }
                 <Image
                     alt={item.name}

@@ -4,6 +4,7 @@ import { checkIcon, clockIcon, editIcon, largePlusIcon, libraryIcon, linkIcon, d
 import { Link, useSearchParams } from 'react-router-dom'
 import { useSelector } from 'react-redux'
 import { numberFormatter } from '../../assets/utils'
+import UserGuardLoginModal from '../auth/UserGuardLoginModal'
 
 const GameItemCol = ({item}) => {
 
@@ -39,30 +40,32 @@ const GameItemCol = ({item}) => {
                             In Library
                         </div>
                         : 
+                            <UserGuardLoginModal>
+                                <Button
+                                    label="Add"
+                                    icon={largePlusIcon}
+                                    variant="secondary"
+                                    type="outline"
+                                    onClick={(e) => {
+                                        searchParams.set('addGame', item._id)
+                                        setSearchParams(searchParams)
+                                    }}
+                                />
+                            </UserGuardLoginModal>
+                        }
+                        <UserGuardLoginModal>
                             <Button
-                                label="Add"
-                                icon={largePlusIcon}
+                                label="Log a Play"
+                                icon={diceIcon}
                                 variant="secondary"
-                                type="outline"
+                                type="filled"
+                                className="display-on-hover display-on-hover-sm-block"
                                 onClick={(e) => {
-                                    e.stopPropagation()
-                                    searchParams.set('addGame', item._id)
+                                    searchParams.set('logPlay', item._id)
                                     setSearchParams(searchParams)
                                 }}
                             />
-                        }
-                        <Button
-                            label="Log a Play"
-                            icon={diceIcon}
-                            variant="secondary"
-                            type="filled"
-                            className="display-on-hover display-on-hover-sm-block"
-                            onClick={(e) => {
-                                e.stopPropagation()
-                                searchParams.set('logPlay', item._id)
-                                setSearchParams(searchParams)
-                            }}
-                        />
+                        </UserGuardLoginModal>
                     </div>
                 </div>
             </div>

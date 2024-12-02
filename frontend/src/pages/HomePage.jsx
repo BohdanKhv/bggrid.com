@@ -161,7 +161,7 @@ const Section5 = () => {
                     <div className="flex-2 d-sm-none"/>
                     <div className="flex align-center gap-6 flex-1">
                         <div>
-                            <div className="fs-24 bold pb-3 text-shadow-hard">
+                            <div className="fs-28 bold pb-3 text-shadow-hard">
                                 List of Boardgames
                             </div>
                             <div className="fs-14 text-shadow-hard">
@@ -187,7 +187,7 @@ const Section5 = () => {
                     </div>
                     <div className="flex align-center justify-center text-center gap-6 flex-1 h-set-300-px h-sm-set-250-px p-6 z-3">
                         <div>
-                            <div className="fs-24 bold pb-3 text-shadow-hard">
+                            <div className="fs-28 bold pb-3 text-shadow-hard">
                                 Write Reviews and Ratings
                             </div>
                             <div className="fs-14 text-shadow-hard">
@@ -205,7 +205,7 @@ const Section5 = () => {
                     </div>
                     <div className="flex align-center justify-center text-center gap-6 flex-1 h-set-300-px h-sm-set-250-px p-6 z-3">
                         <div>
-                            <div className="fs-24 bold pb-3 text-shadow-hard">
+                            <div className="fs-28 bold pb-3 text-shadow-hard">
                                 Record Your Plays
                             </div>
                             <div className="fs-14 text-shadow-hard">
@@ -221,23 +221,25 @@ const Section5 = () => {
                 }}>
                 <div className="flex align-center gap-6 flex-1">
                     <div>
-                        <div className="fs-14 bold pb-4 text-sm-center">
+                        <div className="fs-20 bold pb-4 text-sm-center">
                             Let's get your boardgames collection started
                         </div>
-                        <Button
-                            label="Create an Account"
-                            to="/register"
-                            variant="filled"
-                            type="secondary"
-                            size="lg"
-                            className="transition-slide-right-hover-parent"
-                            iconRight={<span
-                                className="transition-slide-right-hover"
-                            >
-                                {rightArrowIcon}
-                            </span>}
-                            borderRadius="lg"
-                        />
+                        <div className="flex">
+                            <Button
+                                label="Create an Account"
+                                to="/register"
+                                variant="filled"
+                                type="secondary"
+                                size="lg"
+                                className="transition-slide-right-hover-parent"
+                                iconRight={<span
+                                    className="transition-slide-right-hover"
+                                >
+                                    {rightArrowIcon}
+                                </span>}
+                                borderRadius="lg"
+                            />
+                        </div>
                     </div>
                 </div>
             </div>

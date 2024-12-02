@@ -50,6 +50,9 @@
 .fs-14 {
     font-size: 14px!important;
 }
+.fs-15 {
+    font-size: 15px;
+}
 .fs-16 {
     font-size: 16px;
 }
@@ -61,6 +64,15 @@
 }
 .fs-24 {
     font-size: 24px;
+}
+.fs-28 {
+    font-size: 28px;
+}
+.fs-32 {
+    font-size: 32px;
+}
+.fs-38 {
+    font-size: 38px;
 }
 .fs-54 {
     font-size: 54px;

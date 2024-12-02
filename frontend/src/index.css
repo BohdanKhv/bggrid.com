@@ -577,7 +577,7 @@ label.p-FieldLabel {
 .content-wrapper {
   max-width: var(--w-max-xl);
   width: 100%;
-  overflow: hidden;
+  /* overflow: hidden; */
   margin: 0 auto;
 }
 .content {
@@ -654,6 +654,10 @@ body:has(.header) .offset-header {
     padding-top: calc(var(--header-height));
   }
 
+  .content-wrapper {
+    overflow: unset;
+  }
+  
   .card-box-lg {
     padding: 0;
     border: none;

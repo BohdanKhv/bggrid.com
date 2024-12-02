@@ -52,7 +52,7 @@ const LibraryItem = ({ item, index, hideInfo }) => {
                         <div>
                             <Icon
                                 icon={diceIcon}
-                                size="md"
+                                size="sm"
                                 dataTooltipContent={`Play ${item.game.name}`}
                             />
                         </div>

@@ -578,7 +578,7 @@ const UserHomepage = () => {
             <main className="page-body">
                 <div className="animation-slide-in">
                     <div className="container">
-                        <div className="flex pt-3 pt-sm-3 justify-between px-sm-3 pb-3 gap-3">
+                        <div className="flex pt-3 pt-sm-3 justify-between px-sm-3 pb-3 gap-3 sticky-sm top-0 z-3 bg-main">
                             <SearchGames/>
                             <div className="justify-end flex align-center flex-no-wrap gap-3">
                                 <IconButton
@@ -626,13 +626,13 @@ const UserHomepage = () => {
                                 .map((item, i) => (
                                     <Link
                                         key={i}
-                                        to={`/discover?type=${item.type}`}
-                                        className="flex justify-between transition-slide-right-hover-parent align-center transition-opacity-hover-parent gap-1 bg-secondary border-radius px-4 py-3 pointer w-set-150-px"
+                                        to={`/discover?type=${item.name}`}
+                                        className="flex justify-between transition-slide-right-hover-parent align-center transition-opacity-hover-parent gap-1 bg-secondary border-radius px-4 py-3 pointer w-set-200-px"
                                     >
                                         <div className="flex align-center gap-4">
                                             <Icon icon={item.icon} size="lg"/>
                                             <div className="fs-14 weight-500">
-                                                {item.type}
+                                                {item.name}
                                             </div>
                                         </div>
                                         <Icon

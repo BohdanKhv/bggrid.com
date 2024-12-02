@@ -2,8 +2,8 @@ import React, { memo, useCallback, useEffect, useMemo, useRef, useState } from '
 import { useDispatch, useSelector } from 'react-redux'
 import { getGameById, getGameOverview } from '../../features/game/gameSlice'
 import { Link, useNavigate, useParams, useSearchParams } from 'react-router-dom'
-import { Avatar, Button, Collapse, ErrorInfo, HorizontalScroll, Icon, IconButton, Image, ProgressBar, Skeleton, TabContent } from '../../components'
-import { boxInIcon, boxOffIcon, checkIcon, clockIcon, largePlusIcon, libraryIcon, diceIcon, shareIcon, starEmptyIcon, starFillIcon, starsIcon, userIcon, usersIcon, plugIcon, rightArrowIcon } from '../../assets/img/icons'
+import { Avatar, Button, Collapse, Dropdown, ErrorInfo, HorizontalScroll, Icon, IconButton, Image, ProgressBar, Skeleton, TabContent } from '../../components'
+import { boxInIcon, boxOffIcon, checkIcon, clockIcon, largePlusIcon, libraryIcon, diceIcon, shareIcon, starEmptyIcon, starFillIcon, starsIcon, userIcon, usersIcon, plugIcon, rightArrowIcon, leftArrowSmIcon, leftArrowIcon, moreIcon } from '../../assets/img/icons'
 import { addCommaToNumber, numberFormatter } from '../../assets/utils'
 import { getGameStats, getReviewsByGame, resetReview } from '../../features/review/reviewSlice'
 import { getPlaysByGame, resetPlay, getGamePlayStats } from '../../features/play/playSlice'
@@ -727,7 +727,90 @@ const GamePage = () => {
                 </div>
             : gameById ? 
                 <div className="flex flex-col h-min-100 container px-sm-3 animation-slide-in">
-                    <div className="flex flex-col mt-6 pos-relative mt-sm-4">
+                    {window.innerWidth < 800 ?
+                        <div className="flex justify-between bg-main py-3 sticky top-0 z-9">
+                            <div className="flex align-center gap-3">
+                                <IconButton
+                                    icon={leftArrowIcon}
+                                    variant="secondary"
+                                    type="text"
+                                    onClick={() => navigate(-1)}
+                                />
+                                <div className="fs-14 weight-600">
+                                    {gameById.name}
+                                </div>
+                            </div>
+                            <Dropdown
+                                customDropdown={
+                                    <IconButton
+                                        icon={moreIcon}
+                                        variant="secondary"
+                                        type="text"
+                                    />
+                                }
+                            >
+                                <div className="flex flex-col"><UserGuardLoginModal>
+                                { isInLibrary ?
+                                        <div>
+                                            <Button
+                                                className="justify-start"
+                                                icon={libraryIcon}
+                                                variant="secondary"
+                                                type="text"
+                                                onClick={() => {
+                                                    searchParams.set('addGame', gameId)
+                                                    setSearchParams(searchParams)
+                                                }}
+                                                label="In Library"
+                                            />
+                                        </div>
+                                    :
+                                        <div>
+                                            <Button
+                                                className="justify-start"
+                                                icon={largePlusIcon}
+                                                variant="secondary"
+                                                type="text"
+                                                onClick={() => {
+                                                    searchParams.set('addGame', gameId)
+                                                    setSearchParams(searchParams)
+                                                }}
+                                                label="Add to Library"
+                                            />
+                                        </div>
+                                }
+                            </UserGuardLoginModal>
+                            <UserGuardLoginModal>
+                                <Button
+                                    className="justify-start"
+                                    icon={diceIcon}
+                                    variant="secondary"
+                                    type="text"
+                                    onClick={(e) => {
+                                        searchParams.set('logPlay', gameById._id)
+                                        setSearchParams(searchParams)
+                                    }}
+                                    label="Log a Play"
+                                />
+                            </UserGuardLoginModal>
+                            <Button
+                                className="justify-start"
+                                icon={shareIcon}
+                                variant="secondary"
+                                label="Share"
+                                type="text"
+                                onClick={() => {
+                                    navigator.share({
+                                        title: gameById.name,
+                                        text: gameById.description
+                                    })
+                                }}
+                            />
+                            </div>
+                            </Dropdown>
+                        </div>
+                    : null }
+                    <div className="flex flex-col mt-6 pos-relative mt-sm-0">
                         {window.innerWidth >= 1100 ?
                             <CoverImage img={gameById.thumbnail}/>
                         : null }
@@ -788,6 +871,7 @@ const GamePage = () => {
                                 </span>
                             </div>
                         </HorizontalScroll>
+                        {window.innerWidth > 800 ?
                         <div className="flex align-center gap-4 mb-6 mb-sm-3">
                             <UserGuardLoginModal>
                                 { isInLibrary ?
@@ -844,6 +928,7 @@ const GamePage = () => {
                                 }}
                             />
                         </div>
+                        : null }
                     </div>
                 </div>
                     <div>

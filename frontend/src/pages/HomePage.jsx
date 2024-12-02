@@ -112,12 +112,12 @@ const HomeFeed = () => {
                         .map((item, i) => (
                             <div
                                 key={i}
-                                className="flex justify-between transition-slide-right-hover-parent h-set-30-px align-center transition-opacity-hover-parent gap-1 bg-secondary border-radius p-4 pointer w-set-150-px"
+                                className="flex justify-between transition-slide-right-hover-parent h-set-30-px align-center transition-opacity-hover-parent gap-1 bg-secondary border-radius p-4 pointer w-set-200-px"
                             >
                                 <div className="flex align-center gap-4">
                                     <Icon icon={item.icon} size="lg"/>
                                     <div className="fs-14 weight-500">
-                                        {item.type}
+                                        {item.name}
                                     </div>
                                 </div>
                                 <Icon

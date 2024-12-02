@@ -247,7 +247,7 @@ const Section5 = () => {
 
 const Section1 = () => {
     return (
-        <div className="h-set-50-vh pt-6">
+        <div className="h-set-50-vh mt-6 mt-sm-3 offset-header-sm">
             <div className="w-100 h-100 flex align-end overflow-hidden pos-relative border-radius-lg bg-black">
                 <div className="h-100 pos-absolute offset-header mask-image-100">
                     <img
@@ -255,7 +255,7 @@ const Section1 = () => {
                         className="w-100 h-100 object-cover filter-brightness-50"
                     />
                 </div>
-                <div className="py-6 pos-relative container px-sm-3">
+                <div className="pos-relative container px-sm-3 py-5 py-sm-3">
                     <div>
                         <div className="fs-24 weight-500">
                             Welcome to
@@ -300,7 +300,7 @@ const Section1 = () => {
 
 const HomePage = () => {
     useEffect(() => {
-        // window.scrollTo(0, 0)
+        window.scrollTo(0, 0)
         document.title = "Home"
     }, [])
 

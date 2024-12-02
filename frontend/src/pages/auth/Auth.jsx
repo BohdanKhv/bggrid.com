@@ -17,7 +17,7 @@ const Auth = ({children}) => {
             <div className="flex-1 h-100dvh d-sm-none">
                 <Image
                     img='/assets/login-bg.png'
-                    classNameContainer="h-100 w-100 object-cover cursor-default"
+                    classNameContainer="h-100 w-100 object-cover cursor-default mask-left"
                     classNameImg="h-100 w-100 object-cover"
                 />
             </div>

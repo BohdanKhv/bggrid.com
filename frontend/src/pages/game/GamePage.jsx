@@ -512,7 +512,7 @@ const Overview = () => {
     const { gameById } = useSelector(state => state.game)
 
     return (
-        <div className="flex justify-between gap-6 my-6 animation-slide-in">
+        <div className="flex justify-between gap-6 my-6 animation-slide-in my-sm-4">
             <div>
                 <div className="flex flex-col gap-6">
                     <div>
@@ -788,7 +788,7 @@ const GamePage = () => {
                                 </span>
                             </div>
                         </HorizontalScroll>
-                        <div className="flex align-center gap-4 mb-6">
+                        <div className="flex align-center gap-4 mb-6 mb-sm-3">
                             <UserGuardLoginModal>
                                 { isInLibrary ?
                                         <div>

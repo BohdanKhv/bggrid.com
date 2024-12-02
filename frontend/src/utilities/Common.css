@@ -109,6 +109,10 @@
     z-index: 1;
 }
 
+body:has(.header) .sticky {
+    position: relative;
+}
+
 /* Display */
 
 .d-none {
@@ -203,6 +207,10 @@
 .mask-image-bottom {
     -webkit-mask-image: linear-gradient(0deg, transparent, #000 50%);
     mask-image: linear-gradient(0deg, transparent, #000 50%);
+}
+.mask-image-bottom-100 {
+    -webkit-mask-image: linear-gradient(0deg, transparent, #000 100%);
+    mask-image: linear-gradient(0deg, transparent, #000 100%);
 }
 .bg-unavailable {
     /* background-color: var(--color-overlay); */

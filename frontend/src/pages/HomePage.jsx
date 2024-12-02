@@ -247,14 +247,14 @@ const Section5 = () => {
 
 const Section1 = () => {
     return (
-        <div className="h-set-50-vh">
-            <div className="pos-absolute mask-image-100">
-                <img
-                    src='./assets/section-1.png'
-                    className="w-100 h-100 object-cover mask-image-bottom h-min-50-vh"
-                />
-            </div>
-            <div className="mx-auto w-max-xl w-100 h-100 flex align-end">
+        <div className="h-set-50-vh py-3">
+            <div className="w-100 h-100 flex align-end overflow-hidden pos-relative border-radius-lg bg-black">
+                <div className="h-100 pos-absolute offset-header mask-image-100">
+                    <img
+                        src='./assets/section-1.png'
+                        className="w-100 h-100 object-cover filter-brightness-50"
+                    />
+                </div>
                 <div className="py-6 pos-relative container px-sm-3">
                     <div>
                         <div className="fs-24 weight-500">
@@ -306,9 +306,9 @@ const HomePage = () => {
 
     return (
         <div>
-            <Section1/>
             <div className="mx-auto w-max-xl offset-header w-100">
                 <div className="container">
+            <Section1/>
                     <HomeFeed/>
                     <Section5/>
                 </div>

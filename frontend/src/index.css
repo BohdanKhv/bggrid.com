@@ -615,6 +615,9 @@ body:has(.header) .offset-header {
   body:has(.header) .offset-header-sm {
     padding-top: var(--header-height);
   }
+  body:has(.header) .offset-header {
+    padding-top: 0;
+  }
   body:has(.navbar-mob) .content-body {
     padding-bottom: calc(var(--nav-mob-height) + 1px);
   }

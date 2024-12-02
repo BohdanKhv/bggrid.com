@@ -170,7 +170,7 @@ const getHomeFeed = async (req, res) => {
 
 // @desc   Get home feed
 // @route  GET /api/feed/general-home
-// @access Private
+// @access Public
 const getGeneralHomeFeed = async (req, res) => {
     try {
         // just a few random games for now
@@ -187,41 +187,112 @@ const getGeneralHomeFeed = async (req, res) => {
             { $unwind: '$game' }
         ]);
 
-        const mostFavorite = await Library.aggregate([
-            { $match: { tags: 'Favorite' } },
-            { $group: { _id: '$game', count: { $sum: 1 } } },
-            { $sort: { count: -1 } },
-            { $limit: 10 },
-            { $lookup: { from: 'games', localField: '_id', foreignField: '_id', as: 'game' } },
-            { $unwind: '$game' }
-        ]);
+        // const mostFavorite = await Library.aggregate([
+        //     { $match: { tags: 'Favorite' } },
+        //     { $group: { _id: '$game', count: { $sum: 1 } } },
+        //     { $sort: { count: -1 } },
+        //     { $limit: 10 },
+        //     { $lookup: { from: 'games', localField: '_id', foreignField: '_id', as: 'game' } },
+        //     { $unwind: '$game' }
+        // ]);
 
-        const mostOwned = await Library.aggregate([
-            { $match: { tags: 'Owned' } },
-            { $group: { _id: '$game', count: { $sum: 1 } } },
-            { $sort: { count: -1 } },
-            { $limit: 10 },
-            { $lookup: { from: 'games', localField: '_id', foreignField: '_id', as: 'game' } },
-            { $unwind: '$game' }
-        ]);
+        // const mostOwned = await Library.aggregate([
+        //     { $match: { tags: 'Owned' } },
+        //     { $group: { _id: '$game', count: { $sum: 1 } } },
+        //     { $sort: { count: -1 } },
+        //     { $limit: 10 },
+        //     { $lookup: { from: 'games', localField: '_id', foreignField: '_id', as: 'game' } },
+        //     { $unwind: '$game' }
+        // ]);
 
-        const mostWanted = await Library.aggregate([
-            { $match: { tags: 'Wishlist' } },
-            { $group: { _id: '$game', count: { $sum: 1 } } },
-            { $sort: { count: -1 } },
-            { $limit: 10 },
-            { $lookup: { from: 'games', localField: '_id', foreignField: '_id', as: 'game' } },
-            { $unwind: '$game' }
-        ]);
+        // const mostWanted = await Library.aggregate([
+        //     { $match: { tags: 'Wishlist' } },
+        //     { $group: { _id: '$game', count: { $sum: 1 } } },
+        //     { $sort: { count: -1 } },
+        //     { $limit: 10 },
+        //     { $lookup: { from: 'games', localField: '_id', foreignField: '_id', as: 'game' } },
+        //     { $unwind: '$game' }
+        // ]);
 
         return res.status(200).json({
             data: {
                 recommended,
                 mostPlayed,
-                mostFavorite,
-                mostOwned,
-                mostWanted
+                // mostFavorite,
+                // mostOwned,
+                // mostWanted
             }
+        });
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ message: error.message });
+    }
+}
+
+
+// @desc   Get home feed
+// @route  GET /api/feed/collection/most-wanted
+// @access Public
+const getMostWanted = async (req, res) => {
+    try {
+        const mostWanted = await Library.aggregate([
+            { $match: { tags: 'Wishlist' } },
+            { $group: { _id: '$game', count: { $sum: 1 } } },
+            { $sort: { count: -1 } },
+            { $limit: 30 },
+            { $lookup: { from: 'games', localField: '_id', foreignField: '_id', as: 'game' } },
+            { $unwind: '$game' }
+        ]);
+
+        return res.status(200).json({
+            data: mostWanted
+        });
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ message: error.message });
+    }
+}
+
+
+// @desc   Get home feed
+// @route  GET /api/feed/collection/most-owned
+// @access Public
+const getMostOwned = async (req, res) => {
+    try {
+        const mostOwned = await Library.aggregate([
+            { $match: { tags: 'Owned' } },
+            { $group: { _id: '$game', count: { $sum: 1 } } },
+            { $sort: { count: -1 } },
+            { $limit: 30 },
+            { $lookup: { from: 'games', localField: '_id', foreignField: '_id', as: 'game' } },
+            { $unwind: '$game' }
+        ]);
+
+        return res.status(200).json({
+            data: mostOwned
+        });
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ message: error.message });
+    }
+}
+
+// @desc   Get home feed
+// @route  GET /api/feed/collection/most-favorite
+// @access Public
+const getMostFavorite = async (req, res) => {
+    try {
+        const mostFavorite = await Library.aggregate([
+            { $match: { tags: 'Favorite' } },
+            { $group: { _id: '$game', count: { $sum: 1 } } },
+            { $sort: { count: -1 } },
+            { $limit: 30 },
+            { $lookup: { from: 'games', localField: '_id', foreignField: '_id', as: 'game' } },
+            { $unwind: '$game' }
+        ]);
+
+        return res.status(200).json({
+            data: mostFavorite
         });
     } catch (error) {
         console.error(error);
@@ -233,5 +304,8 @@ const getGeneralHomeFeed = async (req, res) => {
 module.exports = {
     getCommunityFeed,
     getGeneralHomeFeed,
-    getHomeFeed
+    getHomeFeed,
+    getMostFavorite,
+    getMostOwned,
+    getMostWanted
 }

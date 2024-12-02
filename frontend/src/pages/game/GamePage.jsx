@@ -752,39 +752,38 @@ const GamePage = () => {
                                 <div className="flex flex-col">
                                 <UserGuardLoginModal>
                                     { isInLibrary ?
-                                            <div>
-                                                <Button
-                                                    className="justify-start"
-                                                    icon={libraryIcon}
-                                                    variant="secondary"
-                                                    type="text"
-                                                    onClick={() => {
-                                                        searchParams.set('addGame', gameId)
-                                                        setSearchParams(searchParams)
-                                                    }}
-                                                    label="In Library"
-                                                />
-                                            </div>
+                                            <Button
+                                                className="justify-start"
+                                                icon={checkIcon}
+                                                borderRadius="sm"
+                                                variant="secondary"
+                                                type="text"
+                                                onClick={() => {
+                                                    searchParams.set('addGame', gameId)
+                                                    setSearchParams(searchParams)
+                                                }}
+                                                label="In Library"
+                                            />
                                         :
-                                            <div>
-                                                <Button
-                                                    className="justify-start"
-                                                    icon={largePlusIcon}
-                                                    variant="secondary"
-                                                    type="text"
-                                                    onClick={() => {
-                                                        searchParams.set('addGame', gameId)
-                                                        setSearchParams(searchParams)
-                                                    }}
-                                                    label="Add to Library"
-                                                />
-                                            </div>
+                                            <Button
+                                                className="justify-start"
+                                                icon={largePlusIcon}
+                                                variant="secondary"
+                                                borderRadius="sm"
+                                                type="text"
+                                                onClick={() => {
+                                                    searchParams.set('addGame', gameId)
+                                                    setSearchParams(searchParams)
+                                                }}
+                                                label="Add to Library"
+                                            />
                                     }
                                 </UserGuardLoginModal>
                             <UserGuardLoginModal>
                                 <Button
                                     className="justify-start"
                                     icon={diceIcon}
+                                    borderRadius="sm"
                                     variant="secondary"
                                     type="text"
                                     onClick={(e) => {
@@ -798,6 +797,7 @@ const GamePage = () => {
                                 className="justify-start"
                                 icon={shareIcon}
                                 variant="secondary"
+                                borderRadius="sm"
                                 label="Share"
                                 type="text"
                                 onClick={() => {

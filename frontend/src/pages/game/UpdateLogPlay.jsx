@@ -109,7 +109,7 @@ const UpdateLogPlay = () => {
                 : 'Log Play'
             }
             noAction={!playById}
-            classNameContent="p-0 scrollbar-none overflow-y-visible"
+            classNameContent="p-0 scrollbar-none overflow-y-visible overflow-y-sm-auto"
             actionBtnText={step === 1 ? 'Next' : 'Save'}
             onSubmit={step === 1 ? () => setStep(2) : onSubmit}
             disabledAction={loadingIdPlay === `update-${searchParam.get("updatePlay")}` || loadingIdPlay === `delete-${searchParam.get("updatePlay")}`}

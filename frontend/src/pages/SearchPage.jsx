@@ -2,7 +2,7 @@ import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { Avatar, Button, Dropdown, ErrorInfo, FilterDropdown, HorizontalScroll, Icon, IconButton, Image, InputSearch, Modal } from '../components'
 import { Link, useSearchParams } from 'react-router-dom'
 import { arrowLeftShortIcon, clockIcon, closeIcon, filterIcon, gridIcon, listIcon, searchIcon, toggleSortIcon } from '../assets/img/icons'
-import { categoriesEnum, mechanicsEnum, themesEnum, typeEnum } from '../assets/constants'
+import { mechanicsEnum, themesEnum, typeEnum } from '../assets/constants'
 import { useDispatch, useSelector } from 'react-redux'
 import { getGames, getSuggestions, resetGame } from '../features/game/gameSlice'
 import GameItem from './game/GameItem'
@@ -121,7 +121,7 @@ const SearchPage = () => {
                             Discover Games
                         </div>
                         : null}
-                        <div className="pb-6 pt-5 pt-sm-0">
+                        <div className="pb-6 pt-3 pt-sm-0">
                             <div className="flex flex-col gap-3 px-sm-3">
                                 <div className="border flex border-radius-lg flex-1 w-max-400-px">
                                     {
@@ -288,7 +288,7 @@ const SearchPage = () => {
                                     <InputSearch
                                         icon={searchIcon}
                                         className="flex-1 py-1"
-                                        placeholder="Search"
+                                        placeholder="Search games"
                                         value={searchValue}
                                         clearable
                                         onChange={(e) => setSearchValue(e.target.value)}
@@ -458,13 +458,13 @@ const SearchPage = () => {
                                         <div className="grid grid-cols-2 gap-2">
                                             {typeEnum.map((type) => (
                                                 <Button
-                                                    key={type.type}
+                                                    key={type.name}
                                                     onClick={() => {
-                                                        setTemp({ ...temp, type: type.type })
+                                                        setTemp({ ...temp, type: type.name })
                                                     }}
                                                     smSize="lg"
-                                                    label={`${type.icon} ${type.type}`}
-                                                    variant={temp.type?.toLocaleLowerCase() === type.type?.toLocaleLowerCase() ? "filled" : "outline"}
+                                                    label={`${type.icon} ${type.name}`}
+                                                    variant={temp.type?.toLocaleLowerCase() === type.name?.toLocaleLowerCase() ? "filled" : "outline"}
                                                     type="secondary"
                                                     className={`text-capitalize justify-start clickable`}
                                                 />
@@ -487,17 +487,17 @@ const SearchPage = () => {
                                         <div className="flex flex-wrap gap-2 w-max-300-px">
                                             {mechanicsEnum.map((m) => (
                                                 <Button
-                                                    key={m}
+                                                    key={m.name}
                                                     onClick={() => {
-                                                        if (temp.mechanics.includes(m)) {
-                                                            setTemp({ ...temp, mechanics: temp.mechanics.filter((mech) => mech !== m) })
+                                                        if (temp.mechanics.includes(m.name)) {
+                                                            setTemp({ ...temp, mechanics: temp.mechanics.filter((mech) => mech !== m.name) })
                                                         } else {
-                                                            setTemp({ ...temp, mechanics: [...temp.mechanics, m] })
+                                                            setTemp({ ...temp, mechanics: [...temp.mechanics, m.name] })
                                                         }
                                                     }}
                                                     smSize="lg"
-                                                    label={`${m}`}
-                                                    variant={temp.mechanics.includes(m) ? "filled" : "outline"}
+                                                    label={`${m.icon} ${m.name}`}
+                                                    variant={temp.mechanics.includes(m.name) ? "filled" : "outline"}
                                                     type="secondary"
                                                     className={`text-capitalize justify-start clickable`}
                                                 />
@@ -520,17 +520,17 @@ const SearchPage = () => {
                                         <div className="grid grid-cols-2 gap-2">
                                             {themesEnum.map((theme) => (
                                                 <Button
-                                                    key={theme.theme}
+                                                    key={theme.name}
                                                     onClick={() => {
-                                                        if (temp.themes.includes(theme.theme)) {
-                                                            setTemp({ ...temp, themes: temp.themes.filter((theme) => theme !== theme.theme) })
+                                                        if (temp.themes.includes(theme.name)) {
+                                                            setTemp({ ...temp, themes: temp.themes.filter((theme) => theme !== theme.name) })
                                                         } else {
-                                                            setTemp({ ...temp, themes: [...temp.themes, theme.theme] })
+                                                            setTemp({ ...temp, themes: [...temp.themes, theme.name] })
                                                         }
                                                     }}
                                                     smSize="lg"
-                                                    label={`${theme.theme}`}
-                                                    variant={temp.themes.includes(theme.theme) ? "filled" : "outline"}
+                                                    label={`${theme.icon} ${theme.name}`}
+                                                    variant={temp.themes.includes(theme.name) ? "filled" : "outline"}
                                                     type="secondary"
                                                     className={`text-capitalize justify-start clickable`}
                                                 />
@@ -551,14 +551,20 @@ const SearchPage = () => {
                                         }}
                                     >
                                         <div className="grid grid-cols-2 gap-2">
-                                            {['1','2','3','4', '5', '6'].map((p) => (
+                                            {[
+                                                '1-2',
+                                                '2-4',
+                                                '4-6',
+                                                '6-8',
+                                                '8+',
+                                            ].map((p) => (
                                                 <Button
                                                     key={p}
                                                     onClick={() => {
                                                         setTemp({ ...temp, players: p })
                                                     }}
                                                     smSize="lg"
-                                                    label={`${p}+`}
+                                                    label={`${p}`}
                                                     variant={temp.players?.toLocaleLowerCase() === p?.toLocaleLowerCase() ? "filled" : "outline"}
                                                     type="secondary"
                                                     className={`text-capitalize justify-start clickable`}

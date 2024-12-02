@@ -249,7 +249,7 @@ const Section1 = () => {
     return (
         <div className="h-set-50-vh mt-6 mt-sm-3 offset-header-sm">
             <div className="w-100 h-100 flex align-end overflow-hidden pos-relative border-radius-lg bg-black">
-                <div className="h-100 pos-absolute offset-header mask-image-100">
+                <div className="h-100 w-100 pos-absolute offset-header mask-image-100">
                     <img
                         src='./assets/section-1.png'
                         className="w-100 h-100 object-cover filter-brightness-50"

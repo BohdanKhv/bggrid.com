@@ -5,7 +5,7 @@ import { Link, useNavigate, useParams, useSearchParams } from 'react-router-dom'
 import { getUserProfile } from '../features/user/userSlice'
 import { acceptFriendRequest, removeFriend, sendFriendRequest } from '../features/friend/friendSlice'
 import FriendsModal from './friend/FriendsModal'
-import { arrowDownShortIcon, arrowUpShortIcon, closeIcon, diceIcon, starFillIcon } from '../assets/img/icons'
+import { arrowDownShortIcon, arrowUpShortIcon, closeIcon, diceIcon, leftArrowIcon, starFillIcon } from '../assets/img/icons'
 import { DateTime } from 'luxon'
 import { tagsEnum } from '../assets/constants'
 import { getPlaysByUsername } from '../features/play/playSlice'
@@ -204,8 +204,23 @@ const UserPage = () => {
             <main className="page-body">
                 <div className="animation-slide-in">
                     <div className="container">
-                        <div className="pt-6 pb-3 pt-sm-3 pb-3 m-3">
-                            <div className="flex gap-6 gap-sm-3 align-center">
+                        {window.innerWidth < 800 ?
+                            <div className="flex justify-between bg-main py-3 sticky top-0 z-9 px-3">
+                                <div className="flex align-center gap-3">
+                                    <IconButton
+                                        icon={leftArrowIcon}
+                                        variant="secondary"
+                                        type="text"
+                                        to="/community"
+                                    />
+                                    <div className="fs-14 weight-600">
+                                        {userById?.username}
+                                    </div>
+                                </div>
+                            </div>
+                        : null}
+                        <div className="pt-6 pt-sm-0 mt-sm-0 pb-3 pt-sm-3 pb-3 mb-sm-0 py-sm-0 m-3">
+                            <div className="flex gap-6 gap-sm-3 align-center flex-sm-col align-sm-start">
                                 <div className="flex justify-center align-center">
                                     <Avatar
                                         img={`${userById?.avatar}`}
@@ -213,7 +228,7 @@ const UserPage = () => {
                                         rounded
                                         defaultColor
                                         size="xxl"
-                                        sizeSm="xl"
+                                        sizeSm="lg"
                                     />
                                 </div>
                                 <div className="flex flex-1 flex-col gap-4">

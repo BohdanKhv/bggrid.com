@@ -173,7 +173,7 @@ const CommunityPage = () => {
                                 className="align-start gap-0 flex-1"
                                 contentClassName="gap-0"
                             >
-                                <div className={`pointer h-100 w-max-75-px animation-fade-in border-radius-sm hover-opacity-100 transition-duration clickable flex-shrink-0 bg-secondary-hover`}
+                                <div className={`pointer h-100 w-max-75-px animation-fade-in border-radius-sm hover-opacity-100 transition-duration clickable flex-shrink-0`}
                                     onClick={() => {
                                         searchParams.set('su', 'true')
                                         setSearchParams(searchParams.toString())
@@ -181,11 +181,10 @@ const CommunityPage = () => {
                                 >
                                     <div className="flex flex-col p-2 align-center">
                                         <Avatar
-                                            icon={largePlusIcon}
+                                            icon={plusIcon}
                                             rounded
                                             sizeSm="md"
                                             defaultColor
-                                            contentClassName="border border-w-2"
                                             size="lg"
                                         />
                                         <div className="fs-12 text-center text-ellipsis-1 pt-2 weight-500">
@@ -193,14 +192,14 @@ const CommunityPage = () => {
                                         </div>
                                     </div>
                                 </div>
-                                <div className={`pointer h-100 w-max-75-px animation-fade-in border-radius-sm hover-opacity-100 transition-duration clickable flex-shrink-0 bg-secondary-hover`}
+                                <div className={`pointer h-100 w-max-75-px animation-fade-in border-radius-sm hover-opacity-100 transition-duration clickable flex-shrink-0`}
                                     onClick={() => {
                                         searchParams.set('friends', 'true')
                                         setSearchParams(searchParams.toString())
                                     }}
                                 >
                                     <div className="flex flex-col p-2 align-center pos-relative">
-                                        {friends.filter((item) => item.pending).length > 0 ? <span className="fs-14 flex align-center justify-center w-set-25-px h-set-25-px m-1 z-3 bg-danger border-radius-50 border-radius pos-absolute top-0 right-0">{friends.filter((item) => item.pending).length}</span> : 'All'}
+                                        {friends.filter((item) => item.pending).length > 0 ? <span className="fs-14 flex align-center justify-center w-set-25-px h-set-25-px z-3 bg-danger border-radius-50 border-radius pos-absolute top-0 right-0">{friends.filter((item) => item.pending).length}</span> : 'All'}
                                         <Avatar
                                             icon={usersIcon}
                                             sizeSm="md"

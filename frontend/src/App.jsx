@@ -105,7 +105,7 @@ function App() {
             </ErrBoundary>
                 <div className="flex-grow-1 h-min-100 flex flex-col">
                     <Routes>
-                      <Route path="/" element={<ErrBoundary><div className="mx-auto w-max-xl offset-header w-100"><HomePage /></div></ErrBoundary>} />
+                      <Route path="/" element={<ErrBoundary><HomePage /></ErrBoundary>} />
                       <Route path="/discover" element={<ErrBoundary><div className="mx-auto w-max-xl offset-header w-100"><SearchPage /></div></ErrBoundary>} />
                       <Route path="/u/:username" element={<ErrBoundary><div className="mx-auto w-max-xl offset-header w-100"><UserPage /></div></ErrBoundary>} />
                       <Route path="/g/:gameId" element={<ErrBoundary><div className="mx-auto w-max-xl offset-header w-100"><GamePage /></div></ErrBoundary>} />

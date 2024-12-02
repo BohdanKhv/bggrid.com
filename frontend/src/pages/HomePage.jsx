@@ -88,7 +88,7 @@ const HomeFeed = () => {
                 </div>
             </div>
         :
-            <div className="py-6 flex flex-col gap-6 overflow-hidden px-sm-3 py-sm-3 gap-sm-3">
+            <div className="py-6 flex flex-col gap-6 overflow-hidden px-sm-3 py-sm-3 gap-sm-4">
                 {home?.recommended?.length ?
                     <HorizontalScrollControlled
                         label={
@@ -245,6 +245,59 @@ const Section5 = () => {
     )
 }
 
+const Section1 = () => {
+    return (
+        <div className="h-set-50-vh">
+            <div className="pos-absolute mask-image-100">
+                <img
+                    src='./assets/section-1.png'
+                    className="w-100 h-100 object-cover mask-image-bottom h-min-50-vh"
+                />
+            </div>
+            <div className="mx-auto w-max-xl w-100 h-100 flex align-end">
+                <div className="py-6 pos-relative container px-sm-3">
+                    <div>
+                        <div className="fs-24 weight-500">
+                            Welcome to
+                        </div>
+                        <div className="title-1 weight-500 pb-2">
+                            [site-name]
+                        </div>
+                        <div className="fs-14">
+                            Keep track of your boardgames collection and plays.
+                        </div>
+                        <div className="flex gap-2 pt-4">
+                            <Button
+                                label="Log In"
+                                to="/register"
+                                type="secondary"
+                                className="transition-slide-right-hover-parent"
+                                variant="outline"
+                                iconRight={<span
+                                    className="transition-slide-right-hover ms-2"
+                                >
+                                    {arrowRightShortIcon}
+                                </span>}
+                                size="lg"
+                                borderRadius="lg"
+                            />
+                            <Button
+                                label="Search Games"
+                                to="/discover"
+                                variant="filled"
+                                type="secondary"
+                                size="lg"
+                                className="transition-slide-right-hover-parent"
+                                borderRadius="lg"
+                            />
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    )
+}
+
 const HomePage = () => {
     useEffect(() => {
         // window.scrollTo(0, 0)
@@ -253,8 +306,13 @@ const HomePage = () => {
 
     return (
         <div>
-            <HomeFeed/>
-            <Section5/>
+            <Section1/>
+            <div className="mx-auto w-max-xl offset-header w-100">
+                <div className="container">
+                    <HomeFeed/>
+                    <Section5/>
+                </div>
+            </div>
         </div>
     )
 }

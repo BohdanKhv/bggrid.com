@@ -416,6 +416,9 @@ margin-right: auto;
 .h-min-100-vh {
     min-height: 100vh;
 }
+.h-min-50-vh {
+    min-height: 50vh;
+}
 .h-min-100-pct {
     min-height: 100%;
 }
@@ -541,6 +544,11 @@ margin-right: auto;
     min-height: 300px;
     max-height: 300px;
     height: 300px;
+}
+.h-set-50-vh {
+    min-height: 50vh;
+    max-height: 50vh;
+    height: 50vh;
 }
 .h-set-350-px {
     min-height: 350px;

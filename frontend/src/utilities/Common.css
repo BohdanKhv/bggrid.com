@@ -200,6 +200,10 @@
     -webkit-mask-image: linear-gradient(90deg, transparent, #000 100%);
     mask-image: linear-gradient(90deg, transparent, #000 100%);
 }
+.mask-image-bottom {
+    -webkit-mask-image: linear-gradient(0deg, transparent, #000 50%);
+    mask-image: linear-gradient(0deg, transparent, #000 50%);
+}
 .bg-unavailable {
     /* background-color: var(--color-overlay); */
     background-size: 10px 10px;

@@ -749,37 +749,38 @@ const GamePage = () => {
                                     />
                                 }
                             >
-                                <div className="flex flex-col"><UserGuardLoginModal>
-                                { isInLibrary ?
-                                        <div>
-                                            <Button
-                                                className="justify-start"
-                                                icon={libraryIcon}
-                                                variant="secondary"
-                                                type="text"
-                                                onClick={() => {
-                                                    searchParams.set('addGame', gameId)
-                                                    setSearchParams(searchParams)
-                                                }}
-                                                label="In Library"
-                                            />
-                                        </div>
-                                    :
-                                        <div>
-                                            <Button
-                                                className="justify-start"
-                                                icon={largePlusIcon}
-                                                variant="secondary"
-                                                type="text"
-                                                onClick={() => {
-                                                    searchParams.set('addGame', gameId)
-                                                    setSearchParams(searchParams)
-                                                }}
-                                                label="Add to Library"
-                                            />
-                                        </div>
-                                }
-                            </UserGuardLoginModal>
+                                <div className="flex flex-col">
+                                <UserGuardLoginModal>
+                                    { isInLibrary ?
+                                            <div>
+                                                <Button
+                                                    className="justify-start"
+                                                    icon={libraryIcon}
+                                                    variant="secondary"
+                                                    type="text"
+                                                    onClick={() => {
+                                                        searchParams.set('addGame', gameId)
+                                                        setSearchParams(searchParams)
+                                                    }}
+                                                    label="In Library"
+                                                />
+                                            </div>
+                                        :
+                                            <div>
+                                                <Button
+                                                    className="justify-start"
+                                                    icon={largePlusIcon}
+                                                    variant="secondary"
+                                                    type="text"
+                                                    onClick={() => {
+                                                        searchParams.set('addGame', gameId)
+                                                        setSearchParams(searchParams)
+                                                    }}
+                                                    label="Add to Library"
+                                                />
+                                            </div>
+                                    }
+                                </UserGuardLoginModal>
                             <UserGuardLoginModal>
                                 <Button
                                     className="justify-start"
@@ -834,7 +835,7 @@ const GamePage = () => {
                             </div>
                         </div>
                         <HorizontalScroll 
-                            className="my-6 my-sm-5"
+                            className="my-6 my-sm-4"
                         >
                             <div className="flex flex-col pe-4 align-center justify-center w-min-100-px border-right pe-sm-2">
                                 <div className="fs-14 bold flex align-center">
@@ -928,7 +929,37 @@ const GamePage = () => {
                                 }}
                             />
                         </div>
-                        : null }
+                        : isInLibrary ?
+                                <div>
+                                    <Button
+                                        icon={checkIcon}
+                                        variant="secondary"
+                                        type="outline"
+                                        className="w-100 my-3"
+                                        size="lg"
+                                        onClick={() => {
+                                            searchParams.set('addGame', gameId)
+                                            setSearchParams(searchParams)
+                                        }}
+                                        label="In Library"
+                                    />
+                                </div>
+                            :
+                                <div>
+                                    <Button
+                                        icon={largePlusIcon}
+                                        variant="secondary"
+                                        size="lg"
+                                        className="w-100 my-3"
+                                        type="filled"
+                                        onClick={() => {
+                                            searchParams.set('addGame', gameId)
+                                            setSearchParams(searchParams)
+                                        }}
+                                        label="Add to Library"
+                                    />
+                                </div>
+                        }
                     </div>
                 </div>
                     <div>

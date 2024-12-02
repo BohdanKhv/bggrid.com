@@ -27,7 +27,6 @@ const GameItemCol = ({item}) => {
                 <div className="flex flex-col justify-between">
                     <Link className="fs-16 weight-600 pointer text-underlined-hover"
                         to={`/g/${item._id}`}
-                        target='_blank'
                     >
                         {item.name}
                     </Link>

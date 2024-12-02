@@ -88,7 +88,7 @@ const HomeFeed = () => {
                 </div>
             </div>
         :
-            <div className="py-6 flex flex-col gap-6 overflow-hidden px-sm-3 py-sm-3 gap-sm-4">
+            <div className="py-6 flex flex-col gap-6 overflow-hidden py-sm-3 gap-sm-4">
                 {home?.recommended?.length ?
                     <HorizontalScrollControlled
                         label={
@@ -152,7 +152,7 @@ const HomeFeed = () => {
 const Section5 = () => {
 
     return (
-        <section className="flex gap-4 pb-6 flex-col px-sm-3">
+        <section className="flex gap-4 pb-6 flex-col">
             <div className="flex border-radius-lg text-white pos-relative h-set-400-px h-sm-100 flex-sm-col overflow-hidden"
             style={{
                 background: "radial-gradient(50% 120% at 60% 100%, rgb(51, 0, 255) 0%, rgb(0, 0, 0) 100%)"
@@ -221,7 +221,7 @@ const Section5 = () => {
                 }}>
                 <div className="flex align-center gap-6 flex-1">
                     <div>
-                        <div className="fs-14 bold pb-4">
+                        <div className="fs-14 bold pb-4 text-sm-center">
                             Let's get your boardgames collection started
                         </div>
                         <Button
@@ -247,7 +247,7 @@ const Section5 = () => {
 
 const Section1 = () => {
     return (
-        <div className="h-set-50-vh py-3">
+        <div className="h-set-50-vh pt-6">
             <div className="w-100 h-100 flex align-end overflow-hidden pos-relative border-radius-lg bg-black">
                 <div className="h-100 pos-absolute offset-header mask-image-100">
                     <img
@@ -307,8 +307,8 @@ const HomePage = () => {
     return (
         <div>
             <div className="mx-auto w-max-xl offset-header w-100">
-                <div className="container">
-            <Section1/>
+                <div className="container px-sm-3">
+                    <Section1/>
                     <HomeFeed/>
                     <Section5/>
                 </div>

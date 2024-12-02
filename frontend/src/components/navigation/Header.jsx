@@ -22,23 +22,6 @@ const Header = () => {
 
     const { user } = useSelector(state => state.auth)
 
-    useEffect(() => {
-        const handleScroll = () => {
-            setTopOffset(window.pageYOffset)
-        }
-
-        window.addEventListener('scroll', handleScroll)
-        window.addEventListener('resize', () => {
-            setWindowWidth(window.innerWidth)
-        })
-
-        return () => {
-            window.removeEventListener('scroll', handleScroll)
-            window.removeEventListener('resize', () => {
-                setWindowWidth(window.innerWidth)
-            })
-        }
-    }, [])
 
     return (
         <>

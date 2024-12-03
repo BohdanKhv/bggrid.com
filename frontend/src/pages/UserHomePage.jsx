@@ -557,7 +557,7 @@ const SearchGames = () => {
     )
 }
 
-const UserHomepage = () => {
+const UserHomePage = () => {
     const dispatch = useDispatch()
     const { user } = useSelector((state) => state.auth)
     const { friends } = useSelector((state) => state.friend)
@@ -686,4 +686,4 @@ const UserHomepage = () => {
     )
 }
 
-export default UserHomepage
+export default UserHomePage

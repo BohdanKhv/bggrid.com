@@ -29,7 +29,7 @@ import CommunityPage from "./pages/CommunityPage";
 import GameSearchModal from "./pages/game/GameSearchModal";
 import UserGuard from "./pages/auth/UserGuard";
 import NotificationPage from "./pages/NotificationPage";
-import UserHomepage from "./pages/UserHomepage";
+import UserHomePage from "./pages/UserHomePage";
 import PublisherPage from "./pages/PublisherPage";
 
 function App() {
@@ -76,7 +76,7 @@ function App() {
                 <div className="content-body">
                   <div className="flex-grow-1 h-min-100 flex flex-col">
                       <Routes>
-                        <Route path="/" element={<ErrBoundary><UserHomepage /></ErrBoundary>} />
+                        <Route path="/" element={<ErrBoundary><UserHomePage /></ErrBoundary>} />
                         <Route path="/discover" element={<ErrBoundary><SearchPage /></ErrBoundary>} />
                         <Route path="/u/:username" element={<ErrBoundary><UserPage /></ErrBoundary>} />
                         <Route path="/u/:username/:tab" element={<ErrBoundary><UserPage /></ErrBoundary>} />

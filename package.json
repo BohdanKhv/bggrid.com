@@ -1,8 +1,8 @@
 {
-  "name": "increw",
+  "name": "BGGRID",
   "version": "0.0.1",
   "private": true,
-  "description": "InCrew Cafe - Job posting and application platform",
+  "description": "BGGRID, keep track of your boardgames collection and plays. Discover new games and find people to play with.",
   "main": "server.js",
   "scripts": {
     "start": "node backend/server.js",

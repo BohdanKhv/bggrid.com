@@ -16,7 +16,7 @@ const app = express();
 
 // Cors
 app.use(cors({
-    origin: [process.env.CLIENT_URL, 'http://192.168.1.101:5173', 'http://bggrid.com'],
+    origin: [process.env.CLIENT_URL, 'http://192.168.1.101:5173', 'https://bggrid.com'],
 }));
 
 app.use((req, res, next) => {

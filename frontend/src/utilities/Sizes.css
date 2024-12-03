@@ -836,20 +836,20 @@ margin-right: auto;
     justify-content: center;
 }
 .icon.icon-xs {
-    width: 8px;
-    height: 8px;
+    width: 12px;
+    height: 12px;
 }
 .icon.icon-xs svg {
-    width: 8px;
-    height: 8px;
+    width: 12px;
+    height: 12px;
 }
 .icon.icon-sm {
-    width: 12px;
-    height: 12px;
+    width: 18px;
+    height: 18px;
 }
 .icon.icon-sm svg {
-    width: 12px;
-    height: 12px;
+    width: 18px;
+    height: 18px;
 }
 .icon.icon-lg {
     width: 24px;
@@ -919,13 +919,13 @@ margin-right: auto;
     fill: var(--text-dark);
 }
 .icon.icon-xs svg {
-    width: 8px;
-    height: 8px;
+    width: 12px;
+    height: 12px;
     fill: var(--text-dark);
 }
 .icon.icon-sm svg {
-    width: 12px;
-    height: 12px;
+    width: 18px;
+    height: 18px;
     fill: var(--text-dark);
 }
 .icon.icon-lg svg {

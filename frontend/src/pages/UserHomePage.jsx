@@ -627,11 +627,11 @@ const UserHomepage = () => {
                                     <Link
                                         key={i}
                                         to={`/discover?type=${item.name}`}
-                                        className="flex justify-between transition-slide-right-hover-parent align-center transition-opacity-hover-parent gap-1 bg-secondary border-radius px-4 py-3 pointer w-set-200-px"
+                                        className="flex justify-between transition-slide-right-hover-parent align-center transition-opacity-hover-parent gap-1 bg-secondary border-radius px-4 py-3 pointer w-w-min-200-px flex-shrink-0"
                                     >
                                         <div className="flex align-center gap-4">
                                             <Icon icon={item.icon} size="lg"/>
-                                            <div className="fs-14 weight-500">
+                                            <div className="fs-14 weight-500 pe-3">
                                                 {item.name}
                                             </div>
                                         </div>
@@ -669,6 +669,7 @@ const UserHomepage = () => {
                                             <div className="pos-absolute flex align-center right-0 mx-2">
                                                 <Icon
                                                     icon={diceIcon}
+                                                    size="sm"
                                                     className="display-on-hover bg-main box-shadow border-radius-sm"
                                                 />
                                             </div>

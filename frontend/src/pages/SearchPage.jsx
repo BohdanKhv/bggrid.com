@@ -416,7 +416,10 @@ const SearchPage = () => {
                                 </div>
                             </div>
                             <div className="py-3 top-0 z-3 sticky px-sm-3 bg-main">
-                                <HorizontalScroll
+                                <div className="fs-12 text-secondary">
+                                    Filters are coming soon!
+                                </div>
+                                {/* <HorizontalScroll
                                     noControllers
                                 >
                                     <Button
@@ -572,7 +575,7 @@ const SearchPage = () => {
                                             ))}
                                         </div>
                                     </FilterDropdown>
-                                </HorizontalScroll>
+                                </HorizontalScroll> */}
                             </div>
                             <div className="px-sm-3 flex justify-between align-center">
                                 <Dropdown

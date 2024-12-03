@@ -1,4 +1,4 @@
-const logoSvg = <svg width="100%" viewBox="0 0 913 322" fill="none" xmlns="http://www.w3.org/2000/svg">
+const logoSvg = <svg width="100%" height="100%" viewBox="0 0 913 322" fill="none" xmlns="http://www.w3.org/2000/svg">
 <path d="M141.813 31.7568L139.5 32.5908V35.0492V158V161.5H143H293H296.5V158V96.5246V35.0492V32.5908L294.187 31.7568L219.187 4.70758L218 4.27933L216.813 4.70758L141.813 31.7568Z" fill="black" stroke="white" strokeWidth="7"/>
 <path d="M298.813 31.7568L296.5 32.5908V35.0492V158V161.5H300H450H453.5V158V96.5246V35.0492V32.5908L451.187 31.7568L376.187 4.70758L375 4.27933L373.813 4.70758L298.813 31.7568Z" fill="black" stroke="white" strokeWidth="7"/>
 <path d="M455.813 31.7568L453.5 32.5908V35.0492V158V161.5H457H607H610.5V158V96.5246V35.0492V32.5908L608.187 31.7568L533.187 4.70758L532 4.27933L530.813 4.70758L455.813 31.7568Z" fill="black" stroke="white" strokeWidth="7"/>
@@ -15,7 +15,7 @@ const logoSvg = <svg width="100%" viewBox="0 0 913 322" fill="none" xmlns="http:
 
 
 
-const logoRevertSvg = <svg width="100%" viewBox="0 0 913 322" fill="none" xmlns="http://www.w3.org/2000/svg">
+const logoRevertSvg = <svg width="100%" height="100%" viewBox="0 0 913 322" fill="none" xmlns="http://www.w3.org/2000/svg">
 <path d="M141.813 31.7568L139.5 32.5908V35.0492V158V161.5H143H293H296.5V158V96.5246V35.0492V32.5908L294.187 31.7568L219.187 4.70758L218 4.27933L216.813 4.70758L141.813 31.7568Z" fill="black" stroke="white" strokeWidth="7"/>
 <path d="M298.813 31.7568L296.5 32.5908V35.0492V158V161.5H300H450H453.5V158V96.5246V35.0492V32.5908L451.187 31.7568L376.187 4.70758L375 4.27933L373.813 4.70758L298.813 31.7568Z" fill="black" stroke="white" strokeWidth="7"/>
 <path d="M455.813 31.7568L453.5 32.5908V35.0492V158V161.5H457H607H610.5V158V96.5246V35.0492V32.5908L608.187 31.7568L533.187 4.70758L532 4.27933L530.813 4.70758L455.813 31.7568Z" fill="black" stroke="white" strokeWidth="7"/>
@@ -32,7 +32,7 @@ const logoRevertSvg = <svg width="100%" viewBox="0 0 913 322" fill="none" xmlns=
 
 
 
-const logoNameSvg = <svg width="100%" viewBox="0 0 635 194" fill="none" xmlns="http://www.w3.org/2000/svg">
+const logoNameSvg = <svg width="100%" height="100%" viewBox="0 0 635 194" fill="none" xmlns="http://www.w3.org/2000/svg">
 <path d="M6.28161 20.3091L3.50024 20.8926V23.7345V95.2549V98.7549H7.00024H157H160.5V95.2549V59.4947V23.7345V20.8926L157.719 20.3091L82.7189 4.57457L82.0002 4.42381L81.2816 4.57457L6.28161 20.3091Z" fill="black" stroke="white" strokeWidth="7"/>
 <path d="M163.282 20.3091L160.5 20.8926V23.7345V95.2549V98.7549H164H314H317.5V95.2549V59.4947V23.7345V20.8926L314.719 20.3091L239.719 4.57457L239 4.42381L238.282 4.57457L163.282 20.3091Z" fill="black" stroke="white" strokeWidth="7"/>
 <path d="M320.282 20.3091L317.5 20.8926V23.7345V95.2549V98.7549H321H471H474.5V95.2549V59.4947V23.7345V20.8926L471.719 20.3091L396.719 4.57457L396 4.42381L395.282 4.57457L320.282 20.3091Z" fill="black" stroke="white" strokeWidth="7"/>

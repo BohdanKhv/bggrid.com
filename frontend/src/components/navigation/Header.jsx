@@ -33,7 +33,7 @@ const Header = () => {
                                 <div className={`flex justify-start gap-3 align-center gap-sm-3`}>
                                     <Link
                                         to="/"
-                                        className="flex align-center pointer">
+                                        className="flex align-center pointer h-set-45-px">
                                         { windowWidth > 800 ?
                                         logoNameSvg
                                         :

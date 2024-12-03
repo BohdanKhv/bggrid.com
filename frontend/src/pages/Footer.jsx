@@ -74,7 +74,7 @@ const Footer = () => {
                     </div>
                 </div>
                     <div className="fs-12 text-white opacity-75 text-center">
-                        © {new Date().getFullYear()} In Crew Cafe. All rights reserved.
+                        © {new Date().getFullYear()} BGGRID All rights reserved.
                     </div>
             </div>
         </footer>

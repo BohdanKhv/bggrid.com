@@ -140,7 +140,8 @@ const getGameById = async (req, res) => {
 // @access Public
 const getGameOverview = async (req, res) => {
     try {
-        const game = await Game.findById(req.params.gameId);
+        const game = await Game.findById(req.params.gameId)
+        .populate('publishers')
 
         if (!game) {
             return res.status(404).json({ msg: '404' });

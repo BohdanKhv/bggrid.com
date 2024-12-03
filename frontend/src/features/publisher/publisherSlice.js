@@ -33,8 +33,7 @@ export const getPublishers = createAsyncThunk(
     'publisher/getPublishers',
     async (payload, thunkAPI) => {
         try {
-            const token = thunkAPI.getState().auth.user ? thunkAPI.getState().auth.user.token : null;
-            return await publisherService.getPublishers(payload, token);
+            return await publisherService.getPublishers(payload);
         } catch (error) {
             const message =
                 (error.response &&

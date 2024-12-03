@@ -30,6 +30,7 @@ import GameSearchModal from "./pages/game/GameSearchModal";
 import UserGuard from "./pages/auth/UserGuard";
 import NotificationPage from "./pages/NotificationPage";
 import UserHomepage from "./pages/UserHomepage";
+import PublisherPage from "./pages/PublisherPage";
 
 function App() {
   const { user } = useSelector(state => state.auth);
@@ -81,6 +82,8 @@ function App() {
                         <Route path="/u/:username/:tab" element={<ErrBoundary><UserPage /></ErrBoundary>} />
                         <Route path="/g/:gameId" element={<ErrBoundary><GamePage /></ErrBoundary>} />
                         <Route path="/g/:gameId/:tab" element={<ErrBoundary><GamePage /></ErrBoundary>} />
+                        <Route path="/p/:publisherId" element={<ErrBoundary><div className="mx-auto w-max-xl offset-header w-100"><PublisherPage /></div></ErrBoundary>} />
+                        <Route path="/p/:publisherId/:tab" element={<ErrBoundary><div className="mx-auto w-max-xl offset-header w-100"><PublisherPage /></div></ErrBoundary>} />
                         <Route path="/c/:category" element={<ErrBoundary><CategoryPage /></ErrBoundary>} />
                         <Route path="/collection/:collection" element={<ErrBoundary><CategoryPage /></ErrBoundary>} />
                         <Route path="/settings" element={<ErrBoundary><Settings/></ErrBoundary>} />
@@ -110,6 +113,8 @@ function App() {
                       <Route path="/u/:username" element={<ErrBoundary><div className="mx-auto w-max-xl offset-header w-100"><UserPage /></div></ErrBoundary>} />
                       <Route path="/g/:gameId" element={<ErrBoundary><div className="mx-auto w-max-xl offset-header w-100"><GamePage /></div></ErrBoundary>} />
                       <Route path="/g/:gameId/:tab" element={<ErrBoundary><div className="mx-auto w-max-xl offset-header w-100"><GamePage /></div></ErrBoundary>} />
+                      <Route path="/p/:publisherId" element={<ErrBoundary><div className="mx-auto w-max-xl offset-header w-100"><PublisherPage /></div></ErrBoundary>} />
+                      {/* <Route path="/p/:publisherId/:tab" element={<ErrBoundary><div className="mx-auto w-max-xl offset-header w-100"><PublisherPage /></div></ErrBoundary>} /> */}
                       <Route path="/c/:category" element={<ErrBoundary><div className="mx-auto w-max-xl offset-header w-100"><CategoryPage /></div></ErrBoundary>} />
                       <Route path="/collection/:collection" element={<ErrBoundary><div className="mx-auto w-max-xl offset-header w-100"><CategoryPage /></div></ErrBoundary>} />
                       <Route path="/forgot-password" element={<ErrBoundary><div><Auth><ForgotPassword /></Auth></div></ErrBoundary>} />

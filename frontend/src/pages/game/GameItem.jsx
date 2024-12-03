@@ -46,17 +46,14 @@ const GameItem = ({item}) => {
                             <div className="bg-main p-2 border-radius m-1">
                             <div className="flex flex-col flex-1 flex-wrap z-1">
                                     <div className="flex fs-12 gap-2 py-2 align-center text-nowrap">
-                                        <Icon icon={starEmptyIcon}/> <strong>{item.avgRating.toFixed(1)}</strong>
+                                    <Icon size="sm" icon={weightIcon}/> <strong>{item.gameWeight.toFixed(1)}</strong>
                                     </div>
                                     <div className="flex fs-12 gap-2 py-2 align-center text-nowrap">
-                                    <Icon icon={weightIcon}/> <strong>{item.gameWeight.toFixed(1)}</strong>
-                                    </div>
-                                    <div className="flex fs-12 gap-2 py-2 align-center text-nowrap">
-                                    <Icon icon={usersIcon}/> <strong>{item.MinPlayers}{item.MaxPlayers > item.MinPlayers ? `-${item.MaxPlayers}` : ''}</strong>
+                                    <Icon size="sm" icon={usersIcon}/> <strong>{item.MinPlayers}{item.MaxPlayers > item.MinPlayers ? `-${item.MaxPlayers}` : ''}</strong>
                                     </div>
                                 {item.ComMinPlaytime ?
                                     <div className="flex fs-12 gap-2 py-2 align-center text-nowrap">
-                                    <Icon icon={historyIcon}/> <strong>{item.ComMinPlaytime}</strong>
+                                    <Icon size="sm" icon={historyIcon}/> <strong>{item.ComMinPlaytime}</strong>
                                     </div>
                                 : null}
                             </div>

@@ -9,8 +9,8 @@ export const getPublishers = async (payload) => {
     return response.data;
 }
 
-export const getPublisherById = async (payload, token) => {
-    const response = await axios.get(API_URL+`${payload || ""}`, config);
+export const getPublisherById = async (payload) => {
+    const response = await axios.get(API_URL+`/${payload || ""}`);
 
     return response.data;
 }

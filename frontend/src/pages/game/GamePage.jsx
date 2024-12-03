@@ -835,12 +835,13 @@ const GamePage = () => {
                                 {gameById?.publishers?.length ?
                                     <div className="flex gap-2 pt-2">
                                         {gameById.publishers.map((publisher, index) => (
-                                            <Link className="fs-14 text-primary weight-600 text-underlined-hover"
+                                            <Link className="fs-14 weight-600 text-underlined-hover"
                                                 to={`/p/${publisher._id}`}
+                                                key={index}
                                             >
                                                 {publisher.name}
                                             </Link>
-                                        )).join(', ')}
+                                        ))}
                                     </div>
                                 : null}
                             </div>

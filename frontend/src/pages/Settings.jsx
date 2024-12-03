@@ -290,7 +290,7 @@ const Settings = () => {
             <main className="page-body">
                 <div className="animation-slide-in">
                     <div className="container">
-                        <div className="flex pt-6 pt-sm-3 justify-between px-sm-3">
+                        <div className="flex pt-6 pt-sm-3 justify-between px-sm-3 pb-6 pb-sm-0">
                             <div className="title-1 bold">
                                 Settings
                             </div>

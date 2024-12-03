@@ -22,7 +22,7 @@ const Login = () => {
     }
 
     useEffect(() => {
-        document.title = 'Log in to in Crew | Find a job in the service industry';
+        document.title = 'Log in to BGGRID';
         window.scrollTo(0, 0);
 
         return () => {

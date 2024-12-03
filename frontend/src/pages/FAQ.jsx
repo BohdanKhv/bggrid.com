@@ -25,11 +25,11 @@ const FAQ = () => {
                         </div>
                         <Collapse
                             noArrow
-                            label="What is In Crew?"
+                            label="What is BGGRID?"
                             labelClassName="py-2 text-underlined weight-600"
                         >
                             <div className="fs-14 pb-4">
-                                In Crew is an online platform that connects employers with job seekers in the food & beverage service industry. Employers can post job listings and job seekers can apply for jobs.
+                                BGGRID is an online platform that connects employers with job seekers in the food & beverage service industry. Employers can post job listings and job seekers can apply for jobs.
                             </div>
                         </Collapse>
                         <Collapse

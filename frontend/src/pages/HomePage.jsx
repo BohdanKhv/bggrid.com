@@ -259,11 +259,11 @@ const Section1 = () => {
                 </div>
                 <div className="pos-relative container px-sm-3 py-5 py-sm-3">
                     <div>
-                        <div className="fs-24 weight-500">
+                        <div className="fs-20 weight-400">
                             Welcome to
                         </div>
-                        <div className="title-1 weight-500 pb-2">
-                            [site-name]
+                        <div className="title-1 bold pb-2">
+                            BGGRID
                         </div>
                         <div className="fs-14">
                             Keep track of your boardgames collection and plays.

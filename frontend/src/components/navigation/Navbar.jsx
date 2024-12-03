@@ -51,18 +51,11 @@ const Navbar = () => {
             }}
         >
             <div className="navbar">
-                <div className="navbar-header">
+                <div className="navbar-header mt-2 mb-4">
                     <Link
                         to="/"
-                        className="flex align-center pointer">
-                        { window.innerWidth > 800 ?
-                        logoNameSvg
-                        :
-                            pathname  === '/jobs' ?
-                            <Icon icon={logoSvg} size="lg" />
-                            :
-                            logoNameSvg
-                        }
+                        className="flex align-center pointer my-2">
+                            {logoNameSvg}
                     </Link>
                 </div>
                 <div className="navbar-body">

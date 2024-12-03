@@ -4,6 +4,23 @@ const Library = require('../models/libraryModel');
 const mongoose = require('mongoose');
 
 
+// @desc    Get games by publisher id
+// @route   GET /api/games/publisher/:publisherId
+// @access  Public
+const getGamesByPublisherId = async (req, res) => {
+    try {
+        const games = await Game.find({ publishers: mongoose.Types.ObjectId(req.params.publisherId) });
+
+        res.status(200).json({
+            data: games
+        });
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ msg: 'Server error' });
+    }
+}
+
+
 // @desc    Get games
 // @route   GET /api/games
 // @access  Public
@@ -195,6 +212,7 @@ const getGameOverview = async (req, res) => {
 
 
 module.exports = {
+    getGamesByPublisherId,
     getGames,
     getSuggestions,
     createGame,

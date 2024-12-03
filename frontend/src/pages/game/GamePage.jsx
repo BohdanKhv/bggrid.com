@@ -831,7 +831,18 @@ const GamePage = () => {
                                 <div className="fs-54 fs-sm-28 weight-600">
                                     {gameById.name}
                                 </div>
-                                <div className="fs-18 pt-2 ">({gameById.yearPublished})</div>
+                                <div className="fs-18 pt-2">({gameById.yearPublished})</div>
+                                {gameById?.publishers?.length ?
+                                    <div className="flex gap-2 pt-2">
+                                        {gameById.publishers.map((publisher, index) => (
+                                            <Link className="fs-14 text-primary weight-600 text-underlined-hover"
+                                                to={`/p/${publisher._id}`}
+                                            >
+                                                {publisher.name}
+                                            </Link>
+                                        )).join(', ')}
+                                    </div>
+                                : null}
                             </div>
                         </div>
                         <HorizontalScroll 

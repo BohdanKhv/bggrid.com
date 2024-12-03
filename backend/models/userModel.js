@@ -33,6 +33,7 @@ const userSchema = new mongoose.Schema({
     gender: { type: String, required: false },
     birthDate: { type: Date, required: false },
     avatar: { type: String, required: false }, // url to avatar uploadable
+    bggUsername: { type: String, required: false, trim: true, unique: true },
 
     lastLogin: { type: Date, required: false, default: Date.now },
     active: { type: Boolean, required: false, default: true },

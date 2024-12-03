@@ -67,8 +67,8 @@ const Footer = () => {
                             className="text-white justify-start weight-400 fill-white"
                             variant="link"
                             icon={emailIcon}
-                            label="contact@[domain]"
-                            to="mailto:contact@[domain]"
+                            label="contact@bggrid.com"
+                            to="mailto:contact@bggrid.com"
                             target="_blank"
                         />
                     </div>

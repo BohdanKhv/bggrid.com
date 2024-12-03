@@ -179,7 +179,7 @@ function emailResetLink (token, user) {
                                             font-family: 'Google Sans';
                                         "
                                     >
-                                        <a href="https://[domain-name]" target="_blank" style="color: #000; text-decoration: none;">[domain-name]</a>
+                                        <a href="https://bggrid.com" target="_blank" style="color: #000; text-decoration: none;">bggrid.com</a>
                                     </div>
                                 </td>
                             </tr>
@@ -196,7 +196,7 @@ function emailResetLink (token, user) {
                                             font-family: esqmarket-medium,-apple-system,BlinkMacSystemFont,Helvetica,sans-serif;
                                         "
                                     >
-                                        <a href="https://[domain-name]/privacy" target="_blank" style="color: #6c757d; text-decoration: none;">Privacy Policy</a> • <a href="https://[domain-name]/terms" target="_blank" style="color: #6c757d; text-decoration: none;">Terms of Service</a>
+                                        <a href="https://bggrid.com/privacy" target="_blank" style="color: #6c757d; text-decoration: none;">Privacy Policy</a> • <a href="https://bggrid.com/terms" target="_blank" style="color: #6c757d; text-decoration: none;">Terms of Service</a>
                                     </div>
                                 </td>
                             </tr>

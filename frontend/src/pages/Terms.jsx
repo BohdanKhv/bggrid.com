@@ -28,7 +28,7 @@ const Terms = () => {
                             <li><strong>Service</strong> refers to the Website.</li>
                             <li><strong>Terms and Conditions</strong> (also referred as &quot;Terms&quot;) mean these Terms and Conditions that form the entire agreement between You and the Company regarding the use of the Service. This Terms and Conditions agreement has been created with the help of the TermsFeed Terms and Conditions Generator.</li>
                             <li><strong>Third-party Social Media Service</strong> means any services or content (including data, information, products or services) provided by a third-party that may be displayed, included or made available by the Service.</li>
-                            <li><strong>Website</strong> refers to [name], accessible from [domain]</li>
+                            <li><strong>Website</strong> refers to [name], accessible from bggrid.com</li>
                             <li><strong>You</strong> means the individual accessing or using the Service, or the company, or other legal entity on behalf of which such individual is accessing or using the Service, as applicable.</li>
                         </ul>
                         <h1 className="my-6">Acknowledgment</h1>
@@ -40,7 +40,7 @@ const Terms = () => {
                         <h1 className="my-6">Your contact information</h1>
                         <p className="mb-3">As part of the Services, [name] may contact you through your [name] account or through other means such as email, telephone (including mobile phone).</p>
                         <p className="mb-3">By providing [name] with a phone number, you confirm that you are the primary user and subscriber to the telephone number entered, and you expressly agree to receiving texts at that number, including if it is a mobile number.</p>
-                        <p className="mb-3">To stop receiving text messages at any time, reply to the text with STOP or contact [name] support at contact@[domain]. DUE TO THE UNSTRUCTURED CONVERSATIONAL FORMAT OF THIS SERVICE, WE MAY NOT RECOGNIZE OTHER UNSUBSCRIBE ATTEMPTS. Texting STOP in response to a [name] SMS alert will unsubscribe you from [name] SMS alerts. Please note that replying STOP to any text message would unsubscribe you from text messages only, but you may still receive other communications from [name]. [name] cannot be responsible for third parties to whom you have provided your phone number.</p>
+                        <p className="mb-3">To stop receiving text messages at any time, reply to the text with STOP or contact [name] support at contact@bggrid.com. DUE TO THE UNSTRUCTURED CONVERSATIONAL FORMAT OF THIS SERVICE, WE MAY NOT RECOGNIZE OTHER UNSUBSCRIBE ATTEMPTS. Texting STOP in response to a [name] SMS alert will unsubscribe you from [name] SMS alerts. Please note that replying STOP to any text message would unsubscribe you from text messages only, but you may still receive other communications from [name]. [name] cannot be responsible for third parties to whom you have provided your phone number.</p>
                         <p className="mb-3">To stop receiving marketing or commercial emails from [name], or to manage your email preferences, you may opt out of marketing or commercial emails from [name] by following the unsubscribe link in our messages.</p>
                         <h1 className="my-6">Links to Other Websites</h1>
                         <p className="mb-3">Our Service may contain links to third-party web sites or services that are not owned or controlled by the Company.</p>
@@ -76,7 +76,7 @@ const Terms = () => {
                         <p className="mb-3">We reserve the right, at Our sole discretion, to modify or replace these Terms at any time. If a revision is material We will make reasonable efforts to provide at least 30 days&apos; notice prior to any new terms taking effect. What constitutes a material change will be determined at Our sole discretion.</p>
                         <p className="mb-3">By continuing to access or use Our Service after those revisions become effective, You agree to be bound by the revised terms. If You do not agree to the new terms, in whole or in part, please stop using the website and the Service.</p>
                         <h1 className="my-6">Contact Us</h1>
-                        <p className="mb-3">If you have any questions about these Terms and Conditions, You can contact us at:&nbsp;<a className="text-primary text-underlined-hover" href="mailto:contact@[domain]">contact@[domain]</a>.</p>
+                        <p className="mb-3">If you have any questions about these Terms and Conditions, You can contact us at:&nbsp;<a className="text-primary text-underlined-hover" href="mailto:contact@bggrid.com">contact@bggrid.com</a>.</p>
                         <p className="mb-3">Last updated: February 15, 2024</p>
                         <p className="mb-3">Please read these terms and conditions carefully before using Our Service.</p>
                         <h1 className="my-6">Interpretation and Definitions</h1>
@@ -92,7 +92,7 @@ const Terms = () => {
                             <li><strong>Service</strong> refers to the Website.</li>
                             <li><strong>Terms and Conditions</strong> (also referred as &quot;Terms&quot;) mean these Terms and Conditions that form the entire agreement between You and the Company regarding the use of the Service. This Terms and Conditions agreement has been created with the help of the TermsFeed Terms and Conditions Generator.</li>
                             <li><strong>Third-party Social Media Service</strong> means any services or content (including data, information, products or services) provided by a third-party that may be displayed, included or made available by the Service.</li>
-                            <li><strong>Website</strong> refers to [name], accessible from [domain]</li>
+                            <li><strong>Website</strong> refers to [name], accessible from bggrid.com</li>
                             <li><strong>You</strong> means the individual accessing or using the Service, or the company, or other legal entity on behalf of which such individual is accessing or using the Service, as applicable.</li>
                         </ul>
                         <h1 className="my-6">Acknowledgment</h1>
@@ -104,7 +104,7 @@ const Terms = () => {
                         <h1 className="my-6">Your contact information</h1>
                         <p className="mb-3">As part of the Services, [name] may contact you through your [name] account or through other means such as email, telephone (including mobile phone).</p>
                         <p className="mb-3">By providing [name] with a phone number, you confirm that you are the primary user and subscriber to the telephone number entered, and you expressly agree to receiving texts at that number, including if it is a mobile number.</p>
-                        <p className="mb-3">To stop receiving text messages at any time, reply to the text with STOP or contact [name] support at contact@[domain]. DUE TO THE UNSTRUCTURED CONVERSATIONAL FORMAT OF THIS SERVICE, WE MAY NOT RECOGNIZE OTHER UNSUBSCRIBE ATTEMPTS. Texting STOP in response to a [name] SMS alert will unsubscribe you from [name] SMS alerts. Please note that replying STOP to any text message would unsubscribe you from text messages only, but you may still receive other communications from [name]. [name] cannot be responsible for third parties to whom you have provided your phone number.</p>
+                        <p className="mb-3">To stop receiving text messages at any time, reply to the text with STOP or contact [name] support at contact@bggrid.com. DUE TO THE UNSTRUCTURED CONVERSATIONAL FORMAT OF THIS SERVICE, WE MAY NOT RECOGNIZE OTHER UNSUBSCRIBE ATTEMPTS. Texting STOP in response to a [name] SMS alert will unsubscribe you from [name] SMS alerts. Please note that replying STOP to any text message would unsubscribe you from text messages only, but you may still receive other communications from [name]. [name] cannot be responsible for third parties to whom you have provided your phone number.</p>
                         <p className="mb-3">To stop receiving marketing or commercial emails from [name], or to manage your email preferences, you may opt out of marketing or commercial emails from [name] by following the unsubscribe link in our messages.</p>
                         <h1 className="my-6">Links to Other Websites</h1>
                         <p className="mb-3">Our Service may contain links to third-party web sites or services that are not owned or controlled by the Company.</p>
@@ -140,7 +140,7 @@ const Terms = () => {
                         <p className="mb-3">We reserve the right, at Our sole discretion, to modify or replace these Terms at any time. If a revision is material We will make reasonable efforts to provide at least 30 days&apos; notice prior to any new terms taking effect. What constitutes a material change will be determined at Our sole discretion.</p>
                         <p className="mb-3">By continuing to access or use Our Service after those revisions become effective, You agree to be bound by the revised terms. If You do not agree to the new terms, in whole or in part, please stop using the website and the Service.</p>
                         <h1 className="my-6">Contact Us</h1>
-                        <p className="mb-3">If you have any questions about these Terms and Conditions, You can contact us at: <a className="text-primary text-underlined-hover" href="mailto:contact@[domain]">contact@[domain]</a>.</p>
+                        <p className="mb-3">If you have any questions about these Terms and Conditions, You can contact us at: <a className="text-primary text-underlined-hover" href="mailto:contact@bggrid.com">contact@bggrid.com</a>.</p>
                     </div>
                 </div>
             </main>

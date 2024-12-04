@@ -942,6 +942,7 @@ const GamePage = () => {
                             />
                         </div>
                         : isInLibrary ?
+                            <UserGuardLoginModal>
                                 <div>
                                     <Button
                                         icon={checkIcon}
@@ -956,7 +957,9 @@ const GamePage = () => {
                                         label="In Library"
                                     />
                                 </div>
+                            </UserGuardLoginModal>
                             :
+                            <UserGuardLoginModal>
                                 <div>
                                     <Button
                                         icon={largePlusIcon}
@@ -971,6 +974,7 @@ const GamePage = () => {
                                         label="Add to Library"
                                     />
                                 </div>
+                            </UserGuardLoginModal>
                         }
                     </div>
                 </div>

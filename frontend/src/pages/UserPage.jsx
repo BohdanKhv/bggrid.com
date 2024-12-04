@@ -278,10 +278,9 @@ const UserPage = () => {
                                     null
                                     :
                                     <div>
-                                        
                                     {isFriend ?
                                         isFriend.pending && !isFriend.myRequest ?
-                                            <div className="flex gap-2 align-center justify-center">
+                                            <div className="flex gap-2 align-center">
                                                 <Button
                                                     label="Decline"
                                                     borderRadius="lg"

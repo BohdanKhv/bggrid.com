@@ -14,9 +14,10 @@ const NotificationItem = ({item}) => {
         <div className="flex gap-3 px-3 bg-secondary-hover border-radius">
             <div className="py-4">
                 <Avatar
-                    img={item.sender?.avatar}
-                    name={item.sender?.username}
+                    img={item?.sender?.avatar}
+                    name={item?.sender?.username}
                     rounded
+                    avatarColor={item.sender?.username?.length}
                 />
             </div>
             <div className="flex flex-col flex-1 border-bottom py-4">

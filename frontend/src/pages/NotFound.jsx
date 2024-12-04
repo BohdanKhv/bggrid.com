@@ -2,7 +2,7 @@ import { useLocation, useNavigate } from "react-router-dom";
 import { useEffect } from "react";
 import { useSelector } from "react-redux";
 
-const redirectToHome = ['/login', '/login-with-email'];
+const redirectToHome = ['/login', '/login-with-email', '/register', '/forgot-password', '/reset-password'];
 const redirectToLogin = ['/settings', '/library']
 
 const NotFound = () => {

@@ -109,30 +109,39 @@ const HomeFeed = () => {
     return (
         <>
         {isLoading ?
-            <div className="flex flex-col gap-4 py-6 overflow-hidden py-sm-4">
+            <div className="flex flex-col gap-4 py-6 overflow-hidden py-sm-4 gap-sm-4">
                 <div className="flex flex-col gap-3">
                     <Skeleton animation="wave" width="100" height="30"/>
-                    <div className="flex gap-3">
-                        <Skeleton animation="wave" height="300"/>
-                        <Skeleton animation="wave" height="300"/>
-                        <Skeleton animation="wave" height="300"/>
-                    </div>
+                    <HorizontalScroll>
+                        <Skeleton animation="wave" height="210" width="175" className="flex-shrink-0"/>
+                        <Skeleton animation="wave" height="210" width="175" className="flex-shrink-0"/>
+                        <Skeleton animation="wave" height="210" width="175" className="flex-shrink-0"/>
+                        <Skeleton animation="wave" height="210" width="175" className="flex-shrink-0"/>
+                        <Skeleton animation="wave" height="210" width="175" className="flex-shrink-0"/>
+                        <Skeleton animation="wave" height="210" width="175" className="flex-shrink-0"/>
+                    </HorizontalScroll>
                 </div>
                 <div className="flex flex-col gap-3">
                     <Skeleton animation="wave" width="100" height="30"/>
-                    <div className="flex gap-3">
-                        <Skeleton animation="wave" height="300"/>
-                        <Skeleton animation="wave" height="300"/>
-                        <Skeleton animation="wave" height="300"/>
-                    </div>
+                    <HorizontalScroll>
+                        <Skeleton animation="wave" height="210" width="175" className="flex-shrink-0"/>
+                        <Skeleton animation="wave" height="210" width="175" className="flex-shrink-0"/>
+                        <Skeleton animation="wave" height="210" width="175" className="flex-shrink-0"/>
+                        <Skeleton animation="wave" height="210" width="175" className="flex-shrink-0"/>
+                        <Skeleton animation="wave" height="210" width="175" className="flex-shrink-0"/>
+                        <Skeleton animation="wave" height="210" width="175" className="flex-shrink-0"/>
+                    </HorizontalScroll>
                 </div>
                 <div className="flex flex-col gap-3">
                     <Skeleton animation="wave" width="100" height="30"/>
-                    <div className="flex gap-3">
-                        <Skeleton animation="wave" height="300"/>
-                        <Skeleton animation="wave" height="300"/>
-                        <Skeleton animation="wave" height="300"/>
-                    </div>
+                    <HorizontalScroll>
+                        <Skeleton animation="wave" height="210" width="175" className="flex-shrink-0"/>
+                        <Skeleton animation="wave" height="210" width="175" className="flex-shrink-0"/>
+                        <Skeleton animation="wave" height="210" width="175" className="flex-shrink-0"/>
+                        <Skeleton animation="wave" height="210" width="175" className="flex-shrink-0"/>
+                        <Skeleton animation="wave" height="210" width="175" className="flex-shrink-0"/>
+                        <Skeleton animation="wave" height="210" width="175" className="flex-shrink-0"/>
+                    </HorizontalScroll>
                 </div>
             </div>
         :

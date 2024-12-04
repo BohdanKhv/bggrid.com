@@ -45,7 +45,7 @@ const HorizontalScrollControlled = ({items, label, maxVisibleItems, contentClass
                     <div>
                         {label ? label : null}
                     </div>
-                    <div className="d-sm-none">
+                    <div className="">
                         <div className="flex items-center gap-2">
                             <IconButton
                                 icon={leftArrowSmIcon}

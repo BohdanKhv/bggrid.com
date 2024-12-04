@@ -265,11 +265,11 @@ const Section1 = () => {
                         <div className="fs-20 weight-400 text-white">
                             Welcome to
                         </div>
-                        <div className="title-1 bold pb-2 text-white">
+                        <div className="fs-54 bold text-white">
                             BGGRID
                         </div>
-                        <div className="fs-14 text-white">
-                            Keep track of your boardgames collection and plays.
+                        <div className="fs-14 text-white w-max-75 opacity-75">
+                            A place to keep track of your boardgames collection, write reviews, and share your plays with friends.
                         </div>
                         <div className="flex gap-2 pt-4">
                             <Button

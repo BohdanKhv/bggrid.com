@@ -78,13 +78,13 @@ const LibraryItem = ({ item, index, hideInfo }) => {
                                             searchParams.set('addGame', item.game._id)
                                             setSearchParams(searchParams)
                                         }}>
-                                        <div className="flex align-center gap-1">
+                                        <div className="flex align-center gap-2">
                                             <span className={`fs-14 weight-600 text-warning`}>{item.rating || 0}</span>
-                                            {[...Array(5)].map((_, i) => (
-                                                <Icon icon={starFillIcon} size="sm" className={`text-warning ${i + 1 <= item.rating ? 'fill-warning' : 'fill-secondary'}`}
-                                                key={i}
-                                                />
-                                            ))}
+                                            <div className="flex gap-1 align-center">
+                                                {[...Array(5)].map((_, i) => (
+                                                    <Icon icon={starFillIcon} size="sm" className={`text-warning ${i + 1 <= item.rating ? 'fill-warning' : 'fill-secondary'}`}/>
+                                                ))}
+                                            </div>
                                         </div>
                                         {window.innerWidth > 800 && (
                                         <div className="flex align-center gap-1">

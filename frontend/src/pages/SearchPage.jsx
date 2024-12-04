@@ -43,7 +43,7 @@ const SearchPage = () => {
     useEffect(() => {
         let promise;
 
-        if (searchValue.length > 3) {
+        if (searchValue.length) {
             promise = dispatch(getSuggestions(searchValue))
         }
 
@@ -158,7 +158,7 @@ const SearchPage = () => {
                                                 />
                                             </div>
                                             <div className="py-4">
-                                                {searchValue.length > 2 ?
+                                                {searchValue.length ?
                                                 <div className="flex justify-between align-center">
                                                     <div
                                                         onClick={(e) => {
@@ -300,10 +300,10 @@ const SearchPage = () => {
                                                 dispatch(setSearchHistory([...new Set([searchValue.trim(), ...searchHistory])]))
                                             }
                                         }}
-                                        searchable={searchValue.length > 3 || searchHistory.length > 0}
+                                        searchable={searchValue.length || searchHistory.length > 0}
                                         searchChildren={
                                             <div className="py-2">
-                                                {searchValue.length > 2 ?
+                                                {searchValue.length ?
                                                 <div className="flex justify-between align-center">
                                                     <div
                                                         onClick={(e) => {

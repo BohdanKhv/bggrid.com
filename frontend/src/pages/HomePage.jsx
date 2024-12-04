@@ -263,10 +263,10 @@ const Section1 = () => {
                         <div className="fs-20 weight-400">
                             Welcome to
                         </div>
-                        <div className="title-1 bold pb-2">
+                        <div className="title-1 bold pb-2 text-white">
                             BGGRID
                         </div>
-                        <div className="fs-14">
+                        <div className="fs-14 text-white">
                             Keep track of your boardgames collection and plays.
                         </div>
                         <div className="flex gap-2 pt-4">
@@ -275,7 +275,7 @@ const Section1 = () => {
                                 to="/login"
                                 type="secondary"
                                 className="transition-slide-right-hover-parent"
-                                variant="outline"
+                                variant="default"
                                 iconRight={<span
                                     className="transition-slide-right-hover ms-2"
                                 >

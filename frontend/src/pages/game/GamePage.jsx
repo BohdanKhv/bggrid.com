@@ -148,9 +148,11 @@ const ReviewItem = ({ item }) => {
                                 <Icon icon={starFillIcon} size="sm" className={`text-warning ${i + 1 <= item.rating ? 'fill-warning' : 'fill-secondary'}`} key={i}/>
                             ))}
                         </div>
-                        {item.tags.map((tag, index) => (
-                            <div key={index} className="px-2 py-1 bg-secondary border-radius weight-500 flex align-center fs-12 weight-500">{tag}</div>
-                        ))}
+                        <div className="flex align-center gap-1 flex-sm-wrap">
+                            {item.tags.map((tag, index) => (
+                                <div key={index} className="px-2 py-1 bg-secondary border-radius weight-500 flex align-center fs-12 weight-500">{tag}</div>
+                            ))}
+                        </div>
                     </div>
                     {item.comment ?
                         <div className="fs-14 pt-3">

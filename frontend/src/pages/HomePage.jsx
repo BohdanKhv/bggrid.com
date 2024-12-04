@@ -54,7 +54,7 @@ const HomeFeed = () => {
         const promise = dispatch(getGeneralHomeFeed())
 
         return () => {
-            promise.abort()
+            promise && promise.abort()
         }
     }, [])
 
@@ -110,9 +110,10 @@ const HomeFeed = () => {
                         {typeEnum
                         .slice(0, 15)
                         .map((item, i) => (
-                            <div
+                            <Link
                                 key={i}
-                                className="flex justify-between transition-slide-right-hover-parent h-set-30-px align-center transition-opacity-hover-parent gap-1 bg-secondary border-radius p-4 pointer w-set-200-px"
+                                to={`/discover?type=${item.name}`}
+                                className="flex justify-between transition-slide-right-hover-parent align-center transition-opacity-hover-parent gap-1 bg-secondary border-radius px-4 py-3 pointer w-w-min-200-px flex-shrink-0"
                             >
                                 <div className="flex align-center gap-4">
                                     <Icon icon={item.icon} size="lg"/>
@@ -125,7 +126,7 @@ const HomeFeed = () => {
                                     size="sm"
                                     className="transition-slide-right-hover transition-opacity-hover"
                                 />
-                            </div>
+                            </Link>
                     ))}
                     </HorizontalScroll>
                 </div>

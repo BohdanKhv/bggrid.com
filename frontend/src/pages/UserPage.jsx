@@ -157,7 +157,7 @@ const LibraryItem = ({ item, index, hideInfo }) => {
                                 </div>
                             </div>
                             {item.comment ?
-                                <div className="fs-14 pt-2">
+                                <div className="fs-14 pt-3">
                                     {item.comment}
                                 </div>
                             : null}

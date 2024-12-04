@@ -734,7 +734,7 @@ const GamePage = () => {
                                     icon={leftArrowIcon}
                                     variant="secondary"
                                     type="text"
-                                    onClick={() => navigate(-1)}
+                                    onClick={() => navigate('/library')}
                                 />
                                 <div className="fs-14 weight-600">
                                     {gameById.name}

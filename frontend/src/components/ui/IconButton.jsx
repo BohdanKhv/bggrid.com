@@ -30,7 +30,7 @@ const IconButton = ({
         <>
         {to ?
             <Link
-                className={`icon-btn${muted ? " icon-btn-muted" : ""}${size ? ` icon-btn-${size}` : ''}${variant ? ` icon-btn-${variant}` : ''}${disabled ? ' icon-btn-disabled' : ''}${className ? ` ${className}` : ''}${type ? ` icon-btn-${type}` : ' icon-btn-secondary'}${noAction ? ' icon-btn-no-action' : ''}${notify ? ' icon-btn-notify' : ''}`}
+                className={`icon-btn${muted ? " icon-btn-muted" : ""}${size ? ` icon-btn-${size}` : ''}${variant ? ` icon-btn-${variant}` : ''}${disabled ? ' icon-btn-disabled' : ''}${className ? ` ${className}` : ''}${type ? ` icon-btn-${type}` : ' icon-btn-secondary'}${noAction ? ' icon-btn-no-action' : ''}${notify && notifyCount ? ' icon-btn-notify' : ''}`}
                 onClick={onClick ? onClick : undefined}
                 disabled={disabled || isLoading || noAction}
                 tabIndex={-1}
@@ -45,16 +45,21 @@ const IconButton = ({
                 <div className="icon-svg spinner-animation">
                     {spinnerIcon}
                 </div> : 
-                <div className="icon-svg"
-                    data-notify-count={notifyCount > 9 ? '9+' : notifyCount}
-                >
-                    {icon && icon}
-                </div>
+                notifyCount > 0 ?
+                    <div className="icon-svg"
+                        data-notify-count={notifyCount > 9 ? '9+' : notifyCount}
+                    >
+                        {icon && icon}
+                    </div>
+                :
+                    <div className="icon-svg">
+                        {icon && icon}
+                    </div>
             }
             </Link>
         :
             <button
-                className={`icon-btn${muted ? " icon-btn-muted" : ""}${size ? ` icon-btn-${size}` : ''}${variant ? ` icon-btn-${variant}` : ''}${disabled ? ' icon-btn-disabled' : ''}${className ? ` ${className}` : ''}${type ? ` icon-btn-${type}` : ' icon-btn-secondary'}${noAction ? ' icon-btn-no-action' : ''}${notify ? ' icon-btn-notify' : ''}${notifyEmpty ? " icon-btn-notify-empty" : ""}`}
+                className={`icon-btn${muted ? " icon-btn-muted" : ""}${size ? ` icon-btn-${size}` : ''}${variant ? ` icon-btn-${variant}` : ''}${disabled ? ' icon-btn-disabled' : ''}${className ? ` ${className}` : ''}${type ? ` icon-btn-${type}` : ' icon-btn-secondary'}${noAction ? ' icon-btn-no-action' : ''}${notify && notifyCount ? ' icon-btn-notify' : ''}${notifyEmpty ? " icon-btn-notify-empty" : ""}`}
                 onClick={onClick ? onClick : undefined}
                 disabled={disabled || isLoading || noAction}
                 tabIndex={-1}
@@ -67,11 +72,16 @@ const IconButton = ({
                 <div className="icon-svg spinner-animation">
                     {spinnerIcon}
                 </div> : 
-                <div className="icon-svg"
-                    data-notify-count={notifyCount > 9 ? '9+' : notifyCount}
-                >
-                    {icon && icon}
-                </div>
+                notifyCount > 0 ?
+                    <div className="icon-svg"
+                        data-notify-count={notifyCount > 9 ? '9+' : notifyCount}
+                    >
+                        {icon && icon}
+                    </div>
+                :
+                    <div className="icon-svg">
+                        {icon && icon}
+                    </div>
             }
             </button>
         }

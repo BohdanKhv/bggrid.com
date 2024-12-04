@@ -199,7 +199,7 @@ const CommunityPage = () => {
                                     }}
                                 >
                                     <div className="flex flex-col p-2 align-center pos-relative">
-                                        {friends.filter((item) => item.pending).length > 0 ? <span className="fs-14 flex align-center justify-center w-set-25-px h-set-25-px z-3 bg-danger border-radius-50 border-radius pos-absolute top-0 right-0">{friends.filter((item) => item.pending).length}</span> : 'All'}
+                                        {friends.filter((item) => item.pending).length > 0 ? <span className="fs-14 flex align-center justify-center w-set-25-px h-set-25-px z-3 bg-danger border-radius-50 border-radius pos-absolute top-0 right-0">{friends.filter((item) => item.pending).length}</span> : null}
                                         <Avatar
                                             icon={usersIcon}
                                             sizeSm="md"

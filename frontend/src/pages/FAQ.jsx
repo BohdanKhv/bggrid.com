@@ -111,7 +111,7 @@ const FAQ = () => {
                                 labelClassName="py-2 text-underlined weight-600"
                             >
                                 <div className="fs-14 pb-4">
-                                    You can post a job listing by clicking on the 'Post a Job' button on the top right corner or follow the link <a href="/new" target="_blank">InCrew.cafe/new</a>.
+                                    You can post a job listing by clicking on the 'Post a Job' button on the top right corner or follow the link <a href="/new" target="_blank">bggrid.com/new</a>.
                                 </div>
                             </Collapse>
                             <Collapse
@@ -138,7 +138,7 @@ const FAQ = () => {
                                 labelClassName="py-2 text-underlined weight-600"
                             >
                                 <div className="fs-14 pb-4">
-                                    All job listings are final once posted. If you need to make changes to your job listing, please contact us at <a href="mailto:contact@increw.cafe" target="_blank">contact@increw.cafe</a>.
+                                    All job listings are final once posted. If you need to make changes to your job listing, please contact us at <a href="mailto:contact@bggrid.com" target="_blank">contact@bggrid.com</a>.
                                 </div>
                             </Collapse>
                             <Collapse
@@ -147,7 +147,7 @@ const FAQ = () => {
                                 labelClassName="py-2 text-underlined weight-600"
                             >
                                 <div className="fs-14 pb-4">
-                                    You can archive your job listing by clicking on the 'Archive' button on the job listing page. If you need to delete your job listing, please contact us at <a href="mailto:contact@increw.cafe" target="_blank">contact@increw.cafe</a>.
+                                    You can archive your job listing by clicking on the 'Archive' button on the job listing page. If you need to delete your job listing, please contact us at <a href="mailto:contact@bggrid.com" target="_blank">contact@bggrid.com</a>.
                                 </div>
                             </Collapse>
                             <Collapse
@@ -156,7 +156,7 @@ const FAQ = () => {
                                 labelClassName="py-2 text-underlined weight-600"
                             >
                                 <div className="fs-14 pb-4">
-                                    Yes, we offer 1 free job listing per account. You can post a job listing by clicking on the 'Post a Free Job' button on the top right corner or follow the link <a href="/free" target="_blank">InCrew.cafe/free</a>.
+                                    Yes, we offer 1 free job listing per account. You can post a job listing by clicking on the 'Post a Free Job' button on the top right corner or follow the link <a href="/free" target="_blank">bggrid.com/free</a>.
                                 </div>
                             </Collapse>
                             <Collapse
@@ -171,7 +171,7 @@ const FAQ = () => {
                     </div>
                     <div className="flex flex-col">
                         <div className="fs-14 text-secondary weight-500 mb-4">
-                            Didn't find what you were looking for? <br/> Contact us at <a className="text-primary text-underlined" href="mailto:contact@increw.cafe" target="_blank">contact@increw.cafe</a>
+                            Didn't find what you were looking for? <br/> Contact us at <a className="text-primary text-underlined" href="mailto:contact@bggrid.com" target="_blank">contact@bggrid.com</a>
                         </div>
                     </div>
                 </div>

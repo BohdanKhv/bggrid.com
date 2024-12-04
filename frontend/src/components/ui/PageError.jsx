@@ -20,7 +20,7 @@ const PageError = () => {
                     variant="outline"
                     label="Support"
                     borderRadius="lg"
-                    onClick={() => window.open('mailto:contact@increw.cafe?subject=Support Request&body=Please describe your issue in detail.')}
+                    onClick={() => window.open('mailto:contact@bggrid.com?subject=Support Request&body=Please describe your issue in detail.')}
                 />
                 <Button
                     label="Try again"

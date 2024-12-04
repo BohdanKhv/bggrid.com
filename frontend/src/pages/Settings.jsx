@@ -155,7 +155,7 @@ const Account = () => {
                         </Input>
                         <Input
                             label="Email"
-                            description="Your email address is used to log in and cannot be changed. If you need to change your email address, please contact us at contact@increw.cafe"
+                            description="Your email address is used to log in and cannot be changed. If you need to change your email address, please contact us at contact@bggrid.com"
                             value={user?.email}
                             wrapColumn
                             disabled

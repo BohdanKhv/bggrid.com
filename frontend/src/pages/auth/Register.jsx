@@ -93,7 +93,7 @@ const Register = () => {
                     />
             </div>
             <div className="fs-12 pt-4 text-secondary text-center">
-                By signing up, you agree to our <a href="https://increw.cafe/terms" target="_blank" className="text-underlined-hover">Terms of Service</a> and <a href="https://increw.cafe/privacy" target="_blank" className="text-underlined-hover">Privacy Policy</a>
+                By signing up, you agree to our <a href="https://bggrid.com/terms" target="_blank" className="text-underlined-hover">Terms of Service</a> and <a href="https://bggrid.com/privacy" target="_blank" className="text-underlined-hover">Privacy Policy</a>
             </div>
             {msg ? <div className="flex align-center justify-center pt-4"><div className="border-radius-sm weight-600 fs-12 tag-danger px-2 py-1">{msg}</div></div> : null}
             <div className="pt-4">

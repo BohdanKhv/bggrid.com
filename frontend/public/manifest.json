@@ -1,7 +1,7 @@
 {
   "name": "BGGRID",
   "short_name": "BGGRID",
-  "id": "app.InCrew.cafe",
+  "id": "app.bggrid.com",
   "start_url": "/",
   "background_color": "#ffffff",
   "display": "standalone",
@@ -21,9 +21,9 @@
   ],
   "description": "BGGRID, keep track of your boardgames collection and plays. Discover new games and find people to play with.",
   "related_applications": [{
-    "id": "app.InCrew.cafe",
+    "id": "app.bggrid.com",
     "platform": "webapp",
-    "url": "https://increw.cafe/manifest.json"
+    "url": "https://bggrid.com/manifest.json"
   }],
   "icons": [
   ],

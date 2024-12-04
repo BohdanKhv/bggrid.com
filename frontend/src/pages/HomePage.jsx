@@ -103,7 +103,21 @@ const HomeFeed = () => {
                     />
                 : null}
                 <div>
-                    <div className="fs-24 flex align-center gap-4 weight-500 transition-slide-right-hover-parent pb-4">
+                    
+                {home?.mostPlayed?.length ?
+                    <HorizontalScrollControlled
+                        label={
+                            <div className="fs-24 flex align-center gap-4 weight-500 transition-slide-right-hover-parent">
+                                Most Played
+                            </div>
+                        }
+                        maxVisibleItems={window.innerWidth < 800 ? 2 : 5}
+                        items={home.mostPlayed.map((item, i) => (
+                            <GameItem key={i} item={item.game}/>
+                        ))}
+                    />
+                : null}
+<div className="fs-24 flex align-center gap-4 weight-500 transition-slide-right-hover-parent pb-4">
                         Popular Types
                     </div>
                     <HorizontalScroll>
@@ -130,19 +144,6 @@ const HomeFeed = () => {
                     ))}
                     </HorizontalScroll>
                 </div>
-                {home?.mostPlayed?.length ?
-                    <HorizontalScrollControlled
-                        label={
-                            <div className="fs-24 flex align-center gap-4 weight-500 transition-slide-right-hover-parent">
-                                Most Played
-                            </div>
-                        }
-                        maxVisibleItems={window.innerWidth < 800 ? 2 : 5}
-                        items={home.mostPlayed.map((item, i) => (
-                            <GameItem key={i} item={item.game}/>
-                        ))}
-                    />
-                : null}
             </div>
         }
         </>
@@ -250,7 +251,7 @@ const Section5 = () => {
 
 const Section1 = () => {
     return (
-        <div className="h-set-50-vh mt-6 mt-sm-3 offset-header-sm">
+        <div className="my-6 my-sm-3 offset-header-sm">
             <div className="w-100 h-100 flex align-end overflow-hidden pos-relative border-radius-lg bg-black">
                 <div className="h-100 w-100 pos-absolute offset-header mask-image-100">
                     <img

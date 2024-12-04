@@ -300,7 +300,7 @@ const CommunityPage = () => {
                                     </div>
                                 :
                                     feed.length === 0 && !isLoading &&
-                                    <div className="border border-radius border-dashed mt-3">
+                                    <div className="border border-radius border-dashed mt-3 mx-sm-3">
                                         <ErrorInfo
                                             secondary={!hasMore ? "You're all caught up!" : "Oops! Something went wrong"}
                                         />

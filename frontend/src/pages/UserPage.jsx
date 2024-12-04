@@ -8,7 +8,7 @@ import FriendsModal from './friend/FriendsModal'
 import { arrowDownShortIcon, arrowUpShortIcon, closeIcon, diceIcon, leftArrowIcon, starFillIcon } from '../assets/img/icons'
 import { DateTime } from 'luxon'
 import { tagsEnum } from '../assets/constants'
-import { getPlaysByUsername } from '../features/play/playSlice'
+import { getPlaysByUsername, resetPlay } from '../features/play/playSlice'
 import PlayItem from './PlayItem'
 import UserGuardLoginModal from './auth/UserGuardLoginModal'
 
@@ -26,6 +26,10 @@ const PlayTab = () => {
 
     useEffect(() => {
         getData()
+
+        return () => {
+            dispatch(resetPlay())
+        }
     }, [username])
 
     const observer = useRef();

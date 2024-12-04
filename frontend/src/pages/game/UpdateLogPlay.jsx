@@ -276,7 +276,7 @@ const UpdateLogPlay = () => {
                                 <div className="px-2 pb-2 px-sm-0">
                                     <div className="flex gap-2">
                                         <div className="flex-1 flex gap-3">
-                                            <div className="flex-1">
+                                            {/* <div className="flex-1">
                                                 <Input
                                                     type="text"
                                                     placeholder="Team/Color"
@@ -291,7 +291,7 @@ const UpdateLogPlay = () => {
                                                         setPlayers(newPlayers)
                                                     }}
                                                 />
-                                            </div>
+                                            </div> */}
                                             <div className="flex-1">
                                                 <Input
                                                     type="number"

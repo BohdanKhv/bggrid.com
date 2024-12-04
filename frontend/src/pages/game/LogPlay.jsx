@@ -325,7 +325,7 @@ const LogPlay = () => {
                                             />
                                         </div> */}
                                         <div className="flex-1 flex gap-3">
-                                            <div className="flex-1">
+                                            {/* <div className="flex-1">
                                                 <Input
                                                     type="text"
                                                     placeholder="Team/Color"
@@ -340,7 +340,7 @@ const LogPlay = () => {
                                                         setPlayers(newPlayers)
                                                     }}
                                                 />
-                                            </div>
+                                            </div> */}
                                             <div className="flex-1">
                                                 <Input
                                                     type="number"

@@ -374,7 +374,7 @@ const ReviewsTab = () => {
         {reviews.length === 0 && !hasMore ?
             <ErrorInfo label="No reviews found" icon={starEmptyIcon}/>
         : 
-            <div className="flex gap-6 flex-sm-col gap-sm-0 pt-4">
+            <div className="flex gap-6 flex-sm-col gap-sm-0 pt-4 px-sm-3">
                 <div className="flex-1 order-sm-2">
                     {reviews.map((item, index, arr) => (
                         <ReviewItem item={item}
@@ -441,7 +441,7 @@ const PlaysTab = () => {
         {plays.length === 0 && !hasMore ?
             <ErrorInfo label="No plays found" icon={diceIcon}/>
         :
-            <div className="flex gap-6 flex-sm-col gap-sm-0 pt-4">
+            <div className="flex gap-6 flex-sm-col gap-sm-0 pt-4 px-sm-3">
                 <div className="flex-1 order-sm-2">
                     {plays.map((item, index, arr) => (
                         <PlayItem
@@ -512,7 +512,7 @@ const Overview = () => {
     const { gameById } = useSelector(state => state.game)
 
     return (
-        <div className="flex justify-between gap-6 my-6 animation-slide-in my-sm-4">
+        <div className="flex justify-between gap-6 my-6 animation-slide-in my-sm-4 px-sm-3">
             <div>
                 <div className="flex flex-col gap-6">
                     <div>
@@ -728,7 +728,7 @@ const GamePage = () => {
             : gameById ? 
                 <div className="flex flex-col h-min-100 container animation-slide-in">
                     {window.innerWidth < 800 ?
-                        <div className="flex justify-between bg-translucent-blur-lg px-sm-3 py-3 sticky top-0 z-9">
+                        <div className="flex justify-between bg-main px-sm-3 py-3 sticky top-0 z-9">
                             <div className="flex align-center gap-3">
                                 <IconButton
                                     icon={leftArrowIcon}

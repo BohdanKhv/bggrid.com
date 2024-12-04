@@ -273,7 +273,7 @@ const UpdateLogPlay = () => {
                                     />
                                     }
                                 </div>
-                                <div className="px-2 pb-2 px-sm-0">
+                                <div className="px-2 pb-2">
                                     <div className="flex gap-2">
                                         <div className="flex-1 flex gap-3">
                                             {/* <div className="flex-1">

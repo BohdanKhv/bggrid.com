@@ -803,7 +803,8 @@ const GamePage = () => {
                                 onClick={() => {
                                     navigator.share({
                                         title: gameById.name,
-                                        text: gameById.description
+                                        text: `Check out ${gameById.name} on BGGRID!`,
+                                        url: window.location.href
                                     })
                                 }}
                             />

@@ -142,11 +142,13 @@ const ReviewItem = ({ item }) => {
             <div className="flex flex-col flex-1 pb-5">
                 <div>
                     <div className="flex gap-2 flex-sm-col align-center align-sm-start">
-                        <div className="flex align-center border-radius gap-1">
+                        <div className="flex align-center gap-2">
                             <span className={`fs-16 weight-600 text-warning`}>{item.rating || 0}</span>
-                            {[...Array(5)].map((_, i) => (
-                                <Icon icon={starFillIcon} size="sm" className={`text-warning ${i + 1 <= item.rating ? 'fill-warning' : 'fill-secondary'}`} key={i}/>
-                            ))}
+                            <div className="flex gap-1 align-center">
+                                {[...Array(5)].map((_, i) => (
+                                    <Icon icon={starFillIcon} size="sm" className={`text-warning ${i + 1 <= item.rating ? 'fill-warning' : 'fill-secondary'}`} key={i}/>
+                                ))}
+                            </div>
                         </div>
                         <div className="flex align-center gap-1 flex-sm-wrap">
                             {item.tags.map((tag, index) => (

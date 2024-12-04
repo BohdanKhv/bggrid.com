@@ -63,7 +63,7 @@ const LibraryItem = ({ item }) => {
                     <div className="pt-4">
                         <div className="flex align-center gap-2 pt-2 flex-sm-col align-sm-start">
                             <div className="flex align-center gap-2">
-                                <span className={`fs-14 weight-600 text-warning`}>{item.rating || 0}</span>
+                                <span className={`fs-16 weight-600 text-warning`}>{item.rating || 0}</span>
                                 <div className="flex gap-1 align-center">
                                     {[...Array(5)].map((_, i) => (
                                         <Icon icon={starFillIcon} size="sm" className={`text-warning ${i + 1 <= item.rating ? 'fill-warning' : 'fill-secondary'}`}/>

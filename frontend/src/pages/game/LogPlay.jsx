@@ -273,7 +273,7 @@ const LogPlay = () => {
                         <div>
                             {players.length ?
                             players.map((i, index) => (
-                            <div className="my-2 mx-4 border-radius animation-slide-in show-on-hover-parent"
+                            <div className="my-2 mx-4 bg-secondary border-radius animation-slide-in show-on-hover-parent"
                                 key={index}
                             >
                                 <div

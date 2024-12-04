@@ -728,7 +728,7 @@ const GamePage = () => {
             : gameById ? 
                 <div className="flex flex-col h-min-100 container px-sm-3 animation-slide-in">
                     {window.innerWidth < 800 ?
-                        <div className="flex justify-between bg-main py-3 sticky top-0 z-9">
+                        <div className="flex justify-between bg-translucent-blur py-3 sticky top-0 z-9">
                             <div className="flex align-center gap-3">
                                 <IconButton
                                     icon={leftArrowIcon}

@@ -209,7 +209,7 @@ const UserPage = () => {
                 <div className="animation-slide-in">
                     <div className="container">
                         {window.innerWidth < 800 ?
-                            <div className="flex justify-between bg-main py-3 sticky top-0 z-9 px-3">
+                            <div className="flex justify-between bg-translucent-blur py-3 sticky top-0 z-9 px-3">
                                 <div className="flex align-center gap-3">
                                     <IconButton
                                         icon={leftArrowIcon}

@@ -115,7 +115,7 @@ const LibraryItem = ({ item, index, hideInfo }) => {
 
     return (
         <div className="border-radius px-sm-3 transition-duration animation-slide-in">
-            <div className="border-bottom pb-3">
+            <div className="border-bottom">
                 <div className="flex gap-3 flex-1 py-3">
                     <Image
                         img={item?.game?.thumbnail}
@@ -126,18 +126,22 @@ const LibraryItem = ({ item, index, hideInfo }) => {
                         <div className="flex justify-between gap-3">
                             <div className="flex flex-col">
                                 <div className="flex gap-2 align-center">
-                                    <Link className="fs-16 text-underlined-hover w-fit-content text-ellipsis-1 h-fit-content"
+                                    <Link className="fs-16 text-underlined-hover w-fit-content text-ellipsis-2 h-fit-content"
                                         to={`/g/${item.game._id}`}
                                         >
                                         {item.game.name}
                                     </Link>
                                 </div>
                             </div>
+                            <span className="text-secondary weight-400 fs-12 text-nowrap flex-shrink-0">
+                                {DateTime.now().diff(DateTime.fromISO(item.updatedAt), ['days']).days > 1 ? DateTime.fromISO(item.updatedAt).toFormat('LLL dd') :
+                                DateTime.fromISO(item.updatedAt).toRelative()}
+                            </span>
                         </div>
                         <div className="flex flex-col">
-                            <div className="flex align-center gap-2 pt-1">
+                            <div className="flex align-center align-sm-start gap-2 pt-2 flex-sm-col">
                                 <div className="flex align-center gap-2">
-                                    <span className={`fs-14 weight-600 text-warning`}>{item.rating || 0}</span>
+                                    <span className={`fs-16 weight-600 text-warning`}>{item.rating || 0}</span>
                                     <div className="flex gap-1 align-center">
                                         {[...Array(5)].map((_, i) => (
                                             <Icon icon={starFillIcon} size="sm" className={`text-warning ${i + 1 <= item.rating ? 'fill-warning' : 'fill-secondary'}`}
@@ -146,23 +150,17 @@ const LibraryItem = ({ item, index, hideInfo }) => {
                                         ))}
                                     </div>
                                 </div>
-                                {window.innerWidth > 800 && (
-                                <div className="flex align-center gap-1">
+                                <div className="flex align-center gap-1 flex-sm-wrap">
                                     {item.tags.map((tag, index) => (
                                         <div key={index} className="px-2 py-1 bg-secondary border-radius weight-500 flex align-center fs-12 weight-500">{tag}</div>
                                     ))}
                                 </div>
-                                )}
                             </div>
                             {item.comment ?
                                 <div className="fs-14 pt-2">
                                     {item.comment}
                                 </div>
                             : null}
-                            <span className="text-secondary weight-400 fs-14 pt-4">
-                                {DateTime.now().diff(DateTime.fromISO(item.updatedAt), ['days']).days > 1 ? DateTime.fromISO(item.updatedAt).toFormat('LLL dd') :
-                                DateTime.fromISO(item.updatedAt).toRelative()}
-                            </span>
                         </div>
                     </div>
                 </div>
@@ -199,7 +197,10 @@ const UserPage = () => {
     }, [])
 
     return (
-        isLoading ? <ErrorInfo isLoading />
+        isLoading ? 
+        <div className="h-min-100 flex align-center justify-center">
+            <ErrorInfo isLoading />
+        </div>
         : userById && !isLoading ?
         <div>
             <FriendsModal
@@ -215,7 +216,7 @@ const UserPage = () => {
                                         icon={leftArrowIcon}
                                         variant="secondary"
                                         type="text"
-                                        to="/community"
+                                        to={user ? "/community" : "/"}
                                     />
                                     <div className="fs-14 weight-600">
                                         {userById?.username}
@@ -224,7 +225,7 @@ const UserPage = () => {
                             </div>
                         : null}
                         <div className="pt-6 pt-sm-0 mt-sm-0 pb-3 pt-sm-3 pb-3 mb-sm-0 py-sm-0 m-3">
-                            <div className="flex gap-6 gap-sm-3 align-center flex-sm-col align-sm-start">
+                            <div className="flex gap-6 gap-sm-3 align-center align-sm-start">
                                 <div className="flex justify-center align-center">
                                     <Avatar
                                         img={`${userById?.avatar}`}

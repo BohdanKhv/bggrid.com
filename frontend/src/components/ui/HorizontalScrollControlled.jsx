@@ -45,19 +45,21 @@ const HorizontalScrollControlled = ({items, label, maxVisibleItems, contentClass
                     <div>
                         {label ? label : null}
                     </div>
-                    <div className="flex items-center gap-2">
-                        <IconButton
-                            icon={leftArrowSmIcon}
-                            onClick={scrollLeft}
-                            type="secondary"
-                            disabled={isAtStart}
-                        />
-                        <IconButton
-                            icon={rightArrowIcon}
-                            onClick={scrollRight}
-                            type="secondary"
-                            disabled={isAtEnd}
-                        />
+                    <div className="d-sm-none">
+                        <div className="flex items-center gap-2">
+                            <IconButton
+                                icon={leftArrowSmIcon}
+                                onClick={scrollLeft}
+                                type="secondary"
+                                disabled={isAtStart}
+                            />
+                            <IconButton
+                                icon={rightArrowIcon}
+                                onClick={scrollRight}
+                                type="secondary"
+                                disabled={isAtEnd}
+                            />
+                        </div>
                     </div>
                 </div>
             </div>

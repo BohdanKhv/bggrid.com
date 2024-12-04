@@ -61,7 +61,7 @@ const HomeFeed = () => {
     return (
         <>
         {isLoading ?
-            <div className="flex flex-col gap-6 py-6 overflow-hidden py-sm-4 gap-sm-4">
+            <div className="flex flex-col gap-4 py-6 overflow-hidden py-sm-4 gap-sm-4">
                 <div className="flex flex-col gap-3">
                     <Skeleton animation="wave" width="100" height="30"/>
                     <div className="flex gap-3">
@@ -88,7 +88,7 @@ const HomeFeed = () => {
                 </div>
             </div>
         :
-            <div className="py-6 flex flex-col gap-6 overflow-hidden py-sm-4 gap-sm-4">
+            <div className="py-6 flex flex-col gap-4 overflow-hidden py-sm-4 gap-sm-4 animation-slide-in">
                 {home?.recommended?.length ?
                     <HorizontalScrollControlled
                         label={
@@ -117,32 +117,34 @@ const HomeFeed = () => {
                         ))}
                     />
                 : null}
-<div className="fs-24 flex align-center gap-4 weight-500 transition-slide-right-hover-parent pb-4">
-                        Popular Types
-                    </div>
-                    <HorizontalScroll>
-                        {typeEnum
-                        .slice(0, 15)
-                        .map((item, i) => (
-                            <Link
-                                key={i}
-                                to={`/discover?type=${item.name}`}
-                                className="flex justify-between transition-slide-right-hover-parent align-center transition-opacity-hover-parent gap-1 bg-secondary border-radius px-4 py-3 pointer w-w-min-200-px flex-shrink-0"
-                            >
-                                <div className="flex align-center gap-4">
-                                    <Icon icon={item.icon} size="lg"/>
-                                    <div className="fs-14 weight-500">
-                                        {item.name}
+                    <div className="py-4">
+                        <div className="fs-24 flex align-center gap-4 weight-500 transition-slide-right-hover-parent pb-4">
+                            Popular Types
+                        </div>
+                        <HorizontalScroll>
+                            {typeEnum
+                            .slice(0, 15)
+                            .map((item, i) => (
+                                <Link
+                                    key={i}
+                                    to={`/discover?type=${item.name}`}
+                                    className="flex justify-between transition-slide-right-hover-parent align-center transition-opacity-hover-parent gap-1 bg-secondary border-radius px-4 py-3 pointer w-w-min-200-px flex-shrink-0"
+                                >
+                                    <div className="flex align-center gap-4">
+                                        <Icon icon={item.icon} size="lg"/>
+                                        <div className="fs-14 weight-500">
+                                            {item.name}
+                                        </div>
                                     </div>
-                                </div>
-                                <Icon
-                                    icon={rightArrowIcon}
-                                    size="sm"
-                                    className="transition-slide-right-hover transition-opacity-hover"
-                                />
-                            </Link>
-                    ))}
-                    </HorizontalScroll>
+                                    <Icon
+                                        icon={rightArrowIcon}
+                                        size="sm"
+                                        className="transition-slide-right-hover transition-opacity-hover"
+                                    />
+                                </Link>
+                        ))}
+                        </HorizontalScroll>
+                    </div>
                 </div>
             </div>
         }
@@ -226,12 +228,11 @@ const Section5 = () => {
                         <div className="fs-20 bold pb-4 text-sm-center">
                             Let's get your boardgames collection started
                         </div>
-                        <div className="flex">
+                        <div className="flex justify-sm-center">
                             <Button
                                 label="Create an Account"
                                 to="/register"
                                 variant="filled"
-                                type="secondary"
                                 size="lg"
                                 className="transition-slide-right-hover-parent"
                                 iconRight={<span
@@ -251,8 +252,8 @@ const Section5 = () => {
 
 const Section1 = () => {
     return (
-        <div className="my-6 my-sm-3 offset-header-sm">
-            <div className="w-100 h-set-300-px flex align-end overflow-hidden pos-relative border-radius-lg bg-black">
+        <div className="my-3 offset-header-sm animation-slide-in">
+            <div className="w-100 h-set-400-px flex align-end overflow-hidden pos-relative border-radius-lg bg-black">
                 <div className="h-100 w-100 pos-absolute offset-header mask-image-100">
                     <img
                         src='./assets/section-1.png'
@@ -272,23 +273,8 @@ const Section1 = () => {
                         </div>
                         <div className="flex gap-2 pt-4">
                             <Button
-                                label="Log In"
-                                to="/login"
-                                type="secondary"
-                                className="transition-slide-right-hover-parent"
-                                variant="default"
-                                iconRight={<span
-                                    className="transition-slide-right-hover ms-2"
-                                >
-                                    {arrowRightShortIcon}
-                                </span>}
-                                size="lg"
-                                borderRadius="lg"
-                            />
-                            <Button
                                 label="Search Games"
                                 to="/discover"
-                                variant="filled"
                                 type="secondary"
                                 size="lg"
                                 className="transition-slide-right-hover-parent"

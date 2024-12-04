@@ -12,6 +12,8 @@ const FriendsModal = ({ friends }) => {
     const { loadingId, isLoading } = useSelector((state) => state.friend)
     const [searchValue, setSearchValue] = useState('')
 
+    const { user } = useSelector((state) => state.auth)
+
     return (
         <Modal
             modalIsOpen={searchParams.get('friends') === 'true'}
@@ -56,11 +58,12 @@ const FriendsModal = ({ friends }) => {
                             label="Oops! No friends found"
                             secondary="Search for friends by username, first name, or last name"
                             onClick={() => {
+                                if (!user) return
                                 searchParams.set('su', 'true')
                                 searchParams.delete('friends')
                                 setSearchParams(searchParams.toString())
                             }}
-                            btnLabel="Find friends"
+                            btnLabel={user ? "Find friends" : 'Login to find friends'}
                         />
                     :
                     friends.length === 0 ?

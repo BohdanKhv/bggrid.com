@@ -80,7 +80,7 @@ const Register = () => {
                     className="w-100"
                     type={'secondary'}
                     isLoading={isLoading}
-                    disabled={isLoading || !email || !email.match(/^([\w.%+-]+)@([\w-]+\.)+([\w]{2,})$/i) || !username || !password}
+                    disabled={isLoading || !email || !email.match(/^([\w.%+-]+)@([\w-]+\.)+([\w]{2,})$/i) || !username || !password || password.length < 6}
                     onClick={() => !isLoading ? handleLogin() : null}
                     label="Sign Up"
                     variant="filled"

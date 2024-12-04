@@ -260,7 +260,7 @@ const Section1 = () => {
                 </div>
                 <div className="pos-relative container px-sm-3 py-5 py-sm-3">
                     <div>
-                        <div className="fs-20 weight-400">
+                        <div className="fs-20 weight-400 text-white">
                             Welcome to
                         </div>
                         <div className="title-1 bold pb-2 text-white">

@@ -252,7 +252,7 @@ const Section5 = () => {
 const Section1 = () => {
     return (
         <div className="my-6 my-sm-3 offset-header-sm">
-            <div className="w-100 h-100 flex align-end overflow-hidden pos-relative border-radius-lg bg-black">
+            <div className="w-100 h-set-300-px flex align-end overflow-hidden pos-relative border-radius-lg bg-black">
                 <div className="h-100 w-100 pos-absolute offset-header mask-image-100">
                     <img
                         src='./assets/section-1.png'

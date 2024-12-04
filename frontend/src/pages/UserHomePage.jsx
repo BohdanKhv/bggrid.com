@@ -600,7 +600,7 @@ const UserHomePage = () => {
                                             type="secondary"
                                             to="/notifications"
                                             notify
-                                            notifyCount={notifications.filter(notification => !notification.read).length || 1}
+                                            notifyCount={notifications.filter(notification => !notification.read).length || 0}
                                         />
                                         <div
                                             onClick={() => {

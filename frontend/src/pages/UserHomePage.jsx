@@ -258,7 +258,7 @@ const SearchGames = () => {
     useEffect(() => {
         let promise;
 
-        if (searchValue.length > 3) {
+        if (searchValue.length) {
             promise = dispatch(getSuggestions(searchValue))
         }
 
@@ -427,10 +427,10 @@ const SearchGames = () => {
                     dispatch(setSearchHistory([...new Set([searchValue.trim(), ...searchHistory])]))
                 }
             }}
-            searchable={searchValue.length > 3 || searchHistory.length > 0 || library.length > 0}
+            searchable={searchValue.length || searchHistory.length > 0 || library.length > 0}
             searchChildren={
                 <div className="py-2">
-                    {searchValue.length > 2 ?
+                    {searchValue.length ?
                     <div className="flex justify-between align-center">
                         <div
                             onClick={(e) => {

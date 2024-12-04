@@ -133,7 +133,7 @@ const UpdateLogPlay = () => {
             {step === 1 ?
                 <div className="flex flex-col pt-4 gap-4 pb-2">
                     <div className="flex flex-col">
-                        <div className="border border-radius mx-4 bg-tertiary">
+                        <div className="border border-radius mx-4">
                             <InputSearch
                                 className="flex-1 py-1 ps-4"
                                 placeholder="Search or add players"
@@ -242,7 +242,7 @@ const UpdateLogPlay = () => {
                                 key={index}
                             >
                                 <div
-                                    className="fs-16 flex py-3 gap-3 px-2 flex-1 overflow-hidden justify-between px-sm-0 align-center"
+                                    className="fs-16 flex py-3 gap-3 px-2 flex-1 overflow-hidden justify-between align-center"
                                 >
                                     <div className="flex gap-2 align-center">
                                         <Avatar

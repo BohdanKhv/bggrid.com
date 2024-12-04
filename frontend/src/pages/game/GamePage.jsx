@@ -726,9 +726,9 @@ const GamePage = () => {
                     />
                 </div>
             : gameById ? 
-                <div className="flex flex-col h-min-100 container px-sm-3 animation-slide-in">
+                <div className="flex flex-col h-min-100 container animation-slide-in">
                     {window.innerWidth < 800 ?
-                        <div className="flex justify-between bg-translucent-blur py-3 sticky top-0 z-9">
+                        <div className="flex justify-between bg-translucent-blur-lg px-sm-3 py-3 sticky top-0 z-9">
                             <div className="flex align-center gap-3">
                                 <IconButton
                                     icon={leftArrowIcon}
@@ -811,7 +811,7 @@ const GamePage = () => {
                             </Dropdown>
                         </div>
                     : null }
-                    <div className="flex flex-col mt-6 pos-relative mt-sm-0">
+                    <div className="flex flex-col mt-6 pos-relative mt-sm-0 px-sm-3">
                         {window.innerWidth >= 1100 ?
                             <CoverImage img={gameById.thumbnail}/>
                         : null }

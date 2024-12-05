@@ -400,7 +400,7 @@ const forgotPassword = async (req, res) => {
         }
 
         const mailOptions = {
-            from: 'noreply@emplorex.com',
+            from: 'no-reply@bggrid.com',
             to: user.email,
             subject: 'Reset Password',
             priority: 'high',

@@ -99,7 +99,7 @@ const PlayItem = ({ item, hideUpdate }) => {
                                     : null}
                                     <div className={`flex flex-col`}>
                                         {player.user ?
-                                            <Link target="_blank" to={`/u/${player.user.username}`} className="fs-14 weight-500 pointer text-underlined-hover text-ellipsis-1">
+                                            <Link to={`/u/${player.user.username}`} className="fs-14 weight-500 pointer text-underlined-hover text-ellipsis-1">
                                                 @{player.user.username}
                                             </Link>
                                         : 

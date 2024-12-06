@@ -11,7 +11,6 @@ const gameSchema = new mongoose.Schema({
     publishers: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Publisher' }],
     rules: { type: String, required: false },
     bggId: { type: Number, required: false },
-    bggUrl: { type: String, required: false },
     verified: { type: Boolean, required: false, default: false },
     thumbnail: { type: String, required: false },
     minPlayers: { type: Number, required: false },

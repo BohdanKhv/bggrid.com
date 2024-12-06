@@ -489,7 +489,8 @@ const resetPassword = async (req, res) => {
             { _id: resetToken.user },
             {
                 $set: {
-                    password: hashedPassword
+                    password: hashedPassword,
+                    isGoogleOauth: false, // If user resets password, they can't login with google anymore
                 }
             },
         );

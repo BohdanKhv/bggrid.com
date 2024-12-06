@@ -22,6 +22,10 @@ const publisherSchema = new mongoose.Schema({
         required: false,
         trim: true
     },
+    bggId: {
+        type: Number,
+        required: false
+    },
 }, { timestamps: true });
 
 module.exports = mongoose.model('Publisher', publisherSchema);

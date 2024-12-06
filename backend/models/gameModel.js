@@ -21,6 +21,7 @@ const gameSchema = new mongoose.Schema({
     maxPlaytime: { type: Number, required: false },
     minAge: { type: Number, required: false },
     weight: { type: Number, required: false },
+    languageDependence: { type: Number, required: false },
     rating: { type: Number, required: false },
     numRatings: { type: Number, required: false },
     numComments: { type: Number, required: false },

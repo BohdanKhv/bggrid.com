@@ -13,12 +13,6 @@ const typeEnum = [
         "icon": "🎉"
     },
     {
-        "name": "Card Games",
-        "description": "Games primarily played with a deck of cards.",
-        "examples": ["Magic: The Gathering", "Uno"],
-        "icon": "🃏"
-    },
-    {
         "name": "Cooperative Games",
         "description": "Players work together to achieve a shared goal.",
         "examples": ["Pandemic", "Forbidden Desert", "Arkham Horror"],

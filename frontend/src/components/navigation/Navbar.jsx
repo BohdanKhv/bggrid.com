@@ -180,6 +180,16 @@ const Navbar = () => {
                 </div>
                 <div className="navbar-footer">
                     <div className="flex flex-col px-4 gap-2">
+                            <div className="fs-14 border border-radius px-3 py-2 weight-500 color-border-on-hover-text pointer transition-duration flex align-center justify-between"
+                                onClick={() => window.open("https://donate.stripe.com/test_3cs15NaU831b2oUeUU", "_blank")}>
+                                <span>
+                                    🧡 Support Us
+                                </span>
+                                <Icon
+                                    icon={linkIcon}
+                                    size="sm"
+                                />
+                            </div>
                         <div className="pb-2">
                             <div className="fs-14 border border-radius px-3 py-2 weight-500 color-border-on-hover-text pointer transition-duration flex align-center justify-between"
                                 onClick={() => window.open("mailto:contact@bggrid.com", "_blank")}>

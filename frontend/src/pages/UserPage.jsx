@@ -193,6 +193,7 @@ const UserPage = () => {
         const promise = dispatch(getUserProfile(username))
         return () => {
             promise.abort()
+            dispatch(resetPlay())
         }
     }, [])
 

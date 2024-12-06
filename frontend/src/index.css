@@ -586,7 +586,7 @@ label.p-FieldLabel {
 }
 .content-body {
   flex-grow: 1;
-  max-width: calc(var(--w-max-xl) - var(--nav-width) - 24px);
+  max-width: calc(100% - var(--nav-width) - 24px - 1rem);
 }
 
 @keyframes spin {

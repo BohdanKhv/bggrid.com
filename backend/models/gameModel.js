@@ -8,6 +8,7 @@ const gameSchema = new mongoose.Schema({
     types: [{ type: String, required: true }],
     mechanics: [{ type: String, required: true }],
     themes: [{ type: String, required: true }],
+    designers: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Designer' }],
     publishers: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Publisher' }],
     rules: { type: String, required: false },
     bggId: { type: Number, required: false },

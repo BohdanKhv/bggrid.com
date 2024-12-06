@@ -3,6 +3,7 @@ import localReducer from '../features/local/localSlice';
 import authReducer from '../features/auth/authSlice';
 import gameReducer from '../features/game/gameSlice';
 import publisherReducer from '../features/publisher/publisherSlice';
+import designerReducer from '../features/designer/designerSlice';
 import libraryReducer from '../features/library/librarySlice';
 import reviewReducer from '../features/review/reviewSlice';
 import playReducer from '../features/play/playSlice';
@@ -20,6 +21,7 @@ export const store = configureStore({
         auth: authReducer, // login, register, logout
         game: gameReducer, // game page, game search, game card
         publisher: publisherReducer, // publisher page, publisher search
+        designer: designerReducer, // publisher page, publisher search
         library: libraryReducer, // library page, my library
         review: reviewReducer, // game page reviews
         play: playReducer, // game page play history, my plays

@@ -25,6 +25,7 @@ const PlayTab = () => {
     }
 
     useEffect(() => {
+            dispatch(resetPlay())
         getData()
 
         return () => {

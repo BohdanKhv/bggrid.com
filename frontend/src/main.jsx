@@ -15,7 +15,7 @@ import './index.css'
 if (import.meta.env.VITE_ENV === 'production' ) {
   ReactGA.initialize([
     {
-        trackingId: "G-91S8JM9CTP",
+        trackingId: "G-0TME6Y0CH3",
     },
   ])
 }

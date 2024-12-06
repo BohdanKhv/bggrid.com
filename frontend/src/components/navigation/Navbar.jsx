@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { Link, NavLink, useLocation, useSearchParams } from 'react-router-dom'
-import { bellIcon, gamesIcon, homeIcon, largePlusIcon, libraryIcon, loginIcon, logoutIcon, diceIcon, searchIcon, settingsIcon, usersIcon, discoverIcon } from '../../assets/img/icons'
+import { bellIcon, gamesIcon, homeIcon, largePlusIcon, libraryIcon, loginIcon, logoutIcon, diceIcon, searchIcon, settingsIcon, usersIcon, discoverIcon, linkIcon } from '../../assets/img/icons'
 import "./styles/Navbar.css"
 import { logoNameSvg, logoSvg } from '../../assets/img/logo'
 import Icon from '../ui/Icon'
@@ -180,21 +180,48 @@ const Navbar = () => {
                 </div>
                 <div className="navbar-footer">
                     <div className="flex flex-col px-4 gap-2">
+                        <div className="pb-2">
+                            <div className="fs-14 border border-radius px-4 py-3 weight-500 color-border-on-hover-text pointer transition-duration flex align-center justify-between"
+                                onClick={() => window.open("mailto:contact@bggrid.com", "_blank")}>
+                                <span>
+                                    contact@bggrid.com
+                                </span>
+                                <Icon
+                                    icon={linkIcon}
+                                    size="sm"
+                                />
+                            </div>
+                            <div className="fs-12 pt-1 text-secondary">
+                                You can share your thoughts with us and make our project better.
+                            </div>
+                        </div>
                         <Button
                             to="/terms"
-                            label="Terms"
+                            label="Terms of use"
                             variant="link"
                             type="secondary"
                         />
                         <Button
                             to="/privacy"
-                            label="Privacy"
+                            label="Privacy policy"
                             variant="link"
                             type="secondary"
                         />
                     </div>
-                    <div className="fs-12 text-secondary p-4">
-                        © {new Date().getFullYear()} Game
+                    <div className="flex gap-2 p-4 flex-col">
+                        <div
+                            className="w-set-50-px"
+                        >
+                            {logoNameSvg}
+                        </div>
+                        <div className="flex flex-col">
+                            <div className="fs-12 text-secondary weight-500">
+                                © {new Date().getFullYear()} bggrid.com
+                            </div>
+                            <div className="fs-12 text-secondary weight-500">
+                                All rights reserved.
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>

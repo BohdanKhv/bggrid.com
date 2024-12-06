@@ -6,7 +6,7 @@ import { searchIcon, usersIcon } from '../../assets/img/icons'
 import { removeFriend } from '../../features/friend/friendSlice'
 import FriendItem from './FriendItem'
 
-const FriendsModal = ({ friends }) => {
+const FriendsModal = ({ friends, hideSearch }) => {
 
     const [searchParams, setSearchParams] = useSearchParams()
     const { loadingId, isLoading } = useSelector((state) => state.friend)
@@ -63,7 +63,7 @@ const FriendsModal = ({ friends }) => {
                                 searchParams.delete('friends')
                                 setSearchParams(searchParams.toString())
                             }}
-                            btnLabel={user ? "Find friends" : 'Login to find friends'}
+                            btnLabel={hideSearch ? null : user ? "Find friends" : 'Login to find friends'}
                         />
                     :
                     friends.length === 0 ?

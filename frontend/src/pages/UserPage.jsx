@@ -1,6 +1,6 @@
 import { useState, useEffect, useMemo, useRef, useCallback } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { Avatar, Button, Dropdown, ErrorInfo, HorizontalScroll, Icon, IconButton, Image, Skeleton, TabContent } from '../components'
+import { Avatar, Button, ConfirmAction, Dropdown, ErrorInfo, HorizontalScroll, Icon, IconButton, Image, Skeleton, TabContent } from '../components'
 import { Link, useNavigate, useParams, useSearchParams } from 'react-router-dom'
 import { getUserProfile } from '../features/user/userSlice'
 import { acceptFriendRequest, removeFriend, sendFriendRequest } from '../features/friend/friendSlice'
@@ -205,6 +205,7 @@ const UserPage = () => {
         <div>
             <FriendsModal
                 friends={userById?.friends}
+                hideSearch
             />
             <main className="page-body">
                 <div className="animation-slide-in">
@@ -320,16 +321,21 @@ const UserPage = () => {
                                                 }}
                                             />
                                         :
+                                        <ConfirmAction
+                                            title="Remove friend"
+                                            secondary="Are you sure you want to remove this friend?"
+                                            onClick={(e) => {
+                                                dispatch(removeFriend(isFriend?._id))
+                                            }}
+                                        >
                                             <Button
-                                                label="Friends"
+                                                label="Remove friend"
                                                 variant="outline"
                                                 type="secondary"
                                                 borderRadius="lg"
                                                 disabled={loadingId}
-                                                onClick={(e) => {
-                                                    dispatch(removeFriend(isFriend?._id))
-                                                }}
                                             />
+                                        </ConfirmAction>
                                     :
                                         <UserGuardLoginModal>
                                             <Button

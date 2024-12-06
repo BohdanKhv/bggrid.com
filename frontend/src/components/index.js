@@ -1,6 +1,3 @@
-import UserGate from "./user/UserGate";
-import UserProfile from "./user/UserProfile";
-
 import Header from "./navigation/Header";
 
 import Modal from "./ui/Modal";
@@ -56,9 +53,6 @@ import ConfirmAction from "./ui/ConfirmAction";
 
 
 export {
-    UserGate,
-    UserProfile,
-
     Header,
 
     Modal,

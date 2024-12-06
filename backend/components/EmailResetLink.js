@@ -88,7 +88,7 @@ function emailResetLink (token, user) {
                                                         font-size: 12px;
                                                         text-align: center;
                                                         font-family: esqmarket-medium,-apple-system,BlinkMacSystemFont,Helvetica,sans-serif;
-                                                        color: #ff395c;
+                                                        color: #000;
                                                     "
                                                     href="${process.env.CLIENT_URL}/reset-password?token=${token}&id=${user._id}"
                                                     target="_blank"
@@ -173,13 +173,13 @@ function emailResetLink (token, user) {
                                     <div
                                         style="
                                             font-size: 16px;
-                                            font-weight: 400;
+                                            font-weight: 500;
                                             text-align: center;
                                             color: #6c757d;
                                             font-family: 'Google Sans';
                                         "
                                     >
-                                        <a href="https://bggrid.com" target="_blank" style="color: #000; text-decoration: none;">bggrid.com</a>
+                                        <a href="https://bggrid.com" target="_blank" style="color: #000; text-decoration: none;">BGGRID.COM</a>
                                     </div>
                                 </td>
                             </tr>

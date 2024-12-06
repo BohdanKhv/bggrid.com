@@ -32,6 +32,7 @@ import NotificationPage from "./pages/NotificationPage";
 import UserHomePage from "./pages/UserHomePage";
 import PublisherPage from "./pages/PublisherPage";
 import DesignerPage from "./pages/DesignerPage";
+import FooterUser from "./pages/FooterUser";
 
 function App() {
   const { user } = useSelector(state => state.auth);
@@ -100,6 +101,7 @@ function App() {
                         <Route path="/*" element={<ErrBoundary><NotFound /></ErrBoundary>} />
                       </Routes>
                       </div>
+                      <FooterUser/>
                     </div>
                   </div>
               </div>

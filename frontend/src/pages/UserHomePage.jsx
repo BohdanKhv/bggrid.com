@@ -592,7 +592,7 @@ const UserHomePage = () => {
                             <div className="justify-end flex align-center flex-no-wrap gap-3">
                                 <IconButton
                                     notify
-                                    notifyCount={friends?.filter((friend) => friend.pending).length}
+                                    notifyCount={friends?.filter((friend) => friend.pending && !friend.myRequest).length}
                                     icon={usersIcon}
                                     variant="text"
                                     type="secondary"

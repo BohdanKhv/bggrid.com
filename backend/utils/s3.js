@@ -21,7 +21,9 @@ const uploadFile = async ({ bucket, key, file  }) => {
 
     try {
         const data = await s3.send(command);
-        return {key};
+        return {
+            key: `${process.env.AWS_R2_ASSETS_DIR}/${key}`,
+        };
     } catch (error) {
         console.log(error);
         return {error}
@@ -32,12 +34,12 @@ const uploadFile = async ({ bucket, key, file  }) => {
 const deleteFile = async ({ bucket, key }) => {
     const command = new DeleteObjectCommand({
         Bucket: bucket,
-        Key: key,
+        Key: key.replace(`${process.env.AWS_R2_ASSETS_DIR}/`, ''),
     });
 
     try {
         const data = await s3.send(command);
-        return {key};
+        return { key };
     } catch (error) {
         console.log(error);
         return {error}

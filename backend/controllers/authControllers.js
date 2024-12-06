@@ -333,12 +333,17 @@ const updateUser = async (req, res) => {
 
         if (req.file) {
             const fileExtension = req.file.originalname.split('.').pop() || '';
-            const newKey = `${user._id}-${new Date().getTime()}.${fileExtension}`;
-            const {error, key} = await uploadFile({  bucket: 'users', key: newKey, file: req.file });
+            const newKey = `users/${user._id}-${new Date().getTime()}.${fileExtension}`;
+            const {error, key} = await uploadFile({  bucket: 'bggrid', key: newKey, file: req.file });
             if(error) {
                 return res.status(500).json({
                     msg: 'Error uploading image',
                 });
+            }
+
+            // Delete old avatar
+            if (user.avatar) {
+                await deleteFile({ bucket: 'bggrid', key: user.avatar });
             }
 
             user.avatar = key;

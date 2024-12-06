@@ -5,28 +5,34 @@ const gameSchema = new mongoose.Schema({
     name: { type: String, required: true },
     description: { type: String, required: true },
     publishedDate: { type: Date, required: true },
-    types: [{ type: String, required: true }],
-    mechanics: [{ type: String, required: true }],
-    themes: [{ type: String, required: true }],
-    designers: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Designer' }],
-    publishers: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Publisher' }],
-    rules: { type: String, required: false },
-    bggId: { type: Number, required: false },
-    verified: { type: Boolean, required: false, default: false },
-    thumbnail: { type: String, required: false },
+    types: [{ type: String, required: true }], // Focus on the overall experience or purpose of the game.
+    mechanics: [{ type: String, required: true }], // Focus on specific gameplay systems or actions.
+    themes: [{ type: String, required: true }], // Focus on the setting or narrative of the game.
+    designers: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Designer' }], // designer id
+    publishers: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Publisher' }], // publisher id
+    rules: { type: String, required: false }, // rules text
+    rulesUrl: { type: String, required: false }, // rules pdf link if available
+    bggId: { type: Number, required: false }, // boardgamegeek id
+    verified: { type: Boolean, required: false, default: false }, // verified by admin
+    thumbnail: { type: String, required: false }, // thumbnail image for the game
+    images: [{ type: String, required: false }], // image links for the game
+    videos: [{ type: String, required: false }], // youtube video links
     minPlayers: { type: Number, required: false },
     maxPlayers: { type: Number, required: false },
-    avgPlaytime: { type: Number, required: false },
+    minPlayersRec: { type: Number, required: false },
+    maxPlayersRec: { type: Number, required: false },
+    minPlayersBest: { type: Number, required: false },
+    maxPlayersBest: { type: Number, required: false },
     minPlaytime: { type: Number, required: false },
     maxPlaytime: { type: Number, required: false },
     minAge: { type: Number, required: false },
+    minAgeRec: { type: Number, required: false },
     weight: { type: Number, required: false },
     languageDependence: { type: Number, required: false },
     rating: { type: Number, required: false },
     numRatings: { type: Number, required: false },
     numComments: { type: Number, required: false },
-    images: [{ type: String, required: false }],
-    videos: [{ type: String, required: false }],
+    buyUrl: { type: String, required: false },
 }, { timestamps: true });
 
 

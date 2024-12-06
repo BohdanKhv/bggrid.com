@@ -13,16 +13,16 @@ const typeEnum = [
         "icon": "🎉"
     },
     {
+        "name": "Card Games",
+        "description": "Games primarily played with a deck of cards.",
+        "examples": ["Magic: The Gathering", "Uno"],
+        "icon": "🃏"
+    },
+    {
         "name": "Cooperative Games",
         "description": "Players work together to achieve a shared goal.",
         "examples": ["Pandemic", "Forbidden Desert", "Arkham Horror"],
         "icon": "🤝"
-    },
-    {
-        "name": "Adventure Games",
-        "description": "Focus on exploration, quests, and epic journeys.",
-        "examples": ["Gloomhaven", "Tales of the Arabian Nights", "Sleeping Gods"],
-        "icon": "🗺️"
     },
     {
         "name": "Family Games",
@@ -48,30 +48,6 @@ const typeEnum = [
         "examples": ["Dungeons & Dragons", "Pathfinder", "Fate"],
         "icon": "🎭"
     },
-    {
-        "name": "Horror Games",
-        "description": "Games with spooky or supernatural themes.",
-        "examples": ["Betrayal at House on the Hill", "Arkham Horror", "Zombicide"],
-        "icon": "👻"
-    },
-    {
-        "name": "Economic Games",
-        "description": "Focused on building wealth and managing resources.",
-        "examples": ["Power Grid", "Brass", "Acquire"],
-        "icon": "💰"
-    },
-    {
-        "name": "War Games",
-        "description": "Simulate military conflict and strategy.",
-        "examples": ["Risk", "Twilight Struggle", "Memoir '44"],
-        "icon": "⚔️"
-    },
-    {
-        "name": "Party Deduction Games",
-        "description": "Social games with hidden roles and deduction.",
-        "examples": ["Werewolf", "Coup", "Secret Hitler"],
-        "icon": "🕵️‍♂️"
-    }
 ]
 
 // Themes: Focus on the setting or narrative of the game.

@@ -59,7 +59,6 @@ function App() {
         <Tooltip id="tooltip-default" className="z-999 w-max-200-px d-sm-none" place="bottom" closeOnEsc closeOnScroll globalCloseEvents="click" positionStrategy="fixed" opacity="0.95" noArrow />
         <ErrBoundary>
           <ImportantUserAlert/>
-          <GameCard/>
         </ErrBoundary>
         {window.innerWidth <= 800 && user ?
           <ErrBoundary>
@@ -75,6 +74,7 @@ function App() {
                   <Navbar/>
                   <AddGame/>
                   <LogPlay/>
+                  <GameCard/>
                   <GameSearchModal/>
                 </ErrBoundary>
                 <div className="content-body">

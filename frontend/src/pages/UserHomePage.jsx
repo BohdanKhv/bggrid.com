@@ -18,11 +18,12 @@ const PlayItem = ({ item }) => {
     const [searchParams, setSearchParams] = useSearchParams()
 
     return  (
-        <div className="flex flex-col gap-3"
-            onClick={() => {
-                searchParams.set('logPlay', item.game._id)
-                setSearchParams(searchParams)
-            }}
+        <Link className="flex flex-col gap-3"
+            // onClick={() => {
+            //     searchParams.set('logPlay', item.game._id)
+            //     setSearchParams(searchParams)
+            // }}
+            to={`/g/${item?.game?._id || item?._id}`}
         >
             <Image img={item?.game?.thumbnail} classNameContainer="h-set-200-px border-radius overflow-hidden"/>
             <div className="flex align-center pos-relative flex-1">
@@ -53,7 +54,7 @@ const PlayItem = ({ item }) => {
                 : null}
             </div>
             }
-        </div>
+        </Link>
     )
 }
 
@@ -63,11 +64,12 @@ const GameItem = ({ item }) => {
     const [searchParams, setSearchParams] = useSearchParams()
 
     return  (
-        <div className="flex flex-col gap-3"
-            onClick={() => {
-                searchParams.set('addGame', item._id)
-                setSearchParams(searchParams)
-            }}
+        <Link className="flex flex-col gap-3"
+            // onClick={() => {
+            //     searchParams.set('addGame', item._id)
+            //     setSearchParams(searchParams)
+            // }}
+            to={`/g/${item?.game?._id || item?._id}`}
         >
             <Image img={item?.thumbnail} classNameContainer="h-set-200-px border-radius overflow-hidden"/>
             <div className="flex align-center pos-relative flex-1">
@@ -87,7 +89,7 @@ const GameItem = ({ item }) => {
                     </div>
                 : null}
             </div>
-        </div>
+        </Link>
     )
 }
 
@@ -659,13 +661,14 @@ const UserHomePage = () => {
                                 .sort((a, b) => DateTime.fromISO(b.createdAt) - DateTime.fromISO(a.createdAt))
                                 .slice(0, 8)
                                 .map((item) => (
-                                    <div
+                                    <Link
                                         key={item._id}
                                         className="bg-secondary bg-tertiary-hover border-radius flex overflow-hidden pointer display-on-hover-parent"
-                                        onClick={() => {
-                                            searchParams.set('logPlay', item.game._id)
-                                            setSearchParams(searchParams)
-                                        }}
+                                        // onClick={() => {
+                                        //     searchParams.set('logPlay', item.game._id)
+                                        //     setSearchParams(searchParams)
+                                        // }}
+                                        to={`/g/${item?.game?._id || item?._id}`}
                                     >
                                         <Image
                                             img={item?.game?.thumbnail}
@@ -683,7 +686,7 @@ const UserHomePage = () => {
                                                 />
                                             </div>
                                         </div>
-                                    </div>
+                                    </Link>
                                 ))}
                             </div>
                         : null}

@@ -103,7 +103,7 @@ const LibraryItem = ({ item, index, hideInfo }) => {
                                     muted
                                     size="sm"
                                     onClick={() => {
-                                        searchParams.set("gameCard", item._id)
+                                        searchParams.set("gameCard", item.game._id || item._id)
                                         setSearchParams(searchParams)
                                     }}
                                 />

@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { getMyLibrary } from '../features/library/librarySlice'
 import {Avatar, Button, ErrorInfo, HorizontalScroll, IconButton, InputSearch, Image, Icon, Dropdown} from '../components'
 import { Link, useNavigate, useSearchParams } from 'react-router-dom'
-import { closeIcon, editIcon, gamesIcon, linkIcon, diceIcon, searchIcon, starFillIcon, weightIcon, usersIcon, usersFillIcon, bellIcon, rightArrowIcon, moreIcon, upArrowRightIcon, listIcon, gridIcon, arrowUpShortIcon, arrowDownShortIcon, largePlusIcon, libraryIcon, shareIcon, uploadIcon, sendIcon } from '../assets/img/icons'
+import { closeIcon, editIcon, gamesIcon, linkIcon, diceIcon, searchIcon, starFillIcon, weightIcon, usersIcon, usersFillIcon, bellIcon, rightArrowIcon, moreIcon, upArrowRightIcon, listIcon, gridIcon, arrowUpShortIcon, arrowDownShortIcon, largePlusIcon, libraryIcon, shareIcon, uploadIcon, sendIcon, infoIcon } from '../assets/img/icons'
 import { tagsEnum } from '../assets/constants'
 import { numberFormatter } from '../assets/utils'
 import GameSearchModal from './game/GameSearchModal'
@@ -31,22 +31,22 @@ const LibraryItem = ({ item, index, hideInfo }) => {
         >
             <div className="flex align-center gap-2 overflow-hidden pos-relative p-3">
                 <img
-                    src={item?.thumbnail}
+                    src={item?.game?.thumbnail}
                     alt={item?.name}
                     draggable="false"
                     className="z-0 border-radius object-cover object-center pos-absolute left-0 blur-20 w-100 h-100"
                 />
                 <Image
-                    img={item?.thumbnail}
+                    img={item?.game?.thumbnail}
                     classNameContainer="w-set-150-px"
                     size="sm"
                 />
                 <div className="z-3">
                     <div className="fs-20 text-shadow-hard text-white weight-600 text-ellipsis-2">
-                        {item?.name}
+                        {item?.game?.name}
                     </div>
                     <div className="fs-12 text-white pt-1 text-shadow-hard">
-                        {item?.yearPublished}
+                        {item?.game?.yearPublished}
                     </div>
                 </div>
             </div>
@@ -84,11 +84,22 @@ const LibraryItem = ({ item, index, hideInfo }) => {
                 size="lg"
                 borderRadius="none"
                 className="justify-start"
-                label="Go to game page"
-                icon={linkIcon}
+                label="Game page"
+                icon={gamesIcon}
                 variant="secondary"
                 type="default"
                 to={`/g/${item?.game?._id}`}
+            />
+            <Button
+                smSize="xl"
+                size="lg"
+                borderRadius="none"
+                className="justify-start"
+                label="Game rules"
+                icon={infoIcon}
+                variant="secondary"
+                type="default"
+                to={`/g/${item?.game?._id}/rules`}
             />
             <Button
                 smSize="xl"
@@ -227,11 +238,21 @@ const LibraryItem = ({ item, index, hideInfo }) => {
                                             size="lg"
                                             borderRadius="none"
                                             className="justify-start"
-                                            label="Go to game page"
+                                            label="Game page"
                                             icon={linkIcon}
                                             variant="secondary"
                                             type="default"
                                             to={`/g/${item?.game?._id}`}
+                                        />
+                                        <Button
+                                            size="lg"
+                                            borderRadius="none"
+                                            className="justify-start"
+                                            label="Game rules"
+                                            icon={linkIcon}
+                                            variant="secondary"
+                                            type="default"
+                                            to={`/g/${item?.game?._id}/rules`}
                                         />
                                         <Button
                                             smSize="xl"

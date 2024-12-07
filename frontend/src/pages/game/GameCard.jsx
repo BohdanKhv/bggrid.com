@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from "react-redux"
 import { Avatar, Button, ErrorInfo, IconButton, Image, Input, Modal, Range } from "../../components"
 import { Link, useSearchParams } from "react-router-dom"
 import { getGameCard } from "../../features/game/gameSlice"
-import { closeIcon, diceIcon, largePlusIcon, linkIcon, upArrowRightIcon } from "../../assets/img/icons"
+import { closeIcon, diceIcon, editIcon, largePlusIcon, linkIcon, upArrowRightIcon } from "../../assets/img/icons"
 import { tagsEnum } from "../../assets/constants"
 import { addGameToLibrary, removeGameFromLibrary, updateGameInLibrary } from "../../features/library/librarySlice"
 import MobileModal from "../../components/ui/MobileModal"
@@ -60,25 +60,6 @@ const GameCard = () => {
         }
     }, [gameCard, isInLibrary])
 
-    const addToLibrary = () => {
-        
-        dispatch(addGameToLibrary({
-            gameId: gameCard._id,
-            rating: rating / 10,
-            tags,
-            comment
-        }))
-    }
-
-    const updateLibrary = () => {
-        dispatch(updateGameInLibrary({
-            gameId: gameCard._id,
-            rating: rating / 10,
-            tags,
-            comment
-        }))
-    }
-
     return (
         searchParam.get("gameCard") &&
         window.innerWidth <= 800 ?
@@ -118,29 +99,19 @@ const GameCard = () => {
                 <div className="flex flex-col z-3">
                             {user ?
                             <>
-                        {isInLibrary ?
                             <Button
                                 size="lg"
                                 borderRadius="none"
                                 className="justify-start w-100"
-                                label="Update Library"
-                                icon={upArrowRightIcon}
+                                label={isInLibrary ? "Update Library" : "Add to Library"}
+                                icon={isInLibrary ? editIcon : largePlusIcon}
                                 variant="secondary"
                                 type="default"
-                                onClick={updateLibrary}
+                                onClick={() => {
+                                    searchParam.set('addGame', gameCard._id)
+                                    setSearchParam(searchParam)
+                                }}
                             />
-                            :
-                            <Button
-                                size="lg"
-                                borderRadius="none"
-                                className="justify-start w-100"
-                                label="Add to Library"
-                                icon={largePlusIcon}
-                                variant="secondary"
-                                type="default"
-                                onClick={addToLibrary}
-                            />
-                        }
                         <Button
                             size="lg"
                             borderRadius="none"
@@ -228,29 +199,19 @@ const GameCard = () => {
                         <div className="flex flex-col z-3 overflow-hidden border-radius mt-4">
                             {user ?
                             <>
-                            {isInLibrary ?
-                                <Button
-                                    size="lg"
-                                    borderRadius="none"
-                                    className="justify-start w-100"
-                                    label="Update Library"
-                                    icon={upArrowRightIcon}
-                                    variant="secondary"
-                                    type="default"
-                                    onClick={updateLibrary}
-                                />
-                                :
-                                <Button
-                                    size="lg"
-                                    borderRadius="none"
-                                    className="justify-start w-100"
-                                    label="Add to Library"
-                                    icon={largePlusIcon}
-                                    variant="secondary"
-                                    type="default"
-                                    onClick={addToLibrary}
-                                />
-                            }
+                            <Button
+                                size="lg"
+                                borderRadius="none"
+                                className="justify-start w-100"
+                                label={isInLibrary ? "Update Library" : "Add to Library"}
+                                icon={isInLibrary ? editIcon : largePlusIcon}
+                                variant="secondary"
+                                type="default"
+                                onClick={() => {
+                                    searchParam.set('addGame', gameCard._id)
+                                    setSearchParam(searchParam)
+                                }}
+                            />
                             <Button
                                 size="lg"
                                 borderRadius="none"

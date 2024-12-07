@@ -10,6 +10,7 @@ const MobileModal = ({
     onClose,
     children,
     header,
+    hideClose,
 }) => {
     const [open2, setOpen2] = useState(isOpen);
     const menuRef = useRef(null);
@@ -37,7 +38,7 @@ const MobileModal = ({
     };
 
     const handleClickOutside = (e) => {
-        if (menuRef.current && !menuRef.current.contains(e.target)) {
+        if (menuRef.current && !menuRef.current.contains(e.target) && !e.target.className.contains('modal-overlay')) {
             handleClose();
         }
     };
@@ -71,6 +72,7 @@ const MobileModal = ({
             <div className="mobile-modal-menu">
                 <div className="mobile-modal-container-wrapper">
                 <div className="mobile-modal-container">
+                    {hideClose ? null : (
                     <div className="flex align-center px-4 pt-4 justify-between">
                         <div>
                             {header ? header : null}
@@ -85,6 +87,7 @@ const MobileModal = ({
                             borderRadius="lg"
                         />
                     </div>
+                    )}
                     {children}
                 </div>
                 </div>

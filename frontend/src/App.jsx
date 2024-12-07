@@ -33,6 +33,7 @@ import UserHomePage from "./pages/UserHomePage";
 import PublisherPage from "./pages/PublisherPage";
 import PersonPage from "./pages/PersonPage";
 import FooterUser from "./pages/FooterUser";
+import GameCard from "./pages/game/GameCard";
 
 function App() {
   const { user } = useSelector(state => state.auth);
@@ -58,6 +59,7 @@ function App() {
         <Tooltip id="tooltip-default" className="z-999 w-max-200-px d-sm-none" place="bottom" closeOnEsc closeOnScroll globalCloseEvents="click" positionStrategy="fixed" opacity="0.95" noArrow />
         <ErrBoundary>
           <ImportantUserAlert/>
+          <GameCard/>
         </ErrBoundary>
         {window.innerWidth <= 800 && user ?
           <ErrBoundary>
@@ -129,8 +131,8 @@ function App() {
                       <Route path="/reset-password" element={<ErrBoundary><div><Auth><ResetPassword /></Auth></div></ErrBoundary>} />
                       <Route path="/register" element={<ErrBoundary><div><Auth><Register /></Auth></div></ErrBoundary>} />
                       <Route path="/login" element={<ErrBoundary><div><Auth><Login /></Auth></div></ErrBoundary>} />
-                      <Route path="/terms" element={<ErrBoundary><div className="mx-auto w-max-xl offset-header w-100"><Terms /></div></ErrBoundary>} />
-                      <Route path="/privacy" element={<ErrBoundary><div className="mx-auto w-max-xl offset-header w-100"><Privacy /></div></ErrBoundary>} />
+                      <Route path="/terms" element={<ErrBoundary><div className="mx-auto w-max-xl w-100"><Terms /></div></ErrBoundary>} />
+                      <Route path="/privacy" element={<ErrBoundary><div className="mx-auto w-max-xl w-100"><Privacy /></div></ErrBoundary>} />
                       <Route path="/*" element={<ErrBoundary><div className="mx-auto w-max-xl offset-header w-100"><NotFound /></div></ErrBoundary>} />
                     </Routes>
                     </div>

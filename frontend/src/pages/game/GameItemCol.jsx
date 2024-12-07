@@ -41,10 +41,10 @@ const GameItemCol = ({item}) => {
                         : 
                             <UserGuardLoginModal>
                                 <Button
-                                    label="Add"
+                                    label="Add to Library"
                                     icon={largePlusIcon}
                                     variant="secondary"
-                                    type="outline"
+                                    type="filled"
                                     onClick={(e) => {
                                         searchParams.set('addGame', item._id)
                                         setSearchParams(searchParams)
@@ -52,7 +52,7 @@ const GameItemCol = ({item}) => {
                                 />
                             </UserGuardLoginModal>
                         }
-                        <UserGuardLoginModal>
+                        {/* <UserGuardLoginModal>
                             <Button
                                 label="Log a Play"
                                 icon={diceIcon}
@@ -64,7 +64,7 @@ const GameItemCol = ({item}) => {
                                     setSearchParams(searchParams)
                                 }}
                             />
-                        </UserGuardLoginModal>
+                        </UserGuardLoginModal> */}
                     </div>
                 </div>
             </div>

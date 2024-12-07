@@ -18,8 +18,11 @@ const GameItem = ({ item }) => {
     const [searchParams, setSearchParams] = useSearchParams()
 
     return  (
-        <Link className="flex flex-col gap-3"
-            to={`/g/${item?.game?._id || item?._id}`}
+        <div className="flex flex-col gap-3"
+            onClick={() => {
+                searchParams.set("gameCard", item._id)
+                setSearchParams(searchParams)
+            }}
         >
             <Image img={item?.thumbnail} classNameContainer="h-set-200-px border-radius overflow-hidden"/>
             <div className="flex align-center pos-relative flex-1">
@@ -39,7 +42,7 @@ const GameItem = ({ item }) => {
                     </div>
                 : null}
             </div>
-        </Link>
+        </div>
     )
 }
 

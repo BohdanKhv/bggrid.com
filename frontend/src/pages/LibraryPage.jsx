@@ -95,47 +95,18 @@ const LibraryItem = ({ item, index, hideInfo }) => {
                                         )}
                                     </div>
                                 </div>
-                                    <Dropdown
-                                        classNameDropdown="p-0 border-radius-sm bg-tertiary"
-                                        customDropdown={<IconButton
-                                            icon={moreIcon}
-                                            className="display-on-hover display-on-hover-sm-block"
-                                            variant="secondary"
-                                            type="link"
-                                            muted
-                                            size="sm"
-                                        />}
-                                    >
-                                        <Button
-                                            label="Update Library"
-                                            icon={editIcon}
-                                            variant="secondary"
-                                            onClick={(e) => {
-                                                e.stopPropagation()
-                                                searchParams.set('addGame', item.game._id)
-                                                setSearchParams(searchParams)
-                                            }}
-                                            className="w-100 border-radius-none justify-start weight-400"
-                                        />
-                                        <Button
-                                            label="Log play"
-                                            icon={diceIcon}
-                                            variant="secondary"
-                                            onClick={(e) => {
-                                                e.stopPropagation()
-                                                searchParams.set('logPlay', item.game._id)
-                                                setSearchParams(searchParams)
-                                            }}
-                                            className="w-100 border-radius-none justify-start weight-400"
-                                        />
-                                        <Button
-                                            label="Go to game page"
-                                            icon={upArrowRightIcon}
-                                            variant="secondary"
-                                            to={`/g/${item.game._id}`}
-                                            className=" border-radius-none justify-start weight-400"
-                                        />
-                                    </Dropdown>
+                                <IconButton
+                                    icon={moreIcon}
+                                    className="display-on-hover display-on-hover-sm-block"
+                                    variant="secondary"
+                                    type="link"
+                                    muted
+                                    size="sm"
+                                    onClick={() => {
+                                        searchParams.set("gameCard", item._id)
+                                        setSearchParams(searchParams)
+                                    }}
+                                />
                                 </div>
                             <div className="flex justify-between gap-3 pt-1">
                                 <div className="fs-12 text-secondary text-ellipsis-1">

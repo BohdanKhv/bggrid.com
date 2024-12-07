@@ -13,23 +13,6 @@ const Privacy = () => {
 
     return (
         <div>
-        {window.innerWidth < 800 && (
-            <>
-                <div className="flex justify-between bg-translucent-blur px-sm-3 py-3 sticky top-0 z-9 offset-header">
-                    <div className="flex align-center gap-3">
-                        <IconButton
-                            icon={leftArrowIcon}
-                            variant="secondary"
-                            type="text"
-                            onClick={() => navigate('/')}
-                        />
-                        <div className="fs-14 weight-600">
-                            Terms and Conditions
-                        </div>
-                    </div>
-                </div>
-            </>
-        )}
         <main className="page-body">
             <div className="mx-auto w-max-md">
                 <div className="container py-6 px-sm-2 animation-slide-in pt-sm-3">

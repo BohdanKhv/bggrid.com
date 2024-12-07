@@ -40,7 +40,15 @@ export const getGameCard = createAsyncThunk(
     'game/getGameCard',
     async (payload, thunkAPI) => {
         try {
-            return await gameService.getGameById(payload);
+            // Check if the game is already in the store
+            const { gameCard } = thunkAPI.getState().game;
+            if (gameCard?._id === payload) {
+                return {
+                    data: state.game.gameCard
+                }
+            } else {
+                return await gameService.getGameById(payload);
+            }
         } catch (error) {
             const message =
                 (error.response &&

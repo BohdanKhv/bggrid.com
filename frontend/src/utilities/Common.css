@@ -223,6 +223,9 @@ body:has(.header) .sticky {
 .mask-left {
     mask: linear-gradient(270deg, black 30%, transparent 100%);
 }
+.mask-top {
+    mask: linear-gradient(0deg, black 30%, transparent 100%);
+}
 .mask-bottom {
     mask: linear-gradient(180deg, black 30%, transparent 100%);
 }

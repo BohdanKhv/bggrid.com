@@ -41,12 +41,17 @@ const LibraryItem = ({ item, index, hideInfo }) => {
                     classNameContainer="w-set-150-px"
                     size="sm"
                 />
-                <div className="z-3">
+                <div className="z-3 flex flex-col overflow-hidden">
                     <div className="fs-20 text-shadow-hard text-white weight-600 text-ellipsis-2">
                         {item?.game?.name}
                     </div>
                     <div className="fs-12 text-white pt-1 text-shadow-hard">
-                        {item?.game?.yearPublished}
+                        {item?.game?.year}
+                    </div>
+                    <div className="flex overflow-x-auto pt-2">
+                        {item.tags.map((tag, index) => (
+                            <div key={index} className="px-2 py-1 flex-shrink-0 bg-secondary border-radius weight-500 flex align-center fs-12 weight-500">{tag}</div>
+                        ))}
                     </div>
                 </div>
             </div>

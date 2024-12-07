@@ -16,7 +16,7 @@ const GameItem = ({item}) => {
     }, [library, item])
 
     return (
-        <Link className={`flex flex-col pos-relative gap-sm-2 border-radius p-2 show-on-hover-parent box-shadow-hover transition-duration pos-relative mb-4 m-sm-0 display-on-hover-parent transition-slide-right-hover-parent`}
+        <Link className={`flex flex-col pos-relative gap-sm-2 border-radius p-2 show-on-hover-parent bg-secondary-hover transition-duration pos-relative mb-4 m-sm-0 display-on-hover-parent transition-slide-right-hover-parent`}
             onClick={(e) => {
                 e.preventDefault()
                 searchParams.set("addGame", item._id)
@@ -46,14 +46,14 @@ const GameItem = ({item}) => {
                             <div className="bg-main p-2 border-radius m-1">
                             <div className="flex flex-col flex-1 flex-wrap z-1">
                                     <div className="flex fs-12 gap-2 py-2 align-center text-nowrap">
-                                    <Icon size="sm" icon={weightIcon}/> <strong>{item.gameWeight.toFixed(1)}</strong>
+                                    <Icon size="sm" icon={weightIcon}/> <strong>{item.complexityWeight?.toFixed(1)}</strong>
                                     </div>
                                     <div className="flex fs-12 gap-2 py-2 align-center text-nowrap">
-                                    <Icon size="sm" icon={usersIcon}/> <strong>{item.MinPlayers}{item.MaxPlayers > item.MinPlayers ? `-${item.MaxPlayers}` : ''}</strong>
+                                    <Icon size="sm" icon={usersIcon}/> <strong>{item.minPlayers}{item.maxPlayers > item.minPlayers ? `-${item.maxPlayers}` : ''}</strong>
                                     </div>
-                                {item.ComMinPlaytime ?
+                                {item.minPlaytime ?
                                     <div className="flex fs-12 gap-2 py-2 align-center text-nowrap">
-                                    <Icon size="sm" icon={historyIcon}/> <strong>{item.ComMinPlaytime}</strong>
+                                    <Icon size="sm" icon={historyIcon}/> <strong>{item.minPlaytime}</strong>
                                     </div>
                                 : null}
                             </div>

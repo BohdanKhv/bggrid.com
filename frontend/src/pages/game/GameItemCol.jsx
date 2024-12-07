@@ -74,7 +74,7 @@ const GameItemCol = ({item}) => {
             >
                 <div className="flex flex-col pe-4 align-center justify-center w-min-100-px border-right pe-sm-2">
                     <div className="fs-14 bold flex align-center">
-                        {item.avgRating.toFixed(1)}
+                        {item?.rating?.toFixed(1)}
                         <Icon
                             icon={starFillIcon}
                             className="ms-1"
@@ -87,7 +87,7 @@ const GameItemCol = ({item}) => {
                 </div>
                 <div className="flex flex-col pe-4 align-center justify-center w-min-100-px border-right pe-sm-2">
                     <div className="fs-14 bold flex align-center">
-                        {item.gameWeight.toFixed(1)}<span className="weight-500 text-secondary"></span>
+                        {item?.complexityWeight?.toFixed(1)}<span className="weight-500 text-secondary"></span>
                         <Icon
                             icon={weightIcon}
                             className="ms-1"
@@ -100,7 +100,7 @@ const GameItemCol = ({item}) => {
                 </div>
                 <div className="flex flex-col pe-4 align-center justify-center w-min-100-px border-right pe-sm-2">
                     <div className="fs-14 bold flex align-center">
-                        {item.ComMinPlaytime}{item.ComMaxPlaytime !== item.ComMinPlaytime ? `-${item.ComMaxPlaytime}` : ""} Min
+                        {item.minPlaytime}{item.maxPlaytime !== item.minPlaytime ? `-${item.maxPlaytime}` : ""} Min
                     </div>
                     <span className="fs-12 opacity-75 pt-2 weight-500">
                         Playtime
@@ -108,7 +108,7 @@ const GameItemCol = ({item}) => {
                 </div>
                 <div className="flex flex-col pe-4 align-center justify-center w-min-100-px border-right pe-sm-2">
                     <div className="fs-14 bold flex align-center">
-                        {item.MinPlayers}{item.MaxPlayers > item.MinPlayers ? `-${item.MaxPlayers}` : ''}
+                        {item.minPlayers}{item.maxPlayers > item.minPlayers ? `-${item.maxPlayers}` : ''}
                     </div>
                     <span className="fs-12 opacity-75 pt-2 weight-500">
                         Players

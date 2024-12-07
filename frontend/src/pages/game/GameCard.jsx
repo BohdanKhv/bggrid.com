@@ -100,6 +100,7 @@ const GameCard = () => {
                             {user ?
                             <>
                             <Button
+                                smSize="xl"
                                 size="lg"
                                 borderRadius="none"
                                 className="justify-start w-100"
@@ -113,6 +114,7 @@ const GameCard = () => {
                                 }}
                             />
                         <Button
+                            smSize="xl"
                             size="lg"
                             borderRadius="none"
                             className="justify-start w-100"
@@ -129,6 +131,7 @@ const GameCard = () => {
                         </>
                         : 
                         <Button
+                            smSize="xl"
                             size="lg"
                             borderRadius="none"
                             className="justify-start"
@@ -139,6 +142,7 @@ const GameCard = () => {
                             to={`/login`}
                         />}
                     <Button
+                        smSize="xl"
                         size="lg"
                         borderRadius="none"
                         className="justify-start"

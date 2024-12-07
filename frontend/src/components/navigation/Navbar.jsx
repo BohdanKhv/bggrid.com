@@ -205,24 +205,29 @@ const Navbar = () => {
                                 You can share your thoughts with us and make our project better.
                             </div>
                         </div>
-                        <Button
-                            to="/terms"
-                            label="Terms of use"
-                            variant="link"
-                            type="secondary"
-                        />
-                        <Button
-                            to="/privacy"
-                            label="Privacy policy"
-                            variant="link"
-                            type="secondary"
-                        />
                     </div>
-                    <div className="flex gap-2 p-4 flex-col">
-                        <div
-                            className="w-set-50-px"
-                        >
-                            {logoNameSvg}
+                <div className="flex gap-2 p-4 flex-col">
+                        <div className="flex gap-3 align-center">
+                                <div
+                                    className="w-set-50-px flex align-center"
+                                >
+                                    {logoNameSvg}
+                                </div>
+                                <div className="flex align-center fs-12 text-secondary gap-2">
+                                <Link
+                                    className="text-secondary text-underlined-hover"
+                                    to="/terms">
+                                    Terms
+                                </Link>
+                                <span className="fs-10">
+                                    |
+                                </span>
+                                <Link
+                                    className="text-secondary text-underlined-hover"
+                                    to="/privacy">
+                                    Privacy
+                                </Link>
+                            </div>
                         </div>
                         <div className="flex flex-col">
                             <div className="fs-12 text-secondary weight-500">

@@ -81,7 +81,7 @@ a.btn-sm {
     border-radius: 8px;
 }
 .btn-lg {
-    padding: 8px 22px;
+    padding: 8px 14px;
     font-size: 17px;
     height: 45px;
     max-height: 45px;
@@ -502,13 +502,22 @@ a.btn-lg {
         width: 18px!important;
     }
     .btn-sm-xl {
-        padding: 14px 28px!important;
-        font-size: 20px!important;
-        height: 48px!important;
+        padding: 14px 14px;
+        font-size: 16px;
+        height: 52px!important;
+        max-height: 52px!important;
+        min-height: 52px!important;
+        font-weight: 500;
+        gap: 14px;
+    }
+    a.btn-sm-xl {
+        height: 22px!important;
+        max-height: 22px!important;
+        min-height: 22px!important;
     }
     .btn-sm-xl svg {
-        width: 20px!important;
-        height: 20px!important;
+        width: 18px!important;
+        height: 18px!important;
     }
 
     .btn.btn-rounded.btn-sm-lg {

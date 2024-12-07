@@ -862,10 +862,10 @@ const GamePage = () => {
                                     Weight
                                 </span>
                             </div>
-                            {gameById.ComMinPlaytime ?
+                            {gameById.minPlaytime ?
                             <div className="flex flex-col pe-4 align-center justify-center w-min-100-px border-right pe-sm-2">
                                 <div className="fs-14 bold flex align-center">
-                                    {gameById.ComMinPlaytime}{gameById.ComMaxPlaytime !== gameById.ComMinPlaytime ? `-${gameById.ComMaxPlaytime}` : ""} Min
+                                    {gameById.minPlaytime}{gameById.maxPlaytime !== gameById.minPlaytime ? `-${gameById.maxPlaytime}` : ""} Min
                                 </div>
                                 <span className="fs-12 opacity-75 pt-2 weight-500">
                                     Playtime
@@ -874,7 +874,7 @@ const GamePage = () => {
                             : null }
                             <div className="flex flex-col pe-4 align-center justify-center w-min-100-px border-right pe-sm-2">
                                 <div className="fs-14 bold flex align-center">
-                                    {gameById.MinPlayers}{gameById.MaxPlayers > gameById.MinPlayers ? `-${gameById.MaxPlayers}` : ''}
+                                    {gameById.minPlayers}{gameById.maxPlayers > gameById.minPlayers ? `-${gameById.maxPlayers}` : ''}
                                 </div>
                                 <span className="fs-12 opacity-75 pt-2 weight-500">
                                     Players

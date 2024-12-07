@@ -3,21 +3,108 @@ import { useDispatch, useSelector } from 'react-redux'
 import { getMyLibrary } from '../features/library/librarySlice'
 import {Avatar, Button, ErrorInfo, HorizontalScroll, IconButton, InputSearch, Image, Icon, Dropdown} from '../components'
 import { Link, useNavigate, useSearchParams } from 'react-router-dom'
-import { closeIcon, editIcon, gamesIcon, linkIcon, diceIcon, searchIcon, starFillIcon, weightIcon, usersIcon, usersFillIcon, bellIcon, rightArrowIcon, moreIcon, upArrowRightIcon, listIcon, gridIcon, arrowUpShortIcon, arrowDownShortIcon } from '../assets/img/icons'
+import { closeIcon, editIcon, gamesIcon, linkIcon, diceIcon, searchIcon, starFillIcon, weightIcon, usersIcon, usersFillIcon, bellIcon, rightArrowIcon, moreIcon, upArrowRightIcon, listIcon, gridIcon, arrowUpShortIcon, arrowDownShortIcon, largePlusIcon, libraryIcon, shareIcon, uploadIcon, sendIcon } from '../assets/img/icons'
 import { tagsEnum } from '../assets/constants'
 import { numberFormatter } from '../assets/utils'
 import GameSearchModal from './game/GameSearchModal'
 import UpdateLogPlay from './game/UpdateLogPlay'
 import { DateTime } from 'luxon'
+import MobileModal from '../components/ui/MobileModal'
 
 const LibraryItem = ({ item, index, hideInfo }) => {
 
+    const [searchParam, setSearchParam] = useSearchParams()
     const [searchParams, setSearchParams] = useSearchParams()
+    const [open, setOpen] = useState(false)
 
     const { user } = useSelector((state) => state.auth)
 
     return (
-        <div className="border-radius px-sm-3 transition-duration animation-slide-in show-on-hover-parent hide-on-hover-parent">
+        <>
+        {window.innerWidth <= 800 && open ?
+        <MobileModal
+            isOpen={open}
+            onClose={() => {
+                setOpen(false)
+            }}
+            hideClose
+        >
+            <div className="flex align-center gap-2 overflow-hidden pos-relative p-3">
+                <img
+                    src={item?.thumbnail}
+                    alt={item?.name}
+                    draggable="false"
+                    className="z-0 border-radius object-cover object-center pos-absolute left-0 blur-20 w-100 h-100"
+                />
+                <Image
+                    img={item?.thumbnail}
+                    classNameContainer="w-set-150-px"
+                    size="sm"
+                />
+                <div className="z-3">
+                    <div className="fs-20 text-shadow-hard text-white weight-600 text-ellipsis-2">
+                        {item?.name}
+                    </div>
+                    <div className="fs-12 text-white pt-1 text-shadow-hard">
+                        {item?.yearPublished}
+                    </div>
+                </div>
+            </div>
+            <div className="flex flex-col z-3">
+                <Button
+                    smSize="xl"
+                    size="lg"
+                    borderRadius="none"
+                    className="justify-start w-100"
+                    label="Update library"
+                    icon={libraryIcon}
+                    variant="secondary"
+                    type="default"
+                    onClick={() => {
+                        searchParam.set('addGame', item?.game?._id)
+                        setSearchParam(searchParam)
+                    }}
+                />
+                <Button
+                    smSize="xl"
+                    size="lg"
+                    borderRadius="none"
+                    className="justify-start w-100"
+                    label="Log a play"
+                    icon={diceIcon}
+                    variant="secondary"
+                    type="default"
+                    onClick={(e) => {
+                        searchParam.set('logPlay', item?.game?._id)
+                        setSearchParam(searchParam)
+                    }}
+                />
+            <Button
+                smSize="xl"
+                size="lg"
+                borderRadius="none"
+                className="justify-start"
+                label="Go to game page"
+                icon={linkIcon}
+                variant="secondary"
+                type="default"
+                to={`/g/${item?.game?._id}`}
+            />
+            <Button
+                smSize="xl"
+                size="lg"
+                borderRadius="none"
+                className="justify-start"
+                label="Share my review"
+                disabled
+                icon={sendIcon}
+                variant="secondary"
+                type="default"
+            />
+        </div>
+        </MobileModal>
+        : null }
+        <div className="border-bottom border-secondary px-sm-3 transition-duration animation-slide-in show-on-hover-parent hide-on-hover-parent">
             <div className="flex justify-between"
             >
                 <div className="flex gap-3 flex-1 py-3 align-center">
@@ -82,7 +169,7 @@ const LibraryItem = ({ item, index, hideInfo }) => {
                                             <span className={`fs-14 weight-600 text-warning`}>{item.rating || 0}</span>
                                             <div className="flex gap-1 align-center">
                                                 {[...Array(5)].map((_, i) => (
-                                                    <Icon icon={starFillIcon} size="sm" className={`text-warning ${i + 1 <= item.rating ? 'fill-warning' : 'fill-secondary'}`}/>
+                                                    <Icon key={i} icon={starFillIcon} size="xs" className={`text-warning ${i + 1 <= item.rating ? 'fill-warning' : 'fill-secondary'}`}/>
                                                 ))}
                                             </div>
                                         </div>
@@ -95,6 +182,71 @@ const LibraryItem = ({ item, index, hideInfo }) => {
                                         )}
                                     </div>
                                 </div>
+                                {window.innerWidth > 800 ? 
+                                <Dropdown
+                                    classNameDropdown="p-0"
+                                    customDropdown={
+                                        <IconButton
+                                            icon={moreIcon}
+                                            className="display-on-hover display-on-hover-sm-block"
+                                            variant="secondary"
+                                            type="link"
+                                            muted
+                                            size="sm"
+                                        />
+                                    }
+                                >
+                                    <div className="flex flex-col overflow-hidden border-radius">
+                                        <Button
+                                            size="lg"
+                                            borderRadius="none"
+                                            className="justify-start w-100"
+                                            label="Update library"
+                                            icon={libraryIcon}
+                                            variant="secondary"
+                                            type="default"
+                                            onClick={() => {
+                                                searchParam.set('addGame', item?.game?._id)
+                                                setSearchParam(searchParam)
+                                            }}
+                                        />
+                                        <Button
+                                            size="lg"
+                                            borderRadius="none"
+                                            className="justify-start w-100"
+                                            label="Log a play"
+                                            icon={diceIcon}
+                                            variant="secondary"
+                                            type="default"
+                                            onClick={(e) => {
+                                                searchParam.set('logPlay', item?.game?._id)
+                                                setSearchParam(searchParam)
+                                            }}
+                                        />
+                                        <Button
+                                            size="lg"
+                                            borderRadius="none"
+                                            className="justify-start"
+                                            label="Go to game page"
+                                            icon={linkIcon}
+                                            variant="secondary"
+                                            type="default"
+                                            to={`/g/${item?.game?._id}`}
+                                        />
+                                        <Button
+                                            smSize="xl"
+                                            size="lg"
+                                            borderRadius="none"
+                                            className="justify-start"
+                                            label="Share my review"
+                                            icon={sendIcon}
+                                            variant="secondary"
+                                            type="default"
+                                            disabled
+                                        />
+                                    </div>
+                                </Dropdown>
+                                :
                                 <IconButton
                                     icon={moreIcon}
                                     className="display-on-hover display-on-hover-sm-block"
@@ -102,11 +254,11 @@ const LibraryItem = ({ item, index, hideInfo }) => {
                                     type="link"
                                     muted
                                     size="sm"
-                                    onClick={() => {
-                                        searchParams.set("gameCard", item.game._id || item._id)
-                                        setSearchParams(searchParams)
+                                    onClick={(e) => {
+                                        setOpen(true)
                                     }}
                                 />
+                                }
                                 </div>
                             <div className="flex justify-between gap-3 pt-1">
                                 <div className="fs-12 text-secondary text-ellipsis-1">
@@ -120,72 +272,8 @@ const LibraryItem = ({ item, index, hideInfo }) => {
                         </div>
                     </div>
                 </div>
-        {hideInfo ? 
-            <div className="border-bottom flex gap-3"/>
-        :
-            <HorizontalScroll
-                className="mt-5 border-bottom pb-4"
-            >
-                <div className="flex flex-col pe-4 align-center justify-center w-min-100-px border-right pe-sm-2">
-                    <div className="fs-14 bold flex align-center">
-                        {item?.game?.avgRating.toFixed(1)}
-                        <Icon
-                            icon={starFillIcon}
-                            className="ms-1"
-                            size="sm"
-                        />
-                    </div>
-                    <span className="fs-12 opacity-75 pt-2 weight-500">
-                        {numberFormatter(item?.game?.numRatings)} reviews
-                    </span>
-                </div>
-                <div className="flex flex-col pe-4 align-center justify-center w-min-100-px border-right pe-sm-2">
-                    <div className="fs-14 bold flex align-center">
-                        {item?.game?.gameWeight.toFixed(1)}
-                        <Icon
-                            icon={weightIcon}
-                            className="ms-1"
-                            size="sm"
-                        />
-                    </div>
-                    <span className="fs-12 opacity-75 pt-2 weight-500">
-                        Weight
-                    </span>
-                </div>
-                {item?.game?.ComMinPlaytime ?
-                <div className="flex flex-col pe-4 align-center justify-center w-min-100-px border-right pe-sm-2">
-                    <div className="fs-14 bold flex align-center">
-                        {item?.game?.ComMinPlaytime}{item?.game?.ComMaxPlaytime !== item?.game?.ComMinPlaytime ? `-${item?.game?.ComMaxPlaytime}` : ""} Min
-                    </div>
-                    <span className="fs-12 opacity-75 pt-2 weight-500">
-                        Playtime
-                    </span>
-                </div>
-                : null}
-                <div className="flex flex-col pe-4 align-center justify-center w-min-100-px border-right pe-sm-2">
-                    <div className="fs-14 bold flex align-center">
-                        {item?.game?.MinPlayers}{item?.game?.MaxPlayers > item?.game?.MinPlayers ? `-${item?.game?.MaxPlayers}` : ''}
-                        <Icon
-                            icon={usersFillIcon}
-                            className="ms-1"
-                            size="sm"
-                        />
-                    </div>
-                    <span className="fs-12 opacity-75 pt-2 weight-500">
-                        Players
-                    </span>
-                </div>
-                <div className="flex flex-col pe-4 align-center justify-center w-min-100-px">
-                    <div className="fs-14 bold flex align-center">
-                        {item?.game?.mfgAgeRec}+
-                    </div>
-                    <span className="fs-12 opacity-75 pt-2 weight-500">
-                        Age
-                    </span>
-                </div>
-            </HorizontalScroll>
-        }
-        </div>
+            </div>
+        </>
     )
 }
 
@@ -194,6 +282,7 @@ const LibraryPage = () => {
     const navigate = useNavigate()
 
     const [searchParams, setSearchParams] = useSearchParams()
+    const [selectedLibraryItem, setSelectedLibraryItem] = useState(null)
     const { library, isLoading, msg } = useSelector((state) => state.library)
     const [searchValue, setSearchValue] = useState('')
     const [tags, setTags] = useState([])
@@ -413,7 +502,9 @@ const LibraryPage = () => {
                                     }
                                 })
                                 .map((item, index) =>
-                                    <LibraryItem key={item._id} item={item} hideInfo index={index} />
+                                    <LibraryItem
+                                        key={item._id} item={item} hideInfo index={index}
+                                    />
                                 )}
                                 
                                 {library

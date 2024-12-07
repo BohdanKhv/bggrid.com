@@ -160,6 +160,9 @@ body:has(.header) .sticky {
 .bg-secondary-hover:hover {
     background-color: var(--color-secondary)!important;
 }
+.bg-secondary-active:active {
+    background-color: var(--color-secondary)!important;
+}
 .bg-tertiary-hover:hover {
     background-color: var(--color-tertiary)!important;
 }

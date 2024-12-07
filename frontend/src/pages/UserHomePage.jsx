@@ -661,14 +661,14 @@ const UserHomePage = () => {
                                 .sort((a, b) => DateTime.fromISO(b.createdAt) - DateTime.fromISO(a.createdAt))
                                 .slice(0, 8)
                                 .map((item) => (
-                                    <Link
+                                    <div
                                         key={item._id}
                                         className="bg-secondary bg-tertiary-hover border-radius flex overflow-hidden pointer display-on-hover-parent"
-                                        // onClick={() => {
-                                        //     searchParams.set('logPlay', item.game._id)
-                                        //     setSearchParams(searchParams)
-                                        // }}
-                                        to={`/g/${item?.game?._id || item?._id}`}
+                                        onClick={() => {
+                                            searchParams.set('logPlay', item.game._id)
+                                            setSearchParams(searchParams)
+                                        }}
+                                        // to={`/g/${item?.game?._id || item?._id}`}
                                     >
                                         <Image
                                             img={item?.game?.thumbnail}
@@ -686,7 +686,7 @@ const UserHomePage = () => {
                                                 />
                                             </div>
                                         </div>
-                                    </Link>
+                                    </div>
                                 ))}
                             </div>
                         : null}

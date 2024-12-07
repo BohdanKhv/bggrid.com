@@ -22,6 +22,11 @@ const publisherSchema = new mongoose.Schema({
         required: false,
         trim: true
     },
+    user: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'User',
+        required: false
+    },
     bggId: {
         type: Number,
         required: false

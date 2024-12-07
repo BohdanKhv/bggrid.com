@@ -4,12 +4,14 @@ const mongoosePaginate = require('mongoose-paginate-v2');
 const gameSchema = new mongoose.Schema({
     name: { type: String, required: true },
     description: { type: String, required: true },
-    publishedDate: { type: Date, required: true },
+    year: { type: Number, required: true },
     types: [{ type: String, required: true }], // Focus on the overall experience or purpose of the game.
     mechanics: [{ type: String, required: true }], // Focus on specific gameplay systems or actions.
     themes: [{ type: String, required: true }], // Focus on the setting or narrative of the game.
-    designers: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Designer' }], // designer id
     publishers: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Publisher' }], // publisher id
+    persons: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Person' }], // Person
+    artists: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Person' }],
+    developers: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Person' }],
     rules: { type: String, required: false }, // rules text
     rulesUrl: { type: String, required: false }, // rules pdf link if available
     bggId: { type: Number, required: false }, // boardgamegeek id
@@ -27,7 +29,7 @@ const gameSchema = new mongoose.Schema({
     maxPlaytime: { type: Number, required: false },
     minAge: { type: Number, required: false },
     minAgeRec: { type: Number, required: false },
-    weight: { type: Number, required: false },
+    complexityWeight: { type: Number, required: false },
     languageDependence: { type: Number, required: false },
     rating: { type: Number, required: false },
     numRatings: { type: Number, required: false },

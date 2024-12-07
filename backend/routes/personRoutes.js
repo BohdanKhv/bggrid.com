@@ -2,14 +2,14 @@ const express = require('express');
 const router = express.Router();
 const { protect, loggedIn } = require('../middleware/authMiddleware');
 const {
-    getDesigners,
-    getDesignerById
-} = require('../controllers/designerControllers.js');
+    getPersons,
+    getPersonById
+} = require('../controllers/personControllers.js');
 
 
 router
-    .get('/', getDesigners)
-    .get('/:designerId', getDesignerById)
+    .get('/', getPersons)
+    .get('/:personId', getPersonById)
 
 
 module.exports = router;

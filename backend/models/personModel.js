@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 
 
-const designerSchema = new mongoose.Schema({
+const personSchema = new mongoose.Schema({
     name: {
         type: String,
         required: true,
@@ -17,10 +17,15 @@ const designerSchema = new mongoose.Schema({
         required: false,
         trim: true
     },
-    logo: {
+    avatar: {
         type: String,
         required: false,
         trim: true
+    },
+    user: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'User',
+        required: false
     },
     bggId: {
         type: Number,
@@ -28,4 +33,4 @@ const designerSchema = new mongoose.Schema({
     },
 }, { timestamps: true });
 
-module.exports = mongoose.model('Designer', designerSchema);
+module.exports = mongoose.model('Person', personSchema);

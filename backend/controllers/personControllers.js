@@ -1,24 +1,24 @@
 const Game = require('../models/gameModel');
-const Designer = require('../models/designerModel');
+const Person = require('../models/personModel');
 const mongoose = require('mongoose');
 
 
-// @desc    Get designer by id
-// @route   GET /api/designer/:designerId
+// @desc    Get person by id
+// @route   GET /api/person/:personId
 // @access  Public
-const getDesignerById = async (req, res) => {
+const getPersonById = async (req, res) => {
     try {
-        const designer = await Designer.findById(req.params.designerId);
+        const person = await Person.findById(req.params.personId);
 
-        if (!designer) {
+        if (!person) {
             return res.status(404).json({ msg: '404' });
         }
 
-        const games = await Game.find({ designers: designer._id });
+        const games = await Game.find({ persons: person._id });
 
         res.status(200).json({
             data: {
-                ...designer._doc,
+                ...person._doc,
                 games: games
             }
         });
@@ -29,15 +29,15 @@ const getDesignerById = async (req, res) => {
 }
 
 
-// @desc    Get all designers
-// @route   GET /api/designers
+// @desc    Get all persons
+// @route   GET /api/persons
 // @access  Public
-const getDesigners = async (req, res) => {
+const getPersons = async (req, res) => {
     try {
-        const designers = await Designer.find();
+        const persons = await Person.find();
 
         res.status(200).json({
-            data: designers
+            data: persons
         });
     } catch (error) {
         console.error(error);
@@ -48,6 +48,6 @@ const getDesigners = async (req, res) => {
 
 
 module.exports = {
-    getDesigners,
-    getDesignerById,
+    getPersons,
+    getPersonById,
 }

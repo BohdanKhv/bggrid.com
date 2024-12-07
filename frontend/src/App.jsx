@@ -31,7 +31,7 @@ import UserGuard from "./pages/auth/UserGuard";
 import NotificationPage from "./pages/NotificationPage";
 import UserHomePage from "./pages/UserHomePage";
 import PublisherPage from "./pages/PublisherPage";
-import DesignerPage from "./pages/DesignerPage";
+import PersonPage from "./pages/PersonPage";
 import FooterUser from "./pages/FooterUser";
 
 function App() {
@@ -86,8 +86,8 @@ function App() {
                         <Route path="/g/:gameId/:tab" element={<ErrBoundary><GamePage /></ErrBoundary>} />
                         <Route path="/p/:publisherId" element={<ErrBoundary><div className="mx-auto w-max-xl offset-header w-100"><PublisherPage /></div></ErrBoundary>} />
                         <Route path="/p/:publisherId/:tab" element={<ErrBoundary><div className="mx-auto w-max-xl offset-header w-100"><PublisherPage /></div></ErrBoundary>} />
-                        <Route path="/d/:designerId" element={<ErrBoundary><div className="mx-auto w-max-xl offset-header w-100"><DesignerPage /></div></ErrBoundary>} />
-                        <Route path="/d/:designerId/:tab" element={<ErrBoundary><div className="mx-auto w-max-xl offset-header w-100"><DesignerPage /></div></ErrBoundary>} />
+                        <Route path="/d/:personId" element={<ErrBoundary><div className="mx-auto w-max-xl offset-header w-100"><PersonPage /></div></ErrBoundary>} />
+                        <Route path="/d/:personId/:tab" element={<ErrBoundary><div className="mx-auto w-max-xl offset-header w-100"><PersonPage /></div></ErrBoundary>} />
                         <Route path="/c/:category" element={<ErrBoundary><CategoryPage /></ErrBoundary>} />
                         <Route path="/collection/:collection" element={<ErrBoundary><CategoryPage /></ErrBoundary>} />
                         <Route path="/settings" element={<ErrBoundary><Settings/></ErrBoundary>} />
@@ -121,8 +121,8 @@ function App() {
                       <Route path="/g/:gameId/:tab" element={<ErrBoundary><div className="mx-auto w-max-xl offset-header w-100"><GamePage /></div></ErrBoundary>} />
                       <Route path="/p/:publisherId" element={<ErrBoundary><div className="mx-auto w-max-xl offset-header w-100"><PublisherPage /></div></ErrBoundary>} />
                       <Route path="/p/:publisherId/:tab" element={<ErrBoundary><div className="mx-auto w-max-xl offset-header w-100"><PublisherPage /></div></ErrBoundary>} />
-                      <Route path="/d/:designerId" element={<ErrBoundary><div className="mx-auto w-max-xl offset-header w-100"><DesignerPage /></div></ErrBoundary>} />
-                      <Route path="/d/:designerId/:tab" element={<ErrBoundary><div className="mx-auto w-max-xl offset-header w-100"><DesignerPage /></div></ErrBoundary>} />
+                      <Route path="/d/:personId" element={<ErrBoundary><div className="mx-auto w-max-xl offset-header w-100"><PersonPage /></div></ErrBoundary>} />
+                      <Route path="/d/:personId/:tab" element={<ErrBoundary><div className="mx-auto w-max-xl offset-header w-100"><PersonPage /></div></ErrBoundary>} />
                       <Route path="/c/:category" element={<ErrBoundary><div className="mx-auto w-max-xl offset-header w-100"><CategoryPage /></div></ErrBoundary>} />
                       <Route path="/collection/:collection" element={<ErrBoundary><div className="mx-auto w-max-xl offset-header w-100"><CategoryPage /></div></ErrBoundary>} />
                       <Route path="/forgot-password" element={<ErrBoundary><div><Auth><ForgotPassword /></Auth></div></ErrBoundary>} />

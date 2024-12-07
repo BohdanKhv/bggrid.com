@@ -1,21 +1,21 @@
 import { createAsyncThunk, createSlice, current } from '@reduxjs/toolkit';
-import designerService from './designerService';
+import personService from './personService';
 import { toast } from 'react-toastify';
 
 
 const initialState = {
-    designers: [],
-    designerById: null,
+    persons: [],
+    personById: null,
     isLoading: false,
     msg: '',
 };
 
 
-export const getDesignerById = createAsyncThunk(
-    'designer/getDesignerById',
+export const getPersonById = createAsyncThunk(
+    'person/getPersonById',
     async (payload, thunkAPI) => {
         try {
-            return await designerService.getDesignerById(payload);
+            return await personService.getPersonById(payload);
         } catch (error) {
             const message =
                 (error.response &&
@@ -29,11 +29,11 @@ export const getDesignerById = createAsyncThunk(
 );
 
 
-export const getDesigners = createAsyncThunk(
-    'designer/getDesigners',
+export const getPersons = createAsyncThunk(
+    'person/getPersons',
     async (payload, thunkAPI) => {
         try {
-            return await designerService.getDesigners(payload);
+            return await personService.getPersons(payload);
         } catch (error) {
             const message =
                 (error.response &&
@@ -47,28 +47,28 @@ export const getDesigners = createAsyncThunk(
 );
 
 
-const designerSlice = createSlice({
-    name: 'designer',
+const personSlice = createSlice({
+    name: 'person',
     initialState,
     reducers: {
         // Reset state
-        resetDesigner: (state) => {
+        resetPerson: (state) => {
             state.isLoading = false;
             state.msg = '';
-            state.designers = [];
-            state.designerById = null;
+            state.persons = [];
+            state.personById = null;
         }
     },
     extraReducers: (builder) => {
-        builder.addCase(getDesigners.pending, (state) => {
+        builder.addCase(getPersons.pending, (state) => {
             state.isLoading = true;
             state.msg = '';
         });
-        builder.addCase(getDesigners.fulfilled, (state, action) => {
+        builder.addCase(getPersons.fulfilled, (state, action) => {
             state.isLoading = false;
-            state.designers = action.payload.data;
+            state.persons = action.payload.data;
         });
-        builder.addCase(getDesigners.rejected, (state, action) => {
+        builder.addCase(getPersons.rejected, (state, action) => {
             if (action.error.message !== 'Aborted') {
                 state.isLoading = false;
                 state.msg = action.payload;
@@ -76,16 +76,16 @@ const designerSlice = createSlice({
             }
         });
 
-        builder.addCase(getDesignerById.pending, (state) => {
+        builder.addCase(getPersonById.pending, (state) => {
             state.isLoading = true;
             state.msg = '';
-            state.designerById = null;
+            state.personById = null;
         });
-        builder.addCase(getDesignerById.fulfilled, (state, action) => {
+        builder.addCase(getPersonById.fulfilled, (state, action) => {
             state.isLoading = false;
-            state.designerById = action.payload.data;
+            state.personById = action.payload.data;
         });
-        builder.addCase(getDesignerById.rejected, (state, action) => {
+        builder.addCase(getPersonById.rejected, (state, action) => {
             if (action.error.message !== 'Aborted') {
                 state.isLoading = false;
                 state.msg = action.payload;
@@ -97,5 +97,5 @@ const designerSlice = createSlice({
 
 
 // Export reducer
-export const { resetDesigner } = designerSlice.actions;
-export default designerSlice.reducer;
+export const { resetPerson } = personSlice.actions;
+export default personSlice.reducer;

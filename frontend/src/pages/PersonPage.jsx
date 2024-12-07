@@ -3,25 +3,25 @@ import { useDispatch, useSelector } from 'react-redux'
 import { useNavigate, useParams, useSearchParams } from 'react-router-dom'
 import { Avatar, Button, Dropdown, ErrorInfo, IconButton, Image, TabContent } from '../components'
 import { shareIcon, leftArrowIcon, moreIcon, listIcon, gridIcon } from '../assets/img/icons'
-import { getDesignerById, resetDesigner } from '../features/designer/designerSlice'
+import { getPersonById, resetPerson } from '../features/person/personSlice'
 import GameItemCol from './game/GameItemCol'
 import GameItem from './game/GameItem'
 
 
-const DesignerGames = () => {
+const PersonGames = () => {
 
-    const { designerById, isLoading } = useSelector(state => state.designer)
+    const { personById, isLoading } = useSelector(state => state.person)
 
     return (
         <div>
-            { !isLoading && !designerById?.games?.length ?
+            { !isLoading && !personById?.games?.length ?
                 <ErrorInfo
                     label="No games found"
-                    secondary="This designer has no games"
+                    secondary="This person has no games"
                 />
             :
                 <div className="grid flex-wrap animation-slide-in h-fit-content grid-xl-cols-5 grid-lg-cols-4 grid-md-cols-3 grid-sm-cols-2 grid-cols-4">
-                    {designerById?.games?.map((i, inx, arr) => (
+                    {personById?.games?.map((i, inx, arr) => (
                         <div
                             key={i._id}
                         >
@@ -40,28 +40,28 @@ const DesignerGames = () => {
 }
 
 
-const DesignerPage = () => {
+const PersonPage = () => {
     const navigate = useNavigate()
     const dispatch = useDispatch()
-    const { designerId, tab } = useParams()
+    const { personId, tab } = useParams()
 
-    const { designerById, isLoading, msg } = useSelector(state => state.designer)
+    const { personById, isLoading, msg } = useSelector(state => state.person)
 
     useEffect(() => {
         window.scrollTo(0, 0)
-        if (!designerId) return
+        if (!personId) return
 
-        const promise = dispatch(getDesignerById(designerId))
+        const promise = dispatch(getPersonById(personId))
 
         return () => {
             promise && promise.abort()
-            dispatch(resetDesigner())
+            dispatch(resetPerson())
         }
-    }, [designerId])
+    }, [personId])
 
     useEffect(() => {
-        document.title = designerById?.name || 'Designer'
-    }, [designerById])
+        document.title = personById?.name || 'Person'
+    }, [personById])
 
 
     return (
@@ -74,7 +74,7 @@ const DesignerPage = () => {
                         isLoading
                     />
                 </div>
-            : designerById ? 
+            : personById ? 
                 <div className="flex flex-col h-min-100 container px-sm-3 animation-slide-in">
                     {window.innerWidth < 800 ?
                         <div className="flex justify-between bg-main py-3 sticky top-0 z-9">
@@ -86,7 +86,7 @@ const DesignerPage = () => {
                                     onClick={() => navigate(-1)}
                                 />
                                 <div className="fs-14 weight-600">
-                                    {designerById.name}
+                                    {personById.name}
                                 </div>
                             </div>
                             <Dropdown
@@ -108,8 +108,8 @@ const DesignerPage = () => {
                                         type="text"
                                         onClick={() => {
                                             navigator.share({
-                                                title: designerById.name,
-                                                text: `Check out this boardgames designer on BGGRID!`,
+                                                title: personById.name,
+                                                text: `Check out this boardgames person on BGGRID!`,
                                                 url: window.location.href
                                             })
                                         }}
@@ -123,7 +123,7 @@ const DesignerPage = () => {
                         <div className="flex gap-4 align-center">
                             <div>
                                 <div className="fs-24 weight-600 text-ellipsis-2 d-sm-none">
-                                    {designerById.name}
+                                    {personById.name}
                                 </div>
                             </div>
                         </div>
@@ -136,13 +136,13 @@ const DesignerPage = () => {
                             ]}
                             activeTabName={tab || 'games'}
                             setActiveTabName={(e) => {
-                                navigate(`/p/${designerId}/${e}`)
+                                navigate(`/p/${personId}/${e}`)
                             }}
                         />
                     </div> */}
                     {/* {tab === 'games' ? */}
-                        <DesignerGames/>
-                    {/* : <DesignerGames/> } */}
+                        <PersonGames/>
+                    {/* : <PersonGames/> } */}
                     <div className="flex gap-3 px-4">
                 </div>
             </div>
@@ -150,7 +150,7 @@ const DesignerPage = () => {
             <div className="h-min-100 justify-center align-center flex">
                     <ErrorInfo
                         code="404"
-                        info="Designer not found"
+                        info="Person not found"
                     />
                 </div>
             : 
@@ -165,4 +165,4 @@ const DesignerPage = () => {
     )
 }
 
-export default DesignerPage
+export default PersonPage

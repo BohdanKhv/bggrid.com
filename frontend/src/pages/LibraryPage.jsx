@@ -38,7 +38,7 @@ const LibraryItem = ({ item, index, hideInfo }) => {
                 />
                 <Image
                     img={item?.game?.thumbnail}
-                    classNameContainer="w-set-150-px h-set-200-px"
+                    classNameContainer="w-set-100-px h-set-100-px"
                     classNameImg="object-cover"
                     size="sm"
                 />

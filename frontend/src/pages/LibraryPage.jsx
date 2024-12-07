@@ -38,7 +38,8 @@ const LibraryItem = ({ item, index, hideInfo }) => {
                 />
                 <Image
                     img={item?.game?.thumbnail}
-                    classNameContainer="w-set-150-px"
+                    classNameContainer="w-set-150-px h-set-200-px"
+                    classNameImg="object-cover"
                     size="sm"
                 />
                 <div className="z-3 flex flex-col overflow-hidden">
@@ -48,7 +49,7 @@ const LibraryItem = ({ item, index, hideInfo }) => {
                     <div className="fs-12 text-white pt-1 text-shadow-hard">
                         {item?.game?.year}
                     </div>
-                    <div className="flex overflow-x-auto pt-2">
+                    <div className="flex overflow-x-auto pt-2 gap-2">
                         {item.tags.map((tag, index) => (
                             <div key={index} className="px-2 py-1 flex-shrink-0 bg-secondary border-radius weight-500 flex align-center fs-12 weight-500">{tag}</div>
                         ))}

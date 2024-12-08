@@ -5,6 +5,7 @@ const gameSchema = new mongoose.Schema({
     name: { type: String, required: true },
     description: { type: String, required: true },
     year: { type: Number, required: true },
+    categories: [{ type: String, required: true }], // all possible categories
     types: [{ type: String, required: true }], // Focus on the overall experience or purpose of the game.
     mechanics: [{ type: String, required: true }], // Focus on specific gameplay systems or actions.
     themes: [{ type: String, required: true }], // Focus on the setting or narrative of the game.

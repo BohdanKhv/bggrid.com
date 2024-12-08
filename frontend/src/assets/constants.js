@@ -48,6 +48,12 @@ const typeEnum = [
         "examples": ["Dungeons & Dragons", "Pathfinder", "Fate"],
         "icon": "🎭"
     },
+    {
+        "name": "Thematic Games",
+        "description": "Games with strong narrative or story elements.",
+        "examples": ["Gloomhaven", "Betrayal at House on the Hill", "Dead of Winter"],
+        "icon": "📖"
+    }
 ]
 
 // Themes: Focus on the setting or narrative of the game.
@@ -171,6 +177,30 @@ const themesEnum = [
         "description": "Games based on athletic competitions or sports strategies.",
         "examples": ["Blood Bowl", "StreetSoccer", "Baseball Highlights 2045"],
         "icon": "⚽"
+    },
+    {
+        "name": "Medieval",
+        "description": "Set in the Middle Ages with knights, castles, and feudalism.",
+        "examples": ["Carcassonne", "Agricola", "Castles of Burgundy"],
+        "icon": "🏰"
+    },
+    {
+        "name": "Political",
+        "description": "Focuses on governance, diplomacy, and power struggles.",
+        "examples": ["Twilight Struggle", "Diplomacy", "Junta"],
+        "icon": "🏛️"
+    },
+    {
+        "name": "Transportation",
+        "description": "Involves moving goods, passengers, or resources efficiently.",
+        "examples": ["Ticket to Ride", "TransAmerica", "18XX"],
+        "icon": "🚂"
+    },
+    {
+        "name": "Animals",
+        "description": "Themes centered around wildlife, pets, or creatures.",
+        "examples": ["Everdell", "Wingspan", "Root"],
+        "icon": "🐾"
     }
 ]
 
@@ -265,6 +295,48 @@ const mechanicsEnum = [
         "description": "Players create specific patterns to score points.",
         "examples": ["Azul", "Sagrada", "Photosynthesis"],
         "icon": "🖼️"
+    },
+    {
+        "name": "Pick-up and Deliver",
+        "description": "Players transport goods or items between locations for rewards.",
+        "examples": ["Merchants & Marauders", "Istanbul", "Firefly"],
+        "icon": "🚚"
+    },
+    {
+        "name": "Variable Player Powers",
+        "description": "Players have unique abilities or advantages based on their role or faction.",
+        "examples": ["Root", "Scythe", "Cosmic Encounter"],
+        "icon": "🦸‍♂️"
+    },
+    {
+        "name": "Action Points",
+        "description": "Players have a limited number of actions to take each turn.",
+        "examples": ["Scythe", "Terra Mystica", "Blood Rage"],
+        "icon": "⚡"
+    },
+    {
+        "name": "Trading",
+        "description": "Players exchange resources or goods with each other.",
+        "examples": ["Catan", "Bohnanza", "Chinatown"],
+        "icon": "🔄"
+    },
+    {
+        "name": "Route/Network Building",
+        "description": "Players create paths or connections between locations for points.",
+        "examples": ["Ticket to Ride", "Railways of the World", "Power Grid"],
+        "icon": "🚂"
+    },
+    {
+        "name": "Memory",
+        "description": "Players must remember information or patterns to succeed.",
+        "examples": ["Codenames", "Dixit", "Memoir '44"],
+        "icon": "🧠"
+    },
+    {
+        "name": "Role Playing",
+        "description": "Players assume characters and act out roles within the game.",
+        "examples": ["Dungeons & Dragons", "Fiasco", "Call of Cthulhu"],
+        "icon": "🎭"
     }
 ]
 

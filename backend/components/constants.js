@@ -1,280 +1,78 @@
 // Types: Focus on the overall experience or purpose of the game.
 const typeEnum = [
-    {
-        "name": "Strategy Games",
-        "description": "Games requiring long-term planning and strategic decision-making.",
-        "examples": ["Catan", "Terraforming Mars", "Twilight Imperium"],
-        "icon": "♟️"
-    },
-    {
-        "name": "Party Games",
-        "description": "Light-hearted games meant for groups and social settings.",
-        "examples": ["Codenames", "Dixit", "Telestrations"],
-        "icon": "🎉"
-    },
-    {
-        "name": "Cooperative Games",
-        "description": "Players work together to achieve a shared goal.",
-        "examples": ["Pandemic", "Forbidden Desert", "Arkham Horror"],
-        "icon": "🤝"
-    },
-    {
-        "name": "Family Games",
-        "description": "Easy-to-learn games suitable for all ages.",
-        "examples": ["Ticket to Ride", "Carcassonne", "Monopoly"],
-        "icon": "👨‍👩‍👧‍👦"
-    },
-    {
-        "name": "Children's Games",
-        "description": "Games designed specifically for young children.",
-        "examples": ["Candy Land", "Chutes and Ladders", "Memory"],
-        "icon": "🧸"
-    },
-    {
-        "name": "Abstract Games",
-        "description": "Games with minimal theme, focusing on pure strategy or mechanics.",
-        "examples": ["Chess", "Go", "Azul"],
-        "icon": "🔲"
-    },
-    {
-        "name": "Dexterity Games",
-        "description": "Games requiring physical skill and precision.",
-        "examples": ["Jenga", "Flick 'em Up", "Klask"],
-        "icon": "🤹‍♂️"
-    },
-    {
-        "name": "Role-Playing Games (RPGs)",
-        "description": "Players assume roles and develop narratives within a set framework.",
-        "examples": ["Dungeons & Dragons", "Pathfinder", "Fate"],
-        "icon": "🎭"
-    },
+"Strategy Games",
+"Party Games",
+"Cooperative Games",
+"Family Games",
+"Children's Games",
+"Abstract Games",
+"Dexterity Games",
+"Role-Playing Games (RPGs)",
+"Thematic Games",
 ]
 
 // Themes: Focus on the setting or narrative of the game.
 const themesEnum = [
-    {
-        "name": "Fantasy",
-        "description": "Games set in magical worlds with wizards, dragons, and epic quests.",
-        "examples": ["Gloomhaven", "Dungeons & Dragons", "Small World"],
-        "icon": "🧙‍♂️"
-    },
-    {
-        "name": "Sci-fi",
-        "description": "Games exploring futuristic technology, space travel, and alien worlds.",
-        "examples": ["Terraforming Mars", "Star Realms", "Eclipse"],
-        "icon": "🚀"
-    },
-    {
-        "name": "Horror",
-        "description": "Spooky or supernatural settings with an emphasis on fear and survival.",
-        "examples": ["Betrayal at House on the Hill", "Arkham Horror", "Zombicide"],
-        "icon": "👻"
-    },
-    {
-        "name": "Historical",
-        "description": "Games based on real-world historical events or eras.",
-        "examples": ["7 Wonders", "Twilight Struggle", "Ticket to Ride"],
-        "icon": "🏺"
-    },
-    {
-        "name": "Pirates",
-        "description": "Games involving high-seas adventure and treasure hunting.",
-        "examples": ["Dead Men Tell No Tales", "Jamaica", "Merchants & Marauders"],
-        "icon": "🏴‍☠️"
-    },
-    {
-        "name": "Post-apocalyptic",
-        "description": "Set in worlds after a catastrophic event, focusing on survival.",
-        "examples": ["Dead of Winter", "Wasteland Express", "Fallout"],
-        "icon": "☢️"
-    },
-    {
-        "name": "Western",
-        "description": "Games set in the Old West with cowboys, shootouts, and gold rushes.",
-        "examples": ["Great Western Trail", "Colt Express", "Bang!"],
-        "icon": "🤠"
-    },
-    {
-        "name": "Mythology",
-        "description": "Inspired by gods, myths, and ancient legends.",
-        "examples": ["Cyclades", "Santorini", "Ankh: Gods of Egypt"],
-        "icon": "⚡"
-    },
-    {
-        "name": "Nature",
-        "description": "Themes based on wildlife, ecosystems, and the natural world.",
-        "examples": ["Wingspan", "PARKS", "Cascadia"],
-        "icon": "🌳"
-    },
-    {
-        "name": "Zombie",
-        "description": "Games featuring undead hordes and survival strategies.",
-        "examples": ["Zombicide", "Dead of Winter", "Tiny Epic Zombies"],
-        "icon": "🧟"
-    },
-    {
-        "name": "Spy/Secret Agent",
-        "description": "Focuses on espionage, stealth, and secret missions.",
-        "examples": ["Codenames", "Specter Ops", "Decrypto"],
-        "icon": "🕵️‍♂️"
-    },
-    {
-        "name": "Steampunk",
-        "description": "Set in a retro-futuristic world with steam-powered technology.",
-        "examples": ["Brass", "Steamworks", "Planet Steam"],
-        "icon": "⚙️"
-    },
-    {
-        "name": "Crime/Mystery",
-        "description": "Involves solving crimes or uncovering mysteries.",
-        "examples": ["Sherlock Holmes: Consulting Detective", "Clue", "Chronicles of Crime"],
-        "icon": "🔍"
-    },
-    {
-        "name": "Adventure",
-        "description": "Focuses on exploration, quests, and epic journeys.",
-        "examples": ["Tales of the Arabian Nights", "Above and Below", "Sleeping Gods"],
-        "icon": "🗺️"
-    },
-    {
-        "name": "Space Exploration",
-        "description": "Games about exploring galaxies and colonizing planets.",
-        "examples": ["Xia: Legends of a Drift System", "Gaia Project", "Cosmic Encounter"],
-        "icon": "🌌"
-    },
-    {
-        "name": "Economic",
-        "description": "Centers around money, trade, and building wealth.",
-        "examples": ["Power Grid", "Acquire", "Monopoly"],
-        "icon": "💰"
-    },
-    {
-        "name": "Military/War",
-        "description": "Simulates battles or conflicts, often strategic.",
-        "examples": ["Risk", "Memoir '44", "Axis & Allies"],
-        "icon": "⚔️"
-    },
-    {
-        "name": "Humor/Parody",
-        "description": "Games with a focus on comedy or making fun of other genres.",
-        "examples": ["Munchkin", "Exploding Kittens", "Joking Hazard"],
-        "icon": "🤣"
-    },
-    {
-        "name": "Superheroes",
-        "description": "Games featuring heroic characters with superpowers.",
-        "examples": ["Marvel Champions", "Sentinels of the Multiverse", "DC Deck-Building Game"],
-        "icon": "🦸‍♂️"
-    },
-    {
-        "name": "Sports",
-        "description": "Games based on athletic competitions or sports strategies.",
-        "examples": ["Blood Bowl", "StreetSoccer", "Baseball Highlights 2045"],
-        "icon": "⚽"
-    }
+"Fantasy",
+"Sci-fi",
+"Horror",
+"Historical",
+"Pirates",
+"Post-apocalyptic",
+"Western",
+"Mythology",
+"Nature",
+"Zombie",
+"Spy/Secret Agent",
+"Steampunk",
+"Crime/Mystery",
+"Adventure",
+"Space Exploration",
+"Economic",
+"Military/War",
+"Humor/Parody",
+"Superheroes",
+"Sports",
+"Medieval",
+"Political",
+"Transportation",
+"Animals",
 ]
 
 // Mechanics: Focus on specific gameplay systems or actions.
 const mechanicsEnum = [
-    {
-        "name": "Worker Placement",
-        "description": "Players assign workers to specific actions or locations to gain resources or benefits.",
-        "examples": ["Agricola", "Viticulture", "Lords of Waterdeep"],
-        "icon": "👷‍♂️"
-    },
-    {
-        "name": "Dice Rolling",
-        "description": "Gameplay revolves around rolling dice for outcomes or resource generation.",
-        "examples": ["Catan", "King of Tokyo", "Yahtzee"],
-        "icon": "🎲"
-    },
-    {
-        "name": "Deck Building",
-        "description": "Players build a personal deck of cards as part of gameplay.",
-        "examples": ["Dominion", "Clank!", "Ascension"],
-        "icon": "🃏"
-    },
-    {
-        "name": "Tile Placement",
-        "description": "Players place tiles to create patterns, areas, or pathways.",
-        "examples": ["Carcassonne", "Azul", "Patchwork"],
-        "icon": "🧩"
-    },
-    {
-        "name": "Set Collection",
-        "description": "Players gather sets of items or cards to earn points.",
-        "examples": ["Ticket to Ride", "Sushi Go!", "7 Wonders"],
-        "icon": "🃟"
-    },
-    {
-        "name": "Area Control",
-        "description": "Players compete to control regions on the board for advantages or points.",
-        "examples": ["Risk", "Small World", "El Grande"],
-        "icon": "🌍"
-    },
-    {
-        "name": "Card Drafting",
-        "description": "Players select cards from a shared pool to build strategies.",
-        "examples": ["7 Wonders", "Terraforming Mars", "Blood Rage"],
-        "icon": "📜"
-    },
-    {
-        "name": "Social Deduction",
-        "description": "Players use bluffing and deduction to uncover hidden roles or objectives.",
-        "examples": ["Werewolf", "The Resistance", "Secret Hitler"],
-        "icon": "🤔"
-    },
-    {
-        "name": "Hand Management",
-        "description": "Players strategically manage the cards in their hand.",
-        "examples": ["Race for the Galaxy", "Gloomhaven", "Lost Cities"],
-        "icon": "✋"
-    },
-    {
-        "name": "Resource Management",
-        "description": "Players manage resources like money, goods, or time efficiently.",
-        "examples": ["Terraforming Mars", "Power Grid", "Puerto Rico"],
-        "icon": "🛠️"
-    },
-    {
-        "name": "Cooperative Play",
-        "description": "Players work together against the game or a shared threat.",
-        "examples": ["Pandemic", "Forbidden Island", "Spirit Island"],
-        "icon": "🤝"
-    },
-    {
-        "name": "Push Your Luck",
-        "description": "Players risk losing rewards by continuing actions.",
-        "examples": ["Quacks of Quedlinburg", "Can't Stop", "Incan Gold"],
-        "icon": "🎰"
-    },
-    {
-        "name": "Auction/Bidding",
-        "description": "Players bid resources or points to gain advantages.",
-        "examples": ["Power Grid", "Ra", "Keyflower"],
-        "icon": "💸"
-    },
-    {
-        "name": "Bluffing",
-        "description": "Players deceive others to achieve objectives or gain advantages.",
-        "examples": ["Coup", "Sheriff of Nottingham", "Love Letter"],
-        "icon": "😏"
-    },
-    {
-        "name": "Pattern Building",
-        "description": "Players create specific patterns to score points.",
-        "examples": ["Azul", "Sagrada", "Photosynthesis"],
-        "icon": "🖼️"
-    }
+"Worker Placement",
+"Dice Rolling",
+"Deck Building",
+"Tile Placement",
+"Set Collection",
+"Area Control",
+"Card Drafting",
+"Social Deduction",
+"Hand Management",
+"Resource Management",
+"Cooperative Play",
+"Push Your Luck",
+"Auction/Bidding",
+"Bluffing",
+"Pattern Building",
+"Pick-up and Deliver",
+"Variable Player Powers",
+"Action Points",
+"Trading",
+"Route/Network Building",
+"Memory",
+"Role Playing",
 ]
 
 
 const tagsEnum = ['Favorite', 'Owned', 'Wishlist', 'Played', 'Want to Play']
 
 
-export {
+module.exports = {
     mechanicsEnum,
     typeEnum,
     themesEnum,
-    tagsEnum
+    tagsEnum,
+    cat
 }

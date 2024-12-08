@@ -13,13 +13,19 @@ const gameSchema = new mongoose.Schema({
     publishers: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Publisher' }], // publisher id
     artists: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Person' }],
     designers: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Person' }],
+    tempDesigners: [{ type: String, required: false }], // temporary designers
+    tempArtists: [{ type: String, required: false }], // temporary artists
     rules: { type: String, required: false }, // rules text
     rulesUrl: { type: String, required: false }, // rules pdf link if available
-    bggId: { type: Number, required: false }, // boardgamegeek id
     verified: { type: Boolean, required: false, default: false }, // verified by admin
     thumbnail: { type: String, required: false }, // thumbnail image for the game
     images: [{ type: String, required: false }], // image links for the game
-    videos: [{ type: String, required: false }], // youtube video links
+    videos: [{
+        title: { type: String, required: false },
+        link: { type: String, required: false },
+        category: { type: String, required: false },
+        postedDate: { type: Date, required: false },
+    }], // youtube video links
     minPlayers: { type: Number, required: false },
     maxPlayers: { type: Number, required: false },
     minPlayersRec: { type: Number, required: false },
@@ -37,6 +43,7 @@ const gameSchema = new mongoose.Schema({
     numComments: { type: Number, required: false },
     buyUrl: { type: String, required: false },
     bggScraped: { type: Boolean, required: false, default: false },
+    bggId: { type: String, required: false }, // boardgamegeek id
 }, { timestamps: true });
 
 

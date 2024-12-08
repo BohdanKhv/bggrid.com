@@ -28,7 +28,7 @@ const publisherSchema = new mongoose.Schema({
         required: false
     },
     bggId: {
-        type: Number,
+        type: String,
         required: false
     },
 }, { timestamps: true });

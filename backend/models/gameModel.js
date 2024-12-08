@@ -9,9 +9,8 @@ const gameSchema = new mongoose.Schema({
     mechanics: [{ type: String, required: true }], // Focus on specific gameplay systems or actions.
     themes: [{ type: String, required: true }], // Focus on the setting or narrative of the game.
     publishers: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Publisher' }], // publisher id
-    persons: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Person' }], // Person
     artists: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Person' }],
-    developers: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Person' }],
+    designers: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Person' }],
     rules: { type: String, required: false }, // rules text
     rulesUrl: { type: String, required: false }, // rules pdf link if available
     bggId: { type: Number, required: false }, // boardgamegeek id

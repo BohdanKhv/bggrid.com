@@ -5,6 +5,7 @@ const dotenv = require('dotenv').config();
 const connectDB = require('./config/db');
 const port = process.env.PORT || 5000;
 const cors = require('cors');
+const { scrapeBggGamesBulk } = require('./service/scrape.js');
 
 
 // connect to database
@@ -13,6 +14,8 @@ connectDB();
 
 // Initialize express
 const app = express();
+
+scrapeBggGamesBulk();
 
 // Cors
 app.use(cors({

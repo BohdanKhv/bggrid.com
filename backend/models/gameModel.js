@@ -3,6 +3,7 @@ const mongoosePaginate = require('mongoose-paginate-v2');
 
 const gameSchema = new mongoose.Schema({
     name: { type: String, required: true },
+    altNames: [{ type: String, required: false }], // alternative names
     description: { type: String, required: true },
     year: { type: Number, required: true },
     categories: [{ type: String, required: true }], // all possible categories
@@ -35,6 +36,7 @@ const gameSchema = new mongoose.Schema({
     numRatings: { type: Number, required: false },
     numComments: { type: Number, required: false },
     buyUrl: { type: String, required: false },
+    bggScraped: { type: Boolean, required: false, default: false },
 }, { timestamps: true });
 
 

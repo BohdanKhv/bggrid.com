@@ -7,8 +7,7 @@ const scrape = async () => {
     const url = 'https://boardgamegeek.com/xmlapi2/thing?videos=1&id='
     const delay = 1; // 1 second between requests
     const limit = 20; // 20 games per request
-    // wait for 1s between requests
-    await new Promise(resolve => setTimeout(resolve, 1000)); // 1 second delay
+
 
     const totalGames = await Game.countDocuments({ bggScraped: false });
     console.log('Total games to scrape:', totalGames, 'Total requests:', Math.ceil(totalGames / limit));
@@ -22,6 +21,8 @@ const scrape = async () => {
     // run with delay
 
     for (let i = 0; i < Math.ceil(totalGames / limit); i++) {
+        // wait for 5 seconds
+        await new Promise(resolve => setTimeout(resolve, delay * 1000));
         const bulkWriteOps = [];
 
         const games = await Game.find({ bggScraped: false })
@@ -109,7 +110,7 @@ console.log($('item').length, 'items found');
 
 const scrapeBggGamesBulk = async () => {
     let delay = 2000;
-    let retries = 10;
+    let retries = 1000;
 
     for (let attempt = 1; attempt <= retries; attempt++) {
         try {
@@ -119,7 +120,7 @@ const scrapeBggGamesBulk = async () => {
             if (error.response && error.response.status === 429) { // Rate limit exceeded
                 console.log(`Rate limit hit, retrying in ${delay / 1000} seconds...`);
                 await new Promise(resolve => setTimeout(resolve, delay));
-                delay *= 1.5; // Exponential backoff
+                // delay *= 1.5; // Exponential backoff
             } else {
                 throw error; // Other errors
             }

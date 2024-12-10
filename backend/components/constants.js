@@ -74,5 +74,4 @@ module.exports = {
     typeEnum,
     themesEnum,
     tagsEnum,
-    cat
 }

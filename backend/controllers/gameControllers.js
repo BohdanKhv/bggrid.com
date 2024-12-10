@@ -29,19 +29,31 @@ const getGamesByPublisherId = async (req, res) => {
 const getGames = async (req, res) => {
     try {
         const { page, limit } = req.query;
+        const { mechanics, types, themes, publisherId } = req.query;
+        const { sort, sortOrder } = req.query;
         console.log(`Page: ${page}`);
-        const options = {
+        let options = {
             page: parseInt(page) || 1,
             limit: parseInt(limit) || 10,
-            sort: { numRatings: -1 },
-            populate: 'publishers'
+            sort: { numRatings: -1},
+            populate: 'publishers',
         };
+
+        if (sort) {
+            if (sort === 'relevance') { options.sort = { name: sortOrder === 'asc' ? 1 : -1 } }
+            if (sort === 'most-popular') { options.sort = { numRatings: sortOrder === 'asc' ? 1 : -1 } }
+            if (sort === 'complexity') { options.sort = { complexityWeight: sortOrder === 'asc' ? 1 : -1 } }
+            if (sort === 'new-releases') { options.sort = { year: sortOrder === 'asc' ? 1 : -1 } }
+        }
 
         const { s, hideInLibrary } = req.query;
 
         const q = {}
 
         if (s && s.length > 0) { q.name = { $regex: s, $options: 'i' } }
+        if (mechanics && mechanics.length > 0) { q.mechanics = { $in: mechanics.split(',') } }
+        if (types && types.length > 0) { q.types = { $in: types.split(',') } }
+        if (themes && themes.length > 0) { q.themes = { $in: themes.split(',') } }
 
         if (hideInLibrary) {
             const myLibrary = await Library.find({ user: req.user._id }).select('game');

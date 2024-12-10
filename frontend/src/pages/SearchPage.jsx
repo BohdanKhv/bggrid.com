@@ -85,6 +85,12 @@ const SearchPage = () => {
 
         if (searchParams.get('s')) q += `s=${searchParams.get('s')}`  
         if (searchParams.get('hideInLibrary')) q += `&hideInLibrary=${searchParams.get('hideInLibrary')}`
+        if (searchParams.get('type')) q += `&type=${searchParams.get('type')}`
+        if (searchParams.get('mechanics')) q += `&mechanics=${searchParams.get('mechanics')}`
+        if (searchParams.get('themes')) q += `&themes=${searchParams.get('themes')}`
+        if (searchParams.get('players')) q += `&players=${searchParams.get('players')}`
+        if (searchParams.get('sort')) q += `&sort=${searchParams.get('sort')}`
+        if (searchParams.get('sortOrder')) q += `&sortOrder=${searchParams.get('sortOrder')}`
 
         promise = dispatch(getGames(q))
 
@@ -92,7 +98,7 @@ const SearchPage = () => {
             promise && promise.abort()
             dispatch(resetGame())
         }
-    }, [searchParams.get('s'), searchParams.get('hideInLibrary')])
+    }, [searchParams.get('s'), searchParams.get('hideInLibrary'), searchParams.get('type'), searchParams.get('mechanics'), searchParams.get('themes'), searchParams.get('players'), searchParams.get('sort'), searchParams.get('sortOrder')])
 
     const observer = useRef();
     const lastElementRef = useCallback(node => {
@@ -438,7 +444,7 @@ const SearchPage = () => {
                                         type="secondary"
                                         onClick={() => setOpen(true)}
                                     /> */}
-                                    <Button
+                                    {/* <Button
                                         label="Hide in Library"
                                         variant={searchParams.get('hideInLibrary') ? "filled" : "default"}
                                         onClick={() => {
@@ -451,7 +457,7 @@ const SearchPage = () => {
                                         }}
                                         className="flex-shrink-0"
                                         type="secondary"
-                                    />
+                                    /> */}
                                     <FilterDropdown
                                         label="Types"
                                         mobileDropdown
@@ -472,7 +478,7 @@ const SearchPage = () => {
                                                     key={type.name}
                                                     onClick={() => {
                                                         if (temp.type.includes(type.name)) {
-                                                            setTemp({ ...temp, type: temp.type.filter((t) => t !== type.name) })
+                                                            setTemp({ ...temp, type: [...temp.type.filter((t) => t !== type.name)] })
                                                         } else {
                                                             setTemp({ ...temp, type: [...temp.type, type.name] })
                                                         }
@@ -507,7 +513,7 @@ const SearchPage = () => {
                                                     key={m.name}
                                                     onClick={() => {
                                                         if (temp.mechanics.includes(m.name)) {
-                                                            setTemp({ ...temp, mechanics: temp.mechanics.filter((mech) => mech !== m.name) })
+                                                            setTemp({ ...temp, mechanics: [...temp.mechanics.filter((mech) => mech !== m.name)] })
                                                         } else {
                                                             setTemp({ ...temp, mechanics: [...temp.mechanics, m.name] })
                                                         }
@@ -542,7 +548,8 @@ const SearchPage = () => {
                                                     key={theme.name}
                                                     onClick={() => {
                                                         if (temp.themes.includes(theme.name)) {
-                                                            setTemp({ ...temp, themes: temp.themes.filter((theme) => theme !== theme.name) })
+                                                            console.log('temp.themes', temp.themes)
+                                                            setTemp({ ...temp, themes: [...temp.themes.filter((t) => t !== theme.name)] })
                                                         } else {
                                                             setTemp({ ...temp, themes: [...temp.themes, theme.name] })
                                                         }
@@ -607,7 +614,9 @@ const SearchPage = () => {
                                             label={
                                                 <>
                                                 <span className="weight-400">Sort by: </span>
-                                                <strong>Relevance</strong>
+                                                <strong>
+                                                    {temp.sort === 'relevance' ? 'Relevance' : temp.sort === 'new-releases' ? 'New Releases' : temp.sort === 'most-popular' ? 'Most Popular' : 'Complexity'} {temp.sortOrder === 'asc' ? '↓' : '↑'}
+                                                </strong>
                                                 </>
                                             }
                                         />
@@ -620,9 +629,10 @@ const SearchPage = () => {
                                         className="justify-start"
                                         variant="text"
                                         onClick={() => {
-                                            searchParams.set('sort', 'relevance')
-                                            setSearchParams(searchParams.toString())
                                             setTemp({ ...temp, sort: 'relevance', sortOrder: temp.sort === 'relevance' ? temp.sortOrder === 'asc' ? 'desc' : 'asc' : 'asc' })
+                                            searchParams.set('sort', 'relevance')
+                                            searchParams.set('sortOrder', temp.sort === 'relevance' ? temp.sortOrder === 'asc' ? 'desc' : 'asc' : 'asc')
+                                            setSearchParams(searchParams.toString())
                                         }}
                                     />
                                     <Button
@@ -631,9 +641,10 @@ const SearchPage = () => {
                                         variant="text"
                                         label={"New Releases" + (temp.sort === 'new-releases' ? ` ${temp.sortOrder === 'asc' ? '↓' : '↑'}` : '')}
                                         onClick={() => {
-                                            searchParams.set('sort', 'new-releases')
-                                            setSearchParams(searchParams.toString())
                                             setTemp({ ...temp, sort: 'new-releases', sortOrder: temp.sort === 'new-releases' ? temp.sortOrder === 'asc' ? 'desc' : 'asc' : 'asc' })
+                                            searchParams.set('sort', 'new-releases')
+                                            searchParams.set('sortOrder', temp.sort === 'new-releases' ? temp.sortOrder === 'asc' ? 'desc' : 'asc' : 'asc')
+                                            setSearchParams(searchParams.toString())
                                         }}
                                     />
                                     <Button
@@ -642,9 +653,10 @@ const SearchPage = () => {
                                         variant="text"
                                         label={"Most Popular" + (temp.sort === 'most-popular' ? ` ${temp.sortOrder === 'asc' ? '↓' : '↑'}` : '')}
                                         onClick={() => {
-                                            searchParams.set('sort', 'most-popular')
-                                            setSearchParams(searchParams.toString())
                                             setTemp({ ...temp, sort: 'most-popular', sortOrder: temp.sort === 'most-popular' ? temp.sortOrder === 'asc' ? 'desc' : 'asc' : 'asc' })
+                                            searchParams.set('sort', 'most-popular')
+                                            searchParams.set('sortOrder', temp.sort === 'most-popular' ? temp.sortOrder === 'asc' ? 'desc' : 'asc' : 'asc')
+                                            setSearchParams(searchParams.toString())
                                         }}
                                     />
                                     <Button
@@ -653,9 +665,10 @@ const SearchPage = () => {
                                         variant="text"
                                         label={"Complexity" + (temp.sort === 'complexity' ? ` ${temp.sortOrder === 'asc' ? '↓' : '↑'}` : '')}
                                         onClick={() => {
-                                            searchParams.set('sort', 'complexity')
-                                            setSearchParams(searchParams.toString())
                                             setTemp({ ...temp, sort: 'complexity', sortOrder: temp.sort === 'complexity' ? temp.sortOrder === 'asc' ? 'desc' : 'asc' : 'asc' })
+                                            searchParams.set('sort', 'complexity')
+                                            searchParams.set('sortOrder', temp.sort === 'complexity' ? temp.sortOrder === 'asc' ? 'desc' : 'asc' : 'asc')
+                                            setSearchParams(searchParams.toString())
                                         }}
                                     />
                                 </Dropdown>

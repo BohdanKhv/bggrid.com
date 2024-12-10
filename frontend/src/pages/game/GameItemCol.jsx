@@ -29,7 +29,7 @@ const GameItemCol = ({item}) => {
                     <Link className="fs-16 weight-600 pointer text-underlined-hover"
                         to={`/g/${item._id}`}
                     >
-                        {item.name} <span className="fs-14 weight-500">({item.year})</span>
+                        {item.name} {item.year ? <span className="fs-14 weight-500">({item.year})</span> : null}
                     </Link>
                     {item.publishers.length ?
                         <div className="fs-12 text-secondary">

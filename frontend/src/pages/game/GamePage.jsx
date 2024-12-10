@@ -27,7 +27,8 @@ const YoutubeVideoItem = ({ item }) => {
                 <iframe
                     width="100%"
                     height="100%"
-                    src={item.link.replace('http://', 'https://').replace('watch?v=', 'embed/')+"&showinfo=0"}
+                    src={item.link.replace('http://', 'https://').replace('watch?v=', 'embed/')+"&
+?showinfo=0"}
                     title="YouTube video player"
                     frameborder="0"
                     loading="lazy"

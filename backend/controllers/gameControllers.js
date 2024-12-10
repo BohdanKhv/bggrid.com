@@ -51,9 +51,16 @@ const getGames = async (req, res) => {
         const q = {}
 
         if (s && s.length > 0) { q.name = { $regex: s, $options: 'i' } }
-        if (mechanics && mechanics.length > 0) { q.mechanics = { $in: mechanics.split(',') } }
-        if (types && types.length > 0) { q.types = { $in: types.split(',') } }
-        if (themes && themes.length > 0) { q.themes = { $in: themes.split(',') } }
+
+        const buildQueryArray = (inputString) => {
+            // Split by comma and space, remove duplicates, and trim whitespace
+            const terms = [...new Set(inputString.split(',').flatMap(term => term.split(' ')))];
+            return terms.filter(term => term.trim()); // Remove empty terms
+        };
+
+        if (mechanics && mechanics.length > 0) { q.mechanics = { $in: mechanics } }
+        if (types && types.length > 0) { q.types = { $in: types } }
+        if (themes && themes.length > 0) { q.themes = { $in: themes } }
 
         if (hideInLibrary) {
             const myLibrary = await Library.find({ user: req.user._id }).select('game');

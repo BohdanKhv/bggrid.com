@@ -1,55 +1,55 @@
 // Types: Focus on the overall experience or purpose of the game.
 const typeEnum = [
     {
-        "name": "Strategy Games",
+        "name": "Strategy Game",
         "description": "Games requiring long-term planning and strategic decision-making.",
         "examples": ["Catan", "Terraforming Mars", "Twilight Imperium"],
         "icon": "♟️"
     },
     {
-        "name": "Party Games",
+        "name": "Party Game",
         "description": "Light-hearted games meant for groups and social settings.",
         "examples": ["Codenames", "Dixit", "Telestrations"],
         "icon": "🎉"
     },
     {
-        "name": "Cooperative Games",
+        "name": "Cooperative Game",
         "description": "Players work together to achieve a shared goal.",
         "examples": ["Pandemic", "Forbidden Desert", "Arkham Horror"],
         "icon": "🤝"
     },
     {
-        "name": "Family Games",
+        "name": "Family Game",
         "description": "Easy-to-learn games suitable for all ages.",
         "examples": ["Ticket to Ride", "Carcassonne", "Monopoly"],
         "icon": "👨‍👩‍👧‍👦"
     },
     {
-        "name": "Children's Games",
+        "name": "Children's Game",
         "description": "Games designed specifically for young children.",
         "examples": ["Candy Land", "Chutes and Ladders", "Memory"],
         "icon": "🧸"
     },
     {
-        "name": "Abstract Games",
+        "name": "Abstract Game",
         "description": "Games with minimal theme, focusing on pure strategy or mechanics.",
         "examples": ["Chess", "Go", "Azul"],
         "icon": "🔲"
     },
     {
-        "name": "Dexterity Games",
+        "name": "Dexterity Game",
         "description": "Games requiring physical skill and precision.",
         "examples": ["Jenga", "Flick 'em Up", "Klask"],
         "icon": "🤹‍♂️"
     },
     {
-        "name": "Role-Playing Games",
+        "name": "Role-Playing Game",
         "description": "Players assume roles and develop narratives within a set framework.",
         "examples": ["Dungeons & Dragons", "Pathfinder", "Fate"],
         "icon": "🎭"
     },
     {
-        "name": "Thematic Games",
+        "name": "Thematic Game",
         "description": "Games with strong narrative or story elements.",
         "examples": ["Gloomhaven", "Betrayal at House on the Hill", "Dead of Winter"],
         "icon": "📖"

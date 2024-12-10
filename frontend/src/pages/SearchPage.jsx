@@ -21,7 +21,7 @@ const SearchPage = () => {
 
     const filtersCount = useMemo(() => {
         let count = 0
-        if (searchParams.get('type') && searchParams.get('type') !== '') count++
+        if (searchParams.get('types') && searchParams.get('types') !== '') count++
         if (searchParams.get('themes') && searchParams.get('themes') !== '') count++
         if (searchParams.get('mechanics') && searchParams.get('mechanics') !== '') count++
         if (searchParams.get('players') && searchParams.get('players') !== '') count++
@@ -29,9 +29,9 @@ const SearchPage = () => {
     }, [searchParams])
 
     const [temp, setTemp] = useState({
-        type: [],
-        themes: [],
-        mechanics: [],
+        types: searchParams.get('types') ? searchParams.get('types').split(',') : [],
+        themes: searchParams.get('themes') ? searchParams.get('themes').split(',') : [],
+        mechanics: searchParams.get('mechanics') ? searchParams.get('mechanics').split(',') : [],
         players: "0",
         sort: 'relevance',
         sortOrder: 'asc'
@@ -85,7 +85,7 @@ const SearchPage = () => {
 
         if (searchParams.get('s')) q += `s=${searchParams.get('s')}`  
         if (searchParams.get('hideInLibrary')) q += `&hideInLibrary=${searchParams.get('hideInLibrary')}`
-        if (searchParams.get('type')) q += `&type=${searchParams.get('type')}`
+        if (searchParams.get('types')) q += `&types=${searchParams.get('types')}`
         if (searchParams.get('mechanics')) q += `&mechanics=${searchParams.get('mechanics')}`
         if (searchParams.get('themes')) q += `&themes=${searchParams.get('themes')}`
         if (searchParams.get('players')) q += `&players=${searchParams.get('players')}`
@@ -98,7 +98,7 @@ const SearchPage = () => {
             promise && promise.abort()
             dispatch(resetGame())
         }
-    }, [searchParams.get('s'), searchParams.get('hideInLibrary'), searchParams.get('type'), searchParams.get('mechanics'), searchParams.get('themes'), searchParams.get('players'), searchParams.get('sort'), searchParams.get('sortOrder')])
+    }, [searchParams.get('s'), searchParams.get('hideInLibrary'), searchParams.get('types'), searchParams.get('mechanics'), searchParams.get('themes'), searchParams.get('players'), searchParams.get('sort'), searchParams.get('sortOrder')])
 
     const observer = useRef();
     const lastElementRef = useCallback(node => {
@@ -425,12 +425,12 @@ const SearchPage = () => {
                                             label={`Clear all${filtersCount ? ` (${filtersCount})` : ''}`}
                                             type="secondary"
                                             onClick={() => {
-                                                searchParams.delete('type')
+                                                searchParams.delete('types')
                                                 searchParams.delete('mechanics')
                                                 searchParams.delete('themes')
                                                 searchParams.delete('players')
                                                 setSearchParams(searchParams.toString())
-                                                setTemp({ type: [], mechanics: [], themes: [], players: "0" })
+                                                setTemp({ types: [], mechanics: [], themes: [], players: "0" })
                                             }}
                                             className={`text-capitalize border-color-text flex-shrink-0 clickable`}
                                         />
@@ -461,14 +461,14 @@ const SearchPage = () => {
                                     <FilterDropdown
                                         label="Types"
                                         mobileDropdown
-                                        applied={searchParams.get('type') ? searchParams.get('type').split(',') : []}
+                                        applied={searchParams.get('types') ? searchParams.get('types').split(',') : []}
                                         onClear={() => {
-                                            searchParams.delete('type')
+                                            searchParams.delete('types')
                                             setSearchParams(searchParams.toString())
-                                            setTemp({ ...temp, type: [] })
+                                            setTemp({ ...temp, types: [] })
                                         }}
                                         onApply={() => {
-                                            searchParams.set('type', temp.type.join(','))
+                                            searchParams.set('types', temp.types.join(','))
                                             setSearchParams(searchParams.toString())
                                         }}
                                     >
@@ -477,15 +477,15 @@ const SearchPage = () => {
                                                 <Button
                                                     key={type.name}
                                                     onClick={() => {
-                                                        if (temp.type.includes(type.name)) {
-                                                            setTemp({ ...temp, type: [...temp.type.filter((t) => t !== type.name)] })
+                                                        if (temp.types.includes(type.name)) {
+                                                            setTemp({ ...temp, types: [...temp.types.filter((t) => t !== type.name)] })
                                                         } else {
-                                                            setTemp({ ...temp, type: [...temp.type, type.name] })
+                                                            setTemp({ ...temp, types: [...temp.types, type.name] })
                                                         }
                                                     }}
                                                     borderRadius="sm"
                                                     label={<><span className="pe-2">{type.icon}</span>{type.name}</>}
-                                                    variant={temp.type.includes(type.name)  ? "filled" : "outline"}
+                                                    variant={temp.types.includes(type.name)  ? "filled" : "outline"}
                                                     type="secondary"
                                                     className={`text-capitalize flex-auto clickable`}
                                                 />
@@ -616,7 +616,7 @@ const SearchPage = () => {
                                                 <>
                                                 <span className="weight-400">Sort by: </span>
                                                 <strong>
-                                                    {temp.sort === 'relevance' ? 'Relevance' : temp.sort === 'new-releases' ? 'New Releases' : temp.sort === 'most-popular' ? 'Most Popular' : 'Complexity'} {temp.sortOrder === 'asc' ? '↓' : '↑'}
+                                                    {temp.sort === 'relevance' ? 'Relevance' : temp.sort === 'new-releases' ? 'Year published' : temp.sort === 'most-popular' ? 'Rating' : 'Complexity'} {temp.sortOrder === 'asc' ? '↓' : '↑'}
                                                 </strong>
                                                 </>
                                             }
@@ -640,7 +640,7 @@ const SearchPage = () => {
                                         borderRadius="sm"
                                         className="justify-start"
                                         variant="text"
-                                        label={"New Releases" + (temp.sort === 'new-releases' ? ` ${temp.sortOrder === 'asc' ? '↓' : '↑'}` : '')}
+                                        label={"Year published" + (temp.sort === 'new-releases' ? ` ${temp.sortOrder === 'asc' ? '↓' : '↑'}` : '')}
                                         onClick={() => {
                                             setTemp({ ...temp, sort: 'new-releases', sortOrder: temp.sort === 'new-releases' ? temp.sortOrder === 'asc' ? 'desc' : 'asc' : 'asc' })
                                             searchParams.set('sort', 'new-releases')
@@ -652,7 +652,7 @@ const SearchPage = () => {
                                         borderRadius="sm"
                                         className="justify-start"
                                         variant="text"
-                                        label={"Most Popular" + (temp.sort === 'most-popular' ? ` ${temp.sortOrder === 'asc' ? '↓' : '↑'}` : '')}
+                                        label={"Rating" + (temp.sort === 'most-popular' ? ` ${temp.sortOrder === 'asc' ? '↓' : '↑'}` : '')}
                                         onClick={() => {
                                             setTemp({ ...temp, sort: 'most-popular', sortOrder: temp.sort === 'most-popular' ? temp.sortOrder === 'asc' ? 'desc' : 'asc' : 'asc' })
                                             searchParams.set('sort', 'most-popular')
@@ -683,11 +683,13 @@ const SearchPage = () => {
                                 />
                             </div>
                             <div>
-                                {msg === 'No games found' ?
-                                    <ErrorInfo
-                                        label="No results found"
-                                        secondary='Unfortunately I could not find any results matching your search.'
-                                    />
+                                {msg === 'No games found' || (games.length === 0 && !isLoading) ?
+                                    <div className="border border-radius border-dashed mx-sm-3 my-3">
+                                        <ErrorInfo
+                                            label="No games found"
+                                            secondary='Unfortunately I could not find any results matching your search.'
+                                        />
+                                    </div>
                                 :
                                 <>
                                 {listView ?

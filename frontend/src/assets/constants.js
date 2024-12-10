@@ -1,43 +1,43 @@
 // Types: Focus on the overall experience or purpose of the game.
 const typeEnum = [
     {
-        "name": "Strategy Game",
+        "name": "Strategy",
         "description": "Games requiring long-term planning and strategic decision-making.",
         "examples": ["Catan", "Terraforming Mars", "Twilight Imperium"],
         "icon": "♟️"
     },
     {
-        "name": "Party Game",
+        "name": "Party",
         "description": "Light-hearted games meant for groups and social settings.",
         "examples": ["Codenames", "Dixit", "Telestrations"],
         "icon": "🎉"
     },
     {
-        "name": "Cooperative Game",
+        "name": "Cooperative",
         "description": "Players work together to achieve a shared goal.",
         "examples": ["Pandemic", "Forbidden Desert", "Arkham Horror"],
         "icon": "🤝"
     },
     {
-        "name": "Family Game",
+        "name": "Family",
         "description": "Easy-to-learn games suitable for all ages.",
         "examples": ["Ticket to Ride", "Carcassonne", "Monopoly"],
         "icon": "👨‍👩‍👧‍👦"
     },
     {
-        "name": "Children's Game",
+        "name": "Children",
         "description": "Games designed specifically for young children.",
         "examples": ["Candy Land", "Chutes and Ladders", "Memory"],
         "icon": "🧸"
     },
     {
-        "name": "Abstract Game",
+        "name": "Abstract",
         "description": "Games with minimal theme, focusing on pure strategy or mechanics.",
         "examples": ["Chess", "Go", "Azul"],
         "icon": "🔲"
     },
     {
-        "name": "Dexterity Game",
+        "name": "Dexterity",
         "description": "Games requiring physical skill and precision.",
         "examples": ["Jenga", "Flick 'em Up", "Klask"],
         "icon": "🤹‍♂️"
@@ -49,7 +49,7 @@ const typeEnum = [
         "icon": "🎭"
     },
     {
-        "name": "Thematic Game",
+        "name": "Thematic",
         "description": "Games with strong narrative or story elements.",
         "examples": ["Gloomhaven", "Betrayal at House on the Hill", "Dead of Winter"],
         "icon": "📖"

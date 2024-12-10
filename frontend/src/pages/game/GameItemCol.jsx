@@ -47,7 +47,7 @@ const GameItemCol = ({item}) => {
                     : null}
                     <div className="flex align-center gap-2 pt-2">
                         <div className="flex gap-1 align-center">
-                            <span className={`fs-14 weight-500`}>{(item?.rating?.toFixed(0) || 0) / 2}</span>
+                            <span className={`fs-14 weight-500`}>{((item?.rating || 0) / 2).toFixed(2)}</span>
                             <Icon icon={starFillIcon} size="xs"/>
                         </div>
                         <span className={`fs-12 weight-400 text-secondary`}>{numberFormatter(item.numRatings || 0)} reviews</span>

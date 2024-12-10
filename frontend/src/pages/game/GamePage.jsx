@@ -86,7 +86,9 @@ const VideosTab = () => {
                 ))}
             </HorizontalScroll>
             <div className="grid grid-cols-3 grid-md-cols-2 grid-sm-cols-1 gap-3">
-                {gameById?.videos?.map((item, index) => (
+                {gameById?.videos
+.filter(v => selectedCategory == "All" || selectedCategory == v.category)
+?.map((item, index) => (
                     <YoutubeVideoItem
                         item={item}
                         key={index}

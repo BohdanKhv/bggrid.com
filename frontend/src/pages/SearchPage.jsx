@@ -374,24 +374,16 @@ const SearchPage = () => {
                                                 {suggestions && suggestions.length > 0 ?
                                                 <>
                                                     <div className="fs-14 px-4 py-2 flex align-center gap-3 text-secondary weight-600">
-                                                        Search history
+                                                        Search results
                                                     </div>
                                                     {suggestions
                                                     .map((item) => (
                                                         <div className="flex justify-between align-center bg-secondary-hover"
                                                             key={item._id}
                                                         >
-                                                            <div
+                                                            <Link
                                                                 key={item._id}
-                                                                onClick={(e) => {
-                                                                    setSearchValue(item.name)
-                                                                    searchParams.set('s', item.name)
-                                                                    if (item.name === '') searchParams.delete('s')
-                                                                    setSearchParams(searchParams.toString())
-                                                                    if (item.name !== "" && !searchHistory.includes(item.name.trim())) {
-                                                                        dispatch(setSearchHistory([...new Set([item.name.trim(), ...searchHistory])]))
-                                                                    }
-                                                                }}
+                                                                to={`/g/${item._id}`}
                                                                 className="fs-14 flex align-center px-4 py-2 gap-3 pointer flex-1 overflow-hidden"
                                                             >
                                                                 <Avatar
@@ -404,7 +396,7 @@ const SearchPage = () => {
                                                                 <span className="text-ellipsis-1">
                                                                     {highlightText(item.name, searchValue)} ({item.year})
                                                                 </span>
-                                                            </div>
+                                                            </Link>
                                                         </div>
                                                     ))}
                                                 </>

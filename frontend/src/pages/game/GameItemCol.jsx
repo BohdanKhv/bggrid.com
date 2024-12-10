@@ -1,6 +1,6 @@
 import React, { useMemo } from 'react'
 import { Button, HorizontalScroll, Icon, IconButton, Image } from '../../components'
-import { checkIcon, clockIcon, editIcon, largePlusIcon, libraryIcon, linkIcon, diceIcon, patchPlusIcon, starFillIcon, usersIcon, weightIcon } from '../../assets/img/icons'
+import { checkIcon, clockIcon, editIcon, largePlusIcon, libraryIcon, linkIcon, diceIcon, patchPlusIcon, starFillIcon, usersIcon, weightIcon, gamesIcon } from '../../assets/img/icons'
 import { Link, useSearchParams } from 'react-router-dom'
 import { useSelector } from 'react-redux'
 import { numberFormatter } from '../../assets/utils'
@@ -21,6 +21,7 @@ const GameItemCol = ({item}) => {
             <div className="flex gap-3">
                 <Image
                     img={item.image}
+                    errIcon={gamesIcon}
                     classNameContainer="w-set-100-px h-set-100-px border-radius"
                     classNameImg="border-radius"
                 />
@@ -74,15 +75,19 @@ const GameItemCol = ({item}) => {
             >
                 <div className="flex flex-col pe-4 align-center justify-center w-min-100-px border-right pe-sm-2">
                     <div className="fs-14 bold flex align-center">
+                        {item?.rating ?
+                        <>
                         {item?.rating?.toFixed(1)}
                         <Icon
                             icon={starFillIcon}
                             className="ms-1"
                             size="xs"
-                        />
+                            />
+                        </>
+                        : "--"}
                     </div>
                     <span className="fs-12 opacity-75 pt-2 weight-500">
-                        {numberFormatter(item.numRatings)} reviews
+                        {numberFormatter(item.numRatings || 0)} reviews
                     </span>
                 </div>
                 <div className="flex flex-col pe-4 align-center justify-center w-min-100-px border-right pe-sm-2">

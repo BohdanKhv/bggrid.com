@@ -523,7 +523,7 @@ const Overview = () => {
                         <div className="fs-24 weight-500">
                             About this game
                         </div>
-                        <div className="flex flex-sm-col gap-5 pt-5">
+                        <div className="flex flex-col gap-5 pt-5">
                             <p className="fs-14 text-secondary flex-1"
                                 dangerouslySetInnerHTML={{ __html: gameById.description }}
                             />
@@ -573,7 +573,7 @@ const Overview = () => {
                                     ))}
                                 </div>
                                 <div className="fs-12 text-secondary pt-4 flex justify-start w-100">
-                                    {numberFormatter(gameById?.reviewStats?.totalReviews)} reviews
+                                    {numberFormatter(gameById?.reviewStats?.totalReviews || 0)} reviews
                                 </div>
                             </div>
                             <div className="flex flex-col flex-1 gap-1">
@@ -819,12 +819,12 @@ const GamePage = () => {
                         </div>
                     : null }
                     <div className="flex flex-col mt-6 pos-relative mt-sm-0 px-sm-3">
-                        {window.innerWidth >= 1100 ?
+                        {window.innerWidth >= 1100 && gameById.image ?
                             <CoverImage img={gameById.image}/>
                         : null }
                         <div className="z-3 w-max-600-px bg-translucent-blur border-radius bg-sm-main">
                         <div className="flex gap-4">
-                            {window.innerWidth < 1100 ?
+                            {window.innerWidth < 1100 && gameById.image ?
                                 <div>
                                     <Image
                                         img={gameById.image}

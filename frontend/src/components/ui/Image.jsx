@@ -1,9 +1,11 @@
 import { useEffect, useState, useRef } from 'react'
 import './styles/Image.css'
+import Icon from './Icon';
 
 const Image = ({
     img,
     alt,
+    errIcon,
     contain,
     ignoreErr,
     classNameContainer,
@@ -41,16 +43,19 @@ const Image = ({
             className={`image${imgErr ? ' img-error' : ''}${loading ? ' image-loading' : ''}${classNameContainer ? ` ${classNameContainer}` : ''}`}
             style={style}
         >
+            {((imgErr && errIcon) || (!img && errIcon)) ? <Icon icon={errIcon} />
+            :
             <img
                 className={`${contain ? ' image-contain' : ''}${classNameImg ? ` ${classNameImg}` : ''}`}
                 ref={imgRef}
-                src={imgErr ? '' : img} 
+                src={img} 
                 alt={alt}
                 draggable="false"
                 decoding="async"
                 loading="lazy"
                 onError={() => setImgErr(true)}
             />
+            }
         </div>
         </>
     )

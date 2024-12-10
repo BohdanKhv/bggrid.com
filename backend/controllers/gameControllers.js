@@ -31,6 +31,7 @@ const getGames = async (req, res) => {
         const options = {
             page: parseInt(page) || 1,
             limit: parseInt(limit) || 10,
+            sort: { rating: -1, year: -1 }
         };
 
         const { s, hideInLibrary } = req.query;
@@ -74,9 +75,10 @@ const getSuggestions = async (req, res) => {
 
         const games = await Game.find({
             name: { $regex: s || '', $options: 'i' }
-        }).limit(5)
+        })
+        .sort({ rating: -1, year: -1 })
+        .limit(5)
         .select('name thumbnail year')
-        .sort({ createdAt: -1 });
 
         res.status(200).json({
             data: games

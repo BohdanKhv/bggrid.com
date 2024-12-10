@@ -136,7 +136,14 @@ const getHomeFeed = async (req, res) => {
 
         // just a few random games for now
         const recommended = await Game.aggregate(
-            [ { $sample: { size: 15 } } ]
+            [
+                { $match: {
+                    complexityWeightedRating: { $gte: 0 },
+                    year: { $gte: 2000 },
+                    rating: { $gte: 50 }
+                }},
+                { $sample: { size: 15 } }
+            ]
         )
 
         // const newGames = await Game
@@ -176,7 +183,14 @@ const getGeneralHomeFeed = async (req, res) => {
     try {
         // just a few random games for now
         const recommended = await Game.aggregate(
-            [ { $sample: { size: 15 } } ]
+            [
+                { $match: {
+                    complexityWeightedRating: { $gte: 0 },
+                    year: { $gte: 2000 },
+                    rating: { $gte: 50 }
+                }},
+                { $sample: { size: 15 } }
+            ]
         )
 
         // most played

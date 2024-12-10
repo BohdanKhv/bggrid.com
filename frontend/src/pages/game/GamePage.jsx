@@ -12,6 +12,92 @@ import { resetFeed } from '../../features/feed/feedSlice'
 import UserGuardLoginModal from '../auth/UserGuardLoginModal'
 
 
+const YoutubeVideoItem = ({ item }) => {
+    const [error, setError] = useState(false)
+
+    useEffect(() => {
+        window.scrollTo(0, 0)
+    }, [])
+
+    return (
+        error ? null :
+        <div className="flex gap-3 flex-col">
+            <div className="border-radius bg-secondary flex align-center justify-center border-radius-lg overflow-hidden h-set-200-px">
+                {/* Embed youtube video */}
+                <iframe
+                    width="100%"
+                    height="100%"
+                    src={item.link.replace('http://', 'https://').replace('watch?v=', 'embed/')}
+                    title="YouTube video player"
+                    frameborder="0"
+                    loading="lazy"
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                    referrerpolicy="strict-origin-when-cross-origin"
+                    allowfullscreen
+                />
+            </div>
+            <div className="flex flex-col gap-1 flex-1">
+                <div className="fs-14 weight-500 text-ellipsis-2">
+                    {item.title}
+                </div>
+                <div className="flex gap-2 align-center text-secondary fs-12 pt-2">
+                    {item.category ?
+                        <div className="tag-secondary px-2 py-1 border-radius-sm fs-12 text-capitalize">{item.category}</div>
+                    : null}
+                    •
+                    <div className="fs-12 text-secondary">
+                        {/* days ago */}
+                        {DateTime.fromISO(item.postedDate).toRelative()}
+                    </div>
+                </div>
+            </div>
+        </div>
+    )
+}
+
+
+const VideosTab = () => {
+    const { gameById } = useSelector((state) => state.game)
+
+    const [selectedCategory, setSelectedCategory] = useState('All')
+
+    return (
+        <div className="flex gap-4 flex-col pt-4 pb-6 px-sm-3">
+            <HorizontalScroll>
+                <Button
+                    label="All"
+                    onClick={() => setSelectedCategory('All')}
+                    variant="secondary"
+                    type={selectedCategory === 'All' ? 'filled' : 'default'}
+                    className="flex-shrink-0"
+                />
+                {[...new Set(gameById.videos.map((item, index) => (
+                    item.category
+                )))]
+                .map((category, index, arr) => (
+                    <Button
+                        label={category}
+                        onClick={() => setSelectedCategory(category)}
+                        variant="secondary"
+                        type={selectedCategory === category ? 'filled' : 'default'}
+                        className="flex-shrink-0 text-capitalize"
+                        key={index}
+                    />
+                ))}
+            </HorizontalScroll>
+            <div className="grid grid-cols-3 grid-md-cols-2 grid-sm-cols-1 gap-3">
+                {gameById?.videos?.map((item, index) => (
+                    <YoutubeVideoItem
+                        item={item}
+                        key={index}
+                    />
+                ))}
+            </div>
+        </div>
+    )
+}
+
+
 const PlayItem = ({ item }) => {
 
     const [searchParams, setSearchParams] = useSearchParams()
@@ -632,6 +718,33 @@ const Overview = () => {
                             </div>
                         : null}
                     </div>
+                    {gameById?.videos.length > 0 ?
+                    <div>
+                        <div className="fs-24 flex align-center gap-4 weight-500 transition-slide-right-hover-parent pointer mt-4"
+                            onClick={() => { navigate(`/g/${gameById._id}/videos`) }}
+                        >
+                            Videos
+                            <Icon icon={rightArrowIcon} size="xs" className="transition-slide-right-hover"/>
+                        </div>
+                        <div
+                            className="flex gap-3 align-start mt-5"
+                        >
+                            {gameById
+                            ?.videos
+                            .slice(0,
+                                window.innerWidth < 400 ? 1 :
+                                window.innerWidth < 800 ? 2 : 3
+                            ).map((item, index) => (
+                                <div
+                                    className="flex-1"
+                                    key={index}
+                                >
+                                    <YoutubeVideoItem item={item}/>
+                                </div>
+                            ))}
+                        </div>
+                    </div>
+                    : null}
                     <div>
                         <div className="fs-24 flex align-center gap-4 weight-500 transition-slide-right-hover-parent pointer mt-4"
                             onClick={() => { navigate(`/g/${gameById._id}/plays`) }}
@@ -1006,6 +1119,7 @@ const GamePage = () => {
                         <TabContent
                             items={[
                                 {label: 'Overview'},
+                                {label: 'Videos'},
                                 {label: 'Rules'},
                                 {label: 'Reviews'},
                                 {label: 'Plays'}
@@ -1018,6 +1132,8 @@ const GamePage = () => {
                     </div>
                     {tab === 'overview' ?
                         <Overview/>
+                    : tab === 'videos' ?
+                        <VideosTab/>
                     : tab === 'reviews' ?
                         <ReviewsTab/>
                     : tab === 'plays' ?

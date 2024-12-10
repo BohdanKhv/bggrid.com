@@ -9,7 +9,9 @@ const mongoose = require('mongoose');
 // @access  Public
 const getGamesByPublisherId = async (req, res) => {
     try {
-        const games = await Game.find({ publishers: mongoose.Types.ObjectId(req.params.publisherId) });
+        const games = await Game.find({ publishers: mongoose.Types.ObjectId(req.params.publisherId) })
+        .sort({ numRatings: -1, year: -1 })
+        .limit(20)
 
         res.status(200).json({
             data: games

@@ -111,7 +111,7 @@ const HomeFeed = () => {
     return (
         <>
         {isLoading ?
-            <div className="flex flex-col gap-4 py-6 overflow-hidden py-sm-4 gap-sm-4">
+            <div className="flex flex-col gap-4 py-6 overflow-hidden px-sm-3 py-sm-4 gap-sm-4">
                 <div className="flex flex-col gap-3">
                     <Skeleton animation="wave" width="100" height="30"/>
                     <HorizontalScroll>

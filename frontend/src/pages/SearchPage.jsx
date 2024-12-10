@@ -29,7 +29,7 @@ const SearchPage = () => {
     }, [searchParams])
 
     const [temp, setTemp] = useState({
-        type: '',
+        type: [],
         themes: [],
         mechanics: [],
         players: "0",
@@ -413,7 +413,23 @@ const SearchPage = () => {
                                 <HorizontalScroll
                                     noControllers
                                 >
-                                    <Button
+                                    {filtersCount > 0 ?
+                                        <Button
+                                            icon={closeIcon}
+                                            label={`Clear all${filtersCount ? ` (${filtersCount})` : ''}`}
+                                            className="flex-shrink-0 border-color-text"
+                                            type="secondary"
+                                            onClick={() => {
+                                                searchParams.delete('type')
+                                                searchParams.delete('mechanics')
+                                                searchParams.delete('themes')
+                                                searchParams.delete('players')
+                                                setSearchParams(searchParams.toString())
+                                                setTemp({ type: [], mechanics: [], themes: [], players: "0" })
+                                            }}
+                                        />
+                                    : null}
+                                    {/* <Button
                                         icon={filterIcon}
                                         variant="default"
                                         label={filtersCount > 0 ? `Filters (${filtersCount})` : `Filters`}
@@ -421,7 +437,7 @@ const SearchPage = () => {
                                         muted={searchParams?.toString() === ''}
                                         type="secondary"
                                         onClick={() => setOpen(true)}
-                                    />
+                                    /> */}
                                     <Button
                                         label="Hide in Library"
                                         variant={searchParams.get('hideInLibrary') ? "filled" : "default"}
@@ -439,13 +455,14 @@ const SearchPage = () => {
                                     <FilterDropdown
                                         label="Types"
                                         mobileDropdown
-                                        applied={searchParams.get('type') ? [searchParams.get('type').replaceAll('-', ' ')] : []}
+                                        applied={searchParams.get('type') ? searchParams.get('type').split(',') : []}
                                         onClear={() => {
                                             searchParams.delete('type')
                                             setSearchParams(searchParams.toString())
+                                            setTemp({ ...temp, type: [] })
                                         }}
                                         onApply={() => {
-                                            searchParams.set('type', temp.type)
+                                            searchParams.set('type', temp.type.join(','))
                                             setSearchParams(searchParams.toString())
                                         }}
                                     >
@@ -454,12 +471,16 @@ const SearchPage = () => {
                                                 <Button
                                                     key={type.name}
                                                     onClick={() => {
-                                                        setTemp({ ...temp, type: type.name })
+                                                        if (temp.type.includes(type.name)) {
+                                                            setTemp({ ...temp, type: temp.type.filter((t) => t !== type.name) })
+                                                        } else {
+                                                            setTemp({ ...temp, type: [...temp.type, type.name] })
+                                                        }
                                                     }}
                                                     size="sm"
                                                     borderRadius="sm"
                                                     label={<><span className="pe-2">{type.icon}</span>{type.name}</>}
-                                                    variant={temp.type?.toLocaleLowerCase() === type.name?.toLocaleLowerCase() ? "filled" : "outline"}
+                                                    variant={temp.type.includes(type.name)  ? "filled" : "outline"}
                                                     type="secondary"
                                                     className={`text-capitalize justify-start clickable`}
                                                 />

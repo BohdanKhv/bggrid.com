@@ -154,6 +154,9 @@
 .flex-0 {
     flex: 0;
 }
+.flex-auto {
+    flex: auto;
+}
 .flex-1 {
     flex: 1;
 }

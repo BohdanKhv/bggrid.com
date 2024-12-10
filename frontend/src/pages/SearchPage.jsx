@@ -423,7 +423,6 @@ const SearchPage = () => {
                                         <Button
                                             icon={closeIcon}
                                             label={`Clear all${filtersCount ? ` (${filtersCount})` : ''}`}
-                                            className="flex-shrink-0 border-color-text"
                                             type="secondary"
                                             onClick={() => {
                                                 searchParams.delete('type')
@@ -433,6 +432,7 @@ const SearchPage = () => {
                                                 setSearchParams(searchParams.toString())
                                                 setTemp({ type: [], mechanics: [], themes: [], players: "0" })
                                             }}
+                                            className={`text-capitalize flex-auto clickable`}
                                         />
                                     : null}
                                     {/* <Button
@@ -483,12 +483,11 @@ const SearchPage = () => {
                                                             setTemp({ ...temp, type: [...temp.type, type.name] })
                                                         }
                                                     }}
-                                                    size="sm"
                                                     borderRadius="sm"
                                                     label={<><span className="pe-2">{type.icon}</span>{type.name}</>}
                                                     variant={temp.type.includes(type.name)  ? "filled" : "outline"}
                                                     type="secondary"
-                                                    className={`text-capitalize justify-start clickable`}
+                                                    className={`text-capitalize flex-auto clickable`}
                                                 />
                                             ))}
                                         </div>
@@ -508,7 +507,9 @@ const SearchPage = () => {
                                         }}
                                     >
                                         <div className="flex flex-wrap gap-1 w-max-400-px">
-                                            {mechanicsEnum.map((m) => (
+                                            {mechanicsEnum
+                                            .sort((a, b) => a.name.localeCompare(b.name))
+                                            .map((m) => (
                                                 <Button
                                                     key={m.name}
                                                     onClick={() => {
@@ -518,12 +519,11 @@ const SearchPage = () => {
                                                             setTemp({ ...temp, mechanics: [...temp.mechanics, m.name] })
                                                         }
                                                     }}
-                                                    size="sm"
                                                     borderRadius="sm"
                                                     label={<>{m.name}</>}
                                                     variant={temp.mechanics.includes(m.name) ? "filled" : "outline"}
                                                     type="secondary"
-                                                    className={`text-capitalize justify-start clickable`}
+                                                    className={`text-capitalize flex-auto clickable`}
                                                 />
                                             ))}
                                         </div>
@@ -543,7 +543,9 @@ const SearchPage = () => {
                                         }}
                                     >
                                         <div className="flex flex-wrap gap-1 w-max-400-px">
-                                            {themesEnum.map((theme) => (
+                                            {themesEnum
+                                            .sort((a, b) => a.name.localeCompare(b.name))
+                                            .map((theme) => (
                                                 <Button
                                                     key={theme.name}
                                                     onClick={() => {
@@ -554,12 +556,11 @@ const SearchPage = () => {
                                                             setTemp({ ...temp, themes: [...temp.themes, theme.name] })
                                                         }
                                                     }}
-                                                    size="sm"
                                                     borderRadius="sm"
                                                     label={<><span className="pe-2">{theme.icon}</span>{theme.name}</>}
                                                     variant={temp.themes.includes(theme.name) ? "filled" : "outline"}
                                                     type="secondary"
-                                                    className={`text-capitalize justify-start clickable`}
+                                                    className={`text-capitalize flex-auto clickable`}
                                                 />
                                             ))}
                                         </div>
@@ -577,7 +578,7 @@ const SearchPage = () => {
                                             setSearchParams(searchParams.toString())
                                         }}
                                     >
-                                        <div className="grid grid-cols-2 gap-2">
+                                        <div className="flex flex-wrap w-max-400-px gap-1">
                                             {[
                                                 '1-2',
                                                 '2-4',
@@ -590,11 +591,11 @@ const SearchPage = () => {
                                                     onClick={() => {
                                                         setTemp({ ...temp, players: p })
                                                     }}
-                                                    size="sm"
+                                                    borderRadius="sm"
                                                     label={`${p}`}
                                                     variant={temp.players?.toLocaleLowerCase() === p?.toLocaleLowerCase() ? "filled" : "outline"}
                                                     type="secondary"
-                                                    className={`text-capitalize justify-start clickable`}
+                                                    className={`text-capitalize flex-auto clickable`}
                                                 />
                                             ))}
                                         </div>

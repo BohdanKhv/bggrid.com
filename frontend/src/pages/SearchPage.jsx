@@ -432,7 +432,7 @@ const SearchPage = () => {
                                                 setSearchParams(searchParams.toString())
                                                 setTemp({ type: [], mechanics: [], themes: [], players: "0" })
                                             }}
-                                            className={`text-capitalize flex-auto clickable`}
+                                            className={`text-capitalize border-color-text flex-shrink-0 clickable`}
                                         />
                                     : null}
                                     {/* <Button

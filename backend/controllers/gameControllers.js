@@ -31,7 +31,7 @@ const getGames = async (req, res) => {
         const options = {
             page: parseInt(page) || 1,
             limit: parseInt(limit) || 10,
-            sort: { rating: -1, year: -1 }
+            sort: { numRatings: -1 }
         };
 
         const { s, hideInLibrary } = req.query;

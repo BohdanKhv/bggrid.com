@@ -37,9 +37,12 @@ const YoutubeVideoItem = ({ item }) => {
                 />
             </div>
             <div className="flex flex-col gap-1 flex-1">
-                <div className="fs-14 weight-500 text-ellipsis-2">
+                <Link className="fs-14 weight-500 text-ellipsis-2 text-underlined-hover"
+                    to={item.link}
+                    target="_blank"
+                >
                     {item.title}
-                </div>
+                </Link>
                 <div className="flex gap-2 align-center text-secondary fs-12 pt-2">
                     {item.category ?
                         <div className="tag-secondary px-2 py-1 border-radius-sm fs-12 text-capitalize">{item.category}</div>
@@ -87,8 +90,8 @@ const VideosTab = () => {
             </HorizontalScroll>
             <div className="grid grid-cols-3 grid-md-cols-2 grid-sm-cols-1 gap-3">
                 {gameById?.videos
-.filter(v => selectedCategory == "All" || selectedCategory == v.category)
-?.map((item, index) => (
+                    .filter(v => selectedCategory == "All" || selectedCategory == v.category)
+                    ?.map((item, index) => (
                     <YoutubeVideoItem
                         item={item}
                         key={index}
@@ -604,7 +607,7 @@ const Overview = () => {
     const { gameById } = useSelector(state => state.game)
 
     return (
-        <div className="flex justify-between gap-6 my-6 animation-slide-in my-sm-4 px-sm-3">
+        <div className="my-6 animation-slide-in my-sm-4 px-sm-3">
             <div>
                 <div className="flex flex-col gap-6">
                     <div>
@@ -615,7 +618,7 @@ const Overview = () => {
                             <p className="fs-14 text-secondary flex-1"
                                 dangerouslySetInnerHTML={{ __html: gameById.description }}
                             />
-                            <div className="flex flex-col gap-3 w-set-200-px w-set-sm-auto">
+                            <div className="flex flex-col gap-3">
                                 <div className="flex flex-col gap-1">
                                     <div className="fs-14 weight-600">Year Published</div>
                                     <div className="fs-14 text-secondary">
@@ -720,33 +723,6 @@ const Overview = () => {
                             </div>
                         : null}
                     </div>
-                    {gameById?.videos.length > 0 ?
-                    <div>
-                        <div className="fs-24 flex align-center gap-4 weight-500 transition-slide-right-hover-parent pointer mt-4"
-                            onClick={() => { navigate(`/g/${gameById._id}/videos`) }}
-                        >
-                            Videos
-                            <Icon icon={rightArrowIcon} size="xs" className="transition-slide-right-hover"/>
-                        </div>
-                        <div
-                            className="flex gap-3 align-start mt-5"
-                        >
-                            {gameById
-                            ?.videos
-                            .slice(0,
-                                window.innerWidth < 400 ? 1 :
-                                window.innerWidth < 800 ? 2 : 3
-                            ).map((item, index) => (
-                                <div
-                                    className="flex-1"
-                                    key={index}
-                                >
-                                    <YoutubeVideoItem item={item}/>
-                                </div>
-                            ))}
-                        </div>
-                    </div>
-                    : null}
                     <div>
                         <div className="fs-24 flex align-center gap-4 weight-500 transition-slide-right-hover-parent pointer mt-4"
                             onClick={() => { navigate(`/g/${gameById._id}/plays`) }}
@@ -800,6 +776,32 @@ const Overview = () => {
                             </div>
                         : null}
                     </div>
+                    {gameById?.videos.length > 0 ?
+                    <div>
+                        <div className="fs-24 flex align-center gap-4 weight-500 transition-slide-right-hover-parent pointer mt-4"
+                            onClick={() => { navigate(`/g/${gameById._id}/videos`) }}
+                        >
+                            Videos
+                            <Icon icon={rightArrowIcon} size="xs" className="transition-slide-right-hover"/>
+                        </div>
+                        <div
+                            className="flex gap-3 align-start mt-5 overflow-x-auto scrollbar-none"
+                        >
+                            {gameById
+                            ?.videos
+                            .slice(0,
+                                4
+                            ).map((item, index) => (
+                                <div
+                                    className="flex-1 w-set-200-px"
+                                    key={index}
+                                >
+                                    <YoutubeVideoItem item={item}/>
+                                </div>
+                            ))}
+                        </div>
+                    </div>
+                    : null}
                 </div>
             </div>
         </div>
@@ -957,16 +959,16 @@ const GamePage = () => {
                                 {gameById?.publishers?.length ?
                                     <div className="flex gap-2 pt-2 align-center">
                                         {gameById.publishers
-                                        .slice(0, 2)
+                                        .slice(0, 1)
                                         .map((publisher, index) => (
-                                            <Link className="fs-14 weight-600 flex-shrink-0 text-underlined-hover"
+                                            <Link className="fs-14 weight-600 flex-shrink-0 text-underlined-hover overflow-hidden text-ellipsis-1 w-available"
                                                 to={`/p/${publisher._id}`}
                                                 key={index}
                                             >
-                                                {publisher.name}
+                                                {publisher.name}<span className="fs-12 weight-600 ps-1">{gameById.publishers.length > 1 ? `+${gameById.publishers.length - 1}` : null}</span>
                                             </Link>
                                         ))}
-                                        <span className="fs-12">{gameById.publishers.length > 2 ? `+${gameById.publishers.length - 2}` : null}</span>
+                                        
                                     </div>
                                 : null}
                             </div>

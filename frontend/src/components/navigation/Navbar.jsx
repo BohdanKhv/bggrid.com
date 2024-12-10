@@ -51,11 +51,11 @@ const Navbar = () => {
             }}
         >
             <div className="navbar">
-                <div className="navbar-header mt-2 mb-4">
+                <div className="navbar-header mt-2 mb-4 justify-center">
                     <Link
                         to="/"
-                        className="flex align-center pointer my-2">
-                            {logoNameSvg}
+                        className="flex align-center pointer my-2 w-max-150-px">
+                        {logoNameSvg}
                     </Link>
                 </div>
                 <div className="navbar-body">

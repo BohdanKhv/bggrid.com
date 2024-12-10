@@ -20,7 +20,7 @@ const GameItemCol = ({item}) => {
             <div className="flex justify-between">
             <div className="flex gap-3">
                 <Image
-                    img={item.thumbnail}
+                    img={item.image}
                     classNameContainer="w-set-100-px h-set-100-px border-radius"
                     classNameImg="border-radius"
                 />
@@ -31,7 +31,7 @@ const GameItemCol = ({item}) => {
                         {item.name}
                     </Link>
                     <div className="fs-12 text-secondary">
-                        {item.yearPublished}
+                        {item.year}
                     </div>
                     <div className="flex gap-2 align-center mt-3">
                         {isInLibrary ?
@@ -78,7 +78,7 @@ const GameItemCol = ({item}) => {
                         <Icon
                             icon={starFillIcon}
                             className="ms-1"
-                            size="sm"
+                            size="xs"
                         />
                     </div>
                     <span className="fs-12 opacity-75 pt-2 weight-500">
@@ -87,12 +87,11 @@ const GameItemCol = ({item}) => {
                 </div>
                 <div className="flex flex-col pe-4 align-center justify-center w-min-100-px border-right pe-sm-2">
                     <div className="fs-14 bold flex align-center">
-                        {item?.complexityWeight?.toFixed(1)}<span className="weight-500 text-secondary"></span>
-                        <Icon
-                            icon={weightIcon}
-                            className="ms-1"
-                            size="sm"
-                        />
+                        {item?.complexityWeight ?
+                        <>
+                        {item?.complexityWeight?.toFixed(1)}<span className="text-secondary">/5</span>
+                        </>
+                        : "--"}
                     </div>
                     <span className="fs-12 opacity-75 pt-2 weight-500">
                         Weight
@@ -100,7 +99,11 @@ const GameItemCol = ({item}) => {
                 </div>
                 <div className="flex flex-col pe-4 align-center justify-center w-min-100-px border-right pe-sm-2">
                     <div className="fs-14 bold flex align-center">
+                        {item.minPlaytime ?
+                        <>
                         {item.minPlaytime}{item.maxPlaytime !== item.minPlaytime ? `-${item.maxPlaytime}` : ""} Min
+                        </>
+                        : "--"}
                     </div>
                     <span className="fs-12 opacity-75 pt-2 weight-500">
                         Playtime
@@ -108,7 +111,11 @@ const GameItemCol = ({item}) => {
                 </div>
                 <div className="flex flex-col pe-4 align-center justify-center w-min-100-px border-right pe-sm-2">
                     <div className="fs-14 bold flex align-center">
+                        {item.minPlayers ?
+                        <>
                         {item.minPlayers}{item.maxPlayers > item.minPlayers ? `-${item.maxPlayers}` : ''}
+                        </>
+                        : "--"}
                     </div>
                     <span className="fs-12 opacity-75 pt-2 weight-500">
                         Players
@@ -116,7 +123,11 @@ const GameItemCol = ({item}) => {
                 </div>
                 <div className="flex flex-col pe-4 align-center justify-center w-min-100-px">
                     <div className="fs-14 bold flex align-center">
-                        {item.mfgAgeRec}+
+                        {item.minAge ?
+                        <>
+                        {item.minAge}+
+                        </>
+                        : "--"}
                     </div>
                     <span className="fs-12 opacity-75 pt-2 weight-500">
                         Age

@@ -25,7 +25,7 @@ const PlayItem = ({ item }) => {
             // }}
             to={`/g/${item?.game?._id || item?._id}`}
         >
-            <Image img={item?.game?.thumbnail} classNameContainer="h-set-200-px border-radius overflow-hidden"/>
+            <Image img={item?.game?.image} classNameContainer="h-set-200-px border-radius overflow-hidden"/>
             <div className="flex align-center pos-relative flex-1">
                 <div className="fs-14 bold text-ellipsis-2 flex-1">
                     {item?.game?.name}
@@ -71,7 +71,7 @@ const GameItem = ({ item }) => {
             // }}
             to={`/g/${item?.game?._id || item?._id}`}
         >
-            <Image img={item?.thumbnail} classNameContainer="h-set-200-px border-radius overflow-hidden"/>
+            <Image img={item?.image} classNameContainer="h-set-200-px border-radius overflow-hidden"/>
             <div className="flex align-center pos-relative flex-1">
                 <div className="fs-14 bold text-ellipsis-2 flex-1">
                     {item?.name}
@@ -355,7 +355,7 @@ const SearchGames = () => {
                                                 {highlightText(searchItem.game.name, searchValue)}
                                             </div>
                                             <div className="fs-12 text-secondary">
-                                                {searchItem.game.yearPublished}
+                                                {searchItem.game.year}
                                             </div>
                                         </div>
                                     </div>
@@ -390,7 +390,7 @@ const SearchGames = () => {
                                                 {highlightText(searchItem.name, searchValue)}
                                             </div>
                                             <div className="fs-12 text-secondary">
-                                                {searchItem.yearPublished}
+                                                {searchItem.year}
                                             </div>
                                         </div>
                                     </div>
@@ -554,7 +554,7 @@ const SearchGames = () => {
                                         size="xs"
                                     />
                                     <span className="text-ellipsis-1">
-                                        {highlightText(item.name, searchValue)} ({item.yearPublished})
+                                        {highlightText(item.name, searchValue)} ({item.year})
                                     </span>
                                 </Link>
                             </div>

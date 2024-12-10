@@ -19,6 +19,7 @@ const gameSchema = new mongoose.Schema({
     rulesUrl: { type: String, required: false }, // rules pdf link if available
     verified: { type: Boolean, required: false, default: false }, // verified by admin
     thumbnail: { type: String, required: false }, // thumbnail image for the game
+    image: { type: String, required: false }, // image link for the game
     images: [{ type: String, required: false }], // image links for the game
     videos: [{
         title: { type: String, required: false },

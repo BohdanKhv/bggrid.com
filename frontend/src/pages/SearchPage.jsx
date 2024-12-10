@@ -256,7 +256,7 @@ const SearchPage = () => {
                                                                             {highlightText(searchItem.name, searchValue)}
                                                                         </div>
                                                                         <div className="fs-12 text-secondary">
-                                                                            {searchItem.yearPublished}
+                                                                            {searchItem.year}
                                                                         </div>
                                                                     </div>
                                                                 </div>
@@ -402,7 +402,7 @@ const SearchPage = () => {
                                                                     classNameContainer="border-none"
                                                                 />
                                                                 <span className="text-ellipsis-1">
-                                                                    {highlightText(item.name, searchValue)} ({item.yearPublished})
+                                                                    {highlightText(item.name, searchValue)} ({item.year})
                                                                 </span>
                                                             </div>
                                                         </div>

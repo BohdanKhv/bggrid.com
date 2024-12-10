@@ -37,7 +37,7 @@ const LibraryItem = ({ item, index, hideInfo }) => {
                     className="z-0 border-radius object-cover object-center pos-absolute left-0 blur-20 w-100 h-100"
                 />
                 <Image
-                    img={item?.game?.thumbnail}
+                    img={item?.game?.image}
                     classNameContainer="w-set-100-px h-set-100-px"
                     classNameImg="object-cover"
                     size="sm"
@@ -104,6 +104,7 @@ const LibraryItem = ({ item, index, hideInfo }) => {
                 label="Game rules"
                 icon={infoIcon}
                 variant="secondary"
+                disabled
                 type="default"
                 to={`/g/${item?.game?._id}/rules`}
             />
@@ -256,6 +257,7 @@ const LibraryItem = ({ item, index, hideInfo }) => {
                                             className="justify-start"
                                             label="Game rules"
                                             icon={linkIcon}
+                                            disabled
                                             variant="secondary"
                                             type="default"
                                             to={`/g/${item?.game?._id}/rules`}

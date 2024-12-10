@@ -143,10 +143,10 @@ const ReviewItem = ({ item }) => {
                 <div>
                     <div className="flex gap-2 flex-sm-col align-center align-sm-start">
                         <div className="flex align-center gap-2">
-                            <span className={`fs-16 weight-600 text-warning`}>{item.rating || 0}</span>
+                            <span className={`fs-14 weight-600 text-warning`}>{item.rating || 0}</span>
                             <div className="flex gap-1 align-center">
                                 {[...Array(5)].map((_, i) => (
-                                    <Icon icon={starFillIcon} size="sm" className={`text-warning ${i + 1 <= item.rating ? 'fill-warning' : 'fill-secondary'}`} key={i}/>
+                                    <Icon icon={starFillIcon} size="xs" className={`text-warning ${i + 1 <= item.rating ? 'fill-warning' : 'fill-secondary'}`} key={i}/>
                                 ))}
                             </div>
                         </div>
@@ -523,32 +523,34 @@ const Overview = () => {
                         <div className="fs-24 weight-500">
                             About this game
                         </div>
-                        <p className="fs-14 pt-5 text-secondary">
-                            {gameById.description.slice(0, 1).toUpperCase() + gameById.description.slice(1)}
-                        </p>
-                        <div className="pt-5 flex flex-col gap-3">
-                            <div className="flex flex-col gap-1">
-                                <div className="fs-14 weight-600">Year Published</div>
-                                <div className="fs-14 text-secondary">
-                                    {gameById.yearPublished}
+                        <div className="flex flex-sm-col gap-5 pt-5">
+                            <p className="fs-14 text-secondary flex-1"
+                                dangerouslySetInnerHTML={{ __html: gameById.description }}
+                            />
+                            <div className="flex flex-col gap-3 w-set-200-px w-set-sm-auto">
+                                <div className="flex flex-col gap-1">
+                                    <div className="fs-14 weight-600">Year Published</div>
+                                    <div className="fs-14 text-secondary">
+                                        {gameById.year || '--'}
+                                    </div>
                                 </div>
-                            </div>
-                            <div className="flex flex-col gap-1">
-                                <div className="fs-14 weight-600">Type</div>
-                                <div className="fs-14 text-secondary">
-                                    {gameById.type || 'N/A'}
+                                <div className="flex flex-col gap-1">
+                                    <div className="fs-14 weight-600">Type</div>
+                                    <div className="fs-14 text-secondary">
+                                        {gameById?.types?.join(', ') || '--'}
+                                    </div>
                                 </div>
-                            </div>
-                            <div className="flex flex-col gap-1">
-                                <div className="fs-14 weight-600">Mechanics</div>
-                                <div className="fs-14 text-secondary">
-                                    {gameById.mechanics || 'N/A'}
+                                <div className="flex flex-col gap-1">
+                                    <div className="fs-14 weight-600">Theme</div>
+                                    <div className="fs-14 text-secondary">
+                                        {gameById.themes.join(', ') || '--'}
+                                    </div>
                                 </div>
-                            </div>
-                            <div className="flex flex-col gap-1">
-                                <div className="fs-14 weight-600">Theme</div>
-                                <div className="fs-14 text-secondary">
-                                    {gameById.theme || 'N/A'}
+                                <div className="flex flex-col gap-1">
+                                    <div className="fs-14 weight-600">Mechanics</div>
+                                    <div className="fs-14 text-secondary">
+                                        {gameById?.mechanics?.join(', ') || '--'}
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -558,12 +560,12 @@ const Overview = () => {
                             onClick={() => { navigate(`/g/${gameById._id}/reviews`) }}
                         >
                             Ratings and reviews
-                            <Icon icon={rightArrowIcon} size="sm" className="transition-slide-right-hover"/>
+                            <Icon icon={rightArrowIcon} size="xs" className="transition-slide-right-hover"/>
                         </div>
                         <div className="flex gap-6 pt-5 align-center">
                             <div className="flex flex-col align-center justify-center">
                                 <div className="fs-54">
-                                    {gameById?.reviewStats?.avgRating.toFixed(1)}
+                                    {gameById?.reviewStats?.avgRating?.toFixed(1)}
                                 </div>
                                 <div className="flex gap-1">
                                     {[...Array(5)].map((_, i) => (
@@ -635,7 +637,7 @@ const Overview = () => {
                             onClick={() => { navigate(`/g/${gameById._id}/plays`) }}
                         >
                             Plays and stats
-                            <Icon icon={rightArrowIcon} size="sm" className="transition-slide-right-hover"/>
+                            <Icon icon={rightArrowIcon} size="xs" className="transition-slide-right-hover"/>
                         </div>
                         <div className="flex gap-3 gap-sm-2 pt-5 flex-sm-col">
                             <div className="flex gap-3 flex-1">
@@ -649,7 +651,7 @@ const Overview = () => {
                                 </div>
                                 <div className="flex-1 flex flex-col p-4 bg-secondary border-radius align-center justify-center col-sm-6">
                                     <div className="fs-24 bold flex align-center">
-                                        {gameById?.playStats?.avgPlayers.toFixed(0) || 0}
+                                        {gameById?.playStats?.avgPlayers?.toFixed(0) || 0}
                                     </div>
                                     <span className="fs-12 opacity-75 pt-2 weight-500">
                                         Avg. Players
@@ -659,7 +661,7 @@ const Overview = () => {
                             <div className="flex gap-3 flex-1">
                                 <div className="flex-1 flex flex-col p-4 bg-secondary border-radius align-center justify-center col-sm-6">
                                     <div className="fs-24 bold flex align-center">
-                                        {gameById?.playStats?.avgPlayTime.toFixed(0) || 0} Min
+                                        {gameById?.playStats?.avgPlayTime?.toFixed(0) || 0} Min
                                     </div>
                                     <span className="fs-12 opacity-75 pt-2 weight-500">
                                         Avg. Playtime
@@ -667,7 +669,7 @@ const Overview = () => {
                                 </div>
                                 <div className="flex-1 flex flex-col p-4 bg-secondary border-radius align-center justify-center col-sm-6">
                                     <div className="fs-24 bold flex align-center">
-                                        {gameById?.playStats?.avgScore.toFixed(0) || 0}
+                                        {gameById?.playStats?.avgScore?.toFixed(0) || 0}
                                     </div>
                                     <span className="fs-12 opacity-75 pt-2 weight-500">
                                         Avg. Score
@@ -818,14 +820,14 @@ const GamePage = () => {
                     : null }
                     <div className="flex flex-col mt-6 pos-relative mt-sm-0 px-sm-3">
                         {window.innerWidth >= 1100 ?
-                            <CoverImage img={gameById.thumbnail}/>
+                            <CoverImage img={gameById.image}/>
                         : null }
                         <div className="z-3 w-max-600-px bg-translucent-blur border-radius bg-sm-main">
                         <div className="flex gap-4">
                             {window.innerWidth < 1100 ?
                                 <div>
                                     <Image
-                                        img={gameById.thumbnail}
+                                        img={gameById.image}
                                         alt="cover"
                                         classNameContainer="border-radius w-set-100-px h-set-150-px h-sm-set-100-px"
                                         classNameImg="object-cover border-radius object-center"
@@ -836,17 +838,20 @@ const GamePage = () => {
                                 <div className="fs-54 fs-sm-28 weight-600">
                                     {gameById.name}
                                 </div>
-                                <div className="fs-18 pt-2">({gameById.yearPublished})</div>
+                                <div className="fs-18 pt-2">({gameById.year})</div>
                                 {gameById?.publishers?.length ?
-                                    <div className="flex gap-2 pt-2">
-                                        {gameById.publishers.map((publisher, index) => (
-                                            <Link className="fs-14 weight-600 text-underlined-hover"
+                                    <div className="flex gap-2 pt-2 align-center">
+                                        {gameById.publishers
+                                        .slice(0, 2)
+                                        .map((publisher, index) => (
+                                            <Link className="fs-14 weight-600 flex-shrink-0 text-underlined-hover"
                                                 to={`/p/${publisher._id}`}
                                                 key={index}
                                             >
                                                 {publisher.name}
                                             </Link>
                                         ))}
+                                        <span className="fs-12">{gameById.publishers.length > 2 ? `+${gameById.publishers.length - 2}` : null}</span>
                                     </div>
                                 : null}
                             </div>
@@ -856,25 +861,35 @@ const GamePage = () => {
                         >
                             <div className="flex flex-col pe-4 align-center justify-center w-min-100-px border-right pe-sm-2">
                                 <div className="fs-14 bold flex align-center">
-                                    {gameById.gameWeight.toFixed(1)}<span className="weight-500 text-secondary">/5</span>
+                                    {gameById.complexityWeight ?
+                                    <>
+                                    {gameById.complexityWeight?.toFixed(1)}<span className="weight-500 text-secondary">/5</span>
+                                    </>
+                                    : '--'}
                                 </div>
                                 <span className="fs-12 opacity-75 pt-2 weight-500">
                                     Weight
                                 </span>
                             </div>
-                            {gameById.minPlaytime ?
                             <div className="flex flex-col pe-4 align-center justify-center w-min-100-px border-right pe-sm-2">
                                 <div className="fs-14 bold flex align-center">
+                                    {gameById.minPlaytime ?
+                                    <>
                                     {gameById.minPlaytime}{gameById.maxPlaytime !== gameById.minPlaytime ? `-${gameById.maxPlaytime}` : ""} Min
+                                    </>
+                                    : '--'}
                                 </div>
                                 <span className="fs-12 opacity-75 pt-2 weight-500">
                                     Playtime
                                 </span>
                             </div>
-                            : null }
                             <div className="flex flex-col pe-4 align-center justify-center w-min-100-px border-right pe-sm-2">
                                 <div className="fs-14 bold flex align-center">
+                                    {gameById.minPlayers ?
+                                    <>
                                     {gameById.minPlayers}{gameById.maxPlayers > gameById.minPlayers ? `-${gameById.maxPlayers}` : ''}
+                                    </>
+                                    : '--'}
                                 </div>
                                 <span className="fs-12 opacity-75 pt-2 weight-500">
                                     Players
@@ -882,7 +897,11 @@ const GamePage = () => {
                             </div>
                             <div className="flex flex-col pe-4 align-center justify-center w-min-100-px">
                                 <div className="fs-14 bold flex align-center">
-                                    {gameById.mfgAgeRec}+
+                                    {gameById.minAge ?
+                                    <>
+                                    {gameById.minAge}+
+                                    </>
+                                    : '--'}
                                 </div>
                                 <span className="fs-12 opacity-75 pt-2 weight-500">
                                     Age

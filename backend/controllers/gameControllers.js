@@ -75,7 +75,7 @@ const getSuggestions = async (req, res) => {
         const games = await Game.find({
             name: { $regex: s || '', $options: 'i' }
         }).limit(5)
-        .select('name thumbnail yearPublished')
+        .select('name thumbnail year')
         .sort({ createdAt: -1 });
 
         res.status(200).json({

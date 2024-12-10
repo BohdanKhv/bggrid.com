@@ -37,7 +37,7 @@ const GameItem = ({item}) => {
                     : null }
                 <Image
                     alt={item.name}
-                    img={item.thumbnail}
+                    img={item.image}
                     classNameImg="w-100 h-100 object-cover border-radius"
                     classNameContainer="border-radius bg-secondary bg-hover-after flex-1 h-sm-set-250-px h-set-250-px"
                 />
@@ -46,14 +46,14 @@ const GameItem = ({item}) => {
                             <div className="bg-main p-2 border-radius m-1">
                             <div className="flex flex-col flex-1 flex-wrap z-1">
                                     <div className="flex fs-12 gap-2 py-2 align-center text-nowrap">
-                                    <Icon size="sm" icon={weightIcon}/> <strong>{item.complexityWeight?.toFixed(1)}</strong>
+                                    <Icon size="sm" icon={weightIcon}/> <strong>{item.complexityWeight?.toFixed(1) || '--'}</strong>
                                     </div>
                                     <div className="flex fs-12 gap-2 py-2 align-center text-nowrap">
-                                    <Icon size="sm" icon={usersIcon}/> <strong>{item.minPlayers}{item.maxPlayers > item.minPlayers ? `-${item.maxPlayers}` : ''}</strong>
+                                    <Icon size="sm" icon={usersIcon}/> <strong>{item.minPlayers ? <>{item.minPlayers}{item.maxPlayers > item.minPlayers ? `-${item.maxPlayers}` : ''}</> : "--" }</strong>
                                     </div>
                                 {item.minPlaytime ?
                                     <div className="flex fs-12 gap-2 py-2 align-center text-nowrap">
-                                    <Icon size="sm" icon={historyIcon}/> <strong>{item.minPlaytime}</strong>
+                                    <Icon size="sm" icon={historyIcon}/> <strong>{item.minPlaytime || "--"}</strong>
                                     </div>
                                 : null}
                             </div>
@@ -65,7 +65,7 @@ const GameItem = ({item}) => {
                 className="flex flex-col pointer"
             >
                 <div className="flex justify-between align-center pt-2">
-                    <div className="fs-12 weight-600 text-main">{item.yearPublished}</div>
+                    <div className="fs-12 weight-600 text-main">{item.year}</div>
                     {isInLibrary ? <span className="text-success py-1 border-radius fs-12 bold">In Library</span> : null}
                 </div>
                 <div className="fs-16 pt-1 pt-sm-0 weight-500 text-ellipsis-2">{item.name}</div>

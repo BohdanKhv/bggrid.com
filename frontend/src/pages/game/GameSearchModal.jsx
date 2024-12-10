@@ -102,7 +102,7 @@ const GameSearchModal = () => {
                                             {highlightText(searchItem.game.name, searchValue)}
                                         </div>
                                         <div className="fs-12 text-secondary">
-                                            {searchItem.game.yearPublished}
+                                            {searchItem.game.year}
                                         </div>
                                     </div>
                                 </div>
@@ -134,7 +134,7 @@ const GameSearchModal = () => {
                                             {highlightText(searchItem.name, searchValue)}
                                         </div>
                                         <div className="fs-12 text-secondary">
-                                            {searchItem.yearPublished}
+                                            {searchItem.year}
                                         </div>
                                     </div>
                                 </div>

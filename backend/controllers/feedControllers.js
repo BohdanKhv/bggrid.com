@@ -141,7 +141,7 @@ const getHomeFeed = async (req, res) => {
 
         // const newGames = await Game
         // .find()
-        // .sort({ yearPublished: -1 })
+        // .sort({ year: -1 })
         // .limit(15)
         // most played
         const mostPlayed = await Library.aggregate([

@@ -92,7 +92,7 @@ const GameCard = () => {
                             {gameCard?.name}
                         </div>
                         <div className="fs-12 text-white pt-1 text-shadow-hard">
-                            {gameCard?.yearPublished}
+                            {gameCard?.year}
                         </div>
                     </div>
                 </div>
@@ -197,7 +197,7 @@ const GameCard = () => {
                                 {gameCard?.name}
                             </div>
                             <div className="fs-12 pt-1">
-                                {gameCard?.yearPublished}
+                                {gameCard?.year}
                             </div>
                         </div>
                         <div className="flex flex-col z-3 overflow-hidden border-radius mt-4">

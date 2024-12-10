@@ -43,7 +43,7 @@ const typeEnum = [
         "icon": "🤹‍♂️"
     },
     {
-        "name": "Role-Playing Games (RPGs)",
+        "name": "Role-Playing Games",
         "description": "Players assume roles and develop narratives within a set framework.",
         "examples": ["Dungeons & Dragons", "Pathfinder", "Fate"],
         "icon": "🎭"

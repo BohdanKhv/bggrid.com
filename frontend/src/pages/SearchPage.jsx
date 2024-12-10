@@ -466,7 +466,7 @@ const SearchPage = () => {
                                             setSearchParams(searchParams.toString())
                                         }}
                                     >
-                                        <div className="flex flex-col gap-1">
+                                        <div className="flex flex-wrap gap-1 w-max-400-px">
                                             {typeEnum.map((type) => (
                                                 <Button
                                                     key={type.name}
@@ -501,7 +501,7 @@ const SearchPage = () => {
                                             setSearchParams(searchParams.toString())
                                         }}
                                     >
-                                        <div className="flex flex-wrap gap-1 w-max-300-px">
+                                        <div className="flex flex-wrap gap-1 w-max-400-px">
                                             {mechanicsEnum.map((m) => (
                                                 <Button
                                                     key={m.name}
@@ -514,7 +514,7 @@ const SearchPage = () => {
                                                     }}
                                                     size="sm"
                                                     borderRadius="sm"
-                                                    label={<><span className="pe-2">{m.icon}</span>{m.name}</>}
+                                                    label={<>{m.name}</>}
                                                     variant={temp.mechanics.includes(m.name) ? "filled" : "outline"}
                                                     type="secondary"
                                                     className={`text-capitalize justify-start clickable`}
@@ -536,7 +536,7 @@ const SearchPage = () => {
                                             setSearchParams(searchParams.toString())
                                         }}
                                     >
-                                        <div className="flex flex-wrap gap-1 w-max-300-px">
+                                        <div className="flex flex-wrap gap-1 w-max-400-px">
                                             {themesEnum.map((theme) => (
                                                 <Button
                                                     key={theme.name}
@@ -583,7 +583,7 @@ const SearchPage = () => {
                                                     onClick={() => {
                                                         setTemp({ ...temp, players: p })
                                                     }}
-                                                    smSize="lg"
+                                                    size="sm"
                                                     label={`${p}`}
                                                     variant={temp.players?.toLocaleLowerCase() === p?.toLocaleLowerCase() ? "filled" : "outline"}
                                                     type="secondary"

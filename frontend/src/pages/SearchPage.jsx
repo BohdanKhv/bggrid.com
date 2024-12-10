@@ -32,7 +32,9 @@ const SearchPage = () => {
         type: '',
         themes: [],
         mechanics: [],
-        players: "0"
+        players: "0",
+        sort: 'relevance',
+        sortOrder: 'asc'
     })
 
     useEffect(() => {
@@ -408,7 +410,7 @@ const SearchPage = () => {
                                 </div>
                             </div>
                             <div className="py-3 top-0 z-3 sticky px-sm-3 bg-main">
-                                 <HorizontalScroll
+                                <HorizontalScroll
                                     noControllers
                                 >
                                     <Button
@@ -447,15 +449,16 @@ const SearchPage = () => {
                                             setSearchParams(searchParams.toString())
                                         }}
                                     >
-                                        <div className="grid grid-cols-2 gap-2">
+                                        <div className="flex flex-col gap-1">
                                             {typeEnum.map((type) => (
                                                 <Button
                                                     key={type.name}
                                                     onClick={() => {
                                                         setTemp({ ...temp, type: type.name })
                                                     }}
-                                                    smSize="lg"
-                                                    label={`${type.icon} ${type.name}`}
+                                                    size="sm"
+                                                    borderRadius="sm"
+                                                    label={<><span className="pe-2">{type.icon}</span>{type.name}</>}
                                                     variant={temp.type?.toLocaleLowerCase() === type.name?.toLocaleLowerCase() ? "filled" : "outline"}
                                                     type="secondary"
                                                     className={`text-capitalize justify-start clickable`}
@@ -466,17 +469,18 @@ const SearchPage = () => {
                                     <FilterDropdown
                                         label="Mechanics"
                                         mobileDropdown
-                                        applied={searchParams.get('mechanics') ? searchParams.get('mechanics') : []}
+                                        applied={searchParams.get('mechanics') ? searchParams.get('mechanics').split(',') : []}
                                         onClear={() => {
                                             searchParams.delete('mechanics')
                                             setSearchParams(searchParams.toString())
+                                            setTemp({ ...temp, mechanics: [] })
                                         }}
                                         onApply={() => {
                                             searchParams.set('mechanics', temp.mechanics.join(','))
                                             setSearchParams(searchParams.toString())
                                         }}
                                     >
-                                        <div className="flex flex-wrap gap-2 w-max-300-px">
+                                        <div className="flex flex-wrap gap-1 w-max-300-px">
                                             {mechanicsEnum.map((m) => (
                                                 <Button
                                                     key={m.name}
@@ -487,8 +491,9 @@ const SearchPage = () => {
                                                             setTemp({ ...temp, mechanics: [...temp.mechanics, m.name] })
                                                         }
                                                     }}
-                                                    smSize="lg"
-                                                    label={`${m.icon} ${m.name}`}
+                                                    size="sm"
+                                                    borderRadius="sm"
+                                                    label={<><span className="pe-2">{m.icon}</span>{m.name}</>}
                                                     variant={temp.mechanics.includes(m.name) ? "filled" : "outline"}
                                                     type="secondary"
                                                     className={`text-capitalize justify-start clickable`}
@@ -499,17 +504,18 @@ const SearchPage = () => {
                                     <FilterDropdown
                                         label="Themes"
                                         mobileDropdown
-                                        applied={searchParams.get('themes') ? searchParams.get('themes') : []}
+                                        applied={searchParams.get('themes') ? searchParams.get('themes').split(',') : []}
                                         onClear={() => {
                                             searchParams.delete('themes')
                                             setSearchParams(searchParams.toString())
+                                            setTemp({ ...temp, themes: [] })
                                         }}
                                         onApply={() => {
                                             searchParams.set('themes', temp.themes.join(','))
                                             setSearchParams(searchParams.toString())
                                         }}
                                     >
-                                        <div className="grid grid-cols-2 gap-2">
+                                        <div className="flex flex-wrap gap-1 w-max-300-px">
                                             {themesEnum.map((theme) => (
                                                 <Button
                                                     key={theme.name}
@@ -520,8 +526,9 @@ const SearchPage = () => {
                                                             setTemp({ ...temp, themes: [...temp.themes, theme.name] })
                                                         }
                                                     }}
-                                                    smSize="lg"
-                                                    label={`${theme.icon} ${theme.name}`}
+                                                    size="sm"
+                                                    borderRadius="sm"
+                                                    label={<><span className="pe-2">{theme.icon}</span>{theme.name}</>}
                                                     variant={temp.themes.includes(theme.name) ? "filled" : "outline"}
                                                     type="secondary"
                                                     className={`text-capitalize justify-start clickable`}
@@ -591,24 +598,44 @@ const SearchPage = () => {
                                         label="Relevance"
                                         className="justify-start"
                                         variant="text"
+                                        onClick={() => {
+                                            searchParams.set('sort', 'relevance')
+                                            setSearchParams(searchParams.toString())
+                                            setTemp({ ...temp, sort: 'relevance', sortOrder: temp.sort === 'relevance' ? temp.sortOrder === 'asc' ? 'desc' : 'asc' : 'asc' })
+                                        }}
                                     />
                                     <Button
                                         borderRadius="sm"
                                         className="justify-start"
                                         variant="text"
-                                        label="New Releases"
+                                        label={"New Releases" + (temp.sort === 'new-releases' ? ` ${temp.sortOrder === 'asc' ? '↓' : '↑'}` : '')}
+                                        onClick={() => {
+                                            searchParams.set('sort', 'new-releases')
+                                            setSearchParams(searchParams.toString())
+                                            setTemp({ ...temp, sort: 'new-releases', sortOrder: temp.sort === 'new-releases' ? temp.sortOrder === 'asc' ? 'desc' : 'asc' : 'asc' })
+                                        }}
                                     />
                                     <Button
                                         borderRadius="sm"
                                         className="justify-start"
                                         variant="text"
-                                        label="Most Popular"
+                                        label={"Most Popular" + (temp.sort === 'most-popular' ? ` ${temp.sortOrder === 'asc' ? '↓' : '↑'}` : '')}
+                                        onClick={() => {
+                                            searchParams.set('sort', 'most-popular')
+                                            setSearchParams(searchParams.toString())
+                                            setTemp({ ...temp, sort: 'most-popular', sortOrder: temp.sort === 'most-popular' ? temp.sortOrder === 'asc' ? 'desc' : 'asc' : 'asc' })
+                                        }}
                                     />
                                     <Button
                                         borderRadius="sm"
                                         className="justify-start"
                                         variant="text"
-                                        label="Relevance"
+                                        label={"Complexity" + (temp.sort === 'complexity' ? ` ${temp.sortOrder === 'asc' ? '↓' : '↑'}` : '')}
+                                        onClick={() => {
+                                            searchParams.set('sort', 'complexity')
+                                            setSearchParams(searchParams.toString())
+                                            setTemp({ ...temp, sort: 'complexity', sortOrder: temp.sort === 'complexity' ? temp.sortOrder === 'asc' ? 'desc' : 'asc' : 'asc' })
+                                        }}
                                     />
                                 </Dropdown>
                                 <IconButton

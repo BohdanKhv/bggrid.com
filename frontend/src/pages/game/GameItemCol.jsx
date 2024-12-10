@@ -29,11 +29,20 @@ const GameItemCol = ({item}) => {
                     <Link className="fs-16 weight-600 pointer text-underlined-hover"
                         to={`/g/${item._id}`}
                     >
-                        {item.name}
+                        {item.name} <span className="fs-14 weight-500">({item.year})</span>
                     </Link>
-                    <div className="fs-12 text-secondary">
-                        {item.year}
-                    </div>
+                    {item.publishers.length ?
+                        <div className="fs-12 text-secondary">
+                            {item.publishers.slice(0, 1).map((pub, i) => (
+                                <Link key={i}
+                                    to={`/p/${pub._id}`}
+                                    className="text-underlined-hover"
+                                >
+                                    {pub.name}
+                                </Link>
+                            ))}
+                        </div>
+                    : null}
                     <div className="flex gap-2 align-center mt-3">
                         {isInLibrary ?
                         <div className="fs-12 text-secondary weight-600 pe-2 flex">

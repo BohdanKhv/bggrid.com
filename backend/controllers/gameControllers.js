@@ -31,7 +31,8 @@ const getGames = async (req, res) => {
         const options = {
             page: parseInt(page) || 1,
             limit: parseInt(limit) || 10,
-            sort: { numRatings: -1 }
+            sort: { numRatings: -1 },
+            populate: 'publishers'
         };
 
         const { s, hideInLibrary } = req.query;
@@ -45,7 +46,7 @@ const getGames = async (req, res) => {
             const gameIds = myLibrary.map(item => item.game._id);
             q._id = { $nin: gameIds };
         }
-        const games = await Game.paginate(q, options);
+        const games = await Game.paginate(q, options)
         
         // Get current page and total pages
         const currentPage = games.page;

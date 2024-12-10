@@ -258,7 +258,6 @@ const PlaysPage = () => {
                                     <div className="border border-radius border-dashed mt-3 mx-sm-3"><ErrorInfo
                                     label={selectedGame ? `No plays found for "${library.find(l => l?.game?._id === selectedGame)?.game?.name}"` : "No plays found."}
                                     secondary="Once you start logging plays, they will appear here."
-                                    icon={diceIcon}
                                     />
                                     </div>
                                 )}

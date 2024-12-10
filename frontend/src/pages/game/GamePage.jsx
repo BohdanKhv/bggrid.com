@@ -11,8 +11,7 @@ import { DateTime } from 'luxon'
 import { resetFeed } from '../../features/feed/feedSlice'
 import UserGuardLoginModal from '../auth/UserGuardLoginModal'
 
-
-const YoutubeVideoItem = ({ item }) => {
+const YoutubeVideoItem = ({ item, thumbnail }) => {
     const [error, setError] = useState(false)
 
     useEffect(() => {
@@ -21,20 +20,35 @@ const YoutubeVideoItem = ({ item }) => {
 
     return (
         error ? null :
-        <div className="flex gap-3 flex-col">
+        <div className="flex gap-3 flex-col"
+            onClick={() => {
+                if (thumbnail) {
+                    window.open(item.link, '_blank')
+                }
+            }}
+        >
             <div className="border-radius bg-secondary flex align-center justify-center border-radius-lg overflow-hidden h-set-200-px">
                 {/* Embed youtube video */}
-                <iframe
-                    width="100%"
-                    height="100%"
-                    src={item.link.replace('http://', 'https://').replace('watch?v=', 'embed/')+"?showinfo=0"}
-                    title="YouTube video player"
-                    frameborder="0"
-                    loading="lazy"
-                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-                    referrerpolicy="strict-origin-when-cross-origin"
-                    allowfullscreen
-                />
+                {thumbnail ?
+                    <Image
+                        img={`https://img.youtube.com/vi/${item.link.replace('http://', 'https://').replace('https://www.youtube.com/watch?v=', '')}/0.jpg`}
+                        errIcon={plugIcon}
+                        classNameContainer="w-100 h-100"
+                        classNameImg="w-100 h-100 object-cover"
+                    />
+                :
+                    <iframe
+                        width="100%"
+                        height="100%"
+                        src={item.link.replace('http://', 'https://').replace('watch?v=', 'embed/')+"?showinfo=0"}
+                        title="YouTube video player"
+                        frameborder="0"
+                        loading="lazy"
+                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                        referrerpolicy="strict-origin-when-cross-origin"
+                        allowfullscreen
+                    />
+                }
             </div>
             <div className="flex flex-col gap-1 flex-1">
                 <Link className="fs-14 weight-500 text-ellipsis-2 text-underlined-hover"
@@ -796,7 +810,7 @@ const Overview = () => {
                                     className="flex-1 w-set-200-px"
                                     key={index}
                                 >
-                                    <YoutubeVideoItem item={item}/>
+                                    <YoutubeVideoItem item={item} thumbnail/>
                                 </div>
                             ))}
                         </div>

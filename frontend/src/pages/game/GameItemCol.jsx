@@ -25,14 +25,16 @@ const GameItemCol = ({item}) => {
                     classNameContainer="w-set-100-px h-set-100-px border-radius"
                     classNameImg="border-radius"
                 />
-                <div className="flex flex-col justify-between">
+                <div className="flex flex-col">
                     <Link className="fs-16 weight-600 pointer text-underlined-hover"
                         to={`/g/${item._id}`}
                     >
                         {item.name} {item.year ? <span className="fs-14 weight-500">({item.year})</span> : null}
                     </Link>
-                    {item.publishers.length ?
-                        <div className="fs-12 text-secondary">
+                    {item.publishers
+                    .filter(pub => ['self-published', 'unknown'].indexOf(pub.name.toLowerCase()) === -1)
+                    .length ?
+                        <div className="fs-12 weight-500 opacity-50 hover-opacity-100">
                             {item.publishers.slice(0, 1).map((pub, i) => (
                                 <Link key={i}
                                     to={`/p/${pub._id}`}
@@ -43,6 +45,13 @@ const GameItemCol = ({item}) => {
                             ))}
                         </div>
                     : null}
+                    <div className="flex align-center gap-2 pt-2">
+                        <div className="flex gap-1 align-center">
+                            <span className={`fs-14 weight-500`}>{(item?.rating?.toFixed(0) || 0) / 2}</span>
+                            <Icon icon={starFillIcon} size="xs"/>
+                        </div>
+                        <span className={`fs-12 weight-400 text-secondary`}>{numberFormatter(item.numRatings || 0)} reviews</span>
+                    </div>
                     <div className="flex gap-2 align-center mt-3">
                         {isInLibrary ?
                         <div className="fs-12 text-secondary weight-600 pe-2 flex">
@@ -82,23 +91,6 @@ const GameItemCol = ({item}) => {
             <HorizontalScroll
                 className="mt-5 border-bottom pb-4"
             >
-                <div className="flex flex-col pe-4 align-center justify-center w-min-100-px border-right pe-sm-2">
-                    <div className="fs-14 bold flex align-center">
-                        {item?.rating ?
-                        <>
-                        {item?.rating?.toFixed(1)}
-                        <Icon
-                            icon={starFillIcon}
-                            className="ms-1"
-                            size="xs"
-                            />
-                        </>
-                        : "--"}
-                    </div>
-                    <span className="fs-12 opacity-75 pt-2 weight-500">
-                        {numberFormatter(item.numRatings || 0)} reviews
-                    </span>
-                </div>
                 <div className="flex flex-col pe-4 align-center justify-center w-min-100-px border-right pe-sm-2">
                     <div className="fs-14 bold flex align-center">
                         {item?.complexityWeight ?

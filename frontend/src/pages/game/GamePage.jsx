@@ -10,6 +10,7 @@ import { getPlaysByGame, resetPlay, getGamePlayStats } from '../../features/play
 import { DateTime } from 'luxon'
 import { resetFeed } from '../../features/feed/feedSlice'
 import UserGuardLoginModal from '../auth/UserGuardLoginModal'
+import HorizontalScrollControlled from '../../components/ui/HorizontalScrollControlled'
 
 const YoutubeVideoItem = ({ item, thumbnail }) => {
     const [error, setError] = useState(false)
@@ -487,9 +488,9 @@ const ReviewsTab = () => {
     return (
         <>
         {reviews.length === 0 && !hasMore ?
-            <ErrorInfo label="No reviews found" icon={starEmptyIcon}/>
+            <ErrorInfo label="No reviews found"/>
         : 
-            <div className="flex gap-6 flex-sm-col gap-sm-0 pt-4 px-sm-3">
+            <div className="flex gap-4 flex-sm-col gap-sm-0 pt-4 px-sm-3">
                 <div className="flex-1 order-sm-2">
                     {reviews.map((item, index, arr) => (
                         <ReviewItem item={item}
@@ -554,7 +555,7 @@ const PlaysTab = () => {
     return (
         <>
         {plays.length === 0 && !hasMore ?
-            <ErrorInfo label="No plays found" icon={diceIcon}/>
+            <ErrorInfo label="No plays found"/>
         :
             <div className="flex gap-6 flex-sm-col gap-sm-0 pt-4 px-sm-3">
                 <div className="flex-1 order-sm-2">
@@ -623,194 +624,207 @@ const CoverImage = ({ img }) => {
     )
 }
 
+const GameDetails = () => {
+    const { gameById } = useSelector(state => state.game)
+
+    return (
+        <div className="flex flex-col w-set-300-px w-set-sm-auto">
+        <div className="flex flex-col  border-radius-lg w-set-sm-auto h-auto">
+            <div className="flex gap-1 justify-between border-bottom py-3">
+                <div className="fs-14 text-secondary w-set-100-px">Year Published</div>
+                <div className="fs-14">
+                    {gameById.year || '--'}
+                </div>
+            </div>
+            <Collapse
+                classNameContainer="border-bottom"
+                customLabel={
+                    <div className="fs-14 text-secondary w-set-100-px py-3">
+                        Types ({gameById.types.length})
+                    </div>
+                }
+            >
+                <div>
+                    <div className="flex flex-col gap-5 py-4">
+                        <div className="flex flex-col gap-1">
+                            {gameById.types.length ? gameById.types.map
+                            ((item, index, arr) => (
+                                <Link 
+                                    to={`/discover?types=${item}`}
+                                    className="fs-12 text-end opacity-75 hover-opacity-100 text-underlined-hover" key={index}>
+                                    {item}
+                                </Link>
+                            )) : '--'}
+                        </div>
+                    </div>
+                </div>
+            </Collapse>
+            <Collapse
+                classNameContainer="border-bottom"
+                customLabel={
+                    <div className="fs-14 text-secondary w-set-100-px py-3">
+                        Themes ({gameById.themes.length})
+                    </div>
+                }
+            >
+                <div>
+                    <div className="flex flex-col gap-5 py-4">
+                        <div className="flex flex-col gap-1">
+                            {gameById.themes.length ? gameById.themes.map
+                            ((item, index, arr) => (
+                                <Link
+                                    to={`/discover?themes=${item}`}
+                                    className="fs-12 text-end opacity-75 hover-opacity-100 text-underlined-hover" key={index}>
+                                    {item}
+                                </Link>
+                            )) : '--'}
+                        </div>
+                    </div>
+                </div>
+            </Collapse>
+            <Collapse
+                classNameContainer="border-bottom"
+                customLabel={
+                    <div className="fs-14 text-secondary w-set-100-px py-3">
+                        Mechanics ({gameById.mechanics.length})
+                    </div>
+                }
+            >
+                <div>
+                    <div className="flex flex-col gap-5 py-4">
+                        <div className="flex flex-col gap-1">
+                            {gameById.mechanics.length ? gameById.mechanics.map
+                            ((item, index, arr) => (
+                                <Link
+                                    to={`/discover?mechanics=${item}`}
+                                    className="fs-12 text-end opacity-75 hover-opacity-100 text-underlined-hover" key={index}>
+                                    {item}
+                                </Link>
+                            )) : '--'}
+                        </div>
+                    </div>
+                </div>
+            </Collapse>
+            <Collapse
+                classNameContainer="border-bottom"
+                customLabel={
+                    <div className="fs-14 text-secondary w-set-100-px py-3">
+                        Publishers ({gameById.publishers.length})
+                    </div>
+                }
+            >
+                <div>
+                    <div className="flex flex-col gap-5 py-4">
+                        <div className="flex flex-col gap-1">
+                            {gameById.publishers.length ? gameById.publishers.map
+                            ((item, index, arr) => (
+                                <Link to={`/publisher/${item._id}`} className="fs-12 text-end text-underlined-hover opacity-75 hover-opacity-100" key={index}>
+                                    {item.name}
+                                </Link>
+                            )) : '--'}
+                        </div>
+                    </div>
+                </div>
+            </Collapse>
+            <Collapse
+                classNameContainer="border-bottom"
+                customLabel={
+                    <div className="fs-14 text-secondary w-set-100-px py-3">
+                        Designers ({gameById.designers.length})
+                    </div>
+                }
+            >
+                <div>
+                    <div className="flex flex-col gap-5 py-4">
+                        <div className="flex flex-col gap-1">
+                            {gameById.designers.length ?gameById.designers.map((item, index, arr) => (
+                                <Link to={`/person/${item._id}`} className="fs-12 text-end text-underlined-hover opacity-75 hover-opacity-100" key={index}>
+                                    {item.name}
+                                </Link>
+                            )) : '--'}
+                        </div>
+                    </div>
+                </div>
+            </Collapse>
+            <Collapse
+                customLabel={
+                    <div className="fs-14 text-secondary w-set-100-px py-3">
+                        Artists ({gameById.artists.length})
+                    </div>
+                }
+            >
+                <div>
+                    <div className="flex flex-col gap-5 py-4">
+                        <div className="flex flex-col gap-1">
+                            {gameById.artists.length ? gameById.artists.map
+                            ((item, index, arr) => (
+                                <Link to={`/person/${item._id}`} className="fs-12 text-end text-underlined-hover opacity-75 hover-opacity-100" key={index}>
+                                    {item.name}
+                                </Link>
+                            )) : '--'}
+                        </div>
+                    </div>
+                </div>
+            </Collapse>
+        </div>
+    </div>
+    )
+}
+
 const Overview = () => {
     const navigate = useNavigate()
     const { gameById } = useSelector(state => state.game)
 
     return (
-        <div className="my-6 animation-slide-in my-sm-4 px-sm-3">
-            <div>
+        <div className="my-4 animation-slide-in my-sm-4 px-sm-3">
+            <div className="flex gap-6">
+            <div className="flex flex-col overflow-hidden">
                 <div className="flex flex-col gap-6">
                     <div>
                         <div className="fs-24 weight-500">
-                            About this game
+                            Description
                         </div>
-                        <div className="flex flex-sm-col gap-5 pt-5">
+                        <div className="pt-5">
                             <p className="fs-14 text-secondary flex-1"
                                 dangerouslySetInnerHTML={{ __html: gameById.description }}
-                            />
-                            <div className="flex flex-col">
-                                <div className="flex flex-col bg-secondary border-radius-lg p-5 w-set-300-px w-set-sm-auto h-auto">
-                                    <div className="flex gap-1 justify-between border-bottom py-3">
-                                        <div className="fs-14 text-secondary w-set-100-px">Year Published</div>
-                                        <div className="fs-14">
-                                            {gameById.year || '--'}
-                                        </div>
-                                    </div>
-                                    <div className="flex gap-1 justify-between border-bottom py-3">
-                                        <div className="fs-14 text-secondary w-set-100-px">Type</div>
-                                        <div className="fs-14 flex flex-col">
-                                            {gameById?.types.length ? gameById?.types.map((item, index) => (
-                                                <div key={index}>
-                                                    {item}
-                                                </div>
-                                            )) : '--'}
-                                        </div>
-                                    </div>
-                                    <div className="flex gap-1 justify-between border-bottom py-3">
-                                        <div className="fs-14 text-secondary w-set-100-px">Theme</div>
-                                        <div className="fs-14 flex flex-col">
-                                            {gameById.themes.length ? gameById.themes.map((item, index) => (
-                                                <div key={index}>
-                                                    {item}
-                                                </div>
-                                            )) : '--'}
-                                        </div>
-                                    </div>
-                                    <div className="flex gap-1 justify-between border-bottom py-3">
-                                        <div className="fs-14 text-secondary w-set-100-px">Mechanics</div>
-                                        <div className="fs-14 flex flex-col">
-                                            {gameById?.mechanics.length ? gameById?.mechanics.map((item, index) => (
-                                                <div key={index}>
-                                                    {item}
-                                                </div>
-                                            )) : '--'}
-                                        </div>
-                                    </div>
-                                    <Collapse
-                                        customLabel={
-                                            <div className="fs-14 text-secondary w-set-100-px py-3">
-                                                Credits
-                                            </div>
-                                        }
-                                    >
-                                        <div>
-                                            <div className="flex flex-col gap-5 pt-4">
-                                                <div className="flex gap-6 justify-between">
-                                                    <div className="fs-12 text-secondary w-set-100-px">Designers</div>
-                                                    <div className="flex flex-col gap-1">
-                                                        {gameById.designers.length ?gameById.designers.map((item, index, arr) => (
-                                                            <Link to={`/person/${item._id}`} className="fs-12 text-end text-underlined-hover opacity-75 hover-opacity-100" key={index}>
-                                                                {item.name}
-                                                            </Link>
-                                                        )) : '--'}
-                                                    </div>
-                                                </div>
-                                                <div className="flex gap-6 justify-between">
-                                                    <div className="fs-12 text-secondary w-set-100-px">Artists</div>
-                                                    <div className="flex flex-col gap-1">
-                                                        {gameById.artists.length ? gameById.artists.map
-                                                        ((item, index, arr) => (
-                                                            <Link to={`/person/${item._id}`} className="fs-12 text-end text-underlined-hover opacity-75 hover-opacity-100" key={index}>
-                                                                {item.name}
-                                                            </Link>
-                                                        )) : '--'}
-                                                    </div>
-                                                </div>
-                                                <div className="flex gap-6 justify-between">
-                                                    <div className="fs-12 text-secondary w-set-100-px">Publishers</div>
-                                                    <div className="flex flex-col gap-1">
-                                                        {gameById.publishers.length ? gameById.publishers.map
-                                                        ((item, index, arr) => (
-                                                            <Link to={`/publisher/${item._id}`} className="fs-12 text-end text-underlined-hover opacity-75 hover-opacity-100" key={index}>
-                                                                {item.name}
-                                                            </Link>
-                                                        )) : '--'}
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </Collapse>
-                                    <Collapse
-                                        customLabel={
-                                            <div className="fs-14 text-secondary w-set-100-px py-3">
-                                                Designers
-                                            </div>
-                                        }
-                                    >
-                                        <div>
-                                            <div className="flex flex-col gap-5 pt-4">
-                                                <div className="flex gap-6 justify-between">
-                                                    <div className="fs-12 text-secondary w-set-100-px">Designers</div>
-                                                    <div className="flex flex-col gap-1">
-                                                        {gameById.designers.length ?gameById.designers.map((item, index, arr) => (
-                                                            <Link to={`/person/${item._id}`} className="fs-12 text-end text-underlined-hover opacity-75 hover-opacity-100" key={index}>
-                                                                {item.name}
-                                                            </Link>
-                                                        )) : '--'}
-                                                    </div>
-                                                </div>
-                                                <div className="flex gap-6 justify-between">
-                                                    <div className="fs-12 text-secondary w-set-100-px">Artists</div>
-                                                    <div className="flex flex-col gap-1">
-                                                        {gameById.artists.length ? gameById.artists.map
-                                                        ((item, index, arr) => (
-                                                            <Link to={`/person/${item._id}`} className="fs-12 text-end text-underlined-hover opacity-75 hover-opacity-100" key={index}>
-                                                                {item.name}
-                                                            </Link>
-                                                        )) : '--'}
-                                                    </div>
-                                                </div>
-                                                <div className="flex gap-6 justify-between">
-                                                    <div className="fs-12 text-secondary w-set-100-px">Publishers</div>
-                                                    <div className="flex flex-col gap-1">
-                                                        {gameById.publishers.length ? gameById.publishers.map
-                                                        ((item, index, arr) => (
-                                                            <Link to={`/publisher/${item._id}`} className="fs-12 text-end text-underlined-hover opacity-75 hover-opacity-100" key={index}>
-                                                                {item.name}
-                                                            </Link>
-                                                        )) : '--'}
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </Collapse>
-                                    <Collapse
-                                        customLabel={
-                                            <div className="fs-14 text-secondary w-set-100-px py-3">
-                                                Credits
-                                            </div>
-                                        }
-                                    >
-                                        <div>
-                                            <div className="flex flex-col gap-5 pt-4">
-                                                <div className="flex gap-6 justify-between">
-                                                    <div className="fs-12 text-secondary w-set-100-px">Designers</div>
-                                                    <div className="flex flex-col gap-1">
-                                                        {gameById.designers.length ?gameById.designers.map((item, index, arr) => (
-                                                            <Link to={`/person/${item._id}`} className="fs-12 text-end text-underlined-hover opacity-75 hover-opacity-100" key={index}>
-                                                                {item.name}
-                                                            </Link>
-                                                        )) : '--'}
-                                                    </div>
-                                                </div>
-                                                <div className="flex gap-6 justify-between">
-                                                    <div className="fs-12 text-secondary w-set-100-px">Artists</div>
-                                                    <div className="flex flex-col gap-1">
-                                                        {gameById.artists.length ? gameById.artists.map
-                                                        ((item, index, arr) => (
-                                                            <Link to={`/person/${item._id}`} className="fs-12 text-end text-underlined-hover opacity-75 hover-opacity-100" key={index}>
-                                                                {item.name}
-                                                            </Link>
-                                                        )) : '--'}
-                                                    </div>
-                                                </div>
-                                                <div className="flex gap-6 justify-between">
-                                                    <div className="fs-12 text-secondary w-set-100-px">Publishers</div>
-                                                    <div className="flex flex-col gap-1">
-                                                        {gameById.publishers.length ? gameById.publishers.map
-                                                        ((item, index, arr) => (
-                                                            <Link to={`/publisher/${item._id}`} className="fs-12 text-end text-underlined-hover opacity-75 hover-opacity-100" key={index}>
-                                                                {item.name}
-                                                            </Link>
-                                                        )) : '--'}
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </Collapse>
-                                </div>
+                            /> 
+                            {window.innerWidth < 800 ?
+                            <div className="flex gap-2 pt-4 flex-wrap">
+                                {gameById.types.length ?
+                                    gameById.types.map((item, index) => (
+                                        <Button
+                                            key={index}
+                                            label={item}
+                                            variant="outline"
+                                            type="secondary"
+                                            to={`/discover?types=${item}`}
+                                        />
+                                    ))
+                                : null}
+                                {gameById.mechanics.length ?
+                                    gameById.mechanics.map((item, index) => (
+                                        <Button
+                                            key={index}
+                                            label={item}
+                                            variant="outline"
+                                            type="secondary"
+                                            to={`/discover?mechanics=${item}`}
+                                        />
+                                    ))
+                                : null}
+                                {gameById.themes.length ?
+                                    gameById.themes.map((item, index) => (
+                                        <Button
+                                            key={index}
+                                            label={item}
+                                            variant="outline"
+                                            type="secondary"
+                                            to={`/discover?themes=${item}`}
+                                        />
+                                    ))
+                                : null}
                             </div>
+                            : null}
                         </div>
                     </div>
                     <div>
@@ -951,13 +965,14 @@ const Overview = () => {
                             Videos
                             <Icon icon={rightArrowIcon} size="xs" className="transition-slide-right-hover"/>
                         </div>
-                        <div
-                            className="flex gap-3 align-start mt-5 overflow-x-auto scrollbar-none"
+                        <div className="overflow-hidden">
+                        <HorizontalScroll
+                            contentClassName="align-start gap-3 pt-5"
                         >
                             {gameById
                             ?.videos
                             .slice(0,
-                                4
+                                6
                             ).map((item, index) => (
                                 <div
                                     className="flex-1 w-set-200-px"
@@ -966,10 +981,16 @@ const Overview = () => {
                                     <YoutubeVideoItem item={item} thumbnail/>
                                 </div>
                             ))}
+                        </HorizontalScroll>
                         </div>
+
                     </div>
                     : null}
                 </div>
+                </div>
+                {window.innerWidth >= 800 ?
+                    <GameDetails/>
+                : null}
             </div>
         </div>
     )

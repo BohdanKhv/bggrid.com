@@ -1213,7 +1213,7 @@ const GamePage = () => {
                     : null }
                     <div className="flex gap-6">
                         <div className="flex-1 overflow-hidden">
-                            {window.innerWidth < 800 && tab === 'overview' ?
+                            {window.innerWidth < 800 && (tab === 'overview' || !tab) ?
                             <div className="flex flex-col mt-6 pos-relative mt-sm-0 px-sm-3">
                                 <div className="z-3 border-radius bg-sm-main">
                                 <div className="flex gap-4 pt-sm-5">

@@ -125,7 +125,7 @@
 
 /* Color */
 .text-primary {
-    color: var(--color-primary-text)!important;
+    color: rgb(var(--color-general-primary-bg));
 }
 .text-primary-hover:hover {
     color: var(--color-primary);

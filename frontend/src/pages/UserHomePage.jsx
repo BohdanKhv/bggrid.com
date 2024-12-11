@@ -149,7 +149,7 @@ const HomeFeed = () => {
         :
             <div className="py-6 flex flex-col gap-4 gap-sm-3 overflow-hidden px-sm-4 py-sm-4">
                 <div>
-                    <div className="fs-24 flex align-center gap-4 weight-500 transition-slide-right-hover-parent pb-4">
+                    <div className="fs-20 flex align-center gap-4 weight-500 transition-slide-right-hover-parent pb-4">
                         Your stats in the last 30 days
                     </div>
                     <div className="flex gap-3 overflow-x-auto scrollbar-none">
@@ -190,7 +190,7 @@ const HomeFeed = () => {
                 {home?.recentlyPlayed?.length ?
                     <HorizontalScrollControlled
                         label={
-                            <Link className="fs-24 flex align-center gap-4 weight-500 transition-slide-right-hover-parent pointer"
+                            <Link className="fs-20 flex align-center gap-4 weight-500 transition-slide-right-hover-parent pointer"
                                 to="/plays"
                             >
                                 <div>
@@ -212,7 +212,7 @@ const HomeFeed = () => {
                 {home?.mostPlayed?.length ?
                     <HorizontalScrollControlled
                         label={
-                            <div className="fs-24 flex align-center gap-4 weight-500 transition-slide-right-hover-parent">
+                            <div className="fs-20 flex align-center gap-4 weight-500 transition-slide-right-hover-parent">
                                 Most played games
                             </div>
                         }
@@ -225,7 +225,7 @@ const HomeFeed = () => {
                 {home?.recommended?.length ?
                     <HorizontalScrollControlled
                         label={
-                            <div className="fs-24 flex align-center gap-4 weight-500 transition-slide-right-hover-parent">
+                            <div className="fs-20 flex align-center gap-4 weight-500 transition-slide-right-hover-parent">
                                 Games for you
                             </div>
                         }
@@ -238,7 +238,7 @@ const HomeFeed = () => {
                 {home?.mostPlayed?.length ?
                     <HorizontalScrollControlled
                         label={
-                            <div className="fs-24 flex align-center gap-4 weight-500 transition-slide-right-hover-parent">
+                            <div className="fs-20 flex align-center gap-4 weight-500 transition-slide-right-hover-parent">
                                 Most popular games
                             </div>
                         }

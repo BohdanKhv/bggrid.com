@@ -101,7 +101,7 @@ const HomeFeed = () => {
                 {home?.recommended?.length ?
                     <HorizontalScrollControlled
                         label={
-                            <div className="fs-24 flex align-center gap-4 weight-500 transition-slide-right-hover-parent">
+                            <div className="fs-20 flex align-center gap-4 weight-500 transition-slide-right-hover-parent">
                                 Recommended
                             </div>
                         }
@@ -116,7 +116,7 @@ const HomeFeed = () => {
                 {home?.mostPlayed?.length ?
                     <HorizontalScrollControlled
                         label={
-                            <div className="fs-24 flex align-center gap-4 weight-500 transition-slide-right-hover-parent">
+                            <div className="fs-20 flex align-center gap-4 weight-500 transition-slide-right-hover-parent">
                                 Most Played
                             </div>
                         }
@@ -127,7 +127,7 @@ const HomeFeed = () => {
                     />
                 : null}
                     <div className="py-4">
-                        <div className="fs-24 flex align-center gap-4 weight-500 transition-slide-right-hover-parent pb-4">
+                        <div className="fs-20 flex align-center gap-4 weight-500 transition-slide-right-hover-parent pb-4">
                             Popular Types
                         </div>
                         <HorizontalScroll>

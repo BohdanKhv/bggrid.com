@@ -42,13 +42,26 @@ export const getGameCard = createAsyncThunk(
         try {
             // Check if the game is already in the store
             const { gameCard } = thunkAPI.getState().game;
+            const { library } = thunkAPI.getState().library;
+            const { games } = thunkAPI.getState().game;
             if (gameCard?._id === payload) {
                 return {
                     data: state.game.gameCard
                 }
-            } else {
-                return await gameService.getGameById(payload);
             }
+            const inLibrary = library.find(game => game.game._id === payload);
+            if (inLibrary) {
+                return {
+                    data: inLibrary.game
+                }
+            }
+            const inGames = games.find(game => game._id === payload);
+            if (inGames) {
+                return {
+                    data: inGames
+                }
+            }
+            return await gameService.getGameById(payload);
         } catch (error) {
             const message =
                 (error.response &&

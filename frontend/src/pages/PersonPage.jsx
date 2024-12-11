@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useCallback, useEffect, useRef, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { useNavigate, useParams, useSearchParams } from 'react-router-dom'
 import { Avatar, Button, Dropdown, ErrorInfo, IconButton, Image, TabContent } from '../components'
@@ -6,22 +6,47 @@ import { shareIcon, leftArrowIcon, moreIcon, listIcon, gridIcon } from '../asset
 import { getPersonById, resetPerson } from '../features/person/personSlice'
 import GameItemCol from './game/GameItemCol'
 import GameItem from './game/GameItem'
+import { getGamesByPersonId, resetGame } from '../features/game/gameSlice'
 
 
 const PersonGames = () => {
+    const dispatch = useDispatch()
 
     const { personById, isLoading } = useSelector(state => state.person)
+    const { games, isLoading: gamesLoading, hasMore, isError } = useSelector(state => state.game)
+
+    const getData = () => {
+        dispatch(getGamesByPersonId(personById._id))
+    }
+
+    const observer = useRef();
+    const lastElementRef = useCallback(node => {
+        if (isLoading) return;
+        if (observer.current) observer.current.disconnect();
+        observer.current = new IntersectionObserver(entries => {
+            if (entries[0].isIntersecting && hasMore && !isError && !isLoading) {
+                const promise = getData();
+        
+                return () => {
+                    promise && promise.abort();
+                    dispatch(resetGame());
+                    observer.current && observer.current.disconnect();
+                }
+            }
+        });
+        if (node) observer.current.observe(node);
+    }, [isLoading, hasMore, isError]);
 
     return (
         <div>
-            { !isLoading && !personById?.games?.length ?
+            {!isError && !gamesLoading && !games?.length ?
                 <ErrorInfo
                     label="No games found"
                     secondary="This person has no games"
                 />
             :
                 <div className="grid flex-wrap animation-slide-in h-fit-content grid-xl-cols-5 grid-lg-cols-4 grid-md-cols-3 grid-sm-cols-2 grid-cols-4">
-                    {personById?.games?.map((i, inx, arr) => (
+                    {games?.map((i, inx, arr) => (
                         <div
                             key={i._id}
                         >
@@ -32,9 +57,18 @@ const PersonGames = () => {
                     ))}
                 </div>
             }
-            {isLoading ?
+            { isError ?
+                <ErrorInfo
+                    label="Oh no!"
+                    secondary="Something went wrong"
+                />
+            : gamesLoading ?
                 <ErrorInfo isLoading/>
-            : null}
+            : 
+                <div
+                    ref={lastElementRef}
+                />
+            }
         </div>
     )
 }
@@ -56,6 +90,7 @@ const PersonPage = () => {
         return () => {
             promise && promise.abort()
             dispatch(resetPerson())
+            dispatch(resetGame())
         }
     }, [personId])
 
@@ -136,12 +171,14 @@ const PersonPage = () => {
                             ]}
                             activeTabName={tab || 'games'}
                             setActiveTabName={(e) => {
-                                navigate(`/p/${personId}/${e}`)
+                                navigate(`/person/${personId}/${e}`)
                             }}
                         />
                     </div> */}
                     {/* {tab === 'games' ? */}
+                    {personById ?
                         <PersonGames/>
+                    : null}
                     {/* : <PersonGames/> } */}
                     <div className="flex gap-3 px-4">
                 </div>

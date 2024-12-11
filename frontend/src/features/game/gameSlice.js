@@ -11,7 +11,7 @@ const initialState = {
     isLoading: false,
     msg: '',
     loadingId: '',
-    limit: 10,
+    limit: 20,
     page: 1,
     pages: 1,
     hasMore: true
@@ -97,6 +97,45 @@ export const getGames = createAsyncThunk(
     }
 );
 
+export const getGamesByPublisherId = createAsyncThunk(
+    'game/getGamesByPublisherId',
+    async (payload, thunkAPI) => {
+        try {
+            const token = thunkAPI.getState().auth.user ? thunkAPI.getState().auth.user.token : null;
+            const { page, limit } = thunkAPI.getState().game;
+            return await gameService.getGamesByPublisherId(`${payload}?page=${page}&limit=${limit}`, token);
+        } catch (error) {
+            const message =
+                (error.response &&
+                    error.response.data &&
+                    error.response.data.msg) ||
+                error.message ||
+                error.toString();
+            return thunkAPI.rejectWithValue(message);
+        }
+    }
+);
+
+export const getGamesByPersonId = createAsyncThunk(
+    'game/getGamesByPersonId',
+    async (payload, thunkAPI) => {
+        try {
+            const token = thunkAPI.getState().auth.user ? thunkAPI.getState().auth.user.token : null;
+            const { page, limit } = thunkAPI.getState().game;
+            return await gameService.getGamesByPersonId(`${payload}?page=${page}&limit=${limit}`, token);
+        } catch (error) {
+            const message =
+                (error.response &&
+                    error.response.data &&
+                    error.response.data.msg) ||
+                error.message ||
+                error.toString();
+            return thunkAPI.rejectWithValue(message);
+        }
+    }
+);
+
+
 
 export const getSuggestions = createAsyncThunk(
     'game/getSuggestions',
@@ -149,6 +188,47 @@ const gameSlice = createSlice({
         builder.addCase(getGames.rejected, (state, action) => {
             if (action.error.message !== 'Aborted') {
                 state.isLoading = false;
+                state.isError = true;
+                state.msg = action.payload;
+                toast.error(action.payload, { toastId: 'toastError', closeButton: true});
+            }
+        });
+
+        builder.addCase(getGamesByPublisherId.pending, (state) => {
+            state.isLoading = true;
+            state.msg = '';
+        });
+        builder.addCase(getGamesByPublisherId.fulfilled, (state, action) => {
+            state.isLoading = false;
+            state.games.push(...action.payload.data);
+            state.pages = action.payload.totalPages;
+            state.hasMore = action.payload.currentPage < action.payload.totalPages;
+            state.page = action.payload.currentPage + 1;
+        });
+        builder.addCase(getGamesByPublisherId.rejected, (state, action) => {
+            if (action.error.message !== 'Aborted') {
+                state.isLoading = false;
+                state.isError = true;
+                state.msg = action.payload;
+                toast.error(action.payload, { toastId: 'toastError', closeButton: true});
+            }
+        });
+
+        builder.addCase(getGamesByPersonId.pending, (state) => {
+            state.isLoading = true;
+            state.msg = '';
+        });
+        builder.addCase(getGamesByPersonId.fulfilled, (state, action) => {
+            state.isLoading = false;
+            state.games.push(...action.payload.data);
+            state.pages = action.payload.totalPages;
+            state.hasMore = action.payload.currentPage < action.payload.totalPages;
+            state.page = action.payload.currentPage + 1;
+        });
+        builder.addCase(getGamesByPersonId.rejected, (state, action) => {
+            if (action.error.message !== 'Aborted') {
+                state.isLoading = false;
+                state.isError = true;
                 state.msg = action.payload;
                 toast.error(action.payload, { toastId: 'toastError', closeButton: true});
             }

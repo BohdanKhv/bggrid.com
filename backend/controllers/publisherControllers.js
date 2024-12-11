@@ -14,13 +14,8 @@ const getPublisherById = async (req, res) => {
             return res.status(404).json({ msg: '404' });
         }
 
-        const games = await Game.find({ publishers: publisher._id });
-
         res.status(200).json({
-            data: {
-                ...publisher._doc,
-                games: games
-            }
+            data: publisher
         });
     } catch (error) {
         console.error(error);

@@ -37,7 +37,7 @@ const GameItemCol = ({item}) => {
                         <div className="fs-12 weight-500 opacity-50 hover-opacity-100 mt-1">
                             {item.publishers.slice(0, 1).map((pub, i) => (
                                 <Link key={i}
-                                    to={`/p/${pub._id}`}
+                                    to={`/publisher/${pub._id}`}
                                     className="text-underlined-hover"
                                 >
                                     {pub.name}

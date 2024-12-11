@@ -2490,7 +2490,7 @@ define(['exports'], (function (exports) { 'use strict';
         // Redirected responses cannot be used to satisfy a navigation request, so
         // any redirected response must be "copied" rather than cloned, so the new
         // response doesn't contain the `redirected` flag. See:
-        // https://bugs.chromium.org/p/chromium/issues/detail?id=669363&desc=2#c1
+        // https://bugs.chromium.org/publisher/chromium/issues/detail?id=669363&desc=2#c1
         this.plugins.push(PrecacheStrategy.copyRedirectedCacheableResponsesPlugin);
       }
       /**

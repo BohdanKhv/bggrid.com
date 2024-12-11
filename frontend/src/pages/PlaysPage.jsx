@@ -91,7 +91,7 @@ const PlaysPage = () => {
                             </div>
                         ) : null}
                         {window.innerWidth <= 800 ?
-                        <div className="sticky top-0 bg-main py-1 z-3 py-sm-0">
+                        <div className="sticky top-0 bg-main py-1 z-3 py-sm-0 overflow-x-hidden">
                             {
                             library.length == 0 && !libraryLoading ? null
                             : library.length > 0 && !libraryLoading && (

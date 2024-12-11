@@ -30,6 +30,18 @@ export const getGames = async (payload, token) => {
     return response.data;
 }
 
+export const getGamesByPublisherId = async (payload) => {
+    const response = await axios.get(API_URL+`/publisher/${payload || ""}`);
+
+    return response.data;
+}
+
+export const getGamesByPersonId = async (payload) => {
+    const response = await axios.get(API_URL+`/person/${payload || ""}`);
+
+    return response.data;
+}
+
 export const getSuggestions = async (payload) => {
     const response = await axios.get(API_URL+`/suggestions?s=${payload}`);
 
@@ -40,6 +52,8 @@ export const getSuggestions = async (payload) => {
 const listingService = {
     getGames,
     getGameById,
+    getGamesByPublisherId,
+    getGamesByPersonId,
     getGameOverview,
     getSuggestions
 };

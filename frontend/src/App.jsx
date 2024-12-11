@@ -86,10 +86,10 @@ function App() {
                         <Route path="/u/:username/:tab" element={<ErrBoundary><UserPage /></ErrBoundary>} />
                         <Route path="/g/:gameId" element={<ErrBoundary><GamePage /></ErrBoundary>} />
                         <Route path="/g/:gameId/:tab" element={<ErrBoundary><GamePage /></ErrBoundary>} />
-                        <Route path="/p/:publisherId" element={<ErrBoundary><div className="mx-auto w-max-xl offset-header w-100"><PublisherPage /></div></ErrBoundary>} />
-                        <Route path="/p/:publisherId/:tab" element={<ErrBoundary><div className="mx-auto w-max-xl offset-header w-100"><PublisherPage /></div></ErrBoundary>} />
-                        <Route path="/d/:personId" element={<ErrBoundary><div className="mx-auto w-max-xl offset-header w-100"><PersonPage /></div></ErrBoundary>} />
-                        <Route path="/d/:personId/:tab" element={<ErrBoundary><div className="mx-auto w-max-xl offset-header w-100"><PersonPage /></div></ErrBoundary>} />
+                        <Route path="/publisher/:publisherId" element={<ErrBoundary><div className="mx-auto w-max-xl offset-header w-100"><PublisherPage /></div></ErrBoundary>} />
+                        <Route path="/publisher/:publisherId/:tab" element={<ErrBoundary><div className="mx-auto w-max-xl offset-header w-100"><PublisherPage /></div></ErrBoundary>} />
+                        <Route path="/person/:personId" element={<ErrBoundary><div className="mx-auto w-max-xl offset-header w-100"><PersonPage /></div></ErrBoundary>} />
+                        <Route path="/person/:personId/:tab" element={<ErrBoundary><div className="mx-auto w-max-xl offset-header w-100"><PersonPage /></div></ErrBoundary>} />
                         <Route path="/c/:category" element={<ErrBoundary><CategoryPage /></ErrBoundary>} />
                         <Route path="/collection/:collection" element={<ErrBoundary><CategoryPage /></ErrBoundary>} />
                         <Route path="/settings" element={<ErrBoundary><Settings/></ErrBoundary>} />
@@ -121,10 +121,10 @@ function App() {
                         <Route path="/u/:username/:tab" element={<ErrBoundary><div className="mx-auto w-max-xl offset-header w-100"><UserPage /></div></ErrBoundary>} />
                       <Route path="/g/:gameId" element={<ErrBoundary><div className="mx-auto w-max-xl offset-header w-100"><GamePage /></div></ErrBoundary>} />
                       <Route path="/g/:gameId/:tab" element={<ErrBoundary><div className="mx-auto w-max-xl offset-header w-100"><GamePage /></div></ErrBoundary>} />
-                      <Route path="/p/:publisherId" element={<ErrBoundary><div className="mx-auto w-max-xl offset-header w-100"><PublisherPage /></div></ErrBoundary>} />
-                      <Route path="/p/:publisherId/:tab" element={<ErrBoundary><div className="mx-auto w-max-xl offset-header w-100"><PublisherPage /></div></ErrBoundary>} />
-                      <Route path="/d/:personId" element={<ErrBoundary><div className="mx-auto w-max-xl offset-header w-100"><PersonPage /></div></ErrBoundary>} />
-                      <Route path="/d/:personId/:tab" element={<ErrBoundary><div className="mx-auto w-max-xl offset-header w-100"><PersonPage /></div></ErrBoundary>} />
+                      <Route path="/publisher/:publisherId" element={<ErrBoundary><div className="mx-auto w-max-xl offset-header w-100"><PublisherPage /></div></ErrBoundary>} />
+                      <Route path="/publisher/:publisherId/:tab" element={<ErrBoundary><div className="mx-auto w-max-xl offset-header w-100"><PublisherPage /></div></ErrBoundary>} />
+                      <Route path="/person/:personId" element={<ErrBoundary><div className="mx-auto w-max-xl offset-header w-100"><PersonPage /></div></ErrBoundary>} />
+                      <Route path="/person/:personId/:tab" element={<ErrBoundary><div className="mx-auto w-max-xl offset-header w-100"><PersonPage /></div></ErrBoundary>} />
                       <Route path="/c/:category" element={<ErrBoundary><div className="mx-auto w-max-xl offset-header w-100"><CategoryPage /></div></ErrBoundary>} />
                       <Route path="/collection/:collection" element={<ErrBoundary><div className="mx-auto w-max-xl offset-header w-100"><CategoryPage /></div></ErrBoundary>} />
                       <Route path="/forgot-password" element={<ErrBoundary><div><Auth><ForgotPassword /></Auth></div></ErrBoundary>} />

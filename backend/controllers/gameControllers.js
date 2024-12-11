@@ -9,18 +9,69 @@ const mongoose = require('mongoose');
 // @access  Public
 const getGamesByPublisherId = async (req, res) => {
     try {
-        const games = await Game.find({ publishers: mongoose.Types.ObjectId(req.params.publisherId) })
-        .sort({ numRatings: -1, year: -1 })
-        .limit(20)
+        const { page, limit } = req.query;
+        const options = {
+            page: parseInt(page) || 1,
+            limit: parseInt(limit) || 20,
+            sort: { numRatings: -1},
+            populate: 'publishers',
+        };
 
+        const games = await Game.paginate({ publishers:
+            new mongoose.Types.ObjectId(req.params.publisherId)
+        }, options)
+
+        // Get current page and total pages
+        const currentPage = games.page;
+        const totalPages = games.totalPages;
+    
         res.status(200).json({
-            data: games
+            data: games.docs,
+            currentPage,
+            totalPages
         });
     } catch (error) {
         console.error(error);
         res.status(500).json({ msg: 'Server error' });
     }
 }
+
+
+// @desc    Get games by person id
+// @route   GET /api/games/person/:personId
+// @access  Public
+const getGamesByPersonId = async (req, res) => {
+    try {
+        const { page, limit } = req.query;
+        const options = {
+            page: parseInt(page) || 1,
+            limit: parseInt(limit) || 20,
+            sort: { numRatings: -1},
+            populate: 'publishers',
+        };
+
+        const games = await Game.paginate({ 
+            $or: [
+                { artists: new mongoose.Types.ObjectId(req.params.personId) },
+                { designers: new mongoose.Types.ObjectId(req.params.personId) },
+            ]
+        }, options)
+
+        // Get current page and total pages
+        const currentPage = games.page;
+        const totalPages = games.totalPages;
+    
+        res.status(200).json({
+            data: games.docs,
+            currentPage,
+            totalPages
+        });
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ msg: 'Server error' });
+    }
+}
+
 
 
 // @desc    Get games
@@ -52,15 +103,9 @@ const getGames = async (req, res) => {
 
         if (s && s.length > 0) { q.name = { $regex: s, $options: 'i' } }
 
-        const buildQueryArray = (inputString) => {
-            // Split by comma and space, remove duplicates, and trim whitespace
-            const terms = [...new Set(inputString.split(',').flatMap(term => term.split(' ')))];
-            return terms.filter(term => term.trim()); // Remove empty terms
-        };
-
-        if (mechanics && mechanics.length > 0) { q.mechanics = { $in: mechanics } }
-        if (types && types.length > 0) { q.types = { $in: types } }
-        if (themes && themes.length > 0) { q.themes = { $in: themes } }
+        if (types && types.length > 0) { q.types = { $in: types.split(',').map(type => new RegExp(type, 'i')) } }
+        if (mechanics && mechanics.length > 0) { q.mechanics = { $in: mechanics.split(',').map(mechanic => new RegExp(mechanic, 'i')) } }
+        if (themes && themes.length > 0) { q.themes = { $in: themes.split(',').map(theme => new RegExp(theme, 'i')) } }
 
         if (hideInLibrary) {
             const myLibrary = await Library.find({ user: req.user._id }).select('game');
@@ -166,6 +211,8 @@ const getGameOverview = async (req, res) => {
     try {
         const game = await Game.findById(req.params.gameId)
         .populate('publishers')
+        .populate('designers')
+        .populate('artists')
 
         if (!game) {
             return res.status(404).json({ msg: '404' });
@@ -238,6 +285,7 @@ const getGameOverview = async (req, res) => {
 
 module.exports = {
     getGamesByPublisherId,
+    getGamesByPersonId,
     getGames,
     getSuggestions,
     createGame,

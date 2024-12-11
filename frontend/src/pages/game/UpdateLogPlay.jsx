@@ -139,6 +139,7 @@ const UpdateLogPlay = () => {
                                 placeholder="Search or add players"
                                 value={searchValue}
                                 clearable
+                                closeOnSelect
                                 onChange={(e) => setSearchValue(e.target.value)}
                                 onSubmit={(e) => {
                                     setSearchValue('')

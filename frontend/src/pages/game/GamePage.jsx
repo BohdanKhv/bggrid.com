@@ -21,7 +21,7 @@ const YoutubeVideoItem = ({ item, thumbnail }) => {
 
     return (
         error ? null :
-        <div className="flex gap-3 flex-col"
+        <div className="flex gap-3 flex-col animation-slide-in"
             onClick={() => {
                 if (thumbnail) {
                     window.open(item.link, '_blank')
@@ -285,39 +285,39 @@ const GamePlayStats = () => {
 
 
     return (
-        <div className="w-set-300-px flex-1 border-radius-lg bg-secondary h-fit-content w-set-sm-auto order-sm-1">
+        <div className="flex-1 border-radius-lg bg-secondary h-fit-content w-set-sm-auto order-sm-1 pos-relative">
             <div>
-                <div className="flex flex-col p-3">
-                    <div className="flex-1 flex justify-between py-4 mx-4 border-bottom align-center">
+                <div className="flex flex-col p-5">
+                    <div className="flex-1 flex justify-between pb-4 border-bottom align-center">
                         <span className="fs-14 opacity-75 pt-2 weight-500">
                             Plays
                         </span>
                         <div className="fs-14 bold flex align-center">
-                            {numberFormatter(gameById?.playStats?.totalPlays)}
+                            {numberFormatter(gameById?.playStats?.totalPlays || 0)}
                         </div>
                     </div>
-                    <div className="flex-1 flex justify-between py-4 mx-4 border-bottom align-center">
+                    <div className="flex-1 flex justify-between py-4 border-bottom align-center">
                         <span className="fs-14 opacity-75 pt-2 weight-500">
                             Avg. Players
                         </span>
                         <div className="fs-14 bold flex align-center">
-                            {gameById?.playStats?.avgPlayers.toFixed(0)}
+                            {gameById?.playStats?.avgPlayers.toFixed(0) || '0'}
                         </div>
                     </div>
-                    <div className="flex-1 flex justify-between py-4 mx-4 border-bottom align-center">
+                    <div className="flex-1 flex justify-between py-4 border-bottom align-center">
                         <span className="fs-14 opacity-75 pt-2 weight-500">
                             Avg. Playtime
                         </span>
                         <div className="fs-14 bold flex align-center">
-                            {gameById?.playStats?.avgPlayTime.toFixed(0)} Min
+                            {gameById?.playStats?.avgPlayTime.toFixed(0) || '0'} Min
                         </div>
                     </div>
-                    <div className="flex-1 flex justify-between py-4 mx-4 align-center">
+                    <div className="flex-1 flex justify-between pt-4 align-center">
                         <span className="fs-14 opacity-75 pt-2 weight-500">
                             Avg. Score
                         </span>
                         <div className="fs-14 bold flex align-center">
-                            {gameById?.playStats?.avgScore.toFixed(0)}
+                            {gameById?.playStats?.avgScore.toFixed(0) || '0'}
                         </div>
                     </div>
                 </div>
@@ -330,7 +330,7 @@ const GameReviewStats = () => {
     const { gameById } = useSelector((state) => state.game)
 
     return (
-        <div className="w-set-300-px flex-1 border-radius-lg bg-secondary h-fit-content w-set-sm-auto order-sm-1 mb-4">
+        <div className="flex-1 border-radius-lg bg-secondary h-fit-content w-set-sm-auto order-sm-1 mb-4 pos-relative">
             <div className="bg-secondary border-radius-lg">
                 
                 <div className="flex flex-col gap-3 pt-5 px-5">
@@ -487,11 +487,11 @@ const ReviewsTab = () => {
     }, [])
 
     return (
-        <>
+        <div className="flex-1">
         {reviews.length === 0 && !hasMore ?
             <ErrorInfo label="No reviews found"/>
         : 
-            <div className="flex gap-4 flex-sm-col gap-sm-0 pt-4 px-sm-3">
+            <div className="gap-sm-0 pt-4 px-sm-3">
                 <div className="flex-1 order-sm-2">
                     {reviews.map((item, index, arr) => (
                         <ReviewItem item={item}
@@ -499,9 +499,6 @@ const ReviewsTab = () => {
                         />
                     ))}
                 </div>
-                {window.innerWidth >= 800 ?
-                <GameReviewStats/>
-                : null}
             </div>
         }
         {isLoading ?
@@ -511,7 +508,7 @@ const ReviewsTab = () => {
                 ref={lastElementRef}
             />
         }
-        </>
+        </div>
     )
 }
 
@@ -567,9 +564,6 @@ const PlaysTab = () => {
                         />
                     ))}
                 </div>
-                {window.innerWidth >= 800 ?
-                <GamePlayStats/>
-                : null}
             </div>
         }
         {isLoading ?
@@ -597,6 +591,8 @@ const RulesTab = () => {
 const CoverImage = ({ img }) => {
     const [isLoading, setIsLoading] = useState(true)
 
+    const { tab } = useParams()
+
     const { gameById } = useSelector(state => state.game)
     const { library } = useSelector(state => state.library)
     const { user } = useSelector(state => state.auth)
@@ -609,127 +605,134 @@ const CoverImage = ({ img }) => {
     }, [user, gameById, library])
 
     return (
-        <div className="my-6">
-            <div
-                className="bg-secondary h-sm-set-150-px border-radius pos-relative h-set-300-px"
-            >
-                <img
-                    src={img}
-                    draggable="false"
-                    alt="cover"
-                    className="z-1 w-100 h-100 border-radius object-cover object-center pos-relative box-shadow"
-                    onLoad={() => setIsLoading(false)}
-                />
-                <img
-                    src={img}
-                    draggable="false"
-                    alt="cover"
-                    className="z-0 h-100 border-radius object-cover object-center pos-absolute left-0 blur-20"
-                    style={{
-                        marginTop: '10%',
-                        width: '80%',
-                        marginLeft: '10%'
-                    }}
-                />
-            </div>
-            {window.innerWidth > 800 ?
-            <div className="flex flex-col align-center gap-2 my-6 mb-sm-3">
-                <UserGuardLoginModal>
-                    <Button
-                        size="lg"
-                        icon={diceIcon}
-                        variant="secondary"
-                        type="filled"
-                        className="w-100"
-                        onClick={(e) => {
-                            searchParams.set('logPlay', gameById._id)
-                            setSearchParams(searchParams)
-                        }}
-                        label="Log a Play"
+        <div>
+                <div
+                    className="bg-secondary my-6 h-sm-set-150-px border-radius pos-relative h-set-300-px">
+                    <img
+                        src={img}
+                        draggable="false"
+                        alt="cover"
+                        className="z-1 w-100 h-100 border-radius object-cover object-center pos-relative box-shadow"
+                        onLoad={() => setIsLoading(false)}
                     />
-                </UserGuardLoginModal>
-                <UserGuardLoginModal>
-                    { isInLibrary ?
+                    <img
+                        src={img}
+                        draggable="false"
+                        alt="cover"
+                        className="z-0 h-100 border-radius object-cover object-center pos-absolute left-0 blur-20"
+                        style={{
+                            marginTop: '10%',
+                            width: '80%',
+                            marginLeft: '10%'
+                        }}
+                    />
+                </div>
+                {tab === 'reviews' ?
+                    <GameReviewStats/>
+                : tab === 'plays' ?
+                    <GamePlayStats/>
+                :
+                <>
+                {window.innerWidth > 800 ?
+                    <div className="flex flex-col align-center gap-2 my-6 mb-sm-3">
+                        <UserGuardLoginModal>
+                            <Button
+                                size="lg"
+                                icon={diceIcon}
+                                variant="secondary"
+                                type="filled"
+                                className="w-100"
+                                onClick={(e) => {
+                                    searchParams.set('logPlay', gameById._id)
+                                    setSearchParams(searchParams)
+                                }}
+                                label="Log a Play"
+                            />
+                        </UserGuardLoginModal>
+                        <UserGuardLoginModal>
+                            { isInLibrary ?
+                                <Button
+                                    size="lg"
+                                    icon={libraryIcon}
+                                    variant="secondary"
+                                    type="default"
+                                    className="w-100"
+                                    dataTooltipContent="Update your library"
+                                    onClick={() => {
+                                        searchParams.set('addGame', gameById._id)
+                                        setSearchParams(searchParams)
+                                    }}
+                                    label="In Library"
+                                />
+                            :
+                                <Button
+                                    size="lg"
+                                    icon={largePlusIcon}
+                                    variant="secondary"
+                                    className="w-100"
+                                    type="filled"
+                                    onClick={() => {
+                                        searchParams.set('addGame', gameById._id)
+                                        setSearchParams(searchParams)
+                                    }}
+                                    label="Add to Library"
+                                />
+                            }
+                        </UserGuardLoginModal>
                         <Button
                             size="lg"
-                            icon={libraryIcon}
+                            label="Share"
+                            icon={shareIcon}
                             variant="secondary"
                             type="default"
+                            muted
+                            dataTooltipContent="Share"
                             className="w-100"
-                            dataTooltipContent="Update your library"
                             onClick={() => {
-                                searchParams.set('addGame', gameById._id)
-                                setSearchParams(searchParams)
+                                navigator.share({
+                                    title: gameById.name,
+                                    text: gameById.description
+                                })
                             }}
-                            label="In Library"
                         />
+                    </div>
+                : isInLibrary ?
+                    <UserGuardLoginModal>
+                        <div>
+                            <Button
+                                size="lg"
+                                icon={libraryIcon}
+                                variant="secondary"
+                                type="outline"
+                                className="w-100 my-3"
+                                onClick={() => {
+                                    searchParams.set('addGame', gameById._id)
+                                    setSearchParams(searchParams)
+                                }}
+                                label="In Library"
+                            />
+                        </div>
+                    </UserGuardLoginModal>
                     :
-                        <Button
-                            size="lg"
-                            icon={largePlusIcon}
-                            variant="secondary"
-                            className="w-100"
-                            type="filled"
-                            onClick={() => {
-                                searchParams.set('addGame', gameById._id)
-                                setSearchParams(searchParams)
-                            }}
-                            label="Add to Library"
-                        />
-                    }
-                </UserGuardLoginModal>
-                <Button
-                    size="lg"
-                    label="Share"
-                    icon={shareIcon}
-                    variant="secondary"
-                    type="default"
-                    muted
-                    dataTooltipContent="Share"
-                    className="w-100"
-                    onClick={() => {
-                        navigator.share({
-                            title: gameById.name,
-                            text: gameById.description
-                        })
-                    }}
-                />
-            </div>
-            : isInLibrary ?
-                <UserGuardLoginModal>
-                    <div>
-                        <Button
-                            size="lg"
-                            icon={libraryIcon}
-                            variant="secondary"
-                            type="outline"
-                            className="w-100 my-3"
-                            onClick={() => {
-                                searchParams.set('addGame', gameById._id)
-                                setSearchParams(searchParams)
-                            }}
-                            label="In Library"
-                        />
-                    </div>
-                </UserGuardLoginModal>
-                :
-                <UserGuardLoginModal>
-                    <div>
-                        <Button
-                            size="lg"
-                            icon={largePlusIcon}
-                            variant="secondary"
-                            className="w-100"
-                            type="filled"
-                            onClick={() => {
-                                searchParams.set('addGame', gameById._id)
-                                setSearchParams(searchParams)
-                            }}
-                            label="Add to Library"
-                        />
-                    </div>
-                </UserGuardLoginModal>
-            }
+                    <UserGuardLoginModal>
+                        <div>
+                            <Button
+                                size="lg"
+                                icon={largePlusIcon}
+                                variant="secondary"
+                                className="w-100"
+                                type="filled"
+                                onClick={() => {
+                                    searchParams.set('addGame', gameById._id)
+                                    setSearchParams(searchParams)
+                                }}
+                                label="Add to Library"
+                            />
+                        </div>
+                    </UserGuardLoginModal>
+                }
+                </>
+                }
         </div>
     )
 }
@@ -1192,28 +1195,26 @@ const GamePage = () => {
                             </div>
                             </Dropdown>
                         </div>
-                        {window.innerWidth < 800 ?
-                            <div className="bg-main sticky top-0 z-9">
-                                <TabContent
-                                    items={[
-                                        {label: 'Overview'},
-                                        {label: 'Videos'},
-                                        {label: 'Rules'},
-                                        {label: 'Reviews'},
-                                        {label: 'Plays'},
-                                    ]}
-                                    activeTabName={tab || 'overview'}
-                                    setActiveTabName={(e) => {
-                                        navigate(`/g/${gameId}/${e}`)
-                                    }}
-                                />
-                            </div>
-                        : null}
                     </>
                     : null }
+                    <div className="bg-main sticky top-0 z-9 px-sm-3 pt-sm-3">
+                        <TabContent
+                            items={[
+                                {label: 'Overview'},
+                                {label: 'Videos'},
+                                {label: 'Rules'},
+                                {label: 'Reviews'},
+                                {label: 'Plays'},
+                            ]}
+                            activeTabName={tab || 'overview'}
+                            setActiveTabName={(e) => {
+                                navigate(`/g/${gameId}/${e}`)
+                            }}
+                        />
+                    </div>
                     <div className="flex gap-6">
                         <div className="flex-1 overflow-hidden">
-                            {window.innerWidth < 800 && (tab === 'overview' || !tab) ?
+                            {(window.innerWidth < 800 || window.innerWidth >= 800) && (tab === 'overview' || !tab) ?
                             <div className="flex flex-col mt-6 pos-relative mt-sm-0 px-sm-3">
                                 <div className="z-3 border-radius bg-sm-main">
                                 <div className="flex gap-4 pt-sm-5">
@@ -1255,7 +1256,7 @@ const GamePage = () => {
                                         : null}
                                     </div>
                                 </div>
-                                <div className="flex flex-col overflow-hidden">
+                                <div className="flex flex-col overflow-hidden my-4">
                                     <GameShortInfo/>
                                 </div>
                                 {window.innerWidth < 800 ?
@@ -1295,23 +1296,6 @@ const GamePage = () => {
                                 : null}
                             </div>
                         </div>
-                        : null}
-                        {window.innerWidth >= 800 ?
-                            <div className="bg-main px-sm-3 py-3 sticky top-0 z-9">
-                                <TabContent
-                                    items={[
-                                        {label: 'Overview'},
-                                        {label: 'Videos'},
-                                        {label: 'Rules'},
-                                        {label: 'Reviews'},
-                                        {label: 'Plays'},
-                                    ]}
-                                    activeTabName={tab || 'overview'}
-                                    setActiveTabName={(e) => {
-                                        navigate(`/g/${gameId}/${e}`)
-                                    }}
-                                />
-                            </div>
                         : null}
                         {tab === 'overview' ?
                             <Overview/>

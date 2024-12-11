@@ -34,7 +34,7 @@ const YoutubeVideoItem = ({ item, thumbnail }) => {
                     <Image
                         img={`https://img.youtube.com/vi/${item.link.replace('http://', 'https://').replace('https://www.youtube.com/watch?v=', '')}/0.jpg`}
                         errIcon={plugIcon}
-                        classNameContainer="w-100 h-100"
+                        classNameContainer="w-100 h-100 bg-hover-after"
                         classNameImg="w-100 h-100 object-cover"
                     />
                 :
@@ -107,7 +107,7 @@ const VideosTab = () => {
                     />
                 ))}
             </HorizontalScroll>
-            <div className="grid grid-cols-3 grid-md-cols-2 grid-sm-cols-1 gap-3">
+            <div className="grid grid-cols-3 grid-md-cols-2 grid-sm-cols-1 gap-4">
                 {gameById?.videos
                     .filter(v => selectedCategory == "All" || selectedCategory == v.category)
                     ?.map((item, index) => (

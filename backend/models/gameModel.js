@@ -4,7 +4,7 @@ const mongoosePaginate = require('mongoose-paginate-v2');
 const gameSchema = new mongoose.Schema({
     name: { type: String, required: true },
     altNames: [{ type: String, required: false }], // alternative names
-    description: { type: String, required: true },
+    description: { type: String, required: false },
     year: { type: Number, required: true },
     categories: [{ type: String, required: true }], // all possible categories
     types: [{ type: String, required: true }], // Focus on the overall experience or purpose of the game.
@@ -13,8 +13,9 @@ const gameSchema = new mongoose.Schema({
     publishers: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Publisher' }], // publisher id
     artists: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Person' }],
     designers: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Person' }],
-    tempDesigners: [{ type: String, required: false }], // temporary designers
-    tempArtists: [{ type: String, required: false }], // temporary artists
+    altPublishers: [{ type: String, required: false }], // alternative designers
+    altDesigners: [{ type: String, required: false }], // alternative designers
+    altArtists: [{ type: String, required: false }], // alternative artists
     rules: { type: String, required: false }, // rules text
     rulesUrl: { type: String, required: false }, // rules pdf link if available
     verified: { type: Boolean, required: false, default: false }, // verified by admin
@@ -43,7 +44,10 @@ const gameSchema = new mongoose.Schema({
     numRatings: { type: Number, required: false },
     numComments: { type: Number, required: false },
     buyUrl: { type: String, required: false },
-    bggId: { type: String, required: false }, // boardgamegeek id
+    bggScraped: { type: Boolean, required: false, default: false },
+    bggId: { type: String, required: false, unique: true }, // boardgamegeek id
+    isExpansion: { type: Boolean, required: false, default: false },
+    is_expansion: { type: Boolean, required: false, default: false },
 }, { timestamps: true });
 
 

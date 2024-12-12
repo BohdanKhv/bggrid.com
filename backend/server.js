@@ -5,7 +5,7 @@ const dotenv = require('dotenv').config();
 const connectDB = require('./config/db');
 const port = process.env.PORT || 5000;
 const cors = require('cors');
-const { func } = require('./service/scrape.js');
+// const { runServices } = require('./service/scrape.js');
 
 
 // connect to database

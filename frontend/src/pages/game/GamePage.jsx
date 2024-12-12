@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { getGameById, getGameOverview } from '../../features/game/gameSlice'
 import { Link, useNavigate, useParams, useSearchParams } from 'react-router-dom'
 import { Avatar, Button, Collapse, Dropdown, ErrorInfo, HorizontalScroll, Icon, IconButton, Image, ProgressBar, Skeleton, TabContent } from '../../components'
-import { boxInIcon, boxOffIcon, checkIcon, clockIcon, largePlusIcon, libraryIcon, diceIcon, shareIcon, starEmptyIcon, starFillIcon, starsIcon, userIcon, usersIcon, plugIcon, rightArrowIcon, leftArrowSmIcon, leftArrowIcon, moreIcon } from '../../assets/img/icons'
+import { boxInIcon, boxOffIcon, checkIcon, clockIcon, largePlusIcon, libraryIcon, diceIcon, shareIcon, starEmptyIcon, starFillIcon, starsIcon, userIcon, usersIcon, plugIcon, rightArrowIcon, leftArrowSmIcon, leftArrowIcon, moreIcon, gamesIcon } from '../../assets/img/icons'
 import { addCommaToNumber, numberFormatter } from '../../assets/utils'
 import { getGameStats, getReviewsByGame, resetReview } from '../../features/review/reviewSlice'
 import { getPlaysByGame, resetPlay, getGamePlayStats } from '../../features/play/playSlice'
@@ -607,24 +607,18 @@ const CoverImage = ({ img }) => {
     return (
         <div>
                 <div
-                    className="bg-secondary my-6 h-sm-set-150-px border-radius pos-relative h-set-300-px">
-                    <img
-                        src={img}
-                        draggable="false"
-                        alt="cover"
-                        className="z-1 w-100 h-100 border-radius object-cover object-center pos-relative box-shadow"
-                        onLoad={() => setIsLoading(false)}
+                    className="bg-secondary my-6 h-sm-set-150-px border-radius pos-relative h-set-300-px w-min-200-px w-max-300-px">
+                    <Image
+                        img={img}
+                        errIcon={gamesIcon}
+                        classNameContainer="bg-secondary border-radius z-3 relative"
+                        classNameImg="z-1 w-100 h-100 border-radius object-cover object-center pos-relative box-shadow"
                     />
-                    <img
-                        src={img}
-                        draggable="false"
-                        alt="cover"
-                        className="z-0 h-100 border-radius object-cover object-center pos-absolute left-0 blur-20"
-                        style={{
-                            marginTop: '10%',
-                            width: '80%',
-                            marginLeft: '10%'
-                        }}
+                    <Image
+                        img={img}
+                        errIcon={gamesIcon}
+                        classNameContainer="bg-secondary pos-absolute left-0 blur-20 top-0 border-radius relative"
+                        classNameImg="z-0 h-100 border-radius object-cover object-center blur-20"
                     />
                 </div>
                 {tab === 'reviews' ?

@@ -1,14 +1,16 @@
 // Types: Focus on the overall experience or purpose of the game.
 const typeEnum = [
-"Strategy Games",
-"Party Games",
-"Cooperative Games",
-"Family Games",
-"Children's Games",
-"Abstract Games",
-"Dexterity Games",
-"Role-Playing Games (RPGs)",
-"Thematic Games",
+"Strategy",
+"Party",
+"Cooperative",
+"Family",
+"Children's",
+"Abstract",
+"Dexterity",
+"Role-Playing",
+"Puzzle",
+"Role-Playing (RPGs)",
+"Thematic",
 ]
 
 // Themes: Focus on the setting or narrative of the game.

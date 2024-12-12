@@ -49,6 +49,12 @@ const typeEnum = [
         "icon": "🎭"
     },
     {
+        "name": "Puzzle",
+        "description": "Games focused on solving problems or challenges.",
+        "examples": ["Exit: The Game", "Sagrada", "Pandemic: The Cure"],
+        "icon": "🧩"
+    },
+    {
         "name": "Thematic",
         "description": "Games with strong narrative or story elements.",
         "examples": ["Gloomhaven", "Betrayal at House on the Hill", "Dead of Winter"],

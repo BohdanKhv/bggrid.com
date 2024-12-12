@@ -285,6 +285,8 @@ const Section1 = () => {
                                 label="Search Games"
                                 to="/discover"
                                 type="secondary"
+                                iconRight={<span className="transition-slide-right-hover ms-2">{rightArrowIcon}</span>}
+                                variant="filled"
                                 size="lg"
                                 className="transition-slide-right-hover-parent"
                                 borderRadius="lg"

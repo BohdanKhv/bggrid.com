@@ -45,7 +45,7 @@ const gameSchema = new mongoose.Schema({
     numComments: { type: Number, required: false },
     buyUrl: { type: String, required: false },
     bggScraped: { type: Boolean, required: false, default: false },
-    bggId: { type: String, required: false, unique: true }, // boardgamegeek id
+    bggId: { type: String, required: false }, // boardgamegeek id
     isExpansion: { type: Boolean, required: false, default: false },
 }, { timestamps: true });
 

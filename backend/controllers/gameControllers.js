@@ -80,7 +80,7 @@ const getGamesByPersonId = async (req, res) => {
 const getGames = async (req, res) => {
     try {
         const { page, limit } = req.query;
-        const { mechanics, types, themes, publisherId } = req.query;
+        const { mechanics, types, themes, publisherId, players } = req.query;
         const { sort, sortOrder } = req.query;
         console.log(`Page: ${page}`);
         let options = {
@@ -106,6 +106,12 @@ const getGames = async (req, res) => {
         if (types && types.length > 0) { q.types = { $in: types.split(',').map(type => new RegExp(type, 'i')) } }
         if (mechanics && mechanics.length > 0) { q.mechanics = { $in: mechanics.split(',').map(mechanic => new RegExp(mechanic, 'i')) } }
         if (themes && themes.length > 0) { q.themes = { $in: themes.split(',').map(theme => new RegExp(theme, 'i')) } }
+        if (players && players.length > 0) {
+            const min = players.split('-')[0] || 0;
+            const max = players.split('-')[1] || min || 100;
+            q.minPlayers = { $gte: min };
+            q.maxPlayers = { $lte: max };
+        }
 
         if (hideInLibrary) {
             const myLibrary = await Library.find({ user: req.user._id }).select('game');

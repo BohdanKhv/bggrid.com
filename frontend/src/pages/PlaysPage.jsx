@@ -183,7 +183,7 @@ const PlaysPage = () => {
                                                 type="outline"
                                                 className="flex-shrink-0"
                                                 label="Details"
-                                                onClick={() => navigate(`/g/${selectedGame}/edit`)}
+                                                onClick={() => navigate(`/g/${selectedGame}/overview`)}
                                             />
                                             <Button
                                                 icon={editIcon}

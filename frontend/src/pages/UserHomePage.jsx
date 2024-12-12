@@ -190,7 +190,7 @@ const HomeFeed = () => {
                 {home?.recentlyPlayed?.length ?
                     <HorizontalScrollControlled
                         label={
-                            <Link className="fs-20 flex align-center gap-4 weight-500 transition-slide-right-hover-parent pointer"
+                            <Link className="fs-20 mt-2 flex align-center gap-4 weight-500 transition-slide-right-hover-parent pointer"
                                 to="/plays"
                             >
                                 <div>
@@ -199,7 +199,7 @@ const HomeFeed = () => {
                                     <Icon
                                         icon={rightArrowIcon}
                                         className="transition-slide-right-hover"
-                                        size="sm"
+                                        size="xs"
                                     />
                             </Link>
                         }
@@ -648,7 +648,7 @@ const UserHomePage = () => {
                                         </div>
                                         <Icon
                                             icon={rightArrowIcon}
-                                            size="sm"
+                                            size="xs"
                                             className="transition-slide-right-hover transition-opacity-hover"
                                         />
                                     </Link>

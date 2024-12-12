@@ -201,7 +201,7 @@
 /* Window */
 
 .top-0 {
-    top: -1; /* 0 is reserved for the header */
+    top: 0;
 }
 .top-48px {
     top: 48px;

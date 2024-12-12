@@ -1191,7 +1191,7 @@ const GamePage = () => {
                         </div>
                     </>
                     : null }
-                    <div className="bg-main sticky top-0 z-9 px-sm-3 pt-sm-3">
+                    <div className="bg-main sticky top-0 z-9 px-sm-3">
                         <TabContent
                             items={[
                                 {label: 'Overview'},

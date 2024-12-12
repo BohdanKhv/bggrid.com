@@ -637,7 +637,7 @@ const UserHomePage = () => {
                                 .map((item, i) => (
                                     <Link
                                         key={i}
-                                        to={`/discover?type=${item.name}`}
+                                        to={`/discover?types=${item.name}`}
                                         className="flex justify-between transition-slide-right-hover-parent align-center transition-opacity-hover-parent gap-1 bg-secondary border-radius px-4 py-3 pointer w-w-min-200-px flex-shrink-0"
                                     >
                                         <div className="flex align-center gap-4">

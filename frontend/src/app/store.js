@@ -8,7 +8,7 @@ import libraryReducer from '../features/library/librarySlice';
 import reviewReducer from '../features/review/reviewSlice';
 import playReducer from '../features/play/playSlice';
 import userReducer from '../features/user/userSlice';
-import friendReducer from '../features/friend/friendSlice';
+import followReducer from '../features/follow/followSlice';
 import notificationReducer from '../features/notification/notificationSlice';
 import feedReducer from '../features/feed/feedSlice';
 import collectionReducer from '../features/collection/collectionSlice';
@@ -26,8 +26,8 @@ export const store = configureStore({
         review: reviewReducer, // game page reviews
         play: playReducer, // game page play history, my plays
         user: userReducer, // user profiles, user search
-        friend: friendReducer, // community, friend list
-        notification: notificationReducer, // notification, friend request
+        follow: followReducer, // community, follow list
+        notification: notificationReducer, // notification, follow request
         feed: feedReducer, // community page feed
         collection: collectionReducer, // collections, (homepage, collection page)
     },

@@ -22,7 +22,7 @@ const UpdateLogPlay = () => {
 
     const [searchParam, setSearchParam] = useSearchParams()
     const { loadingId: loadingIdPlay, msg: playMsg, playById } = useSelector(state => state.play)
-    const { friends } = useSelector(state => state.friend)
+    const { follow } = useSelector(state => state.follow)
 
     useEffect(() => {
         if (playMsg === 'success') {
@@ -188,8 +188,8 @@ const UpdateLogPlay = () => {
                                             </div>
                                         </div>
                                         : null}
-                                        {friends.length ?
-                                        friends
+                                        {follow.length ?
+                                        follow
                                         .filter(i => !players.find(j => j?.user?._id === i.friend._id))
                                         .filter(i => i.friend.username.toLowerCase().includes(searchValue.toLowerCase()))
                                         .map(i => (

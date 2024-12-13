@@ -1,12 +1,8 @@
-import { useEffect, useState } from 'react'
-import { Avatar, Button, ErrorInfo, HorizontalScroll, Icon, IconButton, Image, InputSearch, Modal, Skeleton } from '../components'
+import { useEffect } from 'react'
+import { Button, HorizontalScroll, Icon, Image, Skeleton } from '../components'
 import { useDispatch, useSelector } from 'react-redux'
-import { DateTime } from 'luxon'
-import { arrowLeftShortIcon, arrowRightShortIcon, bellIcon, clockIcon, diceIcon, rightArrowIcon, searchIcon, usersIcon } from '../assets/img/icons'
-import { getSuggestions } from '../features/game/gameSlice'
-import { Link, useNavigate, useSearchParams } from 'react-router-dom'
-import { setSearchHistory } from '../features/local/localSlice'
-import FriendsModal from './friend/FriendsModal'
+import { rightArrowIcon } from '../assets/img/icons'
+import { Link, useSearchParams } from 'react-router-dom'
 import { getGeneralHomeFeed } from '../features/feed/feedSlice'
 import HorizontalScrollControlled from '../components/ui/HorizontalScrollControlled'
 import { typeEnum } from '../assets/constants'
@@ -14,8 +10,6 @@ import { typeEnum } from '../assets/constants'
 
 const GameItem = ({ item }) => {
     const { user } = useSelector((state) => state.auth)
-
-    const [searchParams, setSearchParams] = useSearchParams()
 
     return  (
         <Link className="flex flex-col gap-3"
@@ -147,8 +141,8 @@ const HomeFeed = () => {
                                     </div>
                                     <Icon
                                         icon={rightArrowIcon}
-                                        size="sm"
-                                        className="transition-slide-right-hover transition-opacity-hover"
+                                        size="xs"
+                                        className="transition-slide-right-hover transition-opacity-hover ms-2"
                                     />
                                 </Link>
                         ))}
@@ -222,7 +216,7 @@ const Section5 = () => {
                                 Record Your Plays
                             </div>
                             <div className="fs-14 text-shadow-hard">
-                                Keep track of the games you've played with your friends.
+                                Keep track of the games you've played with your follow.
                             </div>
                         </div>
                     </div>
@@ -235,7 +229,7 @@ const Section5 = () => {
                 <div className="flex align-center gap-6 flex-1">
                     <div>
                         <div className="fs-20 bold pb-4 text-sm-center">
-                            Let's get your boardgames collection started
+                            Let's get your boardgame collection started
                         </div>
                         <div className="flex justify-sm-center">
                             <Button
@@ -278,7 +272,7 @@ const Section1 = () => {
                             BGGRID
                         </div>
                         <div className="fs-14 text-white w-max-75 opacity-75">
-                            A place to keep track of your boardgames collection, write reviews, and share your plays with friends.
+                            A place to keep track of your boardgame collection, write reviews, and share your plays with follow.
                         </div>
                         <div className="flex gap-2 pt-4">
                             <Button
@@ -286,7 +280,6 @@ const Section1 = () => {
                                 to="/discover"
                                 type="secondary"
                                 iconRight={<span className="transition-slide-right-hover ms-2">{rightArrowIcon}</span>}
-                                variant="filled"
                                 size="lg"
                                 className="transition-slide-right-hover-parent"
                                 borderRadius="lg"

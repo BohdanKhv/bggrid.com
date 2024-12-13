@@ -65,6 +65,10 @@ const loggedIn = async (req, res, next) => {
         // Set user to req.user
         const user = await User.findById(decoded.id)
 
+        if (!user) {
+            return next();
+        }
+
         req.user = user._doc;
 
         next();

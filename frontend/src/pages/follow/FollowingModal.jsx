@@ -3,46 +3,38 @@ import { Avatar, Button, ErrorInfo, InputSearch, Modal } from '../../components'
 import { Link, useSearchParams } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
 import { searchIcon, usersIcon } from '../../assets/img/icons'
-import { removeFriend } from '../../features/friend/friendSlice'
-import FriendItem from './FriendItem'
+import { getFollowers, getFollowing } from '../../features/follow/followSlice'
+import FollowItem from './FollowItem'
 
-const FriendsModal = ({ friends, hideSearch }) => {
+const FollowingModal = ({ follow, hideSearch }) => {
 
     const [searchParams, setSearchParams] = useSearchParams()
-    const { loadingId, isLoading } = useSelector((state) => state.friend)
+    const { loadingId, isLoading } = useSelector((state) => state.follow)
     const [searchValue, setSearchValue] = useState('')
 
     const { user } = useSelector((state) => state.auth)
 
     return (
         <Modal
-            modalIsOpen={searchParams.get('friends') === 'true'}
+            modalIsOpen={searchParams.get('follow') === 'true'}
             onClickOutside={() => {
-                searchParams.delete('friends')
+                searchParams.delete('follow')
                 setSearchParams(searchParams.toString())
             }}
             onClose={() => {
-                searchParams.delete('friends')
+                searchParams.delete('follow')
                 setSearchParams(searchParams.toString())
             }}
             classNameContent="p-0"
             noAction
-            label="Friends"
+            label="Follow"
         >
-            {/* <div className="border border-radius bg-secondary m-2">
-                <InputSearch
-                    icon={searchIcon}
-                    placeholder="Search friends"
-                    value={searchValue}
-                    onChange={(e) => setSearchValue(e.target.value)}
-                />
-            </div> */}
             <div className="py-2 px-4">
-                {friends && friends.length > 0 ?
+                {follow && follow.length > 0 ?
                 <>
-                    {friends
+                    {follow
                     .map((item) => (
-                        <FriendItem
+                        <FollowItem
                             item={item.friend || item}
                             key={item._id}
                             showRemoveButton
@@ -53,20 +45,20 @@ const FriendsModal = ({ friends, hideSearch }) => {
                     isLoading ?
                         <ErrorInfo isLoading/>
                     :
-                    friends.length === 0 && searchValue.length < 3 ?
+                    follow.length === 0 && searchValue.length < 3 ?
                         <ErrorInfo
-                            label="Oops! No friends found"
-                            secondary="Search for friends by username, first name, or last name"
+                            label="Oops! No follow found"
+                            secondary="Search for follow by username, first name, or last name"
                             onClick={() => {
                                 if (!user) return
                                 searchParams.set('su', 'true')
-                                searchParams.delete('friends')
+                                searchParams.delete('follow')
                                 setSearchParams(searchParams.toString())
                             }}
-                            btnLabel={hideSearch ? null : user ? "Find friends" : 'Login to find friends'}
+                            btnLabel={hideSearch ? null : user ? "Find follow" : 'Login to find follow'}
                         />
                     :
-                    friends.length === 0 ?
+                    follow.length === 0 ?
                         <ErrorInfo
                             secondary={`Nothing matched your search for "${searchValue}"`}
                         />
@@ -76,4 +68,4 @@ const FriendsModal = ({ friends, hideSearch }) => {
     )
 }
 
-export default FriendsModal
+export default FollowingModal

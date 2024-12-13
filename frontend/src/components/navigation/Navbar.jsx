@@ -63,7 +63,7 @@ const Navbar = () => {
                     <>
                     <Link
                         to={`/u/${user.username}`}
-                        className="flex gap-3 pointer hover border-radius-lg overflow-hidden">
+                        className="flex gap-3 pointer hover border-radius-lg overflow-hidden mb-4">
                         <div className="flex align-center justify-center align-center ps-3 py-3">
                             <div className="border border-radius-50">
                                 <Avatar
@@ -85,7 +85,7 @@ const Navbar = () => {
                             </div>
                         </div>
                     </Link>
-                    <Button
+                    {/* <Button
                         to="/discover"
                         label="Games"
                         icon={discoverIcon}
@@ -93,7 +93,7 @@ const Navbar = () => {
                         className="justify-start w-fit-content my-4"
                         size="lg"
                         type="secondary"
-                    />
+                    /> */}
                     <Button
                         // muted={pathname !== '/'}
                         to="/"
@@ -109,6 +109,14 @@ const Navbar = () => {
                         icon={libraryIcon}
                         type={pathname === '/library' ? "secondary" : "secondary"}
                         variant={pathname === '/library' ? "" : "text"}
+                    />
+                    <Button
+                        // muted={pathname !== '/'}
+                        to="/discover"
+                        label="Games"
+                        icon={discoverIcon}
+                        type={pathname === '/discover' ? "secondary" : "secondary"}
+                        variant={pathname === '/discover' ? "" : "text"}
                     />
                     <Button
                         // muted={pathname !== '/library'}

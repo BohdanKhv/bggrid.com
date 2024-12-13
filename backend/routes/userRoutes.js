@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const { protect } = require('../middleware/authMiddleware');
+const { protect, loggedIn } = require('../middleware/authMiddleware');
 const {
     getUserProfile,
     searchUsers
@@ -9,7 +9,7 @@ const {
 
 router
     .get('/search', protect, searchUsers)
-    .get('/:username', getUserProfile)
+    .get('/:username', loggedIn, getUserProfile)
 
 
 module.exports = router;

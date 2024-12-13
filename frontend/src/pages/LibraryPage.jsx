@@ -403,7 +403,7 @@ const LibraryPage = () => {
                                     <InputSearch
                                         icon={searchIcon}
                                         className="flex-1 py-1"
-                                        placeholder="Search in library"
+                                        placeholder="Search Your Library"
                                         value={searchValue}
                                         clearable
                                         onChange={(e) => setSearchValue(e.target.value)}

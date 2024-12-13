@@ -3,16 +3,15 @@ import { Icon, IconButton, InputSearch, Modal, Image, ErrorInfo, Avatar, Button 
 import { Link, useSearchParams } from 'react-router-dom'
 import { arrowLeftShortIcon, gamesIcon, leftArrowIcon, searchIcon, userIcon } from '../../assets/img/icons'
 import { useDispatch, useSelector } from 'react-redux'
-import { searchUsers } from '../../features/user/userSlice'
-import { sendFriendRequest } from '../../features/friend/friendSlice'
-import FriendItem from './FriendItem'
+import { searchUsersToFollow } from '../../features/follow/followSlice'
+import FollowItem from './FollowItem'
 
-const UserSearchModal = () => {
+const FollowSearchModal = () => {
     const dispatch = useDispatch()
 
     const { users, isLoading } = useSelector((state) => state.user)
 
-    const { friends, loadingId } = useSelector((state) => state.friend)
+    const { follow, loadingId } = useSelector((state) => state.follow)
 
     const [searchParams, setSearchParams] = useSearchParams()
     const [searchValue, setSearchValue] = useState('')
@@ -21,7 +20,7 @@ const UserSearchModal = () => {
         let promise;
 
         if (searchValue.length > 0) {
-            promise = dispatch(searchUsers(`?q=${searchValue}`))
+            promise = dispatch(searchUsersToFollow(`${searchValue}`))
         }
 
         return () => {
@@ -74,7 +73,7 @@ const UserSearchModal = () => {
                 <>
                     {users
                     .map((searchItem) => (
-                        <FriendItem
+                        <FollowItem
                             item={searchItem}
                             key={searchItem._id}
                             showRemoveButton
@@ -101,4 +100,4 @@ const UserSearchModal = () => {
     )
 }
 
-export default UserSearchModal
+export default FollowSearchModal

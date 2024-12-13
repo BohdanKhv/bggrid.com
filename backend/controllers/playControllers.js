@@ -116,12 +116,8 @@ const getMyPlays = async (req, res) => {
                     }
                 }
             }
-        } else {
-            q.$or = [
-                { 'players.user': req.user._id },
-                { user: req.user._id }
-            ]
         }
+        q.user = req.user._id
 
         const options = {
             page: parseInt(page) || 1,

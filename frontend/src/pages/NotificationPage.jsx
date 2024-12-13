@@ -2,7 +2,6 @@ import React, { useEffect, useState } from 'react'
 import { Avatar, Button, ErrorInfo, HorizontalScroll } from '../components'
 import { useSelector, useDispatch } from 'react-redux';
 import { Link } from 'react-router-dom';
-import { acceptFriendRequest, removeFriend } from '../features/friend/friendSlice';
 import { DateTime } from 'luxon';
 import PlayItem from './PlayItem';
 import { bellIcon } from '../assets/img/icons';

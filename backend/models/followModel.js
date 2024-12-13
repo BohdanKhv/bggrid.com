@@ -1,4 +1,5 @@
 const mongoose = require('mongoose');
+const mongoosePaginate = require('mongoose-paginate-v2');
 
 
 const followSchema = new mongoose.Schema({
@@ -14,7 +15,20 @@ const followSchema = new mongoose.Schema({
         required: true,
         ref: 'User'
     },
-}, { timestamps: true });
+    createdAt: {
+        type: Date,
+        default: Date.now, // Timestamp for when the follow relationship was created
+        },
+    },
+    {
+        timestamps: false, // Disable automatic `createdAt` and `updatedAt` fields, since `createdAt` is explicitly defined
+    }
+);
 
+
+// Prevent duplicate follow relationships
+followSchema.index({ follower: 1, following: 1 }, { unique: true });
+
+followSchema.plugin(mongoosePaginate);
 
 module.exports = mongoose.model('Follow', followSchema);

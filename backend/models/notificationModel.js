@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
 
-const typesEnum = ['library', 'friendRequest', 'play', 'system'];
+const typesEnum = ['library', 'follow', 'play', 'system'];
 
 
 const notificationSchema = new mongoose.Schema({

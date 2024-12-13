@@ -34,7 +34,7 @@ const LogPlay = () => {
     const { gameCard, loadingId } = useSelector(state => state.game)
     const { library, isLoading: libraryIsLoading, loadingId: libraryLoadingId } = useSelector(state => state.library)
     const { loadingId: loadingIdPlay, msg: playMsg } = useSelector(state => state.play)
-    const { friends } = useSelector(state => state.friend)
+    const { follow } = useSelector(state => state.follow)
 
     const isInLibrary = useMemo(() => {
         return library.find(i => i?.game?._id === gameCard?._id)
@@ -185,7 +185,7 @@ const LogPlay = () => {
                                         winner: false
                                     }])
                                 }}
-                                searchable={searchValue.length || friends.filter(i => !players.find(j => j?.user?._id === i.friend._id)).length > 0}
+                                searchable={searchValue.length || follow.filter(i => !players.find(j => j?.user?._id === i.friend._id)).length > 0}
                                 searchChildren={
                                     <div className="py-2">
                                         {searchValue.length ?
@@ -223,8 +223,8 @@ const LogPlay = () => {
                                             </div>
                                         </div>
                                         : null}
-                                        {friends.length ?
-                                        friends
+                                        {follow.length ?
+                                        follow
                                         .filter(i => !players.find(j => j?.user?._id === i.friend._id))
                                         .filter(i => i.friend.username.toLowerCase().includes(searchValue.toLowerCase()))
                                         .map(i => (

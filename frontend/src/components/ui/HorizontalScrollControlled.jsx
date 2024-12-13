@@ -50,13 +50,15 @@ const HorizontalScrollControlled = ({items, label, maxVisibleItems, contentClass
                             <IconButton
                                 icon={leftArrowSmIcon}
                                 onClick={scrollLeft}
-                                type="secondary"
+                                type="text"
+                                muted
                                 disabled={isAtStart}
                             />
                             <IconButton
                                 icon={rightArrowIcon}
                                 onClick={scrollRight}
-                                type="secondary"
+                                type="text"
+                                muted
                                 disabled={isAtEnd}
                             />
                         </div>

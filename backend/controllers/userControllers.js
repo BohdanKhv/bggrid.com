@@ -1,7 +1,7 @@
 const User = require('../models/userModel');
 const Play = require('../models/playModel');
 const Library = require('../models/libraryModel');
-const Friend = require('../models/friendModel');
+const Follow = require('../models/followModel');
 
 
 
@@ -16,45 +16,25 @@ const getUserProfile = async (req, res) => {
         })
         .select('-password');
 
-        const totalPlays = await Play.countDocuments({
-            $or: [
-                { user: user._id },
-                { 'players.user': user._id }
-            ]
-        });
         const allLibrary = await Library.find({ user: user._id })
         .populate('game', 'name thumbnail')
-        let allFriends = await Friend.find({
-            $or: [
-                { user1: user._id },
-                { user2: user._id }
-            ],
-            pending: false
-        })
-        .populate('user1', 'username avatar firstName lastName')
-        .populate('user2', 'username avatar firstName lastName');
-
-        allFriends = allFriends.map(friend => {
-            if (friend.user1._id.toString() === user._id.toString()) {
-                return {
-                    ...friend.user2._doc,
-                }
-            } else {
-                return {
-                    ...friend.user1._doc,
-                }
-            }
-        });
 
         if (!user) {
             return res.status(404).json({ msg: 'User not found' });
         }
 
+        if (user._id.toString() !== req.user?._id?.toString()) {
+            const follow = await Follow.findOne({
+                follower: req.user._id,
+                following: user._id
+            });
+
+            user.isFollowing = follow ? true : false;
+        }
+
         res.status(200).json({
             data: {
                 ...user._doc,
-                friends: allFriends,
-                plays: totalPlays,
                 library: allLibrary
             }
         });

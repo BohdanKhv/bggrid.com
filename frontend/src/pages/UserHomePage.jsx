@@ -2,11 +2,10 @@ import { useEffect, useState } from 'react'
 import { Avatar, Button, ErrorInfo, HorizontalScroll, Icon, IconButton, Image, InputSearch, Modal, Skeleton } from '../components'
 import { useDispatch, useSelector } from 'react-redux'
 import { DateTime } from 'luxon'
-import { arrowLeftShortIcon, arrowRightShortIcon, bellIcon, clockIcon, diceIcon, rightArrowIcon, searchIcon, usersIcon } from '../assets/img/icons'
+import { arrowLeftShortIcon, arrowRightShortIcon, bellIcon, clockIcon, diceIcon, rightArrowIcon, searchIcon } from '../assets/img/icons'
 import { getSuggestions } from '../features/game/gameSlice'
 import { Link, useNavigate, useSearchParams } from 'react-router-dom'
 import { setSearchHistory } from '../features/local/localSlice'
-import FriendsModal from './friend/FriendsModal'
 import { getHomeFeed } from '../features/feed/feedSlice'
 import HorizontalScrollControlled from '../components/ui/HorizontalScrollControlled'
 import { typeEnum } from '../assets/constants'
@@ -235,15 +234,15 @@ const HomeFeed = () => {
                         ))}
                     />
                 : null}
-                {home?.mostPlayed?.length ?
+                {home?.mostPopular?.length ?
                     <HorizontalScrollControlled
                         label={
                             <div className="fs-20 flex align-center gap-4 weight-500 transition-slide-right-hover-parent">
-                                Most popular games
+                                Popular games
                             </div>
                         }
                         maxVisibleItems={window.innerWidth < 800 ? 2 : 5}
-                        items={home.mostPlayed.map((item, i) => (
+                        items={home.mostPopular.map((item, i) => (
                             <GameItem key={i} item={item.game}/>
                         ))}
                     />
@@ -429,7 +428,7 @@ const SearchGames = () => {
         <InputSearch
             icon={searchIcon}
             className="flex-1 py-1"
-            placeholder="Search games"
+            placeholder="Search in over 160,000 games"
             value={searchValue}
             clearable
             onChange={(e) => setSearchValue(e.target.value)}
@@ -571,7 +570,7 @@ const SearchGames = () => {
 const UserHomePage = () => {
     const dispatch = useDispatch()
     const { user } = useSelector((state) => state.auth)
-    const { friends } = useSelector((state) => state.friend)
+    const { follow } = useSelector((state) => state.follow)
     const { library } = useSelector((state) => state.library)
     const [searchParams, setSearchParams] = useSearchParams()
     const { notifications } = useSelector((state) => state.notification)
@@ -583,26 +582,12 @@ const UserHomePage = () => {
 
     return (
         <div>
-            <FriendsModal
-                friends={friends}
-            />
             <main className="page-body">
                 <div className="animation-slide-in">
                     <div className="container">
                         <div className="flex pt-3 pt-sm-3 justify-between px-sm-3 pb-3 gap-3 sticky-sm top-0 z-3 bg-main">
                             <SearchGames/>
                             <div className="justify-end flex align-center flex-no-wrap gap-3">
-                                <IconButton
-                                    notify
-                                    notifyCount={friends?.filter((friend) => friend.pending && !friend.myRequest).length}
-                                    icon={usersIcon}
-                                    variant="text"
-                                    type="secondary"
-                                    onClick={() => {
-                                        searchParams.set('friends', true)
-                                        setSearchParams(searchParams)
-                                    }}
-                                />
                                 {window.innerWidth < 800 && (
                                     <>
                                         <IconButton

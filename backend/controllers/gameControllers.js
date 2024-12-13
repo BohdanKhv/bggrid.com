@@ -150,7 +150,7 @@ const getSuggestions = async (req, res) => {
             name: { $regex: s || '', $options: 'i' }
         })
         .sort({ rating: -1, year: -1 })
-        .limit(5)
+        .limit(15)
         .select('name thumbnail year')
 
         res.status(200).json({

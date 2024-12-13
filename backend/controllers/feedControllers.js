@@ -2,7 +2,7 @@ const Game = require('../models/gameModel');
 const User = require('../models/userModel');
 const Library = require('../models/libraryModel');
 const Play = require('../models/playModel');
-const Friend = require('../models/friendModel');
+const Follow = require('../models/followModel');
 
 
 // @desc    Get community feed
@@ -15,28 +15,22 @@ const getCommunityFeed = async (req, res) => {
     limit = parseInt(limit) || 20;
 
     try {
-        let myFriends = await Friend.find({
-            $or: [
-                { user1: req.user._id },
-                { user2: req.user._id }
-            ],
-            pending: false
-        });
-        myFriends = myFriends.map(friend => friend.user1.equals(req.user._id) ? friend.user2 : friend.user1);
+        let following = await Follow.find({ follower: req.user._id })
+        following = following.map(follow => follow.following);
 
-        if (myFriends.length === 0) {
+        if (following.length === 0) {
             return res.status(200).json({
                 data: [],
                 hasMore: false
             });
         }
 
-        let friendsRecentPlays = [];
-        let friendsLibraryItems = [];
+        let followingRecentPlays = [];
+        let followingLibraryItems = [];
 
         if (type === 'all' || type === 'plays') {
-            friendsRecentPlays = await Play.paginate(
-                { user: { $in: myFriends } },
+            followingRecentPlays = await Play.paginate(
+                { user: { $in: following } },
                 {
                     page,
                     limit,
@@ -51,8 +45,8 @@ const getCommunityFeed = async (req, res) => {
         }
 
         if (type === 'all' || type === 'library') {
-            friendsLibraryItems = await Library.paginate(
-                { user: { $in: myFriends } },
+            followingLibraryItems = await Library.paginate(
+                { user: { $in: following } },
                 {
                     page,
                     limit,
@@ -69,14 +63,14 @@ const getCommunityFeed = async (req, res) => {
         const feedItems = [];
 
         if (type === 'all' || type === 'plays') {
-            feedItems.push(...friendsRecentPlays.docs.map(play => ({
+            feedItems.push(...followingRecentPlays.docs.map(play => ({
                 type: 'play',
                 item: play
             })));
         }
 
         if (type === 'all' || type === 'library') {
-            feedItems.push(...friendsLibraryItems.docs.map(libraryItem => ({
+            feedItems.push(...followingLibraryItems.docs.map(libraryItem => ({
                 type: 'library',
                 item: libraryItem
             })));
@@ -86,7 +80,7 @@ const getCommunityFeed = async (req, res) => {
         feedItems.sort((a, b) => (b.item.updatedAt || b.item.createdAt ) - (a.item.updatedAt || a.item.createdAt ));
 
         // Determine if there are more items to fetch
-        const hasMore = (friendsRecentPlays.hasNextPage || friendsLibraryItems.hasNextPage);
+        const hasMore = (followingRecentPlays.hasNextPage || followingLibraryItems.hasNextPage);
 
         return res.status(200).json({
             data: feedItems,
@@ -104,12 +98,11 @@ const getCommunityFeed = async (req, res) => {
 // @access Private
 const getHomeFeed = async (req, res) => {
     try {
-    
-        const recentlyPlayed = await Play
-        .find({ user: req.user._id })
-        .sort({ updatedAt: -1 })
-        .limit(15)
-        .populate('game')
+        // const recentlyPlayed = await Play
+        // .find({ user: req.user._id })
+        // .sort({ updatedAt: -1 })
+        // .limit(15)
+        // .populate('game')
 
         // My stats in the last 30 days
         const playStats = await Play.aggregate([
@@ -135,7 +128,7 @@ const getHomeFeed = async (req, res) => {
         ]);
 
         // just a few random games for now
-        const recommended = await Game.aggregate(
+        const mostPopular = await Game.aggregate(
             [
                 { $match: {
                     complexityWeightedRating: { $gte: 0 },
@@ -160,12 +153,58 @@ const getHomeFeed = async (req, res) => {
             { $unwind: '$game' }
         ]);
 
+        let recommended = []
+
+        if (mostPlayed.length > 0) {
+            // Get recommendations based on most played games
+            const mostPlayedGames = mostPlayed.map(game => {
+                const categories = []
+                categories.push(...game.game.categories)
+                categories.push(...game.game.themes)
+                categories.push(...game.game.mechanics)
+                categories.push(...game.game.types)
+                return categories
+            }).flat()
+            .map(category => {
+                // can match with characters insensitive
+                return new RegExp(category, 'i') 
+            })
+
+            recommended = await Game.aggregate(
+                [
+                    { $match: {
+                        year: { $gte: 2000 },
+                        rating: { $gte: 3 },
+                        numRatings: { $gte: 500 },
+                        $or: [
+                            { categories: { $in: mostPlayedGames } },
+                            { themes: { $in: mostPlayedGames } },
+                            { mechanics: { $in: mostPlayedGames } },
+                            { types: { $in: mostPlayedGames } }
+                        ]
+                    }},
+                    { $sample: { size: 15 } }
+                ]
+            )
+            console.log(recommended)
+        } else {
+            recommended = await Game.aggregate(
+                [
+                    { $match: {
+                        complexityWeightedRating: { $gte: 0 },
+                        year: { $gte: 2000 },
+                        rating: { $gte: 50 }
+                    }},
+                    { $sample: { size: 15 } }
+                ]
+            )
+        }
+
         return res.status(200).json({
             data: {
-                recentlyPlayed,
-                // newGames,
                 mostPlayed,
                 playStats: playStats[0],
+                mostPopular,
                 recommended
             }
         });

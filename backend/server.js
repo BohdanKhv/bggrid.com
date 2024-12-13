@@ -45,7 +45,7 @@ app.use('/api/persons', require('./routes/personRoutes'));
 app.use('/api/library', require('./routes/libraryRoutes'));
 app.use('/api/plays', require('./routes/playRoutes'));
 app.use('/api/users', require('./routes/userRoutes'));
-app.use('/api/friends', require('./routes/friendRoutes'));
+app.use('/api/follow', require('./routes/followRoutes'));
 app.use('/api/feed', require('./routes/feedRoutes'));
 app.use('/api/notifications', require('./routes/notificationRoutes'));
 

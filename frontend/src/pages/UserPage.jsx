@@ -3,14 +3,14 @@ import { useDispatch, useSelector } from 'react-redux'
 import { Avatar, Button, ConfirmAction, Dropdown, ErrorInfo, HorizontalScroll, Icon, IconButton, Image, Skeleton, TabContent } from '../components'
 import { Link, useNavigate, useParams, useSearchParams } from 'react-router-dom'
 import { getUserProfile } from '../features/user/userSlice'
-import { acceptFriendRequest, removeFriend, sendFriendRequest } from '../features/friend/friendSlice'
-import FriendsModal from './friend/FriendsModal'
+import { followUser, unfollowUser } from '../features/follow/followSlice'
+import FollowersModal from './follow/FollowersModal'
 import { arrowDownShortIcon, arrowUpShortIcon, closeIcon, diceIcon, leftArrowIcon, starFillIcon } from '../assets/img/icons'
 import { DateTime } from 'luxon'
 import { tagsEnum } from '../assets/constants'
 import { getPlaysByUsername, resetPlay } from '../features/play/playSlice'
 import PlayItem from './PlayItem'
-import UserGuardLoginModal from './auth/UserGuardLoginModal'
+import FollowingModal from './follow/FollowingModal'
 
 
 const PlayTab = () => {
@@ -176,16 +176,12 @@ const UserPage = () => {
 
     const { username, tab } = useParams()
     const { userById, isLoading, msg } = useSelector(state => state.user)
-    const { friends, loadingId } = useSelector((state) => state.friend)
+    const { follow, loadingId } = useSelector((state) => state.follow)
     const [searchParams, setSearchParams] = useSearchParams()
     const { user } = useSelector((state) => state.auth)
     const [tags, setTags] = useState(searchParams.get('tag') ? [searchParams.get('tag')] : '')
     const [sortBy, setSortBy] = useState('dateAdded')
     const [sortOrder, setSortOrder] = useState('desc')
-
-    const isFriend = useMemo(() => {
-        return friends.find((friend) => friend?.friend?._id === userById?._id)
-    }, [friends, userById])
 
     useEffect(() => {
         window.scrollTo(0, 0)
@@ -205,10 +201,12 @@ const UserPage = () => {
         </div>
         : userById && !isLoading ?
         <div>
-            <FriendsModal
-                friends={userById?.friends}
-                hideSearch
-            />
+            {tab === 'followers' ?
+                <FollowersModal />
+            : tab === 'following' ?
+                <FollowingModal />
+            : null
+            }
             <main className="page-body">
                 <div className="animation-slide-in">
                     <div className="container">
@@ -242,7 +240,7 @@ const UserPage = () => {
                                 <div className="flex flex-1 flex-col gap-4">
                                     <div>
                                         {(userById?.firstName || userById?.lastName) && (
-                                            <div className="weight-600 fs-24">
+                                            <div className="fs-24">
                                                 {`${userById?.firstName} ${userById?.lastName}`}
                                             </div>
                                         )}
@@ -250,110 +248,56 @@ const UserPage = () => {
                                             @{userById?.username}
                                         </div>
                                         <div className="pt-4 flex gap-3">
-                                            <div className="flex justify-center align-center fs-14 gap-1 weight-600 text-underlined-hover pointer"
-                                                onClick={() => {
-                                                    window.scrollTo(0, 0)
-                                                    navigate(`/u/${username}/library`)
-                                                }}
+                                            <Link className="flex justify-center align-center fs-16 gap-1 weight-600 pointer"
+                                                to={`/u/${username}/library`}
                                             >
-                                                {userById?.library?.length || 0} <span className="text-secondary weight-400">games</span>
-                                            </div>
-                                            <div className="flex justify-center align-center fs-14 gap-1 weight-600 text-underlined-hover pointer"
-                                                onClick={() => {
-                                                    window.scrollTo(0, 0)
-                                                    navigate(`/u/${username}/plays`)
-                                                }}
+                                                {userById?.library?.length || 0} <span className="weight-400 ps-1">games</span>
+                                            </Link>
+                                            <Link className="flex justify-center align-center fs-16 gap-1 weight-600 pointer"
+                                                to={`/u/${username}/followers`}
                                             >
-                                                {userById?.plays || 0} <span className="text-secondary weight-400">plays</span>
-                                            </div>
-                                            <div className="flex justify-center align-center fs-14 gap-1 weight-600 text-underlined-hover pointer"
-                                                onClick={() => {
-                                                    searchParams.set('friends', 'true')
-                                                    setSearchParams(searchParams.toString())
-                                                }}
+                                                {userById?.followers?.length || 0} <span className="weight-400 ps-1">followers</span>
+                                            </Link>
+                                            <Link className="flex justify-center align-center fs-16 gap-1 weight-600 pointer"
+                                                to={`/u/${username}/following`}
                                             >
-                                                {userById?.friends?.length || 0} <span className="text-secondary weight-400">friends</span>
-                                            </div>
+                                                {userById?.following?.length || 0} <span className="weight-400 ps-1">following</span>
+                                            </Link>
                                         </div>
                                     </div>
                                     {
                                     user?._id === userById?._id ?
                                     null
                                     :
-                                    <div>
-                                    {isFriend ?
-                                        isFriend.pending && !isFriend.myRequest ?
-                                            <div className="flex gap-2 align-center">
-                                                <Button
-                                                    label="Decline"
-                                                    borderRadius="lg"
-                                                    variant="secondary"
-                                                    type="default"
-                                                    className="flex-shrink-0"
-                                                    onClick={(e) => {
-                                                        e.preventDefault()
-                                                        dispatch(removeFriend(isFriend._id))
-                                                    }}
-                                                    disabled={loadingId}
-                                                />
-                                                <Button
-                                                    label="Accept"
-                                                    variant="primary"
-                                                    type="filled"
-                                                    className="flex-shrink-0"
-                                                    borderRadius="lg"
-                                                    onClick={(e) => {
-                                                        e.preventDefault()
-                                                        dispatch(acceptFriendRequest(isFriend._id))
-                                                    }}
-                                                    disabled={loadingId}
-                                                />
-                                            </div>
-                                        :
-                                        isFriend.pending && isFriend.myRequest ?
+                                    <>
+                                        {userById.isFollowing ?
                                             <Button
-                                                label="Cancel"
-                                                variant="default"
-                                                type="secondary"
+                                                label="Unfollow"
+                                                variant="primary"
+                                                type="filled"
                                                 className="flex-shrink-0"
                                                 borderRadius="lg"
-                                                disabled={loadingId}
                                                 onClick={(e) => {
-                                                    dispatch(removeFriend(isFriend?._id))
+                                                    e.preventDefault()
+                                                    dispatch(unfollowUser(userById._id))
                                                 }}
+                                                disabled={loadingId}
                                             />
                                         :
-                                        <ConfirmAction
-                                            title="Remove friend"
-                                            secondary="Are you sure you want to remove this friend?"
-                                            onClick={(e) => {
-                                                dispatch(removeFriend(isFriend?._id))
-                                            }}
-                                        >
                                             <Button
-                                                label="Remove friend"
-                                                variant="outline"
-                                                type="secondary"
+                                                label="Follow"
+                                                variant="primary"
+                                                type="filled"
+                                                className="flex-shrink-0"
                                                 borderRadius="lg"
-                                                disabled={loadingId}
-                                            />
-                                        </ConfirmAction>
-                                    :
-                                        <UserGuardLoginModal>
-                                            <Button
-                                                label="Add friend"
-                                                variant="filled"
-                                                borderRadius="lg"
-                                                type="secondary"
-                                                disabled={loadingId}
-                                                onClick={() => {
-                                                    console.log('send friend request')
-                                                    dispatch(sendFriendRequest(userById?._id))
+                                                onClick={(e) => {
+                                                    e.preventDefault()
+                                                    dispatch(followUser(userById._id))
                                                 }}
+                                                disabled={loadingId}
                                             />
-                                        </UserGuardLoginModal>
                                         }
-                                    </div>
+                                    </>
                                     }
                                 </div>
                             </div>
@@ -370,7 +314,7 @@ const UserPage = () => {
                                 }}
                             />
                         </div>
-                        {!tab || tab?.toLocaleLowerCase() === 'library' ?
+                        {!tab || ['library', 'following', 'followers'].includes(tab?.toLocaleLowerCase()) ?
                             <div className="flex flex-col">
                                 {userById?.library?.length > 0 ?
                                     <div className="py-3">

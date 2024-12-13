@@ -2,7 +2,7 @@ const Library = require('../models/libraryModel');
 const Game = require('../models/gameModel');
 const Play = require('../models/playModel');
 const Notification = require('../models/notificationModel');
-const Friend = require('../models/friendModel');
+const Follow = require('../models/followModel');
 const mongoose = require('mongoose');
 
 
@@ -127,23 +127,19 @@ const addGameToLibrary = async (req, res) => {
 
         await newGame.save();
 
-        // Create a notification for friends
-        const friends = await Friend.find({
-            $or: [
-                { user1: req.user._id },
-                { user2: req.user._id }
-            ],
-            pending: false
+        // Create a notification for follow
+        const followers = await Follow.find({
+            following: req.user._id,
         });
 
-        if (friends.length) {
+        if (followers.length) {
             const notifications = [];
-            friends.forEach(friend => {
+            followers.forEach(u => {
                 notifications.push(new Notification({
                     sender: req.user._id,
-                    receiver: friend.user1.toString() === req.user._id.toString() ? friend.user2 : friend.user1,
+                    receiver: u.follower,
                     type: 'library',
-                    message: `added "${gameExists.name}" to their library and rated it ${rating}/10`,
+                    message: `added "${gameExists.name}" to their library and rated it ${rating}/5`,
                 }));
             });
 
@@ -191,8 +187,8 @@ const updateGameInLibrary = async (req, res) => {
 
         await game.save();
 
-        // Create a notification for friends
-        const friends = await Friend.find({
+        // Create a notification for follow
+        const follow = await Friend.find({
             $or: [
                 { user1: req.user._id },
                 { user2: req.user._id }
@@ -200,9 +196,9 @@ const updateGameInLibrary = async (req, res) => {
             pending: false
         });
 
-        if (friends.length) {
+        if (follow.length) {
             const notifications = [];
-            friends.forEach(friend => {
+            follow.forEach(friend => {
                 notifications.push(new Notification({
                     sender: req.user._id,
                     receiver: friend.user1.toString() === req.user._id.toString() ? friend.user2 : friend.user1,
@@ -245,8 +241,8 @@ const removeGameFromLibrary = async (req, res) => {
 
         await game.deleteOne();
 
-        // Create a notification for friends
-        const friends = await Friend.find({
+        // Create a notification for follow
+        const follow = await Friend.find({
             $or: [
                 { user1: req.user._id },
                 { user2: req.user._id }
@@ -254,9 +250,9 @@ const removeGameFromLibrary = async (req, res) => {
             pending: false
         });
 
-        if (friends.length) {
+        if (follow.length) {
             const notifications = [];
-            friends.forEach(friend => {
+            follow.forEach(friend => {
                 notifications.push(new Notification({
                     sender: req.user._id,
                     receiver: friend.user1.toString() === req.user._id.toString() ? friend.user2 : friend.user1,

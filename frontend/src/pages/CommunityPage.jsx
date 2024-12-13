@@ -2,12 +2,9 @@ import { useCallback, useEffect, useRef, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { Avatar, Button, ErrorInfo, HorizontalScroll, Icon, IconButton, Skeleton } from '../components'
 import { arrowRightShortIcon, closeIcon, diceIcon, largePlusIcon, linkIcon, plusIcon, rightArrowIcon, starEmptyIcon, starFillIcon, starsIcon, usersIcon } from '../assets/img/icons'
-import UserSearchModal from './friend/UserSearchModal'
 import { Link, useSearchParams } from 'react-router-dom'
-import FriendsModal from './friend/FriendsModal'
 import { resetFeed, getCommunityFeed } from '../features/feed/feedSlice'
 import PlayItem from './PlayItem'
-import FriendItem from './friend/FriendItem'
 import { DateTime } from 'luxon'
 
 
@@ -95,7 +92,6 @@ const CommunityPage = () => {
     const [searchParams, setSearchParams] = useSearchParams()
 
     const { user } = useSelector((state) => state.auth)
-    const { friends } = useSelector((state) => state.friend)
     const { feed, hasMore, isLoading, isError } = useSelector((state) => state.feed)
 
     const [type, setType] = useState(null)
@@ -138,8 +134,6 @@ const CommunityPage = () => {
 
     return (
         <div>
-            <UserSearchModal/>
-            <FriendsModal friends={friends}/>
             <main className="page-body">
                 <div className="animation-slide-in">
                     <div className="container">
@@ -165,88 +159,8 @@ const CommunityPage = () => {
                                 </div>
                             </div>
                         ) : null}
-                        {window.innerWidth <= 800 ?
-                        <div className="px-3">
-                            <HorizontalScroll
-                                className="align-start gap-0 flex-1"
-                                contentClassName="gap-0"
-                            >
-                                <div className={`pointer h-100 w-max-75-px animation-fade-in border-radius-sm hover-opacity-100 transition-duration clickable flex-shrink-0`}
-                                    onClick={() => {
-                                        searchParams.set('su', 'true')
-                                        setSearchParams(searchParams.toString())
-                                    }}
-                                >
-                                    <div className="flex flex-col p-2 align-center">
-                                        <Avatar
-                                            icon={plusIcon}
-                                            rounded
-                                            sizeSm="md"
-                                            defaultColor
-                                            size="lg"
-                                        />
-                                        <div className="fs-12 text-center text-ellipsis-1 pt-2 weight-500">
-                                            Add
-                                        </div>
-                                    </div>
-                                </div>
-                                <div className={`pointer h-100 w-max-75-px animation-fade-in border-radius-sm hover-opacity-100 transition-duration clickable flex-shrink-0`}
-                                    onClick={() => {
-                                        searchParams.set('friends', 'true')
-                                        setSearchParams(searchParams.toString())
-                                    }}
-                                >
-                                    <div className="flex flex-col p-2 align-center pos-relative">
-                                        {friends.filter((item) => item.pending).length > 0 ? <span className="fs-14 flex align-center justify-center w-set-25-px h-set-25-px z-3 bg-danger border-radius-50 border-radius pos-absolute top-0 right-0">{friends.filter((item) => item.pending).length}</span> : null}
-                                        <Avatar
-                                            icon={usersIcon}
-                                            sizeSm="md"
-                                            rounded
-                                            defaultColor
-                                            size="lg"
-                                        />
-                                        <div className="fs-12 text-center text-ellipsis-1 pt-2 weight-500">
-                                            Friends
-                                        </div>
-                                    </div>
-                                </div>
-                                {friends
-                                .filter((item) => !item.pending)
-                                .map((item) => (
-                                        <Link className={`pointer h-100 w-max-75-px w-sm-max-50-px w-100 p-2 animation-fade-in border-radius-sm hover-opacity-100 transition-duration clickable flex-shrink-0 bg-secondary-hover`}
-                                            key={item._id}
-                                            to={`/u/${item.friend.username}`}
-                                        >
-                                            <div className="flex flex-col align-center text-ellipsis-1">
-                                                <Avatar
-                                                    img={item?.friend?.avatar}
-                                                    rounded
-                                                    sizeSm="md"
-                                                    size="lg"
-                                                    name={item.friend.username}
-                                                    avatarColor={item.friend.username.length}
-                                                    label={item.friend.username}
-                                                />
-                                                <div className="text-ellipsis-1">
-                                                    <div className="fs-12 w-max-75-px w-sm-max-50-px text-center text-ellipsis pt-2 weight-500">
-                                                        {item.friend.username}
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </Link>
-                                ))}
-                            </HorizontalScroll>
-                        </div>
-                        : null}
                         <div className="flex gap-6">
                             <div className="flex-1 flex flex-col">
-                            {window.innerWidth <= 800 && user ? (
-                            <div className="sticky top-0 bg-main py-1 z-3 py-sm-0">
-                                {friends.length > 0 && !isLoading && (
-                                    <></>
-                                )}
-                            </div>
-                            ) : null}
                             <div  className="px-sm-3 py-3 sticky top-0 z-3 bg-main">
                                 <HorizontalScroll className="flex-1">
                                     <Button
@@ -334,55 +248,6 @@ const CommunityPage = () => {
                                 : null }
                             </div>
                         </div>
-                        {window.innerWidth > 800 &&
-                            <div className="flex flex-col w-set-300-px">
-                                <div className="flex justify-between align-center py-3">
-                                    <div className="fs-20 bold flex gap-3 align-center pointer transition-slide-right-hover-parent"
-                                        onClick={() => {
-                                            searchParams.set('friends', 'true')
-                                            setSearchParams(searchParams.toString())
-                                        }}
-                                    >
-                                        Friends {friends.filter((item) => item.pending).length > 0 ? <span className="fs-14 border-radius text-danger">{friends.filter((item) => item.pending).length}</span> : null}
-                                        <Icon icon={rightArrowIcon} size="sm" className="transition-slide-right-hover"/>
-                                    </div>
-                                    <IconButton
-                                        icon={largePlusIcon}
-                                        variant="text"
-                                        dataTooltipContent="Add a friend"
-                                        type="secondary"
-                                        onClick={() => {
-                                            searchParams.set('su', 'true')
-                                            setSearchParams(searchParams.toString())
-                                        }}
-                                    />
-                                </div>
-                                {/* { isLoading ?
-                                    <div className="flex flex-col gap-2">
-                                        <Skeleton height="48" animation="wave"/>
-                                        <Skeleton height="48" animation="wave"/>
-                                        <Skeleton height="48" animation="wave"/>
-                                        <Skeleton height="48" animation="wave"/>
-                                    </div>
-                                : */}
-                                {
-                                friends.length === 0 ?
-                                    <div className="border border-radius border-dashed animation-slide-in">
-                                        <ErrorInfo
-                                            secondary="Oops! No friends found"
-                                        />
-                                    </div>
-                                :
-                                friends.length > 0 && (
-                                friends.map((item) => (
-                                    <FriendItem
-                                        key={item._id}
-                                        item={item.friend}
-                                    />
-                                ))
-                            )}
-                            </div>
-                        }
                     </div>
                 </div>
             </div>

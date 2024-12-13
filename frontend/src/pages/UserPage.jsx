@@ -194,7 +194,7 @@ const UserPage = () => {
             promise.abort()
             dispatch(resetPlay())
         }
-    }, [])
+    }, [username])
 
     return (
         isLoading ? 
@@ -232,7 +232,7 @@ const UserPage = () => {
                                 <div className="flex justify-center align-center">
                                     <Avatar
                                         img={userById?.avatar}
-                                        name={userById ? `${userById?.email}` : null}
+                                        name={userById ? `${userById?.username}` : null}
                                         rounded
                                         defaultColor
                                         size="xxl"

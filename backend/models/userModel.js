@@ -32,8 +32,8 @@ const userSchema = new mongoose.Schema({
     avatar: { type: String, required: false }, // url to avatar uploadable
     bggUsername: { type: String, required: false, trim: true },
 
-    numFollowing: { type: String, required: false, default: 0 },
-    numFollowers: { type: String, required: false, default: 0 },
+    following: { type: Number, required: false, default: 0 },
+    followers: { type: Number, required: false, default: 0 },
 
     lastLogin: { type: Date, required: false, default: Date.now },
     active: { type: Boolean, required: false, default: true },

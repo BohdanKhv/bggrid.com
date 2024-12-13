@@ -23,18 +23,20 @@ const getFollowers = async (req, res) => {
         followers = followers.docs.map(u => u.follower);
 
         // Check if user is already followed
+        let data = []
         if (req.user) {
-            const isFollowing = await Follow.find({ follower: req.user._id, following: req.params.userId });
-
-
-            followers.docs.forEach(follower => {
-                const follow = isFollowing.find(follow => follow.follower.toString() === follower._id.toString());
-                if (follow) {
-                    follower.isFollowing = true;
-                } else {
-                    follower.isFollowing = false;
-                }
+            const isFollowing = await Follow.find({ follower: req.user._id, following: { $in: followers.map(user => user._id) } });
+            // Set isFollowing to true if user is already followed
+            followers.forEach(user => {
+                const follow = isFollowing.find(follow => follow.following.toString() === user._id.toString());
+                
+                return data.push({
+                    ...user._doc,
+                    isFollowing: follow ? true : false
+                });
             });
+        } else {
+            data = followers;
         }
 
         // Get current page and total pages
@@ -42,7 +44,7 @@ const getFollowers = async (req, res) => {
         const totalPages = followers.totalPages;
     
         res.status(200).json({
-            data: followers,
+            data: data,
             currentPage,
             totalPages
         });
@@ -72,17 +74,21 @@ const getFollowing = async (req, res) => {
 
         following = following.docs.map(u => u.following);
 
-        // check if user is already followed
+        let data = []
         if (req.user) {
-            const isFollowing = await Follow.find({ follower: req.user._id, following: req.params.userId });
-            following.docs.forEach(follow => {
-                const isFollow = isFollowing.find(follow => follow.following.toString() === follow._id.toString());
-                if (isFollow) {
-                    follow.isFollowing = true;
-                } else {
-                    follow.isFollowing = false;
-                }
+
+            const isFollowing = await Follow.find({ follower: req.user._id, following: { $in: following.map(user => user._id) } });
+            // Set isFollowing to true if user is already followed
+            following.forEach(user => {
+                const follow = isFollowing.find(follow => follow.following.toString() === user._id.toString());
+                
+                return data.push({
+                    ...user._doc,
+                    isFollowing: follow ? true : false
+                });
             });
+        } else {
+            data = following;
         }
 
         // Get current page and total pages
@@ -90,7 +96,7 @@ const getFollowing = async (req, res) => {
         const totalPages = following.totalPages;
 
         res.status(200).json({
-            data: following,
+            data: data,
             currentPage,
             totalPages
         });
@@ -102,16 +108,19 @@ const getFollowing = async (req, res) => {
 
 
 // @desc    Follow a user
-// @route   POST /api/follow/:userId/follow
+// @route   POST /api/follow/follow/:userId
 // @access  Private
 const followUser = async (req, res) => {
     try {
-        const user = await User.findById(req.params.userId);
+        const me = await User.findById(req.user._id);
+        const user = await User.findById(req.params.userId)
+        .select('following followers avatar firstName lastName username');
+
         if (!user) {
             return res.status(404).json({ msg: 'User not found' });
         }
 
-        if (req.user._id === req.params.userId) {
+        if (req.user._id.toString() === req.params.userId) {
             return res.status(400).json({ msg: 'You cannot follow yourself' });
         }
 
@@ -131,19 +140,23 @@ const followUser = async (req, res) => {
         const notification = new Notification({
             receiver: req.params.userId,
             sender: req.user._id,
+            message: `${req.user.username} started following you`,
             type: 'follow',
             read: false
         });
 
         await notification.save();
 
-        user.followersCount += 1;
-        req.user.followingCount += 1;
+        user.followers += 1;
+        me.following += 1;
         await user.save();
-        await req.user.save();
+        await me.save();
 
         return res.status(201).json({
-            data: newFollow
+            data: {
+                ...user._doc,
+                isFollowing: true
+            }
         });
     } catch (error) {
         console.error(error);
@@ -157,7 +170,10 @@ const followUser = async (req, res) => {
 // @access  Private
 const unfollowUser = async (req, res) => {
     try {
-        const user = await User.findById(req.params.userId);
+        const me = await User.findById(req.user._id);
+        const user = await User.findById(req.params.userId)
+        .select('following followers avatar firstName lastName username');
+
         if (!user) {
             return res.status(404).json({ msg: 'User not found' });
         }
@@ -171,16 +187,17 @@ const unfollowUser = async (req, res) => {
             return res.status(400).json({ msg: 'Not following this user' });
         }
 
-        await follow.remove();
+        await follow.deleteOne();
 
-        user.followersCount -= 1;
-        req.user.followingCount -= 1;
+        user.followers -= 1;
+        me.following -= 1;
         await user.save();
-        await req.user.save();
+        await me.save();
 
         return res.status(200).json({
             data: {
-                _id: follow._id,
+                ...user._doc,
+                isFollowing: false
             }
         });
     } catch (error) {
@@ -189,52 +206,9 @@ const unfollowUser = async (req, res) => {
     }
 }
 
-
-// @desc    Search users and give check if user is already followed or not. Set isFollowing to true if user is already followed
-// @route   GET /api/follow/search
-// @access  Private
-const searchUsersToFollow = async (req, res) => {
-    const { q } = req.query;
-
-    try {
-        const users = await User.find({
-            $or: [
-                {username: { $regex: q, $options: 'i' }},
-                {firstName: { $regex: q, $options: 'i' }},
-                {lastName: { $regex: q, $options: 'i' }}
-            ],
-            _id: { $ne: req.user._id }
-        })
-        .limit(10)
-        .select('-password');
-
-        // Check if user is already followed
-        const isFollowing = await Follow.find({ follower: req.user._id, following: { $in: users.map(user => user._id) } });
-
-        // Set isFollowing to true if user is already followed
-        users.forEach(user => {
-            const follow = isFollowing.find(follow => follow.following.toString() === user._id.toString());
-            if (follow) {
-                user.isFollowing = true;
-            } else {
-                user.isFollowing = false;
-            }
-        });
-
-        res.status(200).json({
-            data: users
-        });
-    } catch (error) {
-        res.status(404);
-        throw new Error('No users found');
-    }
-};
-
-
 module.exports = {
     followUser,
     unfollowUser,
     getFollowers,
     getFollowing,
-    searchUsersToFollow
 };

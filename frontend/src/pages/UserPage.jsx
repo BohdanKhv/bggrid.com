@@ -54,7 +54,9 @@ const PlayTab = () => {
     return (
         <>
         {plays.length === 0 && !hasMore ?
-            <ErrorInfo label="No plays found" icon={diceIcon}/>
+            <ErrorInfo
+                secondary="Once they start playing games, they will appear here"
+            />
         :
             <div className="flex gap-6">
                 <div className="flex-1">
@@ -229,7 +231,7 @@ const UserPage = () => {
                             <div className="flex gap-6 gap-sm-3 align-center align-sm-start">
                                 <div className="flex justify-center align-center">
                                     <Avatar
-                                        img={`${userById?.avatar}`}
+                                        img={userById?.avatar}
                                         name={userById ? `${userById?.email}` : null}
                                         rounded
                                         defaultColor
@@ -256,12 +258,12 @@ const UserPage = () => {
                                             <Link className="flex justify-center align-center fs-16 gap-1 weight-600 pointer"
                                                 to={`/u/${username}/followers`}
                                             >
-                                                {userById?.followers?.length || 0} <span className="weight-400 ps-1">followers</span>
+                                                {userById?.followers || 0} <span className="weight-400 ps-1">followers</span>
                                             </Link>
                                             <Link className="flex justify-center align-center fs-16 gap-1 weight-600 pointer"
                                                 to={`/u/${username}/following`}
                                             >
-                                                {userById?.following?.length || 0} <span className="weight-400 ps-1">following</span>
+                                                {userById?.following || 0} <span className="weight-400 ps-1">following</span>
                                             </Link>
                                         </div>
                                     </div>
@@ -269,12 +271,12 @@ const UserPage = () => {
                                     user?._id === userById?._id ?
                                     null
                                     :
-                                    <>
+                                    <div>
                                         {userById.isFollowing ?
                                             <Button
                                                 label="Unfollow"
-                                                variant="primary"
-                                                type="filled"
+                                                variant="secondary"
+                                                type="default"
                                                 className="flex-shrink-0"
                                                 borderRadius="lg"
                                                 onClick={(e) => {
@@ -286,7 +288,7 @@ const UserPage = () => {
                                         :
                                             <Button
                                                 label="Follow"
-                                                variant="primary"
+                                                variant="secondary"
                                                 type="filled"
                                                 className="flex-shrink-0"
                                                 borderRadius="lg"
@@ -297,7 +299,7 @@ const UserPage = () => {
                                                 disabled={loadingId}
                                             />
                                         }
-                                    </>
+                                    </div>
                                     }
                                 </div>
                             </div>
@@ -461,7 +463,7 @@ const UserPage = () => {
                                     </div>
                                 :
                                     <ErrorInfo
-                                        label="Oops, no games found"
+                                        label="Oops, it's empty here"
                                         secondary={`Once ${userById?.username} adds games to their library, they will appear here`}
                                     />
                                 }

@@ -14,7 +14,7 @@ const getUserProfile = async (req, res) => {
         User.findOne({
             username: { $regex: req.params.username, $options: 'i' }
         })
-        .select('-password');
+        .select('avatar username firstName lastName followers following bggUsername'); 
 
         const allLibrary = await Library.find({ user: user._id })
         .populate('game', 'name thumbnail')
@@ -23,18 +23,19 @@ const getUserProfile = async (req, res) => {
             return res.status(404).json({ msg: 'User not found' });
         }
 
-        if (user._id.toString() !== req.user?._id?.toString()) {
-            const follow = await Follow.findOne({
+        let isFollowing = false
+        if (req.user) {
+            isFollowing = await Follow.findOne({
                 follower: req.user._id,
                 following: user._id
             });
-
-            user.isFollowing = follow ? true : false;
         }
+
 
         res.status(200).json({
             data: {
                 ...user._doc,
+                isFollowing: isFollowing ? true : false,
                 library: allLibrary
             }
         });
@@ -49,10 +50,10 @@ const getUserProfile = async (req, res) => {
 // @route   GET /api/users/search
 // @access  Private
 const searchUsers = async (req, res) => {
-    const { q } = req.query;
+    const { q, checkIsFollowing } = req.query;
 
     try {
-        const users = await User.find({
+        let users = await User.find({
             $or: [
                 {username: { $regex: q, $options: 'i' }},
                 {firstName: { $regex: q, $options: 'i' }},
@@ -61,10 +62,25 @@ const searchUsers = async (req, res) => {
             _id: { $ne: req.user._id }
         })
         .limit(10)
-        .select('-password');
+        .select('username firstName lastName avatar');
+
+        const data = []
+
+        if (checkIsFollowing) {
+            const isFollowing = await Follow.find({ follower: req.user._id, following: { $in: users.map(user => user._id) } });
+            // Set isFollowing to true if user is already followed
+            users.forEach(user => {
+                const follow = isFollowing.find(follow => follow.following.toString() === user._id.toString());
+                
+                return data.push({
+                    ...user._doc,
+                    isFollowing: follow ? true : false
+                });
+            });
+        }
 
         res.status(200).json({
-            data: users
+            data: data
         });
     } catch (error) {
         res.status(404);

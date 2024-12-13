@@ -2,10 +2,13 @@ import { useCallback, useEffect, useRef, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { Avatar, Button, ErrorInfo, HorizontalScroll, Icon, IconButton, Skeleton } from '../components'
 import { arrowRightShortIcon, closeIcon, diceIcon, largePlusIcon, linkIcon, plusIcon, rightArrowIcon, starEmptyIcon, starFillIcon, starsIcon, usersIcon } from '../assets/img/icons'
+import FollowSearchModal from './follow/FollowSearchModal'
 import { Link, useSearchParams } from 'react-router-dom'
 import { resetFeed, getCommunityFeed } from '../features/feed/feedSlice'
 import PlayItem from './PlayItem'
+import FollowItem from './follow/FollowItem'
 import { DateTime } from 'luxon'
+import { getFollowing, resetFollow } from '../features/follow/followSlice'
 
 
 const LibraryItem = ({ item }) => {
@@ -92,6 +95,7 @@ const CommunityPage = () => {
     const [searchParams, setSearchParams] = useSearchParams()
 
     const { user } = useSelector((state) => state.auth)
+    const { follow, isLoading: followingIsLoading } = useSelector((state) => state.follow)
     const { feed, hasMore, isLoading, isError } = useSelector((state) => state.feed)
 
     const [type, setType] = useState(null)
@@ -103,6 +107,12 @@ const CommunityPage = () => {
     useEffect(() => {
         window.scrollTo(0, 0)
         document.title = 'Community'
+
+        const promise = dispatch(getFollowing(user._id))
+        return () => {
+            promise && promise.abort()
+            dispatch(resetFollow())
+        }
     }, [])
 
     useEffect(() => {
@@ -134,6 +144,7 @@ const CommunityPage = () => {
 
     return (
         <div>
+            <FollowSearchModal/>
             <main className="page-body">
                 <div className="animation-slide-in">
                     <div className="container">
@@ -159,8 +170,88 @@ const CommunityPage = () => {
                                 </div>
                             </div>
                         ) : null}
+                        {window.innerWidth <= 800 ?
+                        <div className="px-3">
+                            <HorizontalScroll
+                                className="align-start gap-0 flex-1"
+                                contentClassName="gap-0"
+                            >
+                                <div className={`pointer h-100 w-max-75-px animation-fade-in border-radius-sm hover-opacity-100 transition-duration clickable flex-shrink-0`}
+                                    onClick={() => {
+                                        searchParams.set('su', 'true')
+                                        setSearchParams(searchParams.toString())
+                                    }}
+                                >
+                                    <div className="flex flex-col p-2 align-center">
+                                        <Avatar
+                                            icon={plusIcon}
+                                            rounded
+                                            sizeSm="md"
+                                            defaultColor
+                                            size="lg"
+                                        />
+                                        <div className="fs-12 text-center text-ellipsis-1 pt-2 weight-500">
+                                            Add
+                                        </div>
+                                    </div>
+                                </div>
+                                <div className={`pointer h-100 w-max-75-px animation-fade-in border-radius-sm hover-opacity-100 transition-duration clickable flex-shrink-0`}
+                                    onClick={() => {
+                                        searchParams.set('friends', 'true')
+                                        setSearchParams(searchParams.toString())
+                                    }}
+                                >
+                                    <div className="flex flex-col p-2 align-center pos-relative">
+                                        {followingIsLoading.filter((item) => item.pending).length > 0 ? <span className="fs-14 flex align-center justify-center w-set-25-px h-set-25-px z-3 bg-danger border-radius-50 border-radius pos-absolute top-0 right-0">{friends.filter((item) => item.pending).length}</span> : null}
+                                        <Avatar
+                                            icon={usersIcon}
+                                            sizeSm="md"
+                                            rounded
+                                            defaultColor
+                                            size="lg"
+                                        />
+                                        <div className="fs-12 text-center text-ellipsis-1 pt-2 weight-500">
+                                            Following
+                                        </div>
+                                    </div>
+                                </div>
+                                {followingIsLoading
+                                .filter((item) => !item.pending)
+                                .map((item) => (
+                                        <Link className={`pointer h-100 w-max-75-px w-sm-max-50-px w-100 p-2 animation-fade-in border-radius-sm hover-opacity-100 transition-duration clickable flex-shrink-0 bg-secondary-hover`}
+                                            key={item._id}
+                                            to={`/u/${item.username}`}
+                                        >
+                                            <div className="flex flex-col align-center text-ellipsis-1">
+                                                <Avatar
+                                                    img={item?.friend?.avatar}
+                                                    rounded
+                                                    sizeSm="md"
+                                                    size="lg"
+                                                    name={item.username}
+                                                    avatarColor={item.username.length}
+                                                    label={item.username}
+                                                />
+                                                <div className="text-ellipsis-1">
+                                                    <div className="fs-12 w-max-75-px w-sm-max-50-px text-center text-ellipsis pt-2 weight-500">
+                                                        {item.username}
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </Link>
+                                ))}
+                            </HorizontalScroll>
+                        </div>
+                        : null}
                         <div className="flex gap-6">
                             <div className="flex-1 flex flex-col">
+                            {window.innerWidth <= 800 && user ? (
+                            <div className="sticky top-0 bg-main py-1 z-3 py-sm-0">
+                                {follow.length > 0 && !followingIsLoading && (
+                                    <></>
+                                )}
+                            </div>
+                            ) : null}
                             <div  className="px-sm-3 py-3 sticky top-0 z-3 bg-main">
                                 <HorizontalScroll className="flex-1">
                                     <Button
@@ -212,7 +303,7 @@ const CommunityPage = () => {
                                     </div>
                                 :
                                     feed.length === 0 && !isLoading &&
-                                    <div className="border border-radius border-dashed mt-3 mx-sm-3">
+                                    <div className="border border-radius border-dashed mx-sm-3">
                                         <ErrorInfo
                                             secondary={!hasMore ? "You're all caught up!" : "Oops! Something went wrong"}
                                         />
@@ -248,6 +339,54 @@ const CommunityPage = () => {
                                 : null }
                             </div>
                         </div>
+                        {window.innerWidth > 800 &&
+                            <div className="flex flex-col w-set-300-px">
+                                <div className="flex justify-between align-center py-3">
+                                    <div className="fs-20 bold flex gap-3 align-center pointer transition-slide-right-hover-parent">
+                                        Following 
+                                    </div>
+                                    <IconButton
+                                        icon={largePlusIcon}
+                                        variant="text"
+                                        dataTooltipContent="Search users"
+                                        type="secondary"
+                                        onClick={() => {
+                                            searchParams.set('su', 'true')
+                                            setSearchParams(searchParams.toString())
+                                        }}
+                                    />
+                                </div>
+                                {/* { isLoading ?
+                                    <div className="flex flex-col gap-2">
+                                        <Skeleton height="48" animation="wave"/>
+                                        <Skeleton height="48" animation="wave"/>
+                                        <Skeleton height="48" animation="wave"/>
+                                        <Skeleton height="48" animation="wave"/>
+                                    </div>
+                                : */}
+                                {
+                                follow.length === 0 ?
+                                    <div className="border border-radius border-dashed animation-slide-in pointer"
+                                        onClick={() => {
+                                            searchParams.set('su', 'true')
+                                            setSearchParams(searchParams.toString())
+                                        }}
+                                    >
+                                        <ErrorInfo
+                                            secondary="Oops! You're not following anyone"
+                                        />
+                                    </div>
+                                :
+                                follow.length > 0 && (
+                                follow.map((item) => (
+                                    <FollowItem
+                                        key={item._id}
+                                        item={item.friend}
+                                    />
+                                ))
+                            )}
+                            </div>
+                        }
                     </div>
                 </div>
             </div>

@@ -22,7 +22,7 @@ export const searchUsers = async (payload, token) => {
         }
     }
 
-    const response = await axios.get(API_URL+`/search${payload || ""}`, config);
+    const response = await axios.get(API_URL+`/search?q=${payload || ""}`, config);
 
     return response.data;
 }

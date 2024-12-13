@@ -3,15 +3,13 @@ import { Icon, IconButton, InputSearch, Modal, Image, ErrorInfo, Avatar, Button 
 import { Link, useSearchParams } from 'react-router-dom'
 import { arrowLeftShortIcon, gamesIcon, leftArrowIcon, searchIcon, userIcon } from '../../assets/img/icons'
 import { useDispatch, useSelector } from 'react-redux'
-import { searchUsersToFollow } from '../../features/follow/followSlice'
 import FollowItem from './FollowItem'
+import { searchUsers } from '../../features/user/userSlice'
 
 const FollowSearchModal = () => {
     const dispatch = useDispatch()
 
     const { users, isLoading } = useSelector((state) => state.user)
-
-    const { follow, loadingId } = useSelector((state) => state.follow)
 
     const [searchParams, setSearchParams] = useSearchParams()
     const [searchValue, setSearchValue] = useState('')
@@ -20,7 +18,7 @@ const FollowSearchModal = () => {
         let promise;
 
         if (searchValue.length > 0) {
-            promise = dispatch(searchUsersToFollow(`${searchValue}`))
+            promise = dispatch(searchUsers(`${searchValue}&checkIsFollowing=true`))
         }
 
         return () => {
@@ -84,12 +82,12 @@ const FollowSearchModal = () => {
                     isLoading ?
                         <ErrorInfo isLoading/>
                     :
-                    users.length === 0 && searchValue.length < 3 ?
+                    users.length === 0 && !searchValue.length ?
                         <ErrorInfo
                             secondary="Search for users by username, first name, or last name"
                         />
                     :
-                    users.length === 0 ?
+                    users.length === 0 && searchValue.length ?
                         <ErrorInfo
                             secondary={`Nothing matched your search for "${searchValue}"`}
                         />

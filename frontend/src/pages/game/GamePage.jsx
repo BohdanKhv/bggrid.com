@@ -748,7 +748,7 @@ const Overview = () => {
                                 <div key={index}>
                                     <Link 
                                         to={`/discover?types=${item}`}
-                                        className="fs-14 text-underlined-hover">
+                                        className="fs-14 text-underlined-hover weight-500">
                                         {item}
                                     </Link>
                                 {index < arr.length - 1 ? ', ' : ''}
@@ -764,7 +764,7 @@ const Overview = () => {
                                 <div key={index}>
                                     <Link 
                                         to={`/discover?themes=${item}`}
-                                        className="fs-14 text-underlined-hover">
+                                        className="fs-14 text-underlined-hover weight-500">
                                         {item}
                                     </Link>
                                 {index < arr.length - 1 ? ', ' : ''}
@@ -780,7 +780,7 @@ const Overview = () => {
                                 <div key={index}>
                                     <Link 
                                         to={`/discover?mechanics=${item}`}
-                                        className="fs-14 text-underlined-hover">
+                                        className="fs-14 text-underlined-hover weight-500">
                                         {item}
                                     </Link>
                                 {index < arr.length - 1 ? ', ' : ''}
@@ -796,7 +796,7 @@ const Overview = () => {
                                 <div key={index}>
                                     <Link 
                                         to={`/publisher/${item._id}`}
-                                        className="fs-14 text-underlined-hover">
+                                        className="fs-14 text-underlined-hover weight-500">
                                         {item.name}
                                     </Link>
                                 {index < arr.length - 1 ? ', ' : ''}
@@ -812,7 +812,7 @@ const Overview = () => {
                                 <div key={index}>
                                     <Link 
                                         to={`/person/${item._id}`}
-                                        className="fs-14 text-underlined-hover">
+                                        className="fs-14 text-underlined-hover weight-500">
                                         {item.name}
                                     </Link>
                                 {index < arr.length - 1 ? ', ' : ''}
@@ -828,7 +828,7 @@ const Overview = () => {
                                 <div key={index}>
                                     <Link 
                                         to={`/person/${item._id}`}
-                                        className="fs-14 text-underlined-hover">
+                                        className="fs-14 text-underlined-hover weight-500">
                                         {item.name}
                                     </Link>
                                     {index < arr.length - 1 ? ', ' : ''}
@@ -1212,7 +1212,7 @@ const GamePage = () => {
                             <div className="flex flex-col mt-6 pos-relative mt-sm-0 px-sm-3">
                                 <div className="z-3 border-radius bg-sm-main">
                                 <div className="flex gap-4 pt-sm-5">
-                                    {window.innerWidth < 1100 && gameById.image ?
+                                    {window.innerWidth < 800 && gameById.image ?
                                         <div>
                                             <Image
                                                 img={gameById.image}
@@ -1224,7 +1224,7 @@ const GamePage = () => {
                                     : null }
                                     <div className="flex flex-col overflow-x-hidden">
                                         <div className="fs-54 fs-sm-28 weight-600">
-                                            {gameById.name}
+                                            {gameById.name} {gameById.year ? <span className="weight-500 fs-20">({gameById.year})</span> : ''}
                                         </div>
                                         {window.innerWidth < 800 ?
                                         <>
@@ -1255,6 +1255,19 @@ const GamePage = () => {
                                 </div>
                                 {window.innerWidth < 800 ?
                                 <div>
+                                    <Button
+                                        icon={diceIcon}
+                                        borderRadius="lg"
+                                        size="lg"
+                                        className="w-100 mb-3"
+                                        variant="secondary"
+                                        type="default"
+                                        onClick={() => {
+                                            searchParams.set('logPlay', gameId)
+                                            setSearchParams(searchParams)
+                                        }}
+                                        label="Log a Play"
+                                    />
                                     <UserGuardLoginModal>
                                         { isInLibrary ?
                                             <Button
@@ -1305,7 +1318,7 @@ const GamePage = () => {
                         <div className="flex gap-3 px-4">
                     </div>
                     </div>
-                    {window.innerWidth >= 1100 && gameById.image ?
+                    {window.innerWidth >= 800 && gameById.image ?
                         <CoverImage img={gameById.image}/>
                     : null }
                 </div>

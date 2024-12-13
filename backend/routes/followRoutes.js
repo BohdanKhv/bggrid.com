@@ -6,7 +6,6 @@ const {
     unfollowUser,
     getFollowers,
     getFollowing,
-    searchUsersToFollow
 } = require('../controllers/followControllers.js');
 
 
@@ -15,7 +14,6 @@ router
     .delete('/unfollow/:userId', protect, unfollowUser)
     .get('/followers/:userId', loggedIn, getFollowers)
     .get('/following/:userId', loggedIn, getFollowing)
-    .get('/search', protect, searchUsersToFollow);
 
 
 module.exports = router;

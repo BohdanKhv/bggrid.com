@@ -1,5 +1,6 @@
 import { createAsyncThunk, createSlice, current } from '@reduxjs/toolkit';
 import userService from './userService';
+import { followUser, unfollowUser } from '../follow/followSlice';
 import { toast } from 'react-toastify';
 
 
@@ -92,6 +93,34 @@ const userSlice = createSlice({
                 state.isLoading = false;
                 state.msg = action.payload;
                 toast.error(action.payload, { toastId: 'toastError', closeButton: true});
+            }
+        });
+
+        builder.addCase(followUser.fulfilled, (state, action) => {
+            state.users = state.users.map(user => {
+                if (user._id === action.payload.data._id) {
+                    user.isFollowing = true;
+                    user.followers += 1;
+                }
+                return user;
+            });
+            if (state.userById && state.userById._id === action.payload.data._id) {
+                state.userById.isFollowing = true;
+                state.userById.followers += 1;
+            }
+        });
+
+        builder.addCase(unfollowUser.fulfilled, (state, action) => {
+            state.users = state.users.map(user => {
+                if (user._id === action.payload.data._id) {
+                    user.isFollowing = false;
+                    user.followers -= 1;
+                }
+                return user;
+            });
+            if (state.userById && state.userById._id === action.payload.data._id) {
+                state.userById.isFollowing = false;
+                state.userById.followers -= 1;
             }
         });
     }

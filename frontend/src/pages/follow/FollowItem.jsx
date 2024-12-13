@@ -9,7 +9,6 @@ const FollowItem = ({ item }) => {
     const dispatch = useDispatch()
 
     const { loadingId } = useSelector((state) => state.follow)
-    const { follow } = useSelector((state) => state.follow)
     const { user } = useSelector((state) => state.auth)
 
 
@@ -41,13 +40,13 @@ const FollowItem = ({ item }) => {
             </div>
             {user?._id === item?._id ?
                 <div className="fs-12 text-secondary px-3">You</div>
-            : user.isFollowing ?
+            : item.isFollowing ?
                 <Button
                     size="sm"
                     label="Unfollow"
-                    variant="filled"
                     borderRadius="sm"
-                    type="primary"
+                    type="secondary"
+                    variant="default"
                     disabled={loadingId}
                     onClick={(e) => {
                         dispatch(unfollowUser(item?._id))

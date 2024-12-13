@@ -1196,7 +1196,7 @@ const GamePage = () => {
                             items={[
                                 {label: 'Overview'},
                                 {label: 'Videos'},
-                                {label: 'Rules'},
+                                // {label: 'Rules'},
                                 {label: 'Reviews'},
                                 {label: 'Plays'},
                             ]}

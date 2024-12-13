@@ -96,7 +96,7 @@ const LibraryItem = ({ item, index, hideInfo }) => {
                 type="default"
                 to={`/g/${item?.game?._id}`}
             />
-            <Button
+            {/* <Button
                 smSize="xl"
                 size="lg"
                 borderRadius="none"
@@ -107,7 +107,7 @@ const LibraryItem = ({ item, index, hideInfo }) => {
                 disabled
                 type="default"
                 to={`/g/${item?.game?._id}/rules`}
-            />
+            /> */}
             <Button
                 smSize="xl"
                 size="lg"
@@ -251,7 +251,7 @@ const LibraryItem = ({ item, index, hideInfo }) => {
                                             type="default"
                                             to={`/g/${item?.game?._id}`}
                                         />
-                                        <Button
+                                        {/* <Button
                                             size="lg"
                                             borderRadius="none"
                                             className="justify-start"
@@ -261,7 +261,7 @@ const LibraryItem = ({ item, index, hideInfo }) => {
                                             variant="secondary"
                                             type="default"
                                             to={`/g/${item?.game?._id}/rules`}
-                                        />
+                                        /> */}
                                         <Button
                                             smSize="xl"
                                             size="lg"

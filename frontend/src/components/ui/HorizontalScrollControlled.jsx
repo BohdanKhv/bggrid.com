@@ -40,7 +40,7 @@ const HorizontalScrollControlled = ({items, label, maxVisibleItems, contentClass
 
     return (
         <div className="flex flex-col">
-            <div className="mb-4">
+            <div className="mb-1">
                 <div className="flex justify-between align-center">
                     <div>
                         {label ? label : null}

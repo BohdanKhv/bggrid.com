@@ -46,9 +46,9 @@ const PlayItem = ({ item }) => {
                         Winner
                     </div>
                 : null}
-                {item.playTimeMinutes ?
+                {item?.playTimeMinutes ?
                     <div className="tag-secondary fs-12 px-2 py-1 border-radius-sm">
-                        {item.playTimeMinutes} min
+                        {item?.playTimeMinutes} min
                     </div>
                 : null}
             </div>
@@ -82,9 +82,9 @@ const GameItem = ({ item }) => {
                         Winner
                     </div>
                 : null}
-                {item.playTimeMinutes ?
+                {item?.playTimeMinutes ?
                     <div className="tag-secondary fs-12 px-2 py-1 border-radius-sm">
-                        {item.playTimeMinutes} min
+                        {item?.playTimeMinutes} min
                     </div>
                 : null}
             </div>
@@ -147,7 +147,7 @@ const HomeFeed = () => {
             </div>
         :
             <div className="py-6 flex flex-col gap-4 gap-sm-3 overflow-hidden px-sm-4 py-sm-4">
-                <div>
+                <div className="mb-2">
                     <div className="fs-20 flex align-center gap-4 weight-500 transition-slide-right-hover-parent pb-4">
                         Your stats in the last 30 days
                     </div>
@@ -189,7 +189,7 @@ const HomeFeed = () => {
                 {home?.recentlyPlayed?.length ?
                     <HorizontalScrollControlled
                         label={
-                            <Link className="fs-20 mt-2 flex align-center gap-4 weight-500 transition-slide-right-hover-parent pointer"
+                            <Link className="fs-20 flex align-center gap-4 weight-500 transition-slide-right-hover-parent pointer"
                                 to="/plays"
                             >
                                 <div>
@@ -243,7 +243,7 @@ const HomeFeed = () => {
                         }
                         maxVisibleItems={window.innerWidth < 800 ? 2 : 5}
                         items={home.mostPopular.map((item, i) => (
-                            <GameItem key={i} item={item.game}/>
+                            <GameItem key={i} item={item}/>
                         ))}
                     />
                 : null}

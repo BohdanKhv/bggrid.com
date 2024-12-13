@@ -127,13 +127,11 @@ const getHomeFeed = async (req, res) => {
             }
         ]);
 
-        // just a few random games for now
         const mostPopular = await Game.aggregate(
             [
                 { $match: {
-                    complexityWeightedRating: { $gte: 0 },
                     year: { $gte: 2000 },
-                    rating: { $gte: 50 }
+                    rating: { $gte: 3 }
                 }},
                 { $sample: { size: 15 } }
             ]
@@ -144,20 +142,20 @@ const getHomeFeed = async (req, res) => {
         // .sort({ year: -1 })
         // .limit(15)
         // most played
-        const mostPlayed = await Library.aggregate([
-            { $match: { user: req.user._id } },
-            { $group: { _id: '$game', count: { $sum: 1 }, lastPlayDate: { $max: '$lastPlayDate' }, totalPlays: { $sum: '$totalPlays' } } },
-            { $sort: { count: -1 } },
-            { $limit: 15 },
-            { $lookup: { from: 'games', localField: '_id', foreignField: '_id', as: 'game' } },
-            { $unwind: '$game' }
-        ]);
+        // const mostPlayed = await Library.aggregate([
+        //     { $match: { user: req.user._id } },
+        //     { $group: { _id: '$game', count: { $sum: 1 }, lastPlayDate: { $max: '$lastPlayDate' }, totalPlays: { $sum: '$totalPlays' } } },
+        //     { $sort: { count: -1 } },
+        //     { $limit: 15 },
+        //     { $lookup: { from: 'games', localField: '_id', foreignField: '_id', as: 'game' } },
+        //     { $unwind: '$game' }
+        // ]);
 
         let recommended = []
 
-        if (mostPlayed.length > 0) {
+        if (recentlyPlayed.length > 0) {
             // Get recommendations based on most played games
-            const mostPlayedGames = mostPlayed.map(game => {
+            const mostPlayedGames = recentlyPlayed.map(game => {
                 const categories = []
                 categories.push(...game.game.categories)
                 categories.push(...game.game.themes)
@@ -202,7 +200,7 @@ const getHomeFeed = async (req, res) => {
         return res.status(200).json({
             data: {
                 recentlyPlayed,
-                mostPlayed,
+                // mostPlayed,
                 playStats: playStats[0],
                 mostPopular,
                 recommended

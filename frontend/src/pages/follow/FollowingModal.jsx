@@ -1,68 +1,85 @@
-import React, { useMemo, useState } from 'react'
+import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { Avatar, Button, ErrorInfo, InputSearch, Modal } from '../../components'
-import { Link, useSearchParams } from 'react-router-dom'
+import { Link, useNavigate, useSearchParams } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
 import { searchIcon, usersIcon } from '../../assets/img/icons'
-import { getFollowers, getFollowing } from '../../features/follow/followSlice'
+import { getFollowing, resetFollow } from '../../features/follow/followSlice'
 import FollowItem from './FollowItem'
 
-const FollowingModal = ({ follow, hideSearch }) => {
+const FollowingModal = () => {
+    const dispatch = useDispatch()
+    const navigate = useNavigate()
 
-    const [searchParams, setSearchParams] = useSearchParams()
-    const { loadingId, isLoading } = useSelector((state) => state.follow)
-    const [searchValue, setSearchValue] = useState('')
+    const { userById } = useSelector((state) => state.user)
+    const { follow, isLoading, isError, hasMore } = useSelector((state) => state.follow)
 
-    const { user } = useSelector((state) => state.auth)
+    const getData = () => {
+        dispatch(getFollowing(userById._id))
+    }
+
+    const observer = useRef();
+    const lastElementRef = useCallback(node => {
+        if (isLoading) return;
+        if (observer.current) observer.current.disconnect();
+        observer.current = new IntersectionObserver(entries => {
+            if (entries[0].isIntersecting && hasMore && !isError && !isLoading) {
+                const promise = getData();
+        
+                return () => {
+                    promise && promise.abort();
+                    dispatch(resetFollow());
+                    observer.current && observer.current.disconnect();
+                }
+            }
+        });
+        if (node) observer.current.observe(node);
+    }, [isLoading, hasMore, isError]);
+
+    useEffect(() => {
+        getData()
+
+        return () => {
+            dispatch(resetFollow())
+        }
+    }, [])
 
     return (
         <Modal
-            modalIsOpen={searchParams.get('follow') === 'true'}
+            modalIsOpen={true}
             onClickOutside={() => {
-                searchParams.delete('follow')
-                setSearchParams(searchParams.toString())
+                navigate(`/u/${userById.username}`)
             }}
             onClose={() => {
-                searchParams.delete('follow')
-                setSearchParams(searchParams.toString())
+                navigate(`/u/${userById.username}`)
             }}
             classNameContent="p-0"
             noAction
-            label="Follow"
+            label="Following"
         >
             <div className="py-2 px-4">
-                {follow && follow.length > 0 ?
-                <>
-                    {follow
-                    .map((item) => (
+                {follow.length === 0 && !isLoading ?
+                    <ErrorInfo
+                        secondary="Not following anyone"
+                    />
+                : follow
+                .map((item) => (
+                    <div
+                        key={item._id}
+                        ref={lastElementRef}
+                    >
                         <FollowItem
                             item={item.friend || item}
-                            key={item._id}
-                            showRemoveButton
                         />
-                    ))}
-                </>
-                :
-                    isLoading ?
-                        <ErrorInfo isLoading/>
-                    :
-                    follow.length === 0 && searchValue.length < 3 ?
-                        <ErrorInfo
-                            label="Oops! No follow found"
-                            secondary="Search for follow by username, first name, or last name"
-                            onClick={() => {
-                                if (!user) return
-                                searchParams.set('su', 'true')
-                                searchParams.delete('follow')
-                                setSearchParams(searchParams.toString())
-                            }}
-                            btnLabel={hideSearch ? null : user ? "Find follow" : 'Login to find follow'}
-                        />
-                    :
-                    follow.length === 0 ?
-                        <ErrorInfo
-                            secondary={`Nothing matched your search for "${searchValue}"`}
-                        />
-                : null}
+                    </div>
+                ))}
+                { isError ?
+                    <ErrorInfo
+                        label="Oh no!"
+                        secondary="Something went wrong"
+                    />
+                : isLoading ?
+                    <ErrorInfo isLoading/>
+                : null }
             </div>
         </Modal>
     )

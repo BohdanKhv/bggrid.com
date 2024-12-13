@@ -35,6 +35,13 @@ const FollowersModal = () => {
         if (node) observer.current.observe(node);
     }, [isLoading, hasMore, isError]);
 
+    useEffect(() => {
+        getData()
+
+        return () => {
+            dispatch(resetFollow())
+        }
+    }, [])
 
     return (
         <Modal
@@ -52,15 +59,18 @@ const FollowersModal = () => {
             <div className="py-2 px-4">
                 {follow.length === 0 && !isLoading ?
                     <ErrorInfo
-                        label="No followers"
-                        secondary="This user has no followers"
+                        secondary="No followers"
                     />
                 : follow
                 .map((item) => (
-                    <FollowItem
-                        item={item.friend || item}
+                    <div
                         key={item._id}
-                    />
+                        ref={lastElementRef}
+                    >
+                        <FollowItem
+                            item={item.friend || item}
+                        />
+                    </div>
                 ))}
                 { isError ?
                     <ErrorInfo
@@ -69,11 +79,7 @@ const FollowersModal = () => {
                     />
                 : isLoading ?
                     <ErrorInfo isLoading/>
-                : 
-                    <div
-                        ref={lastElementRef}
-                    />
-                }
+                : null }
             </div>
         </Modal>
     )

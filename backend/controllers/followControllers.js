@@ -137,6 +137,11 @@ const followUser = async (req, res) => {
 
         await notification.save();
 
+        user.followersCount += 1;
+        req.user.followingCount += 1;
+        await user.save();
+        await req.user.save();
+
         return res.status(201).json({
             data: newFollow
         });
@@ -167,6 +172,11 @@ const unfollowUser = async (req, res) => {
         }
 
         await follow.remove();
+
+        user.followersCount -= 1;
+        req.user.followingCount -= 1;
+        await user.save();
+        await req.user.save();
 
         return res.status(200).json({
             data: {

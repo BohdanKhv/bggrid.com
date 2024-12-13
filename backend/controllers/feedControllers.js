@@ -98,11 +98,11 @@ const getCommunityFeed = async (req, res) => {
 // @access Private
 const getHomeFeed = async (req, res) => {
     try {
-        // const recentlyPlayed = await Play
-        // .find({ user: req.user._id })
-        // .sort({ updatedAt: -1 })
-        // .limit(15)
-        // .populate('game')
+        const recentlyPlayed = await Play
+        .find({ user: req.user._id })
+        .sort({ updatedAt: -1 })
+        .limit(15)
+        .populate('game')
 
         // My stats in the last 30 days
         const playStats = await Play.aggregate([
@@ -186,7 +186,6 @@ const getHomeFeed = async (req, res) => {
                     { $sample: { size: 15 } }
                 ]
             )
-            console.log(recommended)
         } else {
             recommended = await Game.aggregate(
                 [
@@ -202,6 +201,7 @@ const getHomeFeed = async (req, res) => {
 
         return res.status(200).json({
             data: {
+                recentlyPlayed,
                 mostPlayed,
                 playStats: playStats[0],
                 mostPopular,

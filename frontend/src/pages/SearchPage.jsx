@@ -296,7 +296,7 @@ const SearchPage = () => {
                                     <InputSearch
                                         icon={searchIcon}
                                         className="flex-1 py-1"
-                                        placeholder="Search games"
+                                        placeholder="Search in over 160,000 games"
                                         value={searchValue}
                                         clearable
                                         onChange={(e) => setSearchValue(e.target.value)}

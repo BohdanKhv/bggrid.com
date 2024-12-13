@@ -225,7 +225,7 @@ const HomeFeed = () => {
                     <HorizontalScrollControlled
                         label={
                             <div className="fs-20 flex align-center gap-4 weight-500 transition-slide-right-hover-parent">
-                                Games for you
+                                Games you might like
                             </div>
                         }
                         maxVisibleItems={window.innerWidth < 800 ? 2 : 5}

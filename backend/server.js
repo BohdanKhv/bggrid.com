@@ -15,6 +15,7 @@ connectDB();
 // Initialize express
 const app = express();
 
+// runServices();
 
 // Cors
 app.use(cors({

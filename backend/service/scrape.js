@@ -12,7 +12,7 @@ const scrape = async () => {
     const limit = 20; // 20 games per request
 
 
-    const totalGames = await Game.countDocuments({minPlayers: {$exists: false}});
+    const totalGames = await Game.countDocuments({bggScraped: false});
     console.log('Total games to scrape:', totalGames, 'Total requests:', Math.ceil(totalGames / limit));
     console.log('Estimated time left:', Math.ceil(totalGames / limit) * delay / 60, 'minutes');
 
@@ -25,11 +25,11 @@ const scrape = async () => {
 
     for (let i = 0; i < Math.ceil(totalGames / limit); i++) {
         // wait for 5 seconds
-        await new Promise(resolve => setTimeout(resolve, delay * 500));
+        await new Promise(resolve => setTimeout(resolve, delay * 250));
         const bulkWriteOps = [];
 
         const games = await Game.aggregate([
-            { $match: {minPlayers: {$exists: false}} },
+            { $match: { bggScraped: false } },
             { $sample: { size: limit } },
         ]);
 
@@ -109,25 +109,25 @@ const scrape = async () => {
         
             const itemData = {
                 bggId,
-                altNames,
-                description,
+                // altNames,
+                // description,
                 categories,
-                thumbnail,
-                images,
-                minPlayers: parseInt(minPlayers),
-                maxPlayers: parseInt(maxPlayers),
-                minPlaytime: parseInt(minplaytime),
-                maxPlaytime: parseInt(maxplaytime),
+                // thumbnail,
+                // images,
+                // minPlayers: parseInt(minPlayers),
+                // maxPlayers: parseInt(maxPlayers),
+                // minPlaytime: parseInt(minplaytime),
+                // maxPlaytime: parseInt(maxplaytime),
                 minAge: parseInt(minage),
                 rating: parseFloat(rating),
                 numRatings: parseInt(numRatings),
                 numComments: parseInt(numComments),
                 complexityWeight: parseFloat(complexityWeight),
                 mechanics,
-                image,
-                altDesigners,
-                altArtists,
-                altPublishers,
+                // image,
+                // altDesigners,
+                // altArtists,
+                // altPublishers,
                 videos,
                 bggScraped: true,
             };
@@ -204,7 +204,6 @@ const updateGamesInfo = async () => {
             if (typeEnum.includes(category)) types.push(category);
             if (themesEnum.includes(category)) themes.push(category);
         });
-        if (game.is_expansion) game.isExpansion = game.is_expansion == 0 ? false : true;
 
         bulkWriteOps.push({
             updateOne: {
@@ -258,8 +257,8 @@ const scrapeImages = async () => {
 }
 
 const runServices = () => {
-    // scrapeBggGamesBulk();
-    updateGamesInfo();
+    scrapeBggGamesBulk();
+    // updateGamesInfo();
 }
 
 module.exports = {

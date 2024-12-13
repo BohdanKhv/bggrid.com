@@ -29,11 +29,11 @@ const userSchema = new mongoose.Schema({
     },
     firstName: { type: String, required: false, trim: true },
     lastName: { type: String, required: false, trim: true },
-    bio: { type: String, required: false },
-    gender: { type: String, required: false },
-    birthDate: { type: Date, required: false },
     avatar: { type: String, required: false }, // url to avatar uploadable
     bggUsername: { type: String, required: false, trim: true },
+
+    numFollowing: { type: String, required: false, default: 0 },
+    numFollowers: { type: String, required: false, default: 0 },
 
     lastLogin: { type: Date, required: false, default: Date.now },
     active: { type: Boolean, required: false, default: true },

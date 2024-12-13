@@ -1,7 +1,7 @@
 import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { Avatar, Button, Dropdown, ErrorInfo, FilterDropdown, HorizontalScroll, Icon, IconButton, Image, InputSearch, Modal } from '../components'
 import { Link, useSearchParams } from 'react-router-dom'
-import { arrowLeftShortIcon, clockIcon, closeIcon, filterIcon, gridIcon, listIcon, searchIcon, toggleSortIcon } from '../assets/img/icons'
+import { arrowLeftShortIcon, clockIcon, closeIcon, filterIcon, gridIcon, leftArrowIcon, listIcon, searchIcon, toggleSortIcon } from '../assets/img/icons'
 import { mechanicsEnum, themesEnum, typeEnum } from '../assets/constants'
 import { useDispatch, useSelector } from 'react-redux'
 import { getGames, getSuggestions, resetGame } from '../features/game/gameSlice'
@@ -122,16 +122,15 @@ const SearchPage = () => {
     return (
         <div>
             <main className="page-body">
-                <div className="animation-slide-in">
-                    <div className="container">
+                <div className="animation-slide-in container">
+                    <div className="border-left border-right border-sm-none">
                         {window.innerWidth < 800 ?
                         <div className="pt-6 pb-3 pt-sm-3 title-1 bold px-sm-3">
                             Discover Games
                         </div>
                         : null}
                         <div className="pb-6 pt-3 pt-sm-0">
-                            <div className="flex flex-col gap-3 px-sm-3">
-                                <div className="border flex border-radius-lg flex-1 w-max-400-px">
+                            <div className="px-4 flex flex-col px-sm-3 border-bottom">
                                     {
                                     window.innerWidth < 800 ?
                                     <>
@@ -277,27 +276,44 @@ const SearchPage = () => {
                                                         <ErrorInfo isLoading/>
                                                     : null}
                                             </div>
-                                        </Modal>
-                                        <div className="border border-radius-lg py-2 px-3 flex align-center gap-2 fs-12 weight-600 flex-1"
-                                            onClick={() => {
-                                                searchParams.set('sg', true)
-                                                setSearchParams(searchParams)
-                                            }}
-                                        >
-                                            <Icon
-                                                icon={searchIcon}
-                                                size="sm"
-                                                className="fill-secondary"
-                                            />
-                                            {searchValue.length ? `${searchValue}` : 'Search games'}
+                                            </Modal>
+                                        <div className="border flex border-radius-lg flex-1">
+                                            <div className="border border-radius-lg py-2 px-3 flex align-center gap-2 fs-12 weight-600 flex-1"
+                                                onClick={() => {
+                                                    searchParams.set('sg', true)
+                                                    setSearchParams(searchParams)
+                                                }}
+                                            >
+                                                <Icon
+                                                    icon={searchIcon}
+                                                    size="sm"
+                                                    className="fill-secondary"
+                                                />
+                                                {searchValue.length ? `${searchValue}` : 'Search games'}
+                                            </div>
                                         </div>
                                         </>
                                     :
+                                    <div className="flex gap-3 align-center">
                                     <InputSearch
                                         icon={searchIcon}
-                                        className="flex-1 py-1"
                                         placeholder="Search in over 160,000 games"
+                                        className="p-3 border flex-1 py-1 border-radius-lg"
                                         value={searchValue}
+                                        itemOnFocus={
+                                            <IconButton
+                                                icon={leftArrowIcon}
+                                                type="secondary"
+                                                variant="link"
+                                                muted
+                                                onClick={() => {
+                                                    setSearchValue('')
+                                                    searchParams.delete('s')
+                                                    setSearchParams(searchParams.toString())
+                                                }}
+                                                className="border-none"
+                                            />
+                                        }
                                         clearable
                                         onChange={(e) => setSearchValue(e.target.value)}
                                         onSubmit={() => {
@@ -308,9 +324,15 @@ const SearchPage = () => {
                                                 dispatch(setSearchHistory([...new Set([searchValue.trim(), ...searchHistory])]))
                                             }
                                         }}
-                                        searchable={searchValue.length || searchHistory.length > 0}
+                                        searchable
                                         searchChildren={
                                             <div className="py-2">
+                                                {!searchValue.length && !searchParams.get('s')?.length && !suggestions?.length && !searchHistory?.length ?
+                                                <div className="px-4 py-4 text-center text-secondary fs-14">
+                                                    Try searching for games by name
+                                                </div>
+                                                : null
+                                                }
                                                 {searchValue.length ?
                                                 <div className="flex justify-between align-center">
                                                     <div
@@ -412,9 +434,8 @@ const SearchPage = () => {
                                         </div>
                                     }
                                     />
+                                    </div>
                                 }
-                                </div>
-                            </div>
                             <div className="py-3 top-0 z-3 sticky px-sm-3 bg-main">
                                 <HorizontalScroll
                                     noControllers
@@ -602,7 +623,8 @@ const SearchPage = () => {
                                     </FilterDropdown>
                                 </HorizontalScroll> 
                             </div>
-                            <div className="px-sm-3 flex justify-between align-center">
+                            </div>
+                            <div className="px-4 py-2 px-sm-3 flex justify-between align-center">
                                 <Dropdown
                                     label="Relevance"
                                     classNameContainer="p-0 border-none bold"
@@ -682,7 +704,7 @@ const SearchPage = () => {
                                     dataTooltipContent={listView ? "List view" : "Grid view"}
                                 />
                             </div>
-                            <div>
+                            <div className="px-4">
                                 {msg === 'No games found' || (games.length === 0 && !isLoading) ?
                                     <div className="border border-radius border-dashed mx-sm-3 my-3">
                                         <ErrorInfo

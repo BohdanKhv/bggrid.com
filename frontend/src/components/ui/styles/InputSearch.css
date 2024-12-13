@@ -55,8 +55,8 @@
 .input-search-container .input-search-icon svg {
     fill: var(--text-dark);
     transition-duration: var(--transition-duration);
-    width: 12px;
-    height: 12px;
+    width: 10px;
+    height: 10px;
 }
 
 .input-search-container:focus-within {

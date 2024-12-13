@@ -605,21 +605,21 @@ const CoverImage = ({ img }) => {
     }, [user, gameById, library])
 
     return (
-        <div>
+        <div className="container w-min-400-px">
                 <div
                     className="bg-secondary my-6 h-sm-set-150-px border-radius pos-relative h-set-300-px w-min-200-px w-max-300-px">
                     <Image
                         img={img}
                         errIcon={gamesIcon}
                         classNameContainer="bg-secondary border-radius z-3 relative"
-                        classNameImg="z-1 w-100 h-100 border-radius object-cover object-center pos-relative box-shadow"
+                        classNameImg="z-1 w-100 h-100 border-radius object-cover object-center pos-relative box-shadow-lg"
                     />
-                    <Image
+                    {/* <Image
                         img={img}
                         errIcon={gamesIcon}
                         classNameContainer="bg-secondary pos-absolute left-0 blur-20 top-0 border-radius relative"
                         classNameImg="z-0 h-100 border-radius object-cover object-center blur-20"
-                    />
+                    /> */}
                 </div>
                 {tab === 'reviews' ?
                     <GameReviewStats/>
@@ -1103,7 +1103,7 @@ const GamePage = () => {
                     />
                 </div>
             : gameById ? 
-                <div className="flex flex-col h-min-100 container animation-slide-in">
+                <div className="flex flex-col container h-min-100 animation-slide-in">
                     {window.innerWidth < 800 ?
                     <>
                         <div className="flex justify-between p-3">
@@ -1191,7 +1191,7 @@ const GamePage = () => {
                         </div>
                     </>
                     : null }
-                    <div className="bg-main sticky top-0 z-9 px-sm-3">
+                    <div className="bg-main sticky top-0 z-9 px-sm-3 border-bottom border-left border-right container">
                         <TabContent
                             items={[
                                 {label: 'Overview'},
@@ -1206,10 +1206,10 @@ const GamePage = () => {
                             }}
                         />
                     </div>
-                    <div className="flex gap-6">
-                        <div className="flex-1 overflow-hidden">
+                    <div className="flex border-left border-right border-sm-none">
+                        <div className="flex-1 overflow-hidden px-4 px-sm-0">
                             {(window.innerWidth < 800 || window.innerWidth >= 800) && (tab === 'overview' || !tab) ?
-                            <div className="flex flex-col mt-6 pos-relative mt-sm-0 px-sm-3">
+                            <div className="flex flex-col mt-4 pos-relative mt-sm-0 px-sm-3">
                                 <div className="z-3 border-radius bg-sm-main">
                                 <div className="flex gap-4 pt-sm-5">
                                     {window.innerWidth < 800 && gameById.image ?

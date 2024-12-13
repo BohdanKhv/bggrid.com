@@ -16,6 +16,8 @@ const InputSearch = ({
     loading,
     disabled,
     autoFocus,
+    classNameBlur,
+    classNameFocus,
     onClick,
     onFocus,
     onBlur,
@@ -25,6 +27,7 @@ const InputSearch = ({
     onSubmit,
     onSubmitEmpty,
     size,
+    itemOnFocus,
     placeholder,
     searchable,
     searchChildren,
@@ -86,7 +89,8 @@ const InputSearch = ({
 
     return (
         <>
-        <div className={`input-search-container${focus ? ` input-search-focused` : ''}${className ? ` ${className}`: ""}${size ? ` input-search-${size}` : ""}`}
+        {itemOnFocus && focus ? itemOnFocus : null}
+        <div className={`input-search-container${focus && classNameFocus ? ` ${classNameFocus}` : !focus && classNameBlur ? ` ${classNameBlur}` : ""}${focus ? ` input-search-focused` : ''}${className ? ` ${className}`: ""}${size ? ` input-search-${size}` : ""}`}
             ref={inputParentRef}
         >
             {
@@ -98,6 +102,7 @@ const InputSearch = ({
             <Icon
                 icon={icon ? icon : null}
                 className={`${focus ? '' : 'opacity-25'}`}
+                size="sm"
                 onClick={(e) => {
                     e.stopPropagation()
                     inputRef.current.focus()

@@ -125,7 +125,7 @@ const LibraryItem = ({ item, index, hideInfo }) => {
         <div className="border-bottom border-secondary px-sm-3 transition-duration animation-slide-in show-on-hover-parent hide-on-hover-parent">
             <div className="flex justify-between"
             >
-                <div className="flex gap-3 flex-1 py-3 align-center">
+                <div className="flex gap-3 flex-1 py-3 align-center pe-4">
                     {window.innerWidth > 800 ?
                     <div
                         className="flex justify-center align-center opacity-50 hover-opacity-100 w-set-50-px"
@@ -335,243 +335,284 @@ const LibraryPage = () => {
     }, [])
 
     return (
-        <div>
+        <>
             <main className="page-body">
-                <div className="animation-slide-in">
-                    <div className="container">
-                        {window.innerWidth < 800 && (
-                            <div className="flex pt-6 pt-sm-3 justify-between px-sm-3">
-                                <div className="title-1 bold">
-                                    Library
+                <div className="animation-slide-in flex flex-1 flex-sm-col container">
+                    <div className="flex flex-1 overflow-hidden">
+                        <div className="flex-1 flex flex-col border-left border-right overflow-hidden border-bottom border-sm-none">
+                            {window.innerWidth < 800 && (
+                                <div className="flex pt-6 pt-sm-3 justify-between px-sm-3">
+                                    <div className="title-1 bold">
+                                        Library
+                                    </div>
+                                    <div className="justify-end flex align-center flex-no-wrap gap-3">
+                                        <div
+                                            onClick={() => {
+                                                document.querySelector('.open-navbar-button').click()
+                                            }}
+                                        >
+                                            <Avatar
+                                                img={`${user?.avatar}`}
+                                                name={user ? `${user?.email}` : null}
+                                                rounded
+                                                avatarColor="1"
+                                                size="sm"
+                                            />
+                                        </div>
+                                    </div>
                                 </div>
-                                <div className="justify-end flex align-center flex-no-wrap gap-3">
-                                    <div
-                                        onClick={() => {
-                                            document.querySelector('.open-navbar-button').click()
-                                        }}
-                                    >
-                                        <Avatar
-                                            img={`${user?.avatar}`}
-                                            name={user ? `${user?.email}` : null}
-                                            rounded
-                                            avatarColor="1"
-                                            size="sm"
+                            )}
+                            {window.innerWidth <= 800 && (
+                            <div className="px-sm-3 overflow-hidden pt-3">
+                                <HorizontalScroll>
+                                    <div className="justify-between flex-shrink-0 flex gap-2 bg-secondary border-radius px-3 py-2">
+                                        <div className="fs-12 text-secondary">
+                                        Games:
+                                        </div>
+                                        <div className="fs-12 text-end weight-500 text-nowrap">
+                                        {library.length}
+                                        </div>
+                                    </div>
+                                    <div className="justify-between flex-shrink-0 flex gap-2 bg-secondary border-radius px-3 py-2">
+                                        <div className="fs-12 text-secondary">
+                                            Plays:
+                                        </div>
+                                        <div className="fs-12 text-end weight-500 text-nowrap">
+                                        {library.reduce((acc, item) => acc + (item.totalPlays || 0), 0)}
+                                        </div>
+                                    </div>
+                                    <div className="justify-between flex-shrink-0 flex gap-2 bg-secondary border-radius px-3 py-2">
+                                        <div className="fs-12 text-secondary">
+                                            Playtime:
+                                        </div>
+                                        <div className="fs-12 text-end weight-500 text-nowrap">
+                                            {library.reduce((acc, item) => acc + (item.totalPlayTime || 0), 0)} Min
+                                        </div>
+                                    </div>
+                                    <div className="justify-between flex-shrink-0 flex gap-2 bg-secondary border-radius px-3 py-2">
+                                        <div className="fs-12 text-secondary">
+                                            Win Rate:
+                                        </div>
+                                        <div className="fs-12 text-end weight-500 text-nowrap">
+                                            {(library.reduce((acc, item) => acc + (item.totalWins || 0), 0) / library.reduce((acc, item) => acc + (item.totalPlays || 0), 0) * 100 || 0).toFixed(2)}%
+                                        </div>
+                                    </div>
+                                </HorizontalScroll>
+                            </div>
+                            )}
+                            <div className="pt-3 px-sm-3 border-bottom px-4 pb-4">
+                                <div className="flex flex-col gap-3">
+                                    <div className="border flex border-radius-lg flex-1">
+                                        <InputSearch
+                                            icon={searchIcon}
+                                            className="flex-1 py-1"
+                                            placeholder="Search Your Library"
+                                            value={searchValue}
+                                            clearable
+                                            onChange={(e) => setSearchValue(e.target.value)}
                                         />
                                     </div>
                                 </div>
                             </div>
-                        )}
-                        <div className="px-sm-3 overflow-hidden pt-3">
-                            <HorizontalScroll>
-                                <div className="justify-between flex-shrink-0 flex gap-2 bg-secondary border-radius px-3 py-2">
-                                    <div className="fs-12 text-secondary">
-                                    Games:
-                                    </div>
-                                    <div className="fs-12 text-end weight-500 text-nowrap">
-                                    {library.length}
-                                    </div>
-                                </div>
-                                <div className="justify-between flex-shrink-0 flex gap-2 bg-secondary border-radius px-3 py-2">
-                                    <div className="fs-12 text-secondary">
-                                        Plays:
-                                    </div>
-                                    <div className="fs-12 text-end weight-500 text-nowrap">
-                                    {library.reduce((acc, item) => acc + (item.totalPlays || 0), 0)}
-                                    </div>
-                                </div>
-                                <div className="justify-between flex-shrink-0 flex gap-2 bg-secondary border-radius px-3 py-2">
-                                    <div className="fs-12 text-secondary">
-                                        Playtime:
-                                    </div>
-                                    <div className="fs-12 text-end weight-500 text-nowrap">
-                                        {library.reduce((acc, item) => acc + (item.totalPlayTime || 0), 0)} Min
-                                    </div>
-                                </div>
-                                <div className="justify-between flex-shrink-0 flex gap-2 bg-secondary border-radius px-3 py-2">
-                                    <div className="fs-12 text-secondary">
-                                        Win Rate:
-                                    </div>
-                                    <div className="fs-12 text-end weight-500 text-nowrap">
-                                        {(library.reduce((acc, item) => acc + (item.totalWins || 0), 0) / library.reduce((acc, item) => acc + (item.totalPlays || 0), 0) * 100 || 0).toFixed(2)}%
-                                    </div>
-                                </div>
-                            </HorizontalScroll>
-                        </div>
-                        <div className="pt-3 px-sm-3">
-                            <div className="flex flex-col gap-3">
-                                <div className="border flex border-radius-lg flex-1 w-max-400-px">
-                                    <InputSearch
-                                        icon={searchIcon}
-                                        className="flex-1 py-1"
-                                        placeholder="Search Your Library"
-                                        value={searchValue}
-                                        clearable
-                                        onChange={(e) => setSearchValue(e.target.value)}
-                                    />
-                                </div>
+                            <div className="flex flex-col overflow-hidden">
+                            <div className="bg-main py-3 px-sm-3 px-4">
+                                <HorizontalScroll>
+                                    {tags.length > 0 ? (
+                                        <IconButton
+                                            icon={closeIcon}
+                                            variant="secondary"
+                                            size="sm"
+                                            type="default"
+                                            onClick={() => setTags([])}
+                                        />
+                                    ) : 
+                                        <Button
+                                            label="All"
+                                            size="sm"
+                                            borderRadius="lg"
+                                            variant="secondary"
+                                            className="animation-fade-in flex-shrink-0"
+                                            type={'filled'}
+                                        />
+                                    }
+                                    {tagsEnum
+                                    .filter((tag) => tags.length === 0 || tags.includes(tag))
+                                    .sort((a, b) => 
+                                        // sort if tag is in tags
+                                        tags.includes(a) ? -1 : tags.includes(b) ? 1 : 0
+                                    )
+                                    .map((tag) => (
+                                        <Button
+                                            key={tag}
+                                            label={tag}
+                                            size="sm"
+                                            borderRadius="lg"
+                                            variant="secondary"
+                                            className="animation-fade-in flex-shrink-0"
+                                            type={tags.includes(tag) ? 'filled' : 'default'}
+                                            onClick={() => {
+                                                if (tags.includes(tag)) {
+                                                    setTags(tags.filter((t) => t !== tag))
+                                                } else {
+                                                    setTags([...tags, tag])
+                                                }
+                                            }}
+                                        />
+                                    ))}
+                                </HorizontalScroll>
                             </div>
-                        </div>
-                        <div className="sticky top-0 bg-main py-3 px-sm-3 z-3">
-                            <HorizontalScroll>
-                                {tags.length > 0 ? (
-                                    <IconButton
-                                        icon={closeIcon}
-                                        variant="secondary"
-                                        size="sm"
-                                        type="default"
-                                        onClick={() => setTags([])}
-                                    />
-                                ) : 
-                                    <Button
-                                        label="All"
-                                        size="sm"
-                                        borderRadius="lg"
-                                        variant="secondary"
-                                        className="animation-fade-in flex-shrink-0"
-                                        type={'filled'}
-                                    />
-                                }
-                                {tagsEnum
-                                .filter((tag) => tags.length === 0 || tags.includes(tag))
-                                .sort((a, b) => 
-                                    // sort if tag is in tags
-                                    tags.includes(a) ? -1 : tags.includes(b) ? 1 : 0
-                                )
-                                .map((tag) => (
-                                    <Button
-                                        key={tag}
-                                        label={tag}
-                                        size="sm"
-                                        borderRadius="lg"
-                                        variant="secondary"
-                                        className="animation-fade-in flex-shrink-0"
-                                        type={tags.includes(tag) ? 'filled' : 'default'}
-                                        onClick={() => {
-                                            if (tags.includes(tag)) {
-                                                setTags(tags.filter((t) => t !== tag))
-                                            } else {
-                                                setTags([...tags, tag])
+                            </div>
+                            <div className="px-sm-3 px-4 py-3 flex justify-between align-center">
+                                <Dropdown
+                                    label="Relevance"
+                                    classNameContainer="p-0 border-none bold"
+                                    widthUnset
+                                    customDropdown={
+                                        <>
+                                        <Button
+                                            type="secondary"
+                                            variant="link"
+                                            label={
+                                                <>
+                                                <span className="weight-400">Sort by: </span>
+                                                <strong>
+                                                    {sortBy === 'dateAdded' ? 'Date Added' : sortBy === 'rating' ? 'Rating' : 'Plays'} {sortOrder === 'asc' ? '↓' : '↑'}
+                                                </strong>
+                                                </>
                                             }
+                                        />
+                                        </>
+                                    }
+                                >
+                                    <Button
+                                        borderRadius="sm"
+                                        label="Date Added"
+                                        className="justify-start"
+                                        variant="text"
+                                        iconRight={sortBy === 'dateAdded' ? sortOrder === 'asc' ? arrowDownShortIcon : arrowUpShortIcon : null}
+                                        onClick={() => {
+                                            setSortBy('dateAdded')
+                                            if (sortOrder === 'asc') setSortOrder('desc')
+                                            else setSortOrder('asc')
                                         }}
                                     />
-                                ))}
-                            </HorizontalScroll>
-                        </div>
-                        <div className="px-sm-3 py-3 flex justify-between align-center">
-                            <Dropdown
-                                label="Relevance"
-                                classNameContainer="p-0 border-none bold"
-                                widthUnset
-                                customDropdown={
-                                    <>
                                     <Button
-                                        type="secondary"
-                                        variant="link"
-                                        label={
-                                            <>
-                                            <span className="weight-400">Sort by: </span>
-                                            <strong>
-                                                {sortBy === 'dateAdded' ? 'Date Added' : sortBy === 'rating' ? 'Rating' : 'Plays'} {sortOrder === 'asc' ? '↓' : '↑'}
-                                            </strong>
-                                            </>
+                                        borderRadius="sm"
+                                        className="justify-start"
+                                        variant="text"
+                                        label="Rating"
+                                        iconRight={sortBy === 'rating' ? sortOrder === 'asc' ? arrowDownShortIcon : arrowUpShortIcon : null}
+                                        onClick={() => {
+                                            setSortBy('rating')
+                                            if (sortOrder === 'asc') setSortOrder('desc')
+                                            else setSortOrder('asc')
+                                        }}
+                                    />
+                                    <Button
+                                        borderRadius="sm"
+                                        className="justify-start"
+                                        variant="text"
+                                        label="Plays"
+                                        iconRight={sortBy === 'plays' ? sortOrder === 'asc' ? arrowDownShortIcon : arrowUpShortIcon : null}
+                                        onClick={() => {
+                                            setSortBy('plays')
+                                            if (sortOrder === 'asc') setSortOrder('desc')
+                                            else setSortOrder('asc')
+                                        }}
+                                    />
+                                </Dropdown>
+                            </div>
+                            <div className="pb-6">
+                                {library.length > 0 && !isLoading ? (
+                                    <div className="flex flex-col">
+                                    {library
+                                    .filter((item) => item.game.name.toLowerCase().includes(searchValue.toLowerCase()))
+                                    .filter((item) => {
+                                        if (tags.length === 0) return true
+                                        return tags.some((tag) => item.tags.includes(tag))
+                                    })
+                                    .sort((a, b) => {
+                                        if (sortBy === 'dateAdded') {
+                                            return sortOrder === 'asc' ? DateTime.fromISO(a.createdAt) - DateTime.fromISO(b.createdAt) : DateTime.fromISO(b.createdAt) - DateTime.fromISO(a.createdAt)
+                                        } else if (sortBy === 'rating') {
+                                            return sortOrder === 'asc' ? a.rating - b.rating : b.rating - a.rating
+                                        } else {
+                                            return sortOrder === 'asc' ? a.plays - b.plays : b.plays - a.plays
                                         }
-                                    />
-                                    </>
-                                }
-                            >
-                                <Button
-                                    borderRadius="sm"
-                                    label="Date Added"
-                                    className="justify-start"
-                                    variant="text"
-                                    iconRight={sortBy === 'dateAdded' ? sortOrder === 'asc' ? arrowDownShortIcon : arrowUpShortIcon : null}
+                                    })
+                                    .map((item, index) =>
+                                        <LibraryItem
+                                            key={item._id} item={item} hideInfo index={index}
+                                        />
+                                    )}
+                                    
+                                    {library
+                                    .filter((item) => item.game.name.toLowerCase().includes(searchValue.toLowerCase()))
+                                    .filter((item) => {
+                                        if (tags.length === 0) return true
+                                        return tags.some((tag) => item.tags.includes(tag))
+                                    })
+                                    .length === 0 && (
+                                        <ErrorInfo
+                                            label="No games found"
+                                            secondary="Try searching for something else"
+                                        />
+                                    )}
+                                    </div>
+                                ) : isLoading ? (
+                                    <ErrorInfo isLoading/>
+                                ) : (
+                                    library.length === 0 && <ErrorInfo
+                                    label="Your library is empty"
+                                    btnLabel="Add games"
+                                    icon={gamesIcon}
                                     onClick={() => {
-                                        setSortBy('dateAdded')
-                                        if (sortOrder === 'asc') setSortOrder('desc')
-                                        else setSortOrder('asc')
+                                        navigate('/discover')
                                     }}
-                                />
-                                <Button
-                                    borderRadius="sm"
-                                    className="justify-start"
-                                    variant="text"
-                                    label="Rating"
-                                    iconRight={sortBy === 'rating' ? sortOrder === 'asc' ? arrowDownShortIcon : arrowUpShortIcon : null}
-                                    onClick={() => {
-                                        setSortBy('rating')
-                                        if (sortOrder === 'asc') setSortOrder('desc')
-                                        else setSortOrder('asc')
-                                    }}
-                                />
-                                <Button
-                                    borderRadius="sm"
-                                    className="justify-start"
-                                    variant="text"
-                                    label="Plays"
-                                    iconRight={sortBy === 'plays' ? sortOrder === 'asc' ? arrowDownShortIcon : arrowUpShortIcon : null}
-                                    onClick={() => {
-                                        setSortBy('plays')
-                                        if (sortOrder === 'asc') setSortOrder('desc')
-                                        else setSortOrder('asc')
-                                    }}
-                                />
-                            </Dropdown>
-                        </div>
-                        <div className="pb-6">
-                            {library.length > 0 && !isLoading ? (
-                                <div className="flex flex-col">
-                                {library
-                                .filter((item) => item.game.name.toLowerCase().includes(searchValue.toLowerCase()))
-                                .filter((item) => {
-                                    if (tags.length === 0) return true
-                                    return tags.some((tag) => item.tags.includes(tag))
-                                })
-                                .sort((a, b) => {
-                                    if (sortBy === 'dateAdded') {
-                                        return sortOrder === 'asc' ? DateTime.fromISO(a.createdAt) - DateTime.fromISO(b.createdAt) : DateTime.fromISO(b.createdAt) - DateTime.fromISO(a.createdAt)
-                                    } else if (sortBy === 'rating') {
-                                        return sortOrder === 'asc' ? a.rating - b.rating : b.rating - a.rating
-                                    } else {
-                                        return sortOrder === 'asc' ? a.plays - b.plays : b.plays - a.plays
-                                    }
-                                })
-                                .map((item, index) =>
-                                    <LibraryItem
-                                        key={item._id} item={item} hideInfo index={index}
                                     />
                                 )}
-                                
-                                {library
-                                .filter((item) => item.game.name.toLowerCase().includes(searchValue.toLowerCase()))
-                                .filter((item) => {
-                                    if (tags.length === 0) return true
-                                    return tags.some((tag) => item.tags.includes(tag))
-                                })
-                                .length === 0 && (
-                                    <ErrorInfo
-                                        icon={gamesIcon}
-                                        label="No games found"
-                                        secondary="Try searching for something else"
-                                    />
-                                )}
-                                </div>
-                            ) : isLoading ? (
-                                <ErrorInfo isLoading/>
-                            ) : (
-                                library.length === 0 && <ErrorInfo
-                                label="Your library is empty"
-                                btnLabel="Add games"
-                                icon={gamesIcon}
-                                onClick={() => {
-                                    navigate('/discover')
-                                }}
-                                />
-                            )}
+                            </div>
                         </div>
+                    {window.innerWidth > 800 && (
+                    <div className="flex flex-col w-set-300-px flex-1 gap-3 py-4 ps-4">
+                        <div className="justify-between flex-shrink-0 flex gap-2 bg-secondary border-radius px-3 py-2">
+                            <div className="fs-12 text-secondary">
+                            Games:
+                            </div>
+                            <div className="fs-12 text-end weight-500 text-nowrap">
+                            {library.length}
+                            </div>
+                        </div>
+                        <div className="justify-between flex-shrink-0 flex gap-2 bg-secondary border-radius px-3 py-2">
+                            <div className="fs-12 text-secondary">
+                                Plays:
+                            </div>
+                            <div className="fs-12 text-end weight-500 text-nowrap">
+                            {library.reduce((acc, item) => acc + (item.totalPlays || 0), 0)}
+                            </div>
+                        </div>
+                        <div className="justify-between flex-shrink-0 flex gap-2 bg-secondary border-radius px-3 py-2">
+                            <div className="fs-12 text-secondary">
+                                Playtime:
+                            </div>
+                            <div className="fs-12 text-end weight-500 text-nowrap">
+                                {library.reduce((acc, item) => acc + (item.totalPlayTime || 0), 0)} Min
+                            </div>
+                        </div>
+                        <div className="justify-between flex-shrink-0 flex gap-2 bg-secondary border-radius px-3 py-2">
+                            <div className="fs-12 text-secondary">
+                                Win Rate:
+                            </div>
+                            <div className="fs-12 text-end weight-500 text-nowrap">
+                                {(library.reduce((acc, item) => acc + (item.totalWins || 0), 0) / library.reduce((acc, item) => acc + (item.totalPlays || 0), 0) * 100 || 0).toFixed(2)}%
+                            </div>
+                        </div>
+                    </div>
+                    )}
                     </div>
                 </div>
             </main>
-        </div>
+        </>
     )
 }
 

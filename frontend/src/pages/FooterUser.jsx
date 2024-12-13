@@ -5,7 +5,7 @@ import { useSelector } from 'react-redux'
 
 const FooterUser = () => {
     return (
-        <footer className="container px-sm-3 py-2 fs-12 text-center text-secondary">
+        <footer className="py-2 fs-12 text-center text-secondary">
                 This is Beta version of the site.
                 Please report any bugs to <span
                     onClick={() => window.open("mailto:contact@bggrid.com")}

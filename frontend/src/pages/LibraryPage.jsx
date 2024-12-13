@@ -417,12 +417,15 @@ const LibraryPage = () => {
                                     <IconButton
                                         icon={closeIcon}
                                         variant="secondary"
+                                        size="sm"
                                         type="default"
                                         onClick={() => setTags([])}
                                     />
                                 ) : 
                                     <Button
                                         label="All"
+                                        size="sm"
+                                        borderRadius="lg"
                                         variant="secondary"
                                         className="animation-fade-in flex-shrink-0"
                                         type={'filled'}
@@ -438,6 +441,8 @@ const LibraryPage = () => {
                                     <Button
                                         key={tag}
                                         label={tag}
+                                        size="sm"
+                                        borderRadius="lg"
                                         variant="secondary"
                                         className="animation-fade-in flex-shrink-0"
                                         type={tags.includes(tag) ? 'filled' : 'default'}

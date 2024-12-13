@@ -381,7 +381,7 @@ const CommunityPage = () => {
                                 follow.map((item) => (
                                     <FollowItem
                                         key={item._id}
-                                        item={item.friend}
+                                        item={item}
                                     />
                                 ))
                             )}

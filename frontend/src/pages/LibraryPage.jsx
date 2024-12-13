@@ -567,7 +567,7 @@ const LibraryPage = () => {
                                     library.length === 0 && <ErrorInfo
                                     label="Your library is empty"
                                     btnLabel="Add games"
-                                    icon={gamesIcon}
+                                    secondary="Once you add games, they will appear here."
                                     onClick={() => {
                                         navigate('/discover')
                                     }}

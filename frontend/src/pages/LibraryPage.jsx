@@ -416,8 +416,8 @@ const LibraryPage = () => {
                                 </div>
                             </div>
                             )}
-                            <div className="flex flex-col overflow-hidden">
-                            <div className="bg-main py-3 px-sm-3 px-4 border-bottom">
+                            <div className="flex flex-col overflow-hidden sticky-sm z-3">
+                            <div className="bg-main py-3 px-sm-3 px-4 border-bottom border-sm-none">
                                 <HorizontalScroll>
                                     {tags.length > 0 ? (
                                         <IconButton

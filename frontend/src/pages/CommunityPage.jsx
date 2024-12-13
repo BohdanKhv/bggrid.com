@@ -16,7 +16,7 @@ const LibraryItem = ({ item }) => {
         <div className="px-sm-3 border-bottom show-on-hover-parent border-secondary transition-duration animation-slide-in display-on-hover-parent">
             <div className="flex gap-3 py-5 py-sm-3">
                 <Avatar
-                    img={item?.game?.image}
+                    img={item?.game?.thumbnail}
                     avatarColor={item?.game?.name?.length}
                     name={item?.game?.name}
                     size="lg"
@@ -195,14 +195,13 @@ const CommunityPage = () => {
                                         </div>
                                     </div>
                                 </div>
-                                <div className={`pointer h-100 w-max-75-px animation-fade-in border-radius-sm hover-opacity-100 transition-duration clickable flex-shrink-0`}
+                                {/* <div className={`pointer h-100 w-max-75-px animation-fade-in border-radius-sm hover-opacity-100 transition-duration clickable flex-shrink-0`}
                                     onClick={() => {
                                         searchParams.set('friends', 'true')
                                         setSearchParams(searchParams.toString())
                                     }}
                                 >
                                     <div className="flex flex-col p-2 align-center pos-relative">
-                                        {followingIsLoading.filter((item) => item.pending).length > 0 ? <span className="fs-14 flex align-center justify-center w-set-25-px h-set-25-px z-3 bg-danger border-radius-50 border-radius pos-absolute top-0 right-0">{friends.filter((item) => item.pending).length}</span> : null}
                                         <Avatar
                                             icon={usersIcon}
                                             sizeSm="md"
@@ -214,8 +213,8 @@ const CommunityPage = () => {
                                             Following
                                         </div>
                                     </div>
-                                </div>
-                                {followingIsLoading
+                                </div> */}
+                                {follow
                                 .filter((item) => !item.pending)
                                 .map((item) => (
                                         <Link className={`pointer h-100 w-max-75-px w-sm-max-50-px w-100 p-2 animation-fade-in border-radius-sm hover-opacity-100 transition-duration clickable flex-shrink-0 bg-secondary-hover`}

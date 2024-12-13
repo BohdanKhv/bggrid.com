@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import { Avatar, Button, ErrorInfo, HorizontalScroll, Icon, IconButton, Image, InputSearch, Modal, Skeleton } from '../components'
+import { Avatar, Button, ErrorInfo, HorizontalScroll, Icon, IconButton, Image, InputSearch, Modal, Skeleton, TabContent } from '../components'
 import { useDispatch, useSelector } from 'react-redux'
 import { DateTime } from 'luxon'
 import { arrowLeftShortIcon, arrowRightShortIcon, bellIcon, clockIcon, diceIcon, rightArrowIcon, searchIcon } from '../assets/img/icons'
@@ -7,8 +7,10 @@ import { getSuggestions } from '../features/game/gameSlice'
 import { Link, useNavigate, useSearchParams } from 'react-router-dom'
 import { setSearchHistory } from '../features/local/localSlice'
 import { getHomeFeed } from '../features/feed/feedSlice'
+import { searchUsers } from '../features/user/userSlice'
 import HorizontalScrollControlled from '../components/ui/HorizontalScrollControlled'
 import { typeEnum } from '../assets/constants'
+import FollowItem from '../pages/follow/FollowItem'
 
 
 const PlayItem = ({ item }) => {
@@ -146,7 +148,7 @@ const HomeFeed = () => {
                 </div>
             </div>
         :
-            <div className="py-6 flex flex-col gap-4 gap-sm-3 overflow-hidden px-sm-4 py-sm-4">
+            <div className="py-4 flex flex-col gap-4 gap-sm-3 overflow-hidden px-sm-4 py-sm-4">
                 <div className="mb-2">
                     <div className="fs-20 flex align-center gap-4 weight-500 transition-slide-right-hover-parent pb-4">
                         Your stats in the last 30 days
@@ -260,7 +262,9 @@ const SearchGames = () => {
 
     const [searchParams, setSearchParams] = useSearchParams()
     const [searchValue, setSearchValue] = useState(searchParams.get('s') || '')
+    const { users, loadingId: usersIsLoading } = useSelector((state) => state.user)
 
+    const [whatToSearch, setWhatToSearch] = useState('games')
     const { suggestions, loadingId } = useSelector((state) => state.game)
     const { searchHistory } = useSelector((state) => state.local)
     const { library } = useSelector((state) => state.library)
@@ -269,7 +273,11 @@ const SearchGames = () => {
         let promise;
 
         if (searchValue.length) {
-            promise = dispatch(getSuggestions(searchValue))
+            if (whatToSearch === 'users') {
+                promise = dispatch(searchUsers(searchValue))
+            } else {
+                promise = dispatch(getSuggestions(searchValue))
+            }
         }
 
         return () => {
@@ -324,6 +332,18 @@ const SearchGames = () => {
                     />
                 </div>
                 <div className="py-4">
+                    <div className="border-bottom">
+                        <TabContent
+                            items={[
+                                {label: 'Games'},
+                                {label: 'Users'},
+                            ]}
+                            activeTabName={whatToSearch || 'games'}
+                            setActiveTabName={(e) => {
+                                setWhatToSearch(e)
+                            }}
+                        />
+                    </div>
                     {library && library
                     .filter((item) => item.game.name.toLowerCase().includes(searchValue.toLowerCase()))
                     .length > 0 ?
@@ -428,19 +448,60 @@ const SearchGames = () => {
         <InputSearch
             icon={searchIcon}
             className="flex-1 py-1"
-            placeholder="Search in over 160,000 games"
+            placeholder="Search BGGRID"
             value={searchValue}
             clearable
+            notCloseOnClick
             onChange={(e) => setSearchValue(e.target.value)}
             onSubmit={() => {
                 if (searchValue !== "" && !searchHistory.includes(searchValue.trim())) {
                     dispatch(setSearchHistory([...new Set([searchValue.trim(), ...searchHistory])]))
                 }
             }}
-            searchable={searchValue.length || searchHistory.length > 0 || library.length > 0}
+            searchable
             searchChildren={
                 <div className="py-2">
-                    {searchValue.length ?
+                    <div className="border-bottom px-3">
+                        <TabContent
+                            items={[
+                                {label: 'Games'},
+                                {label: 'Users'},
+                            ]}
+                            activeTabName={whatToSearch || 'games'}
+                            setActiveTabName={(e) => {
+                                setWhatToSearch(e)
+                            }}
+                        />
+                    </div>
+                    {whatToSearch === 'users' ?
+                    <>
+                    {!searchValue.length ?
+                        <div className="text-center fs-12 py-6 text-secondary">
+                            Start typing to search games
+                        </div>
+                    : usersIsLoading ?
+                        <Skeleton animation="wave" height="50"/>
+                    :
+                    <div className="p-3">
+                        {
+                        users
+                        .map((searchItem) => (
+                            <FollowItem
+                                item={searchItem}
+                                key={searchItem._id}
+                                showRemoveButton
+                            />
+                        ))}
+                    </div>
+                        }
+                    </>
+                    :
+                    <>
+                    {!searchValue.length && library.length !== 0 && searchHistory.length === 0 ?
+                        <div className="text-center fs-12 py-6 text-secondary">
+                            Start typing to search games
+                        </div>
+                    : searchValue.length ?
                     <div className="flex justify-between align-center">
                         <div
                             onClick={(e) => {
@@ -560,6 +621,8 @@ const SearchGames = () => {
                         ))}
                     </>
                     : null}
+                    </>
+                    }
             </div>
         }
         />

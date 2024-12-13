@@ -120,10 +120,10 @@ const SearchPage = () => {
 
 
     return (
-        <div>
-            <main className="page-body">
-                <div className="animation-slide-in container">
-                    <div className="border-left border-right border-sm-none">
+        <>
+            <main className="page-body flex-1">
+                <div className="animation-slide-in container flex-1 flex h-100">
+                    <div className="border-left border-right border-sm-none flex-1">
                         {window.innerWidth < 800 ?
                         <div className="pt-6 pb-3 pt-sm-3 title-1 bold px-sm-3">
                             Discover Games
@@ -706,7 +706,7 @@ const SearchPage = () => {
                             </div>
                             <div className="px-2">
                                 {msg === 'No games found' || (games.length === 0 && !isLoading) ?
-                                    <div className="border border-radius border-dashed mx-sm-3 my-3">
+                                    <div className="mx-sm-3 my-3">
                                         <ErrorInfo
                                             label="No games found"
                                             secondary='Unfortunately I could not find any results matching your search.'
@@ -751,7 +751,7 @@ const SearchPage = () => {
                     </div>
                 </div>
             </main>
-        </div>
+        </>
     )
 }
 

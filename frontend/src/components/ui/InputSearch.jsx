@@ -31,7 +31,7 @@ const InputSearch = ({
     placeholder,
     searchable,
     searchChildren,
-    closeOnSelect,
+    notCloseOnClick,
     icon
 }) => {
     
@@ -46,10 +46,10 @@ const InputSearch = ({
 
     const onClickOutside = (e) => {
         if (searchable) {
-            if (inputParentRef?.current?.contains(e.target)) {
-                return
-            }
-            setSearchOpen(false)
+                if (inputParentRef?.current?.contains(e.target)) {
+                    return
+                }
+                setSearchOpen(false)
         }
     }
 
@@ -78,6 +78,7 @@ const InputSearch = ({
     }, [inputParentRef, searchOpen])
 
     const handleDropdownClick = () => {
+        if (notCloseOnClick) return
         setSearchOpen(false);
     };
 

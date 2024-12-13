@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useRef, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { Avatar, Button, ErrorInfo, HorizontalScroll, Icon, IconButton, Skeleton } from '../components'
+import { Avatar, Button, ErrorInfo, HorizontalScroll, Icon, IconButton, Skeleton, TabContent } from '../components'
 import { arrowRightShortIcon, closeIcon, diceIcon, largePlusIcon, linkIcon, plusIcon, rightArrowIcon, starEmptyIcon, starFillIcon, starsIcon, usersIcon } from '../assets/img/icons'
 import FollowSearchModal from './follow/FollowSearchModal'
 import { Link, useSearchParams } from 'react-router-dom'
@@ -242,48 +242,26 @@ const CommunityPage = () => {
                             </HorizontalScroll>
                         </div>
                         : null}
-                        <div className="flex gap-6">
-                            <div className="flex-1 flex flex-col">
-                            {window.innerWidth <= 800 && user ? (
-                            <div className="sticky top-0 bg-main py-1 z-3 py-sm-0">
-                                {follow.length > 0 && !followingIsLoading && (
-                                    <></>
-                                )}
-                            </div>
-                            ) : null}
-                            <div  className="px-sm-3 py-3 sticky top-0 z-3 bg-main">
-                                <HorizontalScroll className="flex-1">
-                                    <Button
-                                        label="All"
-                                        variant="secondary"
-                                        className="animation-fade-in flex-shrink-0"
-                                        type={type === null ? 'filled' : 'default'}
-                                        onClick={() => {
-                                            setType(null)
-                                        }}
-                                    />
-                                    {['Plays', 'Library']
-                                    .map((a) => (
-                                        <Button
-                                            key={a}
-                                            label={a}
-                                            variant="secondary"
-                                            className="animation-fade-in flex-shrink-0"
-                                            type={type === a ? 'filled' : 'default'}
-                                            onClick={() => {
-                                                if (type == a) {
-                                                    setType(null)
-                                                } else {
-                                                    setType(a)
-                                                }
+                        <div className="flex flex-1">
+                            <div className="flex-1 flex flex-col border-left border-right overflow-hidden border-bottom border-sm-none">
+                                <div className="pt-3 border-bottom px-sm-3 px-4 pt-sm-0">
+                                    <div className="flex">
+                                        <TabContent
+                                            items={[
+                                                {label: 'All'},
+                                                {label: 'Plays'},
+                                                {label: 'Library'}
+                                            ]}
+                                            activeTabName={type || 'all'}
+                                            setActiveTabName={(e) => {
+                                                setType(e)
                                             }}
                                         />
-                                    ))}
-                                </HorizontalScroll>
-                            </div>
+                                    </div>
+                                </div>
                             <div>
                                 {feed.length > 0 && !isLoading ?
-                                    <div className="flex flex-col">
+                                    <div className="flex flex-col px-4">
                                         {feed
                                         .map((item, index, arr) =>
                                             <div
@@ -309,7 +287,7 @@ const CommunityPage = () => {
                                     </div>
                                 }
                                 { isLoading ?
-                                    <div className="flex flex-col gap-5 py-5 px-sm-3">
+                                    <div className="flex flex-col px-4 gap-5 py-5 px-sm-3">
                                         <div className="flex gap-2">
                                             <Skeleton height="56" width="56" animation="wave" rounded/>
                                             <div className="flex flex-col gap-2 flex-1">
@@ -339,7 +317,7 @@ const CommunityPage = () => {
                             </div>
                         </div>
                         {window.innerWidth > 800 &&
-                            <div className="flex flex-col w-set-300-px">
+                            <div className="flex flex-col px-3 w-set-300-px border border-radius ms-4 my-3 h-fit-content pb-4">
                                 <div className="flex justify-between align-center py-3">
                                     <div className="fs-20 bold flex gap-3 align-center pointer transition-slide-right-hover-parent">
                                         Following 

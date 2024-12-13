@@ -75,7 +75,6 @@ function App() {
                   <AddGame/>
                   <LogPlay/>
                   <GameCard/>
-                  <GameSearchModal/>
                 </ErrBoundary>
                 <div className="content-body">
                   <div className="flex-grow-1 h-min-100 flex flex-col">

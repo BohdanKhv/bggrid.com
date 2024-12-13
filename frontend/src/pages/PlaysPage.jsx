@@ -49,11 +49,14 @@ const SearchGames = () => {
     };
 
     return (
-        window.innerWidth < 800 ?
         <>
             <Modal
                 modalIsOpen={searchParams.get('sg') === 'true'}
                 closeModal={() => {
+                    searchParams.delete('sg')
+                    setSearchParams(searchParams.toString())
+                }}
+                onClose={() => {
                     searchParams.delete('sg')
                     setSearchParams(searchParams.toString())
                 }}
@@ -172,6 +175,7 @@ const SearchGames = () => {
                     : null}
                 </div>
             </Modal>
+            {window.innerWidth <= 800 ?
             <div className={`pointer h-100 w-max-75-px w-100 h-100 animation-fade-in border-radius-sm hover-opacity-100 transition-duration clickable flex-shrink-0`}
                 onClick={() => {
                     searchParams.set('sg', true)
@@ -193,89 +197,27 @@ const SearchGames = () => {
                     </div>
                 </div>
             </div>
-            </>
-        :
-        <div className="border flex border-radius-lg flex-1 w-max-400-px w-100 flex-1">
-        <InputSearch
-            icon={searchIcon}
-            className="flex-1 py-1"
-            placeholder="What did you play?"
-            value={searchValue}
-            clearable
-            onChange={(e) => setSearchValue(e.target.value)}
-            searchable={searchValue.length || searchHistory.length > 0 || library.length > 0}
-            searchChildren={
-                <div className="py-2">
-                    {library && library
-                    .filter((item) => item.game.name.toLowerCase().includes(searchValue.toLowerCase()))
-                    .length > 0 ?
-                    <>
-                        <div className="fs-14 px-4 py-2 flex align-center gap-3 text-secondary weight-600">
-                            Your library
-                        </div>
-                        {library
-                        .filter((item) => item.game.name.toLowerCase().includes(searchValue.toLowerCase()))
-                        .slice(0, 5)
-                        .map((item, i) => (
-                            <div className="flex justify-between align-center bg-secondary-hover"
-                                key={i}
-                            >
-                                <div
-                                    key={item._id}
-                                    onClick={() => {
-                                        searchParams.set('logPlay', item.game._id)
-                                        setSearchParams(searchParams)
-                                    }}
-                                    className="fs-14 flex align-center px-4 py-2 gap-3 text-secondary pointer flex-1 overflow-hidden"
-                                >
-                                    <Avatar 
-                                        img={item.game.thumbnail}
-                                        name={item.game.name}
-                                        rounded
-                                        size="xs"
-                                    />
-                                    <span className="text-ellipsis-1">{item.game.name}</span>
-                                </div>
-                            </div>
-                        ))}
-                    </>
-                    : null}
-                    {suggestions && suggestions.length > 0 ?
-                    <>
-                        <div className="fs-14 px-4 py-2 flex align-center gap-3 text-secondary weight-600">
-                            Search results
-                        </div>
-                        {suggestions
-                        .map((item, i) => (
-                            <div className="flex justify-between align-center bg-secondary-hover"
-                                key={item._id}
-                            >
-                                <div
-                                    key={item._id}
-                                    onClick={() => {
-                                        searchParams.set('logPlay', item._id)
-                                        setSearchParams(searchParams)
-                                    }}
-                                    className="fs-14 flex align-center px-4 py-2 gap-3 text-secondary pointer flex-1 overflow-hidden"
-                                >
-                                    <Avatar 
-                                        img={item.thumbnail}
-                                        name={item.name}
-                                        rounded
-                                        size="xs"
-                                    />
-                                    <span className="text-ellipsis-1">
-                                        {highlightText(item.name, searchValue)} ({item.year})
-                                    </span>
-                                </div>
-                            </div>
-                        ))}
-                    </>
-                    : null}
+            : 
+            <div className={`flex p-2 gap-3 align-center bg-secondary-hover border-radius-sm hover-opacity-100 transition-duration clickable`}
+                onClick={() => {
+                    searchParams.set('sg', true)
+                    setSearchParams(searchParams)
+                }}
+            >
+                <div className="flex align-center gap-3">
+                    <Avatar
+                        icon={plusIcon}
+                        rounded
+                        sizeSm="md"
+                        defaultColor
+                    />
+                    <div className="fs-12 text-center text-ellipsis-1 pt-2 weight-500 pb-2">
+                        Add
+                    </div>
+                </div>
             </div>
-        }
-        />
-    </div>
+            }
+            </>
     )
 }
 
@@ -541,8 +483,9 @@ const PlaysPage = () => {
                         {window.innerWidth > 800 &&
                         <div className="flex flex-col w-set-300-px flex-1">
                             <div className="fs-20 bold py-3">
-                                Library
+                                Play logs
                             </div>
+                            <SearchGames/>
                             { library.length == 0 && !libraryLoading ?
                                 <div className="border border-radius border-dashed mt-3">
                                     <ErrorInfo label="Library is empty"

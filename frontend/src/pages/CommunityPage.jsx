@@ -13,7 +13,7 @@ import { getFollowing, resetFollow } from '../features/follow/followSlice'
 
 const LibraryItem = ({ item }) => {
     return (
-        <div className="px-sm-3 border-bottom show-on-hover-parent border-secondary transition-duration animation-slide-in display-on-hover-parent">
+        <div className="px-sm-3 px-4 border-bottom show-on-hover-parent border-secondary transition-duration animation-slide-in display-on-hover-parent">
             <div className="flex gap-3 py-5 py-sm-3">
                 <Avatar
                     img={item?.game?.thumbnail}
@@ -63,10 +63,10 @@ const LibraryItem = ({ item }) => {
                     <div className="pt-4">
                         <div className="flex align-center gap-2 pt-2 flex-sm-col align-sm-start">
                             <div className="flex align-center gap-2">
-                                <span className={`fs-16 weight-600 text-warning`}>{item.rating || 0}</span>
+                                <span className={`fs-14 weight-600 text-warning`}>{item.rating || 0}</span>
                                 <div className="flex gap-1 align-center">
                                     {[...Array(5)].map((_, i) => (
-                                        <Icon icon={starFillIcon} size="sm" className={`text-warning ${i + 1 <= item.rating ? 'fill-warning' : 'fill-secondary'}`}/>
+                                        <Icon icon={starFillIcon} size="xs" className={`text-warning ${i + 1 <= item.rating ? 'fill-warning' : 'fill-secondary'}`}/>
                                     ))}
                                 </div>
                             </div>
@@ -144,7 +144,6 @@ const CommunityPage = () => {
 
     return (
         <div>
-            <FollowSearchModal/>
             <main className="page-body">
                 <div className="animation-slide-in">
                     <div className="container">
@@ -243,7 +242,7 @@ const CommunityPage = () => {
                         </div>
                         : null}
                         <div className="flex flex-1">
-                            <div className="flex-1 flex flex-col border-left border-right overflow-hidden border-bottom border-sm-none">
+                            <div className="flex-1 flex flex-col border-left border-right overflow-hidden border-sm-none">
                                 <div className="pt-3 border-bottom px-sm-3 px-4 pt-sm-0">
                                     <div className="flex">
                                         <TabContent
@@ -261,7 +260,7 @@ const CommunityPage = () => {
                                 </div>
                             <div>
                                 {feed.length > 0 && !isLoading ?
-                                    <div className="flex flex-col px-4">
+                                    <div className="flex flex-col">
                                         {feed
                                         .map((item, index, arr) =>
                                             <div
@@ -317,52 +316,47 @@ const CommunityPage = () => {
                             </div>
                         </div>
                         {window.innerWidth > 800 &&
-                            <div className="flex flex-col px-3 w-set-300-px border border-radius ms-4 my-3 h-fit-content pb-4">
-                                <div className="flex justify-between align-center py-3">
-                                    <div className="fs-20 bold flex gap-3 align-center pointer transition-slide-right-hover-parent">
-                                        Following 
-                                    </div>
-                                    <IconButton
-                                        icon={largePlusIcon}
-                                        variant="text"
-                                        dataTooltipContent="Search users"
-                                        type="secondary"
-                                        onClick={() => {
-                                            searchParams.set('su', 'true')
-                                            setSearchParams(searchParams.toString())
-                                        }}
-                                    />
+                        <>
+                            <div className="flex flex-col w-set-300-px flex-1 gap-3 py-4 ps-4">
+                                <div>
+                                    <FollowSearchModal/>
                                 </div>
-                                {/* { isLoading ?
-                                    <div className="flex flex-col gap-2">
-                                        <Skeleton height="48" animation="wave"/>
-                                        <Skeleton height="48" animation="wave"/>
-                                        <Skeleton height="48" animation="wave"/>
-                                        <Skeleton height="48" animation="wave"/>
+                                <div className="py-3 px-4 border border-radius h-fit-content">
+                                    <div className="flex justify-between align-center pb-3">
+                                        <div className="fs-20 bold">
+                                            Following 
+                                        </div>
                                     </div>
-                                : */}
-                                {
-                                follow.length === 0 ?
-                                    <div className="border border-radius border-dashed animation-slide-in pointer"
-                                        onClick={() => {
-                                            searchParams.set('su', 'true')
-                                            setSearchParams(searchParams.toString())
-                                        }}
-                                    >
-                                        <ErrorInfo
-                                            secondary="Oops! You're not following anyone"
+                                    { followingIsLoading ?
+                                        <div className="flex flex-col gap-2">
+                                            <Skeleton height="48" animation="wave"/>
+                                            <Skeleton height="48" animation="wave"/>
+                                            <Skeleton height="48" animation="wave"/>
+                                            <Skeleton height="48" animation="wave"/>
+                                        </div>
+                                    : follow.length === 0 ?
+                                        <div className="border border-radius border-dashed animation-slide-in pointer"
+                                            onClick={() => {
+                                                searchParams.set('su', 'true')
+                                                setSearchParams(searchParams.toString())
+                                            }}
+                                        >
+                                            <ErrorInfo
+                                                secondary="Oops! You're not following anyone"
+                                            />
+                                        </div>
+                                    :
+                                    follow.length > 0 && (
+                                    follow.map((item) => (
+                                        <FollowItem
+                                            key={item._id}
+                                            item={item}
                                         />
-                                    </div>
-                                :
-                                follow.length > 0 && (
-                                follow.map((item) => (
-                                    <FollowItem
-                                        key={item._id}
-                                        item={item}
-                                    />
-                                ))
-                            )}
+                                        ))
+                                    )}
+                                </div>
                             </div>
+                            </>
                         }
                     </div>
                 </div>

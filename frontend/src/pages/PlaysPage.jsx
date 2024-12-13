@@ -514,8 +514,11 @@ const PlaysPage = () => {
                                 </div>
                                 { library.length == 0 && !libraryLoading ?
                                     <div className="mt-3">
-                                        <ErrorInfo label="Library is empty"
-                                            secondary="Add games to your library to log plays" icon={libraryIcon}
+                                        <ErrorInfo
+                                            label="Library is empty"
+                                            secondary="Add games to your library to log plays"
+                                            onClick={() => navigate('/discover')}
+                                            btnLabel="Discover games"
                                         />
                                     </div>
                                 : library.length > 0 && !libraryLoading && (

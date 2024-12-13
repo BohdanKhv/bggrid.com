@@ -28,6 +28,8 @@ const FollowSearchModal = () => {
 
     return (
         <>
+        {window.innerWidth < 800 ?
+        <>
         <Modal
             modalIsOpen={searchParams.get('su') === 'true'}
             onClickOutside={() => {
@@ -95,6 +97,49 @@ const FollowSearchModal = () => {
             </div>
         </Modal>
         </>
+        :
+        <div className="border flex border-radius-lg flex-1 w-max-400-px w-100 flex-1">
+        <InputSearch
+            icon={searchIcon}
+            className="flex-1 py-1"
+            placeholder="Search users"
+            value={searchValue}
+            clearable
+            onChange={(e) => setSearchValue(e.target.value)}
+            searchable={searchValue.length}
+            searchChildren={
+                <div className="py-2 px-3">
+                {users && users.length > 0 ?
+                <>
+                    {users
+                    .map((searchItem) => (
+                        <FollowItem
+                            item={searchItem}
+                            key={searchItem._id}
+                            showRemoveButton
+                        />
+                    ))}
+                </>
+                :
+                    isLoading ?
+                        <ErrorInfo isLoading/>
+                    :
+                    users.length === 0 && !searchValue.length ?
+                        <ErrorInfo
+                            secondary="Search for users by username, first name, or last name"
+                        />
+                    :
+                    users.length === 0 && searchValue.length ?
+                        <ErrorInfo
+                            secondary={`Nothing matched your search for "${searchValue}"`}
+                        />
+                : null}
+            </div>
+            }
+            />
+        </div>
+        }
+    </>
     )
 }
 

@@ -576,7 +576,7 @@ const LibraryPage = () => {
                             </div>
                         </div>
                     {window.innerWidth > 800 && (
-                    <div className="flex flex-col">
+                    <div className="flex flex-col gap-3">
                         <div className="pt-3 ms-3 sticky top-0 z-3">
                             <div className="flex flex-col gap-3">
                                 <div className="border flex border-radius-lg flex-1">
@@ -591,11 +591,11 @@ const LibraryPage = () => {
                                 </div>
                             </div>
                         </div>
-                    <div className="flex flex-col w-set-300-px border border-radius overflow-hidden ms-4 my-4 h-fit-content">
+                    <div className="flex flex-col w-set-300-px border border-radius overflow-hidden ms-4 mb-4 h-fit-content">
                         <div className="fs-20 bold py-3 px-4">
                             Your Library
                         </div>
-                        <div className="justify-between flex-shrink-0 flex gap-2 border-bottom mx-3 py-3">
+                        <div className="justify-between flex-shrink-0 flex gap-2 border-bottom mx-4 py-4">
                             <div className="fs-14 text-secondary">
                                 Games:
                             </div>
@@ -603,7 +603,7 @@ const LibraryPage = () => {
                                 {library.length}
                             </div>
                         </div>
-                        <div className="justify-between flex-shrink-0 flex gap-2 border-bottom mx-3 py-3">
+                        <div className="justify-between flex-shrink-0 flex gap-2 border-bottom mx-4 py-4">
                             <div className="fs-14 text-secondary">
                                 Plays:
                             </div>
@@ -611,7 +611,7 @@ const LibraryPage = () => {
                             {library.reduce((acc, item) => acc + (item.totalPlays || 0), 0)}
                             </div>
                         </div>
-                        <div className="justify-between flex-shrink-0 flex gap-2 border-bottom mx-3 py-3">
+                        <div className="justify-between flex-shrink-0 flex gap-2 border-bottom mx-4 py-4">
                             <div className="fs-14 text-secondary">
                                 Playtime:
                             </div>
@@ -619,7 +619,7 @@ const LibraryPage = () => {
                                 {library.reduce((acc, item) => acc + (item.totalPlayTime || 0), 0)} Min
                             </div>
                         </div>
-                        <div className="justify-between flex-shrink-0 flex gap-2 mx-3 py-3">
+                        <div className="justify-between flex-shrink-0 flex gap-2 mx-4 py-4">
                             <div className="fs-14 text-secondary">
                                 Win Rate:
                             </div>

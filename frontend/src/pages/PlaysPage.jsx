@@ -210,11 +210,11 @@ const SearchGames = () => {
                             >
                                 <div
                                     key={item._id}
+                                    className="fs-14 flex align-center px-4 py-2 gap-3 text-secondary pointer flex-1 overflow-hidden"
                                     onClick={() => {
                                         searchParams.set('logPlay', item.game._id)
                                         setSearchParams(searchParams)
                                     }}
-                                    className="fs-14 flex align-center px-4 py-2 gap-3 text-secondary pointer flex-1 overflow-hidden"
                                 >
                                     <Avatar 
                                         img={item.game.thumbnail}
@@ -238,6 +238,7 @@ const SearchGames = () => {
                             <div className="flex justify-between align-center bg-secondary-hover"
                                 key={item._id}
                             >
+                                
                                 <div
                                     key={item._id}
                                     onClick={() => {
@@ -399,6 +400,15 @@ const PlaysPage = () => {
                                 {selectedGame ?
                                 <div className="px-sm-3 px-4 pt-3 pt-sm-3">
                                         <HorizontalScroll>
+                                            <IconButton
+                                                icon={closeIcon}
+                                                onClick={() => {
+                                                    setSelectedGame(null)
+                                                }}
+                                                type="secondary"
+                                                variant="default"
+                                                size="sm"
+                                            />
                                             <Avatar
                                                 img={library.find(l => l?.game?._id === selectedGame)?.game?.thumbnail}
                                                 label={library.find(l => l?.game?._id === selectedGame)?.game?.name}
@@ -407,12 +417,15 @@ const PlaysPage = () => {
                                             />
                                             <div className="border-left py-3"/>
                                             <Button
-                                                icon={linkIcon}
+                                                icon={diceIcon}
                                                 variant="secondary"
                                                 type="outline"
                                                 className="flex-shrink-0"
-                                                label="Details"
-                                                onClick={() => navigate(`/g/${selectedGame}/overview`)}
+                                                label="Play"
+                                                onClick={() => {
+                                                    searchParams.set('logPlay', selectedGame)
+                                                    setSearchParams(searchParams)
+                                                }}
                                             />
                                             <Button
                                                 icon={editIcon}
@@ -426,15 +439,12 @@ const PlaysPage = () => {
                                                 }}
                                             />
                                             <Button
-                                                icon={diceIcon}
+                                                icon={linkIcon}
                                                 variant="secondary"
                                                 type="outline"
                                                 className="flex-shrink-0"
-                                                label="Play"
-                                                onClick={() => {
-                                                    searchParams.set('logPlay', selectedGame)
-                                                    setSearchParams(searchParams)
-                                                }}
+                                                label="Details"
+                                                onClick={() => navigate(`/g/${selectedGame}/overview`)}
                                             />
                                         </HorizontalScroll>
                                 </div>

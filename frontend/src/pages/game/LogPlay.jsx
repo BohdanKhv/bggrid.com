@@ -1,12 +1,13 @@
 import { useState, useEffect, useMemo } from "react"
 import { useDispatch, useSelector } from "react-redux"
-import { Avatar, Button, CheckBox, ErrorInfo, HorizontalScroll, Icon, IconButton, Image, Input, InputSearch, Modal, ProgressBar, Range } from "../../components"
+import { Avatar, Button, CheckBox, ErrorInfo, HorizontalScroll, Icon, IconButton, Image, Input, InputSearch, Modal, ProgressBar, Range, Skeleton } from "../../components"
 import { Link, useSearchParams } from "react-router-dom"
 import { getGameCard } from "../../features/game/gameSlice"
 import { closeIcon, linkIcon, searchIcon, trashIcon, upArrowRightIcon, userIcon } from "../../assets/img/icons"
 import { tagsEnum } from "../../assets/constants"
 import { createPlay } from "../../features/play/playSlice"
 import { DateTime } from "luxon"
+import { resetUser, searchUsers } from "../../features/user/userSlice"
 // import { playGame } from "../../features/library/librarySlice"
 
 
@@ -30,11 +31,11 @@ const LogPlay = () => {
     const [playDate, setPlayDate] = useState(DateTime.now().toISO())
     const [step, setStep] = useState(1)
 
+    const { users, isLoading } = useSelector(state => state.user)
     const [searchParam, setSearchParam] = useSearchParams()
     const { gameCard, loadingId } = useSelector(state => state.game)
     const { library, isLoading: libraryIsLoading, loadingId: libraryLoadingId } = useSelector(state => state.library)
     const { loadingId: loadingIdPlay, msg: playMsg } = useSelector(state => state.play)
-    const { follow } = useSelector(state => state.follow)
 
     const isInLibrary = useMemo(() => {
         return library.find(i => i?.game?._id === gameCard?._id)
@@ -90,6 +91,19 @@ const LogPlay = () => {
             }])
         }
     }, [gameCard, isInLibrary])
+
+    useEffect(() => {
+        let promise = null;
+
+        if (searchValue.length) {
+            dispatch(searchUsers(searchValue.slice(1)))
+        }
+
+        return () => {
+            promise?.abort()
+            dispatch(resetUser())
+        }
+    }, [searchValue])
 
     const onSubmit = () => {
         const currentDate = new Date(playDate);
@@ -156,7 +170,7 @@ const LogPlay = () => {
             <>
             <div className="sticky top-0 z-3">
                 <ProgressBar
-                    type="primary"
+                    type="text"
                     size="2"
                     value={step === 1 ? 50 : 100}
                 />
@@ -171,7 +185,7 @@ const LogPlay = () => {
                         <div className="border border-radius mx-4">
                             <InputSearch
                                 className="flex-1 py-1 ps-4"
-                                placeholder="Search or add players"
+                                placeholder="Search users or add non-user player"
                                 value={searchValue}
                                 clearable
                                 closeOnSelect
@@ -185,10 +199,10 @@ const LogPlay = () => {
                                         winner: false
                                     }])
                                 }}
-                                searchable={searchValue.length || follow.filter(i => !players.find(j => j?.user?._id === i.friend._id)).length > 0}
+                                searchable={searchValue.length}
                                 searchChildren={
                                     <div className="py-2">
-                                        {searchValue.length ?
+                                        {!searchValue.startsWith("@") && searchValue.length ?
                                         <div className="flex justify-between align-center">
                                             <div
                                                 onClick={(e) => {
@@ -223,22 +237,33 @@ const LogPlay = () => {
                                             </div>
                                         </div>
                                         : null}
-                                        {follow.length ?
-                                        follow
-                                        .filter(i => !players.find(j => j?.user?._id === i.friend._id))
-                                        .filter(i => i.friend.username.toLowerCase().includes(searchValue.toLowerCase()))
+                                        { users.length === 0 && isLoading ?
+                                        <div className="px-3 flex flex-col gap-3 py-1">
+                                            <Skeleton
+                                                height="50"
+                                                animation="wave"
+                                                className="border-radius"
+                                            />
+                                        </div>
+                                        : users.length === 0 && !isLoading ?
+                                            <div className="fs-12 text-secondary px-2 text-center py-4">
+                                                No users found for "{searchValue}"
+                                                </div>
+                                        : !isLoading &&
+                                        users.length ?
+                                        users
                                         .map(i => (
                                             <div className="flex justify-between align-center"
-                                                key={i.friend._id}
+                                                key={i._id}
                                             >
                                                 <div
                                                     onClick={(e) => {
                                                         e.stopPropagation()
                                                         setSearchValue('')
                                                         setPlayers([...players, {
-                                                            user: i.friend,
-                                                            name: i.friend.firstName ? `${i.friend.firstName} ${i.friend.lastName}` : i.friend.username,
-                                                            username: i.friend.username,
+                                                            user: i,
+                                                            name: i.firstName ? `${i.firstName} ${i.lastName}` : i.username,
+                                                            username: i.username,
                                                             score: 0,
                                                             color: '',
                                                             winner: false
@@ -248,19 +273,19 @@ const LogPlay = () => {
                                                 >
                                                     <div className="flex gap-2 align-center">
                                                         <Avatar
-                                                            img={i.friend.avatar}
+                                                            img={i.avatar}
                                                             rounded
-                                                            avatarColor={i.friend.username.length}
-                                                            name={i.friend.username}
-                                                            alt={i.friend.username}
+                                                            avatarColor={i.username.length}
+                                                            name={i.username}
+                                                            alt={i.username}
                                                             size="sm"
                                                         />
                                                         <div className="flex flex-col">
-                                                            <div className="fs-14 text-ellipsis-1">
-                                                                {i.friend?.username}
+                                                            <div className="fs-14 text-ellipsis-1 weight-500">
+                                                                @{i?.username}
                                                             </div>
                                                             <div className="fs-12 text-secondary">
-                                                                {i.friend?.firstName} {i.friend?.lastName}
+                                                                {i?.firstName} {i?.lastName}
                                                             </div>
                                                         </div>
                                                     </div>

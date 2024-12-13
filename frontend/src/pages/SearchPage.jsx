@@ -17,7 +17,7 @@ const SearchPage = () => {
     const [searchValue, setSearchValue] = useState(searchParams.get('s') || '')
     const { suggestions, loadingId } = useSelector((state) => state.game)
     const { searchHistory } = useSelector((state) => state.local)
-    const [listView, setListView] = useState(true)
+    const [listView, setListView] = useState(window.innerWidth > 800 ? false : true)
 
     const filtersCount = useMemo(() => {
         let count = 0
@@ -129,8 +129,8 @@ const SearchPage = () => {
                             Discover Games
                         </div>
                         : null}
-                        <div className="pb-6 pt-3 pt-sm-0">
-                            <div className="px-4 flex flex-col px-sm-3 border-bottom">
+                        <div className="pb-6 pt-sm-0">
+                            <div className="px-4 pt-3 bg-main flex flex-col px-sm-3 border-bottom sticky top-0 z-3">
                                     {
                                     window.innerWidth < 800 ?
                                     <>
@@ -624,7 +624,7 @@ const SearchPage = () => {
                                 </HorizontalScroll> 
                             </div>
                             </div>
-                            <div className="px-4 py-2 px-sm-3 flex justify-between align-center">
+                            <div className="px-4 pt-2 px-sm-3 flex justify-between align-center">
                                 <Dropdown
                                     label="Relevance"
                                     classNameContainer="p-0 border-none bold"
@@ -704,7 +704,7 @@ const SearchPage = () => {
                                     dataTooltipContent={listView ? "List view" : "Grid view"}
                                 />
                             </div>
-                            <div className="px-4">
+                            <div className="px-2">
                                 {msg === 'No games found' || (games.length === 0 && !isLoading) ?
                                     <div className="border border-radius border-dashed mx-sm-3 my-3">
                                         <ErrorInfo

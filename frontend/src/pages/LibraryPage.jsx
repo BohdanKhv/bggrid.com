@@ -400,6 +400,7 @@ const LibraryPage = () => {
                                 </HorizontalScroll>
                             </div>
                             )}
+                            {window.innerWidth <= 800 && (
                             <div className="pt-3 px-sm-3 border-bottom px-4 pb-4">
                                 <div className="flex flex-col gap-3">
                                     <div className="border flex border-radius-lg flex-1">
@@ -414,8 +415,9 @@ const LibraryPage = () => {
                                     </div>
                                 </div>
                             </div>
+                            )}
                             <div className="flex flex-col overflow-hidden">
-                            <div className="bg-main py-3 px-sm-3 px-4">
+                            <div className="bg-main py-3 px-sm-3 px-4 border-bottom">
                                 <HorizontalScroll>
                                     {tags.length > 0 ? (
                                         <IconButton
@@ -462,7 +464,7 @@ const LibraryPage = () => {
                                 </HorizontalScroll>
                             </div>
                             </div>
-                            <div className="px-sm-3 px-4 py-3 flex justify-between align-center">
+                            <div className="px-sm-3 px-4 pt-3 flex justify-between align-center">
                                 <Dropdown
                                     label="Relevance"
                                     classNameContainer="p-0 border-none bold"
@@ -574,39 +576,58 @@ const LibraryPage = () => {
                             </div>
                         </div>
                     {window.innerWidth > 800 && (
-                    <div className="flex flex-col w-set-300-px flex-1 gap-3 py-4 ps-4">
-                        <div className="justify-between flex-shrink-0 flex gap-2 bg-secondary border-radius px-3 py-2">
-                            <div className="fs-12 text-secondary">
-                            Games:
-                            </div>
-                            <div className="fs-12 text-end weight-500 text-nowrap">
-                            {library.length}
+                    <div className="flex flex-col">
+                        <div className="pt-3 ms-3 sticky top-0 z-3">
+                            <div className="flex flex-col gap-3">
+                                <div className="border flex border-radius-lg flex-1">
+                                    <InputSearch
+                                        icon={searchIcon}
+                                        className="flex-1 py-1"
+                                        placeholder="Search Your Library"
+                                        value={searchValue}
+                                        clearable
+                                        onChange={(e) => setSearchValue(e.target.value)}
+                                    />
+                                </div>
                             </div>
                         </div>
-                        <div className="justify-between flex-shrink-0 flex gap-2 bg-secondary border-radius px-3 py-2">
-                            <div className="fs-12 text-secondary">
+                    <div className="flex flex-col w-set-300-px border border-radius overflow-hidden ms-4 my-4 h-fit-content">
+                        <div className="fs-20 bold py-3 px-4">
+                            Your Library
+                        </div>
+                        <div className="justify-between flex-shrink-0 flex gap-2 border-bottom mx-3 py-3">
+                            <div className="fs-14 text-secondary">
+                                Games:
+                            </div>
+                            <div className="fs-14 text-end weight-500 text-nowrap">
+                                {library.length}
+                            </div>
+                        </div>
+                        <div className="justify-between flex-shrink-0 flex gap-2 border-bottom mx-3 py-3">
+                            <div className="fs-14 text-secondary">
                                 Plays:
                             </div>
-                            <div className="fs-12 text-end weight-500 text-nowrap">
+                            <div className="fs-14 text-end weight-500 text-nowrap">
                             {library.reduce((acc, item) => acc + (item.totalPlays || 0), 0)}
                             </div>
                         </div>
-                        <div className="justify-between flex-shrink-0 flex gap-2 bg-secondary border-radius px-3 py-2">
-                            <div className="fs-12 text-secondary">
+                        <div className="justify-between flex-shrink-0 flex gap-2 border-bottom mx-3 py-3">
+                            <div className="fs-14 text-secondary">
                                 Playtime:
                             </div>
-                            <div className="fs-12 text-end weight-500 text-nowrap">
+                            <div className="fs-14 text-end weight-500 text-nowrap">
                                 {library.reduce((acc, item) => acc + (item.totalPlayTime || 0), 0)} Min
                             </div>
                         </div>
-                        <div className="justify-between flex-shrink-0 flex gap-2 bg-secondary border-radius px-3 py-2">
-                            <div className="fs-12 text-secondary">
+                        <div className="justify-between flex-shrink-0 flex gap-2 mx-3 py-3">
+                            <div className="fs-14 text-secondary">
                                 Win Rate:
                             </div>
-                            <div className="fs-12 text-end weight-500 text-nowrap">
+                            <div className="fs-14 text-end weight-500 text-nowrap">
                                 {(library.reduce((acc, item) => acc + (item.totalWins || 0), 0) / library.reduce((acc, item) => acc + (item.totalPlays || 0), 0) * 100 || 0).toFixed(2)}%
                             </div>
                         </div>
+                    </div>
                     </div>
                     )}
                     </div>

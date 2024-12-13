@@ -55,11 +55,11 @@ const NotificationPage = () => {
 
 
     return (
-        <div>
-            <main className="page-body">
-                <div className="animation-slide-in">
-                    <div className="container">
-                        <div className="flex pt-6 pb-3 pt-sm-3 justify-between px-sm-3 pb-3">
+        <>
+            <main className="page-body flex-1">
+                <div className="animation-slide-in container flex flex-1">
+                    <div className="border-left flex-1 border-right border-sm-none px-4">
+                        <div className="flex py-3 pt-sm-3 justify-between px-sm-3 pb-3">
                             <div className="title-1 bold">
                                 Notifications
                             </div>
@@ -101,7 +101,7 @@ const NotificationPage = () => {
                     </div>
                 </div>
             </main>
-        </div>
+        </>
     )
 }
 

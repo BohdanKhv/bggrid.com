@@ -5,6 +5,9 @@
     background: var(--color-border);
     position: relative;
 }
+.progress-bar.progress-bar-text::after {
+    background-color: var(--text-dark);
+}
 .progress-bar.progress-bar-warning::after {
     background-color: var(--color-warning);
 }

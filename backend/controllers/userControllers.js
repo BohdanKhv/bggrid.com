@@ -64,7 +64,7 @@ const searchUsers = async (req, res) => {
         .limit(10)
         .select('username firstName lastName avatar');
 
-        const data = []
+        let data = []
 
         if (checkIsFollowing) {
             const isFollowing = await Follow.find({ follower: req.user._id, following: { $in: users.map(user => user._id) } });
@@ -77,6 +77,8 @@ const searchUsers = async (req, res) => {
                     isFollowing: follow ? true : false
                 });
             });
+        } else {
+            data = users
         }
 
         res.status(200).json({
@@ -84,7 +86,7 @@ const searchUsers = async (req, res) => {
         });
     } catch (error) {
         res.status(404);
-        throw new Error('No users found');
+        return res.json({ msg: error.message });
     }
 };
 

@@ -35,55 +35,8 @@ const Account = () => {
     return (
         <div className="flex flex-col gap-5 gap-sm-3 animation-slide-in">
             <div>
-                <div className="flex gap-6 flex-sm-col">
-                    <div className="col-6 flex flex-col gap-5 gap-sm-3 col-sm-12">
-                        <Input
-                            label="Username"
-                            description="Your username is unique. Changing your username will change your profile URL."
-                            value={username}
-                            error={msg == 'Username already in use'}
-                            errorMsg="Username already in use"
-                            onChange={(e) => setUsername(e.target.value)}
-                            wrapColumn
-                            type="text"
-                        />
-                        <Input
-                            label="First Name"
-                            placeholder="Your first Name"
-                            value={firstName}
-                            onChange={(e) => setFirstName(e.target.value)}
-                            wrapColumn
-                            type="text"
-                        />
-                        <Input
-                            label="Last Name"
-                            placeholder="Your last name"
-                            value={lastName}
-                            onChange={(e) => setLastName(e.target.value)}
-                            wrapColumn
-                            type="text"
-                        />
-                        <div className="flex">
-                            <Button
-                                label="Save Changes"
-                                variant="secondary"
-                                displayTextOnLoad
-                                type="filled"
-                                borderRadius="sm"
-                                isLoading={loadingId === 'profile'}
-                                disabled={loadingId}
-                                onClick={() => {
-                                    const data = {}
-                                    if (username !== user.username) data.username = username
-                                    if (firstName !== user.firstName) data.firstName = firstName
-                                    if (lastName !== user.lastName) data.lastName = lastName
-
-                                    dispatch(updateUser(data))
-                                }}
-                            />
-                        </div>
-                    </div>
-                    <div className="col-6 flex flex-col gap-5 gap-sm-3 col-sm-12">
+                <div className="flex gap-4 flex-col">
+                    <div className="col-12 flex flex-col gap-5 gap-sm-3 col-sm-12">
                         <Input
                             label="Profile Picture"
                             wrapColumn
@@ -162,6 +115,54 @@ const Account = () => {
                             type="text"
                         />
                     </div>
+                    <div className="col-12 flex flex-col gap-5 gap-sm-3 col-sm-12">
+                        <Input
+                            label="Username"
+                            description="Your username is unique. Changing your username will change your profile URL."
+                            value={username}
+                            error={msg == 'Username already in use'}
+                            errorMsg="Username already in use"
+                            onChange={(e) => setUsername(e.target.value)}
+                            wrapColumn
+                            type="text"
+                        />
+                        <Input
+                            label="First Name"
+                            placeholder="Your first Name"
+                            value={firstName}
+                            onChange={(e) => setFirstName(e.target.value)}
+                            wrapColumn
+                            type="text"
+                        />
+                        <Input
+                            label="Last Name"
+                            placeholder="Your last name"
+                            value={lastName}
+                            onChange={(e) => setLastName(e.target.value)}
+                            wrapColumn
+                            type="text"
+                        />
+                        <div className="flex">
+                            <Button
+                                label="Save Changes"
+                                variant="secondary"
+                                displayTextOnLoad
+                                type="filled"
+                                size="lg"
+                                borderRadius="sm"
+                                isLoading={loadingId === 'profile'}
+                                disabled={loadingId}
+                                onClick={() => {
+                                    const data = {}
+                                    if (username !== user.username) data.username = username
+                                    if (firstName !== user.firstName) data.firstName = firstName
+                                    if (lastName !== user.lastName) data.lastName = lastName
+
+                                    dispatch(updateUser(data))
+                                }}
+                            />
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -182,7 +183,7 @@ const Preferences = () => {
         <div className="flex flex-col gap-5 gap-sm-3 animation-slide-in">
             <div>
                 <div className="flex gap-6 flex-sm-col">
-                    <div className="col-8 flex flex-col gap-5 gap-sm-3 col-sm-12">
+                    <div className="col-12 flex flex-col gap-5 gap-sm-3 col-sm-12">
                         <div className="fs-14 bold">
                             Theme
                         </div>
@@ -286,12 +287,12 @@ const Settings = () => {
     }, [])
 
     return (
-        <div>
+        <>
             <main className="page-body">
-                <div className="animation-slide-in">
-                    <div className="container">
-                        <div className="flex pt-6 pt-sm-3 justify-between px-sm-3 pb-6 pb-sm-0">
-                            <div className="title-1 bold">
+                <div className="animation-slide-in container flex flex-1">
+                    <div className="border-left flex-1 border-right border-sm-none">
+                        <div className="flex py-3 justify-between px-sm-3 pb-6 pb-sm-0">
+                            <div className="title-1 bold px-4">
                                 Settings
                             </div>
                             {window.innerWidth < 800 && (
@@ -312,7 +313,7 @@ const Settings = () => {
                                 </div>
                             )}
                             </div>
-                            <div>
+                            <div className="border-bottom px-4">
                                 <TabContent
                                     items={
                                         [
@@ -326,7 +327,7 @@ const Settings = () => {
                                     }}
                                 />
                         </div>
-                        <div className="pb-6 pt-5 px-sm-3">
+                        <div className="pb-6 pt-5 px-sm-3 px-4">
                             {activeTab === 'account' ? <Account />
                             : activeTab === 'preferences' ? <Preferences />
                             : <Redirect /> }
@@ -334,7 +335,7 @@ const Settings = () => {
                     </div>
                 </div>
             </main>
-        </div>
+        </>
     )
 }
 

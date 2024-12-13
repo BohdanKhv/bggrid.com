@@ -187,23 +187,19 @@ const updateGameInLibrary = async (req, res) => {
 
         await game.save();
 
-        // Create a notification for follow
-        const follow = await Friend.find({
-            $or: [
-                { user1: req.user._id },
-                { user2: req.user._id }
-            ],
-            pending: false
+        // Create a notification for followers
+        const follow = await Follow.find({
+            following: req.user._id,
         });
 
         if (follow.length) {
             const notifications = [];
-            follow.forEach(friend => {
+            follow.forEach(user => {
                 notifications.push(new Notification({
                     sender: req.user._id,
-                    receiver: friend.user1.toString() === req.user._id.toString() ? friend.user2 : friend.user1,
+                    receiver: user.follower,
                     type: 'library',
-                    message: `updated "${game.game.name}" in their library and rated it ${rating}/10`,
+                    message: `updated "${game.game.name}" in their library and rated it ${rating}/5`,
                 }));
             });
 

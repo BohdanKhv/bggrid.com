@@ -577,7 +577,7 @@ const LibraryPage = () => {
                         </div>
                     {window.innerWidth > 800 && (
                     <div className="flex flex-col gap-3">
-                        <div className="pt-3 ms-3 sticky top-0 z-3">
+                        <div className="pt-3 ms-5 sticky top-0 z-3">
                             <div className="flex flex-col gap-3">
                                 <div className="border flex border-radius-lg flex-1">
                                     <InputSearch
@@ -591,7 +591,7 @@ const LibraryPage = () => {
                                 </div>
                             </div>
                         </div>
-                    <div className="flex flex-col w-set-300-px border border-radius overflow-hidden ms-4 mb-4 h-fit-content">
+                    <div className="flex flex-col w-set-300-px border border-radius overflow-hidden ms-5 mb-4 h-fit-content">
                         <div className="fs-20 bold py-3 px-4">
                             Your Library
                         </div>

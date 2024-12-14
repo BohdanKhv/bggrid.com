@@ -491,7 +491,7 @@ const ReviewsTab = () => {
         {reviews.length === 0 && !hasMore ?
             <ErrorInfo label="No reviews found"/>
         : 
-            <div className="gap-sm-0 pt-4 px-sm-3">
+            <div className="gap-sm-0 px-sm-3">
                 <div className="flex-1 order-sm-2">
                     {reviews.map((item, index, arr) => (
                         <ReviewItem item={item}
@@ -553,9 +553,12 @@ const PlaysTab = () => {
     return (
         <>
         {plays.length === 0 && !hasMore ?
-            <ErrorInfo label="No plays found"/>
+            <ErrorInfo
+                label="No plays found"
+                secondary="When someone plays a game, it will show up here."
+            />
         :
-            <div className="flex gap-6 flex-sm-col gap-sm-0 pt-4 px-sm-3">
+            <div className="flex gap-6 flex-sm-col gap-sm-0 px-sm-3">
                 <div className="flex-1 order-sm-2">
                     {plays.map((item, index, arr) => (
                         <PlayItem
@@ -605,7 +608,7 @@ const CoverImage = ({ img }) => {
     }, [user, gameById, library])
 
     return (
-        <div className="ms-4 w-min-400-px">
+        <div className="ms-5 w-min-400-px">
                 <div
                     className="bg-secondary mt-6 mb-4 h-sm-set-150-px border-radius pos-relative h-set-300-px w-min-200-px w-max-300-px">
                     <Image
@@ -1008,7 +1011,7 @@ const GameShortInfo = () => {
         <HorizontalScroll 
             className="my-4 my-sm-4"
         >
-            <div className="flex flex-col pe-4 align-center justify-center w-min-100-px border-right pe-sm-2">
+            <div className="flex flex-col pe-4 align-center justify-center w-min-100-px border-right pe-sm-2 flex-1">
                 <div className="fs-14 bold flex align-center">
                     {gameById.complexityWeight ?
                     <>
@@ -1020,7 +1023,7 @@ const GameShortInfo = () => {
                     Weight
                 </span>
             </div>
-            <div className="flex flex-col pe-4 align-center justify-center w-min-100-px border-right pe-sm-2">
+            <div className="flex flex-col pe-4 align-center justify-center w-min-100-px border-right pe-sm-2 flex-1">
                 <div className="fs-14 bold flex align-center">
                     {gameById.minPlaytime ?
                     <>
@@ -1032,7 +1035,7 @@ const GameShortInfo = () => {
                     Playtime
                 </span>
             </div>
-            <div className="flex flex-col pe-4 align-center justify-center w-min-100-px border-right pe-sm-2">
+            <div className="flex flex-col pe-4 align-center justify-center w-min-100-px border-right pe-sm-2 flex-1">
                 <div className="fs-14 bold flex align-center">
                     {gameById.minPlayers ?
                     <>
@@ -1044,7 +1047,7 @@ const GameShortInfo = () => {
                     Players
                 </span>
             </div>
-            <div className="flex flex-col pe-4 align-center justify-center w-min-100-px">
+            <div className="flex flex-col pe-4 align-center justify-center w-min-100-px flex-1">
                 <div className="fs-14 bold flex align-center">
                     {gameById.minAge ?
                     <>
@@ -1189,7 +1192,7 @@ const GamePage = () => {
                         </div>
                     </>
                     : null }
-                    <div className="flex border-sm-none">
+                    <div className="flex border-sm-none flex-1">
                         <div className="flex-1 border-left border-right overflow-hidden flex flex-col">
                             <div className="bg-main sticky top-0 z-9 px-sm-3 border-bottom px-4">
                                 <TabContent

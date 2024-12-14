@@ -262,7 +262,7 @@ const SearchGames = () => {
 
     const [searchParams, setSearchParams] = useSearchParams()
     const [searchValue, setSearchValue] = useState(searchParams.get('s') || '')
-    const { users, loadingId: usersIsLoading } = useSelector((state) => state.user)
+    const { users, isLoading: usersIsLoading } = useSelector((state) => state.user)
 
     const [whatToSearch, setWhatToSearch] = useState('games')
     const { suggestions, loadingId } = useSelector((state) => state.game)
@@ -274,7 +274,7 @@ const SearchGames = () => {
 
         if (searchValue.length) {
             if (whatToSearch === 'users') {
-                promise = dispatch(searchUsers(searchValue))
+                promise = dispatch(searchUsers(`${searchValue}&checkIsFollowing=true`))
             } else {
                 promise = dispatch(getSuggestions(searchValue))
             }
@@ -311,7 +311,7 @@ const SearchGames = () => {
                 headerNone
                 noAction
             >
-                <div className="border-bottom align-center flex">
+                <div className="align-center flex">
                     <IconButton
                         icon={arrowLeftShortIcon}
                         variant="link"
@@ -341,9 +341,46 @@ const SearchGames = () => {
                             activeTabName={whatToSearch || 'games'}
                             setActiveTabName={(e) => {
                                 setWhatToSearch(e)
+                                // get input with "What do you wanna play?" placeholder
+                                document.querySelector('.input-search-container input').focus()
                             }}
                         />
                     </div>
+                    {whatToSearch === 'users' ?
+                    <>
+                    {!searchValue.length ?
+                        <div className="text-center fs-12 py-6 text-secondary">
+                            Start typing to search games
+                        </div>
+                    : !users.length && !usersIsLoading ?
+                        <div className="text-center fs-12 py-6 text-secondary">
+                            No users found
+                        </div>
+                    : usersIsLoading ?
+                    <div className="px-3 pt-2">
+                        <Skeleton animation="wave" height="50"/>
+                    </div>
+                    :
+                    <div className="px-3 pt-2">
+                        {
+                        users
+                        .map((searchItem) => (
+                            <FollowItem
+                                item={searchItem}
+                                key={searchItem._id}
+                                showRemoveButton
+                            />
+                        ))}
+                    </div>
+                        }
+                    </>
+                    : whatToSearch === 'games' &&
+                    !searchValue.length && library.length !== 0 && searchHistory.length === 0 ?
+                        <div className="text-center fs-12 py-6 text-secondary">
+                            Start typing to search games
+                        </div>
+                    : searchValue.length ?
+                    <>
                     {library && library
                     .filter((item) => item.game.name.toLowerCase().includes(searchValue.toLowerCase()))
                     .length > 0 ?
@@ -427,6 +464,8 @@ const SearchGames = () => {
                                 secondary={`Nothing matched your search for "${searchValue}"`}
                             />
                     : null}
+                    </>
+                    : null}
                 </div>
             </Modal>
             <div className="border border-radius-lg py-2 px-3 flex align-center gap-2 fs-12 weight-600 flex-1"
@@ -470,6 +509,7 @@ const SearchGames = () => {
                             activeTabName={whatToSearch || 'games'}
                             setActiveTabName={(e) => {
                                 setWhatToSearch(e)
+                                document.querySelector('.input-search-container input').focus()
                             }}
                         />
                     </div>
@@ -479,10 +519,16 @@ const SearchGames = () => {
                         <div className="text-center fs-12 py-6 text-secondary">
                             Start typing to search games
                         </div>
+                    : !users.length && !usersIsLoading ?
+                        <div className="text-center fs-12 py-6 text-secondary">
+                            No users found
+                        </div>
                     : usersIsLoading ?
+                    <div className="px-3 pt-2">
                         <Skeleton animation="wave" height="50"/>
+                    </div>
                     :
-                    <div className="p-3">
+                    <div className="px-3 pt-2">
                         {
                         users
                         .map((searchItem) => (

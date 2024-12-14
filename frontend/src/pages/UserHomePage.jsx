@@ -350,7 +350,7 @@ const SearchGames = () => {
                     <>
                     {!searchValue.length ?
                         <div className="text-center fs-12 py-6 text-secondary">
-                            Start typing to search games
+                            Start typing to search users
                         </div>
                     : !users.length && !usersIsLoading ?
                         <div className="text-center fs-12 py-6 text-secondary">
@@ -374,18 +374,21 @@ const SearchGames = () => {
                     </div>
                         }
                     </>
-                    : whatToSearch === 'games' &&
-                    !searchValue.length && library.length !== 0 && searchHistory.length === 0 ?
+                    : whatToSearch === 'games' ?
+                    <>
+                    {!searchValue.length && library
+                    .filter((item) => item.game.name.toLowerCase().includes(searchValue.toLowerCase()))
+                    .length === 0 && searchHistory.length === 0 ?
                         <div className="text-center fs-12 py-6 text-secondary">
                             Start typing to search games
                         </div>
-                    : searchValue.length ?
+                    : true ?
                     <>
                     {library && library
                     .filter((item) => item.game.name.toLowerCase().includes(searchValue.toLowerCase()))
                     .length > 0 ?
                     <>
-                        <div className="fs-20 pb-3 bold px-3">
+                        <div className="fs-20 pb-3 bold px-3 pt-3">
                             Your library
                         </div>
                         {library
@@ -466,6 +469,8 @@ const SearchGames = () => {
                     : null}
                     </>
                     : null}
+                    </>
+                    : null }
                 </div>
             </Modal>
             <div className="border border-radius-lg py-2 px-3 flex align-center gap-2 fs-12 weight-600 flex-1"
@@ -574,14 +579,14 @@ const SearchGames = () => {
                         </div>
                     : null}
                     {library && library
-                    .filter((item) => item.game.name.toLowerCase().includes(searchValue.toLowerCase()))
+                    .filter((item) => !searchValue || item.game.name.toLowerCase().includes(searchValue.toLowerCase()))
                     .length > 0 ?
                     <>
                         <div className="fs-14 px-4 py-2 flex align-center gap-3 text-secondary weight-600">
                             Your library
                         </div>
                         {library
-                        .filter((item) => item.game.name.toLowerCase().includes(searchValue.toLowerCase()))
+                        .filter((item) => !searchValue || item.game.name.toLowerCase().includes(searchValue.toLowerCase()))
                         .slice(0, 5)
                         .map((searchItem, i) => (
                             <div className="flex justify-between align-center bg-secondary-hover"

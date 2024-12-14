@@ -399,8 +399,8 @@ const SearchGames = () => {
                                 key={i}
                             >
                                 <Link
-                                    key={searchItem}
-                                    to={`/g/${searchItem._id}`}
+                                    key={searchItem._id}
+                                    to={`/g/${searchItem.game._id}`}
                                     className="fs-14 flex align-center px-4 py-2 gap-3 pointer flex-1 overflow-hidden clickable opacity-75-active"
                                 >
                                     <div className="flex gap-3 align-center">

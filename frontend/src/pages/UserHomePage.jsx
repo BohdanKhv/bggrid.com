@@ -324,7 +324,7 @@ const SearchGames = () => {
                     />
                     <InputSearch
                         className="flex-1 py-1"
-                        placeholder="What do you wanna play?"
+                        placeholder={whatToSearch === 'users' ? "Search users" : "What do you wanna play?"}
                         value={searchValue}
                         clearable
                         autoFocus
@@ -479,7 +479,7 @@ const SearchGames = () => {
                     size="sm"
                     className="fill-secondary"
                 />
-                {searchValue.length ? `${searchValue}` : whatToSearch === 'users' ? "Search users" : 'Search games'}
+                Search BGGRID
             </div>
             </>
         :

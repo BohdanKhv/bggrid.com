@@ -436,7 +436,8 @@ const SearchPage = () => {
                                     />
                                     </div>
                                 }
-                            <div className="py-3 top-0 z-3 sticky px-sm-3 bg-main">
+                            <div className="flex flex-col overflow-hidden">
+                            <div className="py-3 top-0 z-3 sticky bg-main overflow-hidden">
                                 <HorizontalScroll
                                     noControllers
                                 >
@@ -622,6 +623,7 @@ const SearchPage = () => {
                                         </div>
                                     </FilterDropdown>
                                 </HorizontalScroll> 
+                            </div>
                             </div>
                             </div>
                             <div className="px-4 pt-2 px-sm-3 flex justify-between align-center">

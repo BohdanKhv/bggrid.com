@@ -143,10 +143,10 @@ const CommunityPage = () => {
     }, [isLoading, hasMore, isError]);
 
     return (
-        <div>
-            <main className="page-body">
-                <div className="animation-slide-in">
-                    <div className="container">
+        <>
+            <main className="page-body flex-1">
+                <div className="animation-slide-in flex flex-1 h-100">
+                    <div className="container flex-1 flex flex-col">
                         {window.innerWidth <= 800 && user ? (
                             <div className="flex pt-6 pt-sm-3 justify-between px-sm-3 pb-3">
                                 <div className="title-1 bold">
@@ -171,6 +171,9 @@ const CommunityPage = () => {
                         ) : null}
                         {window.innerWidth <= 800 ?
                         <div className="px-3">
+                        <div>
+                            <FollowSearchModal/>
+                        </div>
                             <HorizontalScroll
                                 className="align-start gap-0 flex-1"
                                 contentClassName="gap-0"
@@ -279,11 +282,9 @@ const CommunityPage = () => {
                                     </div>
                                 :
                                     feed.length === 0 && !isLoading &&
-                                    <div className="border border-radius border-dashed mx-sm-3">
                                         <ErrorInfo
                                             secondary={!hasMore ? "You're all caught up!" : "Oops! Something went wrong"}
                                         />
-                                    </div>
                                 }
                                 { isLoading ?
                                     <div className="flex flex-col px-4 gap-5 py-5 px-sm-3">
@@ -335,16 +336,9 @@ const CommunityPage = () => {
                                             <Skeleton height="48" animation="wave"/>
                                         </div>
                                     : follow.length === 0 ?
-                                        <div className="border border-radius border-dashed animation-slide-in pointer"
-                                            onClick={() => {
-                                                searchParams.set('su', 'true')
-                                                setSearchParams(searchParams.toString())
-                                            }}
-                                        >
                                             <ErrorInfo
                                                 secondary="Oops! You're not following anyone"
                                             />
-                                        </div>
                                     :
                                     follow.length > 0 && (
                                     follow.map((item) => (
@@ -362,7 +356,7 @@ const CommunityPage = () => {
                 </div>
             </div>
             </main>
-        </div>
+        </>
     )
 }
 

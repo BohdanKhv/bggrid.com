@@ -225,7 +225,7 @@ const CommunityPage = () => {
                                         >
                                             <div className="flex flex-col align-center text-ellipsis-1">
                                                 <Avatar
-                                                    img={item?.friend?.avatar}
+                                                    img={item?.avatar}
                                                     rounded
                                                     sizeSm="md"
                                                     size="lg"

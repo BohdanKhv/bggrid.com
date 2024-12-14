@@ -331,7 +331,7 @@ const SearchGames = () => {
                         onChange={(e) => setSearchValue(e.target.value)}
                     />
                 </div>
-                <div className="py-4">
+                <div className="pb-4">
                     <div className="border-bottom">
                         <TabContent
                             items={[
@@ -479,7 +479,7 @@ const SearchGames = () => {
                     size="sm"
                     className="fill-secondary"
                 />
-                {searchValue.length ? `${searchValue}` : 'Search games'}
+                {searchValue.length ? `${searchValue}` : whatToSearch === 'users' ? "Search users" : 'Search games'}
             </div>
             </>
         :

@@ -123,7 +123,7 @@ const SearchPage = () => {
         <>
             <main className="page-body flex-1">
                 <div className="animation-slide-in container flex-1 flex h-100">
-                    <div className="border-left border-right border-sm-none flex-1">
+                    <div className="border-left border-right border-sm-none overflow-hidden flex-1">
                         {window.innerWidth < 800 ?
                         <div className="pt-6 pb-3 pt-sm-3 title-1 bold px-sm-3">
                             Discover Games

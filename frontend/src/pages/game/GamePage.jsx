@@ -285,7 +285,7 @@ const GamePlayStats = () => {
 
 
     return (
-        <div className="flex-1 border-radius-lg bg-secondary h-fit-content w-set-sm-auto order-sm-1 pos-relative">
+        <div className="flex-1 border-radius bg-secondary h-fit-content w-set-sm-auto order-sm-1 pos-relative">
             <div>
                 <div className="flex flex-col p-5">
                     <div className="flex-1 flex justify-between pb-4 border-bottom align-center">
@@ -330,8 +330,8 @@ const GameReviewStats = () => {
     const { gameById } = useSelector((state) => state.game)
 
     return (
-        <div className="flex-1 border-radius-lg bg-secondary h-fit-content w-set-sm-auto order-sm-1 mb-4 pos-relative">
-            <div className="bg-secondary border-radius-lg">
+        <div className="flex-1 border-radius bg-secondary h-fit-content w-set-sm-auto order-sm-1 mb-4 pos-relative">
+            <div className="bg-secondary border-radius">
                 
                 <div className="flex flex-col gap-3 pt-5 px-5">
                 <div className="flex flex-col align-center justify-center">
@@ -605,9 +605,9 @@ const CoverImage = ({ img }) => {
     }, [user, gameById, library])
 
     return (
-        <div className="container w-min-400-px">
+        <div className="ms-4 w-min-400-px">
                 <div
-                    className="bg-secondary my-6 h-sm-set-150-px border-radius pos-relative h-set-300-px w-min-200-px w-max-300-px">
+                    className="bg-secondary mt-6 mb-4 h-sm-set-150-px border-radius pos-relative h-set-300-px w-min-200-px w-max-300-px">
                     <Image
                         img={img}
                         errIcon={gamesIcon}
@@ -628,7 +628,7 @@ const CoverImage = ({ img }) => {
                 :
                 <>
                 {window.innerWidth > 800 ?
-                    <div className="flex flex-col align-center gap-2 my-6 mb-sm-3">
+                    <div className="flex flex-col align-center gap-2 mb-6 mb-sm-3">
                         <UserGuardLoginModal>
                             <Button
                                 size="lg"
@@ -651,7 +651,6 @@ const CoverImage = ({ img }) => {
                                     variant="secondary"
                                     type="default"
                                     className="w-100"
-                                    dataTooltipContent="Update your library"
                                     onClick={() => {
                                         searchParams.set('addGame', gameById._id)
                                         setSearchParams(searchParams)
@@ -680,7 +679,6 @@ const CoverImage = ({ img }) => {
                             variant="secondary"
                             type="default"
                             muted
-                            dataTooltipContent="Share"
                             className="w-100"
                             onClick={() => {
                                 navigator.share({
@@ -1191,118 +1189,121 @@ const GamePage = () => {
                         </div>
                     </>
                     : null }
-                    <div className="bg-main sticky top-0 z-9 px-sm-3 border-bottom border-left border-right container">
-                        <TabContent
-                            items={[
-                                {label: 'Overview'},
-                                {label: 'Videos'},
-                                // {label: 'Rules'},
-                                {label: 'Reviews'},
-                                {label: 'Plays'},
-                            ]}
-                            activeTabName={tab || 'overview'}
-                            setActiveTabName={(e) => {
-                                navigate(`/g/${gameId}/${e}`)
-                            }}
-                        />
-                    </div>
-                    <div className="flex border-left border-right border-sm-none">
-                        <div className="flex-1 overflow-hidden px-4 px-sm-0">
-                            {(window.innerWidth < 800 || window.innerWidth >= 800) && (tab === 'overview' || !tab) ?
-                            <div className="flex flex-col mt-4 pos-relative mt-sm-0 px-sm-3">
-                                <div className="z-3 border-radius bg-sm-main">
-                                <div className="flex gap-4 pt-sm-5">
-                                    {window.innerWidth < 800 && gameById.image ?
-                                        <div>
-                                            <Image
-                                                img={gameById.image}
-                                                alt="cover"
-                                                classNameContainer="border-radius w-set-100-px h-set-150-px h-sm-set-100-px"
-                                                classNameImg="object-cover border-radius object-center"
-                                            />
-                                        </div>
-                                    : null }
-                                    <div className="flex flex-col overflow-x-hidden">
-                                        <div className="fs-54 fs-sm-28 weight-600">
-                                            {gameById.name} {gameById.year ? <span className="weight-500 fs-20">({gameById.year})</span> : ''}
-                                        </div>
-                                        {window.innerWidth < 800 ?
-                                        <>
-                                            <div className="flex flex-col gap-2">
-                                                {gameById.publishers.length ?
-                                                    gameById.publishers.slice(0, 1).map((item, index) => (
-                                                        <div key={index}>
-                                                            <Link 
-                                                                to={`/publisher/${item._id}`}
-                                                                className="fs-14 text-underlined-hover text-primary weight-500">
-                                                                {item.name}
-                                                            </Link>
-                                                        </div>
-                                                    ))
-                                                : null}
-                                                {gameById.year ?
-                                                    <div className="fs-14">
-                                                        {gameById.year}
-                                                    </div>
-                                                : null}
+                    <div className="flex border-sm-none">
+                        <div className="flex-1 border-left border-right overflow-hidden flex flex-col">
+                            <div className="bg-main sticky top-0 z-9 px-sm-3 border-bottom px-4">
+                                <TabContent
+                                    items={[
+                                        {label: 'Overview'},
+                                        {label: 'Videos'},
+                                        // {label: 'Rules'},
+                                        {label: 'Reviews'},
+                                        {label: 'Plays'},
+                                    ]}
+                                    activeTabName={tab || 'overview'}
+                                    setActiveTabName={(e) => {
+                                        navigate(`/g/${gameId}/${e}`)
+                                    }}
+                                />
+                            </div>
+                            <div className="flex-1 overflow-hidden px-4 px-sm-0">
+                                {(window.innerWidth < 800 || window.innerWidth >= 800) && (tab === 'overview' || !tab) ?
+                                <div className="flex flex-col mt-4 pos-relative mt-sm-0 px-sm-3">
+                                    <div className="z-3 border-radius bg-sm-main">
+                                    <div className="flex gap-4 pt-sm-5">
+                                        {window.innerWidth < 800 && gameById.image ?
+                                            <div>
+                                                <Image
+                                                    img={gameById.image}
+                                                    alt="cover"
+                                                    classNameContainer="border-radius w-set-100-px h-set-150-px h-sm-set-100-px"
+                                                    classNameImg="object-cover border-radius object-center"
+                                                />
                                             </div>
-                                        </>
-                                        : null}
+                                        : null }
+                                        <div className="flex flex-col overflow-x-hidden">
+                                            <div className="fs-54 fs-sm-28 weight-600">
+                                                {gameById.name} {gameById.year ? <span className="weight-500 fs-20">({gameById.year})</span> : ''}
+                                            </div>
+                                            {window.innerWidth < 800 ?
+                                            <>
+                                                <div className="flex flex-col gap-2">
+                                                    {gameById.publishers.length ?
+                                                        gameById.publishers.slice(0, 1).map((item, index) => (
+                                                            <div key={index}>
+                                                                <Link 
+                                                                    to={`/publisher/${item._id}`}
+                                                                    className="fs-14 text-underlined-hover text-primary weight-500">
+                                                                    {item.name}
+                                                                </Link>
+                                                            </div>
+                                                        ))
+                                                    : null}
+                                                    {gameById.year ?
+                                                        <div className="fs-14">
+                                                            {gameById.year}
+                                                        </div>
+                                                    : null}
+                                                </div>
+                                            </>
+                                            : null}
+                                        </div>
                                     </div>
-                                </div>
-                                <div className="flex flex-col overflow-hidden my-4">
-                                    <GameShortInfo/>
-                                </div>
-                                {window.innerWidth < 800 ?
-                                <div>
-                                    <Button
-                                        icon={diceIcon}
-                                        borderRadius="lg"
-                                        size="lg"
-                                        className="w-100 mb-3"
-                                        variant="secondary"
-                                        type="default"
-                                        onClick={() => {
-                                            searchParams.set('logPlay', gameId)
-                                            setSearchParams(searchParams)
-                                        }}
-                                        label="Log a Play"
-                                    />
-                                    <UserGuardLoginModal>
-                                        { isInLibrary ?
+                                    <div className="flex flex-col overflow-hidden my-4">
+                                        <GameShortInfo/>
+                                    </div>
+                                    {window.innerWidth < 800 ?
+                                    <div>
+                                        <UserGuardLoginModal>
                                             <Button
-                                                icon={libraryIcon}
+                                                icon={diceIcon}
                                                 borderRadius="lg"
                                                 size="lg"
-                                                className="w-100"
+                                                className="w-100 mb-3"
                                                 variant="secondary"
                                                 type="default"
                                                 onClick={() => {
-                                                    searchParams.set('addGame', gameId)
+                                                    searchParams.set('logPlay', gameId)
                                                     setSearchParams(searchParams)
                                                 }}
-                                                label="In Library"
+                                                label="Log a Play"
                                             />
-                                        :
-                                            <Button
-                                                icon={largePlusIcon}
-                                                variant="secondary"
-                                                borderRadius="lg"
-                                                size="lg"
-                                                className="w-100"
-                                                type="filled"
-                                                onClick={() => {
-                                                    searchParams.set('addGame', gameId)
-                                                    setSearchParams(searchParams)
-                                                }}
-                                                label="Add to Library"
-                                            />
-                                        }
-                                    </UserGuardLoginModal>
+                                        </UserGuardLoginModal>
+                                        <UserGuardLoginModal>
+                                            { isInLibrary ?
+                                                <Button
+                                                    icon={libraryIcon}
+                                                    borderRadius="lg"
+                                                    size="lg"
+                                                    className="w-100"
+                                                    variant="secondary"
+                                                    type="default"
+                                                    onClick={() => {
+                                                        searchParams.set('addGame', gameId)
+                                                        setSearchParams(searchParams)
+                                                    }}
+                                                    label="In Library"
+                                                />
+                                            :
+                                                <Button
+                                                    icon={largePlusIcon}
+                                                    variant="secondary"
+                                                    borderRadius="lg"
+                                                    size="lg"
+                                                    className="w-100"
+                                                    type="filled"
+                                                    onClick={() => {
+                                                        searchParams.set('addGame', gameId)
+                                                        setSearchParams(searchParams)
+                                                    }}
+                                                    label="Add to Library"
+                                                />
+                                            }
+                                        </UserGuardLoginModal>
+                                    </div>
+                                    : null}
                                 </div>
-                                : null}
                             </div>
-                        </div>
                         : null}
                         {tab === 'overview' ?
                             <Overview/>
@@ -1315,6 +1316,7 @@ const GamePage = () => {
                         : tab === 'rules' ?
                             <RulesTab />
                         : <Overview/> }
+                        </div>
                         <div className="flex gap-3 px-4">
                     </div>
                     </div>

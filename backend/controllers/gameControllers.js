@@ -245,7 +245,7 @@ const getGameOverview = async (req, res) => {
                     _id: null,
                     // only if rating is not null or 0
                     totalReviews: { $sum: 1 },
-                    avgRating: { $avg: '$rating' },
+                    avgRating: { $avg: { $cond: { if: { $gt: ['$rating', 0] }, then: '$rating', else: null } } },
                     total1Star: { $sum: { $cond: { if: { $and: [{ $gte: ['$rating', 0.01] }, { $lte: ['$rating', 1.99] }] }, then: 1, else: 0 } } },
                     total2Star: { $sum: { $cond: { if: { $and: [{ $gt: ['$rating', 2] }, { $lte: ['$rating', 2.99] }] }, then: 1, else: 0 } } },
                     total3Star: { $sum: { $cond: { if: { $and: [{ $gt: ['$rating', 3] }, { $lte: ['$rating', 3.99] }] }, then: 1, else: 0 } } },

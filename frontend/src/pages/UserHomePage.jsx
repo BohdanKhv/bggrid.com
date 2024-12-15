@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react'
 import { Avatar, Button, ErrorInfo, HorizontalScroll, Icon, IconButton, Image, InputSearch, Modal, Skeleton, TabContent } from '../components'
 import { useDispatch, useSelector } from 'react-redux'
 import { DateTime } from 'luxon'
-import { arrowLeftShortIcon, arrowRightShortIcon, bellIcon, clockIcon, diceIcon, rightArrowIcon, searchIcon } from '../assets/img/icons'
+import { arrowLeftShortIcon, arrowRightShortIcon, bellIcon, clockIcon, diceIcon, gamesIcon, rightArrowIcon, searchIcon } from '../assets/img/icons'
 import { getSuggestions } from '../features/game/gameSlice'
 import { Link, useNavigate, useSearchParams } from 'react-router-dom'
 import { setSearchHistory } from '../features/local/localSlice'
@@ -26,7 +26,9 @@ const PlayItem = ({ item }) => {
             // }}
             to={`/g/${item?.game?._id || item?._id}`}
         >
-            <Image img={item?.game?.image} classNameContainer="h-set-200-px border-radius overflow-hidden"/>
+        <Image img={item?.game?.image} 
+            errIcon={gamesIcon}
+            classNameContainer="h-set-200-px border-radius overflow-hidden"/>
             <div className="flex align-center pos-relative flex-1">
                 <div className="fs-14 bold text-ellipsis-2 flex-1">
                     {item?.game?.name}
@@ -72,7 +74,10 @@ const GameItem = ({ item }) => {
             // }}
             to={`/g/${item?.game?._id || item?._id}`}
         >
-            <Image img={item?.image} classNameContainer="h-set-200-px border-radius overflow-hidden"/>
+            <Image
+                img={item?.image}
+                errIcon={gamesIcon}
+                classNameContainer="h-set-200-px border-radius overflow-hidden"/>
             <div className="flex align-center pos-relative flex-1">
                 <div className="fs-14 bold text-ellipsis-2 flex-1">
                     {item?.name}
@@ -409,6 +414,7 @@ const SearchGames = () => {
                                         <Image
                                             img={searchItem.game.thumbnail}
                                             alt={searchItem.game.name}
+                                            errIcon={gamesIcon}
                                             classNameContainer="w-set-50-px h-set-50-px border-radius-sm overflow-hidden"
                                         />
                                         <div className="flex flex-col">
@@ -444,6 +450,7 @@ const SearchGames = () => {
                                         <Image
                                             img={searchItem.thumbnail}
                                             alt={searchItem.name}
+                                            errIcon={gamesIcon}
                                             classNameContainer="w-set-50-px h-set-50-px border-radius-sm overflow-hidden"
                                         />
                                         <div className="flex flex-col">
@@ -750,6 +757,7 @@ const UserHomePage = () => {
                                     >
                                         <Image
                                             img={item?.game?.thumbnail}
+                                            errIcon={gamesIcon}
                                             classNameContainer="w-set-50-px h-set-50-px"
                                         />
                                         <div className="flex align-center pos-relative flex-1">

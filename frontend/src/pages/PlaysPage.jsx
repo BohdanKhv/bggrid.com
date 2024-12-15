@@ -61,7 +61,7 @@ const SearchGames = () => {
                 headerNone
                 noAction
             >
-                <div className="border-bottom align-center flex">
+                <div className="align-center flex">
                     <InputSearch
                         className="flex-1 py-1 m-2"
                         placeholder="What did you play?"

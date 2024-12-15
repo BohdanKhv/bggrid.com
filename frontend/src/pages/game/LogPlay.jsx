@@ -188,7 +188,6 @@ const LogPlay = () => {
                                 placeholder="Search users or add non-user player"
                                 value={searchValue}
                                 clearable
-                                closeOnSelect
                                 onChange={(e) => setSearchValue(e.target.value)}
                                 onSubmit={(e) => {
                                     setSearchValue('')
@@ -210,7 +209,6 @@ const LogPlay = () => {
                                         <div className="flex justify-between align-center">
                                             <div
                                                 onClick={(e) => {
-                                                    e.stopPropagation()
                                                     setSearchValue('')
                                                     setPlayers([...players, {
                                                         name: searchValue.trim(),
@@ -260,7 +258,6 @@ const LogPlay = () => {
                                             >
                                                 <div
                                                     onClick={(e) => {
-                                                        e.stopPropagation()
                                                         setSearchValue('')
                                                         setPlayers([...players, {
                                                             user: i,
@@ -301,7 +298,7 @@ const LogPlay = () => {
                         <div>
                             {players.length ?
                             players.map((i, index) => (
-                            <div className="my-2 mx-4 bg-tertiary border-radius animation-slide-in show-on-hover-parent"
+                            <div className="my-2 mx-4 bg-secondary border-radius animation-slide-in show-on-hover-parent"
                                 key={index}
                             >
                                 <div
@@ -374,7 +371,7 @@ const LogPlay = () => {
                                                     type="number"
                                                     placeholder="Score"
                                                     max={1000}
-                                                    className="bg-main border-radius"
+                                                    className="bg-main border-radius border-none"
                                                     value={i.score || ''}
                                                     onFocus={(e) => e.target.select()}
                                                     onChange={(e) => {
@@ -389,7 +386,7 @@ const LogPlay = () => {
                                         <CheckBox
                                             label="Winner"
                                             checked={i.winner}
-                                            className="px-4 py-3"
+                                            className="px-4 py-3 bg-main border-radius"
                                             onClick={() => {
                                                 const newPlayers = [...players]
                                                 newPlayers[index].winner = !i.winner

@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react'
-import { Avatar, Button, ErrorInfo, InputSearch, Modal } from '../../components'
+import { Avatar, Button, ErrorInfo, InputSearch, Modal, Skeleton } from '../../components'
 import { Link, useNavigate, useSearchParams } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
 import { searchIcon, usersIcon } from '../../assets/img/icons'
@@ -52,6 +52,9 @@ const FollowersModal = () => {
             onClose={() => {
                 navigate(`/u/${userById.username}`)
             }}
+            minWith="400px"
+            with="400px"
+            maxWith="400px"
             classNameContent="p-0"
             noAction
             label="Followers"
@@ -78,7 +81,12 @@ const FollowersModal = () => {
                         secondary="Something went wrong"
                     />
                 : isLoading ?
-                    <ErrorInfo isLoading/>
+                    <div className="flex flex-col">
+                        <Skeleton
+                            height="50"
+                            animation="wave"
+                        />
+                    </div>
                 : null }
             </div>
         </Modal>

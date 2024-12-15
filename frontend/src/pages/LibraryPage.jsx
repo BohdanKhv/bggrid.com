@@ -281,7 +281,7 @@ const SearchGames = () => {
     )
 }
 
-const LibraryItem = ({ item, index, hideInfo }) => {
+const LibraryItem = ({ item, index, tags, setTags }) => {
 
     const [searchParam, setSearchParam] = useSearchParams()
     const [searchParams, setSearchParams] = useSearchParams()
@@ -439,7 +439,7 @@ const LibraryItem = ({ item, index, hideInfo }) => {
                     />
                     <div className="flex flex-col justify-between flex-1">
                         <div className="flex justify-between gap-3">
-                            <div className="flex flex-col">
+                            <div className="flex flex-col flex-1">
                                 <div className="flex gap-2">
                                     <Link className="fs-16 text-underlined-hover w-fit-content text-ellipsis-1 h-fit-content"
                                         to={`/g/${item.game._id}`}
@@ -447,14 +447,15 @@ const LibraryItem = ({ item, index, hideInfo }) => {
                                         {item.game.name}
                                     </Link>
                                     </div>
-                                    <div className="flex align-center gap-2 pointer pt-1"
-                                        onClick={(e) => {
-                                            e.stopPropagation()
-                                            searchParams.set('addGame', item.game._id)
-                                            setSearchParams(searchParams)
-                                        }}>
-                                        <div className="flex align-center gap-2">
-                                            <span className={`fs-14 weight-600 text-warning`}>{item.rating || 0}</span>
+                                    <div className="flex flex-col gap-1 pointer pt-1 flex-1">
+                                        <div className="flex align-center gap-2"
+                                            onClick={(e) => {
+                                                e.stopPropagation()
+                                                searchParams.set('addGame', item.game._id)
+                                                setSearchParams(searchParams)
+                                            }}
+                                        >
+                                            <span className={`fs-14 weight-500 text-warning`}>{item.rating || 0}</span>
                                             <div className="flex gap-1 align-center">
                                                 {[...Array(5)].map((_, i) => (
                                                     <Icon key={i} icon={starFillIcon} size="xs" className={`text-warning ${i + 1 <= item.rating ? 'fill-warning' : 'fill-secondary'}`}/>
@@ -462,11 +463,27 @@ const LibraryItem = ({ item, index, hideInfo }) => {
                                             </div>
                                         </div>
                                         {window.innerWidth > 800 && (
-                                        <div className="flex align-center gap-1">
+                                        <HorizontalScroll
+                                            contentClassName="gap-1"
+                                        >
                                             {item.tags.map((tag, index) => (
-                                                <div key={index} className="px-2 py-1 bg-secondary border-radius weight-500 flex align-center fs-12 weight-500">{tag}</div>
+                                                <div key={index}
+                                                    onClick={(e) => {
+                                                        e.stopPropagation()
+                                                        if (tags.includes(tag)) {
+                                                            setTags(tags.filter((t) => t !== tag))
+                                                        } else {
+                                                            setTags([...tags, tag])
+                                                        }
+                                                    }}
+                                                    className={`px-1 border-radius flex-shrink-0 weight-500 flex align-center fs-10 weight-500 border bg-secondary${tags.includes(tag) ? " border-color-text" : " border-secondary"}`}>
+                                                        <span className="me-2">
+                                                            {tagsDetailedEnum.find((t) => t.label === tag)?.icon}
+                                                        </span>
+                                                        {tag}
+                                                    </div>
                                             ))}
-                                        </div>
+                                        </HorizontalScroll>
                                         )}
                                     </div>
                                 </div>
@@ -610,7 +627,7 @@ const LibraryPage = () => {
             <main className="page-body">
                 <div className="animation-slide-in flex flex-1 flex-sm-col container">
                     <div className="flex flex-1 overflow-hidden">
-                        <div className="flex-1 flex flex-col overflow-hidden">
+                        <div className="flex-1 flex flex-col overflow-x-hidden">
                             {window.innerWidth < 800 && (
                                 <div className="flex pt-6 pt-sm-3 justify-between px-sm-3">
                                     <div className="title-1 bold">
@@ -634,7 +651,6 @@ const LibraryPage = () => {
                                     </div>
                                 </div>
                             )}
-                            {window.innerWidth <= 800 && (
                             <div className="px-sm-3 overflow-hidden pt-3">
                                 <HorizontalScroll>
                                     <div className="justify-between flex-shrink-0 flex gap-2 bg-secondary border-radius px-3 py-2">
@@ -671,7 +687,6 @@ const LibraryPage = () => {
                                     </div>
                                 </HorizontalScroll>
                             </div>
-                            )}
                             {/* {window.innerWidth <= 800 && (
                             <div className="pt-3 px-sm-3 px-4">
                                 <div className="flex flex-col gap-3">
@@ -826,7 +841,7 @@ const LibraryPage = () => {
                                     />
                                 </Dropdown>
                             </div>
-                            <div className="pb-6">
+                            <div className="pb-6 flex flex-col overflow-x-hidden">
                                 {library.length > 0 && !isLoading ? (
                                     <div className="flex flex-col">
                                     {library
@@ -847,6 +862,8 @@ const LibraryPage = () => {
                                     .map((item, index) =>
                                         <LibraryItem
                                             key={item._id} item={item} hideInfo index={index}
+                                            tags={tags}
+                                            setTags={setTags}
                                         />
                                     )}
                                     

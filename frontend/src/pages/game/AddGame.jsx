@@ -4,7 +4,7 @@ import { Avatar, Button, ErrorInfo, IconButton, Image, Input, Modal, Range } fro
 import { Link, useSearchParams } from "react-router-dom"
 import { getGameCard } from "../../features/game/gameSlice"
 import { closeIcon, linkIcon, upArrowRightIcon } from "../../assets/img/icons"
-import { tagsEnum } from "../../assets/constants"
+import { tagsDetailedEnum, tagsEnum } from "../../assets/constants"
 import { addGameToLibrary, removeGameFromLibrary, updateGameInLibrary } from "../../features/library/librarySlice"
 
 
@@ -86,6 +86,8 @@ const AddGame = () => {
                 searchParam.delete("addGame")
                 setSearchParam(searchParam)
             }}
+            minWith="600px"
+            maxWith="600px"
             noAction={libraryIsLoading}
             actionBtnText={
                 isInLibrary ? "Update Library" : "Add to Library"
@@ -150,18 +152,19 @@ const AddGame = () => {
                         </div>
                     </div>
                     <div className="flex gap-2 flex-wrap">
-                        {tagsEnum.map((i) => (
+                        {tagsDetailedEnum.map((i) => (
                             <Button
-                                label={i}
-                                key={i}
+                                label={i.label}
+                                key={i.label}
+                                icon={i.icon}
                                 onClick={() => {
-                                    if (tags.includes(i)) {
-                                        setTags(tags.filter(j => j !== i))
+                                    if (tags.includes(i.label)) {
+                                        setTags(tags.filter(j => j !== i.label))
                                     } else {
-                                        setTags([...tags, i])
+                                        setTags([...tags, i.label])
                                     }
                                 }}
-                                variant={tags.includes(i) ? "filled" : "outline"}
+                                variant={tags.includes(i.label) ? "filled" : "outline"}
                                 type="secondary"
                             />
                         ))}

@@ -23,7 +23,7 @@
     /* border-top-left-radius: 12px;
     border-top-right-radius: 12px; */
     border-radius: 14px;
-    height: 3px;
+    height: 2px;
     position: absolute;
     transition-duration: var(--transition-duration);
     transition: width var(--transition-duration) cubic-bezier(0.4,0,1,1),left var(--transition-duration) cubic-bezier(0.4,0,1,1);

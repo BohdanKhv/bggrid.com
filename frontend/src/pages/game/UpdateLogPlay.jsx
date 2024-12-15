@@ -265,7 +265,7 @@ const UpdateLogPlay = () => {
                         <div>
                             {players.length ?
                             players.map((i, index) => (
-                            <div className="my-2 mx-4 bg-tertiary border-radius animation-slide-in show-on-hover-parent"
+                            <div className="my-2 mx-4 bg-secondary border-radius animation-slide-in show-on-hover-parent"
                                 key={index}
                             >
                                 <div
@@ -323,7 +323,7 @@ const UpdateLogPlay = () => {
                                                 <Input
                                                     type="number"
                                                     placeholder="Score"
-                                                    className="bg-main border-radius"
+                                                    className="bg-main border-radius border-none"
                                                     max={1000}
                                                     value={i.score || ''}
                                                     onFocus={(e) => e.target.select()}
@@ -341,7 +341,7 @@ const UpdateLogPlay = () => {
                                         <CheckBox
                                             label="Winner"
                                             checked={i.winner}
-                                            className="px-4 py-3"
+                                            className="px-4 py-3 bg-main border-radius"
                                             onClick={() => {
                                                 setPlayers(prevPlayers => {
                                                     const updatedPlayers = [...prevPlayers]

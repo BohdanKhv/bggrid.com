@@ -468,7 +468,6 @@ const LibraryItem = ({ item, index, tags, setTags }) =>  {
                                                 }}
                                             >
                                                 <div className="flex align-center">
-
                                                 <span className={`fs-14 weight-500`}>{item.rating || 0}</span>
                                                 </div>
                                                 <div className="flex gap-1 align-center">
@@ -486,7 +485,10 @@ const LibraryItem = ({ item, index, tags, setTags }) =>  {
                                                         }
                                                     }}
                                                     className={`px-1 border-radius flex-shrink-0 weight-500 flex align-center fs-12 weight-500  ${tags.includes(tag) ? " bg-secondary" : ""}`}>
-                                                        <span className="bold">
+                                                        <span className="bold"
+                                                            data-tooltip-content={tag}
+                                                            data-tooltip-id="tooltip-default"
+                                                        >
                                                             {tagsDetailedEnum.find((t) => t.label === tag)?.icon}
                                                         </span>
                                                         {/* {tag} */}

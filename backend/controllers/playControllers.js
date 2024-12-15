@@ -280,7 +280,6 @@ const createPlay = async (req, res) => {
                     }
                 }
             ]);
-            console.log(playData);
             playData = playData[0];
 
             const winner = players.find(player => player.winner);

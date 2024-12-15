@@ -1,12 +1,22 @@
 import { DateTime } from 'luxon'
-import { Avatar, Icon, IconButton, Image } from '../components'
+import { Avatar, Button, Dropdown, Icon, IconButton, Image } from '../components'
 import { Link, useSearchParams } from 'react-router-dom'
-import { awardIcon, editIcon, moreIcon } from '../assets/img/icons'
+import { awardIcon, editIcon, instagramIcon, moreHorizontalIcon, moreIcon, trashIcon } from '../assets/img/icons'
 import { addCommaToNumber } from '../assets/utils'
+import { useDispatch, useSelector } from 'react-redux'
+import { deletePlay } from '../features/play/playSlice'
+import UserIsMeGuard from './auth/UserIsMeGuard'
 
 const PlayItem = ({ item, hideUpdate }) => {
+    const dispatch = useDispatch()
 
+    const { user } = useSelector(state => state.auth)
+    const { loadingId } = useSelector(state => state.play)
     const [searchParams, setSearchParams] = useSearchParams()
+
+    const handleShareOnInstagram = () => {
+
+    }
 
     return (
         <div className="px-sm-3 border-bottom show-on-hover-parent border-secondary transition-duration animation-slide-in display-on-hover-parent">
@@ -55,20 +65,64 @@ const PlayItem = ({ item, hideUpdate }) => {
                                 Played <Link to={`/g/${item.game._id}`} className="fs-12 text-main bold pointer text-ellipsis-1 text-underlined-hover">{item.game.name}</Link> {item?.playTimeMinutes ? `for ${item.playTimeMinutes} min` : null}
                             </div>
                         </div>
-                        {hideUpdate ? null :
-                        <IconButton
-                            icon={editIcon}
-                            variant="text"
-                            type="secondary"
-                            className="show-on-hover d-sm-block"
-                            muted
-                            size="sm"
-                            onClick={() => {
-                                searchParams.set('updatePlay', item._id)
-                                setSearchParams(searchParams)
-                            }}
-                        />
-                        }
+                        <Dropdown 
+                            classNameDropdown="p-0"
+                            mobileDropdown
+                            dropdownLabel="Actions"
+                            customDropdown={
+                                <Icon
+                                    icon={moreIcon}
+                                    size="xs"
+                                    className="opacity-50 py-1 hover-opacity-100"
+                                />
+                        }>
+                            <div className="flex flex-col overflow-hidden border-radius">
+                                <UserIsMeGuard id={item.user._id}>
+                                    <Button
+                                        smSize="xl"
+                                        size="lg"
+                                        borderRadius="none"
+                                        className="justify-start"
+                                        label="Edit"
+                                        icon={editIcon}
+                                        disabled={loadingId}
+                                        variant="text"
+                                        type="default"
+                                        onClick={() => {
+                                            searchParams.set('updatePlay', item._id)
+                                            setSearchParams(searchParams)
+                                        }}
+                                    />
+                                    <Button
+                                        smSize="xl"
+                                        size="lg"
+                                        borderRadius="none"
+                                        className="justify-start"
+                                        label="Delete"
+                                        disabled={loadingId}
+                                        icon={trashIcon}
+                                        variant="text"
+                                        type="default"
+                                        onClick={() => {
+                                            dispatch(deletePlay(item._id))
+                                        }}
+                                    />
+                                </UserIsMeGuard>
+                                <Button
+                                    smSize="xl"
+                                    size="lg"
+                                    borderRadius="none"
+                                    className="justify-start"
+                                    label="Post on Instagram"
+                                    icon={instagramIcon}
+                                    variant="text"
+                                    type="default"
+                                    onClick={() => {
+                                        handleShareOnInstagram()
+                                    }}
+                                />
+                            </div>
+                        </Dropdown>
                     </div>
                     {item.comment ?
                         <div className="fs-14 pt-3">

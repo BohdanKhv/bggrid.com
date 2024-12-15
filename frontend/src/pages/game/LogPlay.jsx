@@ -137,6 +137,8 @@ const LogPlay = () => {
                 searchParam.delete("logPlay")
                 setSearchParam(searchParam)
             }}
+            minWith="500px"
+            maxWith="500px"
             label={
                 !libraryIsLoading && !gameCard ? 'Log play' :
                 <div className="flex align-center gap-2 overflow-hidden">
@@ -182,7 +184,7 @@ const LogPlay = () => {
             {step === 1 ?
                 <div className="flex flex-col pt-4 pb-2 gap-4">
                     <div className="flex flex-col">
-                        <div className="mx-4">
+                        <div className="mx-4 mx-sm-3">
                             <InputSearch
                                 className="flex-1 py-1 ps-4"
                                 placeholder="Search users or add non-user player"
@@ -298,7 +300,7 @@ const LogPlay = () => {
                         <div>
                             {players.length ?
                             players.map((i, index) => (
-                            <div className="my-2 mx-4 bg-secondary border-radius animation-slide-in show-on-hover-parent"
+                            <div className="my-2 mx-4 mx-sm-3 bg-secondary border-radius animation-slide-in show-on-hover-parent"
                                 key={index}
                             >
                                 <div
@@ -432,7 +434,9 @@ const LogPlay = () => {
                                     }}
                                 /> */}
                                 <HorizontalScroll>
-                                    {[{value: 20, label: '20 min'}, {value: 30, label: '30 min'}, {value: 45, label: '45 min'}, {value: 60, label: '1 hour'}, {value: 90, label: '1 h 30 min'}, {value: 120, label: '2 hours'}, {value: 180, label: '2 h 30 min'}].map(i => (
+                                    {[
+                                        {value: 20, label: '20 min'}, {value: 30, label: '30 min'}, {value: 45, label: '45 min'}, {value: 60, label: '1 hour'}, {value: 90, label: '1 h 30 min'}, {value: 120, label: '2 hours'}, {value: 150, label: '2 h 30 min'}, {value: 180, label: '3 hours'}, {value: 240, label: '4 hours'}
+                                    ].map(i => (
                                         <Button
                                             key={i.value}
                                             label={`${i.label}`}

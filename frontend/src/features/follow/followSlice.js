@@ -150,16 +150,8 @@ const followSlice = createSlice({
         });
         builder.addCase(followUser.fulfilled, (state, action) => {
             state.loadingId = '';
-            state.follow = state.follow.map(f => {
-                if (f._id === action.payload.data._id) {
-                    return {
-                        ...f,
-                        isFollowing: true
-                    }
-                } else { 
-                    return f;
-                }
-            });
+            state.follow = state.follow.filter(f => f._id !== action.payload.data._id )
+            state.follow.push(action.payload.data);
         });
         builder.addCase(followUser.rejected, (state, action) => {
             state.loadingId = '';
@@ -171,16 +163,7 @@ const followSlice = createSlice({
         });
         builder.addCase(unfollowUser.fulfilled, (state, action) => {
             state.loadingId = '';
-            state.follow = state.follow.map(f => {
-                if (f._id === action.payload.data._id) {
-                    return {
-                        ...f,
-                        isFollowing: false
-                    }
-                } else { 
-                    return f;
-                }
-            });
+            state.follow = state.follow.filter(f => f._id !== action.payload.data._id )
         });
         builder.addCase(unfollowUser.rejected, (state, action) => {
             state.loadingId = '';

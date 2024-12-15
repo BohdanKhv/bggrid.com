@@ -63,7 +63,7 @@ const TabContent = ({items, active, onChange, setActive, setActiveTabName, activ
 
     return (
         <div className="tabs-content" ref={containerRef}
-        onWheel={onWheel}>
+            onWheel={onWheel}>
             <div className={`tabs-content-container${classNameContainer ? ` ${classNameContainer}` : ""}`}>
                 {items.map((item, index) => (
                     <div

@@ -5,7 +5,7 @@ import { Link, useNavigate, useParams, useSearchParams } from 'react-router-dom'
 import { getUserProfile } from '../features/user/userSlice'
 import { followUser, unfollowUser } from '../features/follow/followSlice'
 import FollowersModal from './follow/FollowersModal'
-import { arrowDownShortIcon, arrowUpShortIcon, closeIcon, diceIcon, leftArrowIcon, starFillIcon, userAddIcon } from '../assets/img/icons'
+import { arrowDownShortIcon, arrowUpShortIcon, closeIcon, diceIcon, leftArrowIcon, libraryIcon, starFillIcon, userAddIcon } from '../assets/img/icons'
 import { DateTime } from 'luxon'
 import { tagsDetailedEnum, tagsEnum } from '../assets/constants'
 import { getPlaysByUsername, resetPlay } from '../features/play/playSlice'
@@ -375,13 +375,13 @@ const UserPage = () => {
                                 </div>
                             </div>
                         </div>
-                        <div className="pt-4 border-bottom flex justify-center pt-sm-0">
+                        <div className="mt-4 border-bottom justify-center pt-sm-0">
                             <TabContent
-                                classNameContainer="w-100 flex-grow-sm-1"
+                                classNameContainer="w-sm-100 flex-grow-sm-1"
                                 classNameItem="flex-1"
                                 items={[
-                                    {label: 'Library'},
-                                    {label: 'Plays'},
+                                    {label: 'Library', icon: libraryIcon},
+                                    {label: 'Plays', icon: diceIcon},
                                 ]}
                                 activeTabName={tab || 'library'}
                                 setActiveTabName={(e) => {

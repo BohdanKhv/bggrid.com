@@ -28,7 +28,6 @@ const FollowItem = ({ item }) => {
                 />
                 <div className="flex flex-col text-ellipsis-1">
                     <Link
-                        target='_blank'
                         to={`/u/${item?.username}`}
                         className="fs-14 weight-500 text-ellipsis text-underlined-hover pointer">
                         {item?.username}

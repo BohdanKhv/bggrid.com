@@ -68,7 +68,7 @@ const mechanicsEnum = [
 ]
 
 
-const tagsEnum = ['Favorite', 'Owned', 'Wishlist', 'Played', 'Want to Play']
+const tagsEnum = ['Favorite', 'Own', "Prev. Owned", 'Wishlist', 'Played', 'Want to Play', 'For Trade', 'Want in Trade', 'Preordered']
 
 
 module.exports = {

@@ -353,7 +353,7 @@ const tagsDetailedEnum = [
         label: "Favorite",
         icon: "❤️"
     }, {
-        label: "Owned",
+        label: "Own",
         icon: "👑"
     }, {
         label: "Prev. Owned",

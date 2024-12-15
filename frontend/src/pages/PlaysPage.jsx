@@ -359,7 +359,7 @@ const PlaysPage = () => {
                             </div>
                         ) : null}
                         {window.innerWidth <= 800 ?
-                        <div className="py-1 py-sm-0">
+                        <div className="py-1 py-sm-0 mx-sm-1">
                             <HorizontalScroll
                                 contentClassName="align-start gap-0"
                             >

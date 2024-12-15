@@ -25,44 +25,51 @@ const PlayItem = ({ item, hideUpdate }) => {
         
             html2canvas(elm, {
                 backgroundColor: null,
-                allowTaint: true,
+                allowTaint: false,
                 useCORS: true,
                 scale: 1,
                 dpi: 300,
             })
+            // doenload to test 
             .then(canvas => {
-                // Convert canvas to Blob
-                return new Promise((resolve, reject) => {
-                    canvas.toBlob(blob => {
-                        if (blob) {
-                            resolve(blob);
-                        } else {
-                            reject(new Error('Canvas toBlob failed'));
-                        }
-                    }, 'image/png');
-                });
+                const link = document.createElement('a');
+                link.download = 'test.png';
+                link.href = canvas.toDataURL('image/png');
+                link.click();
             })
-            .then(blob => {
-                if (navigator.share) {
-                    // Create a File from the Blob for sharing
-                    const file = new File([blob], `${item.game.name}-play-${DateTime.fromISO(item.createdAt).toFormat('yyyy-MM-dd')}.png`, { type: 'image/png' });
-                    navigator.share({
-                        title: "Check out my play on BGGRID",
-                        text: item.comment,
-                        files: [file],
-                    })
-                    .then(() => console.log('Sharing successful'))
-                    .catch(err => console.error('Sharing failed:', err));
-                } else {
-                    console.log('Web Share API is not supported in this browser.');
-                }
-            })
-            .catch(err => {
-                console.error('Error:', err);
-            })
-            .finally(() => {
-                setIsDownloading(false);
-            });
+            // .then(canvas => {
+            //     // Convert canvas to Blob
+            //     return new Promise((resolve, reject) => {
+            //         canvas.toBlob(blob => {
+            //             if (blob) {
+            //                 resolve(blob);
+            //             } else {
+            //                 reject(new Error('Canvas toBlob failed'));
+            //             }
+            //         }, 'image/png');
+            //     });
+            // })
+            // .then(blob => {
+            //     if (navigator.share) {
+            //         // Create a File from the Blob for sharing
+            //         const file = new File([blob], `${item.game.name}-play-${DateTime.fromISO(item.createdAt).toFormat('yyyy-MM-dd')}.png`, { type: 'image/png' });
+            //         navigator.share({
+            //             title: "Check out my play on BGGRID",
+            //             text: item.comment,
+            //             files: [file],
+            //         })
+            //         .then(() => console.log('Sharing successful'))
+            //         .catch(err => console.error('Sharing failed:', err));
+            //     } else {
+            //         console.log('Web Share API is not supported in this browser.');
+            //     }
+            // })
+            // .catch(err => {
+            //     console.error('Error:', err);
+            // })
+            // .finally(() => {
+            //     setIsDownloading(false);
+            // });
         };
         
 
@@ -165,8 +172,9 @@ const PlayItem = ({ item, hideUpdate }) => {
                                     label="Share"
                                     icon={shareIcon}
                                     variant="text"
-                                    disabled={loadingId || isDownloading}
+                                    // disabled={loadingId || isDownloading}
                                     type="default"
+                                    disabled
                                     onClick={() => {
                                         handleShareOnInstagram()
                                     }}

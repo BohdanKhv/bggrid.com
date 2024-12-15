@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useRef, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { Avatar, Button, ErrorInfo, HorizontalScroll, Icon, IconButton, Skeleton, TabContent } from '../components'
-import { arrowRightShortIcon, closeIcon, diceIcon, largePlusIcon, libraryIcon, linkIcon, plusIcon, rightArrowIcon, starEmptyIcon, starFillIcon, starsIcon, usersIcon } from '../assets/img/icons'
+import { arrowRightShortIcon, closeIcon, diceIcon, largePlusIcon, libraryIcon, linkIcon, plusIcon, rightArrowIcon, searchIcon, starEmptyIcon, starFillIcon, starsIcon, usersIcon } from '../assets/img/icons'
 import FollowSearchModal from './follow/FollowSearchModal'
 import { Link, useSearchParams } from 'react-router-dom'
 import { resetFeed, getCommunityFeed } from '../features/feed/feedSlice'
@@ -153,6 +153,15 @@ const CommunityPage = () => {
                                     Community
                                 </div>
                                 <div className="justify-end flex align-center flex-no-wrap gap-3">
+                                    <IconButton
+                                        icon={searchIcon}
+                                        variant="text"
+                                        type="secondary"
+                                        onClick={() => {
+                                            searchParams.set('su', 'true')
+                                            setSearchParams(searchParams.toString())
+                                        }}
+                                    />
                                     <div
                                         onClick={() => {
                                             document.querySelector('.open-navbar-button').click()
@@ -174,29 +183,11 @@ const CommunityPage = () => {
                         <div>
                             <FollowSearchModal/>
                         </div>
+                        {follow.length > 0 && !followingIsLoading ?
                             <HorizontalScroll
                                 className="align-start gap-0 flex-1"
                                 contentClassName="gap-0"
                             >
-                                <div className={`pointer h-100 w-max-75-px animation-fade-in border-radius-sm hover-opacity-100 transition-duration clickable flex-shrink-0`}
-                                    onClick={() => {
-                                        searchParams.set('su', 'true')
-                                        setSearchParams(searchParams.toString())
-                                    }}
-                                >
-                                    <div className="flex flex-col p-2 align-center">
-                                        <Avatar
-                                            icon={plusIcon}
-                                            rounded
-                                            sizeSm="md"
-                                            defaultColor
-                                            size="lg"
-                                        />
-                                        <div className="fs-12 text-center text-ellipsis-1 pt-2 weight-500">
-                                            Add
-                                        </div>
-                                    </div>
-                                </div>
                                 {/* <div className={`pointer h-100 w-max-75-px animation-fade-in border-radius-sm hover-opacity-100 transition-duration clickable flex-shrink-0`}
                                     onClick={() => {
                                         searchParams.set('friends', 'true')
@@ -242,6 +233,7 @@ const CommunityPage = () => {
                                         </Link>
                                 ))}
                             </HorizontalScroll>
+                        : null}
                         </div>
                         : null}
                         <div className="flex flex-1">

@@ -12,6 +12,7 @@ const MobileModal = ({
     children,
     header,
     hideClose,
+    closeBottom
 }) => {
     const [open2, setOpen2] = useState(isOpen);
     const menuRef = useRef(null);
@@ -90,6 +91,19 @@ const MobileModal = ({
                     </div>
                     )}
                     {children}
+                    {closeBottom ?
+                    <div className="mx-2 mb-2">
+                        <Button
+                            smSize="xl"
+                            size="lg"
+                            className="w-100"
+                            label="Close"
+                            variant="outline"
+                            type="secondary"
+                            onClick={handleClose}
+                        />
+                    </div>
+                    : null}
                 </div>
                 </div>
             </div>

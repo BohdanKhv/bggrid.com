@@ -298,6 +298,7 @@ const LibraryItem = ({ item, index, tags, setTags }) => {
                 setOpen(false)
             }}
             hideClose
+            closeBottom
         >
             <div className="flex align-center gap-2 overflow-hidden pos-relative p-3">
                 <img
@@ -326,11 +327,10 @@ const LibraryItem = ({ item, index, tags, setTags }) => {
                     </div>
                 </div>
             </div>
-            <div className="flex flex-col z-3">
+            <div className="flex flex-col z-3 p-2">
                 <Button
                     smSize="xl"
                     size="lg"
-                    borderRadius="none"
                     className="justify-start w-100"
                     label="Update library"
                     icon={libraryIcon}
@@ -344,7 +344,6 @@ const LibraryItem = ({ item, index, tags, setTags }) => {
                 <Button
                     smSize="xl"
                     size="lg"
-                    borderRadius="none"
                     className="justify-start w-100"
                     label="Log a play"
                     icon={diceIcon}
@@ -358,7 +357,6 @@ const LibraryItem = ({ item, index, tags, setTags }) => {
             <Button
                 smSize="xl"
                 size="lg"
-                borderRadius="none"
                 className="justify-start"
                 label="Game page"
                 icon={gamesIcon}
@@ -369,7 +367,6 @@ const LibraryItem = ({ item, index, tags, setTags }) => {
             {/* <Button
                 smSize="xl"
                 size="lg"
-                borderRadius="none"
                 className="justify-start"
                 label="Game rules"
                 icon={infoIcon}
@@ -381,24 +378,12 @@ const LibraryItem = ({ item, index, tags, setTags }) => {
             <Button
                 smSize="xl"
                 size="lg"
-                borderRadius="none"
                 className="justify-start"
                 label="Download"
                 disabled
                 icon={pngIcon}
                 variant="secondary"
                 type="text"
-            />
-            <Button
-                smSize="xl"
-                size="lg"
-                label="Close"
-                className="m-2"
-                variant="outline"
-                type="secondary"
-                onClick={() => {
-                    setOpen(false)
-                }}
             />
         </div>
         </MobileModal>
@@ -543,8 +528,8 @@ const LibraryItem = ({ item, index, tags, setTags }) => {
                                             size="lg"
                                             borderRadius="none"
                                             className="justify-start"
-                                            label="Game page"
-                                            icon={linkIcon}
+                                            label="Go to game page"
+                                            icon={gamesIcon}
                                             variant="secondary"
                                             type="text"
                                             to={`/g/${item?.game?._id}`}

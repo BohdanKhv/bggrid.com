@@ -1,25 +1,74 @@
 import { DateTime } from 'luxon'
 import { Avatar, Button, Dropdown, Icon, IconButton, Image } from '../components'
 import { Link, useSearchParams } from 'react-router-dom'
-import { awardIcon, editIcon, instagramIcon, moreHorizontalIcon, moreIcon, trashIcon } from '../assets/img/icons'
+import { awardIcon, editIcon, instagramIcon, moreHorizontalIcon, moreIcon, shareIcon, trashIcon } from '../assets/img/icons'
 import { addCommaToNumber } from '../assets/utils'
 import { useDispatch, useSelector } from 'react-redux'
 import { deletePlay } from '../features/play/playSlice'
 import UserIsMeGuard from './auth/UserIsMeGuard'
+import { useRef, useState } from 'react'
+import html2canvas from 'html2canvas';
+
 
 const PlayItem = ({ item, hideUpdate }) => {
     const dispatch = useDispatch()
 
+    const imageRef = useRef(null)
     const { user } = useSelector(state => state.auth)
     const { loadingId } = useSelector(state => state.play)
     const [searchParams, setSearchParams] = useSearchParams()
+    const [isDownloading, setIsDownloading] = useState(false)
 
     const handleShareOnInstagram = () => {
-
-    }
+            setIsDownloading(true);
+            const elm = imageRef.current;
+        
+            html2canvas(elm, {
+                backgroundColor: null,
+                allowTaint: true,
+                useCORS: true,
+                scale: 1,
+                dpi: 300,
+            })
+            .then(canvas => {
+                // Convert canvas to Blob
+                return new Promise((resolve, reject) => {
+                    canvas.toBlob(blob => {
+                        if (blob) {
+                            resolve(blob);
+                        } else {
+                            reject(new Error('Canvas toBlob failed'));
+                        }
+                    }, 'image/png');
+                });
+            })
+            .then(blob => {
+                if (navigator.share) {
+                    // Create a File from the Blob for sharing
+                    const file = new File([blob], `${item.game.name}-play-${DateTime.fromISO(item.createdAt).toFormat('yyyy-MM-dd')}.png`, { type: 'image/png' });
+                    navigator.share({
+                        title: "Check out my play on BGGRID",
+                        text: item.comment,
+                        files: [file],
+                    })
+                    .then(() => console.log('Sharing successful'))
+                    .catch(err => console.error('Sharing failed:', err));
+                } else {
+                    console.log('Web Share API is not supported in this browser.');
+                }
+            })
+            .catch(err => {
+                console.error('Error:', err);
+            })
+            .finally(() => {
+                setIsDownloading(false);
+            });
+        };
+        
 
     return (
-        <div className="px-sm-3 border-bottom show-on-hover-parent border-secondary transition-duration animation-slide-in display-on-hover-parent">
+        <div ref={imageRef}
+            className="test px-sm-3 bg-main border-bottom show-on-hover-parent border-secondary transition-duration animation-slide-in display-on-hover-parent">
             <div className="flex gap-3 py-5 py-sm-3">
                 <Avatar
                     img={item?.game?.thumbnail}
@@ -113,9 +162,10 @@ const PlayItem = ({ item, hideUpdate }) => {
                                     size="lg"
                                     borderRadius="none"
                                     className="justify-start"
-                                    label="Post on Instagram"
-                                    icon={instagramIcon}
+                                    label="Share"
+                                    icon={shareIcon}
                                     variant="text"
+                                    disabled={loadingId || isDownloading}
                                     type="default"
                                     onClick={() => {
                                         handleShareOnInstagram()

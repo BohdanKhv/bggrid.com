@@ -1,9 +1,9 @@
 import { useEffect, useMemo, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { getMyLibrary } from '../features/library/librarySlice'
+import { getMyLibrary, removeGameFromLibrary } from '../features/library/librarySlice'
 import {Avatar, Button, ErrorInfo, HorizontalScroll, IconButton, InputSearch, Image, Icon, Dropdown, Modal} from '../components'
 import { Link, useNavigate, useSearchParams } from 'react-router-dom'
-import { closeIcon, editIcon, gamesIcon, linkIcon, diceIcon, searchIcon, starFillIcon, weightIcon, usersIcon, usersFillIcon, bellIcon, rightArrowIcon, moreIcon, upArrowRightIcon, listIcon, gridIcon, arrowUpShortIcon, arrowDownShortIcon, largePlusIcon, libraryIcon, shareIcon, uploadIcon, sendIcon, infoIcon, downloadIcon, pngIcon } from '../assets/img/icons'
+import { closeIcon, editIcon, gamesIcon, linkIcon, diceIcon, searchIcon, starFillIcon, weightIcon, usersIcon, usersFillIcon, bellIcon, rightArrowIcon, moreIcon, upArrowRightIcon, listIcon, gridIcon, arrowUpShortIcon, arrowDownShortIcon, largePlusIcon, libraryIcon, shareIcon, uploadIcon, sendIcon, infoIcon, downloadIcon, pngIcon, trashIcon } from '../assets/img/icons'
 import { tagsDetailedEnum, tagsEnum } from '../assets/constants'
 import { numberFormatter } from '../assets/utils'
 import GameSearchModal from './game/GameSearchModal'
@@ -281,7 +281,8 @@ const SearchGames = () => {
     )
 }
 
-const LibraryItem = ({ item, index, tags, setTags }) => {
+const LibraryItem = ({ item, index, tags, setTags }) =>  {
+    const dispatch = useDispatch()
 
     const [searchParam, setSearchParam] = useSearchParams()
     const [searchParams, setSearchParams] = useSearchParams()
@@ -332,13 +333,25 @@ const LibraryItem = ({ item, index, tags, setTags }) => {
                     smSize="xl"
                     size="lg"
                     className="justify-start w-100"
-                    label="Update library"
+                    label="Update my review"
                     icon={libraryIcon}
                     variant="secondary"
                     type="text"
                     onClick={() => {
                         searchParam.set('addGame', item?.game?._id)
                         setSearchParam(searchParam)
+                    }}
+                />
+                <Button
+                    smSize="xl"
+                    size="lg"
+                    className="justify-start w-100"
+                    label="Remove from library"
+                    icon={trashIcon}
+                    variant="secondary"
+                    type="text"
+                    onClick={() => {
+                        dispatch(removeGameFromLibrary(item.game._id))
                     }}
                 />
                 <Button
@@ -391,7 +404,7 @@ const LibraryItem = ({ item, index, tags, setTags }) => {
         <div className="border-bottom border-secondary px-sm-3 transition-duration animation-slide-in show-on-hover-parent hide-on-hover-parent">
             <div className="flex justify-between"
             >
-                <div className="flex gap-3 flex-1 py-3 align-center pe-4 pe-sm-0">
+                <div className="flex gap-3 flex-1 py-2 align-center pe-4 pe-sm-0 overflow-hidden">
                     {window.innerWidth > 800 ?
                     <div
                         className="flex justify-center align-center opacity-50 hover-opacity-100 w-set-50-px"
@@ -433,9 +446,9 @@ const LibraryItem = ({ item, index, tags, setTags }) => {
                         classNameContainer="w-set-50-px h-set-50-px border-radius-sm"
                         classNameImg="border-radius-sm"
                     />
-                    <div className="flex flex-col justify-between flex-1">
+                    <div className="flex flex-col justify-between flex-1 overflow-hidden">
                         <div className="flex justify-between gap-3">
-                            <div className="flex flex-col flex-1">
+                            <div className="flex flex-col flex-1 overflow-hidden">
                                 <div className="flex gap-2">
                                     <Link className="fs-16 text-underlined-hover w-fit-content text-ellipsis-1 h-fit-content"
                                         to={`/g/${item.game._id}`}
@@ -443,25 +456,25 @@ const LibraryItem = ({ item, index, tags, setTags }) => {
                                         {item.game.name}
                                     </Link>
                                     </div>
-                                    <div className="flex flex-col gap-1 pointer pt-1 flex-1">
-                                        <div className="flex align-center gap-2"
-                                            onClick={(e) => {
-                                                e.stopPropagation()
-                                                searchParams.set('addGame', item.game._id)
-                                                setSearchParams(searchParams)
-                                            }}
-                                        >
-                                            <span className={`fs-14 weight-500 text-warning`}>{item.rating || 0}</span>
-                                            <div className="flex gap-1 align-center">
-                                                {[...Array(5)].map((_, i) => (
-                                                    <Icon key={i} icon={starFillIcon} size="xs" className={`text-warning ${i + 1 <= item.rating ? 'fill-warning' : 'fill-secondary'}`}/>
-                                                ))}
-                                            </div>
-                                        </div>
-                                        {window.innerWidth > 800 && (
+                                    <div className="flex flex-col overflow-x-hidden gap-1 pointer pt-1 flex-1">
                                         <HorizontalScroll
-                                            contentClassName="gap-1"
+                                            contentClassName="gap-1 align-center"
                                         >
+                                            <div className="flex align-center gap-2"
+                                                onClick={(e) => {
+                                                    e.stopPropagation()
+                                                    searchParams.set('addGame', item.game._id)
+                                                    setSearchParams(searchParams)
+                                                }}
+                                            >
+                                                <div className="flex align-center">
+
+                                                <span className={`fs-14 weight-500`}>{item.rating || 0}</span>
+                                                </div>
+                                                <div className="flex gap-1 align-center">
+                                                    <Icon icon={starFillIcon} size="xs" className={`text-warning fill-text`}/>
+                                                </div>
+                                            </div>
                                             {item.tags.map((tag, index) => (
                                                 <div key={index}
                                                     onClick={(e) => {
@@ -472,15 +485,14 @@ const LibraryItem = ({ item, index, tags, setTags }) => {
                                                             setTags([...tags, tag])
                                                         }
                                                     }}
-                                                    className={`px-1 border-radius flex-shrink-0 weight-500 flex align-center fs-10 weight-500 border bg-secondary${tags.includes(tag) ? " border-color-text" : " border-secondary"}`}>
-                                                        <span className="me-2">
+                                                    className={`px-1 border-radius flex-shrink-0 weight-500 flex align-center fs-12 weight-500  ${tags.includes(tag) ? " bg-secondary" : ""}`}>
+                                                        <span className="bold">
                                                             {tagsDetailedEnum.find((t) => t.label === tag)?.icon}
                                                         </span>
-                                                        {tag}
+                                                        {/* {tag} */}
                                                     </div>
                                             ))}
                                         </HorizontalScroll>
-                                        )}
                                     </div>
                                 </div>
                                 {window.innerWidth > 800 ? 

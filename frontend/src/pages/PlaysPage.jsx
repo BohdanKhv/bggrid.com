@@ -99,6 +99,7 @@ const SearchGames = () => {
                                 <div
                                     onClick={() => {
                                         searchParams.set('logPlay', searchItem.game._id)
+                                        searchParams.delete('sg')
                                         setSearchParams(searchParams)
                                     }}
                                     className="fs-14 flex align-center px-4 py-2 gap-3 pointer flex-1 overflow-hidden clickable opacity-75-active"
@@ -136,6 +137,7 @@ const SearchGames = () => {
                                 <div
                                     onClick={() => {
                                         searchParams.set('logPlay', item._id)
+                                        searchParams.delete('sg')
                                         setSearchParams(searchParams)
                                     }}
                                     className="fs-14 flex align-center px-4 py-2 gap-3 pointer flex-1 overflow-hidden clickable opacity-75-active"

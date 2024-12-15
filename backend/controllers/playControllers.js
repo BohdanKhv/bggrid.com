@@ -266,6 +266,37 @@ const createPlay = async (req, res) => {
             }
             library.lastPlayDate = DateTime.now();
             library.save();
+        } else {
+            // calculate my total plays for this game, total play time, total wins
+            let playData = await Play.aggregate([
+                { $match: { game: new mongoose.Types.ObjectId(gameId), user: req.user._id } },
+                {
+                    $group: {
+                        _id: null,
+                        totalPlays: { $sum: 1 },
+                        totalPlayTime: { $sum: '$playTimeMinutes' },
+                        totalWins: { $sum: { $cond: { if: { $arrayElemAt: ['$players.winner', 0] }, then: 1, else: 0 } } },
+                        lastPlayDate: { $max: '$playDate' }
+                    }
+                }
+            ]);
+            console.log(playData);
+            playData = playData[0];
+
+            const winner = players.find(player => player.winner);
+
+            const newLibraryItem = new Library({
+                user: req.user._id,
+                game: gameId,
+                tags: ["Played"],
+                rating: 0,
+                totalPlays: playData ? (playData.totalPlays + 1) : 1,
+                totalPlayTime: playData ? (playData.totalPlayTime + playTimeMinutes) : playTimeMinutes,
+                totalWins: playData ? (playData.totalWins + (winner ? 1 : 0)) : winner ? 1 : 0,
+                lastPlayDate: playData ? playData.lastPlayDate || new Date() : new Date()
+            });
+
+            newLibraryItem.save(); // don't need to wait for this to finish
         }
 
         // Populate game and user

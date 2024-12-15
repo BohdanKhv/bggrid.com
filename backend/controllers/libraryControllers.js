@@ -237,29 +237,6 @@ const removeGameFromLibrary = async (req, res) => {
 
         await game.deleteOne();
 
-        // Create a notification for follow
-        const follow = await Friend.find({
-            $or: [
-                { user1: req.user._id },
-                { user2: req.user._id }
-            ],
-            pending: false
-        });
-
-        if (follow.length) {
-            const notifications = [];
-            follow.forEach(friend => {
-                notifications.push(new Notification({
-                    sender: req.user._id,
-                    receiver: friend.user1.toString() === req.user._id.toString() ? friend.user2 : friend.user1,
-                    type: 'library',
-                    message: `removed "${game.game.name}" from their library`,
-                }));
-            });
-
-            Notification.insertMany(notifications);
-        }
-
         res.status(200).json({
             msg: 'Game removed',
         });

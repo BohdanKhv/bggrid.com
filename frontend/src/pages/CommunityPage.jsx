@@ -154,7 +154,7 @@ const CommunityPage = () => {
                                 </div>
                                 <div className="justify-end flex align-center flex-no-wrap gap-3">
                                     <IconButton
-                                        icon={searchIcon}
+                                        icon={largePlusIcon}
                                         variant="text"
                                         type="secondary"
                                         onClick={() => {

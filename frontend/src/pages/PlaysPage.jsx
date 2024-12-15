@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { getMyLibrary } from '../features/library/librarySlice'
 import {Avatar, Button, ErrorInfo, HorizontalScroll, IconButton, InputSearch, Image, Icon, Skeleton, Modal, TabContent} from '../components'
 import { Link, useNavigate, useSearchParams } from 'react-router-dom'
-import { closeIcon, editIcon, gamesIcon, linkIcon, diceIcon, searchIcon, starFillIcon, weightIcon, usersIcon, usersFillIcon, libraryIcon, arrowLeftShortIcon, plusIcon } from '../assets/img/icons'
+import { closeIcon, editIcon, gamesIcon, linkIcon, diceIcon, searchIcon, starFillIcon, weightIcon, usersIcon, usersFillIcon, libraryIcon, arrowLeftShortIcon, plusIcon, largePlusIcon, patchPlusIcon } from '../assets/img/icons'
 import { tagsEnum } from '../assets/constants'
 import { numberFormatter } from '../assets/utils'
 import { getMyPlays, resetPlay } from '../features/play/playSlice'
@@ -173,9 +173,10 @@ const SearchGames = () => {
                 </div>
             </Modal>
             <IconButton
-                icon={searchIcon}
+                icon={largePlusIcon}
                 variant="text"
                 type="secondary"
+                dataTooltipContent="Search games"
                 onClick={() => {
                     searchParams.set('sg', 'true')
                     setSearchParams(searchParams)

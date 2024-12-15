@@ -390,7 +390,7 @@ const PlaysPage = () => {
                         </div>
                         : null}
                         <div className="flex flex-1">
-                            <div className="flex-1 flex flex-col border-bottom border-sm-none overflow-x-hidden">
+                            <div className="flex-1 flex flex-col border-bottom border-sm-none">
                             <div className="pt-3 px-sm-3 pt-sm-0 border-bottom sticky top-0 z-3 bg-main">
                                 <div>
                                         <TabContent

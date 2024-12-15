@@ -62,23 +62,23 @@ const SearchGames = () => {
                 noAction
             >
                 <div className="border-bottom align-center flex">
-                    <IconButton
-                        icon={arrowLeftShortIcon}
-                        variant="link"
-                        size="lg"
-                        type="secondary"
-                        onClick={() => {
-                            searchParams.delete('sg')
-                            setSearchParams(searchParams.toString())
-                        }}
-                    />
                     <InputSearch
-                        className="flex-1 py-1"
+                        className="flex-1 py-1 m-2"
                         placeholder="What did you play?"
                         value={searchValue}
                         clearable
                         autoFocus
                         onChange={(e) => setSearchValue(e.target.value)}
+                    />
+                    <Button
+                        label="Cancel"
+                        variant="link"
+                        className="me-5 ms-3"
+                        type="secondary"
+                        onClick={() => {
+                            searchParams.delete('sg')
+                            setSearchParams(searchParams.toString())
+                        }}
                     />
                 </div>
                 <div className="pb-4">
@@ -336,7 +336,7 @@ const PlaysPage = () => {
             <UpdateLogPlay/>
                 <div className="animation-slide-in flex flex-1 flex-sm-col container">
                         {window.innerWidth <= 800 && user ? (
-                            <div className="flex flex-1 pt-6 pt-sm-3 justify-between px-sm-3 pb-3">
+                            <div className="flex flex-1 pt-6 pt-sm-3 justify-between px-sm-3 pb-3 sticky top-0 z-3 bg-main">
                                 <div className="title-1 bold">
                                     Plays
                                 </div>
@@ -359,7 +359,7 @@ const PlaysPage = () => {
                             </div>
                         ) : null}
                         {window.innerWidth <= 800 ?
-                        <div className="py-1 z-3 py-sm-0 overflow-x-hidden">
+                        <div className="py-1 py-sm-0">
                             <HorizontalScroll
                                 contentClassName="align-start gap-0"
                             >
@@ -390,14 +390,14 @@ const PlaysPage = () => {
                         </div>
                         : null}
                         <div className="flex flex-1">
-                            <div className="flex-1 flex flex-col overflow-hidden border-bottom border-sm-none">
-                            <div>
-                                <div className="pt-3  px-sm-3 px-4 pt-sm-0 border-bottom">
+                            <div className="flex-1 flex flex-col border-bottom border-sm-none">
+                            <div className="pt-3 px-sm-3 pt-sm-0 border-bottom sticky top-0 z-3 bg-main">
+                                <div>
                                         <TabContent
                                             items={[
-                                                {label: 'All'},
-                                                {label: 'Wins'},
-                                                {label: 'Losses'}
+                                                {label: 'All', icon: "🎲"},
+                                                {label: 'Wins', icon: "🏆"},
+                                                {label: 'Losses', icon: "😭"},
                                             ]}
                                             classNameContainer="w-100 fkex01"
                                             classNameItem="flex-1"
@@ -407,60 +407,60 @@ const PlaysPage = () => {
                                             }}
                                         />
                                 </div>
-                                {selectedGame ?
-                                <div className="px-sm-3 px-4 pt-3 pt-sm-3">
-                                        <HorizontalScroll>
-                                            <IconButton
-                                                icon={closeIcon}
-                                                onClick={() => {
-                                                    setSelectedGame(null)
-                                                }}
-                                                type="secondary"
-                                                variant="default"
-                                                size="sm"
-                                            />
-                                            <Avatar
-                                                img={library.find(l => l?.game?._id === selectedGame)?.game?.thumbnail}
-                                                label={library.find(l => l?.game?._id === selectedGame)?.game?.name}
-                                                size="xs"
-                                                onClick={() => setSelectedGame(null)}
-                                            />
-                                            <div className="border-left py-3"/>
-                                            <Button
-                                                icon={diceIcon}
-                                                variant="secondary"
-                                                type="outline"
-                                                className="flex-shrink-0"
-                                                label="Play"
-                                                onClick={() => {
-                                                    searchParams.set('logPlay', selectedGame)
-                                                    setSearchParams(searchParams)
-                                                }}
-                                            />
-                                            <Button
-                                                icon={editIcon}
-                                                variant="secondary"
-                                                type="outline"
-                                                className="flex-shrink-0"
-                                                label="Review"
-                                                onClick={() => {
-                                                    searchParams.set('addGame', selectedGame)
-                                                    setSearchParams(searchParams)
-                                                }}
-                                            />
-                                            <Button
-                                                icon={linkIcon}
-                                                variant="secondary"
-                                                type="outline"
-                                                className="flex-shrink-0"
-                                                label="Details"
-                                                onClick={() => navigate(`/g/${selectedGame}/overview`)}
-                                            />
-                                        </HorizontalScroll>
-                                </div>
-                                : null
-                                }
                             </div>
+                            {selectedGame ?
+                            <div className="px-sm-3 pt-3 pt-sm-3">
+                                    <HorizontalScroll>
+                                        <IconButton
+                                            icon={closeIcon}
+                                            onClick={() => {
+                                                setSelectedGame(null)
+                                            }}
+                                            type="secondary"
+                                            variant="default"
+                                            size="sm"
+                                        />
+                                        <Avatar
+                                            img={library.find(l => l?.game?._id === selectedGame)?.game?.thumbnail}
+                                            label={library.find(l => l?.game?._id === selectedGame)?.game?.name}
+                                            size="xs"
+                                            onClick={() => setSelectedGame(null)}
+                                        />
+                                        <div className="border-left py-3"/>
+                                        <Button
+                                            icon={diceIcon}
+                                            variant="secondary"
+                                            type="outline"
+                                            className="flex-shrink-0"
+                                            label="Play"
+                                            onClick={() => {
+                                                searchParams.set('logPlay', selectedGame)
+                                                setSearchParams(searchParams)
+                                            }}
+                                        />
+                                        <Button
+                                            icon={editIcon}
+                                            variant="secondary"
+                                            type="outline"
+                                            className="flex-shrink-0"
+                                            label="Review"
+                                            onClick={() => {
+                                                searchParams.set('addGame', selectedGame)
+                                                setSearchParams(searchParams)
+                                            }}
+                                        />
+                                        <Button
+                                            icon={linkIcon}
+                                            variant="secondary"
+                                            type="outline"
+                                            className="flex-shrink-0"
+                                            label="Details"
+                                            onClick={() => navigate(`/g/${selectedGame}/overview`)}
+                                        />
+                                    </HorizontalScroll>
+                            </div>
+                            : null
+                            }
                             <div>
                                 {plays.length === 0 && isLoading ?
                                     <div className="flex flex-col gap-5 py-5 px-sm-3 px-4">

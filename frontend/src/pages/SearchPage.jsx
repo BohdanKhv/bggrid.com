@@ -130,7 +130,7 @@ const SearchPage = () => {
                         </div>
                         : null}
                         <div className="pb-6 pt-sm-0">
-                            <div className="px-4 pt-3 bg-main flex flex-col px-sm-3 sticky top-0 z-3">
+                            <div className="px-4 pt-3 pt-sm-0 bg-main flex flex-col px-sm-3">
                                     {
                                     window.innerWidth < 800 ?
                                     <>
@@ -145,26 +145,26 @@ const SearchPage = () => {
                                             noAction
                                         >
                                             <div className="align-center flex">
-                                                <IconButton
-                                                    icon={arrowLeftShortIcon}
-                                                    variant="link"
-                                                    size="lg"
-                                                    type="secondary"
-                                                    onClick={() => {
-                                                        searchParams.delete('sg')
-                                                        setSearchParams(searchParams.toString())
-                                                    }}
-                                                />
                                                 <InputSearch
-                                                    className="flex-1 py-1"
+                                                    className="flex-1 py-1 m-2"
                                                     placeholder="What do you wanna play?"
                                                     value={searchValue}
                                                     clearable
                                                     autoFocus
                                                     onChange={(e) => setSearchValue(e.target.value)}
                                                 />
+                                                <Button
+                                                    label="Cancel"
+                                                    variant="link"
+                                                    className="me-5 ms-3"
+                                                    type="secondary"
+                                                    onClick={() => {
+                                                        searchParams.delete('sg')
+                                                        setSearchParams(searchParams.toString())
+                                                    }}
+                                                />
                                             </div>
-                                            <div className="py-4">
+                                            <div className="pb-4">
                                                 {searchValue.length ?
                                                 <div className="flex justify-between align-center">
                                                     <div
@@ -277,7 +277,6 @@ const SearchPage = () => {
                                                     : null}
                                             </div>
                                             </Modal>
-                                        <div className="border flex border-radius-lg flex-1">
                                             <div className="border border-radius-lg py-2 px-3 flex align-center gap-2 fs-12 weight-600 flex-1"
                                                 onClick={() => {
                                                     searchParams.set('sg', true)
@@ -291,7 +290,6 @@ const SearchPage = () => {
                                                 />
                                                 {searchValue.length ? `${searchValue}` : 'Search games'}
                                             </div>
-                                        </div>
                                         </>
                                     :
                                     <div className="flex gap-3 align-center">
@@ -301,20 +299,6 @@ const SearchPage = () => {
                                         className="p-3 bg-secondary flex-1 py-1 border-radius-lg"
                                         classNameFocus="border-radius-bottom-none"
                                         value={searchValue}
-                                        itemOnFocus={
-                                            <IconButton
-                                                icon={leftArrowIcon}
-                                                type="secondary"
-                                                variant="link"
-                                                muted
-                                                onClick={() => {
-                                                    setSearchValue('')
-                                                    searchParams.delete('s')
-                                                    setSearchParams(searchParams.toString())
-                                                }}
-                                                className="border-none"
-                                            />
-                                        }
                                         clearable
                                         onChange={(e) => setSearchValue(e.target.value)}
                                         onSubmit={() => {
@@ -438,7 +422,7 @@ const SearchPage = () => {
                                     </div>
                                 }
                             <div className="flex flex-col overflow-hidden">
-                            <div className="py-3 top-0 z-3 sticky bg-main overflow-hidden">
+                            <div className="py-3 bg-main overflow-hidden">
                                 <HorizontalScroll
                                     noControllers
                                 >

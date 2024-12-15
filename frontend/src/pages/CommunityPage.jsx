@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useRef, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { Avatar, Button, ErrorInfo, HorizontalScroll, Icon, IconButton, Skeleton, TabContent } from '../components'
-import { arrowRightShortIcon, closeIcon, diceIcon, largePlusIcon, linkIcon, plusIcon, rightArrowIcon, starEmptyIcon, starFillIcon, starsIcon, usersIcon } from '../assets/img/icons'
+import { arrowRightShortIcon, closeIcon, diceIcon, largePlusIcon, libraryIcon, linkIcon, plusIcon, rightArrowIcon, starEmptyIcon, starFillIcon, starsIcon, usersIcon } from '../assets/img/icons'
 import FollowSearchModal from './follow/FollowSearchModal'
 import { Link, useSearchParams } from 'react-router-dom'
 import { resetFeed, getCommunityFeed } from '../features/feed/feedSlice'
@@ -251,7 +251,7 @@ const CommunityPage = () => {
                                             items={[
                                                 {label: 'All', icon: starsIcon},
                                                 {label: 'Plays', icon: diceIcon},
-                                                {label: 'Library', icon: starsIcon}
+                                                {label: 'Library', icon: libraryIcon}
                                             ]}
                                             classNameContainer="w-100"
                                             classNameItem="flex-1"

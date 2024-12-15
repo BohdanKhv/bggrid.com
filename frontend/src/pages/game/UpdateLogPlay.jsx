@@ -148,7 +148,7 @@ const UpdateLogPlay = () => {
             {step === 1 ?
                 <div className="flex flex-col pt-4 gap-4 pb-2">
                     <div className="flex flex-col">
-                        <div className="border border-radius mx-4">
+                        <div className="mx-4">
                             <InputSearch
                                 className="flex-1 py-1 ps-4"
                                 placeholder="Search users or add non-user player"
@@ -165,10 +165,14 @@ const UpdateLogPlay = () => {
                                         winner: false
                                     }])
                                 }}
-                                searchable={searchValue.length}
+                                searchable
                                 searchChildren={
                                     <div className="py-2">
-                                        {searchValue.length ?
+                                        { searchValue.length === 0 && users.length === 0 ?
+                                        <div className="fs-12 text-center text-secondary px-3 py-3">
+                                            Search for users or add non-user players
+                                        </div>
+                                        : searchValue.length ?
                                         <div className="flex justify-between align-center">
                                             <div
                                                 onClick={(e) => {
@@ -181,7 +185,7 @@ const UpdateLogPlay = () => {
                                                         winner: false
                                                     }])
                                                 }}
-                                                className="fs-16 flex align-center py-3 gap-3 px-2 pointer bg-secondary-hover flex-1 overflow-hidden"
+                                                className="fs-16 flex align-center py-3 gap-3 px-2 pointer bg-tertiary-hover flex-1 overflow-hidden"
                                             >
                                                 <div className="flex gap-2 align-center">
                                                     <Avatar
@@ -211,10 +215,6 @@ const UpdateLogPlay = () => {
                                                 className="border-radius"
                                             />
                                         </div>
-                                        : users.length === 0 && !isLoading ?
-                                            <div className="fs-12 text-secondary px-2 text-center py-4">
-                                                No users found for "{searchValue}"
-                                            </div>
                                         : !isLoading &&
                                         users.length ?
                                         users
@@ -235,7 +235,7 @@ const UpdateLogPlay = () => {
                                                             winner: false
                                                         }])
                                                     }}
-                                                    className="fs-16 flex align-center py-3 gap-3 px-2 pointer bg-secondary-hover flex-1 overflow-hidden"
+                                                    className="fs-16 flex align-center py-3 gap-3 px-2 pointer bg-tertiary-hover flex-1 overflow-hidden"
                                                 >
                                                     <div className="flex gap-2 align-center">
                                                         <Avatar
@@ -265,7 +265,7 @@ const UpdateLogPlay = () => {
                         <div>
                             {players.length ?
                             players.map((i, index) => (
-                            <div className="my-2 mx-4 bg-secondary border-radius animation-slide-in show-on-hover-parent"
+                            <div className="my-2 mx-4 bg-tertiary border-radius animation-slide-in show-on-hover-parent"
                                 key={index}
                             >
                                 <div

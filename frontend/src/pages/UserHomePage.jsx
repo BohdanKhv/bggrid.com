@@ -150,7 +150,7 @@ const HomeFeed = () => {
         :
             <div className="py-4 flex flex-col gap-4 gap-sm-3 overflow-hidden px-sm-4 py-sm-4">
                 <div className="mb-2">
-                    <div className="fs-20 flex align-center gap-4 weight-500 transition-slide-right-hover-parent pb-4">
+                    <div className="fs-20 flex align-center gap-4 weight-500 transition-slide-right-hover-parent pb-4 pb-sm-2">
                         Your stats in the last 30 days
                     </div>
                     <div className="flex gap-3 overflow-x-auto scrollbar-none">
@@ -312,23 +312,23 @@ const SearchGames = () => {
                 noAction
             >
                 <div className="align-center flex">
-                    <IconButton
-                        icon={arrowLeftShortIcon}
-                        variant="link"
-                        size="lg"
-                        type="secondary"
-                        onClick={() => {
-                            searchParams.delete('sg')
-                            setSearchParams(searchParams.toString())
-                        }}
-                    />
                     <InputSearch
-                        className="flex-1 py-1"
+                        className="flex-1 py-1 mx-2 mt-2"
                         placeholder={whatToSearch === 'users' ? "Search users" : "What do you wanna play?"}
                         value={searchValue}
                         clearable
                         autoFocus
                         onChange={(e) => setSearchValue(e.target.value)}
+                    />
+                    <Button
+                        label="Cancel"
+                        variant="link"
+                        className="me-5 ms-3"
+                        type="secondary"
+                        onClick={() => {
+                            searchParams.delete('sg')
+                            setSearchParams(searchParams.toString())
+                        }}
                     />
                 </div>
                 <div className="pb-4">
@@ -338,6 +338,8 @@ const SearchGames = () => {
                                 {label: 'Games'},
                                 {label: 'Users'},
                             ]}
+                            classNameContainer="w-100"
+                            classNameItem="flex-1"
                             activeTabName={whatToSearch || 'games'}
                             setActiveTabName={(e) => {
                                 setWhatToSearch(e.toLowerCase())
@@ -473,7 +475,7 @@ const SearchGames = () => {
                     : null }
                 </div>
             </Modal>
-            <div className="border border-radius-lg py-2 px-3 flex align-center gap-2 fs-12 weight-600 flex-1"
+            <div className="border text-secondary border-radius-lg py-2 px-3 flex align-center gap-2 fs-12 weight-600 flex-1"
                 onClick={() => {
                     searchParams.set('sg', true)
                     setSearchParams(searchParams)
@@ -484,7 +486,7 @@ const SearchGames = () => {
                     size="sm"
                     className="fill-secondary"
                 />
-                Search BGGRID
+                Search anything
             </div>
             </>
         :
@@ -492,7 +494,7 @@ const SearchGames = () => {
             <InputSearch
                 icon={searchIcon}
                 className="flex-1 py-1"
-                placeholder="Search BGGRID"
+                placeholder="Search anything"
                 value={searchValue}
                 clearable
                 notCloseOnClick
@@ -697,7 +699,7 @@ const UserHomePage = () => {
     }, [])
 
     return (
-        <div>
+        <>
             <main className="page-body">
                 <div className="animation-slide-in">
                     <div className="container">
@@ -730,31 +732,6 @@ const UserHomePage = () => {
                                     </>
                                 )}
                             </div>
-                        </div>
-                        <div className="pb-3 px-sm-3">
-                            <HorizontalScroll>
-                                {typeEnum
-                                .slice(0, 15)
-                                .map((item, i) => (
-                                    <Link
-                                        key={i}
-                                        to={`/discover?types=${item.name}`}
-                                        className="flex justify-between transition-slide-right-hover-parent align-center transition-opacity-hover-parent gap-1 bg-secondary border-radius px-4 py-3 pointer w-w-min-200-px flex-shrink-0"
-                                    >
-                                        <div className="flex align-center gap-4">
-                                            <Icon icon={item.icon} size="lg"/>
-                                            <div className="fs-14 weight-500 pe-3">
-                                                {item.name}
-                                            </div>
-                                        </div>
-                                        <Icon
-                                            icon={rightArrowIcon}
-                                            size="xs"
-                                            className="transition-slide-right-hover transition-opacity-hover"
-                                        />
-                                    </Link>
-                            ))}
-                            </HorizontalScroll>
                         </div>
                         {library && library?.length > 0 ?
                             <div className="grid grid-cols-4 px-sm-3 grid-sm-cols-2 gap-3">
@@ -790,12 +767,38 @@ const UserHomePage = () => {
                                     </div>
                                 ))}
                             </div>
-                        : null}
+                        : 
+                            <div className="pb-3 px-sm-3">
+                                <HorizontalScroll>
+                                    {typeEnum
+                                    .slice(0, 15)
+                                    .map((item, i) => (
+                                        <Link
+                                            key={i}
+                                            to={`/discover?types=${item.name}`}
+                                            className="flex justify-between transition-slide-right-hover-parent align-center transition-opacity-hover-parent gap-1 bg-secondary border-radius px-4 py-3 pointer w-w-min-200-px flex-shrink-0"
+                                        >
+                                            <div className="flex align-center gap-4">
+                                                <Icon icon={item.icon} size="lg"/>
+                                                <div className="fs-14 weight-500 pe-3">
+                                                    {item.name}
+                                                </div>
+                                            </div>
+                                            <Icon
+                                                icon={rightArrowIcon}
+                                                size="xs"
+                                                className="transition-slide-right-hover transition-opacity-hover"
+                                            />
+                                        </Link>
+                                ))}
+                                </HorizontalScroll>
+                            </div>
+                        }
                         <HomeFeed/>
                     </div>
                 </div>
             </main>
-        </div>
+        </>
     )
 }
 

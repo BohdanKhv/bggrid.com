@@ -161,9 +161,9 @@ const getHomeFeed = async (req, res) => {
                         rating: { $gte: 3 },
                         numRatings: { $gte: 500 },
                         $or: [
-                            { categories: { $in: mostPlayedGames.map(game => game.categories) } },
-                            { themes: { $in: mostPlayedGames.map(game => game.themes) } },
-                            { types: { $in: mostPlayedGames.map(game => game.types) } }
+                            { categories: { $in: recentlyPlayed.map(game => game.categories) } },
+                            { themes: { $in: recentlyPlayed.map(game => game.themes) } },
+                            { types: { $in: recentlyPlayed.map(game => game.types) } }
                         ]
                     }},
                     { $sample: { size: 15 } }

@@ -401,9 +401,9 @@ const LibraryPage = () => {
                             </div>
                             )}
                             {window.innerWidth <= 800 && (
-                            <div className="pt-3 px-sm-3 border-bottom px-4 pb-4">
+                            <div className="pt-3 px-sm-3 px-4">
                                 <div className="flex flex-col gap-3">
-                                    <div className="border flex border-radius-lg flex-1">
+                                    <div className="flex flex-1">
                                         <InputSearch
                                             icon={searchIcon}
                                             className="flex-1 py-1"
@@ -464,7 +464,7 @@ const LibraryPage = () => {
                                 </HorizontalScroll>
                             </div>
                             </div>
-                            <div className="px-sm-3 px-4 pt-3 flex justify-between align-center">
+                            <div className="px-sm-3 px-4 pt-sm-0 flex justify-between align-center">
                                 <Dropdown
                                     label="Relevance"
                                     classNameContainer="p-0 border-none bold"

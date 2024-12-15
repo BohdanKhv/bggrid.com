@@ -199,10 +199,14 @@ const LogPlay = () => {
                                         winner: false
                                     }])
                                 }}
-                                searchable={searchValue.length}
+                                searchable
                                 searchChildren={
                                     <div className="py-2">
-                                        {!searchValue.startsWith("@") && searchValue.length ?
+                                        { searchValue.length === 0 && users.length === 0 ?
+                                        <div className="fs-12 text-center text-secondary px-3 py-3">
+                                            Search for users or add non-user players
+                                        </div>
+                                        : !searchValue.startsWith("@") && searchValue.length ?
                                         <div className="flex justify-between align-center">
                                             <div
                                                 onClick={(e) => {

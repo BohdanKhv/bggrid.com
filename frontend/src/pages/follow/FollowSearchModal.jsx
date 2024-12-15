@@ -45,21 +45,9 @@ const FollowSearchModal = () => {
             noAction
             label="Search users"
         >
-            <div className="border-sm-bottom align-center flex">
-                {window.innerWidth <= 800 ?
-                    <IconButton
-                        icon={arrowLeftShortIcon}
-                        variant="link"
-                        size="lg"
-                        type="secondary"
-                        onClick={() => {
-                            searchParams.delete('su')
-                            setSearchParams(searchParams.toString())
-                        }}
-                    />
-                : null}
+            <div className="align-center flex">
                 <InputSearch
-                    className="flex-1 py-1 border border-sm-none my-4 mx-3 m-sm-0 border-radius-md"
+                    className="flex-1 py-1 m-2"
                     placeholder="Search users"
                     value={searchValue}
                     icon={window.innerWidth > 800 ? searchIcon : null}
@@ -67,8 +55,18 @@ const FollowSearchModal = () => {
                     autoFocus
                     onChange={(e) => setSearchValue(e.target.value)}
                 />
+                <Button
+                    label="Cancel"
+                    variant="link"
+                    className="me-5 ms-3"
+                    type="secondary"
+                    onClick={() => {
+                        searchParams.delete('su')
+                        setSearchParams(searchParams.toString())
+                    }}
+                />
             </div>
-            <div className="pb-4 px-4">
+            <div className="pb-4 px-4 flex flex-col gap-2">
                 {users && users.length > 0 ?
                 <>
                     {users

@@ -113,6 +113,7 @@
     will-change: top, left;
     z-index: 600;
     width: 100%;
+    border-top: 1px solid var(--color-border);
     margin: 0;
     background-color: var(--color-secondary);
     overflow: hidden;
@@ -121,7 +122,7 @@
     z-index: 999;
     border-bottom-left-radius: var(--border-radius);
     border-bottom-right-radius: var(--border-radius);
-    box-shadow: 0 0 8px 0 rgba(0, 0, 0, 0.1);
+    box-shadow: var(--box-shadow-sm);
     animation: drop var(--transition-duration) forwards;
 }
 

@@ -325,6 +325,9 @@
   -webkit-tap-highlight-color: transparent;
   font-family: var(--font-family);
 }
+body:has(.skeleton) {
+  overflow: hidden!important;
+}
 select.select-no-arrow {
   -webkit-appearance: none;
   -moz-appearance: none;

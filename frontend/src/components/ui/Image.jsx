@@ -50,7 +50,6 @@ const Image = ({
                 ref={imgRef}
                 src={img} 
                 alt={alt}
-                crossOrigin="anonymous"
                 draggable="false"
                 decoding="async"
                 loading="lazy"

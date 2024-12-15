@@ -1257,7 +1257,7 @@ const GamePage = () => {
                                                 : null }
                                                 <div className="flex flex-col overflow-x-hidden">
                                                     <div className="fs-54 fs-sm-28 weight-600">
-                                                        {gameById.name} {gameById.year ? <span className="weight-500 fs-20 text-secondary">{gameById.year}</span> : ''}
+                                                        {gameById.name} {window.innerWidth >= 800 && gameById.year ? <span className="weight-500 fs-20 text-secondary">{gameById.year}</span> : ''}
                                                     </div>
                                                     {window.innerWidth < 800 ?
                                                     <>

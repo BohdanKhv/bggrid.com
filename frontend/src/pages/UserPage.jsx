@@ -5,12 +5,13 @@ import { Link, useNavigate, useParams, useSearchParams } from 'react-router-dom'
 import { getUserProfile } from '../features/user/userSlice'
 import { followUser, unfollowUser } from '../features/follow/followSlice'
 import FollowersModal from './follow/FollowersModal'
-import { arrowDownShortIcon, arrowUpShortIcon, closeIcon, diceIcon, leftArrowIcon, starFillIcon } from '../assets/img/icons'
+import { arrowDownShortIcon, arrowUpShortIcon, closeIcon, diceIcon, leftArrowIcon, starFillIcon, userAddIcon } from '../assets/img/icons'
 import { DateTime } from 'luxon'
-import { tagsEnum } from '../assets/constants'
+import { tagsDetailedEnum, tagsEnum } from '../assets/constants'
 import { getPlaysByUsername, resetPlay } from '../features/play/playSlice'
 import PlayItem from './PlayItem'
 import FollowingModal from './follow/FollowingModal'
+import FollowSearchModal from './follow/FollowSearchModal'
 
 
 const PlayTab = () => {
@@ -203,6 +204,7 @@ const UserPage = () => {
         </div>
         : userById && !isLoading ?
         <div>
+            <FollowSearchModal/>
             {tab === 'followers' ?
                 <FollowersModal />
             : tab === 'following' ?
@@ -228,45 +230,101 @@ const UserPage = () => {
                             </div>
                         : null}
                         <div className="pt-6 pt-sm-0 mt-sm-0 pb-3 pt-sm-3 pb-3 mb-sm-0 py-sm-0 m-3">
-                            <div className="flex gap-6 gap-sm-3 align-center align-sm-start">
-                                <div className="flex justify-center align-center">
-                                    <Avatar
-                                        img={userById?.avatar}
-                                        name={userById ? `${userById?.username}` : null}
-                                        rounded
-                                        defaultColor
-                                        size="xxl"
-                                        sizeSm="lg"
-                                    />
+                            <div className="flex flex-sm-col gap-6 gap-sm-3 align-center align-sm-start">
+                                <div className="flex gap-sm-3 w-100 align-center">
+                                    <div className="flex justify-center align-center">
+                                        <Avatar
+                                            img={userById?.avatar}
+                                            name={userById ? `${userById?.username}` : null}
+                                            rounded
+                                            defaultColor
+                                            size="xxl"
+                                            sizeSm="lg"
+                                        />
+                                    </div>
+                                    {window.innerWidth <= 800 ?
+                                    <div className="flex gap-5 flex-1 justify-center">
+                                        <Link className="flex flex-col justify-center align-center fs-14 gap-1 weight-600 pointer"
+                                            to={`/u/${username}/library`}
+                                        >
+                                            {userById?.library?.length || 0} <span className="weight-400 ps-1">games</span>
+                                        </Link>
+                                        <Link className="flex flex-col justify-center align-center fs-14 gap-1 weight-600 pointer"
+                                            to={`/u/${username}/followers`}
+                                        >
+                                            {userById?.followers || 0} <span className="weight-400 ps-1">followers</span>
+                                        </Link>
+                                        <Link className="flex flex-col justify-center align-center fs-14 gap-1 weight-600 pointer"
+                                            to={`/u/${username}/following`}
+                                        >
+                                            {userById?.following || 0} <span className="weight-400 ps-1">following</span>
+                                        </Link>
+                                    </div>
+                                    : null}
                                 </div>
-                                <div className="flex flex-1 flex-col gap-4">
+                                <div className="flex flex-1 flex-col gap-4 w-sm-100">
                                     <div>
                                         {(userById?.firstName || userById?.lastName) && (
-                                            <div className="fs-24">
+                                            <div className="fs-24 fs-sm-18">
                                                 {`${userById?.firstName} ${userById?.lastName}`}
                                             </div>
                                         )}
-                                        <div className="fs-16 text-secondary">
+                                        <div className="fs-16 fs-sm-12 text-secondary">
                                             @{userById?.username}
                                         </div>
-                                        <div className="pt-4 flex gap-3">
-                                            <Link className="flex justify-center align-center fs-16 gap-1 weight-600 pointer"
-                                                to={`/u/${username}/library`}
-                                            >
-                                                {userById?.library?.length || 0} <span className="weight-400 ps-1">games</span>
-                                            </Link>
-                                            <Link className="flex justify-center align-center fs-16 gap-1 weight-600 pointer"
-                                                to={`/u/${username}/followers`}
-                                            >
-                                                {userById?.followers || 0} <span className="weight-400 ps-1">followers</span>
-                                            </Link>
-                                            <Link className="flex justify-center align-center fs-16 gap-1 weight-600 pointer"
-                                                to={`/u/${username}/following`}
-                                            >
-                                                {userById?.following || 0} <span className="weight-400 ps-1">following</span>
-                                            </Link>
-                                        </div>
+                                        {window.innerWidth > 800 ?
+                                            <div className="pt-4 flex gap-3">
+                                                <Link className="flex justify-center align-center fs-16 gap-1 weight-600 pointer"
+                                                    to={`/u/${username}/library`}
+                                                >
+                                                    {userById?.library?.length || 0} <span className="weight-400 ps-1">games</span>
+                                                </Link>
+                                                <Link className="flex justify-center align-center fs-16 gap-1 weight-600 pointer"
+                                                    to={`/u/${username}/followers`}
+                                                >
+                                                    {userById?.followers || 0} <span className="weight-400 ps-1">followers</span>
+                                                </Link>
+                                                <Link className="flex justify-center align-center fs-16 gap-1 weight-600 pointer"
+                                                    to={`/u/${username}/following`}
+                                                >
+                                                    {userById?.following || 0} <span className="weight-400 ps-1">following</span>
+                                                </Link>
+                                            </div>
+                                        : null}
                                     </div>
+                                    {userById?._id === user?._id ?
+                                        <div className="flex gap-2 w-100">
+                                            <Button
+                                                label="Edit profile"
+                                                variant="secondary"
+                                                to="/settings"
+                                                className="flex-shrink-0 flex-1"
+                                                borderRadius="lg"
+                                            />
+                                            <Button
+                                                label="Share profile"
+                                                variant="secondary"
+                                                onClick={() => {
+                                                    navigator.share({
+                                                        title: userById.username,
+                                                        text: `Check out ${userById.username}'s profile on BGGRID!`,
+                                                        url: window.location
+                                                    })
+                                                }}
+                                                className="flex-shrink-0 flex-1"
+                                                borderRadius="lg"
+                                            />
+                                            <Button
+                                                icon={userAddIcon}
+                                                variant="secondary"
+                                                type="default"
+                                                onClick={() => {
+                                                    searchParams.set('su', true)
+                                                    setSearchParams(searchParams.toString())
+                                                }}
+                                            />
+                                        </div>
+                                    : null}
                                     {
                                     user?._id === userById?._id ?
                                     null
@@ -304,8 +362,10 @@ const UserPage = () => {
                                 </div>
                             </div>
                         </div>
-                        <div className="pt-4">
+                        <div className="pt-4 border-bottom pt-sm-0">
                             <TabContent
+                                classNameContainer="w-100"
+                                classNameItem="flex-1"
                                 items={[
                                     {label: 'Library'},
                                     {label: 'Plays'},
@@ -319,7 +379,7 @@ const UserPage = () => {
                         {!tab || ['library', 'following', 'followers'].includes(tab?.toLocaleLowerCase()) ?
                             <div className="flex flex-col">
                                 {userById?.library?.length > 0 ?
-                                    <div className="py-3">
+                                    <div className="pb-3">
                                     <div className="sticky top-0 bg-main py-3 px-sm-3 z-3">
                                         <HorizontalScroll>
                                             {tags.length > 0 ? (
@@ -341,27 +401,24 @@ const UserPage = () => {
                                                     type={'filled'}
                                                 />
                                             }
-                                            {tagsEnum
-                                            .filter((tag) => tags.length === 0 || tags.includes(tag))
-                                            .sort((a, b) => 
-                                                // sort if tag is in tags
-                                                tags.includes(a) ? -1 : tags.includes(b) ? 1 : 0
-                                            )
+                                            {tagsDetailedEnum
+                                            .filter((tag) => tags.length === 0 || tags.includes(tag.label))
                                             .map((tag) => (
                                                 <Button
-                                                    key={tag}
-                                                    label={tag}
+                                                    key={tag.label}
+                                                    icon={tag.icon}
+                                                    label={tag.label}
                                                     variant="secondary"
                                                     className="animation-fade-in flex-shrink-0"
-                                                    type={tags.includes(tag) ? 'filled' : 'default'}
+                                                    type={tags.includes(tag.label) ? 'filled' : 'default'}
                                                     onClick={() => {
-                                                        if (tags.includes(tag)) {
-                                                            setTags(tags.filter((t) => t !== tag))
+                                                        if (tags.includes(tag.label)) {
+                                                            setTags(tags.filter((t) => t !== tag.label))
                                                             searchParams.delete('tag')
                                                             setSearchParams(searchParams.toString())
                                                         } else {
-                                                            setTags([...tags, tag])
-                                                            searchParams.set('tag', [...tags, tag].join(','))
+                                                            setTags([...tags, tag.label])
+                                                            searchParams.set('tag', [...tags, tag.label].join(','))
                                                             setSearchParams(searchParams.toString())
                                                         }
                                                     }}
@@ -369,7 +426,7 @@ const UserPage = () => {
                                             ))}
                                         </HorizontalScroll>
                                     </div>
-                                    <div className="px-sm-3 py-3 flex justify-between align-center">
+                                    <div className="px-sm-3 py-3 py-sm-0 flex justify-between align-center">
                                         <Dropdown
                                             label="Relevance"
                                             classNameContainer="p-0 border-none bold"

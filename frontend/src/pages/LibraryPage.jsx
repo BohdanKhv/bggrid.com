@@ -4,7 +4,7 @@ import { getMyLibrary } from '../features/library/librarySlice'
 import {Avatar, Button, ErrorInfo, HorizontalScroll, IconButton, InputSearch, Image, Icon, Dropdown} from '../components'
 import { Link, useNavigate, useSearchParams } from 'react-router-dom'
 import { closeIcon, editIcon, gamesIcon, linkIcon, diceIcon, searchIcon, starFillIcon, weightIcon, usersIcon, usersFillIcon, bellIcon, rightArrowIcon, moreIcon, upArrowRightIcon, listIcon, gridIcon, arrowUpShortIcon, arrowDownShortIcon, largePlusIcon, libraryIcon, shareIcon, uploadIcon, sendIcon, infoIcon } from '../assets/img/icons'
-import { tagsEnum } from '../assets/constants'
+import { tagsDetailedEnum, tagsEnum } from '../assets/constants'
 import { numberFormatter } from '../assets/utils'
 import GameSearchModal from './game/GameSearchModal'
 import UpdateLogPlay from './game/UpdateLogPlay'
@@ -437,26 +437,22 @@ const LibraryPage = () => {
                                             type={'filled'}
                                         />
                                     }
-                                    {tagsEnum
-                                    .filter((tag) => tags.length === 0 || tags.includes(tag))
-                                    .sort((a, b) => 
-                                        // sort if tag is in tags
-                                        tags.includes(a) ? -1 : tags.includes(b) ? 1 : 0
-                                    )
+                                    {tagsDetailedEnum
                                     .map((tag) => (
                                         <Button
-                                            key={tag}
-                                            label={tag}
+                                            key={tag.label}
+                                            icon={tag.icon}
+                                            label={tag.label}
                                             size="sm"
                                             borderRadius="lg"
                                             variant="secondary"
                                             className="animation-fade-in flex-shrink-0"
-                                            type={tags.includes(tag) ? 'filled' : 'default'}
+                                            type={tags.includes(tag.label) ? 'filled' : 'default'}
                                             onClick={() => {
-                                                if (tags.includes(tag)) {
-                                                    setTags(tags.filter((t) => t !== tag))
+                                                if (tags.includes(tag.label)) {
+                                                    setTags(tags.filter((t) => t !== tag.label))
                                                 } else {
-                                                    setTags([...tags, tag])
+                                                    setTags([...tags, tag.label])
                                                 }
                                             }}
                                         />

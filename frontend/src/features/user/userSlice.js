@@ -64,7 +64,7 @@ const userSlice = createSlice({
     },
     extraReducers: (builder) => {
         builder.addCase(searchUsers.pending, (state) => {
-            state.isLoading = true;
+            // state.isLoading = true;
             state.msg = '';
         });
         builder.addCase(searchUsers.fulfilled, (state, action) => {

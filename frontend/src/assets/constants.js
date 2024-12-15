@@ -348,6 +348,36 @@ const mechanicsEnum = [
 
 
 const tagsEnum = ['Favorite', 'Own', "Prev. Owned", 'Wishlist', 'Played', 'Want to Play', 'For Trade', 'Want in Trade', 'Preordered']
+const tagsDetailedEnum = [
+    {
+        label: "Favorite",
+        icon: "❤️"
+    }, {
+        label: "Owned",
+        icon: "👑"
+    }, {
+        label: "Prev. Owned",
+        icon: "🔙"
+    }, {
+        label: "Wishlist",
+        icon: "🎁"
+    }, {
+        label: "Played",
+        icon: "🎲"
+    }, {
+        label: "Want to Play",
+        icon: "✨"
+    }, {
+        label: "For Trade",
+        icon: "🔄"
+    }, {
+        label: "Want in Trade",
+        icon: "🔁"
+    }, {
+        label: "Preordered",
+        icon: "📦"
+    }
+]
 
 
 // { 
@@ -371,5 +401,6 @@ export {
     mechanicsEnum,
     typeEnum,
     themesEnum,
-    tagsEnum
+    tagsEnum,
+    tagsDetailedEnum
 }

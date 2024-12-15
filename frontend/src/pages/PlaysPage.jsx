@@ -93,7 +93,7 @@ const SearchGames = () => {
                         .filter((item) => item.game.name.toLowerCase().includes(searchValue.toLowerCase()))
                         .slice(0, 10)
                         .map((searchItem, i) => (
-                            <div className="flex justify-between align-center bg-secondary-hover"
+                            <div className="flex justify-between align-center bg-tertiary-hover"
                                 key={searchItem._id}
                             >
                                 <div
@@ -130,7 +130,7 @@ const SearchGames = () => {
                         </div>
                         {suggestions
                         .map((item, i) => (
-                            <div className="flex justify-between align-center bg-secondary-hover"
+                            <div className="flex justify-between align-center bg-tertiary-hover"
                                 key={item._id}
                             >
                                 <div
@@ -183,17 +183,27 @@ const SearchGames = () => {
             />
             </>
         :
-        <div className="border flex border-radius-lg flex-1 w-max-400-px w-100 flex-1">
+        <div className="flex border-radius-lg flex-1 w-max-400-px w-100 flex-1">
         <InputSearch
             icon={searchIcon}
-            className="flex-1 py-1"
+            className="p-3 bg-secondary border-none flex-1 py-1 border-radius-lg"
+            classNameFocus="border-radius-bottom-none"
             placeholder="What did you play?"
             value={searchValue}
             clearable
             onChange={(e) => setSearchValue(e.target.value)}
-            searchable={searchValue.length || searchHistory.length > 0 || library.length > 0}
+            searchable
             searchChildren={
                 <div className="py-2">
+                    {searchValue.length == 0 && searchHistory.length == 0 &&
+                    suggestions.length == 0 &&
+                    library
+                    .filter((item) => item.game.name.toLowerCase().includes(searchValue.toLowerCase()))
+                    .length == 0 && searchValue.length == 0 ?
+                        <div className="fs-14 px-4 py-2 gap-3 text-secondary weight-600 text-center">
+                            Type to search
+                        </div>
+                    : null} 
                     {library && library
                     .filter((item) => item.game.name.toLowerCase().includes(searchValue.toLowerCase()))
                     .length > 0 ?
@@ -205,7 +215,7 @@ const SearchGames = () => {
                         .filter((item) => item.game.name.toLowerCase().includes(searchValue.toLowerCase()))
                         .slice(0, 5)
                         .map((item, i) => (
-                            <div className="flex justify-between align-center bg-secondary-hover"
+                            <div className="flex justify-between align-center bg-tertiary-hover"
                                 key={i}
                             >
                                 <div
@@ -235,7 +245,7 @@ const SearchGames = () => {
                         </div>
                         {suggestions
                         .map((item, i) => (
-                            <div className="flex justify-between align-center bg-secondary-hover"
+                            <div className="flex justify-between align-center bg-tertiary-hover"
                                 key={item._id}
                             >
                                 
@@ -354,7 +364,7 @@ const PlaysPage = () => {
                                 contentClassName="align-start gap-0"
                             >
                                 {library.map((item) => (
-                                    <div className={`pointer h-100 w-max-75-px animation-fade-in border-radius-sm hover-opacity-100 transition-duration clickable flex-shrink-0${selectedGame ? selectedGame === item?.game?._id ? "" : " opacity-25" : " bg-secondary-hover"}`}
+                                    <div className={`pointer h-100 w-max-75-px animation-fade-in border-radius-sm hover-opacity-100 transition-duration clickable flex-shrink-0${selectedGame ? selectedGame === item?.game?._id ? "" : " opacity-25" : " bg-tertiary-hover"}`}
                                         key={item._id}
                                         onClick={() => {
                                             if (selectedGame === item?.game?._id) {
@@ -380,22 +390,22 @@ const PlaysPage = () => {
                         </div>
                         : null}
                         <div className="flex flex-1">
-                            <div className="flex-1 flex flex-col border-left border-right overflow-hidden border-bottom border-sm-none">
+                            <div className="flex-1 flex flex-col overflow-hidden border-bottom border-sm-none">
                             <div>
-                                <div className="pt-3 border-bottom px-sm-3 px-4 pt-sm-0">
-                                    <div className="flex">
+                                <div className="pt-3  px-sm-3 px-4 pt-sm-0 border-bottom">
                                         <TabContent
                                             items={[
                                                 {label: 'All'},
                                                 {label: 'Wins'},
                                                 {label: 'Losses'}
                                             ]}
+                                            classNameContainer="w-100 fkex01"
+                                            classNameItem="flex-1"
                                             activeTabName={tags || 'all'}
                                             setActiveTabName={(e) => {
                                                 setTags(e)
                                             }}
                                         />
-                                    </div>
                                 </div>
                                 {selectedGame ?
                                 <div className="px-sm-3 px-4 pt-3 pt-sm-3">
@@ -480,7 +490,7 @@ const PlaysPage = () => {
                                         </div>
                                     </div>
                                 : plays.length > 0 && !isLoading ? (
-                                    <div className="flex flex-col px-4 px-sm-0">
+                                    <div className="flex flex-col px-sm-0">
                                     {plays
                                     .map((item, index, arr) =>
                                         <div
@@ -504,7 +514,7 @@ const PlaysPage = () => {
                             </div>
                         </div>
                         {window.innerWidth > 800 &&
-                        <div className="flex flex-col w-set-300-px flex-1 gap-3 py-4 ps-4">
+                        <div className="flex flex-col w-set-300-px flex-1 gap-3 py-4 ps-5">
                             <div className="flex">
                                 <SearchGames/>
                             </div>

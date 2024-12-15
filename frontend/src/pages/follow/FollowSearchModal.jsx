@@ -98,18 +98,24 @@ const FollowSearchModal = () => {
         </Modal>
         </>
         :
-        <div className="border flex border-radius-lg flex-1 w-max-400-px w-100 flex-1">
+        <div className="flex border-radius-lg flex-1 w-max-400-px w-100 flex-1">
         <InputSearch
             icon={searchIcon}
-            className="flex-1 py-1"
+            className="p-3 bg-secondary border-none flex-1 py-1 border-radius-lg"
+            classNameFocus="border-radius-bottom-none"
             placeholder="Search users"
             value={searchValue}
             clearable
             onChange={(e) => setSearchValue(e.target.value)}
-            searchable={searchValue.length}
+            searchable
             searchChildren={
                 <div className="py-2 px-3">
-                {users && users.length > 0 ?
+                {searchValue.length === 0 && users.length === 0 ?
+                    <div className="fs-14 px-4 py-2 gap-3 text-secondary weight-600 text-center">
+                        Type to search
+                    </div>
+                :
+                    users && users.length > 0 ?
                 <>
                     {users
                     .map((searchItem) => (

@@ -340,43 +340,43 @@ const SearchGames = () => {
                             ]}
                             activeTabName={whatToSearch || 'games'}
                             setActiveTabName={(e) => {
-                                setWhatToSearch(e)
+                                setWhatToSearch(e.toLowerCase())
                                 // get input with "What do you wanna play?" placeholder
                                 document.querySelector('.input-search-container input').focus()
                             }}
                         />
                     </div>
                     {whatToSearch === 'users' ?
-                    <>
-                    {!searchValue.length ?
-                        <div className="text-center fs-12 py-6 text-secondary">
-                            Start typing to search users
-                        </div>
-                    : !users.length && !usersIsLoading ?
-                        <div className="text-center fs-12 py-6 text-secondary">
-                            No users found
-                        </div>
-                    : usersIsLoading ?
-                    <div className="px-3 pt-2">
-                        <Skeleton animation="wave" height="50"/>
-                    </div>
-                    :
-                    <div className="px-3 pt-2">
-                        {
-                        users
-                        .map((searchItem) => (
-                            <FollowItem
-                                item={searchItem}
-                                key={searchItem._id}
-                                showRemoveButton
-                            />
-                        ))}
-                    </div>
-                        }
-                    </>
+                        <>
+                            {!searchValue.length ?
+                                <div className="text-center fs-12 py-6 text-secondary">
+                                    Start typing to search users
+                                </div>
+                            : !users.length && !usersIsLoading ?
+                                <div className="text-center fs-12 py-6 text-secondary">
+                                    No users found
+                                </div>
+                            : usersIsLoading ?
+                                <div className="px-3 pt-2">
+                                    <Skeleton animation="wave" height="50"/>
+                                </div>
+                            :
+                                <div className="px-3 pt-2">
+                                    {
+                                    users
+                                    .map((searchItem) => (
+                                        <FollowItem
+                                            item={searchItem}
+                                            key={searchItem._id}
+                                            showRemoveButton
+                                        />
+                                    ))}
+                                </div>
+                            }
+                        </>
                     : whatToSearch === 'games' ?
                     <>
-                    {!searchValue.length && library
+                    {searchValue.length == 0 && library
                     .filter((item) => item.game.name.toLowerCase().includes(searchValue.toLowerCase()))
                     .length === 0 && searchHistory.length === 0 ?
                         <div className="text-center fs-12 py-6 text-secondary">
@@ -395,7 +395,7 @@ const SearchGames = () => {
                         .filter((item) => item.game.name.toLowerCase().includes(searchValue.toLowerCase()))
                         .slice(0, 10)
                         .map((searchItem, i) => (
-                            <div className="flex justify-between align-center bg-secondary-hover"
+                            <div className="flex justify-between align-center bg-tertiary-hover"
                                 key={i}
                             >
                                 <Link
@@ -430,7 +430,7 @@ const SearchGames = () => {
                         </div>
                         {suggestions
                         .map((searchItem, i) => (
-                            <div className="flex justify-between align-center bg-secondary-hover"
+                            <div className="flex justify-between align-center bg-tertiary-hover"
                                 key={searchItem._id}
                             >
                                 <Link
@@ -488,194 +488,196 @@ const SearchGames = () => {
             </div>
             </>
         :
-        <div className="border flex border-radius-lg flex-1 w-max-400-px w-100 flex-1">
-        <InputSearch
-            icon={searchIcon}
-            className="flex-1 py-1"
-            placeholder="Search BGGRID"
-            value={searchValue}
-            clearable
-            notCloseOnClick
-            onChange={(e) => setSearchValue(e.target.value)}
-            onSubmit={() => {
-                if (searchValue !== "" && !searchHistory.includes(searchValue.trim())) {
-                    dispatch(setSearchHistory([...new Set([searchValue.trim(), ...searchHistory])]))
-                }
-            }}
-            searchable
-            searchChildren={
-                <div className="py-2">
-                    <div className="border-bottom px-3">
-                        <TabContent
-                            items={[
-                                {label: 'Games'},
-                                {label: 'Users'},
-                            ]}
-                            activeTabName={whatToSearch || 'games'}
-                            setActiveTabName={(e) => {
-                                setWhatToSearch(e)
-                                document.querySelector('.input-search-container input').focus()
-                            }}
-                        />
-                    </div>
-                    {whatToSearch === 'users' ?
-                    <>
-                    {!searchValue.length ?
-                        <div className="text-center fs-12 py-6 text-secondary">
-                            Start typing to search games
-                        </div>
-                    : !users.length && !usersIsLoading ?
-                        <div className="text-center fs-12 py-6 text-secondary">
-                            No users found
-                        </div>
-                    : usersIsLoading ?
-                    <div className="px-3 pt-2">
-                        <Skeleton animation="wave" height="50"/>
-                    </div>
-                    :
-                    <div className="px-3 pt-2">
-                        {
-                        users
-                        .map((searchItem) => (
-                            <FollowItem
-                                item={searchItem}
-                                key={searchItem._id}
-                                showRemoveButton
+        <div className=" flex-1 w-max-400-px w-100 flex-1">
+            <InputSearch
+                icon={searchIcon}
+                className="flex-1 py-1"
+                placeholder="Search BGGRID"
+                value={searchValue}
+                clearable
+                notCloseOnClick
+                onChange={(e) => setSearchValue(e.target.value)}
+                onSubmit={() => {
+                    if (searchValue !== "" && !searchHistory.includes(searchValue.trim())) {
+                        dispatch(setSearchHistory([...new Set([searchValue.trim(), ...searchHistory])]))
+                    }
+                }}
+                searchable
+                searchChildren={
+                    <div className="pb-2">
+                        <div className="border-bottom px-3">
+                            <TabContent
+                                items={[
+                                    {label: 'Games'},
+                                    {label: 'Users'},
+                                ]}
+                                activeTabName={whatToSearch || 'games'}
+                                setActiveTabName={(e) => {
+                                    setWhatToSearch(e)
+                                    document.querySelector('.input-search-container input').focus()
+                                }}
                             />
-                        ))}
-                    </div>
-                        }
-                    </>
-                    :
-                    <>
-                    {!searchValue.length && library.length !== 0 && searchHistory.length === 0 ?
-                        <div className="text-center fs-12 py-6 text-secondary">
-                            Start typing to search games
                         </div>
-                    : searchValue.length ?
-                    <div className="flex justify-between align-center">
-                        <div
-                            onClick={(e) => {
-                                e.stopPropagation()
-                                setSearchValue(searchValue)
-                            }}
-                            className="fs-16 flex align-center px-4 py-3 gap-3 text-secondary pointer bg-secondary-hover flex-1 overflow-hidden"
-                        >
-                            <Icon icon={searchIcon} className="fill-secondary"/><span className="text-ellipsis-1 text-primary">{searchValue}<span className="text-secondary"> - search games</span></span>
-                        </div>
-                    </div>
-                    : searchParams.get('s') && searchParams.get('s').length ?
+                        {whatToSearch === 'users' ?
+                            <>
+                                {!searchValue.length ?
+                                    <div className="text-center fs-12 py-6 text-secondary">
+                                        Start typing to search users
+                                    </div>
+                                : !users.length && !usersIsLoading ?
+                                    <div className="text-center fs-12 py-6 text-secondary">
+                                        No users found
+                                    </div>
+                                : usersIsLoading ?
+                                <div className="px-3 pt-2">
+                                    <Skeleton animation="wave" height="50"/>
+                                </div>
+                                :
+                                <div className="px-3 pt-2">
+                                    {
+                                    users
+                                    .map((searchItem) => (
+                                        <FollowItem
+                                            item={searchItem}
+                                            key={searchItem._id}
+                                            showRemoveButton
+                                        />
+                                    ))}
+                                </div>
+                            }
+                        </>
+                        :
+                        <>
+                        {searchValue.length == 0 && library
+                        .filter((item) => item.game.name.toLowerCase().includes(searchValue.toLowerCase()))
+                        .length === 0 && searchHistory.length === 0 ?
+                            <div className="text-center fs-12 py-6 text-secondary">
+                                Start typing to search games
+                            </div>
+                        : searchValue.length ?
                         <div className="flex justify-between align-center">
                             <div
                                 onClick={(e) => {
                                     e.stopPropagation()
-                                    setSearchValue('')
+                                    setSearchValue(searchValue)
                                 }}
-                                className="fs-16 flex align-center px-4 py-3 gap-3 text-secondary text-center pointer bg-secondary-hover flex-1 overflow-hidden"
+                                className="fs-16 flex align-center px-4 py-3 gap-3 text-secondary pointer bg-tertiary-hover flex-1 overflow-hidden"
                             >
-                                <Icon icon={searchIcon} className="fill-secondary"/><span className="text-ellipsis-1">
-                                    Show all</span>
+                                <Icon icon={searchIcon} className="fill-secondary"/><span className="text-ellipsis-1 text-primary">{searchValue}<span className="text-secondary"> - search games</span></span>
                             </div>
                         </div>
-                    : null}
-                    {library && library
-                    .filter((item) => !searchValue || item.game.name.toLowerCase().includes(searchValue.toLowerCase()))
-                    .length > 0 ?
-                    <>
-                        <div className="fs-14 px-4 py-2 flex align-center gap-3 text-secondary weight-600">
-                            Your library
-                        </div>
-                        {library
-                        .filter((item) => !searchValue || item.game.name.toLowerCase().includes(searchValue.toLowerCase()))
-                        .slice(0, 5)
-                        .map((searchItem, i) => (
-                            <div className="flex justify-between align-center bg-secondary-hover"
-                                key={i}
-                            >
-                                <Link
-                                    key={searchItem}
-                                    to={`/g/${searchItem.game._id}`}
-                                    className="fs-14 flex align-center px-4 py-2 gap-3 text-secondary pointer flex-1 overflow-hidden"
-                                >
-                                    <Avatar 
-                                        img={searchItem.game.thumbnail}
-                                        name={searchItem.game.name}
-                                        rounded
-                                        size="xs"
-                                    />
-                                    <span className="text-ellipsis-1">{searchItem.game.name}</span>
-                                </Link>
-                            </div>
-                        ))}
-                    </>
-                    : null}
-                    {searchHistory && searchHistory.length > 0 && searchValue.length === 0 ?
-                    <>
-                        <div className="fs-14 px-4 py-2 flex align-center gap-3 text-secondary weight-600">
-                            Search history
-                        </div>
-                        {searchHistory
-                        .slice(0, 5)
-                        .map((searchItem, i) => (
-                            <div className="flex justify-between align-center bg-secondary-hover"
-                                key={i}
-                            >
+                        : searchParams.get('s') && searchParams.get('s').length ?
+                            <div className="flex justify-between align-center">
                                 <div
-                                    key={searchItem}
                                     onClick={(e) => {
                                         e.stopPropagation()
-                                        setSearchValue(searchItem)
+                                        setSearchValue('')
                                     }}
-                                    className="fs-14 flex align-center px-4 py-2 gap-3 text-secondary pointer flex-1 overflow-hidden"
+                                    className="fs-16 flex align-center px-4 py-3 gap-3 text-secondary text-center pointer bg-tertiary-hover flex-1 overflow-hidden"
                                 >
-                                    <Icon icon={clockIcon} className="fill-secondary"/><span className="text-ellipsis-1">{searchItem}</span>
+                                    <Icon icon={searchIcon} className="fill-secondary"/><span className="text-ellipsis-1">
+                                        Show all</span>
                                 </div>
-                                <Button
-                                    label="Remove"
-                                    variant="link"
-                                    className="mx-3"
-                                    onClick={(e) => {
-                                        e.stopPropagation()
-                                        dispatch(setSearchHistory(searchHistory.filter((item) => item !== searchItem)))
-                                    }}
-                                />
                             </div>
-                        ))}
-                    </>
-                    : null}
-                    {suggestions && suggestions.length > 0 ?
-                    <>
-                        <div className="fs-14 px-4 py-2 flex align-center gap-3 text-secondary weight-600">
-                            Search results
-                        </div>
-                        {suggestions
-                        .map((item, i) => (
-                            <div className="flex justify-between align-center bg-secondary-hover"
-                                key={i}
-                            >
-                                <Link
-                                    key={item._id}
-                                    to={`/g/${item._id}`}
-                                    className="fs-14 flex align-center px-4 py-2 gap-3 text-secondary pointer flex-1 overflow-hidden"
+                        : null}
+                        {library && library
+                        .filter((item) => !searchValue || item.game.name.toLowerCase().includes(searchValue.toLowerCase()))
+                        .length > 0 ?
+                        <>
+                            <div className="fs-14 px-4 py-2 flex align-center gap-3 text-secondary weight-600">
+                                Your library
+                            </div>
+                            {library
+                            .filter((item) => !searchValue || item.game.name.toLowerCase().includes(searchValue.toLowerCase()))
+                            .slice(0, 5)
+                            .map((searchItem, i) => (
+                                <div className="flex justify-between align-center bg-tertiary-hover"
+                                    key={i}
                                 >
-                                    <Avatar 
-                                        img={item.thumbnail}
-                                        name={item.name}
-                                        rounded
-                                        size="xs"
-                                    />
-                                    <span className="text-ellipsis-1">
-                                        {highlightText(item.name, searchValue)} ({item.year})
-                                    </span>
-                                </Link>
+                                    <Link
+                                        key={searchItem}
+                                        to={`/g/${searchItem.game._id}`}
+                                        className="fs-14 flex align-center px-4 py-2 gap-3 text-secondary pointer flex-1 overflow-hidden"
+                                    >
+                                        <Avatar 
+                                            img={searchItem.game.thumbnail}
+                                            name={searchItem.game.name}
+                                            rounded
+                                            size="xs"
+                                        />
+                                        <span className="text-ellipsis-1">{searchItem.game.name}</span>
+                                    </Link>
+                                </div>
+                            ))}
+                        </>
+                        : null}
+                        {searchHistory && searchHistory.length > 0 && searchValue.length === 0 ?
+                        <>
+                            <div className="fs-14 px-4 py-2 flex align-center gap-3 text-secondary weight-600">
+                                Search history
                             </div>
-                        ))}
-                    </>
-                    : null}
-                    </>
-                    }
-            </div>
-        }
+                            {searchHistory
+                            .slice(0, 5)
+                            .map((searchItem, i) => (
+                                <div className="flex justify-between align-center bg-tertiary-hover"
+                                    key={i}
+                                >
+                                    <div
+                                        key={searchItem}
+                                        onClick={(e) => {
+                                            e.stopPropagation()
+                                            setSearchValue(searchItem)
+                                        }}
+                                        className="fs-14 flex align-center px-4 py-2 gap-3 text-secondary pointer flex-1 overflow-hidden"
+                                    >
+                                        <Icon icon={clockIcon} className="fill-secondary"/><span className="text-ellipsis-1">{searchItem}</span>
+                                    </div>
+                                    <Button
+                                        label="Remove"
+                                        variant="link"
+                                        className="mx-3"
+                                        onClick={(e) => {
+                                            e.stopPropagation()
+                                            dispatch(setSearchHistory(searchHistory.filter((item) => item !== searchItem)))
+                                        }}
+                                    />
+                                </div>
+                            ))}
+                        </>
+                        : null}
+                        {suggestions && suggestions.length > 0 ?
+                        <>
+                            <div className="fs-14 px-4 py-2 flex align-center gap-3 text-secondary weight-600">
+                                Search results
+                            </div>
+                            {suggestions
+                            .map((item, i) => (
+                                <div className="flex justify-between align-center bg-tertiary-hover"
+                                    key={i}
+                                >
+                                    <Link
+                                        key={item._id}
+                                        to={`/g/${item._id}`}
+                                        className="fs-14 flex align-center px-4 py-2 gap-3 text-secondary pointer flex-1 overflow-hidden"
+                                    >
+                                        <Avatar 
+                                            img={item.thumbnail}
+                                            name={item.name}
+                                            rounded
+                                            size="xs"
+                                        />
+                                        <span className="text-ellipsis-1">
+                                            {highlightText(item.name, searchValue)} ({item.year})
+                                        </span>
+                                    </Link>
+                                </div>
+                            ))}
+                        </>
+                        : null}
+                        </>
+                        }
+                </div>
+            }
         />
     </div>
     )

@@ -59,11 +59,10 @@ const searchUsers = async (req, res) => {
                 {firstName: { $regex: q, $options: 'i' }},
                 {lastName: { $regex: q, $options: 'i' }}
             ],
-            _id: { $ne: req.user._id }
         })
         .limit(10)
         .select('username firstName lastName avatar');
-
+console.log(users)
         let data = []
 
         if (checkIsFollowing) {

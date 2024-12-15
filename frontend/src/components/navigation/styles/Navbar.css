@@ -11,12 +11,11 @@
     display: flex;
     flex-direction: column;
     height: 100%;
-    gap: 12px;
     width: inherit;
     overflow-x: hidden;
 }
 .navbar-header {
-    height: 60px;
+    height: 40px;
     display: flex;
     align-items: center;
     padding: 12px 0;
@@ -33,6 +32,9 @@
     height: auto;
     border: none;
     justify-content: start;
+}
+.navbar-footer {
+    padding-top: 12px;
 }
 .navbar-footer .btn.btn-link {
     padding: 0;

@@ -154,20 +154,6 @@ const getHomeFeed = async (req, res) => {
         let recommended = []
 
         if (recentlyPlayed.length > 0) {
-            // Get recommendations based on most played games
-            const mostPlayedGames = recentlyPlayed.map(game => {
-                const categories = []
-                categories.push(...game.game.categories)
-                categories.push(...game.game.themes)
-                categories.push(...game.game.mechanics)
-                categories.push(...game.game.types)
-                return categories
-            }).flat()
-            .map(category => {
-                // can match with characters insensitive
-                return new RegExp(category, 'i') 
-            })
-
             recommended = await Game.aggregate(
                 [
                     { $match: {
@@ -175,10 +161,9 @@ const getHomeFeed = async (req, res) => {
                         rating: { $gte: 3 },
                         numRatings: { $gte: 500 },
                         $or: [
-                            { categories: { $in: mostPlayedGames } },
-                            { themes: { $in: mostPlayedGames } },
-                            { mechanics: { $in: mostPlayedGames } },
-                            { types: { $in: mostPlayedGames } }
+                            { categories: { $in: mostPlayedGames.map(game => game.categories) } },
+                            { themes: { $in: mostPlayedGames.map(game => game.themes) } },
+                            { types: { $in: mostPlayedGames.map(game => game.types) } }
                         ]
                     }},
                     { $sample: { size: 15 } }

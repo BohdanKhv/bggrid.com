@@ -632,7 +632,7 @@ const CoverImage = ({ img }) => {
                 :
                 <>
                 {window.innerWidth > 800 ?
-                    <div className="flex flex-col align-center gap-2 mb-6 mb-sm-3">
+                    <div className="flex flex-col gap-2 mb-6 mb-sm-3">
                         <UserGuardLoginModal>
                             <Button
                                 size="lg"

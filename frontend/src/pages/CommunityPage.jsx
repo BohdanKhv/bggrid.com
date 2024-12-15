@@ -245,21 +245,21 @@ const CommunityPage = () => {
                         </div>
                         : null}
                         <div className="flex flex-1">
-                            <div className="flex-1 flex flex-col border-left overflow-hidden border-sm-none">
-                                <div className="pt-3 border-bottom px-sm-3 px-4 pt-sm-0">
-                                    <div className="flex">
+                            <div className="flex-1 flex flex-col  overflow-hidden border-sm-none">
+                                <div className="pt-3 px-sm-3 px-4 pt-sm-0 border-bottom">
                                         <TabContent
                                             items={[
-                                                {label: 'All'},
-                                                {label: 'Plays'},
-                                                {label: 'Library'}
+                                                {label: 'All', icon: starsIcon},
+                                                {label: 'Plays', icon: diceIcon},
+                                                {label: 'Library', icon: starsIcon}
                                             ]}
+                                            classNameContainer="w-100"
+                                            classNameItem="flex-1"
                                             activeTabName={type || 'all'}
                                             setActiveTabName={(e) => {
                                                 setType(e)
                                             }}
                                         />
-                                    </div>
                                 </div>
                             <div>
                                 {feed.length > 0 && !isLoading ?
@@ -318,7 +318,7 @@ const CommunityPage = () => {
                         </div>
                         {window.innerWidth > 800 &&
                         <>
-                            <div className="flex flex-col w-set-300-px flex-1 gap-3 py-4 ps-4">
+                            <div className="flex flex-col w-set-300-px flex-1 gap-3 py-4 ps-5">
                                 <div>
                                     <FollowSearchModal/>
                                 </div>

@@ -95,7 +95,7 @@ const LogPlay = () => {
     useEffect(() => {
         let promise = null;
 
-        if (searchValue.length) {
+        if (searchValue.length > 0) {
             dispatch(searchUsers(searchValue.slice(1)))
         }
 
@@ -182,7 +182,7 @@ const LogPlay = () => {
             {step === 1 ?
                 <div className="flex flex-col pt-4 pb-2 gap-4">
                     <div className="flex flex-col">
-                        <div className="border border-radius mx-4">
+                        <div className="mx-4">
                             <InputSearch
                                 className="flex-1 py-1 ps-4"
                                 placeholder="Search users or add non-user player"
@@ -215,7 +215,7 @@ const LogPlay = () => {
                                                         winner: false
                                                     }])
                                                 }}
-                                                className="fs-16 flex align-center py-3 gap-3 px-2 pointer bg-secondary-hover flex-1 overflow-hidden"
+                                                className="fs-16 flex align-center py-3 gap-3 px-2 pointer bg-tertiary-hover flex-1 overflow-hidden"
                                             >
                                                 <div className="flex gap-2 align-center">
                                                     <Avatar
@@ -246,9 +246,7 @@ const LogPlay = () => {
                                             />
                                         </div>
                                         : users.length === 0 && !isLoading ?
-                                            <div className="fs-12 text-secondary px-2 text-center py-4">
-                                                No users found for "{searchValue}"
-                                                </div>
+                                        null
                                         : !isLoading &&
                                         users.length ?
                                         users
@@ -269,7 +267,7 @@ const LogPlay = () => {
                                                             winner: false
                                                         }])
                                                     }}
-                                                    className="fs-16 flex align-center py-3 gap-3 px-2 pointer bg-secondary-hover flex-1 overflow-hidden"
+                                                    className="fs-16 flex align-center py-3 gap-3 px-2 pointer bg-tertiary-hover flex-1 overflow-hidden"
                                                 >
                                                     <div className="flex gap-2 align-center">
                                                         <Avatar
@@ -299,7 +297,7 @@ const LogPlay = () => {
                         <div>
                             {players.length ?
                             players.map((i, index) => (
-                            <div className="my-2 mx-4 bg-secondary border-radius animation-slide-in show-on-hover-parent"
+                            <div className="my-2 mx-4 bg-tertiary border-radius animation-slide-in show-on-hover-parent"
                                 key={index}
                             >
                                 <div

@@ -290,7 +290,7 @@ const Settings = () => {
         <>
             <main className="page-body">
                 <div className="animation-slide-in container flex flex-1">
-                    <div className="border-left flex-1 border-right border-sm-none">
+                    <div className="flex-1">
                         <div className="flex py-3 justify-between px-sm-3 pb-6 pb-sm-0">
                             <div className="title-1 bold px-4">
                                 Settings
@@ -313,7 +313,7 @@ const Settings = () => {
                                 </div>
                             )}
                             </div>
-                            <div className="border-bottom px-4">
+                            <div className="px-4">
                                 <TabContent
                                     items={
                                         [
@@ -327,7 +327,7 @@ const Settings = () => {
                                     }}
                                 />
                         </div>
-                        <div className="pb-6 pt-5 px-sm-3 px-4">
+                        <div className="pb-6 col-8 col-sm-12 pt-5 px-sm-3 px-4">
                             {activeTab === 'account' ? <Account />
                             : activeTab === 'preferences' ? <Preferences />
                             : <Redirect /> }

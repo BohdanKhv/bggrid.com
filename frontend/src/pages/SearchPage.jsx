@@ -123,14 +123,14 @@ const SearchPage = () => {
         <>
             <main className="page-body flex-1">
                 <div className="animation-slide-in container flex-1 flex h-100">
-                    <div className="border-left border-right border-sm-none overflow-hidden flex-1">
+                    <div className="overflow-hidden flex-1">
                         {window.innerWidth < 800 ?
                         <div className="pt-6 pb-3 pt-sm-3 title-1 bold px-sm-3">
                             Discover Games
                         </div>
                         : null}
                         <div className="pb-6 pt-sm-0">
-                            <div className="px-4 pt-3 bg-main flex flex-col px-sm-3 border-bottom sticky top-0 z-3">
+                            <div className="px-4 pt-3 bg-main flex flex-col px-sm-3 sticky top-0 z-3">
                                     {
                                     window.innerWidth < 800 ?
                                     <>
@@ -144,7 +144,7 @@ const SearchPage = () => {
                                             headerNone
                                             noAction
                                         >
-                                            <div className="border-bottom align-center flex">
+                                            <div className="align-center flex">
                                                 <IconButton
                                                     icon={arrowLeftShortIcon}
                                                     variant="link"
@@ -178,7 +178,7 @@ const SearchPage = () => {
                                                                 dispatch(setSearchHistory([...new Set([searchValue.trim(), ...searchHistory])]))
                                                             }
                                                         }}
-                                                        className="fs-16 flex align-center px-4 py-3 gap-3 text-secondary pointer bg-secondary-hover flex-1 overflow-hidden"
+                                                        className="fs-16 flex align-center px-4 py-3 gap-3 text-secondary pointer bg-tertiary-hover flex-1 overflow-hidden"
                                                     >
                                                         <Icon icon={searchIcon} className="fill-secondary"/><span className="text-ellipsis-1 text-primary weight-600">{searchValue}<span className="text-secondary"> - search games</span></span>
                                                     </div>
@@ -192,7 +192,7 @@ const SearchPage = () => {
                                                                 searchParams.delete('sg')
                                                                 setSearchParams(searchParams.toString())
                                                             }}
-                                                            className="fs-16 flex align-center px-4 py-3 gap-3 text-center pointer bg-secondary-hover flex-1 overflow-hidden weight-500"
+                                                            className="fs-16 flex align-center px-4 py-3 gap-3 text-center pointer bg-tertiary-hover flex-1 overflow-hidden weight-500"
                                                         >
                                                             <Icon icon={searchIcon} className="fill-secondary"/><span className="text-ellipsis-1">
                                                                 Show all</span>
@@ -207,7 +207,7 @@ const SearchPage = () => {
                                                     {searchHistory
                                                     .slice(0, 5)
                                                     .map((searchItem) => (
-                                                        <div className="flex justify-between align-center bg-secondary-hover"
+                                                        <div className="flex justify-between align-center bg-tertiary-hover"
                                                             key={searchItem}
                                                         >
                                                             <div
@@ -242,7 +242,7 @@ const SearchPage = () => {
                                                     </div>
                                                     {suggestions
                                                     .map((searchItem, i) => (
-                                                        <div className="flex justify-between align-center bg-secondary-hover"
+                                                        <div className="flex justify-between align-center bg-tertiary-hover"
                                                             key={searchItem._id}
                                                         >
                                                             <Link
@@ -298,7 +298,8 @@ const SearchPage = () => {
                                     <InputSearch
                                         icon={searchIcon}
                                         placeholder="Search in over 160,000 games"
-                                        className="p-3 border flex-1 py-1 border-radius-lg"
+                                        className="p-3 bg-secondary flex-1 py-1 border-radius-lg"
+                                        classNameFocus="border-radius-bottom-none"
                                         value={searchValue}
                                         itemOnFocus={
                                             <IconButton
@@ -345,7 +346,7 @@ const SearchPage = () => {
                                                                 dispatch(setSearchHistory([...new Set([searchValue.trim(), ...searchHistory])]))
                                                             }
                                                         }}
-                                                        className="fs-16 flex align-center px-4 py-3 gap-3 text-secondary pointer bg-secondary-hover flex-1 overflow-hidden"
+                                                        className="fs-16 flex align-center px-4 py-3 gap-3 text-secondary pointer bg-tertiary-hover flex-1 overflow-hidden"
                                                     >
                                                         <Icon icon={searchIcon} className="fill-secondary"/><span className="text-ellipsis-1 text-primary weight-600">{searchValue}<span className="text-secondary"> - search games</span></span>
                                                     </div>
@@ -358,7 +359,7 @@ const SearchPage = () => {
                                                                 searchParams.delete('s')
                                                                 setSearchParams(searchParams.toString())
                                                             }}
-                                                            className="fs-16 flex align-center px-4 py-3 gap-3 text-center pointer bg-secondary-hover flex-1 overflow-hidden weight-500"
+                                                            className="fs-16 flex align-center px-4 py-3 gap-3 text-center pointer bg-tertiary-hover flex-1 overflow-hidden weight-500"
                                                         >
                                                             <Icon icon={searchIcon} className="fill-secondary"/><span className="text-ellipsis-1">
                                                                 Show all</span>
@@ -373,7 +374,7 @@ const SearchPage = () => {
                                                     {searchHistory
                                                     .slice(0, 5)
                                                     .map((searchItem) => (
-                                                        <div className="flex justify-between align-center bg-secondary-hover"
+                                                        <div className="flex justify-between align-center bg-tertiary-hover"
                                                             key={searchItem}
                                                         >
                                                             <div
@@ -408,7 +409,7 @@ const SearchPage = () => {
                                                     </div>
                                                     {suggestions
                                                     .map((item) => (
-                                                        <div className="flex justify-between align-center bg-secondary-hover"
+                                                        <div className="flex justify-between align-center bg-tertiary-hover"
                                                             key={item._id}
                                                         >
                                                             <Link
@@ -626,7 +627,7 @@ const SearchPage = () => {
                             </div>
                             </div>
                             </div>
-                            <div className="px-4 pt-2 px-sm-3 flex justify-between align-center">
+                            <div className="px-4 px-sm-3 flex justify-between align-center">
                                 <Dropdown
                                     label="Relevance"
                                     classNameContainer="p-0 border-none bold"
@@ -703,6 +704,7 @@ const SearchPage = () => {
                                     className="border-radius"
                                     variant="secondary"
                                     type="text"
+                                    muted
                                     dataTooltipContent={listView ? "List view" : "Grid view"}
                                 />
                             </div>

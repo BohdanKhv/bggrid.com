@@ -339,7 +339,7 @@ const LibraryPage = () => {
             <main className="page-body">
                 <div className="animation-slide-in flex flex-1 flex-sm-col container">
                     <div className="flex flex-1 overflow-hidden">
-                        <div className="flex-1 flex flex-col border-left overflow-hidden border-bottom border-sm-none">
+                        <div className="flex-1 flex flex-col overflow-hidden">
                             {window.innerWidth < 800 && (
                                 <div className="flex pt-6 pt-sm-3 justify-between px-sm-3">
                                     <div className="title-1 bold">
@@ -417,7 +417,7 @@ const LibraryPage = () => {
                             </div>
                             )}
                             <div className="flex flex-col overflow-hidden sticky-sm z-3">
-                            <div className="bg-main py-3 px-sm-3 px-4 border-bottom border-sm-none">
+                            <div className="bg-main py-3 px-sm-3 px-4">
                                 <HorizontalScroll>
                                     {tags.length > 0 ? (
                                         <IconButton
@@ -579,10 +579,10 @@ const LibraryPage = () => {
                     <div className="flex flex-col gap-3">
                         <div className="pt-3 ms-5 sticky top-0 z-3">
                             <div className="flex flex-col gap-3">
-                                <div className="border flex border-radius-lg flex-1">
+                                <div className="flex border-radius-lg flex-1 bg-secondary">
                                     <InputSearch
                                         icon={searchIcon}
-                                        className="flex-1 py-1"
+                                        className="flex-1 py-1 border-none"
                                         placeholder="Search Your Library"
                                         value={searchValue}
                                         clearable
@@ -591,7 +591,7 @@ const LibraryPage = () => {
                                 </div>
                             </div>
                         </div>
-                    <div className="flex flex-col w-set-300-px border border-radius overflow-hidden ms-5 mb-4 h-fit-content">
+                    <div className="flex flex-col w-set-300-px bg-secondary border-radius overflow-hidden ms-5 mb-4 h-fit-content">
                         <div className="fs-20 bold py-3 px-4">
                             Your Library
                         </div>

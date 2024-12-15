@@ -1,15 +1,15 @@
 import React, { useEffect, useState } from 'react'
-import { Icon, IconButton, InputSearch, Modal, Image, ErrorInfo, Avatar, Button } from '../../components'
+import { Icon, IconButton, InputSearch, Modal, Image, ErrorInfo, Avatar, Button, Skeleton } from '../../components'
 import { Link, useSearchParams } from 'react-router-dom'
 import { arrowLeftShortIcon, gamesIcon, leftArrowIcon, searchIcon, userIcon } from '../../assets/img/icons'
 import { useDispatch, useSelector } from 'react-redux'
 import FollowItem from './FollowItem'
 import { searchUsers } from '../../features/user/userSlice'
 
-const FollowSearchModal = () => {
+const FollowSearchModal = ({ useModel }) => {
     const dispatch = useDispatch()
 
-    const { users, isLoading } = useSelector((state) => state.user)
+    const { users, loadingId } = useSelector((state) => state.user)
 
     const [searchParams, setSearchParams] = useSearchParams()
     const [searchValue, setSearchValue] = useState('')
@@ -28,7 +28,7 @@ const FollowSearchModal = () => {
 
     return (
         <>
-        {window.innerWidth < 800 ?
+        {window.innerWidth < 800 || useModel ?
         <>
         <Modal
             modalIsOpen={searchParams.get('su') === 'true'}
@@ -47,7 +47,7 @@ const FollowSearchModal = () => {
         >
             <div className="align-center flex">
                 <InputSearch
-                    className="flex-1 py-1 m-2"
+                    className="flex-1 py-1 my-2 mx-4 mx-sm-3"
                     placeholder="Search users"
                     value={searchValue}
                     icon={window.innerWidth > 800 ? searchIcon : null}
@@ -55,18 +55,20 @@ const FollowSearchModal = () => {
                     autoFocus
                     onChange={(e) => setSearchValue(e.target.value)}
                 />
-                <Button
-                    label="Cancel"
-                    variant="link"
-                    className="me-5 ms-3"
-                    type="secondary"
-                    onClick={() => {
-                        searchParams.delete('su')
-                        setSearchParams(searchParams.toString())
-                    }}
-                />
+                {window.innerWidth < 800 &&
+                    <Button
+                        label="Cancel"
+                        variant="link"
+                        className="me-5 ms-3"
+                        type="secondary"
+                        onClick={() => {
+                            searchParams.delete('su')
+                            setSearchParams(searchParams.toString())
+                        }}
+                    />
+                }
             </div>
-            <div className="pb-4 px-4 flex flex-col gap-2">
+            <div className="pb-4 px-4 px-sm-3 flex flex-col gap-2">
                 {users && users.length > 0 ?
                 <>
                     {users
@@ -79,8 +81,14 @@ const FollowSearchModal = () => {
                     ))}
                 </>
                 :
-                    isLoading ?
-                        <ErrorInfo isLoading/>
+                    loadingId === 'search' ?
+                        [...Array(5)].map((_, index) => (
+                                <Skeleton
+                                key={index}
+                                    height="50"
+                                    animation="wave"
+                                />
+                        ))
                     :
                     users.length === 0 && !searchValue.length ?
                         <ErrorInfo
@@ -125,8 +133,14 @@ const FollowSearchModal = () => {
                     ))}
                 </>
                 :
-                    isLoading ?
-                        <ErrorInfo isLoading/>
+                    loadingId === 'search' ?
+                        [...Array(5)].map((_, index) => (
+                                <Skeleton
+                                key={index}
+                                    height="50"
+                                    animation="wave"
+                                />
+                        ))
                     :
                     users.length === 0 && !searchValue.length ?
                         <ErrorInfo

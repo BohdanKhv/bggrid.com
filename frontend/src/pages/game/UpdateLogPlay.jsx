@@ -323,7 +323,7 @@ const UpdateLogPlay = () => {
                                                 <Input
                                                     type="number"
                                                     placeholder="Score"
-                                                    className="bg-main border-radius border-none"
+                                                    className="bg-main border-radius border-children-none"
                                                     max={1000}
                                                     value={i.score || ''}
                                                     onFocus={(e) => e.target.select()}

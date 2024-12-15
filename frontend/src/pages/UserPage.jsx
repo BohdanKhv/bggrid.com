@@ -204,7 +204,9 @@ const UserPage = () => {
         </div>
         : userById && !isLoading ?
         <div>
-            <FollowSearchModal/>
+            <FollowSearchModal
+                useModel
+            />
             {tab === 'followers' ?
                 <FollowersModal />
             : tab === 'following' ?
@@ -229,7 +231,7 @@ const UserPage = () => {
                                 </div>
                             </div>
                         : null}
-                        <div className="pt-6 pt-sm-0 mt-sm-0 pb-3 pt-sm-3 pb-3 mb-sm-0 py-sm-0 m-3">
+                        <div className="py-6 pt-sm-0 mt-sm-0 pb-3 pt-sm-3 pb-sm-3 mb-sm-0 py-sm-0 m-3">
                             <div className="flex flex-sm-col gap-6 gap-sm-3 align-center align-sm-start">
                                 <div className="flex gap-sm-3 w-sm-100 align-center">
                                     <div className="flex justify-center align-center">
@@ -439,7 +441,7 @@ const UserPage = () => {
                                             ))}
                                         </HorizontalScroll>
                                     </div>
-                                    <div className="px-sm-3 py-3 py-sm-0 flex justify-between align-center">
+                                    <div className="px-sm-3 py-sm-0 flex justify-between align-center">
                                         <Dropdown
                                             label="Relevance"
                                             classNameContainer="p-0 border-none bold"

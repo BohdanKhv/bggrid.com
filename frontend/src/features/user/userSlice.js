@@ -64,16 +64,16 @@ const userSlice = createSlice({
     },
     extraReducers: (builder) => {
         builder.addCase(searchUsers.pending, (state) => {
-            // state.isLoading = true;
+            state.loadingId = 'search';
             state.msg = '';
         });
         builder.addCase(searchUsers.fulfilled, (state, action) => {
-            state.isLoading = false;
+            state.loadingId = "";
             state.users = action.payload.data;
         });
         builder.addCase(searchUsers.rejected, (state, action) => {
             if (action.error.message !== 'Aborted') {
-                state.isLoading = false;
+                state.loadingId = "";
                 state.msg = action.payload;
                 toast.error(action.payload, { toastId: 'toastError', closeButton: true});
             }

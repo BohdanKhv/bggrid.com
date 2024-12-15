@@ -371,7 +371,7 @@ const LogPlay = () => {
                                                     type="number"
                                                     placeholder="Score"
                                                     max={1000}
-                                                    className="bg-main border-radius border-none"
+                                                    className="bg-main border-radius border-children-none"
                                                     value={i.score || ''}
                                                     onFocus={(e) => e.target.select()}
                                                     onChange={(e) => {

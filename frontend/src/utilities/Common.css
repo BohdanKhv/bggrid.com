@@ -537,6 +537,9 @@ body:has(.header) .sticky {
 .border-radius-50 {
     border-radius: 50%;
 }
+.border-children-none * {
+    border: none!important;
+}
 .border-none {
     border: none!important;
 }

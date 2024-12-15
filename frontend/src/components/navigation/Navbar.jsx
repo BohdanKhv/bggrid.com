@@ -8,6 +8,7 @@ import Button from '../ui/Button'
 import Avatar from '../ui/Avatar'
 import { useDispatch, useSelector } from 'react-redux'
 import { logout } from '../../features/auth/authSlice'
+import pJson from '../../../package.json'
 
 const Navbar = () => {
     const dispatch = useDispatch()
@@ -63,7 +64,7 @@ const Navbar = () => {
                     <>
                     <Link
                         to={`/u/${user.username}`}
-                        className="flex gap-3 pointer hover border-radius-lg overflow-hidden mb-4">
+                        className="flex gap-3 pointer hover border-radius-lg overflow-hidden">
                         <div className="flex align-center justify-center align-center ps-3 py-3">
                             <div className="border border-radius-50">
                                 <Avatar
@@ -242,7 +243,7 @@ const Navbar = () => {
                                 © {new Date().getFullYear()} bggrid.com
                             </div>
                             <div className="fs-12 text-secondary weight-500">
-                                All rights reserved.
+                                All rights reserved. V.{pJson.version}
                             </div>
                         </div>
                     </div>

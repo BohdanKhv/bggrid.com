@@ -60,7 +60,7 @@ const PlayItem = ({ item, hideUpdate }) => {
                             icon={editIcon}
                             variant="text"
                             type="secondary"
-                            className="show-on-hover"
+                            className="show-on-hover d-sm-block"
                             muted
                             size="sm"
                             onClick={() => {

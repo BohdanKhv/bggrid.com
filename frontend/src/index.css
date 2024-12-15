@@ -196,7 +196,7 @@
   --color-border-secondary: #1e1e1e;
   --color-translucent: rgba(15, 15, 15, 0.1);
   --text-shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.1);
-  --color-translucent-3: rgba(15, 15, 15, 0.3);
+  --color-translucent-3: rgba(15, 15, 15, 0.9);
 
   --color-overlay: rgba(0, 0, 0, 0.65);
   

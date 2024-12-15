@@ -245,7 +245,7 @@ const CommunityPage = () => {
                         </div>
                         : null}
                         <div className="flex flex-1">
-                            <div className="flex-1 flex flex-col border-left border-right overflow-hidden border-sm-none">
+                            <div className="flex-1 flex flex-col border-left overflow-hidden border-sm-none">
                                 <div className="pt-3 border-bottom px-sm-3 px-4 pt-sm-0">
                                     <div className="flex">
                                         <TabContent

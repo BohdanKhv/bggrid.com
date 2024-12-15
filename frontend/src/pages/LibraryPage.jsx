@@ -339,7 +339,7 @@ const LibraryPage = () => {
             <main className="page-body">
                 <div className="animation-slide-in flex flex-1 flex-sm-col container">
                     <div className="flex flex-1 overflow-hidden">
-                        <div className="flex-1 flex flex-col border-left border-right overflow-hidden border-bottom border-sm-none">
+                        <div className="flex-1 flex flex-col border-left overflow-hidden border-bottom border-sm-none">
                             {window.innerWidth < 800 && (
                                 <div className="flex pt-6 pt-sm-3 justify-between px-sm-3">
                                     <div className="title-1 bold">

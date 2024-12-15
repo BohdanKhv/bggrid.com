@@ -1,7 +1,7 @@
 import { useRef, useState, useEffect } from 'react';
 import './styles/TabContent.css';
 
-const TabContent = ({items, active, onChange, setActive, setActiveTabName, activeTabName}) => {
+const TabContent = ({items, active, onChange, setActive, setActiveTabName, activeTabName, classNameContainer, classNameItem}) => {
     const activeRef = useRef(null);
     const indicatorRef = useRef(null);
     const containerRef = useRef(null);
@@ -64,11 +64,11 @@ const TabContent = ({items, active, onChange, setActive, setActiveTabName, activ
     return (
         <div className="tabs-content" ref={containerRef}
         onWheel={onWheel}>
-            <div className="tabs-content-container">
+            <div className={`tabs-content-container${classNameContainer ? ` ${classNameContainer}` : ""}`}>
                 {items.map((item, index) => (
                     <div
                         key={index}
-                        className={`tab-content p-1${active === index || activeTabName === item?.label.toLowerCase() ? ' active': ''}`}
+                        className={`tab-content p-1${classNameItem ? ` ${classNameItem}` : ""}${active === index || activeTabName === item?.label.toLowerCase() ? ' active': ''}`}
                         onClick={() => {
                             setActive && setActive(index)
                             setActiveTabName && setActiveTabName(item?.label.toLowerCase())

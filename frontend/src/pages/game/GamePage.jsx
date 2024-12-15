@@ -11,6 +11,7 @@ import { DateTime } from 'luxon'
 import { resetFeed } from '../../features/feed/feedSlice'
 import UserGuardLoginModal from '../auth/UserGuardLoginModal'
 import HorizontalScrollControlled from '../../components/ui/HorizontalScrollControlled'
+import FooterUser from '../FooterUser'
 
 const YoutubeVideoItem = ({ item, thumbnail }) => {
     const [error, setError] = useState(false)
@@ -285,7 +286,7 @@ const GamePlayStats = () => {
 
 
     return (
-        <div className="flex-1 border-radius bg-secondary h-fit-content w-set-sm-auto order-sm-1 pos-relative">
+        <div className="flex-1 border-radius bg-secondary h-fit-content w-set-sm-auto order-sm-1 pos-relative animation-slide-in">
             <div>
                 <div className="flex flex-col p-5">
                     <div className="flex-1 flex justify-between pb-4 border-bottom align-center">
@@ -330,7 +331,7 @@ const GameReviewStats = () => {
     const { gameById } = useSelector((state) => state.game)
 
     return (
-        <div className="flex-1 border-radius bg-secondary h-fit-content w-set-sm-auto order-sm-1 mb-4 pos-relative">
+        <div className="flex-1 border-radius bg-secondary h-fit-content w-set-sm-auto order-sm-1 mb-4 pos-relative animation-slide-in">
             <div className="bg-secondary border-radius">
                 
                 <div className="flex flex-col gap-3 pt-5 px-5">
@@ -608,7 +609,7 @@ const CoverImage = ({ img }) => {
     }, [user, gameById, library])
 
     return (
-        <div className="ms-5 w-min-400-px">
+        <div className="ms-6 flex-1 w-max-250-px">
                 <div
                     className="bg-secondary mt-6 mb-4 h-sm-set-150-px border-radius pos-relative h-set-300-px w-min-200-px w-max-300-px">
                     <Image
@@ -617,12 +618,12 @@ const CoverImage = ({ img }) => {
                         classNameContainer="bg-secondary border-radius z-3 relative"
                         classNameImg="z-1 w-100 h-100 border-radius object-cover object-center pos-relative box-shadow-lg"
                     />
-                    {/* <Image
+                    <Image
                         img={img}
                         errIcon={gamesIcon}
-                        classNameContainer="bg-secondary pos-absolute left-0 blur-20 top-0 border-radius relative"
+                        classNameContainer="bg-secondary pos-absolute left-0 top-0 border-radius relative"
                         classNameImg="z-0 h-100 border-radius object-cover object-center blur-20"
-                    /> */}
+                    />
                 </div>
                 {tab === 'reviews' ?
                     <GameReviewStats/>
@@ -735,6 +736,8 @@ const CoverImage = ({ img }) => {
 const Overview = () => {
     const navigate = useNavigate()
     const { gameById } = useSelector(state => state.game)
+    const [showMorePublishers, setShowMorePublishers] = useState(false)
+    const [showMoreArtists, setShowMoreArtists] = useState(false)
 
     return (
         <div className="my-4 animation-slide-in my-sm-4 px-sm-3">
@@ -792,7 +795,9 @@ const Overview = () => {
                             <span className="text-secondary fs-14 weight-500">
                                 Publishers:
                             </span>
-                            {gameById.publishers.length ? gameById.publishers.map
+                            {gameById.publishers.length ? gameById.publishers
+                            .slice(0, showMorePublishers ? gameById.publishers.length : 3)
+                            .map
                             ((item, index, arr) => (
                                 <div key={index}>
                                     <Link 
@@ -803,6 +808,15 @@ const Overview = () => {
                                 {index < arr.length - 1 ? ', ' : ''}
                                 </div>
                             )) : '--'}
+                            {gameById.publishers.length > 3 ?
+                                <div className="flex gap-1 align-center">
+                                    <span className="fs-14 weight-400 pointer opacity-50 hover-opacity-100"
+                                        onClick={() => setShowMorePublishers(!showMorePublishers)}
+                                    >
+                                        {showMorePublishers ? 'Show less' : gameById.publishers.length > 3 ? `+${gameById.publishers.length - 3} more` : ''}
+                                    </span>
+                                </div>
+                            : null}
                         </div>
                         <div className="flex flex-wrap gap-1 align-center pt-2">
                             <span className="text-secondary fs-14 weight-500">
@@ -824,7 +838,9 @@ const Overview = () => {
                             <span className="text-secondary fs-14 weight-500">
                                 Artists:
                             </span>
-                            {gameById.artists.length ? gameById.artists.map
+                            {gameById.artists.length ? gameById.artists
+                            .slice(0, showMoreArtists ? gameById.artists.length : 3)
+                            .map
                             ((item, index, arr) => (
                                 <div key={index}>
                                     <Link 
@@ -835,6 +851,15 @@ const Overview = () => {
                                     {index < arr.length - 1 ? ', ' : ''}
                                 </div>
                             )) : '--'}
+                            {gameById.artists.length > 3 ?
+                                <div className="flex gap-1 align-center">
+                                    <span className="fs-14 weight-400 pointer opacity-50 hover-opacity-100"
+                                        onClick={() => setShowMoreArtists(!showMoreArtists)}
+                                    >
+                                        {showMoreArtists ? 'Show less' : gameById.artists.length > 3 ? `+${gameById.artists.length - 3} more` : ''}
+                                    </span>
+                                </div>
+                            : null}
                         </div>
                         <p className="fs-14 text-secondary flex-1 pt-5"
                             dangerouslySetInnerHTML={{ __html: gameById.description }}
@@ -980,24 +1005,22 @@ const Overview = () => {
                             Videos
                             <Icon icon={rightArrowIcon} size="xs" className="transition-slide-right-hover"/>
                         </div>
-                        <div className="overflow-hidden">
-                            <HorizontalScroll
-                                contentClassName="align-start gap-3 pt-5"
-                            >
-                                {gameById
-                                ?.videos
-                                .slice(0,
-                                    6
-                                ).map((item, index) => (
-                                    <div
-                                        className="flex-1 w-set-200-px"
-                                        key={index}
-                                    >
-                                        <YoutubeVideoItem item={item} thumbnail/>
-                                    </div>
-                                ))}
-                            </HorizontalScroll>
-                        </div>
+                        <HorizontalScroll
+                            contentClassName="align-start gap-5 pt-5"
+                        >
+                            {gameById
+                            ?.videos
+                            .slice(0,
+                                6
+                            ).map((item, index) => (
+                                <div
+                                className="col-5 flex-fill col-sm-8"
+                                    key={index}
+                                >
+                                    <YoutubeVideoItem item={item} thumbnail/>
+                                </div>
+                            ))}
+                        </HorizontalScroll>
                     </div>
                     : null}
                 </div>
@@ -1192,9 +1215,9 @@ const GamePage = () => {
                         </div>
                     </>
                     : null }
-                    <div className="flex border-sm-none flex-1">
-                        <div className="flex-1 border-left border-right overflow-hidden flex flex-col">
-                            <div className="bg-main sticky top-0 z-9 px-sm-3 border-bottom px-4">
+                    <div className="flex sticky top-0 z-9 px-sm-3">
+                        <div className="overflow-hidden flex-1">
+                            <div className="bg-main">
                                 <TabContent
                                     items={[
                                         {label: 'Overview'},
@@ -1203,125 +1226,131 @@ const GamePage = () => {
                                         {label: 'Reviews'},
                                         {label: 'Plays'},
                                     ]}
+                                    classNameContainer="w-100"
+                                    classNameItem="flex-1"
                                     activeTabName={tab || 'overview'}
                                     setActiveTabName={(e) => {
                                         navigate(`/g/${gameId}/${e}`)
                                     }}
                                 />
                             </div>
-                            <div className="flex-1 overflow-hidden px-4 px-sm-0">
-                                {(window.innerWidth < 800 || window.innerWidth >= 800) && (tab === 'overview' || !tab) ?
-                                <div className="flex flex-col mt-4 pos-relative mt-sm-0 px-sm-3">
-                                    <div className="z-3 border-radius bg-sm-main">
-                                    <div className="flex gap-4 pt-sm-5">
-                                        {window.innerWidth < 800 && gameById.image ?
-                                            <div>
-                                                <Image
-                                                    img={gameById.image}
-                                                    alt="cover"
-                                                    classNameContainer="border-radius w-set-100-px h-set-150-px h-sm-set-100-px"
-                                                    classNameImg="object-cover border-radius object-center"
-                                                />
-                                            </div>
-                                        : null }
-                                        <div className="flex flex-col overflow-x-hidden">
-                                            <div className="fs-54 fs-sm-28 weight-600">
-                                                {gameById.name} {gameById.year ? <span className="weight-500 fs-20">({gameById.year})</span> : ''}
-                                            </div>
-                                            {window.innerWidth < 800 ?
-                                            <>
-                                                <div className="flex flex-col gap-2">
-                                                    {gameById.publishers.length ?
-                                                        gameById.publishers.slice(0, 1).map((item, index) => (
-                                                            <div key={index}>
-                                                                <Link 
-                                                                    to={`/publisher/${item._id}`}
-                                                                    className="fs-14 text-underlined-hover text-primary weight-500">
-                                                                    {item.name}
-                                                                </Link>
-                                                            </div>
-                                                        ))
-                                                    : null}
-                                                    {gameById.year ?
-                                                        <div className="fs-14">
-                                                            {gameById.year}
+                        </div>
+                            <div className="w-max-250-px d-sm-none w-100 ms-6"></div>
+                    </div>
+                    <div className="flex flex-1">
+                    <div className="flex-1 flex flex-col overflow-x-hidden overflow-sm-">
+                                <div className="flex flex-col w-1">
+                                    {(window.innerWidth < 800 || window.innerWidth >= 800) && (tab === 'overview' || !tab) ?
+                                    <div className="flex flex-col mt-4 pos-relative mt-sm-0 px-sm-3">
+                                        <div className="z-3 border-radius bg-sm-main">
+                                            <div className="flex gap-4 pt-sm-5">
+                                                {window.innerWidth < 800 && gameById.image ?
+                                                    <div>
+                                                        <Image
+                                                            img={gameById.image}
+                                                            alt="cover"
+                                                            classNameContainer="border-radius w-set-100-px h-set-150-px h-sm-set-100-px"
+                                                            classNameImg="object-cover border-radius object-center"
+                                                        />
+                                                    </div>
+                                                : null }
+                                                <div className="flex flex-col overflow-x-hidden">
+                                                    <div className="fs-54 fs-sm-28 weight-600">
+                                                        {gameById.name} {gameById.year ? <span className="weight-500 fs-20 text-secondary">{gameById.year}</span> : ''}
+                                                    </div>
+                                                    {window.innerWidth < 800 ?
+                                                    <>
+                                                        <div className="flex flex-col gap-2">
+                                                            {gameById.publishers.length ?
+                                                                gameById.publishers.slice(0, 1).map((item, index) => (
+                                                                    <div key={index}>
+                                                                        <Link 
+                                                                            to={`/publisher/${item._id}`}
+                                                                            className="fs-14 text-underlined-hover text-primary weight-500">
+                                                                            {item.name}
+                                                                        </Link>
+                                                                    </div>
+                                                                ))
+                                                            : null}
+                                                            {gameById.year ?
+                                                                <div className="fs-14">
+                                                                    {gameById.year}
+                                                                </div>
+                                                            : null}
                                                         </div>
+                                                    </>
                                                     : null}
                                                 </div>
-                                            </>
+                                            </div>
+                                            <div className="flex flex-col overflow-hidden my-4">
+                                                <GameShortInfo/>
+                                            </div>
+                                            {window.innerWidth < 800 ?
+                                            <div>
+                                                <UserGuardLoginModal>
+                                                    <Button
+                                                        icon={diceIcon}
+                                                        borderRadius="lg"
+                                                        size="lg"
+                                                        className="w-100 mb-3"
+                                                        variant="secondary"
+                                                        type="default"
+                                                        onClick={() => {
+                                                            searchParams.set('logPlay', gameId)
+                                                            setSearchParams(searchParams)
+                                                        }}
+                                                        label="Log a Play"
+                                                    />
+                                                </UserGuardLoginModal>
+                                                <UserGuardLoginModal>
+                                                    { isInLibrary ?
+                                                        <Button
+                                                            icon={libraryIcon}
+                                                            borderRadius="lg"
+                                                            size="lg"
+                                                            className="w-100"
+                                                            variant="secondary"
+                                                            type="default"
+                                                            onClick={() => {
+                                                                searchParams.set('addGame', gameId)
+                                                                setSearchParams(searchParams)
+                                                            }}
+                                                            label="In Library"
+                                                        />
+                                                    :
+                                                        <Button
+                                                            icon={largePlusIcon}
+                                                            variant="secondary"
+                                                            borderRadius="lg"
+                                                            size="lg"
+                                                            className="w-100"
+                                                            type="filled"
+                                                            onClick={() => {
+                                                                searchParams.set('addGame', gameId)
+                                                                setSearchParams(searchParams)
+                                                            }}
+                                                            label="Add to Library"
+                                                        />
+                                                    }
+                                                </UserGuardLoginModal>
+                                            </div>
                                             : null}
                                         </div>
                                     </div>
-                                    <div className="flex flex-col overflow-hidden my-4">
-                                        <GameShortInfo/>
-                                    </div>
-                                    {window.innerWidth < 800 ?
-                                    <div>
-                                        <UserGuardLoginModal>
-                                            <Button
-                                                icon={diceIcon}
-                                                borderRadius="lg"
-                                                size="lg"
-                                                className="w-100 mb-3"
-                                                variant="secondary"
-                                                type="default"
-                                                onClick={() => {
-                                                    searchParams.set('logPlay', gameId)
-                                                    setSearchParams(searchParams)
-                                                }}
-                                                label="Log a Play"
-                                            />
-                                        </UserGuardLoginModal>
-                                        <UserGuardLoginModal>
-                                            { isInLibrary ?
-                                                <Button
-                                                    icon={libraryIcon}
-                                                    borderRadius="lg"
-                                                    size="lg"
-                                                    className="w-100"
-                                                    variant="secondary"
-                                                    type="default"
-                                                    onClick={() => {
-                                                        searchParams.set('addGame', gameId)
-                                                        setSearchParams(searchParams)
-                                                    }}
-                                                    label="In Library"
-                                                />
-                                            :
-                                                <Button
-                                                    icon={largePlusIcon}
-                                                    variant="secondary"
-                                                    borderRadius="lg"
-                                                    size="lg"
-                                                    className="w-100"
-                                                    type="filled"
-                                                    onClick={() => {
-                                                        searchParams.set('addGame', gameId)
-                                                        setSearchParams(searchParams)
-                                                    }}
-                                                    label="Add to Library"
-                                                />
-                                            }
-                                        </UserGuardLoginModal>
-                                    </div>
-                                    : null}
-                                </div>
-                            </div>
-                        : null}
-                        {tab === 'overview' ?
-                            <Overview/>
-                        : tab === 'videos' ?
-                            <VideosTab/>
-                        : tab === 'reviews' ?
-                            <ReviewsTab/>
-                        : tab === 'plays' ?
-                            <PlaysTab/>
-                        : tab === 'rules' ?
-                            <RulesTab />
-                        : <Overview/> }
+                                : null}
+                                {tab === 'overview' ?
+                                    <Overview/>
+                                : tab === 'videos' ?
+                                    <VideosTab/>
+                                : tab === 'reviews' ?
+                                    <ReviewsTab/>
+                                : tab === 'plays' ?
+                                    <PlaysTab/>
+                                : tab === 'rules' ?
+                                    <RulesTab />
+                                : <Overview/> }
                         </div>
-                        <div className="flex gap-3 px-4">
-                    </div>
+                        <FooterUser/>
                     </div>
                     {window.innerWidth >= 800 && gameById.image ?
                         <CoverImage img={gameById.image}/>

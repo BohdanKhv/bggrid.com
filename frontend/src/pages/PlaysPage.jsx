@@ -336,7 +336,7 @@ const PlaysPage = () => {
             <UpdateLogPlay/>
                 <div className="animation-slide-in flex flex-1 flex-sm-col container">
                         {window.innerWidth <= 800 && user ? (
-                            <div className="flex flex-1 pt-6 pt-sm-3 justify-between px-sm-3 pb-3 sticky top-0 z-3 bg-main">
+                            <div className="flex flex-1 pt-6 pt-sm-3 justify-between px-sm-3 pb-3">
                                 <div className="title-1 bold">
                                     Plays
                                 </div>

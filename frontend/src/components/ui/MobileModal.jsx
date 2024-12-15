@@ -7,6 +7,7 @@ import Button from './Button';
 
 const MobileModal = ({
     isOpen,
+    setOpen,
     onClose,
     children,
     header,

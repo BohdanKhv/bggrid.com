@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { getMyLibrary } from '../features/library/librarySlice'
 import {Avatar, Button, ErrorInfo, HorizontalScroll, IconButton, InputSearch, Image, Icon, Dropdown, Modal} from '../components'
 import { Link, useNavigate, useSearchParams } from 'react-router-dom'
-import { closeIcon, editIcon, gamesIcon, linkIcon, diceIcon, searchIcon, starFillIcon, weightIcon, usersIcon, usersFillIcon, bellIcon, rightArrowIcon, moreIcon, upArrowRightIcon, listIcon, gridIcon, arrowUpShortIcon, arrowDownShortIcon, largePlusIcon, libraryIcon, shareIcon, uploadIcon, sendIcon, infoIcon } from '../assets/img/icons'
+import { closeIcon, editIcon, gamesIcon, linkIcon, diceIcon, searchIcon, starFillIcon, weightIcon, usersIcon, usersFillIcon, bellIcon, rightArrowIcon, moreIcon, upArrowRightIcon, listIcon, gridIcon, arrowUpShortIcon, arrowDownShortIcon, largePlusIcon, libraryIcon, shareIcon, uploadIcon, sendIcon, infoIcon, downloadIcon, pngIcon } from '../assets/img/icons'
 import { tagsDetailedEnum, tagsEnum } from '../assets/constants'
 import { numberFormatter } from '../assets/utils'
 import GameSearchModal from './game/GameSearchModal'
@@ -335,7 +335,7 @@ const LibraryItem = ({ item, index, tags, setTags }) => {
                     label="Update library"
                     icon={libraryIcon}
                     variant="secondary"
-                    type="default"
+                    type="text"
                     onClick={() => {
                         searchParam.set('addGame', item?.game?._id)
                         setSearchParam(searchParam)
@@ -349,7 +349,7 @@ const LibraryItem = ({ item, index, tags, setTags }) => {
                     label="Log a play"
                     icon={diceIcon}
                     variant="secondary"
-                    type="default"
+                    type="text"
                     onClick={(e) => {
                         searchParam.set('logPlay', item?.game?._id)
                         setSearchParam(searchParam)
@@ -363,7 +363,7 @@ const LibraryItem = ({ item, index, tags, setTags }) => {
                 label="Game page"
                 icon={gamesIcon}
                 variant="secondary"
-                type="default"
+                type="text"
                 to={`/g/${item?.game?._id}`}
             />
             {/* <Button
@@ -375,7 +375,7 @@ const LibraryItem = ({ item, index, tags, setTags }) => {
                 icon={infoIcon}
                 variant="secondary"
                 disabled
-                type="default"
+                type="text"
                 to={`/g/${item?.game?._id}/rules`}
             /> */}
             <Button
@@ -383,11 +383,22 @@ const LibraryItem = ({ item, index, tags, setTags }) => {
                 size="lg"
                 borderRadius="none"
                 className="justify-start"
-                label="Share my review"
+                label="Download"
                 disabled
-                icon={sendIcon}
+                icon={pngIcon}
                 variant="secondary"
-                type="default"
+                type="text"
+            />
+            <Button
+                smSize="xl"
+                size="lg"
+                label="Close"
+                className="m-2"
+                variant="outline"
+                type="secondary"
+                onClick={() => {
+                    setOpen(false)
+                }}
             />
         </div>
         </MobileModal>
@@ -395,7 +406,7 @@ const LibraryItem = ({ item, index, tags, setTags }) => {
         <div className="border-bottom border-secondary px-sm-3 transition-duration animation-slide-in show-on-hover-parent hide-on-hover-parent">
             <div className="flex justify-between"
             >
-                <div className="flex gap-3 flex-1 py-3 align-center pe-4">
+                <div className="flex gap-3 flex-1 py-3 align-center pe-4 pe-sm-0">
                     {window.innerWidth > 800 ?
                     <div
                         className="flex justify-center align-center opacity-50 hover-opacity-100 w-set-50-px"
@@ -509,7 +520,7 @@ const LibraryItem = ({ item, index, tags, setTags }) => {
                                             label="Update library"
                                             icon={libraryIcon}
                                             variant="secondary"
-                                            type="default"
+                                            type="text"
                                             onClick={() => {
                                                 searchParam.set('addGame', item?.game?._id)
                                                 setSearchParam(searchParam)
@@ -522,7 +533,7 @@ const LibraryItem = ({ item, index, tags, setTags }) => {
                                             label="Log a play"
                                             icon={diceIcon}
                                             variant="secondary"
-                                            type="default"
+                                            type="text"
                                             onClick={(e) => {
                                                 searchParam.set('logPlay', item?.game?._id)
                                                 setSearchParam(searchParam)
@@ -535,7 +546,7 @@ const LibraryItem = ({ item, index, tags, setTags }) => {
                                             label="Game page"
                                             icon={linkIcon}
                                             variant="secondary"
-                                            type="default"
+                                            type="text"
                                             to={`/g/${item?.game?._id}`}
                                         />
                                         {/* <Button
@@ -546,7 +557,7 @@ const LibraryItem = ({ item, index, tags, setTags }) => {
                                             icon={linkIcon}
                                             disabled
                                             variant="secondary"
-                                            type="default"
+                                            type="text"
                                             to={`/g/${item?.game?._id}/rules`}
                                         /> */}
                                         <Button
@@ -554,26 +565,26 @@ const LibraryItem = ({ item, index, tags, setTags }) => {
                                             size="lg"
                                             borderRadius="none"
                                             className="justify-start"
-                                            label="Share my review"
-                                            icon={sendIcon}
+                                            label="Download"
+                                            icon={pngIcon}
                                             variant="secondary"
-                                            type="default"
+                                            type="text"
                                             disabled
                                         />
                                     </div>
                                 </Dropdown>
                                 :
-                                <IconButton
-                                    icon={moreIcon}
-                                    className="display-on-hover display-on-hover-sm-block"
-                                    variant="secondary"
-                                    type="link"
-                                    muted
-                                    size="sm"
-                                    onClick={(e) => {
-                                        setOpen(true)
-                                    }}
-                                />
+                                    <IconButton
+                                        className="display-on-hover display-on-hover-sm-block"
+                                        variant="secondary"
+                                        type="link"
+                                        muted
+                                        icon={moreIcon}
+                                        size="sm"
+                                        onClick={(e) => {
+                                            setOpen(true)
+                                        }}
+                                    />
                                 }
                                 </div>
                             <div className="flex justify-between gap-3 pt-1">

@@ -231,7 +231,7 @@ const UserPage = () => {
                         : null}
                         <div className="pt-6 pt-sm-0 mt-sm-0 pb-3 pt-sm-3 pb-3 mb-sm-0 py-sm-0 m-3">
                             <div className="flex flex-sm-col gap-6 gap-sm-3 align-center align-sm-start">
-                                <div className="flex gap-sm-3 w-100 align-center">
+                                <div className="flex gap-sm-3 w-sm-100 align-center">
                                     <div className="flex justify-center align-center">
                                         <Avatar
                                             img={userById?.avatar}
@@ -298,7 +298,7 @@ const UserPage = () => {
                                                 label="Edit profile"
                                                 variant="secondary"
                                                 to="/settings"
-                                                className="flex-shrink-0 flex-1"
+                                                className="flex-shrink-0 flex-grow-sm-1"
                                                 borderRadius="lg"
                                             />
                                             <Button
@@ -311,7 +311,7 @@ const UserPage = () => {
                                                         url: window.location
                                                     })
                                                 }}
-                                                className="flex-shrink-0 flex-1"
+                                                className="flex-shrink-0 flex-grow-sm-1"
                                                 borderRadius="lg"
                                             />
                                             <Button
@@ -329,13 +329,13 @@ const UserPage = () => {
                                     user?._id === userById?._id ?
                                     null
                                     :
-                                    <div>
+                                    <div className="flex gap-2">
                                         {userById.isFollowing ?
                                             <Button
                                                 label="Unfollow"
                                                 variant="secondary"
                                                 type="default"
-                                                className="flex-shrink-0"
+                                            className="flex-shrink-0 flex-grow-sm-1"
                                                 borderRadius="lg"
                                                 onClick={(e) => {
                                                     e.preventDefault()
@@ -348,7 +348,7 @@ const UserPage = () => {
                                                 label="Follow"
                                                 variant="secondary"
                                                 type="filled"
-                                                className="flex-shrink-0"
+                                            className="flex-shrink-0 flex-grow-sm-1"
                                                 borderRadius="lg"
                                                 onClick={(e) => {
                                                     e.preventDefault()
@@ -357,14 +357,27 @@ const UserPage = () => {
                                                 disabled={loadingId}
                                             />
                                         }
+                                        <Button
+                                            label="Share profile"
+                                            variant="secondary"
+                                            onClick={() => {
+                                                navigator.share({
+                                                    title: userById.username,
+                                                    text: `Check out ${userById.username}'s profile on BGGRID!`,
+                                                    url: window.location
+                                                })
+                                            }}
+                                            className="flex-shrink-0 flex-grow-sm-1"
+                                            borderRadius="lg"
+                                        />
                                     </div>
                                     }
                                 </div>
                             </div>
                         </div>
-                        <div className="pt-4 border-bottom pt-sm-0">
+                        <div className="pt-4 border-bottom flex justify-center pt-sm-0">
                             <TabContent
-                                classNameContainer="w-100"
+                                classNameContainer="w-100 flex-grow-sm-1"
                                 classNameItem="flex-1"
                                 items={[
                                     {label: 'Library'},

@@ -196,15 +196,12 @@ const SearchGames = () => {
             searchable
             searchChildren={
                 <div className="py-2">
-                    {searchValue.length == 0 && searchHistory.length == 0 &&
-                    suggestions.length == 0 &&
-                    library
-                    .filter((item) => item.game.name.toLowerCase().includes(searchValue.toLowerCase()))
-                    .length == 0 && searchValue.length == 0 ?
+                    {searchValue.length == 0 &&
+                    suggestions.length == 0 && library.length == 0?
                         <div className="fs-14 px-4 py-2 gap-3 text-secondary weight-600 text-center">
                             Type to search
                         </div>
-                    : null} 
+                    : null}
                     {library && library
                     .filter((item) => item.game.name.toLowerCase().includes(searchValue.toLowerCase()))
                     .length > 0 ?

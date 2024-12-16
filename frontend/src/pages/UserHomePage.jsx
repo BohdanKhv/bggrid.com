@@ -744,6 +744,7 @@ const UserHomePage = () => {
                             <div className="grid grid-cols-4 px-sm-3 grid-sm-cols-2 gap-3">
                                 {[...library]
                                 .sort((a, b) => !a.lastPlayDate ? 1 : !b.lastPlayDate ? -1 : DateTime.fromISO(b.lastPlayDate) - DateTime.fromISO(a.lastPlayDate))
+                                .slice(0, 8)
                                 .map((item) => (
                                     <div
                                         key={item._id}

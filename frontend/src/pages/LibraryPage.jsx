@@ -468,13 +468,15 @@ const LibraryItem = ({ item, index, tags, setTags }) =>  {
                                                 }}
                                             >
                                                 <div className="flex align-center">
-                                                <span className={`fs-14 weight-500`}>{item.rating || 0}</span>
+                                                <span className={`fs-14 weight-500${item.rating === 0 ? " text-secondary" : " text-warning"}`}>{item.rating || 0}</span>
                                                 </div>
                                                 <div className="flex gap-1 align-center">
-                                                    <Icon icon={starFillIcon} size="xs" className={`text-warning fill-text`}/>
+                                                    {Array.from({ length: 5 }, (_, i) => (
+                                                        <Icon icon={starFillIcon} size="xs" className={`fill-${i < item.rating ? 'warning' : 'secondary'}`} key={i} />
+                                                    ))}
                                                 </div>
                                             </div>
-                                            {item.tags.map((tag, index) => (
+                                            {/* {item.tags.map((tag, index) => (
                                                 <div key={index}
                                                     onClick={(e) => {
                                                         e.stopPropagation()
@@ -484,16 +486,13 @@ const LibraryItem = ({ item, index, tags, setTags }) =>  {
                                                             setTags([...tags, tag])
                                                         }
                                                     }}
-                                                    className={`px-1 border-radius flex-shrink-0 weight-500 flex align-center fs-12 weight-500  ${tags.includes(tag) ? " bg-secondary" : ""}`}>
-                                                        <span className="bold"
-                                                            data-tooltip-content={tag}
-                                                            data-tooltip-id="tooltip-default"
-                                                        >
+                                                    className={`px-1 border-radius text-secondary flex-shrink-0 weight-500 flex align-center fs-12 weight-500  ${tags.includes(tag) ? " bg-secondary" : ""}`}>
+                                                        <span className="bold me-2">
                                                             {tagsDetailedEnum.find((t) => t.label === tag)?.icon}
                                                         </span>
-                                                        {/* {tag} */}
+                                                        {tag}
                                                     </div>
-                                            ))}
+                                            ))} */}
                                         </HorizontalScroll>
                                     </div>
                                 </div>
@@ -591,7 +590,7 @@ const LibraryItem = ({ item, index, tags, setTags }) =>  {
                                     Last played: {item.lastPlayDate ? DateTime.now().diff(DateTime.fromISO(item.lastPlayDate), ['days']).days > 1 ? DateTime.fromISO(item.lastPlayDate).toFormat('LLL dd') :
                                     DateTime.fromISO(item.lastPlayDate).toRelative().replace(' days', 'd').replace(' day', 'd').replace(' hours', 'h').replace(' hour', 'h').replace(' minutes', 'm').replace(' minute', 'm').replace(' seconds', 's').replace(' second', 's') : 'never'}
                                 </div>
-                                <div className="fs-12 text-secondary">
+                                <div className="fs-12 text-secondary text-nowrap flex-shrink-0">
                                     {item.totalPlays || 0} plays
                                 </div>
                             </div>
@@ -661,6 +660,7 @@ const LibraryPage = () => {
                                     </div>
                                 </div>
                             )}
+                            {window.innerWidth < 800 && (
                             <div className="px-sm-3 overflow-hidden pt-3">
                                 <HorizontalScroll>
                                     <div className="justify-between flex-shrink-0 flex gap-2 bg-secondary border-radius px-3 py-2">
@@ -697,6 +697,7 @@ const LibraryPage = () => {
                                     </div>
                                 </HorizontalScroll>
                             </div>
+                            )}
                             {/* {window.innerWidth <= 800 && (
                             <div className="pt-3 px-sm-3 px-4">
                                 <div className="flex flex-col gap-3">
@@ -714,7 +715,7 @@ const LibraryPage = () => {
                             </div>
                             )} */}
                             <div className="flex flex-col overflow-hidden sticky-sm z-3">
-                            <div className="bg-main py-3 px-sm-3 px-4">
+                            <div className="bg-main py-3 px-sm-3">
                                 {searchLibrary ?
                                     <div className="flex gap-2">
                                         <IconButton
@@ -791,7 +792,7 @@ const LibraryPage = () => {
                                 }
                             </div>
                             </div>
-                            <div className="px-sm-3 px-4 pt-sm-0 flex justify-between align-center">
+                            <div className="px-sm-3 pt-sm-0 flex justify-between align-center">
                                 <Dropdown
                                     label="Relevance"
                                     classNameContainer="p-0 border-none bold"

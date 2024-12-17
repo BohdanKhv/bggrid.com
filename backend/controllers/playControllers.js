@@ -171,10 +171,11 @@ const getPlaysByUsername = async (req, res) => {
         };
 
         const plays = await Play.paginate({
-            $or: [
-                { 'players.user': user._id },
-                { user: user._id }
-            ]
+            // $or: [
+                // { 'players.user': user._id },
+                // { user: user._id }
+            // ]
+            user: user._id
         }, options);
 
         const currentPage = plays.page;
@@ -255,6 +256,7 @@ const createPlay = async (req, res) => {
 
         // Update library
         const library = await Library.findOne({ user: req.user._id, game: gameId });
+        let newLibraryItem = null;
 
         if (library) {
             library.totalPlays += 1;
@@ -284,7 +286,7 @@ const createPlay = async (req, res) => {
 
             const winner = players.find(player => player.winner);
 
-            const newLibraryItem = new Library({
+            newLibraryItem = new Library({
                 user: req.user._id,
                 game: gameId,
                 tags: ["Played"],
@@ -295,7 +297,7 @@ const createPlay = async (req, res) => {
                 lastPlayDate: playData ? playData.lastPlayDate || new Date() : new Date()
             });
 
-            newLibraryItem.save(); // don't need to wait for this to finish
+            await newLibraryItem.save(); // don't need to wait for this to finish
         }
 
         // Populate game and user
@@ -322,7 +324,8 @@ const createPlay = async (req, res) => {
         }
 
         res.status(201).json({
-            data: play
+            data: play,
+            library: newLibraryItem
         });
     } catch (error) {
         console.error(error);

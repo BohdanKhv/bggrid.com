@@ -12,6 +12,7 @@ import { getPlaysByUsername, resetPlay } from '../features/play/playSlice'
 import PlayItem from './PlayItem'
 import FollowingModal from './follow/FollowingModal'
 import FollowSearchModal from './follow/FollowSearchModal'
+import UserGuardLoginModal from './auth/UserGuardLoginModal'
 
 
 const PlayTab = () => {
@@ -143,7 +144,7 @@ const LibraryItem = ({ item, index, hideInfo }) => {
                             </span>
                         </div>
                         <div className="flex flex-col">
-                            <div className="flex align-center align-sm-start gap-2 pt-2 flex-sm-col">
+                            <div className="flex align-center align-sm-start gap-2 pt-1 flex-sm-col">
                                 <div className="flex align-center gap-2">
                                     <span className={`fs-14 weight-600 text-warning`}>{item.rating || 0}</span>
                                     <div className="flex gap-1 align-center">
@@ -156,7 +157,11 @@ const LibraryItem = ({ item, index, hideInfo }) => {
                                 </div>
                                 <div className="flex align-center gap-1 flex-sm-wrap">
                                     {item.tags.map((tag, index) => (
-                                        <div key={index} className="px-2 py-1 bg-secondary border-radius weight-500 flex align-center fs-12 weight-500">{tag}</div>
+                                        <div key={index} className="px-2 py-1 bg-secondary border-radius weight-500 flex align-center fs-12 weight-500">
+                                            <span className="me-2">
+                                                {tagsDetailedEnum.find((t) => t.label === tag)?.icon}
+                                            </span>
+                                            {tag}</div>
                                     ))}
                                 </div>
                             </div>
@@ -337,7 +342,7 @@ const UserPage = () => {
                                                 label="Unfollow"
                                                 variant="secondary"
                                                 type="default"
-                                            className="flex-shrink-0 flex-grow-sm-1"
+                                                className="flex-shrink-0 flex-grow-sm-1"
                                                 borderRadius="lg"
                                                 onClick={(e) => {
                                                     e.preventDefault()
@@ -346,11 +351,12 @@ const UserPage = () => {
                                                 disabled={loadingId}
                                             />
                                         :
+                                        <UserGuardLoginModal>
                                             <Button
                                                 label="Follow"
                                                 variant="secondary"
                                                 type="filled"
-                                            className="flex-shrink-0 flex-grow-sm-1"
+                                                className="flex-shrink-0 flex-grow-sm-1"
                                                 borderRadius="lg"
                                                 onClick={(e) => {
                                                     e.preventDefault()
@@ -358,6 +364,7 @@ const UserPage = () => {
                                                 }}
                                                 disabled={loadingId}
                                             />
+                                        </UserGuardLoginModal>
                                         }
                                         <Button
                                             label="Share profile"

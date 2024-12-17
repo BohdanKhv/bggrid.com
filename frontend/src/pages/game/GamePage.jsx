@@ -12,6 +12,7 @@ import { resetFeed } from '../../features/feed/feedSlice'
 import UserGuardLoginModal from '../auth/UserGuardLoginModal'
 import HorizontalScrollControlled from '../../components/ui/HorizontalScrollControlled'
 import FooterUser from '../FooterUser'
+import { tagsDetailedEnum } from '../../assets/constants'
 
 const YoutubeVideoItem = ({ item, thumbnail }) => {
     const [error, setError] = useState(false)
@@ -266,7 +267,11 @@ const ReviewItem = ({ item }) => {
                         </div>
                         <div className="flex align-center gap-1 flex-sm-wrap">
                             {item.tags.map((tag, index) => (
-                                <div key={index} className="px-2 py-1 bg-secondary border-radius weight-500 flex align-center fs-12 weight-500">{tag}</div>
+                                <div key={index} className="px-2 py-1 bg-secondary border-radius weight-500 flex align-center fs-12 weight-500">
+                                    <span className="me-2">
+                                        {tagsDetailedEnum.find(t => t.label === tag)?.icon || ""}
+                                    </span>
+                                    {tag}</div>
                             ))}
                         </div>
                     </div>

@@ -198,6 +198,7 @@ const PlayItem = ({ item, hideUpdate }) => {
                     img={item?.game?.thumbnail}
                     avatarColor={item?.game?.name?.length}
                     name={item?.game?.name}
+                    bigDisplay
                     size="lg"
                 />
                 <div className="flex flex-col justify-between flex-1">

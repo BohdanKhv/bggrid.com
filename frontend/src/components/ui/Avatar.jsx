@@ -11,6 +11,7 @@ const Avatar = ({
     borderRadiusNone,
     defaultColor,
     len,
+    bigDisplayImage,
     bigDisplay,
     contain,
     noLoader,
@@ -101,12 +102,14 @@ const Avatar = ({
     return (
         <>
         {bigDisplay && isBigDisplay && !imgErr && createPortal(
-            <div className="img-big-display" onClick={() => setIsBigDisplay(false)}
+            <div className="img-big-display" onClick={(e) => {
+                setIsBigDisplay(false)
+            }}
                 ref={bigDisplayRef}
             >
                 <div className="img-big-display-container max-width">
                     <img
-                        src={imgErr ? '' : img} 
+                        src={bigDisplayImage ? bigDisplayImage : imgErr ? '' : img} 
                         alt={alt}
                     />
                 </div>
@@ -131,9 +134,9 @@ const Avatar = ({
                 className={`${contain ? ' avatar-contain' : ''}${imgClassName ? ` ${imgClassName}` : ''} animation-fade-in`}
                 ref={imgRef}
                 src={imgErr ? '' : img} 
-                onClick={() => {
-                    if(bigDisplay) {setIsBigDisplay(true);}
-                    if(onClick) {onClick()}
+                onClick={(e) => {
+                    if(bigDisplay && !isBigDisplay) {setIsBigDisplay(true);}
+                    if(onClick && !isBigDisplay) {onClick()}
                 }}
                 alt={alt}
                 // decoding="async"

@@ -1252,9 +1252,11 @@ const GamePage = () => {
                                             <div className="flex gap-4 pt-sm-5">
                                                 {window.innerWidth < 800 && gameById.image ?
                                                     <div>
-                                                        <Image
+                                                        <Avatar
+                                                            bigDisplay
                                                             img={gameById.image}
                                                             alt="cover"
+                                                            size="xl"
                                                             classNameContainer="border-radius w-set-100-px h-set-150-px h-sm-set-100-px"
                                                             classNameImg="object-cover border-radius object-center"
                                                         />

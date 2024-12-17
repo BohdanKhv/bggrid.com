@@ -635,33 +635,33 @@ const LibraryPage = () => {
         <>
             <main className="page-body">
                 <div className="animation-slide-in flex flex-1 flex-sm-col container">
+                    {window.innerWidth < 800 && (
+                        <div className="flex py-3 justify-between px-sm-3 sticky-sm top-0 z-3 bg-main">
+                            <div className="title-1 bold">
+                                Library
+                            </div>
+                            <div className="justify-end flex align-center flex-no-wrap gap-3">
+                                <SearchGames/>
+                                <div
+                                    onClick={() => {
+                                        document.querySelector('.open-navbar-button').click()
+                                    }}
+                                >
+                                    <Avatar
+                                        img={`${user?.avatar}`}
+                                        name={user ? `${user?.email}` : null}
+                                        rounded
+                                        avatarColor="1"
+                                        size="sm"
+                                    />
+                                </div>
+                            </div>
+                        </div>
+                    )}
                     <div className="flex flex-1 overflow-hidden">
                         <div className="flex-1 flex flex-col overflow-x-hidden">
                             {window.innerWidth < 800 && (
-                                <div className="flex pt-6 pt-sm-3 justify-between px-sm-3">
-                                    <div className="title-1 bold">
-                                        Library
-                                    </div>
-                                    <div className="justify-end flex align-center flex-no-wrap gap-3">
-                                        <SearchGames/>
-                                        <div
-                                            onClick={() => {
-                                                document.querySelector('.open-navbar-button').click()
-                                            }}
-                                        >
-                                            <Avatar
-                                                img={`${user?.avatar}`}
-                                                name={user ? `${user?.email}` : null}
-                                                rounded
-                                                avatarColor="1"
-                                                size="sm"
-                                            />
-                                        </div>
-                                    </div>
-                                </div>
-                            )}
-                            {window.innerWidth < 800 && (
-                            <div className="px-sm-3 overflow-hidden pt-3">
+                                <div className="px-sm-3 overflow-hidden pt-3 pt-sm-0">
                                 <HorizontalScroll>
                                     <div className="justify-between flex-shrink-0 flex gap-2 bg-secondary border-radius px-3 py-2">
                                         <div className="fs-12 text-secondary">

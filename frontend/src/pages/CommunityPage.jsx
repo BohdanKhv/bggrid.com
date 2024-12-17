@@ -154,7 +154,7 @@ const CommunityPage = () => {
                 <div className="animation-slide-in flex flex-1 h-100">
                     <div className="container flex-1 flex flex-col">
                         {window.innerWidth <= 800 && user ? (
-                            <div className="flex pt-6 pt-sm-3 justify-between px-sm-3 pb-3">
+                            <div className="flex pt-6 pt-sm-3 justify-between px-sm-3 pb-3 sticky-sm top-0 bg-main z-3">
                                 <div className="title-1 bold">
                                     Community
                                 </div>

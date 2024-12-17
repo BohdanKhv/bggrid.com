@@ -518,7 +518,7 @@ const PlaysPage = () => {
                             <div className="flex">
                                 <SearchGames/>
                             </div>
-                            <div className="flex flex-col bg-secondary border-radius overflow-hidden">
+                            <div className="flex flex-col bg-secondary border-radius overflow-hidden pb-2">
                                 <div className="fs-20 bold py-3 px-4">
                                     Your library
                                 </div>

@@ -67,7 +67,6 @@ const DownloadItem = ({ item, setIsDownloading }) => {
         })
         .finally(() => {
             setIsDownloading(false);
-            setIsDownloading(false);
         });
     };
 
@@ -76,8 +75,9 @@ const DownloadItem = ({ item, setIsDownloading }) => {
     }, [])
 
     return (
-        <div ref={imageRef} className={`z-99 pos-absolute px-sm-3 bg-main w-set-400-px p-3 border-radius`}
+        <div ref={imageRef} className={`z-99 pos-absolute animation-none-child px-sm-3 bg-main w-set-400-px p-3 border-radius`}
             style={{
+                transform: 'scale(3)',
                 left: '-200%',
             }}
         >
@@ -125,7 +125,7 @@ const DownloadItem = ({ item, setIsDownloading }) => {
                             {item.comment}
                         </div>
                     : null}
-                    <div className="flex flex flex-col border border-radius overflow-hidden mt-3">
+                    <div className="flex flex-col border border-radius overflow-hidden mt-3">
                         <div className="fs-12 bold py-1 text-center border-bottom bg-secondary">
                             Players
                         </div>
@@ -279,8 +279,9 @@ const PlayItem = ({ item, hideUpdate }) => {
                                     className="justify-start"
                                     label="Share"
                                     icon={shareIcon}
+                                    isLoading={isDownloading}
+                                    displayTextOnLoad
                                     variant="text"
-                                    // disabled={loadingId || isDownloading}
                                     type="default"
                                     onClick={() => {
                                         setIsDownloading(true)
@@ -348,6 +349,7 @@ const PlayItem = ({ item, hideUpdate }) => {
                             icon={shareIcon}
                             size="xs"
                             dataTooltipContent="Share"
+                            isLoading={isDownloading}
                             muted
                             type="secondary"
                             variant="text"

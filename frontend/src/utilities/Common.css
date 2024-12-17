@@ -744,6 +744,10 @@ body:has(.header) .sticky {
     height: 100%;
 }
 
+.animation-none-child * {
+    animation: none!important;
+}
+
 
 /* Style */
 .box-shadow-xs {

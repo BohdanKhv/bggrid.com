@@ -140,7 +140,7 @@ const LibraryItem = ({ item, index, hideInfo }) => {
                             </div>
                             <span className="text-secondary weight-400 fs-12 text-nowrap flex-shrink-0">
                                 {DateTime.now().diff(DateTime.fromISO(item.updatedAt), ['days']).days > 1 ? DateTime.fromISO(item.updatedAt).toFormat('LLL dd') :
-                                DateTime.fromISO(item.updatedAt).toRelative()}
+                                DateTime.fromISO(item.updatedAt).toRelative().replace(' hours', 'h').replace(' hour', 'h').replace(' minutes', 'm').replace(' minute', 'm').replace(' days', 'd').replace(' day', 'd')}
                             </span>
                         </div>
                         <div className="flex flex-col">
@@ -166,7 +166,7 @@ const LibraryItem = ({ item, index, hideInfo }) => {
                                 ))}
                             </div>
                             {item.comment ?
-                                <div className="fs-14 pt-3">
+                                <div className="fs-14 pt-2">
                                     {item.comment}
                                 </div>
                             : null}
@@ -209,9 +209,11 @@ const UserPage = () => {
         </div>
         : userById && !isLoading ?
         <div>
-            <FollowSearchModal
-                useModel
-            />
+            {user &&
+                <FollowSearchModal
+                    useModel
+                />
+            }
             {tab === 'followers' ?
                 <FollowersModal />
             : tab === 'following' ?

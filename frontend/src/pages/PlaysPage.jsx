@@ -518,7 +518,7 @@ const PlaysPage = () => {
                             <div className="flex">
                                 <SearchGames/>
                             </div>
-                            <div className="flex flex-col border border-radius overflow-hidden">
+                            <div className="flex flex-col bg-secondary border-radius overflow-hidden">
                                 <div className="fs-20 bold py-3 px-4">
                                     Your library
                                 </div>
@@ -533,7 +533,7 @@ const PlaysPage = () => {
                                     </div>
                                 : library.length > 0 && !libraryLoading && (
                                     library.map((item) => (
-                                        <div className={`pointer align-center px-4 animation-fade-in hover-opacity-100 transition-duration clickable flex-shrink-0${selectedGame ? selectedGame === item?.game?._id ? "" : " opacity-25" : " bg-secondary-hover"}`}
+                                        <div className={`pointer align-center px-4 animation-fade-in hover-opacity-100 transition-duration clickable flex-shrink-0${selectedGame ? selectedGame === item?.game?._id ? "" : " opacity-25" : " bg-tertiary-hover"}`}
                                             key={item._id}
                                             onClick={() => {
                                                 if (selectedGame === item?.game?._id) {

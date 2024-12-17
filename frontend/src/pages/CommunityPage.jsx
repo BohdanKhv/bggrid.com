@@ -320,7 +320,7 @@ const CommunityPage = () => {
                                 <div>
                                     <FollowSearchModal/>
                                 </div>
-                                <div className="py-3 px-4 border border-radius h-fit-content">
+                                <div className="py-3 px-4 bg-secondary border-radius h-fit-content">
                                     <div className="flex justify-between align-center pb-3">
                                         <div className="fs-20 bold">
                                             Following 

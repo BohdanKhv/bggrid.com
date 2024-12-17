@@ -3,6 +3,7 @@ import { Avatar, Button } from '../../components'
 import { followUser, unfollowUser } from '../../features/follow/followSlice'
 import { useDispatch, useSelector } from 'react-redux'
 import { Link } from 'react-router-dom'
+import UserGuardLoginModal from '../auth/UserGuardLoginModal'
 
 
 const FollowItem = ({ item }) => {
@@ -52,17 +53,19 @@ const FollowItem = ({ item }) => {
                     }}
                 />
             :
-                <Button
-                    size="sm"
-                    label="Follow"
-                    variant="filled"
-                    borderRadius="sm"
-                    type="primary"
-                    disabled={loadingId}
-                    onClick={(e) => {
-                        dispatch(followUser(item?._id))
-                    }}
-                />
+                <UserGuardLoginModal>
+                    <Button
+                        size="sm"
+                        label="Follow"
+                        variant="filled"
+                        borderRadius="sm"
+                        type="primary"
+                        disabled={loadingId}
+                        onClick={(e) => {
+                            dispatch(followUser(item?._id))
+                        }}
+                    />
+                </UserGuardLoginModal>
             }
         </div>
     </div>

@@ -714,8 +714,7 @@ const LibraryPage = () => {
                                 </div>
                             </div>
                             )} */}
-                            <div className="flex flex-col overflow-hidden sticky-sm z-3">
-                            <div className="bg-main py-3 px-sm-3">
+                            <div className="overflow-hidden py-3 px-sm-3">
                                 {searchLibrary ?
                                     <div className="flex gap-2">
                                         <IconButton
@@ -790,7 +789,6 @@ const LibraryPage = () => {
                                         ))}
                                     </HorizontalScroll>
                                 }
-                            </div>
                             </div>
                             <div className="px-sm-3 pt-sm-0 flex justify-between align-center">
                                 <Dropdown

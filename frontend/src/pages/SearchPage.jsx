@@ -128,23 +128,25 @@ const SearchPage = () => {
                         {window.innerWidth < 800 ?
                             <div className="flex py-3 justify-between px-sm-3 sticky-sm top-0 z-3 bg-main">
                                 <div className="title-1 bold">
-                                        Discover Games
+                                    Games
                                 </div>
-                                <div className="justify-end flex align-center flex-no-wrap gap-3">
-                                    <div
-                                        onClick={() => {
-                                            document.querySelector('.open-navbar-button').click()
-                                        }}
-                                    >
-                                        <Avatar
-                                            img={`${user?.avatar}`}
-                                            name={user ? `${user?.email}` : null}
-                                            rounded
-                                            avatarColor="1"
-                                            size="sm"
-                                        />
+                                {user ?
+                                    <div className="justify-end flex align-center flex-no-wrap gap-3">
+                                        <div
+                                            onClick={() => {
+                                                document.querySelector('.open-navbar-button').click()
+                                            }}
+                                        >
+                                            <Avatar
+                                                img={`${user?.avatar}`}
+                                                name={user ? `${user?.email}` : null}
+                                                rounded
+                                                avatarColor="1"
+                                                size="sm"
+                                            />
+                                        </div>
                                     </div>
-                                </div>
+                                : null}
                             </div>
                         : null}
                         <div className="pb-6 pt-sm-0">

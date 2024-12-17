@@ -155,15 +155,15 @@ const LibraryItem = ({ item, index, hideInfo }) => {
                                         ))}
                                     </div>
                                 </div>
-                                <div className="flex align-center gap-1 flex-sm-wrap">
-                                    {item.tags.map((tag, index) => (
-                                        <div key={index} className="px-2 py-1 bg-secondary border-radius weight-500 flex align-center fs-12 weight-500">
-                                            <span className="me-2">
-                                                {tagsDetailedEnum.find((t) => t.label === tag)?.icon}
-                                            </span>
-                                            {tag}</div>
-                                    ))}
-                                </div>
+                            </div>
+                            <div className="flex align-center gap-1 flex-sm-wrap pt-2">
+                                {item.tags.map((tag, index) => (
+                                    <div key={index} className="px-2 py-1 bg-secondary border-radius weight-500 flex align-center fs-12 weight-500">
+                                        <span className="me-2">
+                                            {tagsDetailedEnum.find((t) => t.label === tag)?.icon}
+                                        </span>
+                                        {tag}</div>
+                                ))}
                             </div>
                             {item.comment ?
                                 <div className="fs-14 pt-3">
@@ -351,20 +351,22 @@ const UserPage = () => {
                                                 disabled={loadingId}
                                             />
                                         :
-                                        <UserGuardLoginModal>
-                                            <Button
-                                                label="Follow"
-                                                variant="secondary"
-                                                type="filled"
-                                                className="flex-shrink-0 flex-grow-sm-1"
-                                                borderRadius="lg"
-                                                onClick={(e) => {
-                                                    e.preventDefault()
-                                                    dispatch(followUser(userById._id))
-                                                }}
-                                                disabled={loadingId}
-                                            />
-                                        </UserGuardLoginModal>
+                                        <div className="flex-shrink-0 flex-grow-sm-1">
+                                            <UserGuardLoginModal>
+                                                <Button
+                                                    label="Follow"
+                                                    variant="secondary"
+                                                    type="filled"
+                                                    className="w-100"
+                                                    borderRadius="lg"
+                                                    onClick={(e) => {
+                                                        e.preventDefault()
+                                                        dispatch(followUser(userById._id))
+                                                    }}
+                                                    disabled={loadingId}
+                                                />
+                                            </UserGuardLoginModal>
+                                        </div>
                                         }
                                         <Button
                                             label="Share profile"

@@ -144,7 +144,7 @@ const PersonPage = () => {
                                         onClick={() => {
                                             navigator.share({
                                                 title: personById.name,
-                                                text: `Check out this boardgames person on BGGRID!`,
+                                                text: `Check out this board games person on BGGRID!`,
                                                 url: window.location.href
                                             })
                                         }}

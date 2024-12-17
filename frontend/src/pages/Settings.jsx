@@ -292,7 +292,7 @@ const Settings = () => {
                 <div className="animation-slide-in container flex flex-1">
                     <div className="flex-1">
                         <div className="flex py-3 justify-between px-sm-3 pb-6 pb-sm-0">
-                            <div className="title-1 bold px-4">
+                            <div className="title-1 bold">
                                 Settings
                             </div>
                             {window.innerWidth < 800 && (
@@ -313,7 +313,7 @@ const Settings = () => {
                                 </div>
                             )}
                             </div>
-                            <div className="px-4">
+                            <div>
                                 <TabContent
                                     items={
                                         [

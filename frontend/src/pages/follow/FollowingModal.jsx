@@ -52,6 +52,9 @@ const FollowingModal = () => {
             onClose={() => {
                 navigate(`/u/${userById.username}`)
             }}
+            minWith="400px"
+            with="400px"
+            maxWith="400px"
             classNameContent="p-0"
             noAction
             label="Following"

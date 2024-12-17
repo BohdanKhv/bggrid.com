@@ -144,7 +144,7 @@ const PublisherPage = () => {
                                         onClick={() => {
                                             navigator.share({
                                                 title: publisherById.name,
-                                                text: `Check out this boardgames publisher on BGGRID!`,
+                                                text: `Check out this board games publisher on BGGRID!`,
                                                 url: window.location.href
                                             })
                                         }}

@@ -169,7 +169,7 @@ const Section5 = () => {
                     <div className="flex align-center gap-6 flex-1">
                         <div>
                             <div className="fs-28 bold pb-3 text-shadow-hard">
-                                List of Boardgames
+                                List of board games
                             </div>
                             <div className="fs-14 text-shadow-hard">
                                 Keep track of the games you've played or want to play.
@@ -229,7 +229,7 @@ const Section5 = () => {
                 <div className="flex align-center gap-6 flex-1">
                     <div>
                         <div className="fs-20 bold pb-4 text-sm-center">
-                            Let's get your boardgame collection started
+                            Let's get your board game collection started
                         </div>
                         <div className="flex justify-sm-center">
                             <Button
@@ -272,7 +272,7 @@ const Section1 = () => {
                             BGGRID
                         </div>
                         <div className="fs-14 text-white w-max-75 opacity-75">
-                            A place to keep track of your boardgame collection, write reviews, and share your plays with follow.
+                            A place to keep track of your board game collection, write reviews, and share your plays with follow.
                         </div>
                         <div className="flex gap-2 pt-4">
                             <Button

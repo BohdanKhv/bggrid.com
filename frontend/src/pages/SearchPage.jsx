@@ -15,6 +15,7 @@ const SearchPage = () => {
 
     const [searchParams, setSearchParams] = useSearchParams()
     const [searchValue, setSearchValue] = useState(searchParams.get('s') || '')
+    const { user } = useSelector((state) => state.auth)
     const { suggestions, loadingId } = useSelector((state) => state.game)
     const { searchHistory } = useSelector((state) => state.local)
     const [listView, setListView] = useState(window.innerWidth > 800 ? false : true)
@@ -125,9 +126,26 @@ const SearchPage = () => {
                 <div className="animation-slide-in container flex-1 flex h-100">
                     <div className="overflow-hidden flex-1">
                         {window.innerWidth < 800 ?
-                        <div className="pt-6 pb-3 pt-sm-3 title-1 bold px-sm-3">
-                            Discover Games
-                        </div>
+                            <div className="flex py-3 justify-between px-sm-3 sticky-sm top-0 z-3 bg-main">
+                                <div className="title-1 bold">
+                                        Discover Games
+                                </div>
+                                <div className="justify-end flex align-center flex-no-wrap gap-3">
+                                    <div
+                                        onClick={() => {
+                                            document.querySelector('.open-navbar-button').click()
+                                        }}
+                                    >
+                                        <Avatar
+                                            img={`${user?.avatar}`}
+                                            name={user ? `${user?.email}` : null}
+                                            rounded
+                                            avatarColor="1"
+                                            size="sm"
+                                        />
+                                    </div>
+                                </div>
+                            </div>
                         : null}
                         <div className="pb-6 pt-sm-0">
                             <div className="px-4 pt-3 pt-sm-0 bg-main flex flex-col px-sm-3">

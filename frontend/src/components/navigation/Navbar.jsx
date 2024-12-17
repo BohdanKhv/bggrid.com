@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { Link, NavLink, useLocation, useSearchParams } from 'react-router-dom'
-import { bellIcon, gamesIcon, homeIcon, largePlusIcon, libraryIcon, loginIcon, logoutIcon, diceIcon, searchIcon, settingsIcon, usersIcon, discoverIcon, linkIcon } from '../../assets/img/icons'
+import { bellIcon, gamesIcon, homeIcon, largePlusIcon, libraryIcon, loginIcon, logoutIcon, diceIcon, searchIcon, settingsIcon, usersIcon, discoverIcon, linkIcon, homeFillIcon, libraryFillIcon, discoverFillIcon, diceFillIcon, bellFillIcon, usersFillIcon, settingsFillIcon } from '../../assets/img/icons'
 import "./styles/Navbar.css"
 import { logoNameSvg, logoSvg } from '../../assets/img/logo'
 import Icon from '../ui/Icon'
@@ -64,9 +64,9 @@ const Navbar = () => {
                     <>
                     <Link
                         to={`/u/${user.username}`}
-                        className="flex gap-3 pointer hover border-radius-lg overflow-hidden">
+                        className={`flex gap-3 pointer hover border-radius-lg overflow-hidden${pathname === `/u/${user.username}` ? " bg-secondary" : ""}`}>
                         <div className="flex align-center justify-center align-center ps-3 py-3">
-                            <div className="border border-radius-50">
+                            <div className={`border border-radius-50${pathname === `/u/${user.username}` ? " border-color-text" : ""}`}>
                                 <Avatar
                                     img={user && user?.avatar ? `${user?.avatar}` : null}
                                     name={user ? `${user?.email}` : null}
@@ -99,7 +99,7 @@ const Navbar = () => {
                         // muted={pathname !== '/'}
                         to="/"
                         label="Home"
-                        icon={homeIcon}
+                        icon={pathname === '/' ? homeFillIcon : homeIcon}
                         type={pathname === '/' ? "secondary" : "secondary"}
                         variant={pathname === '/' ? "" : "text"}
                     />
@@ -107,7 +107,7 @@ const Navbar = () => {
                         // muted={pathname !== '/library'}
                         to="/library"
                         label="Library"
-                        icon={libraryIcon}
+                        icon={pathname === '/library' ? libraryFillIcon : libraryIcon}
                         type={pathname === '/library' ? "secondary" : "secondary"}
                         variant={pathname === '/library' ? "" : "text"}
                     />
@@ -115,7 +115,7 @@ const Navbar = () => {
                         // muted={pathname !== '/'}
                         to="/discover"
                         label="Games"
-                        icon={discoverIcon}
+                        icon={pathname === '/discover' || pathname.startsWith('/g/') || pathname.startsWith('/p/') ? discoverFillIcon : discoverIcon}
                         type={pathname === '/discover' ? "secondary" : "secondary"}
                         variant={pathname === '/discover' ? "" : "text"}
                     />
@@ -123,7 +123,7 @@ const Navbar = () => {
                         // muted={pathname !== '/library'}
                         to="/plays"
                         label="Plays"
-                        icon={diceIcon}
+                        icon={pathname === '/plays' ? diceFillIcon : diceIcon}
                         type={pathname === '/plays' ? "secondary" : "secondary"}
                         variant={pathname === '/plays' ? "" : "text"}
                     />
@@ -131,7 +131,7 @@ const Navbar = () => {
                         // muted
                         to="/community"
                         label="Community"
-                        icon={usersIcon}
+                        icon={pathname === '/community' ? usersFillIcon : usersIcon}
                         type={pathname === '/community' ? "secondary" : "secondary"}
                         variant={pathname === '/community' ? "" : "text"}
                     />
@@ -146,7 +146,7 @@ const Navbar = () => {
                             </span>
                         </>
                         }
-                        icon={bellIcon}
+                        icon={pathname === '/notifications' ? bellFillIcon : bellIcon}
                         type={pathname === '/notifications' ? "secondary" : "secondary"}
                         variant={pathname === '/notifications' ? "" : "text"}
                     />
@@ -154,7 +154,7 @@ const Navbar = () => {
                         // muted={!pathname.includes('/settings')}
                         to="/settings"
                         label="Settings"
-                        icon={settingsIcon}
+                        icon={pathname.startsWith('/settings') ? settingsFillIcon : settingsIcon}
                         type={pathname.startsWith('/settings') ? "secondary" : "secondary"}
                         variant={pathname.startsWith('/settings') ? "" : "text"}
                     />

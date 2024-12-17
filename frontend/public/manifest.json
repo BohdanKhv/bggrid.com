@@ -19,7 +19,7 @@
     "restaurant",
     "SAAS"
   ],
-  "description": "BGGRID, keep track of your boardgame collection and plays. Discover new games and find people to play with.",
+  "description": "BGGRID, keep track of your board game collection and plays. Discover new games and find people to play with.",
   "related_applications": [{
     "id": "app.bggrid.com",
     "platform": "webapp",

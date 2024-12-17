@@ -13,6 +13,7 @@ import UserGuardLoginModal from '../auth/UserGuardLoginModal'
 import HorizontalScrollControlled from '../../components/ui/HorizontalScrollControlled'
 import FooterUser from '../FooterUser'
 import { tagsDetailedEnum } from '../../assets/constants'
+import { Helmet, HelmetProvider } from 'react-helmet-async';
 
 const YoutubeVideoItem = ({ item, thumbnail }) => {
     const [error, setError] = useState(false)
@@ -82,47 +83,56 @@ const VideosTab = () => {
     const [selectedCategory, setSelectedCategory] = useState('All')
 
     return (
-        <div className="flex gap-4 flex-col pt-4 pb-6 px-sm-3">
-            {gameById.videos.length === 0 ?
-                <ErrorInfo label="No videos found"/>
-            :
-            <>
-            <HorizontalScroll>
-                <Button
-                    label="All"
-                    onClick={() => setSelectedCategory('All')}
-                    variant="secondary"
-                    type={selectedCategory === 'All' ? 'filled' : 'default'}
-                    className="flex-shrink-0"
+        <HelmetProvider>
+            <Helmet>
+                <title>{gameById.name} - videos</title>
+                <meta name="description" content="Game overview"/>
+                <link rel="canonical"
+                    href={`https://bggrid.com/g/${gameById._id}/overview`}
                 />
-                {[...new Set(gameById.videos.map((item, index) => (
-                    item.category
-                )))]
-                .map((category, index, arr) => (
+            </Helmet>
+            <div className="flex gap-4 flex-col pt-4 pb-6 px-sm-3">
+                {gameById.videos.length === 0 ?
+                    <ErrorInfo label="No videos found"/>
+                :
+                <>
+                <HorizontalScroll>
                     <Button
-                        label={category}
-                        onClick={() => setSelectedCategory(category)}
+                        label="All"
+                        onClick={() => setSelectedCategory('All')}
                         variant="secondary"
-                        type={selectedCategory === category ? 'filled' : 'default'}
-                        className="flex-shrink-0 text-capitalize"
-                        key={index}
+                        type={selectedCategory === 'All' ? 'filled' : 'default'}
+                        className="flex-shrink-0"
                     />
-                ))}
-            </HorizontalScroll>
-            <div className="grid grid-cols-3 grid-md-cols-2 grid-sm-cols-1 gap-4">
-                {gameById?.videos
-                    .filter(v => selectedCategory == "All" || selectedCategory == v.category)
-                    ?.map((item, index) => (
-                    <YoutubeVideoItem
-                        item={item}
-                        key={index}
-                        thumbnail
-                    />
-                ))}
+                    {[...new Set(gameById.videos.map((item, index) => (
+                        item.category
+                    )))]
+                    .map((category, index, arr) => (
+                        <Button
+                            label={category}
+                            onClick={() => setSelectedCategory(category)}
+                            variant="secondary"
+                            type={selectedCategory === category ? 'filled' : 'default'}
+                            className="flex-shrink-0 text-capitalize"
+                            key={index}
+                        />
+                    ))}
+                </HorizontalScroll>
+                <div className="grid grid-cols-3 grid-md-cols-2 grid-sm-cols-1 gap-4">
+                    {gameById?.videos
+                        .filter(v => selectedCategory == "All" || selectedCategory == v.category)
+                        ?.map((item, index) => (
+                        <YoutubeVideoItem
+                            item={item}
+                            key={index}
+                            thumbnail
+                        />
+                    ))}
+                </div>
+                </>
+                }
             </div>
-            </>
-            }
-        </div>
+        </HelmetProvider>
     )
 }
 
@@ -462,6 +472,7 @@ const ReviewsTab = () => {
     const dispatch = useDispatch()
     const { gameId } = useParams()
 
+    const { gameById } = useSelector((state) => state.game)
     const { reviews, isLoading, isError, hasMore } = useSelector((state) => state.review)
 
     const getData = () => {
@@ -489,38 +500,47 @@ const ReviewsTab = () => {
 
     useEffect(() => {
         window.scrollTo(0, 0)
-        document.title = `${document.title} - Reviews`
     }, [])
 
     return (
-        <div className="flex-1">
-        {reviews.length === 0 && !hasMore ?
-            <ErrorInfo label="No reviews found"/>
-        : 
-            <div className="gap-sm-0 px-sm-3">
-                <div className="flex-1 order-sm-2">
-                    {reviews.map((item, index, arr) => (
-                        <ReviewItem item={item}
-                        key={item._id}
-                        />
-                    ))}
+        <HelmetProvider>
+            <Helmet>
+                <title>{gameById?.name} - reviews</title>
+                <meta name="description" content="Game overview"/>
+                <link rel="canonical"
+                    href={`https://bggrid.com/g/${gameById?._id}/overview`}
+                />
+            </Helmet>
+            <div className="flex-1">
+            {reviews.length === 0 && !hasMore ?
+                <ErrorInfo label="No reviews found"/>
+            : 
+                <div className="gap-sm-0 px-sm-3">
+                    <div className="flex-1 order-sm-2">
+                        {reviews.map((item, index, arr) => (
+                            <ReviewItem item={item}
+                            key={item._id}
+                            />
+                        ))}
+                    </div>
                 </div>
+            }
+            {isLoading ?
+                <ErrorInfo isLoading/>
+                :
+                <div
+                    ref={lastElementRef}
+                />
+            }
             </div>
-        }
-        {isLoading ?
-            <ErrorInfo isLoading/>
-            :
-            <div
-                ref={lastElementRef}
-            />
-        }
-        </div>
+        </HelmetProvider>
     )
 }
 
 const PlaysTab = () => {
     const dispatch = useDispatch()
 
+    const { gameById } = useSelector((state) => state.game)
     const { plays, isLoading, isError, hasMore } = useSelector((state) => state.play)
     const { gameId } = useParams()
 
@@ -549,7 +569,6 @@ const PlaysTab = () => {
 
     useEffect(() => {
         window.scrollTo(0, 0)
-        document.title = `${document.title} - plays`
 
         return () => {
             dispatch(resetPlay())
@@ -558,30 +577,39 @@ const PlaysTab = () => {
 
     return (
         <>
-        {plays.length === 0 && !hasMore ?
-            <ErrorInfo
-                label="No plays found"
-                secondary="When someone plays a game, it will show up here."
-            />
-        :
-            <div className="flex gap-6 flex-sm-col gap-sm-0 px-sm-3">
-                <div className="flex-1 order-sm-2">
-                    {plays.map((item, index, arr) => (
-                        <PlayItem
-                            item={item}
-                            key={item._id}
-                        />
-                    ))}
-                </div>
-            </div>
-        }
-        {isLoading ?
-            <ErrorInfo isLoading/>
+        <HelmetProvider>
+            <Helmet>
+                <title>{gameById.name} - plays</title>
+                <meta name="description" content="Game overview"/>
+                <link rel="canonical"
+                    href={`https://bggrid.com/g/${gameById._id}/overview`}
+                />
+            </Helmet>
+            {plays.length === 0 && !hasMore ?
+                <ErrorInfo
+                    label="No plays found"
+                    secondary="When someone plays a game, it will show up here."
+                />
             :
-            <div
-                ref={lastElementRef}
-            />
-        }
+                <div className="flex gap-6 flex-sm-col gap-sm-0 px-sm-3">
+                    <div className="flex-1 order-sm-2">
+                        {plays.map((item, index, arr) => (
+                            <PlayItem
+                                item={item}
+                                key={item._id}
+                            />
+                        ))}
+                    </div>
+                </div>
+            }
+            {isLoading ?
+                <ErrorInfo isLoading/>
+                :
+                <div
+                    ref={lastElementRef}
+                />
+            }
+        </HelmetProvider>
         </>
     )
 }
@@ -746,291 +774,300 @@ const Overview = () => {
     const [showMoreArtists, setShowMoreArtists] = useState(false)
 
     return (
-        <div className="my-4 animation-slide-in my-sm-4 px-sm-3">
-                <div className="flex flex-col gap-6 overflow-hidden">
-                    <div>
-                        <div className="flex flex-wrap gap-1 align-center">
-                            <span className="text-secondary fs-14 weight-500">
-                                Types:
-                            </span>
-                            {gameById.types.length ? gameById.types.map
-                            ((item, index, arr) => (
-                                <div key={index}>
-                                    <Link 
-                                        to={`/discover?types=${item}`}
-                                        className="fs-14 text-underlined-hover weight-500">
-                                        {item}
-                                    </Link>
-                                {index < arr.length - 1 ? ', ' : ''}
-                                </div>
-                            )) : '--'}
-                        </div>
-                        <div className="flex flex-wrap gap-1 align-center pt-2">
-                            <span className="text-secondary fs-14 weight-500">
-                                Themes:
-                            </span>
-                            {gameById.themes.length ? gameById.themes.map
-                            ((item, index, arr) => (
-                                <div key={index}>
-                                    <Link 
-                                        to={`/discover?themes=${item}`}
-                                        className="fs-14 text-underlined-hover weight-500">
-                                        {item}
-                                    </Link>
-                                {index < arr.length - 1 ? ', ' : ''}
-                                </div>
-                            )) : '--'}
-                        </div>
-                        <div className="flex flex-wrap gap-1 align-center pt-2">
-                            <span className="text-secondary fs-14 weight-500">
-                                Mechanics:
-                            </span>
-                            {gameById.mechanics.length ? gameById.mechanics.map
-                            ((item, index, arr) => (
-                                <div key={index}>
-                                    <Link 
-                                        to={`/discover?mechanics=${item}`}
-                                        className="fs-14 text-underlined-hover weight-500">
-                                        {item}
-                                    </Link>
-                                {index < arr.length - 1 ? ', ' : ''}
-                                </div>
-                            )) : '--'}
-                        </div>
-                        <div className="flex flex-wrap gap-1 align-center pt-2">
-                            <span className="text-secondary fs-14 weight-500">
-                                Publishers:
-                            </span>
-                            {gameById.publishers.length ? gameById.publishers
-                            .slice(0, showMorePublishers ? gameById.publishers.length : 3)
-                            .map
-                            ((item, index, arr) => (
-                                <div key={index}>
-                                    <Link 
-                                        to={`/publisher/${item._id}`}
-                                        className="fs-14 text-underlined-hover weight-500">
-                                        {item.name}
-                                    </Link>
-                                {index < arr.length - 1 ? ', ' : ''}
-                                </div>
-                            )) : '--'}
-                            {gameById.publishers.length > 3 ?
-                                <div className="flex gap-1 align-center">
-                                    <span className="fs-14 weight-400 pointer opacity-50 hover-opacity-100"
-                                        onClick={() => setShowMorePublishers(!showMorePublishers)}
-                                    >
-                                        {showMorePublishers ? 'Show less' : gameById.publishers.length > 3 ? `+${gameById.publishers.length - 3} more` : ''}
-                                    </span>
-                                </div>
-                            : null}
-                        </div>
-                        <div className="flex flex-wrap gap-1 align-center pt-2">
-                            <span className="text-secondary fs-14 weight-500">
-                                Designers:
-                            </span>
-                            {gameById.designers.length ? gameById.designers.map
-                            ((item, index, arr) => (
-                                <div key={index}>
-                                    <Link 
-                                        to={`/person/${item._id}`}
-                                        className="fs-14 text-underlined-hover weight-500">
-                                        {item.name}
-                                    </Link>
-                                {index < arr.length - 1 ? ', ' : ''}
-                                </div>
-                            )) : '--'}
-                        </div>
-                        <div className="flex flex-wrap gap-1 align-center pt-2">
-                            <span className="text-secondary fs-14 weight-500">
-                                Artists:
-                            </span>
-                            {gameById.artists.length ? gameById.artists
-                            .slice(0, showMoreArtists ? gameById.artists.length : 3)
-                            .map
-                            ((item, index, arr) => (
-                                <div key={index}>
-                                    <Link 
-                                        to={`/person/${item._id}`}
-                                        className="fs-14 text-underlined-hover weight-500">
-                                        {item.name}
-                                    </Link>
+        <HelmetProvider>
+            <Helmet>
+                <title>{gameById?.name}</title>
+                <meta name="description" content="Game overview"/>
+                <link rel="canonical"
+                    href={`https://bggrid.com/g/${gameById?._id}/overview`}
+                />
+            </Helmet>
+            <div className="my-4 animation-slide-in my-sm-4 px-sm-3">
+                    <div className="flex flex-col gap-6 overflow-hidden">
+                        <div>
+                            <div className="flex flex-wrap gap-1 align-center">
+                                <span className="text-secondary fs-14 weight-500">
+                                    Types:
+                                </span>
+                                {gameById.types.length ? gameById.types.map
+                                ((item, index, arr) => (
+                                    <div key={index}>
+                                        <Link 
+                                            to={`/discover?types=${item}`}
+                                            className="fs-14 text-underlined-hover weight-500">
+                                            {item}
+                                        </Link>
                                     {index < arr.length - 1 ? ', ' : ''}
-                                </div>
-                            )) : '--'}
-                            {gameById.artists.length > 3 ?
-                                <div className="flex gap-1 align-center">
-                                    <span className="fs-14 weight-400 pointer opacity-50 hover-opacity-100"
-                                        onClick={() => setShowMoreArtists(!showMoreArtists)}
-                                    >
-                                        {showMoreArtists ? 'Show less' : gameById.artists.length > 3 ? `+${gameById.artists.length - 3} more` : ''}
-                                    </span>
-                                </div>
-                            : null}
-                        </div>
-                        <p className="fs-14 flex-1 pt-5"
-                            dangerouslySetInnerHTML={{ __html: gameById.description }}
-                        /> 
-                    </div>
-                    <div>
-                        <div className="fs-20 flex align-center gap-4 weight-500 transition-slide-right-hover-parent pointer mt-4"
-                            onClick={() => { navigate(`/g/${gameById._id}/reviews`) }}
-                        >
-                            Ratings and reviews
-                            <Icon icon={rightArrowIcon} size="xs" className="transition-slide-right-hover"/>
-                        </div>
-                        <div className="flex gap-6 pt-5 align-center">
-                            <div className="flex flex-col align-center justify-center">
-                                <div className="fs-54">
-                                    {gameById?.reviewStats?.avgRating?.toFixed(1)}
-                                </div>
-                                <div className="flex gap-1">
-                                    {[...Array(5)].map((_, i) => (
-                                        <Icon icon={starFillIcon} size="sm" className={`${i + 1 <= gameById?.reviewStats?.avgRating ? 'fill-warning' : 'fill-secondary'}`} key={i}/>
-                                    ))}
-                                </div>
-                                <div className="fs-12 text-secondary pt-4 flex justify-start w-100">
-                                    {numberFormatter(gameById?.reviewStats?.totalReviews || 0)} reviews
-                                </div>
+                                    </div>
+                                )) : '--'}
                             </div>
-                            <div className="flex flex-col flex-1 gap-1">
-                                <div className="flex gap-3">
-                                    <div className="fs-12 text-secondary w-set-10-px">
-                                        5
+                            <div className="flex flex-wrap gap-1 align-center pt-2">
+                                <span className="text-secondary fs-14 weight-500">
+                                    Themes:
+                                </span>
+                                {gameById.themes.length ? gameById.themes.map
+                                ((item, index, arr) => (
+                                    <div key={index}>
+                                        <Link 
+                                            to={`/discover?themes=${item}`}
+                                            className="fs-14 text-underlined-hover weight-500">
+                                            {item}
+                                        </Link>
+                                    {index < arr.length - 1 ? ', ' : ''}
                                     </div>
-                                    <ProgressBar
-                                    // calculate percentage of 5 star ratings
-                                    value={gameById?.reviewStats?.total5Star / gameById?.reviewStats?.totalReviews * 100 || 0}
-                                    type="primary"/>
-                                </div>
-                                <div className="flex gap-3">
-                                    <div className="fs-12 text-secondary w-set-10-px">
-                                        4
-                                    </div>
-                                    <ProgressBar
-                                    // calculate percentage of 5 star ratings
-                                    value={gameById?.reviewStats?.total4Star / gameById?.reviewStats?.totalReviews * 100 || 0}
-                                    type="primary"/>
-                                </div>
-                                <div className="flex gap-3">
-                                    <div className="fs-12 text-secondary w-set-10-px">
-                                        3
-                                    </div>
-                                    <ProgressBar
-                                    // calculate percentage of 5 star ratings
-                                    value={gameById?.reviewStats?.total3Star / gameById?.reviewStats?.totalReviews * 100 || 0}
-                                    type="primary"/>
-                                </div>
-                                <div className="flex gap-3">
-                                    <div className="fs-12 text-secondary w-set-10-px">
-                                        2
-                                    </div>
-                                    <ProgressBar
-                                    // calculate percentage of 5 star ratings
-                                    value={gameById?.reviewStats?.total2Star / gameById?.reviewStats?.totalReviews * 100 || 0}
-                                    type="primary"/>
-                                </div>
-                                <div className="flex gap-3">
-                                    <div className="fs-12 text-secondary w-set-10-px">
-                                        1
-                                    </div>
-                                    <ProgressBar
-                                    // calculate percentage of 5 star ratings
-                                    value={gameById?.reviewStats?.total1Star / gameById?.reviewStats?.totalReviews * 100 || 0}
-                                    type="primary"/>
-                                </div>
+                                )) : '--'}
                             </div>
+                            <div className="flex flex-wrap gap-1 align-center pt-2">
+                                <span className="text-secondary fs-14 weight-500">
+                                    Mechanics:
+                                </span>
+                                {gameById.mechanics.length ? gameById.mechanics.map
+                                ((item, index, arr) => (
+                                    <div key={index}>
+                                        <Link 
+                                            to={`/discover?mechanics=${item}`}
+                                            className="fs-14 text-underlined-hover weight-500">
+                                            {item}
+                                        </Link>
+                                    {index < arr.length - 1 ? ', ' : ''}
+                                    </div>
+                                )) : '--'}
+                            </div>
+                            <div className="flex flex-wrap gap-1 align-center pt-2">
+                                <span className="text-secondary fs-14 weight-500">
+                                    Publishers:
+                                </span>
+                                {gameById.publishers.length ? gameById.publishers
+                                .slice(0, showMorePublishers ? gameById.publishers.length : 3)
+                                .map
+                                ((item, index, arr) => (
+                                    <div key={index}>
+                                        <Link 
+                                            to={`/publisher/${item._id}`}
+                                            className="fs-14 text-underlined-hover weight-500">
+                                            {item.name}
+                                        </Link>
+                                    {index < arr.length - 1 ? ', ' : ''}
+                                    </div>
+                                )) : '--'}
+                                {gameById.publishers.length > 3 ?
+                                    <div className="flex gap-1 align-center">
+                                        <span className="fs-14 weight-400 pointer opacity-50 hover-opacity-100"
+                                            onClick={() => setShowMorePublishers(!showMorePublishers)}
+                                        >
+                                            {showMorePublishers ? 'Show less' : gameById.publishers.length > 3 ? `+${gameById.publishers.length - 3} more` : ''}
+                                        </span>
+                                    </div>
+                                : null}
+                            </div>
+                            <div className="flex flex-wrap gap-1 align-center pt-2">
+                                <span className="text-secondary fs-14 weight-500">
+                                    Designers:
+                                </span>
+                                {gameById.designers.length ? gameById.designers.map
+                                ((item, index, arr) => (
+                                    <div key={index}>
+                                        <Link 
+                                            to={`/person/${item._id}`}
+                                            className="fs-14 text-underlined-hover weight-500">
+                                            {item.name}
+                                        </Link>
+                                    {index < arr.length - 1 ? ', ' : ''}
+                                    </div>
+                                )) : '--'}
+                            </div>
+                            <div className="flex flex-wrap gap-1 align-center pt-2">
+                                <span className="text-secondary fs-14 weight-500">
+                                    Artists:
+                                </span>
+                                {gameById.artists.length ? gameById.artists
+                                .slice(0, showMoreArtists ? gameById.artists.length : 3)
+                                .map
+                                ((item, index, arr) => (
+                                    <div key={index}>
+                                        <Link 
+                                            to={`/person/${item._id}`}
+                                            className="fs-14 text-underlined-hover weight-500">
+                                            {item.name}
+                                        </Link>
+                                        {index < arr.length - 1 ? ', ' : ''}
+                                    </div>
+                                )) : '--'}
+                                {gameById.artists.length > 3 ?
+                                    <div className="flex gap-1 align-center">
+                                        <span className="fs-14 weight-400 pointer opacity-50 hover-opacity-100"
+                                            onClick={() => setShowMoreArtists(!showMoreArtists)}
+                                        >
+                                            {showMoreArtists ? 'Show less' : gameById.artists.length > 3 ? `+${gameById.artists.length - 3} more` : ''}
+                                        </span>
+                                    </div>
+                                : null}
+                            </div>
+                            <p className="fs-14 flex-1 pt-5"
+                                dangerouslySetInnerHTML={{ __html: gameById.description }}
+                            /> 
                         </div>
-                        {gameById?.last3Reviews?.length > 0 ?
-                            <div className="flex flex-col pt-4">
-                                {gameById?.last3Reviews.map((item, index) => (
-                                    <ReviewItem item={item} key={index}/>
-                                ))}
-                            </div>
-                        : null}
-                    </div>
-                    {gameById?.last3Plays.length > 0 ?
                         <div>
                             <div className="fs-20 flex align-center gap-4 weight-500 transition-slide-right-hover-parent pointer mt-4"
-                                onClick={() => { navigate(`/g/${gameById._id}/plays`) }}
+                                onClick={() => { navigate(`/g/${gameById._id}/reviews`) }}
                             >
-                                Plays and stats
+                                Ratings and reviews
                                 <Icon icon={rightArrowIcon} size="xs" className="transition-slide-right-hover"/>
                             </div>
-                            <div className="flex gap-3 gap-sm-2 pt-5 flex-sm-col">
-                                <div className="flex gap-3 flex-1">
-                                    <div className="flex-1 flex flex-col p-4 bg-secondary border-radius align-center justify-center col-sm-6">
-                                        <div className="fs-24 bold flex align-center">
-                                            {numberFormatter(gameById?.playStats?.totalPlays || 0)}
-                                        </div>
-                                        <span className="fs-12 opacity-75 pt-2 weight-500">
-                                            Plays
-                                        </span>
+                            <div className="flex gap-6 pt-5 align-center">
+                                <div className="flex flex-col align-center justify-center">
+                                    <div className="fs-54">
+                                        {gameById?.reviewStats?.avgRating?.toFixed(1)}
                                     </div>
-                                    <div className="flex-1 flex flex-col p-4 bg-secondary border-radius align-center justify-center col-sm-6">
-                                        <div className="fs-24 bold flex align-center">
-                                            {gameById?.playStats?.avgPlayers?.toFixed(0) || 0}
-                                        </div>
-                                        <span className="fs-12 opacity-75 pt-2 weight-500">
-                                            Avg. Players
-                                        </span>
+                                    <div className="flex gap-1">
+                                        {[...Array(5)].map((_, i) => (
+                                            <Icon icon={starFillIcon} size="sm" className={`${i + 1 <= gameById?.reviewStats?.avgRating ? 'fill-warning' : 'fill-secondary'}`} key={i}/>
+                                        ))}
+                                    </div>
+                                    <div className="fs-12 text-secondary pt-4 flex justify-start w-100">
+                                        {numberFormatter(gameById?.reviewStats?.totalReviews || 0)} reviews
                                     </div>
                                 </div>
-                                <div className="flex gap-3 flex-1">
-                                    <div className="flex-1 flex flex-col p-4 bg-secondary border-radius align-center justify-center col-sm-6">
-                                        <div className="fs-24 bold flex align-center">
-                                            {gameById?.playStats?.avgPlayTime?.toFixed(0) || 0} Min
+                                <div className="flex flex-col flex-1 gap-1">
+                                    <div className="flex gap-3">
+                                        <div className="fs-12 text-secondary w-set-10-px">
+                                            5
                                         </div>
-                                        <span className="fs-12 opacity-75 pt-2 weight-500">
-                                            Avg. Playtime
-                                        </span>
+                                        <ProgressBar
+                                        // calculate percentage of 5 star ratings
+                                        value={gameById?.reviewStats?.total5Star / gameById?.reviewStats?.totalReviews * 100 || 0}
+                                        type="primary"/>
                                     </div>
-                                    <div className="flex-1 flex flex-col p-4 bg-secondary border-radius align-center justify-center col-sm-6">
-                                        <div className="fs-24 bold flex align-center">
-                                            {gameById?.playStats?.avgScore?.toFixed(0) || 0}
+                                    <div className="flex gap-3">
+                                        <div className="fs-12 text-secondary w-set-10-px">
+                                            4
                                         </div>
-                                        <span className="fs-12 opacity-75 pt-2 weight-500">
-                                            Avg. Score
-                                        </span>
+                                        <ProgressBar
+                                        // calculate percentage of 5 star ratings
+                                        value={gameById?.reviewStats?.total4Star / gameById?.reviewStats?.totalReviews * 100 || 0}
+                                        type="primary"/>
+                                    </div>
+                                    <div className="flex gap-3">
+                                        <div className="fs-12 text-secondary w-set-10-px">
+                                            3
+                                        </div>
+                                        <ProgressBar
+                                        // calculate percentage of 5 star ratings
+                                        value={gameById?.reviewStats?.total3Star / gameById?.reviewStats?.totalReviews * 100 || 0}
+                                        type="primary"/>
+                                    </div>
+                                    <div className="flex gap-3">
+                                        <div className="fs-12 text-secondary w-set-10-px">
+                                            2
+                                        </div>
+                                        <ProgressBar
+                                        // calculate percentage of 5 star ratings
+                                        value={gameById?.reviewStats?.total2Star / gameById?.reviewStats?.totalReviews * 100 || 0}
+                                        type="primary"/>
+                                    </div>
+                                    <div className="flex gap-3">
+                                        <div className="fs-12 text-secondary w-set-10-px">
+                                            1
+                                        </div>
+                                        <ProgressBar
+                                        // calculate percentage of 5 star ratings
+                                        value={gameById?.reviewStats?.total1Star / gameById?.reviewStats?.totalReviews * 100 || 0}
+                                        type="primary"/>
                                     </div>
                                 </div>
                             </div>
-                            {gameById?.last3Plays?.length > 0 ?
+                            {gameById?.last3Reviews?.length > 0 ?
                                 <div className="flex flex-col pt-4">
-                                    {gameById?.last3Plays.map((item, index) => (
-                                        <PlayItem item={item} key={index}/>
+                                    {gameById?.last3Reviews.map((item, index) => (
+                                        <ReviewItem item={item} key={index}/>
                                     ))}
                                 </div>
                             : null}
                         </div>
-                    : null}
-                    {gameById?.videos.length > 0 ?
-                    <div>
-                        <div className="fs-20 flex align-center gap-4 weight-500 transition-slide-right-hover-parent pointer mt-4"
-                            onClick={() => { navigate(`/g/${gameById._id}/videos`) }}
-                        >
-                            Videos
-                            <Icon icon={rightArrowIcon} size="xs" className="transition-slide-right-hover"/>
-                        </div>
-                        <HorizontalScroll
-                            contentClassName="align-start gap-5 pt-5"
-                        >
-                            {gameById
-                            ?.videos
-                            .slice(0,
-                                6
-                            ).map((item, index) => (
-                                <div
-                                className="col-5 flex-fill col-sm-8"
-                                    key={index}
+                        {gameById?.last3Plays.length > 0 ?
+                            <div>
+                                <div className="fs-20 flex align-center gap-4 weight-500 transition-slide-right-hover-parent pointer mt-4"
+                                    onClick={() => { navigate(`/g/${gameById._id}/plays`) }}
                                 >
-                                    <YoutubeVideoItem item={item} thumbnail/>
+                                    Plays and stats
+                                    <Icon icon={rightArrowIcon} size="xs" className="transition-slide-right-hover"/>
                                 </div>
-                            ))}
-                        </HorizontalScroll>
+                                <div className="flex gap-3 gap-sm-2 pt-5 flex-sm-col">
+                                    <div className="flex gap-3 flex-1">
+                                        <div className="flex-1 flex flex-col p-4 bg-secondary border-radius align-center justify-center col-sm-6">
+                                            <div className="fs-24 bold flex align-center">
+                                                {numberFormatter(gameById?.playStats?.totalPlays || 0)}
+                                            </div>
+                                            <span className="fs-12 opacity-75 pt-2 weight-500">
+                                                Plays
+                                            </span>
+                                        </div>
+                                        <div className="flex-1 flex flex-col p-4 bg-secondary border-radius align-center justify-center col-sm-6">
+                                            <div className="fs-24 bold flex align-center">
+                                                {gameById?.playStats?.avgPlayers?.toFixed(0) || 0}
+                                            </div>
+                                            <span className="fs-12 opacity-75 pt-2 weight-500">
+                                                Avg. Players
+                                            </span>
+                                        </div>
+                                    </div>
+                                    <div className="flex gap-3 flex-1">
+                                        <div className="flex-1 flex flex-col p-4 bg-secondary border-radius align-center justify-center col-sm-6">
+                                            <div className="fs-24 bold flex align-center">
+                                                {gameById?.playStats?.avgPlayTime?.toFixed(0) || 0} Min
+                                            </div>
+                                            <span className="fs-12 opacity-75 pt-2 weight-500">
+                                                Avg. Playtime
+                                            </span>
+                                        </div>
+                                        <div className="flex-1 flex flex-col p-4 bg-secondary border-radius align-center justify-center col-sm-6">
+                                            <div className="fs-24 bold flex align-center">
+                                                {gameById?.playStats?.avgScore?.toFixed(0) || 0}
+                                            </div>
+                                            <span className="fs-12 opacity-75 pt-2 weight-500">
+                                                Avg. Score
+                                            </span>
+                                        </div>
+                                    </div>
+                                </div>
+                                {gameById?.last3Plays?.length > 0 ?
+                                    <div className="flex flex-col pt-4">
+                                        {gameById?.last3Plays.map((item, index) => (
+                                            <PlayItem item={item} key={index}/>
+                                        ))}
+                                    </div>
+                                : null}
+                            </div>
+                        : null}
+                        {gameById?.videos.length > 0 ?
+                        <div>
+                            <div className="fs-20 flex align-center gap-4 weight-500 transition-slide-right-hover-parent pointer mt-4"
+                                onClick={() => { navigate(`/g/${gameById._id}/videos`) }}
+                            >
+                                Videos
+                                <Icon icon={rightArrowIcon} size="xs" className="transition-slide-right-hover"/>
+                            </div>
+                            <HorizontalScroll
+                                contentClassName="align-start gap-5 pt-5"
+                            >
+                                {gameById
+                                ?.videos
+                                .slice(0,
+                                    6
+                                ).map((item, index) => (
+                                    <div
+                                    className="col-5 flex-fill col-sm-8"
+                                        key={index}
+                                    >
+                                        <YoutubeVideoItem item={item} thumbnail/>
+                                    </div>
+                                ))}
+                            </HorizontalScroll>
+                        </div>
+                        : null}
                     </div>
-                    : null}
-                </div>
-        </div>
+            </div>
+        </HelmetProvider>
     )
 }
 
@@ -1116,11 +1153,6 @@ const GamePage = () => {
             promise && promise.abort()
         }
     }, [gameId])
-
-    useEffect(() => {
-        document.title = gameById?.name || 'Game'
-    }, [gameById])
-
 
     return (
         <div

@@ -13,6 +13,7 @@ import PlayItem from './PlayItem'
 import FollowingModal from './follow/FollowingModal'
 import FollowSearchModal from './follow/FollowSearchModal'
 import UserGuardLoginModal from './auth/UserGuardLoginModal'
+import { Helmet, HelmetProvider } from 'react-helmet-async';
 
 
 const PlayTab = () => {
@@ -193,7 +194,6 @@ const UserPage = () => {
 
     useEffect(() => {
         window.scrollTo(0, 0)
-        document.title = `${username ? username : 'User profile'}`
 
         const promise = dispatch(getUserProfile(username))
         return () => {
@@ -203,7 +203,8 @@ const UserPage = () => {
     }, [username])
 
     return (
-        isLoading ? 
+        <HelmetProvider>
+        {isLoading ? 
         <div className="h-min-100 flex align-center justify-center">
             <ErrorInfo isLoading />
         </div>
@@ -273,9 +274,19 @@ const UserPage = () => {
                                 </div>
                                 <div className="flex flex-1 flex-col gap-4 w-sm-100">
                                     <div>
+                                        <Helmet>
+                                            <title>
+                                                {`${userById?.firstName || ''} ${userById?.lastName || ''} - ${userById?.username}`}
+                                            </title>
+                                            <link
+                                                rel="canonical"
+                                                href={`https://bggrid.com/u/${username}`}
+                                            />
+                                        </Helmet>
                                         {(userById?.firstName || userById?.lastName) && (
                                             <div className="fs-24 fs-sm-18">
                                                 {`${userById?.firstName} ${userById?.lastName}`}
+                                                <meta name="description" content={`${userById?.firstName} ${userById?.lastName || ''} - ${userById?.username}`} />
                                             </div>
                                         )}
                                         <div className="fs-16 fs-sm-12 text-secondary">
@@ -566,7 +577,8 @@ const UserPage = () => {
             </div>
         : <div className="h-100 flex align-center justify-center h-min-100">
             <ErrorInfo label="Oops, looks like something went wrong" info={msg} />
-        </div>
+        </div>}
+        </HelmetProvider>
     )
 }
 

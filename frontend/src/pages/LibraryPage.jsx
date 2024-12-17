@@ -233,6 +233,7 @@ const SearchGames = () => {
                                         img={item.game.thumbnail}
                                         name={item.game.name}
                                         rounded
+                                        bigDisplay
                                         size="xs"
                                     />
                                     <span className="text-ellipsis-1">{item.game.name}</span>

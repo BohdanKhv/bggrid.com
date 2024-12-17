@@ -265,7 +265,7 @@ const login = async (req, res) => {
 // @access  Private
 const updateUser = async (req, res) => {
     try {
-        const { firstName, lastName, username } = req.body;
+        const { firstName, lastName, username, bggUsername } = req.body;
 
         // Check if user exists
         const user = await User
@@ -290,6 +290,21 @@ const updateUser = async (req, res) => {
                 });
             } else {
                 user.username = username.trim()
+            }
+        }
+
+        if (bggUsername !== undefined) {
+            // check if username is available
+            const uCheck = await User.findOne({
+                'bggUsername': {'$regex': `^${bggUsername}$`, '$options': 'i'}
+            });
+
+            if (uCheck) {
+                return res.status(400).json({
+                    msg: 'This board game geek username already in use'
+                });
+            } else {
+                user.bggUsername = bggUsername.trim()
             }
         }
 

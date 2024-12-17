@@ -127,6 +127,16 @@ const Account = () => {
                             type="text"
                         />
                         <Input
+                            label="Board Game Geek Username"
+                            description="Your Board Game Geek username is used to import your collection and plays."
+                            value={username}
+                            error={msg == 'Username already in use'}
+                            errorMsg="Username already in use"
+                            onChange={(e) => setUsername(e.target.value)}
+                            wrapColumn
+                            type="text"
+                        />
+                        <Input
                             label="First Name"
                             placeholder="Your first Name"
                             value={firstName}

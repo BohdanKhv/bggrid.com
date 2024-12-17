@@ -192,6 +192,15 @@ const UserPage = () => {
     const [sortBy, setSortBy] = useState('dateAdded')
     const [sortOrder, setSortOrder] = useState('desc')
 
+    const uniqueTags = useMemo(() => {
+        return userById?.library?.reduce((acc, item) => {
+            item.tags.forEach((tag) => {
+                if (!acc.includes(tag)) acc.push(tag)
+            })
+            return acc
+        }, [])
+    }, [userById?.library])
+
     useEffect(() => {
         window.scrollTo(0, 0)
 
@@ -417,52 +426,54 @@ const UserPage = () => {
                             <div className="flex flex-col">
                                 {userById?.library?.length > 0 ?
                                     <div className="pb-3">
-                                    <div className="sticky top-0 bg-main py-3 px-sm-3 z-3">
-                                        <HorizontalScroll>
-                                            {tags.length > 0 ? (
-                                                <IconButton
-                                                    icon={closeIcon}
-                                                    variant="secondary"
-                                                    type="default"
-                                                    onClick={() => {
-                                                        searchParams.delete('tag')
-                                                        setSearchParams(searchParams.toString())
-                                                        setTags([])
-                                                    }}
-                                                />
-                                            ) : 
-                                                <Button
-                                                    label="All"
-                                                    variant="secondary"
-                                                    className="animation-fade-in flex-shrink-0"
-                                                    type={'filled'}
-                                                />
-                                            }
-                                            {tagsDetailedEnum
-                                            .filter((tag) => tags.length === 0 || tags.includes(tag.label))
-                                            .map((tag) => (
-                                                <Button
-                                                    key={tag.label}
-                                                    icon={tag.icon}
-                                                    label={tag.label}
-                                                    variant="secondary"
-                                                    className="animation-fade-in flex-shrink-0"
-                                                    type={tags.includes(tag.label) ? 'filled' : 'default'}
-                                                    onClick={() => {
-                                                        if (tags.includes(tag.label)) {
-                                                            setTags(tags.filter((t) => t !== tag.label))
+                                    {uniqueTags.length > 0 ?
+                                        <div className="sticky top-0 bg-main py-3 px-sm-3 z-3">
+                                            <HorizontalScroll>
+                                                {tags.length > 0 ? (
+                                                    <IconButton
+                                                        icon={closeIcon}
+                                                        variant="secondary"
+                                                        type="default"
+                                                        onClick={() => {
                                                             searchParams.delete('tag')
                                                             setSearchParams(searchParams.toString())
-                                                        } else {
-                                                            setTags([...tags, tag.label])
-                                                            searchParams.set('tag', [...tags, tag.label].join(','))
-                                                            setSearchParams(searchParams.toString())
-                                                        }
-                                                    }}
-                                                />
-                                            ))}
-                                        </HorizontalScroll>
-                                    </div>
+                                                            setTags([])
+                                                        }}
+                                                    />
+                                                ) : 
+                                                    <Button
+                                                        label="All"
+                                                        variant="secondary"
+                                                        className="animation-fade-in flex-shrink-0"
+                                                        type={'filled'}
+                                                    />
+                                                }
+                                                {uniqueTags
+                                                .filter((tag) => tags.length === 0 || tags.includes(tag))
+                                                .map((tag) => (
+                                                    <Button
+                                                        key={tag}
+                                                        icon={tagsDetailedEnum.find((t) => t.label === tag)?.icon}
+                                                        label={tag}
+                                                        variant="secondary"
+                                                        className="animation-fade-in flex-shrink-0"
+                                                        type={tags.includes(tag) ? 'filled' : 'default'}
+                                                        onClick={() => {
+                                                            if (tags.includes(tag)) {
+                                                                setTags(tags.filter((t) => t !== tag))
+                                                                searchParams.delete('tag')
+                                                                setSearchParams(searchParams.toString())
+                                                            } else {
+                                                                setTags([...tags, tag])
+                                                                searchParams.set('tag', [...tags, tag].join(','))
+                                                                setSearchParams(searchParams.toString())
+                                                            }
+                                                        }}
+                                                    />
+                                                ))}
+                                            </HorizontalScroll>
+                                        </div>
+                                    : null}
                                     <div className="px-sm-3 py-sm-0 flex justify-between align-center">
                                         <Dropdown
                                             label="Relevance"

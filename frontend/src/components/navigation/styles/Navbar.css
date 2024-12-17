@@ -6,6 +6,9 @@
     background-color: var(--color-main);
     padding: 0 12px;
 }
+.navbar::-webkit-scrollbar {
+    width: 0;
+}
 .navbar {
     position: fixed;
     display: flex;

@@ -617,8 +617,13 @@ const LibraryPage = () => {
 
     const { user } = useSelector((state) => state.auth)
 
-    const currentLibrary = useMemo(() => {
-        return library
+    const uniqueTags = useMemo(() => {
+        return library?.reduce((acc, item) => {
+            item.tags.forEach((tag) => {
+                if (!acc.includes(tag)) acc.push(tag)
+            })
+            return acc
+        }, [])
     }, [library])
 
     useEffect(() => {
@@ -749,44 +754,48 @@ const LibraryPage = () => {
                                                 setSearchLibrary(true)
                                             }}
                                         />
-                                        {tags.length > 0 ? (
-                                            <IconButton
-                                                icon={closeIcon}
-                                                variant="secondary"
-                                                size="sm"
-                                                type="default"
-                                                onClick={() => setTags([])}
-                                            />
-                                        ) : 
-                                            <Button
-                                                label="All"
-                                                size="sm"
-                                                borderRadius="lg"
-                                                variant="secondary"
-                                                className="animation-fade-in flex-shrink-0"
-                                                type={'filled'}
-                                            />
-                                        }
-                                        {tagsDetailedEnum
-                                        .map((tag) => (
-                                            <Button
-                                                key={tag.label}
-                                                icon={tag.icon}
-                                                label={tag.label}
-                                                size="sm"
-                                                borderRadius="lg"
-                                                variant="secondary"
-                                                className="animation-fade-in flex-shrink-0"
-                                                type={tags.includes(tag.label) ? 'filled' : 'default'}
-                                                onClick={() => {
-                                                    if (tags.includes(tag.label)) {
-                                                        setTags(tags.filter((t) => t !== tag.label))
-                                                    } else {
-                                                        setTags([...tags, tag.label])
-                                                    }
-                                                }}
-                                            />
-                                        ))}
+                                        {uniqueTags.length > 0 ? (
+                                            <>
+                                                {tags.length > 0 ? (
+                                                    <IconButton
+                                                        icon={closeIcon}
+                                                        variant="secondary"
+                                                        size="sm"
+                                                        type="default"
+                                                        onClick={() => setTags([])}
+                                                    />
+                                                ) : 
+                                                    <Button
+                                                        label="All"
+                                                        size="sm"
+                                                        borderRadius="lg"
+                                                        variant="secondary"
+                                                        className="animation-fade-in flex-shrink-0"
+                                                        type={'filled'}
+                                                    />
+                                                }
+                                                {uniqueTags
+                                                .map((tag) => (
+                                                    <Button
+                                                        key={tag}
+                                                        icon={tagsDetailedEnum.find((t) => t.label === tag)?.icon}
+                                                        label={tag}
+                                                        size="sm"
+                                                        borderRadius="lg"
+                                                        variant="secondary"
+                                                        className="animation-fade-in flex-shrink-0"
+                                                        type={tags.includes(tag) ? 'filled' : 'default'}
+                                                        onClick={() => {
+                                                            if (tags.includes(tag)) {
+                                                                setTags(tags.filter((t) => t !== tag))
+                                                            } else {
+                                                                setTags([...tags, tag])
+                                                            }
+                                                        }}
+                                                    />
+                                                ))}
+                                            </>
+                                        ) : null}
                                     </HorizontalScroll>
                                 }
                             </div>

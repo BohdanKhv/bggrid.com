@@ -1,5 +1,5 @@
 import React, { useMemo } from 'react'
-import { Button, HorizontalScroll, Icon, IconButton, Image } from '../../components'
+import { Avatar, Button, HorizontalScroll, Icon, IconButton, Image } from '../../components'
 import { checkIcon, clockIcon, editIcon, largePlusIcon, libraryIcon, linkIcon, diceIcon, patchPlusIcon, starFillIcon, usersIcon, weightIcon, gamesIcon } from '../../assets/img/icons'
 import { Link, useSearchParams } from 'react-router-dom'
 import { useSelector } from 'react-redux'
@@ -19,10 +19,11 @@ const GameItemCol = ({item}) => {
         <div className="border-radius px-sm-3 px-sm-3 pt-4 transition-duration animation-slide-in  display-on-hover-parent">
             <div className="flex justify-between">
             <div className="flex gap-3">
-                <Image
+                <Avatar
+                    size="xl"
+                    bigDisplay
                     img={item.image}
                     errIcon={gamesIcon}
-                    classNameContainer="w-set-100-px h-set-100-px border-radius"
                     classNameImg="border-radius"
                 />
                 <div className="flex flex-col">

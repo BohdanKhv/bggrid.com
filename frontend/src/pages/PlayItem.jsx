@@ -16,7 +16,7 @@ const DownloadItem = ({ item, setIsDownloading }) => {
     const handleShareOnInstagram = () => {
         const elm = imageRef.current;
         html2canvas(elm, {
-            backgroundColor: null,
+            backgroundColor: "transparent",
             allowTaint: false,
             useCORS: true,
             scale: 1,
@@ -71,8 +71,10 @@ const DownloadItem = ({ item, setIsDownloading }) => {
     };
 
     useEffect(() => {
-        handleShareOnInstagram()
-    }, [])
+            setTimeout(() => {
+                handleShareOnInstagram()
+            }, 500)
+        }, [])
 
     return (
         <div ref={imageRef} className={`z-99 pos-absolute animation-none-child px-sm-3 bg-main w-set-400-px p-3 border-radius`}
@@ -82,12 +84,6 @@ const DownloadItem = ({ item, setIsDownloading }) => {
             }}
         >
             <div className="flex gap-3">
-                <Avatar
-                    img={item?.game?.thumbnail}
-                    avatarColor={item?.game?.name?.length}
-                    name={item?.game?.name}
-                    size="lg"
-                />
                 <div className="flex flex-col justify-between flex-1">
                     <div className="flex gap-2 justify-between">
                         <div className="flex flex-col justify-between flex-1">

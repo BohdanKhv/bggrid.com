@@ -78,10 +78,16 @@ const DownloadItem = ({ item, setIsDownloading }) => {
         <div ref={imageRef} className={`z-99 pos-absolute animation-none-child px-sm-3 bg-main w-set-400-px p-3 border-radius`}
             style={{
                 transform: 'scale(3)',
-                left: '-200%',
+                left: '-400%',
             }}
         >
             <div className="flex gap-3">
+                <Avatar
+                    img={item?.game?.thumbnail}
+                    avatarColor={item?.game?.name?.length}
+                    name={item?.game?.name}
+                    size="lg"
+                />
                 <div className="flex flex-col justify-between flex-1">
                     <div className="flex gap-2 justify-between">
                         <div className="flex flex-col justify-between flex-1">
@@ -110,7 +116,7 @@ const DownloadItem = ({ item, setIsDownloading }) => {
                                     </div>
                                 </div>
                                 <div
-                                    className="w-max-100-px"
+                                    className="w-max-75-px"
                                 >
                                     {logoNameSvg}
                                 </div>

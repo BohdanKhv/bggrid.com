@@ -11,13 +11,6 @@ const UserGuard = ({children}) => {
 
     useEffect(() => {
         const promise = dispatch(getMe())
-
-        return () => {
-            promise && promise.abort()
-        }
-    }, [])
-
-    useEffect(() => {
         let notificationPromise;
 
         if (user) {
@@ -25,6 +18,7 @@ const UserGuard = ({children}) => {
         }
 
         return () => {
+            promise && promise.abort()
             notificationPromise && notificationPromise.abort()
         }
     }, [])

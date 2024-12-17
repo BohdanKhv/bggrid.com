@@ -59,7 +59,7 @@ const NotificationPage = () => {
             <main className="page-body flex-1">
                 <div className="animation-slide-in container flex flex-1">
                     <div className="flex-1 px-4 px-sm-0">
-                        <div className="flex py-3 pt-sm-3 justify-between px-sm-3 pb-3">
+                        <div className="flex py-3 pt-sm-3 justify-between px-sm-3 pb-3 sticky-sm top-0 z-3 bg-main">
                             <div className="title-1 bold">
                                 Notifications
                             </div>

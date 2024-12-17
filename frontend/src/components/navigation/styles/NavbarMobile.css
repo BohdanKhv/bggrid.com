@@ -15,7 +15,6 @@
     padding-bottom: env(safe-area-inset-bottom);
     z-index: 98;
     background-color: var(--color-main);
-    /* background-color: var(--color-translucent); */
     overflow-y: auto;
     /* backdrop-filter: blur(16px);
     -webkit-backdrop-filter: blur(16px); */
@@ -25,7 +24,7 @@
 .navbar-mob-item:hover .navbar-mob-item-icon {
     opacity: 1;
     color: var(--text-dark);
-    scale: 1.1;
+    scale: 1.2;
 }
 .navbar-mob-item:hover::before {
     background-color: var(--color-main);
@@ -112,7 +111,7 @@
     transition-duration: 0.3s;
 }
 .navbar-mob .navbar-mob-item.active  .navbar-mob-item-icon {
-    background-color: rgb(var(--color-general-secondary-bg));
+    /* background-color: rgb(var(--color-general-secondary-bg)); */
 }
 .navbar-mob .navbar-mob-item.active  .navbar-mob-item-icon svg {
     fill: rgb(var(--color-general-secondary-text));

@@ -1,6 +1,6 @@
 import React from 'react'
 import { NavLink, useLocation, useSearchParams } from 'react-router-dom'
-import { gamesIcon, homeIcon, largePlusIcon, libraryIcon, menuIcon, diceIcon, searchIcon, usersIcon, discoverIcon } from '../../assets/img/icons'
+import { gamesIcon, homeIcon, largePlusIcon, libraryIcon, menuIcon, diceIcon, searchIcon, usersIcon, discoverIcon, homeFillIcon, usersFillIcon, diceFillIcon, discoverFillIcon, libraryFillIcon } from '../../assets/img/icons'
 import "./styles/NavbarMobile.css"
 import Button from '../ui/Button'
 import Avatar from '../ui/Avatar'
@@ -20,7 +20,7 @@ const NavbarMobile = () => {
                         className={`navbar-mob-item ${pathname === "/" ? " active" : ""}`}
                     >
                         <span className="navbar-mob-item-icon">
-                            {homeIcon}
+                            {pathname === "/" ? homeFillIcon : homeIcon}
                         </span>
                         {/* <span className="navbar-mob-item-label">
                             Home
@@ -31,7 +31,7 @@ const NavbarMobile = () => {
                         className={`navbar-mob-item ${location.pathname.startsWith("/supply") ? " active" : ""}`}
                     >
                         <span className="navbar-mob-item-icon">
-                            {libraryIcon}
+                            {pathname === "/library" ? libraryFillIcon : libraryIcon}
                         </span>
                         {/* <span className="navbar-mob-item-label">
                             Library
@@ -46,7 +46,7 @@ const NavbarMobile = () => {
                             {discoverIcon}
                         </div> */}
                         <span className="navbar-mob-item-icon">
-                            {discoverIcon}
+                            {pathname === "/discover" || pathname.startsWith("/g/") ? discoverFillIcon : discoverIcon}
                         </span>
                     </NavLink>
                     <NavLink
@@ -54,7 +54,7 @@ const NavbarMobile = () => {
                         className={`navbar-mob-item ${pathname === "/plays" ? " active" : ""}`}
                     >
                         <span className="navbar-mob-item-icon">
-                            {diceIcon}
+                            {pathname === "/plays" ? diceFillIcon : diceIcon}
                         </span>
                         {/* <span className="navbar-mob-item-label">
                             Logs
@@ -65,7 +65,7 @@ const NavbarMobile = () => {
                         className={`navbar-mob-item ${location.pathname.startsWith("/community") ? " active" : ""}`}
                     >
                         <span className="navbar-mob-item-icon">
-                            {usersIcon}
+                            {pathname === "/community" ? usersFillIcon : usersIcon}
                         </span>
                         {/* <span className="navbar-mob-item-label">
                             Community

@@ -255,19 +255,20 @@ const createPlay = async (req, res) => {
         });
 
         // Update library
-        const library = await Library.findOne({ user: req.user._id, game: gameId });
-        let newLibraryItem = null;
+        const library = await Library.findOne({ user: req.user._id, game: gameId }).populate('game');
+        let libraryItem = null;
 
         if (library) {
             library.totalPlays += 1;
-            library.totalPlayTime += playTimeMinutes;
+            library.totalPlayTime += playTimeMinutes || 0;
             // Check if user is a winner
             const winner = players.find(player => player.winner);
             if (winner) {
                 library.totalWins += 1;
             }
             library.lastPlayDate = DateTime.now();
-            library.save();
+            await library.save();
+            libraryItem = library;
         } else {
             // calculate my total plays for this game, total play time, total wins
             let playData = await Play.aggregate([
@@ -277,7 +278,7 @@ const createPlay = async (req, res) => {
                         _id: null,
                         totalPlays: { $sum: 1 },
                         totalPlayTime: { $sum: '$playTimeMinutes' },
-                        totalWins: { $sum: { $cond: { if: { $arrayElemAt: ['$players.winner', 0] }, then: 1, else: 0 } } },
+                        totalWins: { $sum: { $cond: { if: { $and: [ { $eq: [ '$players', req.user._id ] }, { $arrayElemAt: ['$players.winner', 0] } ] }, then: 1, else: 0 } } },
                         lastPlayDate: { $max: '$playDate' }
                     }
                 }
@@ -286,18 +287,18 @@ const createPlay = async (req, res) => {
 
             const winner = players.find(player => player.winner);
 
-            newLibraryItem = new Library({
+            libraryItem = new Library({
                 user: req.user._id,
-                game: gameId,
+                game: gameExists,
                 tags: ["Played"],
                 rating: 0,
                 totalPlays: playData ? (playData.totalPlays + 1) : 1,
-                totalPlayTime: playData ? (playData.totalPlayTime + playTimeMinutes) : playTimeMinutes,
+                totalPlayTime: playData ? (playData.totalPlayTime + (playTimeMinutes || 0)) : (playTimeMinutes || 0),
                 totalWins: playData ? (playData.totalWins + (winner ? 1 : 0)) : winner ? 1 : 0,
                 lastPlayDate: playData ? playData.lastPlayDate || new Date() : new Date()
             });
 
-            await newLibraryItem.save(); // don't need to wait for this to finish
+            await libraryItem.save(); // don't need to wait for this to finish
         }
 
         // Populate game and user
@@ -324,8 +325,10 @@ const createPlay = async (req, res) => {
         }
 
         res.status(201).json({
-            data: play,
-            library: newLibraryItem
+            data: {
+                play,
+                library: libraryItem
+            },
         });
     } catch (error) {
         console.error(error);

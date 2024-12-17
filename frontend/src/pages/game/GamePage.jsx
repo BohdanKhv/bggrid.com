@@ -616,18 +616,18 @@ const CoverImage = ({ img }) => {
     return (
         <div className="ms-6 flex-1 w-max-250-px">
                 <div
-                    className="bg-secondary mt-6 mb-4 h-sm-set-150-px border-radius pos-relative h-set-300-px w-min-200-px w-max-300-px">
+                    className="bg-secondary mt-6 h-sm-set-150-px border-radius pos-relative h-set-300-px w-min-200-px w-max-300-px">
                     <Image
                         img={img}
                         errIcon={gamesIcon}
                         classNameContainer="bg-secondary border-radius z-3 relative"
-                        classNameImg="z-1 w-100 h-100 border-radius object-cover object-center pos-relative box-shadow-lg"
+                        classNameImg="w-100 h-100 border-radius object-cover object-center pos-relative box-shadow-lg"
                     />
                     <Image
                         img={img}
                         errIcon={gamesIcon}
                         classNameContainer="bg-secondary pos-absolute left-0 top-0 border-radius relative"
-                        classNameImg="z-0 h-100 border-radius object-cover object-center blur-20"
+                        classNameImg="h-100 border-radius object-cover object-center blur-20"
                     />
                 </div>
                 {tab === 'reviews' ?
@@ -637,7 +637,7 @@ const CoverImage = ({ img }) => {
                 :
                 <>
                 {window.innerWidth > 800 ?
-                    <div className="flex flex-col gap-2 mb-6 mb-sm-3">
+                    <div className="flex flex-col gap-2 mb-6 mb-sm-3 mt-6">
                         <UserGuardLoginModal>
                             <Button
                                 size="lg"
@@ -867,7 +867,7 @@ const Overview = () => {
                                 </div>
                             : null}
                         </div>
-                        <p className="fs-14 text-secondary flex-1 pt-5"
+                        <p className="fs-14 flex-1 pt-5"
                             dangerouslySetInnerHTML={{ __html: gameById.description }}
                         /> 
                     </div>

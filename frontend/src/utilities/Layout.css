@@ -269,6 +269,9 @@
     display: none;
 }
 /* Overflow */
+.overflow-visible {
+    overflow: visible;
+}
 .overflow-unset {
     overflow: unset;
 }

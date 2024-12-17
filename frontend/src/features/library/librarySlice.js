@@ -1,5 +1,6 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import libraryService from './libraryService';
+import { createPlay } from '../play/playSlice';
 import { getMe } from '../auth/authSlice';
 import { toast } from 'react-toastify';
 
@@ -177,6 +178,12 @@ const librarySlice = createSlice({
         builder.addCase(removeGameFromLibrary.rejected, (state, action) => {
             state.loadingId = '';
             toast.error(action.payload, { toastId: 'toastError', closeButton: true});
+        });
+
+        builder.addCase(createPlay.fulfilled, (state, action) => {
+            state.library = state.library.filter(l => l._id !== action?.payload?.data?.library?._id);
+            state.library.push(action.payload.data.library);
+            localStorage.setItem('library', JSON.stringify(state.library));
         });
     }
 });

@@ -591,7 +591,7 @@ const LibraryItem = ({ item, index, tags, setTags }) =>  {
                                     DateTime.fromISO(item.lastPlayDate).toRelative().replace(' days', 'd').replace(' day', 'd').replace(' hours', 'h').replace(' hour', 'h').replace(' minutes', 'm').replace(' minute', 'm').replace(' seconds', 's').replace(' second', 's') : 'never'}
                                 </div>
                                 <div className="fs-12 text-secondary text-nowrap flex-shrink-0">
-                                    {item.totalPlays || 0} plays
+                                    {item.totalPlays || 0} play{item.totalPlays === 1 ? '' : 's'}
                                 </div>
                             </div>
                         </div>
@@ -867,7 +867,7 @@ const LibraryPage = () => {
                                         } else if (sortBy === 'rating') {
                                             return sortOrder === 'asc' ? a.rating - b.rating : b.rating - a.rating
                                         } else {
-                                            return sortOrder === 'asc' ? a.plays - b.plays : b.plays - a.plays
+                                            return sortOrder === 'asc' ? a.totalPlays - b.totalPlays : b.totalPlays - a.totalPlays
                                         }
                                     })
                                     .map((item, index) =>

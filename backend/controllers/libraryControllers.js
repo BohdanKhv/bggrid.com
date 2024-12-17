@@ -105,7 +105,7 @@ const addGameToLibrary = async (req, res) => {
                     _id: null,
                     totalPlays: { $sum: 1 },
                     totalPlayTime: { $sum: '$playTimeMinutes' },
-                    totalWins: { $sum: { $cond: { if: { $arrayElemAt: ['$players.winner', 0] }, then: 1, else: 0 } } },
+                    totalWins: { $sum: { $cond: { if: { $and: [ { $eq: [ '$players', req.user._id ] }, { $arrayElemAt: ['$players.winner', 0] } ] }, then: 1, else: 0 } } },
                     lastPlayDate: { $max: '$playDate' }
                 }
             }

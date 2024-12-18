@@ -36,7 +36,7 @@ const Register = () => {
         <div className="animation-fade-in">
             <div className="flex flex-col gap-3 text-center">
                 <div className="fs-96 weight-500 fs-sm-54">
-                    Hi there!
+                    Welcome!
                 </div>
                 <div className="fs-16 mb-4">
                     Let's get started by creating your account.

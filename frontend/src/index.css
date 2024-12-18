@@ -62,7 +62,7 @@
   --color-scroll-overlay: rgba(190, 190, 190, 0.3);
 
   --color-logo: #000;
-  --nav-bg-color: linear-gradient(180deg, rgba(255, 255, 255, 0), rgba(255,255,255, .85),rgba(255,255,255, 1));
+  --nav-bg-color: linear-gradient(180deg, rgba(0, 0, 0, 0), rgba(255,255,255, 0.5),rgba(255,255,255, 0.75),rgba(255,255,255, 0.85), rgba(255,255,255, 1));
 
   --color-main: #ffffff;
   --color-secondary: #f6f6f6;

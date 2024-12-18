@@ -119,7 +119,7 @@ const HomeFeed = () => {
         {isLoading ?
             <div className="flex flex-col gap-4 py-6 overflow-hidden px-sm-3 py-sm-4 gap-sm-4">
                 <div className="flex flex-col gap-3">
-                    <Skeleton animation="wave" width="100" height="30"/>
+                    <Skeleton animation="wave" width="150" height="20"/>
                     <HorizontalScroll>
                         <Skeleton animation="wave" height="210" width="175" className="flex-shrink-0"/>
                         <Skeleton animation="wave" height="210" width="175" className="flex-shrink-0"/>
@@ -130,7 +130,7 @@ const HomeFeed = () => {
                     </HorizontalScroll>
                 </div>
                 <div className="flex flex-col gap-3">
-                    <Skeleton animation="wave" width="100" height="30"/>
+                    <Skeleton animation="wave" width="150" height="20"/>
                     <HorizontalScroll>
                         <Skeleton animation="wave" height="210" width="175" className="flex-shrink-0"/>
                         <Skeleton animation="wave" height="210" width="175" className="flex-shrink-0"/>
@@ -141,7 +141,7 @@ const HomeFeed = () => {
                     </HorizontalScroll>
                 </div>
                 <div className="flex flex-col gap-3">
-                    <Skeleton animation="wave" width="100" height="30"/>
+                    <Skeleton animation="wave" width="150" height="20"/>
                     <HorizontalScroll>
                         <Skeleton animation="wave" height="210" width="175" className="flex-shrink-0"/>
                         <Skeleton animation="wave" height="210" width="175" className="flex-shrink-0"/>
@@ -277,7 +277,7 @@ const SearchGames = () => {
     useEffect(() => {
         let promise;
 
-        if (searchValue.length) {
+        if (searchValue?.length) {
             if (whatToSearch === 'users') {
                 promise = dispatch(searchUsers(`${searchValue}&checkIsFollowing=true`))
             } else {
@@ -355,11 +355,11 @@ const SearchGames = () => {
                     </div>
                     {whatToSearch === 'users' ?
                         <>
-                            {!searchValue.length ?
+                            {!searchValue?.length ?
                                 <div className="text-center fs-12 py-6 text-secondary">
                                     Start typing to search users
                                 </div>
-                            : !users.length && !usersIsLoading ?
+                            : !users?.length && !usersIsLoading ?
                                 <div className="text-center fs-12 py-6 text-secondary">
                                     No users found
                                 </div>
@@ -383,17 +383,17 @@ const SearchGames = () => {
                         </>
                     : whatToSearch === 'games' ?
                     <>
-                    {searchValue.length == 0 && library
+                    {searchValue.length == 0 && [...library]
                     .filter((item) => item.game.name.toLowerCase().includes(searchValue.toLowerCase()))
-                    .length === 0 && searchHistory.length === 0 ?
+                    ?.length === 0 && searchHistory?.length === 0 ?
                         <div className="text-center fs-12 py-6 text-secondary">
                             Start typing to search games
                         </div>
                     : true ?
                     <>
-                    {library && library
+                    {library && [...library]
                     .filter((item) => item.game.name.toLowerCase().includes(searchValue.toLowerCase()))
-                    .length > 0 ?
+                    ?.length > 0 ?
                     <>
                         <div className="fs-20 pb-3 bold px-3 pt-3">
                             Your library
@@ -431,7 +431,7 @@ const SearchGames = () => {
                         ))}
                     </>
                     : null}
-                    {suggestions && suggestions.length > 0 ?
+                    {suggestions && suggestions?.length > 0 ?
                     <>
                         <div className="fs-20 py-3 bold px-3">
                             Search results
@@ -470,7 +470,7 @@ const SearchGames = () => {
                         loadingId === 'suggestions' ?
                             <ErrorInfo isLoading/>
                         :
-                        library.filter((item) => item.game.name.toLowerCase().includes(searchValue.toLowerCase())).length === 0 ?
+                        library.filter((item) => item.game.name.toLowerCase().includes(searchValue.toLowerCase()))?.length === 0 ?
                             <ErrorInfo
                                 label="No games found"
                                 secondary={`Nothing matched your search for "${searchValue}"`}
@@ -529,11 +529,11 @@ const SearchGames = () => {
                         </div>
                         {whatToSearch === 'users' ?
                             <>
-                                {!searchValue.length ?
+                                {!searchValue?.length ?
                                     <div className="text-center fs-12 py-6 text-secondary">
                                         Start typing to search users
                                     </div>
-                                : !users.length && !usersIsLoading ?
+                                : !users?.length && !usersIsLoading ?
                                     <div className="text-center fs-12 py-6 text-secondary">
                                         No users found
                                     </div>
@@ -557,13 +557,13 @@ const SearchGames = () => {
                         </>
                         :
                         <>
-                        {searchValue.length == 0 && library
+                        {searchValue?.length == 0 && library
                         .filter((item) => item.game.name.toLowerCase().includes(searchValue.toLowerCase()))
-                        .length === 0 && searchHistory.length === 0 ?
+                        ?.length === 0 && searchHistory?.length === 0 ?
                             <div className="text-center fs-12 py-6 text-secondary">
                                 Start typing to search games
                             </div>
-                        : searchValue.length ?
+                        : searchValue?.length ?
                         <div className="flex justify-between align-center">
                             <div
                                 onClick={(e) => {
@@ -575,7 +575,7 @@ const SearchGames = () => {
                                 <Icon icon={searchIcon} className="fill-secondary"/><span className="text-ellipsis-1 text-primary">{searchValue}<span className="text-secondary"> - search games</span></span>
                             </div>
                         </div>
-                        : searchParams.get('s') && searchParams.get('s').length ?
+                        : searchParams.get('s') && searchParams.get('s')?.length ?
                             <div className="flex justify-between align-center">
                                 <div
                                     onClick={(e) => {
@@ -591,7 +591,7 @@ const SearchGames = () => {
                         : null}
                         {library && library
                         .filter((item) => !searchValue || item.game.name.toLowerCase().includes(searchValue.toLowerCase()))
-                        .length > 0 ?
+                        ?.length > 0 ?
                         <>
                             <div className="fs-14 px-4 py-2 flex align-center gap-3 text-secondary weight-600">
                                 Your library
@@ -620,7 +620,7 @@ const SearchGames = () => {
                             ))}
                         </>
                         : null}
-                        {searchHistory && searchHistory.length > 0 && searchValue.length === 0 ?
+                        {searchHistory && searchHistory?.length > 0 && searchValue?.length === 0 ?
                         <>
                             <div className="fs-14 px-4 py-2 flex align-center gap-3 text-secondary weight-600">
                                 Search history
@@ -654,7 +654,7 @@ const SearchGames = () => {
                             ))}
                         </>
                         : null}
-                        {suggestions && suggestions.length > 0 ?
+                        {suggestions && suggestions?.length > 0 ?
                         <>
                             <div className="fs-14 px-4 py-2 flex align-center gap-3 text-secondary weight-600">
                                 Search results
@@ -721,7 +721,7 @@ const UserHomePage = () => {
                                             type="secondary"
                                             to="/notifications"
                                             notify
-                                            notifyCount={notifications.filter(notification => !notification.read).length || 0}
+                                            notifyCount={notifications.filter(notification => !notification.read)?.length || 0}
                                         />
                                         <div
                                             onClick={() => {

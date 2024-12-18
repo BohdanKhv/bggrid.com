@@ -12,16 +12,16 @@ const getUserProfile = async (req, res) => {
     try {
         const user = await
         User.findOne({
-            username: { $regex: req.params.username, $options: 'i' }
+            username: { $regex: `^${req.params.username}$`, $options: 'i' }
         })
         .select('avatar username firstName lastName followers following bggUsername'); 
 
+        if (!user) {
+            return res.status(404).json({ msg: '404' });
+        }
+
         const allLibrary = await Library.find({ user: user._id })
         .populate('game', 'name thumbnail')
-
-        if (!user) {
-            return res.status(404).json({ msg: 'User not found' });
-        }
 
         let isFollowing = false
         if (req.user) {

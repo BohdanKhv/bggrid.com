@@ -114,6 +114,7 @@ const CommunityPage = () => {
         window.scrollTo(0, 0)
         document.title = 'Community'
 
+        dispatch(resetFollow())
         const promise = dispatch(getFollowing(user._id))
         return () => {
             promise && promise.abort()

@@ -92,7 +92,7 @@ const userSlice = createSlice({
             if (action.error.message !== 'Aborted') {
                 state.isLoading = false;
                 state.msg = action.payload;
-                toast.error(action.payload, { toastId: 'toastError', closeButton: true});
+                // toast.error(action.payload, { toastId: 'toastError', closeButton: true});
             }
         });
 

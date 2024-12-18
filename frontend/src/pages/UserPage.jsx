@@ -232,7 +232,7 @@ const UserPage = () => {
             <main className="page-body">
                 <div className="animation-slide-in">
                     <div className="container">
-                        {isLoading ? 
+                        {isLoading || !userById  ? 
                         <>
                             {window.innerWidth < 800 ?
                                 <div className="flex justify-between bg-main py-3 sticky top-0 z-9 px-3">
@@ -249,6 +249,7 @@ const UserPage = () => {
                                     </div>
                                 </div>
                             : null}
+                            { isLoading &&
                             <div className="py-6 pt-sm-0 mt-sm-0 pb-3 pt-sm-3 pb-sm-3 mb-sm-0 py-sm-0 m-3">
                                 <div className="flex flex-sm-col gap-6 gap-sm-3 align-center align-sm-start">
                                     <div className="flex gap-sm-3 w-sm-100 align-center">
@@ -271,6 +272,7 @@ const UserPage = () => {
                                     </div>
                                 </div>
                             </div>
+                            }
                         </>
                         : userById &&
                         <>
@@ -451,6 +453,7 @@ const UserPage = () => {
                             </div>
                         </>
                         }
+                        { (userById || (!userById && isLoading)) &&
                         <div className="mt-4 border-bottom justify-center pt-sm-0">
                             <TabContent
                                 classNameContainer="w-sm-100 flex-grow-sm-1"
@@ -465,6 +468,7 @@ const UserPage = () => {
                                 }}
                             />
                         </div>
+                        }
                         {isLoading ?
                             [1, 2, 3, 4, 5, 6, 7, 8, 9].map((item) => (
                                 <div className="flex gap-3 px-sm-3 py-3 border-bottom">
@@ -648,10 +652,11 @@ const UserPage = () => {
             </main>
         </div>
         {!userById && msg === '404' ?
-            <div className="h-100 flex align-center justify-center h-min-100">
-                <ErrorInfo code="404" info="Oops, user not found"/>
+            <div className="flex-1 flex justify-center align-center">
+                <ErrorInfo code="404" info="Oh no, user not found"/>
             </div>
-        : !userById && !isLoading && <div className="h-100 flex align-center justify-center h-min-100">
+        : !userById && !isLoading && 
+        <div className="flex-1 flex justify-center align-center">
             <ErrorInfo label="Oops, looks like something went wrong" info={msg} />
         </div>}
         </HelmetProvider>

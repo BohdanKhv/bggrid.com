@@ -213,123 +213,224 @@ const UserPage = () => {
 
     return (
         <HelmetProvider>
-        {isLoading ? 
-        <div className="h-min-100 flex align-center justify-center">
-            <ErrorInfo isLoading />
-        </div>
-        : userById && !isLoading ?
         <div>
-            {user &&
-                <FollowSearchModal
-                    useModel
-                />
-            }
-            {tab === 'followers' ?
-                <FollowersModal />
-            : tab === 'following' ?
-                <FollowingModal />
-            : null
+            {userById &&
+                <>
+                    {user &&
+                        <FollowSearchModal
+                            useModel
+                        />
+                    }
+                    {tab === 'followers' ?
+                        <FollowersModal />
+                    : tab === 'following' ?
+                        <FollowingModal />
+                    : null
+                    }
+                </>
             }
             <main className="page-body">
                 <div className="animation-slide-in">
                     <div className="container">
-                        {window.innerWidth < 800 ?
-                            <div className="flex justify-between bg-main py-3 sticky top-0 z-9 px-3">
-                                <div className="flex align-center gap-3">
-                                    <IconButton
-                                        icon={leftArrowIcon}
-                                        variant="secondary"
-                                        type="text"
-                                        to={user ? "/community" : "/"}
-                                    />
-                                    <div className="fs-14 weight-600">
-                                        {userById?.username}
+                        {isLoading ? 
+                        <>
+                            {window.innerWidth < 800 ?
+                                <div className="flex justify-between bg-main py-3 sticky top-0 z-9 px-3">
+                                    <div className="flex align-center gap-3">
+                                        <IconButton
+                                            icon={leftArrowIcon}
+                                            variant="secondary"
+                                            type="text"
+                                            to={user ? "/community" : "/"}
+                                        />
+                                        <div className="fs-14 weight-600">
+                                            {userById?.username}
+                                        </div>
+                                    </div>
+                                </div>
+                            : null}
+                            <div className="py-6 pt-sm-0 mt-sm-0 pb-3 pt-sm-3 pb-sm-3 mb-sm-0 py-sm-0 m-3">
+                                <div className="flex flex-sm-col gap-6 gap-sm-3 align-center align-sm-start">
+                                    <div className="flex gap-sm-3 w-sm-100 align-center">
+                                        <div className="flex justify-center align-center">
+                                                <Skeleton
+                                                height={window.innerWidth < 800 ? "50" : "130"}
+                                                width={window.innerWidth < 800 ? "50" : "130"}
+                                                animation="wave" type="circular"/>
+                                            </div>
+                                        </div>
+                                        <div className="flex flex-1 flex-col gap-4 w-sm-100">
+                                        <div>
+                                            <Skeleton height="20" width="200" animation="wave"/>
+                                            <Skeleton height="13" width="100" animation="wave" className="mt-1"/>
+                                        </div>
+                                        <div className="flex gap-2 w-100">
+                                            <Skeleton height="30" width="130" animation="wave" className="border-radius-lg flex-grow-sm-1"/>
+                                            <Skeleton height="30" width="130" animation="wave" className="border-radius-lg flex-grow-sm-1"/>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
-                        : null}
-                        <div className="py-6 pt-sm-0 mt-sm-0 pb-3 pt-sm-3 pb-sm-3 mb-sm-0 py-sm-0 m-3">
-                            <div className="flex flex-sm-col gap-6 gap-sm-3 align-center align-sm-start">
-                                <div className="flex gap-sm-3 w-sm-100 align-center">
-                                    <div className="flex justify-center align-center">
-                                        <Avatar
-                                            img={userById?.avatar}
-                                            name={userById ? `${userById?.username}` : null}
-                                            rounded
-                                            defaultColor
-                                            size="xxl"
-                                            sizeSm="lg"
+                        </>
+                        : userById &&
+                        <>
+                            {window.innerWidth < 800 ?
+                                <div className="flex justify-between bg-main py-3 sticky top-0 z-9 px-3">
+                                    <div className="flex align-center gap-3">
+                                        <IconButton
+                                            icon={leftArrowIcon}
+                                            variant="secondary"
+                                            type="text"
+                                            to={user ? "/community" : "/"}
                                         />
-                                    </div>
-                                    {window.innerWidth <= 800 ?
-                                    <div className="flex gap-5 flex-1 justify-center">
-                                        <Link className="flex flex-col justify-center align-center fs-14 gap-1 weight-600 pointer"
-                                            to={`/u/${username}/library`}
-                                        >
-                                            {userById?.library?.length || 0} <span className="weight-400 ps-1">games</span>
-                                        </Link>
-                                        <Link className="flex flex-col justify-center align-center fs-14 gap-1 weight-600 pointer"
-                                            to={`/u/${username}/followers`}
-                                        >
-                                            {userById?.followers || 0} <span className="weight-400 ps-1">followers</span>
-                                        </Link>
-                                        <Link className="flex flex-col justify-center align-center fs-14 gap-1 weight-600 pointer"
-                                            to={`/u/${username}/following`}
-                                        >
-                                            {userById?.following || 0} <span className="weight-400 ps-1">following</span>
-                                        </Link>
-                                    </div>
-                                    : null}
-                                </div>
-                                <div className="flex flex-1 flex-col gap-4 w-sm-100">
-                                    <div>
-                                        <Helmet>
-                                            <title>
-                                                {`${userById?.firstName || ''} ${userById?.lastName || ''} - ${userById?.username}`}
-                                            </title>
-                                            <link
-                                                rel="canonical"
-                                                href={`https://bggrid.com/u/${username}`}
-                                            />
-                                        </Helmet>
-                                        {(userById?.firstName || userById?.lastName) && (
-                                            <div className="fs-24 fs-sm-18">
-                                                {`${userById?.firstName} ${userById?.lastName}`}
-                                                <meta name="description" content={`${userById?.firstName} ${userById?.lastName || ''} - ${userById?.username}`} />
-                                            </div>
-                                        )}
-                                        <div className="fs-16 fs-sm-12 text-secondary">
-                                            @{userById?.username}
+                                        <div className="fs-14 weight-600">
+                                            {userById?.username}
                                         </div>
-                                        {window.innerWidth > 800 ?
-                                            <div className="pt-4 flex gap-3">
-                                                <Link className="flex justify-center align-center fs-16 gap-1 weight-600 pointer"
-                                                    to={`/u/${username}/library`}
-                                                >
-                                                    {userById?.library?.length || 0} <span className="weight-400 ps-1">games</span>
-                                                </Link>
-                                                <Link className="flex justify-center align-center fs-16 gap-1 weight-600 pointer"
-                                                    to={`/u/${username}/followers`}
-                                                >
-                                                    {userById?.followers || 0} <span className="weight-400 ps-1">followers</span>
-                                                </Link>
-                                                <Link className="flex justify-center align-center fs-16 gap-1 weight-600 pointer"
-                                                    to={`/u/${username}/following`}
-                                                >
-                                                    {userById?.following || 0} <span className="weight-400 ps-1">following</span>
-                                                </Link>
-                                            </div>
+                                    </div>
+                                </div>
+                            : null}
+                            <div className="py-6 pt-sm-0 mt-sm-0 pb-3 pt-sm-3 pb-sm-3 mb-sm-0 py-sm-0 m-3">
+                                <div className="flex flex-sm-col gap-6 gap-sm-3 align-center align-sm-start">
+                                    <div className="flex gap-sm-3 w-sm-100 align-center">
+                                        <div className="flex justify-center align-center">
+                                            <Avatar
+                                                img={userById?.avatar}
+                                                name={userById ? `${userById?.username}` : null}
+                                                rounded
+                                                defaultColor
+                                                size="xxl"
+                                                sizeSm="lg"
+                                            />
+                                        </div>
+                                        {window.innerWidth <= 800 ?
+                                        <div className="flex gap-5 flex-1 justify-center">
+                                            <Link className="flex flex-col justify-center align-center fs-14 gap-1 weight-600 pointer"
+                                                to={`/u/${username}/library`}
+                                            >
+                                                {userById?.library?.length || 0} <span className="weight-400 ps-1">games</span>
+                                            </Link>
+                                            <Link className="flex flex-col justify-center align-center fs-14 gap-1 weight-600 pointer"
+                                                to={`/u/${username}/followers`}
+                                            >
+                                                {userById?.followers || 0} <span className="weight-400 ps-1">followers</span>
+                                            </Link>
+                                            <Link className="flex flex-col justify-center align-center fs-14 gap-1 weight-600 pointer"
+                                                to={`/u/${username}/following`}
+                                            >
+                                                {userById?.following || 0} <span className="weight-400 ps-1">following</span>
+                                            </Link>
+                                        </div>
                                         : null}
                                     </div>
-                                    {userById?._id === user?._id ?
-                                        <div className="flex gap-2 w-100">
-                                            <Button
-                                                label="Edit profile"
-                                                variant="secondary"
-                                                to="/settings"
-                                                className="flex-shrink-0 flex-grow-sm-1"
-                                                borderRadius="lg"
-                                            />
+                                    <div className="flex flex-1 flex-col gap-4 w-sm-100">
+                                        <div>
+                                            <Helmet>
+                                                <title>
+                                                    {`${userById?.firstName || ''} ${userById?.lastName || ''} - ${userById?.username}`}
+                                                </title>
+                                                <link
+                                                    rel="canonical"
+                                                    href={`https://bggrid.com/u/${username}`}
+                                                />
+                                            </Helmet>
+                                            {(userById?.firstName || userById?.lastName) && (
+                                                <div className="fs-24 fs-sm-18">
+                                                    {`${userById?.firstName} ${userById?.lastName}`}
+                                                    <meta name="description" content={`${userById?.firstName} ${userById?.lastName || ''} - ${userById?.username}`} />
+                                                </div>
+                                            )}
+                                            <div className="fs-16 fs-sm-12 text-secondary">
+                                                @{userById?.username}
+                                            </div>
+                                            {window.innerWidth > 800 ?
+                                                <div className="pt-4 flex gap-3">
+                                                    <Link className="flex justify-center align-center fs-16 gap-1 weight-600 pointer"
+                                                        to={`/u/${username}/library`}
+                                                    >
+                                                        {userById?.library?.length || 0} <span className="weight-400 ps-1">games</span>
+                                                    </Link>
+                                                    <Link className="flex justify-center align-center fs-16 gap-1 weight-600 pointer"
+                                                        to={`/u/${username}/followers`}
+                                                    >
+                                                        {userById?.followers || 0} <span className="weight-400 ps-1">followers</span>
+                                                    </Link>
+                                                    <Link className="flex justify-center align-center fs-16 gap-1 weight-600 pointer"
+                                                        to={`/u/${username}/following`}
+                                                    >
+                                                        {userById?.following || 0} <span className="weight-400 ps-1">following</span>
+                                                    </Link>
+                                                </div>
+                                            : null}
+                                        </div>
+                                        {userById?._id === user?._id ?
+                                            <div className="flex gap-2 w-100">
+                                                <Button
+                                                    label="Edit profile"
+                                                    variant="secondary"
+                                                    to="/settings"
+                                                    className="flex-shrink-0 flex-grow-sm-1"
+                                                    borderRadius="lg"
+                                                />
+                                                <Button
+                                                    label="Share profile"
+                                                    variant="secondary"
+                                                    onClick={() => {
+                                                        navigator.share({
+                                                            title: userById.username,
+                                                            text: `Check out ${userById.username}'s profile on BGGRID!`,
+                                                            url: window.location
+                                                        })
+                                                    }}
+                                                    className="flex-shrink-0 flex-grow-sm-1"
+                                                    borderRadius="lg"
+                                                />
+                                                <Button
+                                                    icon={userAddIcon}
+                                                    variant="secondary"
+                                                    type="default"
+                                                    onClick={() => {
+                                                        searchParams.set('su', true)
+                                                        setSearchParams(searchParams.toString())
+                                                    }}
+                                                />
+                                            </div>
+                                        : null}
+                                        {
+                                        user?._id === userById?._id ?
+                                        null
+                                        :
+                                        <div className="flex gap-2">
+                                            {userById.isFollowing ?
+                                                <Button
+                                                    label="Unfollow"
+                                                    variant="secondary"
+                                                    type="default"
+                                                    className="flex-shrink-0 flex-grow-sm-1"
+                                                    borderRadius="lg"
+                                                    onClick={(e) => {
+                                                        e.preventDefault()
+                                                        dispatch(unfollowUser(userById._id))
+                                                    }}
+                                                    disabled={loadingId}
+                                                />
+                                            :
+                                            <div className="flex-shrink-0 flex-grow-sm-1">
+                                                <UserGuardLoginModal>
+                                                    <Button
+                                                        label="Follow"
+                                                        variant="secondary"
+                                                        type="filled"
+                                                        className="w-100"
+                                                        borderRadius="lg"
+                                                        onClick={(e) => {
+                                                            e.preventDefault()
+                                                            dispatch(followUser(userById._id))
+                                                        }}
+                                                        disabled={loadingId}
+                                                    />
+                                                </UserGuardLoginModal>
+                                            </div>
+                                            }
                                             <Button
                                                 label="Share profile"
                                                 variant="secondary"
@@ -343,71 +444,13 @@ const UserPage = () => {
                                                 className="flex-shrink-0 flex-grow-sm-1"
                                                 borderRadius="lg"
                                             />
-                                            <Button
-                                                icon={userAddIcon}
-                                                variant="secondary"
-                                                type="default"
-                                                onClick={() => {
-                                                    searchParams.set('su', true)
-                                                    setSearchParams(searchParams.toString())
-                                                }}
-                                            />
-                                        </div>
-                                    : null}
-                                    {
-                                    user?._id === userById?._id ?
-                                    null
-                                    :
-                                    <div className="flex gap-2">
-                                        {userById.isFollowing ?
-                                            <Button
-                                                label="Unfollow"
-                                                variant="secondary"
-                                                type="default"
-                                                className="flex-shrink-0 flex-grow-sm-1"
-                                                borderRadius="lg"
-                                                onClick={(e) => {
-                                                    e.preventDefault()
-                                                    dispatch(unfollowUser(userById._id))
-                                                }}
-                                                disabled={loadingId}
-                                            />
-                                        :
-                                        <div className="flex-shrink-0 flex-grow-sm-1">
-                                            <UserGuardLoginModal>
-                                                <Button
-                                                    label="Follow"
-                                                    variant="secondary"
-                                                    type="filled"
-                                                    className="w-100"
-                                                    borderRadius="lg"
-                                                    onClick={(e) => {
-                                                        e.preventDefault()
-                                                        dispatch(followUser(userById._id))
-                                                    }}
-                                                    disabled={loadingId}
-                                                />
-                                            </UserGuardLoginModal>
                                         </div>
                                         }
-                                        <Button
-                                            label="Share profile"
-                                            variant="secondary"
-                                            onClick={() => {
-                                                navigator.share({
-                                                    title: userById.username,
-                                                    text: `Check out ${userById.username}'s profile on BGGRID!`,
-                                                    url: window.location
-                                                })
-                                            }}
-                                            className="flex-shrink-0 flex-grow-sm-1"
-                                            borderRadius="lg"
-                                        />
                                     </div>
-                                    }
                                 </div>
                             </div>
-                        </div>
+                        </>
+                        }
                         <div className="mt-4 border-bottom justify-center pt-sm-0">
                             <TabContent
                                 classNameContainer="w-sm-100 flex-grow-sm-1"
@@ -422,7 +465,20 @@ const UserPage = () => {
                                 }}
                             />
                         </div>
+                        {isLoading ?
+                            [1, 2, 3, 4, 5, 6, 7, 8, 9].map((item) => (
+                                <div className="flex gap-3 px-sm-3 py-3 border-bottom">
+                                    <Skeleton key={item} height="50" width="50" animation="wave"/>
+                                    <div className="flex flex-col">
+                                        <Skeleton height="20" width="200" animation="wave"/>
+                                        <Skeleton height="16" width="80" animation="wave" className="mt-2"/>
+                                    </div>
+                                </div>
+                            ))
+                        : userById &&
+                        <>
                         {!tab || ['library', 'following', 'followers'].includes(tab?.toLocaleLowerCase()) ?
+                            userById && !isLoading ?
                             <div className="flex flex-col">
                                 {userById?.library?.length > 0 ?
                                     <div className="pb-3">
@@ -434,6 +490,8 @@ const UserPage = () => {
                                                         icon={closeIcon}
                                                         variant="secondary"
                                                         type="default"
+                                                        size="sm"
+                                                        borderRadius="lg"
                                                         onClick={() => {
                                                             searchParams.delete('tag')
                                                             setSearchParams(searchParams.toString())
@@ -443,9 +501,11 @@ const UserPage = () => {
                                                 ) : 
                                                     <Button
                                                         label="All"
+                                                        borderRadius="lg"
                                                         variant="secondary"
                                                         className="animation-fade-in flex-shrink-0"
                                                         type={'filled'}
+                                                        size="sm"
                                                     />
                                                 }
                                                 {uniqueTags
@@ -456,6 +516,8 @@ const UserPage = () => {
                                                         icon={tagsDetailedEnum.find((t) => t.label === tag)?.icon}
                                                         label={tag}
                                                         variant="secondary"
+                                                        size="sm"
+                                                        borderRadius="lg"
                                                         className="animation-fade-in flex-shrink-0"
                                                         type={tags.includes(tag) ? 'filled' : 'default'}
                                                         onClick={() => {
@@ -573,20 +635,23 @@ const UserPage = () => {
                                     />
                                 }
                             </div>
+                            : null
                         : tab === 'plays' ?
                             <div className="flex flex-col">
                                 <PlayTab/>
                             </div>
                         : null}
+                        </>
+                        }
                     </div>
                 </div>
             </main>
         </div>
-        : msg === '404' ?
+        {!userById && msg === '404' ?
             <div className="h-100 flex align-center justify-center h-min-100">
                 <ErrorInfo code="404" info="Oops, user not found"/>
             </div>
-        : <div className="h-100 flex align-center justify-center h-min-100">
+        : !userById && !isLoading && <div className="h-100 flex align-center justify-center h-min-100">
             <ErrorInfo label="Oops, looks like something went wrong" info={msg} />
         </div>}
         </HelmetProvider>

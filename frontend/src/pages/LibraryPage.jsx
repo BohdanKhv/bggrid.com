@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from 'react'
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { getMyLibrary, removeGameFromLibrary } from '../features/library/librarySlice'
 import {Avatar, Button, ErrorInfo, HorizontalScroll, IconButton, InputSearch, Image, Icon, Dropdown, Modal} from '../components'
@@ -402,8 +402,7 @@ const LibraryItem = ({ item, index, tags, setTags }) =>  {
         </MobileModal>
         : null }
         <div className="border-bottom border-secondary px-sm-3 transition-duration animation-slide-in show-on-hover-parent hide-on-hover-parent">
-            <div className="flex justify-between"
-            >
+            <div className="flex justify-between">
                 <div className="flex gap-3 flex-1 py-2 align-center pe-4 pe-sm-0 overflow-hidden">
                     {window.innerWidth > 800 ?
                     <div
@@ -457,9 +456,6 @@ const LibraryItem = ({ item, index, tags, setTags }) =>  {
                                     </Link>
                                     </div>
                                     <div className="flex flex-col overflow-x-hidden gap-1 pointer pt-1 flex-1">
-                                        <HorizontalScroll
-                                            contentClassName="gap-1 align-center"
-                                        >
                                             <div className="flex align-center gap-2"
                                                 onClick={(e) => {
                                                     e.stopPropagation()
@@ -476,24 +472,6 @@ const LibraryItem = ({ item, index, tags, setTags }) =>  {
                                                     ))}
                                                 </div>
                                             </div>
-                                            {/* {item.tags.map((tag, index) => (
-                                                <div key={index}
-                                                    onClick={(e) => {
-                                                        e.stopPropagation()
-                                                        if (tags.includes(tag)) {
-                                                            setTags(tags.filter((t) => t !== tag))
-                                                        } else {
-                                                            setTags([...tags, tag])
-                                                        }
-                                                    }}
-                                                    className={`px-1 border-radius text-secondary flex-shrink-0 weight-500 flex align-center fs-12 weight-500  ${tags.includes(tag) ? " bg-secondary" : ""}`}>
-                                                        <span className="bold me-2">
-                                                            {tagsDetailedEnum.find((t) => t.label === tag)?.icon}
-                                                        </span>
-                                                        {tag}
-                                                    </div>
-                                            ))} */}
-                                        </HorizontalScroll>
                                     </div>
                                 </div>
                                 {window.innerWidth > 800 ? 
@@ -614,6 +592,8 @@ const LibraryPage = () => {
     const [sortBy, setSortBy] = useState('dateAdded')
     const [sortOrder, setSortOrder] = useState('desc')
     const [searchLibrary, setSearchLibrary] = useState(false)
+    const [limit, setLimit] = useState(20)
+    const [hasMore, setHasMore] = useState(true)
 
     const { user } = useSelector((state) => state.auth)
 
@@ -635,6 +615,24 @@ const LibraryPage = () => {
             if (document.querySelector('.header-title')) document.querySelector('.header-title').innerText = ''
         }
     }, [])
+
+    const observer = useRef();
+    const lastElementRef = useCallback(node => {
+        if (isLoading) return;
+        if (observer.current) observer.current.disconnect();
+        observer.current = new IntersectionObserver(entries => {
+            if (entries[0].isIntersecting && hasMore) {
+                setLimit(prevLimit => prevLimit + 20);
+        
+                return () => {
+                    setLimit(20);
+                    setHasMore(true);
+                    observer.current && observer.current.disconnect();
+                }
+            }
+        });
+        if (node) observer.current.observe(node);
+    }, [isLoading, hasMore]);
 
     return (
         <>
@@ -730,6 +728,8 @@ const LibraryPage = () => {
                                             type="default"
                                             onClick={() => {
                                                 setSearchValue('')
+                                                if (limit !== 20) setLimit(20)
+                                                if (!hasMore) setHasMore(true)
                                                 setSearchLibrary(false)
                                             }}
                                         />
@@ -739,7 +739,11 @@ const LibraryPage = () => {
                                             value={searchValue}
                                             autoFocus
                                             clearable
-                                            onChange={(e) => setSearchValue(e.target.value)}
+                                            onChange={(e) => {
+                                                setSearchValue(e.target.value)
+                                                if (limit !== 20) setLimit(20)
+                                                if (!hasMore) setHasMore(true)
+                                            }}
                                         />
                                     </div>
                                 :
@@ -762,7 +766,11 @@ const LibraryPage = () => {
                                                         variant="secondary"
                                                         size="sm"
                                                         type="default"
-                                                        onClick={() => setTags([])}
+                                                        onClick={() => {
+                                                            setTags([])
+                                                            if (limit !== 20) setLimit(20)
+                                                            if (!hasMore) setHasMore(true)
+                                                        }}
                                                     />
                                                 ) : 
                                                     <Button
@@ -788,8 +796,12 @@ const LibraryPage = () => {
                                                         onClick={() => {
                                                             if (tags.includes(tag)) {
                                                                 setTags(tags.filter((t) => t !== tag))
+                                                                if (limit !== 20) setLimit(20)
+                                                                if (!hasMore) setHasMore(true)
                                                             } else {
                                                                 setTags([...tags, tag])
+                                                                if (limit !== 20) setLimit(20)
+                                                                if (!hasMore) setHasMore(true)
                                                             }
                                                         }}
                                                     />
@@ -877,12 +889,19 @@ const LibraryPage = () => {
                                             return sortOrder === 'asc' ? a.totalPlays - b.totalPlays : b.totalPlays - a.totalPlays
                                         }
                                     })
-                                    .map((item, index) =>
+                                    .slice(0, limit)
+                                    .map((item, index, arr) =>
+                                        <div
+                                            key={item._id}
+                                            ref={index === arr.length - 1 ? lastElementRef : null}
+                                        >
+
                                         <LibraryItem
-                                            key={item._id} item={item} hideInfo index={index}
+                                            item={item} hideInfo index={index}
                                             tags={tags}
                                             setTags={setTags}
-                                        />
+                                            />
+                                        </div>
                                     )}
                                     
                                     {library

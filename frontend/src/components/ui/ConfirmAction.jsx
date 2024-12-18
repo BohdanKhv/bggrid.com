@@ -3,7 +3,7 @@ import Modal from './Modal'
 import Banner from './Banner'
 import ErrorInfo from './ErrorInfo'
 
-const ConfirmAction = ({ children, title, secondary, isLoading, type, onClick, className, content, actionDangerBtnText, actionBtnText }) => {
+const ConfirmAction = ({ children, disabled, title, secondary, isLoading, type, onClick, className, content, actionDangerBtnText, actionBtnText }) => {
     const [open, setOpen] = useState(false)
 
     useEffect(() => {
@@ -26,6 +26,7 @@ const ConfirmAction = ({ children, title, secondary, isLoading, type, onClick, c
                 type={type}
                 classNameBody="overflow-hidden"
                 dialogWindow
+                disabledAction={disabled || isLoading}
             >
                 {content ?
                     content
@@ -41,7 +42,7 @@ const ConfirmAction = ({ children, title, secondary, isLoading, type, onClick, c
                 }
             </Modal>
             <div
-                onClick={() => setOpen(true)}
+                onClick={() => !disabled && setOpen(true)}
                 className={className ? `${className}` : ''}
             >
                 {children}

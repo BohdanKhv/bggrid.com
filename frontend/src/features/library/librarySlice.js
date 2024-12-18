@@ -34,6 +34,24 @@ export const getMyLibrary = createAsyncThunk(
 );
 
 
+export const importBggCollection = createAsyncThunk(
+    'library/importBggCollection',
+    async (_, thunkAPI) => {
+        try {
+            const token = thunkAPI.getState().auth.user ? thunkAPI.getState().auth.user.token : null;
+            return await libraryService.importBggCollection(token);
+        } catch (error) {
+            const message =
+                (error.response &&
+                    error.response.data &&
+                    error.response.data.msg) ||
+                error.message ||
+                error.toString();
+            return thunkAPI.rejectWithValue(message);
+        }
+    }
+);
+
 export const addGameToLibrary = createAsyncThunk(
     'library/addGameToLibrary',
     async (payload, thunkAPI) => {
@@ -128,6 +146,23 @@ const librarySlice = createSlice({
                 state.msg = action.payload;
                 toast.error(action.payload, { toastId: 'toastError', closeButton: true});
             }
+        });
+
+        builder.addCase(importBggCollection.pending, (state) => {
+            state.loadingId = 'import';
+            state.msg = '';
+        });
+        builder.addCase(importBggCollection.fulfilled, (state, action) => {
+            state.loadingId = '';
+            state.library = action.payload.data;
+            // Save to local storage
+            localStorage.setItem('library', JSON.stringify(state.library));
+            state.msg = 'success';
+            toast.success('BoardGameGeek collection synced', { toastId: 'toastSuccess', closeButton: true });
+        });
+        builder.addCase(importBggCollection.rejected, (state, action) => {
+            state.loadingId = '';
+            toast.error(action.payload, { toastId: 'toastError', closeButton: true});
         });
 
         builder.addCase(addGameToLibrary.pending, (state, action) => {

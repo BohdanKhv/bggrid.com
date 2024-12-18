@@ -7,7 +7,8 @@ const {
     updateGameInLibrary,
     removeGameFromLibrary,
     getReviewsByGame,
-    getGameStats
+    getGameStats,
+    importBggCollection
 } = require('../controllers/libraryControllers');
 
 
@@ -18,6 +19,7 @@ router
     .post('/', protect, addGameToLibrary)
     .put('/:gameId', protect, updateGameInLibrary)
     .delete('/:gameId', protect, removeGameFromLibrary)
+    .post('/import-bgg-collection', protect, importBggCollection);
 
 
 module.exports = router;

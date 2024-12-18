@@ -301,7 +301,7 @@ const GamePlayStats = () => {
 
 
     return (
-        <div className="flex-1 border-radius bg-secondary h-fit-content w-set-sm-auto order-sm-1 pos-relative animation-slide-in">
+        <div className="flex-1 border-radius mt-6 bg-secondary h-fit-content w-set-sm-auto order-sm-1 pos-relative animation-slide-in">
             <div>
                 <div className="flex flex-col p-5">
                     <div className="flex-1 flex justify-between pb-4 border-bottom align-center">
@@ -346,7 +346,7 @@ const GameReviewStats = () => {
     const { gameById } = useSelector((state) => state.game)
 
     return (
-        <div className="flex-1 border-radius bg-secondary h-fit-content w-set-sm-auto order-sm-1 mb-4 pos-relative animation-slide-in">
+        <div className="flex-1 border-radius mt-6 bg-secondary h-fit-content w-set-sm-auto order-sm-1 mb-4 pos-relative animation-slide-in">
             <div className="bg-secondary border-radius">
                 
                 <div className="flex flex-col gap-3 pt-5 px-5">
@@ -513,7 +513,7 @@ const ReviewsTab = () => {
             </Helmet>
             <div className="flex-1">
             {reviews.length === 0 && !hasMore ?
-                <ErrorInfo label="No reviews found"/>
+                <ErrorInfo label="No reviews found" secondary="When someone reviews a game, it will show up here."/>
             : 
                 <div className="gap-sm-0 px-sm-3">
                     <div className="flex-1 order-sm-2">
@@ -1277,7 +1277,7 @@ const GamePage = () => {
                     </div>
                     <div className="flex flex-1">
                     <div className="flex-1 flex flex-col overflow-x-hidden overflow-sm-">
-                                <div className="flex flex-col w-1">
+                                <div className="flex flex-col flex-1">
                                     {(window.innerWidth < 800 || window.innerWidth >= 800) && (tab === 'overview' || !tab) ?
                                     <div className="flex flex-col mt-4 pos-relative mt-sm-0 px-sm-3">
                                         <div className="z-3 border-radius bg-sm-main">

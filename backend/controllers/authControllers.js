@@ -496,13 +496,13 @@ const resetPassword = async (req, res) => {
 }
 
 
-
 // Generate token
 const generateToken = (id) => {
     return jwt.sign({ id }, process.env.JWT_SECRET, {
         expiresIn: process.env.JWT_EXPIRES_IN || '30d',
     });
 }
+
 
 
 

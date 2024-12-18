@@ -55,12 +55,26 @@ export const removeGameFromLibrary = async (gameId, token) => {
 }
 
 
+export const importBggCollection = async (token) => {
+    const config = {
+        headers: {
+            Authorization: `Bearer ${token}`,
+        }
+    };
+
+    const response = await axios.post(API_URL+`/import-bgg-collection`, null, config);
+
+    return response.data;
+}
+
+
 
 const listingService = {
     getMyLibrary,
     addGameToLibrary,
     updateGameInLibrary,
-    removeGameFromLibrary
+    removeGameFromLibrary,
+    importBggCollection
 };
 
 export default listingService;

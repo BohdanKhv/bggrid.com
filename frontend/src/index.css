@@ -334,19 +334,19 @@ select.select-no-arrow {
   appearance: none;
   padding-right: 1.5rem;
 }
-/* *::-webkit-scrollbar {
+body::-webkit-scrollbar {
   width: 6px;
   height: 6px;
 }
-*::-webkit-scrollbar-track {
+body::-webkit-scrollbar-track {
   background-color: transparent!important;
 }
-*::-webkit-scrollbar-thumb {
+body::-webkit-scrollbar-thumb {
   min-height: 65px;
   background-color: var(--color-border)!important;
   border: 1px solid var(--color-border)!important;
   border-radius: var(--border-radius);
-} */
+}
 
 .checkout-btn-offset {
   padding-bottom: var(--checkout-btn-offset)!important;

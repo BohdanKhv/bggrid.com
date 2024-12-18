@@ -4,6 +4,8 @@ const Play = require('../models/playModel');
 const Notification = require('../models/notificationModel');
 const Follow = require('../models/followModel');
 const mongoose = require('mongoose');
+const axios = require('axios');
+const cheerio = require('cheerio');
 
 
 // @desc    Get reviews by game
@@ -284,6 +286,101 @@ const getGameStats = async (req, res) => {
 }
 
 
+// Import collection data from BGG
+// @route   POST /api/library/import-bgg-collection
+// @access  Private
+const importBggCollection = async (req, res) => {
+    try {
+        const bggUsername = req.user.bggUsername;
+
+        if (!bggUsername) {
+            return res.status(400).json({ msg: 'Please provide a BGG username' });
+        }
+
+        const response = await axios.get(`https://boardgamegeek.com/xmlapi2/collection?username=${bggUsername}&stats=1`);
+
+        if (!response.data || !response.data.length) {
+            return res.status(404).json({ msg: 'No collection found' });
+        }
+
+        const $ = cheerio.load(response.data);
+
+        const bulkWriteOps = [];
+        const games = [];
+        const gameIds = [];
+
+        if ($('error').length) {
+            return res.status(404).json({ msg: 'Invalid BGG username' });
+        }
+
+        if ($('message').length) {
+            return res.status(404).json({ msg: 'BGG is currently over capacity, please try again' });
+        }
+
+        $('item').each((i, el) => {
+            const bggId = $(el).attr('objectid');
+            const rating = $(el).find('stats').find('rating').attr('value');
+            const tags = [];
+            if ($(el).find('status').attr('own') === '1') tags.push('Own');
+            if ($(el).find('status').attr('prevowned') === '1') tags.push('Prev Owned');
+            if ($(el).find('status').attr('wishlist') === '1') tags.push('Wishlist');
+            if ($(el).find('status').attr('played') === '1') tags.push('Played');
+            if ($(el).find('status').attr('wanttoplay') === '1') tags.push('Want to Play');
+            if ($(el).find('status').attr('want') === '1') tags.push('Want in Trade');
+            if ($(el).find('status').attr('preordered') === '1') tags.push('Preordered');
+
+            gameIds.push(bggId);
+            games.push({
+                bggId: bggId.toString(),
+                rating: rating && rating > 0 ? rating / 2 : 0, // BGG rating is out of 10 but we use 5
+                tags,
+            });
+        });
+
+        if (!games.length) {
+            return res.status(404).json({ msg: 'No games found in collection' });
+        }
+
+
+        // get all games from the database
+        const allGames = await Game.find({bggId: { $in: gameIds }});
+
+        if (allGames.length == 0 ) {
+            return res.status(404).json({ msg: 'No games found in our database' });
+        }
+
+        // get all games from the library
+        allGames.forEach(game => {
+            const gameInLibrary = games.find(g => g.bggId === game.bggId);
+            if (gameInLibrary) {
+                bulkWriteOps.push({
+                    updateOne: {
+                        filter: {
+                            game: game._id,
+                            user: req.user._id,
+                        },
+                        update: { $set: { tags: gameInLibrary.tags, rating: gameInLibrary.rating } },
+                        upsert: true,
+                    },
+                });
+            }
+        });
+
+        await Library.bulkWrite(bulkWriteOps);
+
+        // Get the updated library
+        const updatedLibrary = await Library.find({ user: req.user._id })
+        .populate('game');
+
+        return res.status(200).json({
+            data: updatedLibrary,
+        });
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ msg: 'Server error' });
+    }
+}
+
 
 module.exports = {
     getMyLibrary,
@@ -291,5 +388,6 @@ module.exports = {
     addGameToLibrary,
     updateGameInLibrary,
     removeGameFromLibrary,
-    getGameStats
+    getGameStats,
+    importBggCollection
 }

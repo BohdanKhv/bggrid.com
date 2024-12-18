@@ -147,7 +147,7 @@ const Account = () => {
                             type="text"
                         />
                         <Input
-                            label="Board Game Geek Username"
+                            label="BGG Username"
                             description="Your Board Game Geek username is used to import your collection and plays."
                             value={bggUsername}
                             placeholder="Your board game geek username"
@@ -157,6 +157,33 @@ const Account = () => {
                             wrapColumn
                             type="text"
                         />
+                        <ConfirmAction
+                            title={`Sync Collection from Board Game Geek?`}
+                            isLoading={libraryLoadingId === 'import'}
+                            onClick={() => dispatch(importBggCollection())}
+                            disabled={loadingId || !user?.bggUsername || user?.bggUsername !== bggUsername}
+                        >
+                            <div className={`border color-border-on-hover-text border-radius p-3 pointer bg-tertiary-hover${!user?.bggUsername || user?.bggUsername !== bggUsername ? ' opacity-50' : ''}`}>
+                                <div className="flex justify-between align-center">
+                                    <div className="flex flex-col pe-3">
+                                        <div className="fs-14 bold">
+                                            Sync {user?.bggUsername ? <span className="text-success weight-400">{user?.bggUsername} Collection</span> : <span className="text-danger weight-400">not connected</span>}
+                                        </div>
+                                        <div className="fs-12 text-secondary pt-1">
+                                            This action will import your collection from Board Game Geek. All existing games in your library will not be affected.
+                                        </div>
+                                    </div>
+                                    <IconButton
+                                        label="Import BGG Collection"
+                                        variant="secondary"
+                                        type="link"
+                                        icon={uploadIcon}
+                                        isLoading={libraryLoadingId === 'import'}
+                                        disabled={loadingId || !user?.bggUsername}
+                                    />
+                                </div>
+                            </div>
+                        </ConfirmAction>
                         <div className="flex gap-2">
                             <Button
                                 label="Save Changes"
@@ -174,69 +201,6 @@ const Account = () => {
                                     dispatch(updateUser(data))
                                 }}
                             />
-                        </div>
-                        <div className="border-bottom my-6"></div>
-                        <div>
-                            <div className="fs-14 weight-500">
-                                Board Game Geek Integration
-                            </div>
-                            <div className="fs-12 mb-2">
-                                {user?.bggUsername ? <span className="text-success">Connected: {user?.bggUsername}</span> : <span className="text-danger">Not connected</span>}
-                            </div>
-                            <ConfirmAction
-                                title={`Sync Collection from Board Game Geek?`}
-                                isLoading={libraryLoadingId === 'import'}
-                                onClick={() => dispatch(importBggCollection())}
-                                disabled={loadingId || !user?.bggUsername || user?.bggUsername !== bggUsername}
-                            >
-                                <div className={`border color-border-on-hover-text border-radius p-3 pointer bg-tertiary-hover${!user?.bggUsername || user?.bggUsername !== bggUsername ? ' opacity-50' : ''}`}>
-                                    <div className="flex justify-between align-center">
-                                        <div className="flex flex-col pe-3">
-                                            <div className="fs-14 bold">
-                                                Sync Collection
-                                            </div>
-                                            <div className="fs-12 text-secondary pt-1">
-                                                This action will import your collection from Board Game Geek. All existing games in your library will not be affected.
-                                            </div>
-                                        </div>
-                                        <IconButton
-                                            label="Import BGG Collection"
-                                            variant="secondary"
-                                            type="link"
-                                            icon={uploadIcon}
-                                            isLoading={libraryLoadingId === 'import'}
-                                            disabled={loadingId || !user?.bggUsername}
-                                        />
-                                    </div>
-                                </div>
-                            </ConfirmAction>
-                            {/* <ConfirmAction
-                                className="mt-3"
-                                title={`Import Plays from Board Game Geek?`}
-                                isLoading={playsLoadingId === 'import'}
-                                disabled={loadingId || !user?.bggUsername || user?.bggUsername !== bggUsername}
-                            >
-                                <div className={`border color-border-on-hover-text border-radius p-3 pointer bg-tertiary-hover${!user?.bggUsername || user?.bggUsername !== bggUsername ? ' opacity-50' : ''}`}>
-                                    <div className="flex justify-between align-center">
-                                        <div className="flex flex-col pe-3">
-                                            <div className="fs-14 bold">
-                                                Import Plays
-                                            </div>
-                                            <div className="fs-12 text-secondary pt-1">
-                                                This will import your plays from Board Game Geek and add them in addition to your existing plays. This action cannot be undone.
-                                            </div>
-                                        </div>
-                                        <IconButton
-                                            label="Import BGG Collection"
-                                            variant="secondary"
-                                            type="link"
-                                            icon={uploadIcon}
-                                            isLoading={playsLoadingId === 'import'}
-                                            disabled={loadingId || !user?.bggUsername}
-                                        />
-                                    </div>
-                                </div>
-                            </ConfirmAction> */}
                         </div>
                     </div>
                 </div>

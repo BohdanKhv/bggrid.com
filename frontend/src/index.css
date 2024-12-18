@@ -62,6 +62,7 @@
   --color-scroll-overlay: rgba(190, 190, 190, 0.3);
 
   --color-logo: #000;
+  --nav-bg-color: linear-gradient(180deg, rgba(255, 255, 255, 0), rgba(255,255,255, .85),rgba(255,255,255, 1));
 
   --color-main: #ffffff;
   --color-secondary: #f6f6f6;
@@ -260,6 +261,7 @@
 
   --border: 1px solid #363636;
   --border-light: 1px solid rgba(0, 0, 0, 0.25%);
+  --nav-bg-color: linear-gradient(180deg, rgba(0, 0, 0, 0), rgba(0,0,0, 0.5),rgba(0,0,0, 0.75),rgba(0,0,0, 0.85), rgba(0,0,0, 1));
 
   --color-1-text: rgb(108, 248, 155);
   --color-1-bg: rgba(25,128,42,.2);

@@ -2,7 +2,7 @@ import { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import {Avatar, Button, IconButton, Icon, Skeleton, Dropdown, HorizontalScroll} from '../components'
 import { Link, useNavigate, useParams, useSearchParams } from 'react-router-dom'
-import { editIcon, arrowLeftShortIcon, shareIcon, moreIcon, trashIcon } from '../assets/img/icons'
+import { editIcon, leftArrowIcon, shareIcon, moreIcon, trashIcon } from '../assets/img/icons'
 import UpdateLogPlay from './game/UpdateLogPlay'
 import { DateTime } from 'luxon'
 import { getPlayById } from '../features/play/playSlice'
@@ -39,7 +39,7 @@ const PlayItemPage = () => {
                         <div className="flex justify-between py-3 px-sm-3 sticky top-0 z-3 bg-main">
                             <div className="flex gap-2 align-center">
                                 <IconButton
-                                    icon={arrowLeftShortIcon}
+                                    icon={leftArrowIcon}
                                     onClick={() => navigate(playById ? `/u/${playById?.user?.username}/plays` : "/") }
                                     type="secondary"
                                     variant="text"

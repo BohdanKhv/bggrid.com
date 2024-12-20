@@ -1,7 +1,7 @@
 import { DateTime } from 'luxon'
 import { Avatar, Button, Dropdown, Icon, IconButton, Image } from '../components'
-import { Link, useSearchParams } from 'react-router-dom'
-import { awardIcon, editIcon, instagramIcon, moreHorizontalIcon, moreIcon, shareIcon, trashIcon } from '../assets/img/icons'
+import { Link, useNavigate, useSearchParams } from 'react-router-dom'
+import { awardIcon, downloadIcon, editIcon, instagramIcon, moreHorizontalIcon, moreIcon, shareIcon, trashIcon } from '../assets/img/icons'
 import { addCommaToNumber } from '../assets/utils'
 import { useDispatch, useSelector } from 'react-redux'
 import { deletePlay } from '../features/play/playSlice'
@@ -183,6 +183,7 @@ const DownloadItem = ({ item, setIsDownloading }) => {
 
 
 const PlayItem = ({ item, hideUpdate }) => {
+    const navigate = useNavigate()
     const dispatch = useDispatch()
 
     const { loadingId } = useSelector(state => state.play)
@@ -192,8 +193,8 @@ const PlayItem = ({ item, hideUpdate }) => {
     return (
         <>
         {isDownloading ? <DownloadItem item={item} setIsDownloading={setIsDownloading} /> : null}
-        <div  className={`px-sm-3 bg-main border-bottom show-on-hover-parent border-secondary transition-duration display-on-hover-parent animation-slide-in`}>
-            <div className="flex gap-3 pt-5 pt-sm-3 pb-2">
+        <div className={`px-sm-3 bg-main border-bottom show-on-hover-parent border-secondary transition-duration display-on-hover-parent animation-slide-in`}>
+            <div className="flex gap-3 pt-3 pt-sm-3 pb-2">
                 <Avatar
                     img={item?.game?.thumbnail}
                     avatarColor={item?.game?.name?.length}
@@ -223,7 +224,7 @@ const PlayItem = ({ item, hideUpdate }) => {
                                                         </div>
                                                     </>
                                                 : null}
-                                                <Link to={`/u/${item.user.username}`} className="text-secondary weight-400 fs-12 text-underlined-hover">@{item.user.username}</Link>
+                                                <Link to={`/u/${item.user.username}`} className="text-secondary weight-400 fs-12 text-underlined-hover w-fit-content">@{item.user.username}</Link>
                                             </div>
                                         </div>
                                     </div>
@@ -246,35 +247,50 @@ const PlayItem = ({ item, hideUpdate }) => {
                                 />
                         }>
                             <div className="flex flex-col overflow-hidden border-radius">
-                                    <Button
-                                        smSize="xl"
-                                        size="lg"
-                                        borderRadius="none"
-                                        className="justify-start"
-                                        label="Edit"
-                                        icon={editIcon}
-                                        disabled={loadingId}
-                                        variant="text"
-                                        type="default"
-                                        onClick={() => {
-                                            searchParams.set('updatePlay', item._id)
-                                            setSearchParams(searchParams)
-                                        }}
-                                    />
-                                    <Button
-                                        smSize="xl"
-                                        size="lg"
-                                        borderRadius="none"
-                                        className="justify-start"
-                                        label="Delete"
-                                        disabled={loadingId}
-                                        icon={trashIcon}
-                                        variant="text"
-                                        type="default"
-                                        onClick={() => {
-                                            dispatch(deletePlay(item._id))
-                                        }}
-                                    />
+                                <Button
+                                    smSize="xl"
+                                    size="lg"
+                                    borderRadius="none"
+                                    className="justify-start"
+                                    label="Edit"
+                                    icon={editIcon}
+                                    disabled={loadingId}
+                                    variant="text"
+                                    type="default"
+                                    onClick={() => {
+                                        searchParams.set('updatePlay', item._id)
+                                        setSearchParams(searchParams)
+                                    }}
+                                />
+                                <Button
+                                    smSize="xl"
+                                    size="lg"
+                                    borderRadius="none"
+                                    className="justify-start"
+                                    label="Delete"
+                                    disabled={loadingId}
+                                    icon={trashIcon}
+                                    variant="text"
+                                    type="default"
+                                    onClick={() => {
+                                        dispatch(deletePlay(item._id))
+                                    }}
+                                />
+                                <Button
+                                    smSize="xl"
+                                    size="lg"
+                                    borderRadius="none"
+                                    className="justify-start"
+                                    label="Download"
+                                    icon={downloadIcon}
+                                    isLoading={isDownloading}
+                                    displayTextOnLoad
+                                    variant="text"
+                                    type="default"
+                                    onClick={() => {
+                                        setIsDownloading(true)
+                                    }}
+                                />
                                 <Button
                                     smSize="xl"
                                     size="lg"
@@ -282,12 +298,14 @@ const PlayItem = ({ item, hideUpdate }) => {
                                     className="justify-start"
                                     label="Share"
                                     icon={shareIcon}
-                                    isLoading={isDownloading}
-                                    displayTextOnLoad
                                     variant="text"
                                     type="default"
                                     onClick={() => {
-                                        setIsDownloading(true)
+                                        navigator.share({
+                                            title: "Check out my play on BGGRID",
+                                            text: item.comment || `I played ${item.game.name} for ${item.playTimeMinutes} min`,
+                                            url: `${window.location.origin}/u/${item.user.username}/plays/${item._id}`,
+                                        })
                                     }}
                                 />
                             </div>
@@ -300,9 +318,11 @@ const PlayItem = ({ item, hideUpdate }) => {
                         </div>
                     : null}
                     <div className="flex flex flex-col border border-radius overflow-hidden mt-3">
-                        <div className="fs-12 bold py-1 text-center border-bottom bg-secondary">
+                        <Link className="fs-12 bold py-1 text-center border-bottom bg-secondary"
+                            to={`/u/${item.user.username}/plays/${item._id}`}
+                        >
                             Players
-                        </div>
+                        </Link>
                         {item?.players.length &&
                         [...item?.players]
                         .sort((a, b) => b.score - a.score)
@@ -357,7 +377,11 @@ const PlayItem = ({ item, hideUpdate }) => {
                             type="secondary"
                             variant="text"
                             onClick={() => {
-                                setIsDownloading(true)
+                                navigator.share({
+                                    title: "Check out my play on BGGRID",
+                                    text: item.comment || `I played ${item.game.name} for ${item.playTimeMinutes} min`,
+                                    url: `${window.location.origin}/u/${item.user.username}/plays/${item._id}`,
+                                })
                             }}
                         />
                     </div>

@@ -14,6 +14,7 @@ import FollowingModal from './follow/FollowingModal'
 import FollowSearchModal from './follow/FollowSearchModal'
 import UserGuardLoginModal from './auth/UserGuardLoginModal'
 import { Helmet, HelmetProvider } from 'react-helmet-async';
+import UpdateLogPlay from './game/UpdateLogPlay'
 
 
 const PlayTab = () => {
@@ -62,6 +63,7 @@ const PlayTab = () => {
             />
         :
             <div className="flex gap-6">
+                <UpdateLogPlay/>
                 <div className="flex-1">
                     {plays.map((item, index, arr) => (
                         <div

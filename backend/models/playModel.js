@@ -11,6 +11,7 @@ const playSchema = new mongoose.Schema({
         name: { type: String, required: true }, // in case the user is not registered
         score: { type: Number, required: false },
         color: { type: String, required: false },
+        comment: { type: String, required: false },
         winner: { type: Boolean, required: false },
     }],
     playDate: { type: Date, required: false, default: Date.now },

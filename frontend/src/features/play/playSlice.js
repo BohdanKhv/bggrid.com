@@ -47,7 +47,12 @@ export const getPlayById = createAsyncThunk(
     async (payload, thunkAPI) => {
         try {
             const token = thunkAPI.getState().auth.user ? thunkAPI.getState().auth.user.token : null;
-            return await playService.getPlayById(payload, token);
+            const getFromState = thunkAPI.getState().play.plays.find(play => play._id === payload);
+            if (getFromState) {
+                return { data: getFromState };
+            } else {
+                return await playService.getPlayById(payload, token);
+            }
         } catch (error) {
             const message =
                 (error.response &&

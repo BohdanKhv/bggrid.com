@@ -64,9 +64,9 @@ const Navbar = () => {
                     <>
                     <Link
                         to={`/u/${user.username}`}
-                        className={`flex gap-3 pointer hover border-radius-lg overflow-hidden${pathname === `/u/${user.username}` ? " bg-secondary" : ""}`}>
+                        className={`flex gap-3 pointer hover border-radius-lg overflow-hidden${pathname.startsWith(`/u/${user.username}`) ? " bg-secondary" : ""}`}>
                         <div className="flex align-center justify-center align-center ps-3 py-3">
-                            <div className={`border border-radius-50${pathname === `/u/${user.username}` ? " border-color-text" : ""}`}>
+                            <div className={`border border-radius-50${pathname.startsWith(`/u/${user.username}`) ? " border-color-text" : ""}`}>
                                 <Avatar
                                     img={user && user?.avatar ? `${user?.avatar}` : null}
                                     name={user ? `${user?.email}` : null}

@@ -189,10 +189,10 @@
   --color-scheme: dark;
   --color-logo: #fff;
 
-  --color-main: #0f0f0f;
+  --color-main: #000000;
   --color-secondary: #1e1e1e;
   --color-secondary-hover: #252526;
-  --color-tertiary: #121212;
+  --color-tertiary: #0f0f0f;
   --color-border: #363636;
   --color-border-secondary: #1e1e1e;
   --color-translucent: rgba(15, 15, 15, 0.1);

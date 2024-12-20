@@ -564,17 +564,12 @@ const SearchGames = () => {
                                 Start typing to search games
                             </div>
                         : searchValue?.length ?
-                        <div className="flex justify-between align-center">
-                            <div
-                                onClick={(e) => {
-                                    e.stopPropagation()
-                                    setSearchValue(searchValue)
-                                }}
-                                className="fs-16 flex align-center px-4 py-3 gap-3 text-secondary pointer bg-tertiary-hover flex-1 overflow-hidden"
+                            <Link
+                                to={`/discover?s=${searchValue}`}
+                                className="fs-16 flex align-center px-4 py-3 gap-3 text-secondary pointer bg-tertiary-hover flex-1 overflow-hidden mt-2"
                             >
                                 <Icon icon={searchIcon} className="fill-secondary"/><span className="text-ellipsis-1 text-primary">{searchValue}<span className="text-secondary"> - search games</span></span>
-                            </div>
-                        </div>
+                            </Link>
                         : searchParams.get('s') && searchParams.get('s')?.length ?
                             <div className="flex justify-between align-center">
                                 <div

@@ -36,6 +36,7 @@ const FollowingModal = () => {
     }, [isLoading, hasMore, isError]);
 
     useEffect(() => {
+        dispatch(resetFollow());
         getData()
 
         return () => {

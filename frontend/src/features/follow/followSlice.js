@@ -151,6 +151,7 @@ const followSlice = createSlice({
         builder.addCase(followUser.fulfilled, (state, action) => {
             state.loadingId = '';
             state.follow = state.follow.filter(f => f._id !== action.payload.data._id )
+            console.log(state.follow, action.payload.data);
             state.follow.push(action.payload.data);
         });
         builder.addCase(followUser.rejected, (state, action) => {

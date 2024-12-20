@@ -66,11 +66,11 @@ const PlayItemPage = () => {
                             ) : null}
                         </div>
                         {loadingId === 'get-one' ?
-                            <div className="flex flex-col gap-3 py-5 px-sm-3 px-4">
+                            <div className="flex flex-col gap-3 py-3 px-sm-3">
                                 <div className="flex gap-2">
-                                    <Skeleton height="30" width="30" animation="wave" rounded/>
+                                    <Skeleton height="38" width="38" animation="wave" rounded/>
                                     <div className="flex flex-col gap-2 flex-1">
-                                        <Skeleton height="20" width={225} animation="wave"/>
+                                        <Skeleton height="18" width={225} animation="wave"/>
                                         <Skeleton height="12" width={250} animation="wave"/>
                                     </div>
                                 </div>

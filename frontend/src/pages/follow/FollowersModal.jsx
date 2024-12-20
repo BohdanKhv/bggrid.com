@@ -36,6 +36,7 @@ const FollowersModal = () => {
     }, [isLoading, hasMore, isError]);
 
     useEffect(() => {
+        dispatch(resetFollow());
         getData()
 
         return () => {

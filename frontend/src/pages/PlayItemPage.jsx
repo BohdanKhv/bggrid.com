@@ -8,6 +8,7 @@ import { DateTime } from 'luxon'
 import { getPlayById } from '../features/play/playSlice'
 import UserIsMeGuard from './auth/UserIsMeGuard'
 import { addCommaToNumber } from '../assets/utils'
+import { Helmet, HelmetProvider } from 'react-helmet-async';
 
 
 const PlayItemPage = () => {
@@ -31,7 +32,7 @@ const PlayItemPage = () => {
     }, [playId])
 
     return (
-        <>
+        <HelmetProvider>
             <main className="page-body">
                 <UpdateLogPlay/>
                 <div className="animation-slide-in container">
@@ -80,6 +81,15 @@ const PlayItemPage = () => {
                             </div>
                         : playById &&
                         <div className="flex animation-slide-in flex-sm-col px-sm-3">
+                            <Helmet>
+                                <title>
+                                    {playById.user.username} played {playById.game.name} {playById.playTimeMinutes ? ` for ${playById.playTimeMinutes} min` : ""} {playById.players.find(player => player._id === user._id && player.winner) ? 'and won!' : ''} - BGGRID
+                                </title>
+                                <meta name="description" content={`${playById.user.username} played ${playById.game.name} with ${playById.players.length} players`} />
+                                <link rel="canonical"
+                                    href={`${window.location.origin}/u/${playById.user.username}/plays/${playById._id}`}
+                                />
+                            </Helmet>
                             <div className={`flex-1 bg-main show-on-hover-parent border-secondary display-on-hover-parent`}>
                                 {window.innerWidth < 800 &&
                                     <div className="flex gap-3 py-2">
@@ -328,7 +338,7 @@ const PlayItemPage = () => {
                         }
                     </div>
             </main>
-        </>
+        </HelmetProvider>
     )
 }
 

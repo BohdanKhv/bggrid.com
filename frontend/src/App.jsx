@@ -119,6 +119,7 @@ function App() {
                       <Route path="/discover" element={<ErrBoundary><div className="mx-auto w-max-xl offset-header w-100"><SearchPage /></div></ErrBoundary>} />
                       <Route path="/u/:username" element={<ErrBoundary><div className="mx-auto w-max-xl offset-header w-100"><UserPage /></div></ErrBoundary>} />
                       <Route path="/u/:username/:tab" element={<ErrBoundary><div className="mx-auto w-max-xl offset-header w-100"><UserPage /></div></ErrBoundary>} />
+                      <Route path="/u/:username/plays/:playId" element={<ErrBoundary><PlayItemPage /></ErrBoundary>} />
                       <Route path="/g/:gameId" element={<ErrBoundary><div className="mx-auto w-max-xl offset-header w-100"><GamePage /></div></ErrBoundary>} />
                       <Route path="/g/:gameId/:tab" element={<ErrBoundary><div className="mx-auto w-max-xl offset-header w-100"><GamePage /></div></ErrBoundary>} />
                       <Route path="/publisher/:publisherId" element={<ErrBoundary><div className="mx-auto w-max-xl offset-header w-100"><PublisherPage /></div></ErrBoundary>} />

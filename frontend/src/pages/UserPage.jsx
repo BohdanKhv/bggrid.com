@@ -330,7 +330,7 @@ const UserPage = () => {
                                         <div>
                                             <Helmet>
                                                 <title>
-                                                    {`${userById?.firstName || ''} ${userById?.lastName || ''} - ${userById?.username}`}
+                                                    @{userById?.username} {`${userById?.firstName || ''} ${userById?.lastName || ''}`} - BGGRID
                                                 </title>
                                                 <link
                                                     rel="canonical"

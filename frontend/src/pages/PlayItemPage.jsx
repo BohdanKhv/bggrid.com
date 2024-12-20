@@ -40,7 +40,7 @@ const PlayItemPage = () => {
                             <div className="flex gap-2 align-center">
                                 <IconButton
                                     icon={arrowLeftShortIcon}
-                                    onClick={() => navigate(`/u/${user?.username}/plays`) }
+                                    onClick={() => navigate(playById ? `/u/${playById?.user?.username}/plays` : "/") }
                                     type="secondary"
                                     variant="text"
                                 />
@@ -83,7 +83,7 @@ const PlayItemPage = () => {
                         <div className="flex animation-slide-in flex-sm-col px-sm-3">
                             <Helmet>
                                 <title>
-                                    {playById.user.username} played {playById.game.name} {playById.playTimeMinutes ? ` for ${playById.playTimeMinutes} min` : ""} {playById.players.find(player => player._id === user._id && player.winner) ? 'and won!' : ''} - BGGRID
+                                    @{playById.user.username} played {playById.game.name} {playById.playTimeMinutes ? ` for ${playById.playTimeMinutes} min` : ""} {playById.players.find(player => player._id === playById?.user?._id && player.winner) ? 'and won!' : ''} - BGGRID
                                 </title>
                                 <meta name="description" content={`${playById.user.username} played ${playById.game.name} with ${playById.players.length} players`} />
                                 <link rel="canonical"
@@ -105,7 +105,7 @@ const PlayItemPage = () => {
                                                 <Link to={`/g/${playById.game._id}`} className="text-main bold pointer text-ellipsis-1 text-underlined-hover">{playById.game.name}</Link>
                                             </div>
                                             <HorizontalScroll>
-                                                {playById.players.find(player => player._id === user._id && player.winner) ?
+                                                {playById.players.find(player => player._id === playById?.user?._id && player.winner) ?
                                                     <div className="flex flex-col text-nowrap fs-12 bold tag-success border-radius p-2 flex-shrink-0">
                                                         🥇 You won!
                                                     </div>
@@ -285,7 +285,7 @@ const PlayItemPage = () => {
                                                 bigDisplay
                                                 size="lg"
                                             />
-                                            {playById.players.find(player => player._id === user._id && player.winner) ?
+                                            {playById.players.find(player => player._id === playById?.user?._id && player.winner) ?
                                                 <div className="flex flex-col justify-between flex-1 tag-success border-radius p-3 align-center justify-center">
                                                     <div className="fs-14 bold">
                                                         🥇 You won!

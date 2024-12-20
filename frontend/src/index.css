@@ -195,11 +195,11 @@
   --color-tertiary: #0f0f0f;
   --color-border: #363636;
   --color-border-secondary: #1e1e1e;
-  --color-translucent: rgba(15, 15, 15, 0.1);
+  --color-translucent: rgba(0, 0, 0, 0.1);
   --text-shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.1);
-  --color-translucent-3: rgba(15, 15, 15, 0.9);
+  --color-translucent-3: rgba(0, 0, 0, 0.9);
 
-  --color-overlay: rgba(0, 0, 0, 0.65);
+  --color-overlay: rgba(25, 25, 25, 0.65);
   
   --color-primary-100: #cce1ff;
   --color-primary: rgb(0, 149, 246);

@@ -97,16 +97,16 @@ const PlayItemPage = () => {
                                             <HorizontalScroll>
                                                 {playById.players.find(player => player._id === user._id && player.winner) ?
                                                     <div className="flex flex-col text-nowrap fs-12 bold tag-success border-radius p-2 flex-shrink-0">
-                                                            🥇 You won!
+                                                        🥇 You won!
                                                     </div>
                                                 : 
-                                                    <div className="flex flex-col text-nowrap fs-12 bold bg-tertiary border-radius p-2 flex-shrink-0">
-                                                            🎲 Played
+                                                    <div className="flex flex-col text-nowrap fs-12 bold tag-secondary border-radius p-2 flex-shrink-0">
+                                                        🎲 Played
                                                     </div>
                                                 }
                                                 {playById.playTimeMinutes ?
-                                                    <div className="flex flex-col text-nowrap fs-12 bold tag-success border-radius p-2 flex-shrink-0">
-                                                            {playById.playTimeMinutes} min
+                                                    <div className="flex flex-col text-nowrap fs-12 bold tag-secondary border-radius p-2 flex-shrink-0">
+                                                        ⌛ {playById.playTimeMinutes} min
                                                     </div>
                                                 : null}
                                             </HorizontalScroll>

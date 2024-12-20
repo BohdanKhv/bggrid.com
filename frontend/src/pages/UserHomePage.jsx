@@ -11,6 +11,7 @@ import { searchUsers } from '../features/user/userSlice'
 import HorizontalScrollControlled from '../components/ui/HorizontalScrollControlled'
 import { typeEnum } from '../assets/constants'
 import FollowItem from '../pages/follow/FollowItem'
+import { numberFormatter } from '../assets/utils'
 
 
 const PlayItem = ({ item }) => {
@@ -177,7 +178,7 @@ const HomeFeed = () => {
                         </div>
                         <div className="flex flex-col gap-2 flex-1 bg-secondary p-4 border-radius w-min-100-px">
                             <div className="fs-20 weight-600">
-                                {home?.playStats?.totalPlayTime || 0} min
+                                {numberFormatter(home?.playStats?.totalPlayTime || 0)} min
                             </div>
                             <div className="fs-14 text-secondary">
                                 total playtime

@@ -687,15 +687,15 @@ const LibraryPage = () => {
                                             Playtime:
                                         </div>
                                         <div className="fs-12 text-end weight-500 text-nowrap">
-                                            {library.reduce((acc, item) => acc + (item.totalPlayTime || 0), 0)} Min
+                                            {numberFormatter(library.reduce((acc, item) => acc + (item.totalPlayTime || 0), 0))} Min
                                         </div>
                                     </div>
                                     <div className="justify-between flex-shrink-0 flex gap-2 bg-secondary border-radius px-3 py-2">
                                         <div className="fs-12 text-secondary">
-                                            Win Rate:
+                                            Wins:
                                         </div>
                                         <div className="fs-12 text-end weight-500 text-nowrap">
-                                            {(library.reduce((acc, item) => acc + (item.totalWins || 0), 0) / library.reduce((acc, item) => acc + (item.totalPlays || 0), 0) * 100 || 0).toFixed(2)}%
+                                            {library.reduce((acc, item) => acc + (item.totalWins || 0), 0)}
                                         </div>
                                     </div>
                                 </HorizontalScroll>
@@ -961,15 +961,15 @@ const LibraryPage = () => {
                                 Playtime:
                             </div>
                             <div className="fs-14 text-end weight-500 text-nowrap">
-                                {library.reduce((acc, item) => acc + (item.totalPlayTime || 0), 0)} Min
+                                {numberFormatter(library.reduce((acc, item) => acc + (item.totalPlayTime || 0), 0))} Min
                             </div>
                         </div>
                         <div className="justify-between flex-shrink-0 flex gap-2 mx-4 py-4">
                             <div className="fs-14 text-secondary">
-                                Win Rate:
+                                Wins:
                             </div>
                             <div className="fs-14 text-end weight-500 text-nowrap">
-                                {(library.reduce((acc, item) => acc + (item.totalWins || 0), 0) / library.reduce((acc, item) => acc + (item.totalPlays || 0), 0) * 100 || 0).toFixed(2)}%
+                                {library.reduce((acc, item) => acc + (item.totalWins || 0), 0)}
                             </div>
                         </div>
                     </div>

@@ -119,9 +119,22 @@ const getHomeFeed = async (req, res) => {
                     avgPlayers: { $avg: { $size: '$players' } },
                     uniqueGamesPlayed: { $addToSet: '$game' },
                     uniquePlayersPlayed: { $addToSet: '$players.user' },
-                    // if user is player and winner, then count as win
-                    totalWins: { $sum: { $cond: { if: { $and: [ { $eq: [ '$players', req.user._id ] }, { $arrayElemAt: ['$players.winner', 0] } ] }, then: 1, else: 0 } } },
-                    // if current user is player and winner, then count as win
+                    totalWins: { 
+                        $sum: { 
+                            $size: { 
+                                $filter: { 
+                                    input: '$players', 
+                                    as: 'player', 
+                                    cond: { 
+                                        $and: [
+                                            { $eq: ['$$player.user', req.user._id] },
+                                            { $eq: ['$$player.winner', true] }
+                                        ] 
+                                    } 
+                                } 
+                            } 
+                        } 
+                    },                    // if current user is player and winner, then count as win
                     // avgWinRate: { $avg: { $cond: { if: { $and: [ { $eq: [ '$players', req.user._id ] }, { $arrayElemAt: ['$players.winner', 0] } ] }, then: 1, else: 0 } } },
                     avgScore: { $avg: { $avg: '$players.score' } }
                 }

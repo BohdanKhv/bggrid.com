@@ -589,7 +589,7 @@ const LibraryPage = () => {
     const { library, isLoading, msg } = useSelector((state) => state.library)
     const [searchValue, setSearchValue] = useState('')
     const [tags, setTags] = useState([])
-    const [sortBy, setSortBy] = useState('dateAdded')
+    const [sortBy, setSortBy] = useState('rating')
     const [sortOrder, setSortOrder] = useState('desc')
     const [searchLibrary, setSearchLibrary] = useState(false)
     const [limit, setLimit] = useState(20)

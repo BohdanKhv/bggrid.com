@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react'
-import { Avatar, Button, Dropdown, ErrorInfo, FilterDropdown, HorizontalScroll, Icon, IconButton, Image, InputSearch, Modal } from '../components'
+import { Avatar, Button, Dropdown, ErrorInfo, FilterDropdown, HorizontalScroll, Icon, IconButton, Image, InputSearch, Modal, Skeleton } from '../components'
 import { Link, useSearchParams } from 'react-router-dom'
 import { arrowLeftShortIcon, clockIcon, closeIcon, filterIcon, gridIcon, leftArrowIcon, listIcon, searchIcon, toggleSortIcon } from '../assets/img/icons'
 import { mechanicsEnum, themesEnum, typeEnum } from '../assets/constants'
@@ -26,6 +26,7 @@ const SearchPage = () => {
         if (searchParams.get('themes') && searchParams.get('themes') !== '') count++
         if (searchParams.get('mechanics') && searchParams.get('mechanics') !== '') count++
         if (searchParams.get('players') && searchParams.get('players') !== '') count++
+        if ((searchParams.get('minWeight') && searchParams.get('minWeight') !== '') || (searchParams.get('maxWeight') && searchParams.get('maxWeight') !== '')) count++
         return count
     }, [searchParams])
 
@@ -33,9 +34,11 @@ const SearchPage = () => {
         types: searchParams.get('types') ? searchParams.get('types').split(',') : [],
         themes: searchParams.get('themes') ? searchParams.get('themes').split(',') : [],
         mechanics: searchParams.get('mechanics') ? searchParams.get('mechanics').split(',') : [],
-        players: "0",
-        sort: 'relevance',
-        sortOrder: 'asc'
+        players: searchParams.get('players') || "0",
+        sort: searchParams.get('sort') || 'relevance',
+        sortOrder: searchParams.get('sortOrder') || 'asc',
+        minWeight: searchParams.get('minWeight') || 1,
+        maxWeight: searchParams.get('maxWeight') || 5,
     })
 
     useEffect(() => {
@@ -92,6 +95,8 @@ const SearchPage = () => {
         if (searchParams.get('players')) q += `&players=${searchParams.get('players')}`
         if (searchParams.get('sort')) q += `&sort=${searchParams.get('sort')}`
         if (searchParams.get('sortOrder')) q += `&sortOrder=${searchParams.get('sortOrder')}`
+        if (searchParams.get('minWeight')) q += `&minWeight=${searchParams.get('minWeight')}`
+        if (searchParams.get('maxWeight')) q += `&maxWeight=${searchParams.get('maxWeight')}`
 
         promise = dispatch(getGames(q))
 
@@ -99,7 +104,7 @@ const SearchPage = () => {
             promise && promise.abort()
             dispatch(resetGame())
         }
-    }, [searchParams.get('s'), searchParams.get('hideInLibrary'), searchParams.get('types'), searchParams.get('mechanics'), searchParams.get('themes'), searchParams.get('players'), searchParams.get('sort'), searchParams.get('sortOrder')])
+    }, [searchParams.get('s'), searchParams.get('hideInLibrary'), searchParams.get('types'), searchParams.get('mechanics'), searchParams.get('themes'), searchParams.get('players'), searchParams.get('sort'), searchParams.get('sortOrder'), searchParams.get('minWeight'), searchParams.get('maxWeight')])
 
     const observer = useRef();
     const lastElementRef = useCallback(node => {
@@ -456,6 +461,8 @@ const SearchPage = () => {
                                                 searchParams.delete('mechanics')
                                                 searchParams.delete('themes')
                                                 searchParams.delete('players')
+                                                searchParams.delete('minWeight')
+                                                searchParams.delete('maxWeight')
                                                 setSearchParams(searchParams.toString())
                                                 setTemp({ types: [], mechanics: [], themes: [], players: "0" })
                                             }}
@@ -627,6 +634,50 @@ const SearchPage = () => {
                                             ))}
                                         </div>
                                     </FilterDropdown>
+                                    <FilterDropdown
+                                        label="Weight"
+                                        mobileDropdown
+                                        applied={searchParams.get('minWeight') || searchParams.get('maxWeight') ? [searchParams.get('minWeight'), searchParams.get('maxWeight')] : []}
+                                        onClear={() => {
+                                            searchParams.delete('minWeight')
+                                            searchParams.delete('maxWeight')
+                                            setSearchParams(searchParams.toString())
+                                        }}
+                                        onApply={() => {
+                                            searchParams.set('minWeight', temp.minWeight)
+                                            searchParams.set('maxWeight', temp.maxWeight)
+                                            setSearchParams(searchParams.toString())
+                                        }}
+                                    >
+                                        <div className="flex flex-wrap w-max-400-px gap-1">
+                                            {[
+                                                '1-2',
+                                                '2-3',
+                                                '3-4',
+                                                '4-5',
+                                            ].map((p) => (
+                                                <Button
+                                                    key={p}
+                                                    onClick={() => {
+                                                        setTemp({ ...temp, minWeight: p.split('-')[0], maxWeight: p.split('-')[1] })
+                                                    }}
+                                                    borderRadius="sm"
+                                                    label={
+                                                        <>
+                                                        {p}
+                                                        <br/>
+                                                        <span>
+                                                            {p.split('-')[0] == 1 ? 'Easy' : p.split('-')[0] == 2 ? 'Medium' : p.split('-')[0] == 3 ? 'Heavy' : 'Extreme'}
+                                                        </span>
+                                                        </>
+                                                    }
+                                                    variant={temp.minWeight === p.split('-')[0] && temp.maxWeight === p.split('-')[1] ? "filled" : "outline"}
+                                                    type="secondary"
+                                                    className="text-capitalize flex-auto clickable h-auto"
+                                                />
+                                            ))}
+                                        </div>
+                                    </FilterDropdown>
                                 </HorizontalScroll> 
                             </div>
                             </div>
@@ -636,6 +687,7 @@ const SearchPage = () => {
                                     label="Relevance"
                                     classNameContainer="p-0 border-none bold"
                                     widthUnset
+                                    closeOnSelect
                                     customDropdown={
                                         <>
                                         <Button
@@ -712,7 +764,7 @@ const SearchPage = () => {
                                     dataTooltipContent={listView ? "List view" : "Grid view"}
                                 />
                             </div>
-                            <div className="px-2">
+                            <div className="px-2 px-sm-0">
                                 {msg === 'No games found' || (games.length === 0 && !isLoading) ?
                                     <div className="mx-sm-3 my-3">
                                         <ErrorInfo
@@ -751,7 +803,71 @@ const SearchPage = () => {
                                     </div>
                                 }
                                 </>}
-                                {isLoading ?
+                                {isLoading && games.length === 0 ?
+                                listView ?
+                                    <div className="flex flex-col p-sm-2">
+                                        {[...Array(5)].map((i, inx) => (
+                                            <div
+                                                key={inx}
+                                                className="border-bottom mb-4 pb-4"
+                                            >
+                                                <Skeleton
+                                                    key={inx}
+                                                    height={92}
+                                                    className="mb-3"
+                                                    animation="wave"
+                                                />
+                                                <HorizontalScroll>
+                                                    <Skeleton
+                                                        height={40}
+                                                        width={100}
+                                                        animation="wave"
+                                                    />
+                                                    <Skeleton
+                                                        height={40}
+                                                        width={100}
+                                                        animation="wave"
+                                                    />
+                                                    <Skeleton
+                                                        height={40}
+                                                        width={100}
+                                                        animation="wave"
+                                                    />
+                                                    <Skeleton
+                                                        height={40}
+                                                        width={100}
+                                                        animation="wave"
+                                                    />
+                                                </HorizontalScroll>
+                                            </div>
+                                        ))}
+                                    </div>
+                                : 
+                                    <div className="grid flex-wrap animation-slide-in h-fit-content grid-xl-cols-5 grid-lg-cols-4 grid-md-cols-3 grid-sm-cols-2 grid-cols-4">
+                                        {[...Array(20)].map((i, inx) => (
+                                            <div
+                                                key={inx}
+                                                className="m-2"
+                                            >
+                                                <Skeleton
+                                                    height={248}
+                                                    animation="wave"
+                                                />
+                                                <Skeleton
+                                                    height={15}
+                                                    width="50"
+                                                    className="mt-2"
+                                                    animation="wave"
+                                                />
+                                                <Skeleton
+                                                    className="mt-1"
+                                                    height={20}
+                                                    animation="wave"
+                                                />
+                                            </div>
+                                        ))}
+                                    </div>
+                                : isLoading ?
                                     <ErrorInfo isLoading/>
                                 : null}
                             </div>

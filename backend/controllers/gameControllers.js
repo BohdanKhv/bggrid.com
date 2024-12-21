@@ -80,7 +80,7 @@ const getGamesByPersonId = async (req, res) => {
 const getGames = async (req, res) => {
     try {
         const { page, limit } = req.query;
-        const { mechanics, types, themes, publisherId, players } = req.query;
+        const { mechanics, types, themes, publisherId, players, minWeight, maxWeight } = req.query;
         const { sort, sortOrder } = req.query;
         console.log(`Page: ${page}`);
         let options = {
@@ -113,11 +113,16 @@ const getGames = async (req, res) => {
             q.maxPlayers = { $lte: max };
         }
 
+        if (minWeight || maxWeight) { q.complexityWeight = { $gte: minWeight || 0, $lte: maxWeight || 5 } }
+
         if (hideInLibrary) {
             const myLibrary = await Library.find({ user: req.user._id }).select('game');
             const gameIds = myLibrary.map(item => item.game._id);
             q._id = { $nin: gameIds };
         }
+
+        console.log(q)
+
         const games = await Game.paginate(q, options)
         
         // Get current page and total pages

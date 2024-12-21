@@ -120,39 +120,48 @@ const HomeFeed = () => {
     return (
         <>
         {isLoading ?
-            <div className="flex flex-col gap-4 py-6 overflow-hidden px-sm-3 py-sm-4 gap-sm-4">
-                <div className="flex flex-col gap-3">
-                    <Skeleton animation="wave" width="150" height="20"/>
+            <div className="py-4 flex flex-col gap-4 gap-sm-3 overflow-hidden px-sm-4 py-sm-4">
+                <div className="flex flex-col gap-3 mb-2">
+                    <Skeleton animation="wave" width="150" height="22"/>
                     <HorizontalScroll>
-                        <Skeleton animation="wave" height="210" width="175" className="flex-shrink-0"/>
-                        <Skeleton animation="wave" height="210" width="175" className="flex-shrink-0"/>
-                        <Skeleton animation="wave" height="210" width="175" className="flex-shrink-0"/>
-                        <Skeleton animation="wave" height="210" width="175" className="flex-shrink-0"/>
-                        <Skeleton animation="wave" height="210" width="175" className="flex-shrink-0"/>
-                        <Skeleton animation="wave" height="210" width="175" className="flex-shrink-0"/>
+                        <Skeleton animation="wave" height="78" width="228" className="flex-shrink-0"/>
+                        <Skeleton animation="wave" height="78" width="228" className="flex-shrink-0"/>
+                        <Skeleton animation="wave" height="78" width="228" className="flex-shrink-0"/>
+                        <Skeleton animation="wave" height="78" width="228" className="flex-shrink-0"/>
                     </HorizontalScroll>
                 </div>
                 <div className="flex flex-col gap-3">
-                    <Skeleton animation="wave" width="150" height="20"/>
-                    <HorizontalScroll>
-                        <Skeleton animation="wave" height="210" width="175" className="flex-shrink-0"/>
-                        <Skeleton animation="wave" height="210" width="175" className="flex-shrink-0"/>
-                        <Skeleton animation="wave" height="210" width="175" className="flex-shrink-0"/>
-                        <Skeleton animation="wave" height="210" width="175" className="flex-shrink-0"/>
-                        <Skeleton animation="wave" height="210" width="175" className="flex-shrink-0"/>
-                        <Skeleton animation="wave" height="210" width="175" className="flex-shrink-0"/>
-                    </HorizontalScroll>
+                    <HorizontalScrollControlled
+                        label={
+                            <Skeleton animation="wave" width="150" height="22"/>
+                        }
+                        maxVisibleItems={window.innerWidth < 800 ? 2 : 5}
+                        items={[1, 2, 3, 4, 5].map((i) => (
+                            <Skeleton animation="wave" height="210" width="175" className="flex-shrink-0" key={i}/>
+                        ))}
+                    />
                 </div>
                 <div className="flex flex-col gap-3">
-                    <Skeleton animation="wave" width="150" height="20"/>
-                    <HorizontalScroll>
-                        <Skeleton animation="wave" height="210" width="175" className="flex-shrink-0"/>
-                        <Skeleton animation="wave" height="210" width="175" className="flex-shrink-0"/>
-                        <Skeleton animation="wave" height="210" width="175" className="flex-shrink-0"/>
-                        <Skeleton animation="wave" height="210" width="175" className="flex-shrink-0"/>
-                        <Skeleton animation="wave" height="210" width="175" className="flex-shrink-0"/>
-                        <Skeleton animation="wave" height="210" width="175" className="flex-shrink-0"/>
-                    </HorizontalScroll>
+                    <HorizontalScrollControlled
+                        label={
+                            <Skeleton animation="wave" width="150" height="22"/>
+                        }
+                        maxVisibleItems={window.innerWidth < 800 ? 2 : 5}
+                        items={[1, 2, 3, 4, 5].map((i) => (
+                            <Skeleton animation="wave" height="210" width="175" className="flex-shrink-0" key={i}/>
+                        ))}
+                    />
+                </div>
+                <div className="flex flex-col gap-3">
+                    <HorizontalScrollControlled
+                        label={
+                            <Skeleton animation="wave" width="150" height="22"/>
+                        }
+                        maxVisibleItems={window.innerWidth < 800 ? 2 : 5}
+                        items={[1, 2, 3, 4, 5].map((i) => (
+                            <Skeleton animation="wave" height="210" width="175" className="flex-shrink-0" key={i}/>
+                        ))}
+                    />
                 </div>
             </div>
         :

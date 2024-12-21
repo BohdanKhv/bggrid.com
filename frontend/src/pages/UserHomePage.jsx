@@ -137,7 +137,7 @@ const HomeFeed = () => {
                         }
                         maxVisibleItems={window.innerWidth < 800 ? 2 : 5}
                         items={[1, 2, 3, 4, 5].map((i) => (
-                            <Skeleton animation="wave" height="210" width="175" className="flex-shrink-0" key={i}/>
+                            <Skeleton animation="wave" height="210" className="flex-shrink-0" key={i}/>
                         ))}
                     />
                 </div>
@@ -148,18 +148,7 @@ const HomeFeed = () => {
                         }
                         maxVisibleItems={window.innerWidth < 800 ? 2 : 5}
                         items={[1, 2, 3, 4, 5].map((i) => (
-                            <Skeleton animation="wave" height="210" width="175" className="flex-shrink-0" key={i}/>
-                        ))}
-                    />
-                </div>
-                <div className="flex flex-col gap-3">
-                    <HorizontalScrollControlled
-                        label={
-                            <Skeleton animation="wave" width="150" height="22"/>
-                        }
-                        maxVisibleItems={window.innerWidth < 800 ? 2 : 5}
-                        items={[1, 2, 3, 4, 5].map((i) => (
-                            <Skeleton animation="wave" height="210" width="175" className="flex-shrink-0" key={i}/>
+                            <Skeleton animation="wave" height="210" className="flex-shrink-0" key={i}/>
                         ))}
                     />
                 </div>

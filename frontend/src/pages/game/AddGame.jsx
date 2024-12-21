@@ -120,14 +120,16 @@ const AddGame = () => {
             <>
                 <div className="flex flex-col gap-4">
                     <div>
-                        <div className={`fs-54 bold mb-3${rating / 10 == 0 ? " text-secondary" : rating / 10 >= 4 && rating / 10 < 5 ? " text-success" : rating / 10 > 0 && rating / 10 < 3 ? " text-danger" : rating / 10 >= 3 && rating / 10 < 4 ? " text-warning" : rating / 10 == 5 ? " text-primary" : ""}`}>
+                        <div className={`fs-54 bold mb-3${rating / 10 == 0 ? " text-secondary" : rating / 10 >= 4 && rating / 10 < 5 ? " text-success" : rating / 10 >= 2 && rating / 10 < 3 ? " text-color-2" : rating / 10 > 0 && rating / 10 < 3 ? " text-danger" : rating / 10 >= 3 && rating / 10 < 4 ? " text-warning" : rating / 10 == 5 ? " text-primary" : ""}`}>
                             {rating / 10} {
                                     rating / 10 == 5 ?
                                     "Perfect"
-                                    : rating / 10 > 4 ?
+                                    : rating / 10 >= 4 ?
                                     "Great"
-                                    : rating / 10 > 3 ?
+                                    : rating / 10 >= 3 ?
                                     "Good"
+                                    : rating / 10 >= 2 ?
+                                    "Fair"
                                     : rating / 10 > 0 ?
                                     "Poor"
                                     : "Not rated"

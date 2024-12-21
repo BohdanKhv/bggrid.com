@@ -157,6 +157,48 @@
 .text-color-initial {
     color: initial;
 }
+.text-color-1 {
+    color: var(--peer-avatar-1);
+}
+.text-color-2 {
+    color: var(--peer-avatar-2);
+}
+.text-color-3 {
+    color: var(--peer-avatar-3);
+}
+.text-color-4 {
+    color: var(--peer-avatar-4);
+}
+.text-color-5 {
+    color: var(--peer-avatar-5);
+}
+.text-color-6 {
+    color: var(--peer-avatar-6);
+}
+.text-color-7 {
+    color: var(--peer-avatar-7);
+}
+.text-color-8 {
+    color: var(--peer-avatar-8);
+}
+.text-color-9 {
+    color: var(--peer-avatar-9);
+}
+.text-color-10 {
+    color: var(--peer-avatar-10);
+}
+.text-color-11 {
+    color: var(--peer-avatar-11);
+}
+.text-color-12 {
+    color: var(--peer-avatar-12);
+}
+.text-color-13 {
+    color: var(--peer-avatar-13);
+}
+.text-color-14 {
+    color: var(--peer-avatar-14);
+}
 
 /* Decorations */
 .text-capitalize {

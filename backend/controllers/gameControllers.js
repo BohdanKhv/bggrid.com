@@ -121,8 +121,6 @@ const getGames = async (req, res) => {
             q._id = { $nin: gameIds };
         }
 
-        console.log(q)
-
         const games = await Game.paginate(q, options)
         
         // Get current page and total pages

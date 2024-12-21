@@ -193,6 +193,8 @@ const UserPage = () => {
     const [tags, setTags] = useState(searchParams.get('tag') ? [searchParams.get('tag')] : '')
     const [sortBy, setSortBy] = useState('dateAdded')
     const [sortOrder, setSortOrder] = useState('desc')
+    const [limit, setLimit] = useState(20)
+    const [hasMore, setHasMore] = useState(true)
 
     const uniqueTags = useMemo(() => {
         return userById?.library?.reduce((acc, item) => {
@@ -212,6 +214,24 @@ const UserPage = () => {
             dispatch(resetPlay())
         }
     }, [username])
+
+    const observer = useRef();
+    const lastElementRef = useCallback(node => {
+        if (isLoading) return;
+        if (observer.current) observer.current.disconnect();
+        observer.current = new IntersectionObserver(entries => {
+            if (entries[0].isIntersecting && hasMore) {
+                setLimit(prevLimit => prevLimit + 20);
+        
+                return () => {
+                    setLimit(20);
+                    setHasMore(true);
+                    observer.current && observer.current.disconnect();
+                }
+            }
+        });
+        if (node) observer.current.observe(node);
+    }, [isLoading, hasMore]);
 
     return (
         <HelmetProvider>
@@ -547,6 +567,7 @@ const UserPage = () => {
                                             label="Relevance"
                                             classNameContainer="p-0 border-none bold"
                                             widthUnset
+                                            closeOnSelect={true}
                                             customDropdown={
                                                 <>
                                                 <Button
@@ -626,12 +647,18 @@ const UserPage = () => {
                                             return sortOrder === 'asc' ? a.plays - b.plays : b.plays - a.plays
                                         }
                                     })
-                                    .map((item, index) => (
-                                        <LibraryItem
+                                    .slice(0, limit)
+                                    .map((item, index, arr) => (
+                                        <div
                                             key={item._id}
-                                            item={item}
-                                            index={index}
-                                        />
+                                            ref={index === arr.length - 1 ? lastElementRef : null}
+                                        >
+                                            <LibraryItem
+                                                key={item._id}
+                                                item={item}
+                                                index={index}
+                                            />
+                                        </div>
                                     ))}
                                     </div>
                                 :

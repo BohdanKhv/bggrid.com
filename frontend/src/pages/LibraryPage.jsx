@@ -816,6 +816,7 @@ const LibraryPage = () => {
                                     label="Relevance"
                                     classNameContainer="p-0 border-none bold"
                                     widthUnset
+                                    closeOnSelect={true}
                                     customDropdown={
                                         <>
                                         <Button
@@ -895,15 +896,13 @@ const LibraryPage = () => {
                                             key={item._id}
                                             ref={index === arr.length - 1 ? lastElementRef : null}
                                         >
-
-                                        <LibraryItem
-                                            item={item} hideInfo index={index}
-                                            tags={tags}
-                                            setTags={setTags}
+                                            <LibraryItem
+                                                item={item} hideInfo index={index}
+                                                tags={tags}
+                                                setTags={setTags}
                                             />
                                         </div>
                                     )}
-                                    
                                     {library
                                     .filter((item) => item.game.name.toLowerCase().includes(searchValue.toLowerCase()))
                                     .filter((item) => {

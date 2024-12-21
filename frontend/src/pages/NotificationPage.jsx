@@ -1,16 +1,24 @@
 import React, { useEffect, useState } from 'react'
-import { Avatar, Button, ErrorInfo, HorizontalScroll } from '../components'
+import { Avatar, Button, ErrorInfo, HorizontalScroll, Icon } from '../components'
 import { useSelector, useDispatch } from 'react-redux';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { DateTime } from 'luxon';
 import PlayItem from './PlayItem';
-import { bellIcon } from '../assets/img/icons';
+import { bellIcon, rightArrowIcon } from '../assets/img/icons';
 import { readNotifications } from '../features/notification/notificationSlice';
 
 
 const NotificationItem = ({item}) => {
+    const navigate = useNavigate();
+
     return (
-        <div className="flex gap-3 px-3 bg-secondary-hover border-radius">
+        <div className="flex gap-3 px-3 bg-secondary-hover border-radius pointer"
+            onClick={() => {
+                if (item.link) {
+                    navigate(item.link);
+                }
+            }}
+        >
             <div className="py-4">
                 <Avatar
                     img={item?.sender?.avatar}
@@ -19,20 +27,29 @@ const NotificationItem = ({item}) => {
                     avatarColor={item.sender?.username?.length}
                 />
             </div>
-            <div className="flex flex-col flex-1 border-bottom py-4">
-                <div className="fs-16 pt-2">
-                    <Link
-                        to={`/u/${item.sender?.username}`}
-                        className="bold mx-1 fs-16 text-underlined-hover"
-                        >@{item.sender?.username}</Link>
-                    <span className="fs-14">
-                        {item.message}
-                    </span>
-                    <span className="fs-14 text-secondary px-1">
-                        {DateTime.now().diff(DateTime.fromISO(item.createdAt), ['days']).days > 1 ? DateTime.fromISO(item.createdAt).toFormat('LLL dd') :
-                        DateTime.fromISO(item.createdAt).toRelative().replace(' days', 'd').replace(' day', 'd').replace(' hours', 'h').replace(' hour', 'h').replace(' minutes', 'm').replace(' minute', 'm').replace(' seconds', 's').replace(' second', 's')}
-                    </span>
+            <div className="flex justify-between gap-2 flex-1 border-bottom align-center">
+                <div className="flex flex-col flex-1 py-4 flex-1">
+                    <div className="fs-16">
+                        <Link
+                            to={`/u/${item.sender?.username}`}
+                            className="bold mx-1 fs-16 text-underlined-hover"
+                            >@{item.sender?.username}</Link>
+                        <span className="fs-14">
+                            {item.message}
+                        </span>
+                        <span className="fs-14 text-secondary px-1">
+                            {DateTime.now().diff(DateTime.fromISO(item.createdAt), ['days']).days > 1 ? DateTime.fromISO(item.createdAt).toFormat('LLL dd') :
+                            DateTime.fromISO(item.createdAt).toRelative().replace(' days', 'd').replace(' day', 'd').replace(' hours', 'h').replace(' hour', 'h').replace(' minutes', 'm').replace(' minute', 'm').replace(' seconds', 's').replace(' second', 's')}
+                        </span>
+                    </div>
                 </div>
+                {item.link && (
+                    <Icon
+                        icon={rightArrowIcon}
+                        size="sm"
+                        className="fill-secondary"
+                    />
+                )}
             </div>
         </div>
     )

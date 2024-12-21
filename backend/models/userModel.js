@@ -37,6 +37,12 @@ const userSchema = new mongoose.Schema({
 
     lastLogin: { type: Date, required: false, default: Date.now },
     active: { type: Boolean, required: false, default: true },
+
+    notifications: {
+        followingUsersLibraryUpdates: { type: Boolean, required: false, default: false },
+        taggedInPlays: { type: Boolean, required: false, default: false },
+        newFollowers: { type: Boolean, required: false, default: false },
+    }
 }, { timestamps: true });
 
 module.exports = mongoose.model('User', userSchema);

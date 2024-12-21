@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { useNavigate, useParams } from 'react-router-dom'
-import { Avatar, Button, ConfirmAction, Icon, IconButton, Input, TabContent } from '../components'
+import { Avatar, Button, ConfirmAction, Icon, IconButton, Input, Switch, TabContent } from '../components'
 import { checkIcon, uploadIcon } from '../assets/img/icons'
 import { updateUser } from '../features/auth/authSlice'
 import Compressor from 'compressorjs'
@@ -41,11 +41,18 @@ const Account = () => {
         <div className="flex flex-col gap-5 gap-sm-3 animation-slide-in">
             <div>
                 <div className="flex gap-4 flex-col">
+                    <div>
+                        <div className="fs-14 bold">
+                            Your Profile
+                        </div>
+                        <div className="fs-12 text-secondary pt-1">
+                            This information will be visible to other users on the platform.
+                        </div>
+                    </div>
                     <div className="col-12 flex flex-col gap-5 gap-sm-3 col-sm-12">
                         <Input
-                            label="Profile Picture"
+                            // label="Profile Picture"
                             wrapColumn
-                            description="Upload a profile picture to help employers recognize you."
                         >
                             <div className="flex gap-4">
                                 <div
@@ -146,9 +153,17 @@ const Account = () => {
                             wrapColumn
                             type="text"
                         />
+                        <div className="border-bottom my-6"/>
+                        <div>
+                            <div className="fs-14 bold">
+                                Integrations
+                            </div>
+                            <div className="fs-12 text-secondary">
+                                Connect your Board Game Geek account to import your collection.
+                            </div>
+                        </div>
                         <Input
                             label="BGG Username"
-                            description="Your Board Game Geek username is used to import your collection and plays."
                             value={bggUsername}
                             placeholder="Your board game geek username"
                             error={msg == 'This board game geek username already in use'}
@@ -213,6 +228,7 @@ const Preferences = () => {
     const dispatch = useDispatch()
 
     const { theme, searchHistory } = useSelector((state) => state.local)
+    const { user, isLoading, loadingId, msg } = useSelector((state) => state.auth)
 
     useEffect(() => {
         window.scrollTo(0, 0)
@@ -221,72 +237,128 @@ const Preferences = () => {
 
     return (
         <div className="flex flex-col gap-5 gap-sm-3 animation-slide-in">
-            <div>
-                <div className="flex gap-6 flex-sm-col">
-                    <div className="col-12 flex flex-col gap-5 gap-sm-3 col-sm-12">
-                        <div className="fs-14 bold">
-                            Theme
-                        </div>
-                        <div className="flex gap-2 flex-sm-col">
-                            <div className="border border-radius flex-1 overflow-hidden pointer color-border-on-hover-text transition-duration"
-                                onClick={() => dispatch(setTheme('system'))}
-                            >
-                                <div className="h-set-100-px"
-                                    style={{
-                                        backgroundColor: '#f5f5f5'
-                                    }}
-                                />
-                                <div className="p-3 border-top fs-14 flex gap-2 justify-between align-center">
-                                    System
-                                    {theme === 'system' ? 
-                                    <Icon
-                                        icon={theme === 'system' ? checkIcon : ''}
-                                        className="tag-text border-radius-50"
-                                        size="sm"
-                                    />
-                                    : null}
-                                </div>
-                            </div>
-                            <div className="border border-radius flex-1 overflow-hidden pointer color-border-on-hover-text transition-duration"
-                                onClick={() => dispatch(setTheme('light'))}
-                            >
-                                <div className="h-set-100-px"
-                                    style={{
-                                        backgroundColor: '#fff'
-                                    }}
-                                />
-                                <div className="p-3 border-top fs-14 flex gap-2 justify-between align-center">
-                                    Light
-                                    {theme === 'light' ? 
-                                    <Icon
-                                        icon={theme === 'light' ? checkIcon : ''}
-                                        className="tag-text border-radius-50"
-                                        size="sm"
-                                    />
-                                    : null}
-                                </div>
-                            </div>
-                            <div className="border border-radius flex-1 overflow-hidden pointer color-border-on-hover-text transition-duration"
-                                onClick={() => dispatch(setTheme('dark'))}
-                            >
-                                <div className="h-set-100-px"
-                                    style={{
-                                        backgroundColor: '#000'
-                                    }}
-                                />
-                                <div className="p-3 border-top fs-14 flex gap-2 justify-between align-center">
-                                    Dark
-                                    {theme === 'dark' ? 
-                                    <Icon
-                                        icon={theme === 'dark' ? checkIcon : ''}
-                                        className="tag-text border-radius-50"
-                                        size="sm"
-                                    />
-                                    : null}
-                                </div>
-                            </div>
+            <div className="col-12 flex flex-col gap-5 gap-sm-3 col-sm-12">
+                <div>
+                    <div className="fs-14 bold">
+                        Theme
+                    </div>
+                    <div className="fs-12 text-secondary">
+                        Choose your preferred theme.
+                    </div>
+                </div>
+                <div className="flex gap-2 flex-sm-col">
+                    <div className="border border-radius flex-1 overflow-hidden pointer color-border-on-hover-text transition-duration"
+                        onClick={() => dispatch(setTheme('system'))}
+                    >
+                        <div className="h-set-100-px"
+                            style={{
+                                backgroundColor: '#f5f5f5'
+                            }}
+                        />
+                        <div className="p-3 border-top fs-14 flex gap-2 justify-between align-center">
+                            System
+                            {theme === 'system' ? 
+                            <Icon
+                                icon={theme === 'system' ? checkIcon : ''}
+                                className="tag-text border-radius-50"
+                                size="sm"
+                            />
+                            : null}
                         </div>
                     </div>
+                    <div className="border border-radius flex-1 overflow-hidden pointer color-border-on-hover-text transition-duration"
+                        onClick={() => dispatch(setTheme('light'))}
+                    >
+                        <div className="h-set-100-px"
+                            style={{
+                                backgroundColor: '#fff'
+                            }}
+                        />
+                        <div className="p-3 border-top fs-14 flex gap-2 justify-between align-center">
+                            Light
+                            {theme === 'light' ? 
+                            <Icon
+                                icon={theme === 'light' ? checkIcon : ''}
+                                className="tag-text border-radius-50"
+                                size="sm"
+                            />
+                            : null}
+                        </div>
+                    </div>
+                    <div className="border border-radius flex-1 overflow-hidden pointer color-border-on-hover-text transition-duration"
+                        onClick={() => dispatch(setTheme('dark'))}
+                    >
+                        <div className="h-set-100-px"
+                            style={{
+                                backgroundColor: '#000'
+                            }}
+                        />
+                        <div className="p-3 border-top fs-14 flex gap-2 justify-between align-center">
+                            Dark
+                            {theme === 'dark' ? 
+                            <Icon
+                                icon={theme === 'dark' ? checkIcon : ''}
+                                className="tag-text border-radius-50"
+                                size="sm"
+                            />
+                            : null}
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div className="border-bottom my-6"/>
+            <div>
+                <div className="fs-14 bold">
+                    Notifications
+                </div>
+                <div className="fs-12 text-secondary pt-1">
+                    Manage your notifications settings.
+                </div>
+            </div>
+            <div className="flex flex-col gap-3">
+                <div className="border border-radius p-3 align-center flex justify-between color-border-on-hover-text pointer bg-tertiary-hover"
+                    onClick={(e) => {
+                        if (loadingId) return
+                        dispatch(updateUser({
+                            newFollowers: !user?.notifications?.newFollowers
+                        }))
+                    }}
+                >
+                    <div className="fs-14 weight-500">
+                        New followers
+                    </div>
+                    <Switch
+                        active={user?.notifications?.newFollowers}
+                    />
+                </div>
+                <div className="border border-radius p-3 align-center flex justify-between color-border-on-hover-text pointer bg-tertiary-hover"
+                    onClick={(e) => {
+                        if (loadingId) return
+                        dispatch(updateUser({
+                            followingUsersLibraryUpdates: !user?.notifications?.followingUsersLibraryUpdates
+                        }))
+                    }}
+                >
+                        <div className="fs-14 weight-500">
+                            Library updates from people you follow
+                        </div>
+                    <Switch
+                        active={user?.notifications?.followingUsersLibraryUpdates}
+                    />
+                </div>
+                <div className="border border-radius p-3 align-center flex justify-between color-border-on-hover-text pointer bg-tertiary-hover"
+                onClick={(e) => {
+                    if (loadingId) return
+                    dispatch(updateUser({
+                        taggedInPlays: !user?.notifications?.taggedInPlays
+                    }))
+                }}>
+                        <div className="fs-14 weight-500">
+                            Tagged in plays
+                        </div>
+                    <Switch
+                        active={user?.notifications?.taggedInPlays}
+                    />
                 </div>
             </div>
         </div>

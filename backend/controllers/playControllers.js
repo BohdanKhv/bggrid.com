@@ -304,11 +304,11 @@ const createPlay = async (req, res) => {
         // Populate game and user
         await play.populate([
             { path: 'game', select: 'name thumbnail' },
-            { path: 'players.user', select: 'avatar username firstName lastName' },
+            { path: 'players.user', select: 'avatar username firstName lastName notifications' },
             { path: 'user', select: 'avatar username firstName lastName' }
         ]);
 
-        const uIds = players.map(player => player.user).filter(id => id !== req.user._id.toString());
+        const uIds = play?.players?.filter(u => u?.user && u?.user?._id.toString() !== req.user._id.toString() && u?.user?.notifications?.taggedInPlays).map(u => u.user._id);
 
         if (uIds.length) {
             const notifications = [];
@@ -317,6 +317,7 @@ const createPlay = async (req, res) => {
                     sender: req.user._id,
                     receiver: uId,
                     type: 'play',
+                    link: `/u/${req.user.username}/plays/${play._id}`,
                     message: `played "${gameExists.name}" with you`,
                 }));
             });

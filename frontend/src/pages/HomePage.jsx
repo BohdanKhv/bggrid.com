@@ -9,8 +9,6 @@ import { typeEnum } from '../assets/constants'
 
 
 const GameItem = ({ item }) => {
-    const { user } = useSelector((state) => state.auth)
-
     return  (
         <Link className="flex flex-col gap-3"
             to={`/g/${item?.game?._id || item?._id}`}
@@ -22,11 +20,6 @@ const GameItem = ({ item }) => {
                 </div>
             </div>
             <div className="flex gap-2">
-                {item?.players?.find((player) => player.user === user._id && player.winner) ?
-                    <div className="tag-success fs-12 px-2 py-1 border-radius-sm">
-                        Winner
-                    </div>
-                : null}
                 {item.playTimeMinutes ?
                     <div className="tag-secondary fs-12 px-2 py-1 border-radius-sm">
                         {item.playTimeMinutes} min

@@ -164,7 +164,7 @@ const followSlice = createSlice({
         });
         builder.addCase(unfollowUser.fulfilled, (state, action) => {
             state.loadingId = '';
-            state.follow = state.follow.filter(f => f._id !== action.payload.data._id )
+            state.follow = state.follow.map(f => f._id === action.payload.data._id ? action.payload.data : f);
         });
         builder.addCase(unfollowUser.rejected, (state, action) => {
             state.loadingId = '';

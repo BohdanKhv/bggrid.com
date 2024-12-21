@@ -132,14 +132,17 @@ const addGameToLibrary = async (req, res) => {
         // Create a notification for follow
         const followers = await Follow.find({
             following: req.user._id,
-        });
+        }).populate('follower', 'notifications')
+        .select('follower');
 
-        if (followers.length) {
+        const notifyFollowers = followers.filter(f => f.follower.notifications?.followingUsersLibraryUpdates);
+
+        if (notifyFollowers.length) {
             const notifications = [];
-            followers.forEach(u => {
+            notifyFollowers.forEach(u => {
                 notifications.push(new Notification({
                     sender: req.user._id,
-                    receiver: u.follower,
+                    receiver: u.follower._id,
                     type: 'library',
                     message: `added "${gameExists.name}" to their library and rated it ${rating}/5`,
                 }));
@@ -190,16 +193,20 @@ const updateGameInLibrary = async (req, res) => {
         await game.save();
 
         // Create a notification for followers
-        const follow = await Follow.find({
-            following: req.user._id,
-        });
 
-        if (follow.length) {
+        const followers = await Follow.find({
+            following: req.user._id,
+        }).populate('follower', 'notifications')
+        .select('follower');
+
+        const notifyFollowers = followers.filter(f => f?.follower?.notifications?.followingUsersLibraryUpdates);
+
+        if (notifyFollowers.length) {
             const notifications = [];
-            follow.forEach(user => {
+            notifyFollowers.forEach(u => {
                 notifications.push(new Notification({
                     sender: req.user._id,
-                    receiver: user.follower,
+                    receiver: u.follower._id,
                     type: 'library',
                     message: `updated "${game.game.name}" in their library and rated it ${rating}/5`,
                 }));

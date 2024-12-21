@@ -48,11 +48,13 @@ const PlayItem = ({ item }) => {
             <div className="flex gap-2">
                 {item?.players?.find((player) => player.user === user._id && player.winner) ?
                     <div className="tag-success fs-12 px-2 py-1 border-radius-sm">
+                        <span className="me-1">🥇</span>
                         Winner
                     </div>
                 : null}
                 {item?.playTimeMinutes ?
                     <div className="tag-secondary fs-12 px-2 py-1 border-radius-sm">
+                        <span className="me-1">⌛</span>
                         {item?.playTimeMinutes} min
                     </div>
                 : null}
@@ -317,9 +319,9 @@ const SearchGames = () => {
                 headerNone
                 noAction
             >
-                <div className="align-center flex">
+                <div className="align-center flex align-center mt-2">
                     <InputSearch
-                        className="flex-1 py-1 mx-2 mt-2"
+                        className="flex-1 py-1 mx-2"
                         placeholder={whatToSearch === 'users' ? "Search users" : "What do you wanna play?"}
                         value={searchValue}
                         clearable
@@ -390,8 +392,14 @@ const SearchGames = () => {
                         <div className="text-center fs-12 py-6 text-secondary">
                             Start typing to search games
                         </div>
-                    : true ?
-                    <>
+                    : searchValue?.length ?
+                        <Link
+                            to={`/discover?s=${searchValue}`}
+                            className="fs-16 flex align-center px-4 py-3 gap-3 text-secondary pointer bg-tertiary-hover flex-1 overflow-hidden mt-2"
+                        >
+                            <Icon icon={searchIcon} className="fill-secondary"/><span className="text-ellipsis-1 text-primary">{searchValue}<span className="text-secondary"> - search games</span></span>
+                        </Link>
+                        : null }
                     {library && [...library]
                     .filter((item) => item.game.name.toLowerCase().includes(searchValue.toLowerCase()))
                     ?.length > 0 ?
@@ -472,12 +480,7 @@ const SearchGames = () => {
                             <ErrorInfo isLoading/>
                         :
                         library.filter((item) => item.game.name.toLowerCase().includes(searchValue.toLowerCase()))?.length === 0 ?
-                            <ErrorInfo
-                                label="No games found"
-                                secondary={`Nothing matched your search for "${searchValue}"`}
-                            />
-                    : null}
-                    </>
+                        null
                     : null}
                     </>
                     : null }
@@ -571,7 +574,7 @@ const SearchGames = () => {
                             >
                                 <Icon icon={searchIcon} className="fill-secondary"/><span className="text-ellipsis-1 text-primary">{searchValue}<span className="text-secondary"> - search games</span></span>
                             </Link>
-                        : searchParams.get('s') && searchParams.get('s')?.length ?
+                        :
                             <div className="flex justify-between align-center">
                                 <div
                                     onClick={(e) => {
@@ -584,7 +587,7 @@ const SearchGames = () => {
                                         Show all</span>
                                 </div>
                             </div>
-                        : null}
+                        }
                         {library && library
                         .filter((item) => !searchValue || item.game.name.toLowerCase().includes(searchValue.toLowerCase()))
                         ?.length > 0 ?

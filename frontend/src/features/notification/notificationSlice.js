@@ -6,7 +6,7 @@ const initialState = {
     notifications: [],
     isLoading: false,
     page: 1,
-    limit: 10,
+    limit: 20,
 };
 
 export const getMyNotification = createAsyncThunk(
@@ -56,7 +56,7 @@ export const notificationSlice = createSlice({
             state.notifications = null;
             state.isLoading = false;
             state.page = 1;
-            state.limit = 10;
+            state.limit = 20;
         },
     },
     extraReducers: (builder) => {

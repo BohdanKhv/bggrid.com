@@ -114,7 +114,7 @@ const followUser = async (req, res) => {
     try {
         const me = await User.findById(req.user._id);
         const user = await User.findById(req.params.userId)
-        .select('following followers avatar firstName lastName username');
+        .select('following followers avatar firstName lastName username notifications');
 
         if (!user) {
             return res.status(404).json({ msg: 'User not found' });
@@ -137,15 +137,17 @@ const followUser = async (req, res) => {
         await newFollow.save();
 
         // Create notification
-        const notification = new Notification({
-            receiver: req.params.userId,
-            sender: req.user._id,
-            message: `${req.user.username} started following you`,
-            type: 'follow',
-            read: false
-        });
+        if (user.notifications.newFollowers) {
+            const notification = new Notification({
+                receiver: req.params.userId,
+                sender: req.user._id,
+                message: `${req.user.username} started following you`,
+                type: 'follow',
+                read: false
+            });
 
-        await notification.save();
+            await notification.save();
+        }
 
         user.followers += 1;
         me.following += 1;

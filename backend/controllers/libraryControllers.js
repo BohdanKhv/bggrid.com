@@ -329,7 +329,7 @@ const importBggCollection = async (req, res) => {
             const rating = $(el).find('stats').find('rating').attr('value');
             const tags = [];
             if ($(el).find('status').attr('own') === '1') tags.push('Own');
-            if ($(el).find('status').attr('prevowned') === '1') tags.push('Prev Owned');
+            if ($(el).find('status').attr('prevowned') === '1') tags.push('Prev. Owned');
             if ($(el).find('status').attr('wishlist') === '1') tags.push('Wishlist');
             if ($(el).find('status').attr('played') === '1') tags.push('Played');
             if ($(el).find('status').attr('wanttoplay') === '1') tags.push('Want to Play');

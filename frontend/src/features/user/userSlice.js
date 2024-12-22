@@ -59,7 +59,6 @@ const userSlice = createSlice({
             state.isLoading = false;
             state.msg = '';
             state.users = [];
-            state.userById = null;
         }
     },
     extraReducers: (builder) => {

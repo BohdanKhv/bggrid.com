@@ -186,7 +186,7 @@ const UserPage = () => {
     const navigate = useNavigate()
 
     const { username, tab } = useParams()
-    const { userById, isLoading, msg } = useSelector(state => state.user)
+    const { userById, isLoading, msg, isError } = useSelector(state => state.user)
     const { follow, loadingId } = useSelector((state) => state.follow)
     const [searchParams, setSearchParams] = useSearchParams()
     const { user } = useSelector((state) => state.auth)
@@ -684,7 +684,7 @@ const UserPage = () => {
             <div className="flex-1 flex justify-center align-center">
                 <ErrorInfo code="404" info="Oh no, user not found"/>
             </div>
-        : !userById && !isLoading && 
+        : !userById && !isLoading && isError &&
         <div className="flex-1 flex justify-center align-center">
             <ErrorInfo label="Oops, looks like something went wrong" info={msg} />
         </div>}

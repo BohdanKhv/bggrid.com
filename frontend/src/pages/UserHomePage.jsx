@@ -743,15 +743,10 @@ const UserHomePage = () => {
                                 .sort((a, b) => !a.lastPlayDate ? 1 : !b.lastPlayDate ? -1 : DateTime.fromISO(b.lastPlayDate) - DateTime.fromISO(a.lastPlayDate))
                                 .slice(0, 8)
                                 .map((item) => (
-                                    <div
+                                    <Link
+to={`/g/${item.game._id}`}
                                         key={item._id}
-                                        className="bg-secondary bg-tertiary-hover border-radius flex overflow-hidden pointer display-on-hover-parent"
-                                        onClick={() => {
-                                            searchParams.set('logPlay', item.game._id)
-                                            setSearchParams(searchParams)
-                                        }}
-                                        // to={`/g/${item?.game?._id || item?._id}`}
-                                    >
+                                        className="bg-secondary bg-tertiary-hover border-radius flex overflow-hidden pointer display-on-hover-parent"   >
                                         <Image
                                             img={item?.game?.thumbnail}
                                             errIcon={gamesIcon}
@@ -761,13 +756,7 @@ const UserHomePage = () => {
                                             <div className="ps-3 pe-2 fs-14 bold text-ellipsis-2 flex-1">
                                                 {item?.game?.name}
                                             </div>
-                                            <div className="pos-absolute flex align-center right-0 mx-2">
-                                                <Icon
-                                                    icon={diceIcon}
-                                                    size="sm"
-                                                    className="display-on-hover bg-main box-shadow border-radius-sm"
-                                                />
-                                            </div>
+                                            
                                         </div>
                                     </div>
                                 ))}

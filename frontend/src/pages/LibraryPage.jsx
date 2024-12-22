@@ -308,12 +308,16 @@ const LibraryItem = ({ item, index, tags, setTags }) =>  {
                     draggable="false"
                     className="z-0 border-radius object-cover object-center pos-absolute left-0 blur-20 w-100 h-100"
                 />
-                <Image
-                    img={item?.game?.image}
-                    classNameContainer="w-set-100-px h-set-100-px"
-                    classNameImg="object-cover"
-                    size="sm"
-                />
+                <Link className="clickable"
+                    to={`/g/${item.game._id}`}
+                >
+                    <Image
+                        img={item?.game?.image}
+                        classNameContainer="w-set-100-px h-set-100-px"
+                        classNameImg="object-cover"
+                        size="sm"
+                    />
+                </Link>
                 <div className="z-3 flex flex-col overflow-hidden">
                     <div className="fs-20 text-shadow-hard text-white weight-600 text-ellipsis-2">
                         {item?.game?.name}
@@ -371,7 +375,7 @@ const LibraryItem = ({ item, index, tags, setTags }) =>  {
                 smSize="xl"
                 size="lg"
                 className="justify-start"
-                label="Game page"
+                label="Go to game page"
                 icon={gamesIcon}
                 variant="secondary"
                 type="text"
@@ -440,11 +444,15 @@ const LibraryItem = ({ item, index, tags, setTags }) =>  {
                             />
                         </div>
                     </div>}
-                    <Image
-                        img={item?.game?.thumbnail}
-                        classNameContainer="w-set-50-px h-set-50-px border-radius-sm"
-                        classNameImg="border-radius-sm"
-                    />
+                    <Link className="clickable"
+                        to={`/g/${item.game._id}`}
+                    >
+                        <Image
+                            img={item?.game?.thumbnail}
+                            classNameContainer="w-set-50-px h-set-50-px border-radius-sm"
+                            classNameImg="border-radius-sm"
+                        />
+                    </Link>
                     <div className="flex flex-col justify-between flex-1 overflow-hidden">
                         <div className="flex justify-between gap-3">
                             <div className="flex flex-col flex-1 overflow-hidden">
@@ -455,7 +463,7 @@ const LibraryItem = ({ item, index, tags, setTags }) =>  {
                                         {item.game.name}
                                     </Link>
                                     </div>
-                                    <div className="flex flex-col overflow-x-hidden gap-1 pointer pt-1 flex-1">
+                                    <div className="flex flex-col overflow-x-hidden gap-1 pointer pt-1 flex-1 w-fit-content">
                                             <div className="flex align-center gap-2"
                                                 onClick={(e) => {
                                                     e.stopPropagation()

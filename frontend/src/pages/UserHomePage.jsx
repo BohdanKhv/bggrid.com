@@ -758,7 +758,7 @@ to={`/g/${item.game._id}`}
                                             </div>
                                             
                                         </div>
-                                    </div>
+                                    </Link>
                                 ))}
                             </div>
                         : 

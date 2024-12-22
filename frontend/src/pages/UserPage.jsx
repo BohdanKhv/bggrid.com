@@ -191,7 +191,7 @@ const UserPage = () => {
     const [searchParams, setSearchParams] = useSearchParams()
     const { user } = useSelector((state) => state.auth)
     const [tags, setTags] = useState(searchParams.get('tag') ? [searchParams.get('tag')] : '')
-    const [sortBy, setSortBy] = useState('dateAdded')
+    const [sortBy, setSortBy] = useState('rating')
     const [sortOrder, setSortOrder] = useState('desc')
     const [limit, setLimit] = useState(20)
     const [hasMore, setHasMore] = useState(true)

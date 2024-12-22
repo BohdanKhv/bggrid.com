@@ -261,7 +261,7 @@ const CommunityPage = () => {
                                         />
                                 </div>
                             <div>
-                                {feed.length > 0 && !isLoading ?
+                                {feed.length > 0 ?
                                     <div className="flex flex-col">
                                         {feed
                                         .map((item, index, arr) =>
@@ -285,7 +285,7 @@ const CommunityPage = () => {
                                             secondary={!hasMore ? "You're all caught up!" : "Oops! Something went wrong"}
                                         />
                                 }
-                                { isLoading ?
+                                { isLoading && feed.length === 0 ?
                                     <div className="flex flex-col px-4 gap-5 py-5 px-sm-3">
                                         <div className="flex gap-2">
                                             <Skeleton height="56" width="56" animation="wave" rounded/>
@@ -312,6 +312,8 @@ const CommunityPage = () => {
                                             </div>
                                         </div>
                                     </div>
+                                : isLoading ?
+                                    <ErrorInfo isLoading />
                                 : null }
                             </div>
                         </div>

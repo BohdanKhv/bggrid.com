@@ -302,7 +302,7 @@ const SearchPage = () => {
                                                     : null}
                                             </div>
                                             </Modal>
-                                            <div className="border border-radius-lg py-2 px-3 flex align-center gap-2 fs-12 weight-600 flex-1"
+                                            <div className="border border-radius-lg py-2 px-3 flex align-center gap-2 fs-12 weight-600 flex-1 search-input-mobile"
                                                 onClick={() => {
                                                     searchParams.set('sg', true)
                                                     setSearchParams(searchParams)

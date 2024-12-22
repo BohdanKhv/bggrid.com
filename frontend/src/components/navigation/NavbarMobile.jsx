@@ -41,12 +41,20 @@ const NavbarMobile = () => {
                         // className={`navbar-mob-item active`}
                         className={`navbar-mob-item ${pathname === "/discover" ? " active" : ""}`}
                         to={`/discover`}
+                        onClick={() => 
+                        {
+                            if (pathname === "/discover")
+                            {
+                                document.querySelector('.search-input-mobile').click()
+                            }
+                        }
+                        }
                     >
                         {/* <div className="border flex justify-center align-center btn btn-default btn-secondary">
                             {discoverIcon}
                         </div> */}
                         <span className="navbar-mob-item-icon">
-                            {pathname === "/discover" || pathname.startsWith("/g/") ? discoverFillIcon : discoverIcon}
+                            {pathname === "/discover" || pathname.startsWith("/g/") ? searchIcon : searchIcon}
                         </span>
                     </NavLink>
                     <NavLink

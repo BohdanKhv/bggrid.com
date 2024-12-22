@@ -1,11 +1,11 @@
 import { useState, useEffect, useMemo, useRef, useCallback } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { Avatar, Button, ConfirmAction, Dropdown, ErrorInfo, HorizontalScroll, Icon, IconButton, Image, Skeleton, TabContent } from '../components'
+import { Avatar, Button, ConfirmAction, Dropdown, ErrorInfo, HorizontalScroll, Icon, IconButton, Image, InputSearch, Skeleton, TabContent } from '../components'
 import { Link, useNavigate, useParams, useSearchParams } from 'react-router-dom'
 import { getUserProfile } from '../features/user/userSlice'
 import { followUser, unfollowUser } from '../features/follow/followSlice'
 import FollowersModal from './follow/FollowersModal'
-import { arrowDownShortIcon, arrowUpShortIcon, closeIcon, diceIcon, leftArrowIcon, libraryIcon, starFillIcon, userAddIcon } from '../assets/img/icons'
+import { arrowDownShortIcon, arrowUpShortIcon, closeIcon, diceIcon, leftArrowIcon, libraryIcon, searchIcon, starFillIcon, userAddIcon } from '../assets/img/icons'
 import { DateTime } from 'luxon'
 import { tagsDetailedEnum, tagsEnum } from '../assets/constants'
 import { getPlaysByUsername, resetPlay } from '../features/play/playSlice'
@@ -195,6 +195,8 @@ const UserPage = () => {
     const [sortOrder, setSortOrder] = useState('desc')
     const [limit, setLimit] = useState(20)
     const [hasMore, setHasMore] = useState(true)
+    const [searchLibrary, setSearchLibrary] = useState(false)
+    const [searchValue, setSearchValue] = useState('')
 
     const uniqueTags = useMemo(() => {
         return userById?.library?.reduce((acc, item) => {
@@ -510,56 +512,96 @@ const UserPage = () => {
                                     <div className="pb-3">
                                     {uniqueTags.length > 0 ?
                                         <div className="sticky top-0 bg-main py-3 px-sm-3 z-3">
-                                            <HorizontalScroll>
-                                                {tags.length > 0 ? (
+                                            {searchLibrary ?
+                                                <div className="flex gap-2">
                                                     <IconButton
                                                         icon={closeIcon}
                                                         variant="secondary"
-                                                        type="default"
                                                         size="sm"
-                                                        borderRadius="lg"
+                                                        dataTooltipContent="Cancel"
+                                                        type="default"
                                                         onClick={() => {
-                                                            searchParams.delete('tag')
-                                                            setSearchParams(searchParams.toString())
-                                                            setTags([])
+                                                            setSearchValue('')
+                                                            if (limit !== 20) setLimit(20)
+                                                            if (!hasMore) setHasMore(true)
+                                                            setSearchLibrary(false)
                                                         }}
                                                     />
-                                                ) : 
-                                                    <Button
-                                                        label="All"
-                                                        borderRadius="lg"
-                                                        variant="secondary"
-                                                        className="animation-fade-in flex-shrink-0"
-                                                        type={'filled'}
-                                                        size="sm"
+                                                    <InputSearch
+                                                        className="flex-1 border-none h-auto"
+                                                        placeholder="Search Your Library"
+                                                        value={searchValue}
+                                                        autoFocus
+                                                        clearable
+                                                        onChange={(e) => {
+                                                            setSearchValue(e.target.value)
+                                                            if (limit !== 20) setLimit(20)
+                                                            if (!hasMore) setHasMore(true)
+                                                        }}
                                                     />
-                                                }
-                                                {uniqueTags
-                                                .filter((tag) => tags.length === 0 || tags.includes(tag))
-                                                .map((tag) => (
-                                                    <Button
-                                                        key={tag}
-                                                        icon={tagsDetailedEnum.find((t) => t.label === tag)?.icon}
-                                                        label={tag}
+                                                </div>
+                                            :
+                                                <HorizontalScroll>
+                                                    <IconButton
+                                                        icon={searchIcon}
                                                         variant="secondary"
                                                         size="sm"
-                                                        borderRadius="lg"
-                                                        className="animation-fade-in flex-shrink-0"
-                                                        type={tags.includes(tag) ? 'filled' : 'default'}
+                                                        type="default"
+                                                        dataTooltipContent="Search Your Library"
                                                         onClick={() => {
-                                                            if (tags.includes(tag)) {
-                                                                setTags(tags.filter((t) => t !== tag))
+                                                            setSearchLibrary(true)
+                                                        }}
+                                                    />
+                                                    {tags.length > 0 ? (
+                                                        <IconButton
+                                                            icon={closeIcon}
+                                                            variant="secondary"
+                                                            type="default"
+                                                            size="sm"
+                                                            borderRadius="lg"
+                                                            onClick={() => {
                                                                 searchParams.delete('tag')
                                                                 setSearchParams(searchParams.toString())
-                                                            } else {
-                                                                setTags([...tags, tag])
-                                                                searchParams.set('tag', [...tags, tag].join(','))
-                                                                setSearchParams(searchParams.toString())
-                                                            }
-                                                        }}
-                                                    />
-                                                ))}
-                                            </HorizontalScroll>
+                                                                setTags([])
+                                                            }}
+                                                        />
+                                                    ) : 
+                                                        <Button
+                                                            label="All"
+                                                            borderRadius="lg"
+                                                            variant="secondary"
+                                                            className="animation-fade-in flex-shrink-0"
+                                                            type={'filled'}
+                                                            size="sm"
+                                                        />
+                                                    }
+                                                    {uniqueTags
+                                                    .filter((tag) => tags.length === 0 || tags.includes(tag))
+                                                    .map((tag) => (
+                                                        <Button
+                                                            key={tag}
+                                                            icon={tagsDetailedEnum.find((t) => t.label === tag)?.icon}
+                                                            label={tag}
+                                                            variant="secondary"
+                                                            size="sm"
+                                                            borderRadius="lg"
+                                                            className="animation-fade-in flex-shrink-0"
+                                                            type={tags.includes(tag) ? 'filled' : 'default'}
+                                                            onClick={() => {
+                                                                if (tags.includes(tag)) {
+                                                                    setTags(tags.filter((t) => t !== tag))
+                                                                    searchParams.delete('tag')
+                                                                    setSearchParams(searchParams.toString())
+                                                                } else {
+                                                                    setTags([...tags, tag])
+                                                                    searchParams.set('tag', [...tags, tag].join(','))
+                                                                    setSearchParams(searchParams.toString())
+                                                                }
+                                                            }}
+                                                        />
+                                                    ))}
+                                                </HorizontalScroll>
+                                            }
                                         </div>
                                     : null}
                                     <div className="px-sm-3 py-sm-0 flex justify-between align-center">
@@ -625,6 +667,7 @@ const UserPage = () => {
                                     </div>
                                     {
                                     userById?.library
+                                    .filter((item) => !searchValue || item?.game?.name?.toLowerCase().includes(searchValue.toLowerCase()))
                                     .filter((item) => {
                                         if (tags.length === 0) return true
                                         return tags?.some((tag) => item.tags.includes(tag))
@@ -634,6 +677,7 @@ const UserPage = () => {
                                             secondary="Try removing some filters"
                                         />
                                     : userById?.library
+                                    .filter((item) => !searchValue || item?.game?.name?.toLowerCase().includes(searchValue.toLowerCase()))
                                     .filter((item) => {
                                         if (tags.length === 0) return true
                                         return tags?.some((tag) => item.tags.includes(tag))

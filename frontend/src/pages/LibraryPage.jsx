@@ -884,7 +884,7 @@ const LibraryPage = () => {
                                 {library.length > 0 && !isLoading ? (
                                     <div className="flex flex-col">
                                     {library
-                                    .filter((item) => item.game.name.toLowerCase().includes(searchValue.toLowerCase()))
+                                    .filter((item) => !searchValue || item?.game?.name?.toLowerCase().includes(searchValue.toLowerCase()))
                                     .filter((item) => {
                                         if (tags.length === 0) return true
                                         return tags.some((tag) => item.tags.includes(tag))
@@ -912,7 +912,7 @@ const LibraryPage = () => {
                                         </div>
                                     )}
                                     {library
-                                    .filter((item) => item.game.name.toLowerCase().includes(searchValue.toLowerCase()))
+                                    .filter((item) => !searchValue || item?.game?.name?.toLowerCase().includes(searchValue.toLowerCase()))
                                     .filter((item) => {
                                         if (tags.length === 0) return true
                                         return tags.some((tag) => item.tags.includes(tag))

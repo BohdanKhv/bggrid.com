@@ -57,7 +57,6 @@ const YoutubeVideoItem = ({ item, thumbnail }) => {
             <div className="flex flex-col gap-1 flex-1">
                 <Link className="fs-14 weight-500 text-ellipsis-2 text-underlined-hover"
                     to={item.link}
-                    target="_blank"
                 >
                     {item.title}
                 </Link>
@@ -205,7 +204,7 @@ const PlayItem = ({ item }) => {
                                     : null}
                                     <div className={`flex flex-col`}>
                                         {player.user ?
-                                            <Link target="_blank" to={`/u/${player.user.username}`} className="fs-14 weight-500 pointer text-underlined-hover text-ellipsis-1">
+                                            <Link to={`/u/${player.user.username}`} className="fs-14 weight-500 pointer text-underlined-hover text-ellipsis-1">
                                                 @{player.user.username}
                                             </Link>
                                         : 

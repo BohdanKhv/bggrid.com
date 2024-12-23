@@ -1,6 +1,6 @@
 import React from 'react'
 import { NavLink, useLocation, useSearchParams } from 'react-router-dom'
-import { gamesIcon, homeIcon, largePlusIcon, libraryIcon, menuIcon, diceIcon, searchIcon, usersIcon, discoverIcon, homeFillIcon, usersFillIcon, diceFillIcon, discoverFillIcon, libraryFillIcon } from '../../assets/img/icons'
+import { gamesIcon, homeIcon, largePlusIcon, libraryIcon, menuIcon, diceIcon, searchIcon, usersIcon, discoverIcon, homeFillIcon, usersFillIcon, diceFillIcon, discoverFillIcon, libraryFillIcon, searchFillIcon } from '../../assets/img/icons'
 import "./styles/NavbarMobile.css"
 import Button from '../ui/Button'
 import Avatar from '../ui/Avatar'
@@ -54,7 +54,7 @@ const NavbarMobile = () => {
                             {discoverIcon}
                         </div> */}
                         <span className="navbar-mob-item-icon">
-                            {pathname === "/discover" || pathname.startsWith("/g/") ? searchIcon : searchIcon}
+                            {pathname === "/discover" ? searchFillIcon : searchIcon}
                         </span>
                     </NavLink>
                     <NavLink

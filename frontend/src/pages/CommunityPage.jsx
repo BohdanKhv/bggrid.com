@@ -57,7 +57,7 @@ const LibraryItem = ({ item }) => {
                                 </div>
                             </div>
                             <div className="flex fs-12 gap-2 text-secondary pt-2">
-                                Added <Link target="_blank" to={`/g/${item.game._id}`} className="fs-12 text-main bold pointer text-ellipsis-1 text-underlined-hover">{item.game.name}</Link> to their library
+                                Added <Link to={`/g/${item.game._id}`} className="fs-12 text-main bold pointer text-ellipsis-1 text-underlined-hover">{item.game.name}</Link> <span className="flex-shrink-0">to their library</span>
                             </div>
                         </div>
                     </div>

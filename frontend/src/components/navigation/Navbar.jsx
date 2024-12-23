@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { Link, NavLink, useLocation, useSearchParams } from 'react-router-dom'
-import { bellIcon, gamesIcon, homeIcon, largePlusIcon, libraryIcon, loginIcon, logoutIcon, diceIcon, searchIcon, settingsIcon, usersIcon, discoverIcon, linkIcon, homeFillIcon, libraryFillIcon, discoverFillIcon, diceFillIcon, bellFillIcon, usersFillIcon, settingsFillIcon } from '../../assets/img/icons'
+import { bellIcon, gamesIcon, homeIcon, largePlusIcon, libraryIcon, loginIcon, logoutIcon, diceIcon, searchIcon, settingsIcon, usersIcon, discoverIcon, linkIcon, homeFillIcon, libraryFillIcon, discoverFillIcon, diceFillIcon, bellFillIcon, usersFillIcon, settingsFillIcon, searchFillIcon } from '../../assets/img/icons'
 import "./styles/Navbar.css"
 import { logoNameSvg, logoSvg } from '../../assets/img/logo'
 import Icon from '../ui/Icon'
@@ -115,7 +115,7 @@ const Navbar = () => {
                         // muted={pathname !== '/'}
                         to="/discover"
                         label="Games"
-                        icon={pathname === '/discover' || pathname.startsWith('/g/') || pathname.startsWith('/p/') ? searchIcon : searchIcon}
+                        icon={pathname === '/discover' || pathname.startsWith('/g/') || pathname.startsWith('/p/') ? searchFillIcon : searchIcon}
                         type={pathname === '/discover' ? "secondary" : "secondary"}
                         variant={pathname === '/discover' ? "" : "text"}
                     />

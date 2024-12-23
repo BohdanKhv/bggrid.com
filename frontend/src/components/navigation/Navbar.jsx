@@ -243,7 +243,7 @@ const Navbar = () => {
                                 © {new Date().getFullYear()} bggrid.com
                             </div>
                             <div className="fs-12 text-secondary weight-500">
-                                All rights reserved. V.{pJson.version}
+                                All rights reserved. Beta V.{pJson.version}
                             </div>
                         </div>
                     </div>

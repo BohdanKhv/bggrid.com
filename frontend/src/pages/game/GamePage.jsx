@@ -771,6 +771,7 @@ const Overview = () => {
     const { gameById } = useSelector(state => state.game)
     const [showMorePublishers, setShowMorePublishers] = useState(false)
     const [showMoreArtists, setShowMoreArtists] = useState(false)
+    const [showMoreDescription, setShowMoreDescription] = useState(false)
 
     return (
         <HelmetProvider>
@@ -851,7 +852,7 @@ const Overview = () => {
                                 )) : '--'}
                                 {gameById.publishers.length > 3 ?
                                     <div className="flex gap-1 align-center">
-                                        <span className="fs-14 weight-400 pointer opacity-50 hover-opacity-100"
+                                        <span className="fs-14 weight-500 pointer hover-opacity-75 text-primary"
                                             onClick={() => setShowMorePublishers(!showMorePublishers)}
                                         >
                                             {showMorePublishers ? 'Show less' : gameById.publishers.length > 3 ? `+${gameById.publishers.length - 3} more` : ''}
@@ -894,7 +895,7 @@ const Overview = () => {
                                 )) : '--'}
                                 {gameById.artists.length > 3 ?
                                     <div className="flex gap-1 align-center">
-                                        <span className="fs-14 weight-400 pointer opacity-50 hover-opacity-100"
+                                        <span className="fs-14 weight-500 pointer hover-opacity-75 text-primary"
                                             onClick={() => setShowMoreArtists(!showMoreArtists)}
                                         >
                                             {showMoreArtists ? 'Show less' : gameById.artists.length > 3 ? `+${gameById.artists.length - 3} more` : ''}
@@ -902,9 +903,19 @@ const Overview = () => {
                                     </div>
                                 : null}
                             </div>
-                            <p className="fs-14 flex-1 pt-5"
-                                dangerouslySetInnerHTML={{ __html: gameById.description }}
-                            /> 
+                                <p className="fs-14 flex-1 pt-5"
+                                > 
+                                <span
+                                    dangerouslySetInnerHTML={{__html: gameById.description.slice(0, showMoreDescription ? gameById.description.length : 500) }}
+                                />
+                                {gameById?.description?.length > 500 ?
+                                        <span className="fs-14 weight-500 pointer hover-opacity-75 text-primary ps-2"
+                                            onClick={() => setShowMoreDescription(!showMoreDescription)}    
+                                        >
+                                            {showMoreDescription ? 'Show less' : 'Show more'}
+                                        </span>
+                                : null}
+                                </p>
                         </div>
                         <div>
                             <div className="fs-20 flex align-center gap-4 weight-500 transition-slide-right-hover-parent pointer mt-4"

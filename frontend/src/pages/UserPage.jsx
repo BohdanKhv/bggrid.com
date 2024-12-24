@@ -496,7 +496,7 @@ const UserPage = () => {
                                         }
                                         {userById?.bio &&
                                         <div className="fs-12 w-max-600-px">
-                                            {userById?.bio} Lorem ipsum dolor sit amet consectetur adipisicing elit. Quis repellendus voluptas laborum rerum dolores! Dolorem id nihil minus, fugiat consequuntur ipsum praesentium eos saepe itaque illum, perferendis vero quibusdam illo.
+                                            {userById?.bio}
                                         </div>
                                         }
                                     </div>

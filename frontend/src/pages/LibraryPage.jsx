@@ -311,35 +311,46 @@ const LibraryItem = ({ item, index, tags, setTags }) =>  {
             hideClose
             closeBottom
         >
-            <div className="flex align-center gap-2 overflow-hidden pos-relative p-3">
+            <div className="flex align-center gap-2 overflow-hidden pos-relative p-3 bottom-fade-effect">
                 <img
                     src={item?.game?.thumbnail}
                     alt={item?.name}
                     draggable="false"
-                    className="z-0 border-radius object-cover object-center pos-absolute left-0 blur-20 w-100 h-100"
+                    className="z-0 border-radius object-cover object-center pos-absolute left-0 blur-20 w-100 h-100 mask-image-bottom-100"
                 />
                 <Link className="clickable"
                     to={`/g/${item.game._id}`}
                 >
                     <Image
-                        img={item?.game?.image}
+                        img={item?.game?.thumbnail}
                         classNameContainer="w-set-100-px h-set-100-px"
                         classNameImg="object-cover"
                         size="sm"
                     />
                 </Link>
-                <div className="z-3 flex flex-col overflow-hidden">
-                    <div className="fs-20 text-shadow-hard text-white weight-600 text-ellipsis-2">
+                <div className="z-3 flex flex-col overflow-hidden ps-2">
+                    <div className="fs-18 text-shadow-hard text-white weight-600 text-ellipsis-2">
                         {item?.game?.name}
                     </div>
-                    <div className="fs-12 text-white pt-1 text-shadow-hard">
-                        {item?.game?.year}
-                    </div>
-                    <div className="flex overflow-x-auto pt-2 gap-2">
-                        {item.tags.map((tag, index) => (
-                            <div key={index} className="px-2 py-1 flex-shrink-0 bg-secondary border-radius weight-500 flex align-center fs-12 weight-500">{tag}</div>
-                        ))}
-                    </div>
+                    <div className="flex gap-5 py-2">
+                        <div className="flex flex-col">
+                            <div className="fs-12 text-shadow-hard weight-400 flex-col text-ellipsis-1 text-secondary">
+                                PLAYS
+                            </div>
+                            <div className="fs-12 text-shadow-hard text-nowrap flex-shrink-0 bold">
+                                {numberFormatter(item.totalPlays || 0)}
+                            </div>
+                        </div>
+                        <div className="flex flex-col">
+                        <div className="fs-12 text-shadow-hard weight-400 flex-col text-ellipsis-1 text-secondary">
+                                LAST PLAYED
+                            </div>
+                            <div className="fs-12 text-shadow-hard text-nowrap flex-shrink-0 bold">
+                                {item.lastPlayDate ? DateTime.now().diff(DateTime.fromISO(item.lastPlayDate), ['days']).days > 1 ? DateTime.fromISO(item.lastPlayDate).toFormat('LLL dd') :
+                                DateTime.fromISO(item.lastPlayDate).toRelative().replace(' days', 'd').replace(' day', 'd').replace(' hours', 'h').replace(' hour', 'h').replace(' minutes', 'm').replace(' minute', 'm').replace(' seconds', 's').replace(' second', 's') : 'never'}
+                            </div>
+                        </div>
+                        </div>
                 </div>
             </div>
             <div className="flex flex-col z-3 p-2">

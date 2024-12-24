@@ -177,6 +177,15 @@ const SearchPage = () => {
                                                     clearable
                                                     autoFocus
                                                     onChange={(e) => setSearchValue(e.target.value)}
+                                                    onSubmit={() => { 
+                                                        if (searchValue === '') searchParams.delete('s')
+                                                        else searchParams.set('s', searchValue)
+                                                        searchParams.delete('sg')
+                                                        setSearchParams(searchParams.toString())
+                                                        if (searchValue !== "" && !searchHistory.includes(searchValue.trim())) {
+                                                            dispatch(setSearchHistory([...new Set([searchValue.trim(), ...searchHistory])]))
+                                                        }
+                                                    }}
                                                 />
                                                 <Button
                                                     label="Cancel"

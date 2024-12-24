@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useRef, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { Avatar, Button, ErrorInfo, HorizontalScroll, Icon, IconButton, Skeleton, TabContent } from '../components'
-import { arrowRightShortIcon, closeIcon, diceIcon, largePlusIcon, libraryIcon, linkIcon, plusIcon, rightArrowIcon, searchIcon, starEmptyIcon, starFillIcon, starsIcon, usersIcon } from '../assets/img/icons'
+import { arrowRightShortIcon, closeIcon, diceIcon, largePlusIcon, libraryIcon, linkIcon, plusIcon, rightArrowIcon, searchIcon, starEmptyIcon, starFillIcon, starsIcon, startHalfFillIcon, usersIcon } from '../assets/img/icons'
 import FollowSearchModal from './follow/FollowSearchModal'
 import { Link, useSearchParams } from 'react-router-dom'
 import { resetFeed, getCommunityFeed } from '../features/feed/feedSlice'
@@ -13,6 +13,15 @@ import { tagsDetailedEnum } from '../assets/constants'
 
 
 const LibraryItem = ({ item }) => {
+    const getStarIcon = (rating, index) => {
+        if (rating >= index + 1) {
+            return starFillIcon;
+        } else if (rating >= index + 0.5) {
+            return startHalfFillIcon;
+        } else {
+            return starEmptyIcon;
+        }
+    };
     return (
         <div className="px-sm-3 border-bottom show-on-hover-parent border-secondary transition-duration animation-slide-in display-on-hover-parent">
             <div className="flex gap-3 py-5 py-sm-3">
@@ -67,7 +76,7 @@ const LibraryItem = ({ item }) => {
                                 <span className={`fs-14 weight-600 ${!item.rating ? "text-secondary" : "text-warning"}`}>{item.rating || 0}</span>
                                 <div className="flex gap-1 align-center">
                                     {[...Array(5)].map((_, i) => (
-                                        <Icon icon={starFillIcon} size="xs" className={`text-warning ${i + 1 <= item.rating ? 'fill-warning' : 'fill-secondary'}`}/>
+                                        <Icon icon={getStarIcon(item.rating, i)} key={i} size="xs" className={`text-warning ${!item.rating ? 'fill-secondary' : 'fill-warning'}`}/>
                                     ))}
                                 </div>
                             </div>

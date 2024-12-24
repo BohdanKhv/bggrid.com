@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { getMyLibrary, removeGameFromLibrary } from '../features/library/librarySlice'
 import {Avatar, Button, ErrorInfo, HorizontalScroll, IconButton, InputSearch, Image, Icon, Dropdown, Modal} from '../components'
 import { Link, useNavigate, useSearchParams } from 'react-router-dom'
-import { closeIcon, editIcon, gamesIcon, linkIcon, diceIcon, searchIcon, starFillIcon, weightIcon, usersIcon, usersFillIcon, bellIcon, rightArrowIcon, moreIcon, upArrowRightIcon, listIcon, gridIcon, arrowUpShortIcon, arrowDownShortIcon, largePlusIcon, libraryIcon, shareIcon, uploadIcon, sendIcon, infoIcon, downloadIcon, pngIcon, trashIcon } from '../assets/img/icons'
+import { closeIcon, editIcon, gamesIcon, linkIcon, diceIcon, searchIcon, starFillIcon, weightIcon, usersIcon, usersFillIcon, bellIcon, rightArrowIcon, moreIcon, upArrowRightIcon, listIcon, gridIcon, arrowUpShortIcon, arrowDownShortIcon, largePlusIcon, libraryIcon, shareIcon, uploadIcon, sendIcon, infoIcon, downloadIcon, pngIcon, trashIcon, startHalfFillIcon, starEmptyIcon } from '../assets/img/icons'
 import { tagsDetailedEnum, tagsEnum } from '../assets/constants'
 import { numberFormatter } from '../assets/utils'
 import GameSearchModal from './game/GameSearchModal'
@@ -290,6 +290,16 @@ const LibraryItem = ({ item, index, tags, setTags }) =>  {
 
     const { user } = useSelector((state) => state.auth)
 
+    const getStarIcon = (rating, index) => {
+        if (rating >= index + 1) {
+            return starFillIcon;
+        } else if (rating >= index + 0.5) {
+            return startHalfFillIcon;
+        } else {
+            return starEmptyIcon;
+        }
+    };
+
     return (
         <>
         {window.innerWidth <= 800 && open ?
@@ -476,7 +486,11 @@ const LibraryItem = ({ item, index, tags, setTags }) =>  {
                                                 </div>
                                                 <div className="flex gap-1 align-center">
                                                     {Array.from({ length: 5 }, (_, i) => (
-                                                        <Icon icon={starFillIcon} size="xs" className={`fill-${i < item.rating ? 'warning' : 'secondary'}`} key={i} />
+                                                        <Icon
+                                                        // use start fill, half fill, or empty star
+                                                        icon={getStarIcon(item.rating, i)}
+                                                        size="xs"
+                                                        className={`fill-${!item.rating ? 'secondary' :  'warning'}`} key={i} />
                                                     ))}
                                                 </div>
                                             </div>

@@ -42,7 +42,7 @@ const Account = () => {
             <div>
                 <div className="flex gap-4 flex-col">
                     <div>
-                        <div className="fs-14 bold">
+                        <div className="fs-20 bold">
                             Your Profile
                         </div>
                         <div className="fs-12 text-secondary pt-1">
@@ -155,7 +155,7 @@ const Account = () => {
                         />
                         <div className="border-bottom my-6"/>
                         <div>
-                            <div className="fs-14 bold">
+                            <div className="fs-20 bold">
                                 Integrations
                             </div>
                             <div className="fs-12 text-secondary">
@@ -239,7 +239,7 @@ const Preferences = () => {
         <div className="flex flex-col gap-5 gap-sm-3 animation-slide-in">
             <div className="col-12 flex flex-col gap-5 gap-sm-3 col-sm-12">
                 <div>
-                    <div className="fs-14 bold">
+                    <div className="fs-20 bold">
                         Theme
                     </div>
                     <div className="fs-12 text-secondary">
@@ -308,7 +308,7 @@ const Preferences = () => {
             </div>
             <div className="border-bottom my-6"/>
             <div>
-                <div className="fs-14 bold">
+                <div className="fs-20 bold">
                     Notifications
                 </div>
                 <div className="fs-12 text-secondary pt-1">
@@ -316,7 +316,7 @@ const Preferences = () => {
                 </div>
             </div>
             <div className="flex flex-col gap-3">
-                <div className="border border-radius p-3 align-center flex justify-between color-border-on-hover-text pointer bg-tertiary-hover"
+                <div className={`border border-radius p-3 align-center flex justify-between color-border-on-hover-text pointer bg-tertiary-hover${loadingId ? ' opacity-50' : ''}`}
                     onClick={(e) => {
                         if (loadingId) return
                         dispatch(updateUser({
@@ -331,7 +331,7 @@ const Preferences = () => {
                         active={user?.notifications?.newFollowers}
                     />
                 </div>
-                <div className="border border-radius p-3 align-center flex justify-between color-border-on-hover-text pointer bg-tertiary-hover"
+                <div className={`border border-radius p-3 align-center flex justify-between color-border-on-hover-text pointer bg-tertiary-hover${loadingId ? ' opacity-50' : ''}`}
                     onClick={(e) => {
                         if (loadingId) return
                         dispatch(updateUser({
@@ -346,7 +346,7 @@ const Preferences = () => {
                         active={user?.notifications?.followingUsersLibraryUpdates}
                     />
                 </div>
-                <div className="border border-radius p-3 align-center flex justify-between color-border-on-hover-text pointer bg-tertiary-hover"
+                <div className={`border border-radius p-3 align-center flex justify-between color-border-on-hover-text pointer bg-tertiary-hover${loadingId ? ' opacity-50' : ''}`}
                 onClick={(e) => {
                     if (loadingId) return
                     dispatch(updateUser({
@@ -439,7 +439,7 @@ const Settings = () => {
                                     }}
                                 />
                         </div>
-                        <div className="pb-6 col-8 col-sm-12 pt-5 px-sm-3 px-4">
+                        <div className="pb-6 pt-5 px-sm-3 px-4">
                             {activeTab === 'account' ? <Account />
                             : activeTab === 'preferences' ? <Preferences />
                             : <Redirect /> }

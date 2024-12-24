@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { getGameById, getGameOverview } from '../../features/game/gameSlice'
 import { Link, useNavigate, useParams, useSearchParams } from 'react-router-dom'
 import { Avatar, Button, Collapse, Dropdown, ErrorInfo, HorizontalScroll, Icon, IconButton, Image, ProgressBar, Skeleton, TabContent } from '../../components'
-import { boxInIcon, boxOffIcon, checkIcon, clockIcon, largePlusIcon, libraryIcon, diceIcon, shareIcon, starEmptyIcon, starFillIcon, starsIcon, userIcon, usersIcon, plugIcon, rightArrowIcon, leftArrowSmIcon, leftArrowIcon, moreIcon, gamesIcon } from '../../assets/img/icons'
+import { boxInIcon, boxOffIcon, checkIcon, clockIcon, largePlusIcon, libraryIcon, diceIcon, shareIcon, starEmptyIcon, starFillIcon, starsIcon, userIcon, usersIcon, plugIcon, rightArrowIcon, leftArrowSmIcon, leftArrowIcon, moreIcon, gamesIcon, startHalfFillIcon } from '../../assets/img/icons'
 import { addCommaToNumber, numberFormatter } from '../../assets/utils'
 import { getGameStats, getReviewsByGame, resetReview } from '../../features/review/reviewSlice'
 import { getPlaysByGame, resetPlay, getGamePlayStats } from '../../features/play/playSlice'
@@ -233,6 +233,16 @@ const PlayItem = ({ item }) => {
 
 
 const ReviewItem = ({ item }) => {
+    const getStarIcon = (rating, index) => {
+        if (rating >= index + 1) {
+            return starFillIcon;
+        } else if (rating >= index + 0.5) {
+            return startHalfFillIcon;
+        } else {
+            return starEmptyIcon;
+        }
+    };
+
     return (
         <div className="border-bottom show-on-hover-parent border-secondary transition-duration animation-slide-in display-on-hover-parent">
             <div className="flex gap-3 pt-5 pb-3 py-sm-3">
@@ -270,7 +280,9 @@ const ReviewItem = ({ item }) => {
                             <span className={`fs-14 weight-600 text-warning`}>{item.rating || 0}</span>
                             <div className="flex gap-1 align-center">
                                 {[...Array(5)].map((_, i) => (
-                                    <Icon icon={starFillIcon} size="xs" className={`text-warning ${i + 1 <= item.rating ? 'fill-warning' : 'fill-secondary'}`} key={i}/>
+                                    <Icon 
+                                    icon={getStarIcon(item.rating, i)}
+                                    size="xs" className={`${!item.rating ? 'fill-secondary' : 'fill-warning'}`} key={i}/>
                                 ))}
                             </div>
                         </div>

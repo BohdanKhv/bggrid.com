@@ -29,6 +29,7 @@ const userSchema = new mongoose.Schema({
     },
     firstName: { type: String, required: false, trim: true },
     lastName: { type: String, required: false, trim: true },
+    bio: { type: String, required: false, trim: true },
     avatar: { type: String, required: false }, // url to avatar uploadable
     bggUsername: { type: String, required: false, trim: true },
 

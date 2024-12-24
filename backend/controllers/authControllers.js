@@ -265,7 +265,7 @@ const login = async (req, res) => {
 // @access  Private
 const updateUser = async (req, res) => {
     try {
-        const { firstName, lastName, username, bggUsername, followingUsersLibraryUpdates, taggedInPlays, newFollowers } = req.body;
+        const { firstName, lastName, username, bggUsername, followingUsersLibraryUpdates, taggedInPlays, newFollowers, bio } = req.body;
 
         // Check if user exists
         const user = await User
@@ -296,6 +296,7 @@ const updateUser = async (req, res) => {
         if (followingUsersLibraryUpdates !== undefined) user.notifications.followingUsersLibraryUpdates = followingUsersLibraryUpdates;
         if (taggedInPlays !== undefined) user.notifications.taggedInPlays = taggedInPlays;
         if (newFollowers !== undefined) user.notifications.newFollowers = newFollowers;
+        if (bio !== undefined) user.bio = bio;
 
         if (bggUsername !== undefined) {
             // check if username is available

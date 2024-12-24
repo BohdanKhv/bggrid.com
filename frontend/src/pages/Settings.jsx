@@ -24,6 +24,7 @@ const Account = () => {
     const [bggUsername, setBggUsername] = useState(user?.bggUsername)
     const [firstName, setFirstName] = useState(user?.firstName)
     const [lastName, setLastName] = useState(user?.lastName)
+    const [bio, setBio] = useState(user?.bio)
 
 
 
@@ -34,6 +35,7 @@ const Account = () => {
             setUsername(user?.username || '')
             setFirstName(user?.firstName || '')
             setLastName(user?.lastName || '')
+            setBio(user?.bio || '')
         }
     }, [user])
 
@@ -153,6 +155,34 @@ const Account = () => {
                             wrapColumn
                             type="text"
                         />
+                        <Input
+                            label="Bio"
+                            placeholder="Tell us about yourself. Games you like, your favorite game, etc."
+                            value={bio}
+                            onChange={(e) => {
+                                if(e.target.value.length >= 250) return
+                                setBio(e.target.value)
+                            }}
+                            wrapColumn
+                            type="textarea"
+                        />
+                        <div className="flex gap-2">
+                            <Button
+                                label="Save Changes"
+                                variant="secondary"
+                                displayTextOnLoad
+                                type="filled"
+                                disabled={loadingId}
+                                onClick={() => {
+                                    const data = {}
+                                    if (username !== user.username) data.username = username.trim()
+                                    if (firstName !== user.firstName) data.firstName = firstName
+                                    if (lastName !== user.lastName) data.lastName = lastName
+                                    if (bio !== user.bio) data.bio = bio
+                                    dispatch(updateUser(data))
+                                }}
+                            />
+                        </div>
                         <div className="border-bottom my-6"/>
                         <div>
                             <div className="fs-20 bold">
@@ -162,16 +192,33 @@ const Account = () => {
                                 Connect your Board Game Geek account to import your collection.
                             </div>
                         </div>
-                        <Input
-                            label="BGG Username"
-                            value={bggUsername}
-                            placeholder="Your board game geek username"
-                            error={msg == 'This board game geek username already in use'}
-                            errorMsg="This board game geek username already in use"
-                            onChange={(e) => setBggUsername(e.target.value)}
-                            wrapColumn
-                            type="text"
-                        />
+                        <div className="flex flex-col gap-3">
+                            <div className="flex gap-3 align-center">
+                                <div className="flex-1">
+                                    <Input
+                                        value={bggUsername}
+                                        placeholder="Your board game geek username"
+                                        error={msg == 'This board game geek username already in use'}
+                                        errorMsg="This board game geek username already in use"
+                                        onChange={(e) => setBggUsername(e.target.value)}
+                                        wrapColumn
+                                        type="text"
+                                    />
+                                </div>
+                                <Button
+                                    label="Update"
+                                    variant="secondary"
+                                    displayTextOnLoad
+                                    type="filled"
+                                    className="h-max-100 h-100"
+                                    disabled={loadingId || (user?.bggUsername && user?.bggUsername === bggUsername)}
+                                    onClick={() => {
+                                        dispatch(updateUser({
+                                            bggUsername
+                                        }))
+                                    }}
+                                />
+                            </div>
                         <ConfirmAction
                             title={`Sync Collection from Board Game Geek?`}
                             isLoading={libraryLoadingId === 'import'}
@@ -199,23 +246,6 @@ const Account = () => {
                                 </div>
                             </div>
                         </ConfirmAction>
-                        <div className="flex gap-2">
-                            <Button
-                                label="Save Changes"
-                                variant="secondary"
-                                displayTextOnLoad
-                                type="filled"
-                                isLoading={loadingId === 'profile'}
-                                disabled={loadingId}
-                                onClick={() => {
-                                    const data = {}
-                                    if (username !== user.username) data.username = username.trim()
-                                    if (firstName !== user.firstName) data.firstName = firstName
-                                    if (lastName !== user.lastName) data.lastName = lastName
-                                    if (bggUsername !== user.bggUsername) data.bggUsername = bggUsername?.trim()
-                                    dispatch(updateUser(data))
-                                }}
-                            />
                         </div>
                     </div>
                 </div>

@@ -338,9 +338,9 @@ const UserPage = () => {
                                 </div>
                             : null}
                             <div className="py-6 pt-sm-0 mt-sm-0 pb-3 pt-sm-3 pb-sm-3 mb-sm-0 py-sm-0 m-3">
-                                <div className="flex flex-sm-col gap-6 gap-sm-3 align-center align-sm-start">
-                                    <div className="flex gap-sm-3 w-sm-100 align-center">
-                                        <div className="flex justify-center align-center">
+                                <div className="flex flex-sm-col gap-6 gap-sm-3 align-sm-start">
+                                    <div className="flex gap-sm-3 w-sm-100">
+                                        <div className="flex justify-center">
                                             <Avatar
                                                 img={userById?.avatar}
                                                 name={userById ? `${userById?.username}` : null}
@@ -492,6 +492,11 @@ const UserPage = () => {
                                                 className="flex-shrink-0 flex-grow-sm-1"
                                                 borderRadius="lg"
                                             />
+                                        </div>
+                                        }
+                                        {userById?.bio &&
+                                        <div className="fs-12 w-max-600-px">
+                                            {userById?.bio} Lorem ipsum dolor sit amet consectetur adipisicing elit. Quis repellendus voluptas laborum rerum dolores! Dolorem id nihil minus, fugiat consequuntur ipsum praesentium eos saepe itaque illum, perferendis vero quibusdam illo.
                                         </div>
                                         }
                                     </div>

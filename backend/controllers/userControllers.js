@@ -14,7 +14,7 @@ const getUserProfile = async (req, res) => {
         User.findOne({
             username: { $regex: `^${req.params.username}$`, $options: 'i' }
         })
-        .select('avatar username firstName lastName followers following bggUsername'); 
+        .select('avatar username firstName lastName followers following bggUsername bio'); 
 
         if (!user) {
             return res.status(404).json({ msg: '404' });

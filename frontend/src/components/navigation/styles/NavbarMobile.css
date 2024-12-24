@@ -114,8 +114,9 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    padding: 4px 22px;
+    /* padding: 4px 22px; */
     min-height: 28px;
+    height: 100%;
     border-radius: var(--border-radius-lg);
     background-color: transparent;
     transition-duration: 0.3s;
@@ -128,8 +129,8 @@
 }
 
 .navbar-mob .navbar-mob-item svg {
-    width: 18px;
-    height: 18px;
+    width: 20px;
+    height: 20px;
 }
 
 

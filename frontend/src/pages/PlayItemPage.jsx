@@ -40,7 +40,13 @@ const PlayItemPage = () => {
                             <div className="flex gap-2 align-center">
                                 <IconButton
                                     icon={leftArrowIcon}
-                                    onClick={() => navigate(playById ? `/u/${playById?.user?.username}/plays` : "/") }
+                                    onClick={() => {
+                                        if (window.history.state && window.history.state.idx > 0) {
+                                            navigate(-1); // Go back to the previous page
+                                        } else {
+                                            navigate(playById ? `/u/${playById?.user?.username}/plays` : "/")
+                                        }
+                                    }}
                                     type="secondary"
                                     variant="text"
                                 />

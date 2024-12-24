@@ -858,6 +858,18 @@ const LibraryPage = () => {
                                 >
                                     <Button
                                         borderRadius="sm"
+                                        label="Name"
+                                        className="justify-start"
+                                        variant="text"
+                                        iconRight={sortBy === 'name' ? sortOrder === 'asc' ? arrowDownShortIcon : arrowUpShortIcon : null}
+                                        onClick={() => {
+                                            setSortBy('name')
+                                            if (sortOrder === 'asc') setSortOrder('desc')
+                                            else setSortOrder('asc')
+                                        }}
+                                    />
+                                    <Button
+                                        borderRadius="sm"
                                         label="Date Added"
                                         className="justify-start"
                                         variant="text"
@@ -904,7 +916,9 @@ const LibraryPage = () => {
                                         return tags.some((tag) => item.tags.includes(tag))
                                     })
                                     .sort((a, b) => {
-                                        if (sortBy === 'dateAdded') {
+                                        if (sortBy === 'name') {
+                                            return sortOrder === 'asc' ? a.game.name.localeCompare(b.game.name) : b.game.name.localeCompare(a.game.name)
+                                        } else if (sortBy === 'dateAdded') {
                                             return sortOrder === 'asc' ? DateTime.fromISO(a.createdAt) - DateTime.fromISO(b.createdAt) : DateTime.fromISO(b.createdAt) - DateTime.fromISO(a.createdAt)
                                         } else if (sortBy === 'rating') {
                                             return sortOrder === 'asc' ? a.rating - b.rating : b.rating - a.rating

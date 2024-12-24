@@ -8,6 +8,7 @@ const initialState = {
     users: [],
     userById: null,
     isLoading: false,
+    isError: false,
     msg: '',
 };
 
@@ -59,6 +60,7 @@ const userSlice = createSlice({
             state.isLoading = false;
             state.msg = '';
             state.users = [];
+            state.isError = false;
         }
     },
     extraReducers: (builder) => {
@@ -82,6 +84,7 @@ const userSlice = createSlice({
             state.isLoading = true;
             state.msg = '';
             state.userById = null;
+            state.isError = false;
         });
         builder.addCase(getUserProfile.fulfilled, (state, action) => {
             state.isLoading = false;
@@ -91,6 +94,7 @@ const userSlice = createSlice({
             if (action.error.message !== 'Aborted') {
                 state.isLoading = false;
                 state.msg = action.payload;
+                state.isError = true;
                 // toast.error(action.payload, { toastId: 'toastError', closeButton: true});
             }
         });

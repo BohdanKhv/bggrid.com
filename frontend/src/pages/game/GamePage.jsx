@@ -1195,16 +1195,6 @@ const GamePage = () => {
         }
     }, [gameId])
 
-    const getStarIcon = (rating, index) => {
-        if (rating >= index + 1) {
-            return starFillIcon;
-        } else if (rating >= index + 0.5) {
-            return startHalfFillIcon;
-        } else {
-            return starEmptyIcon;
-        }
-    };
-
     return (
         <div
             className="h-min-100 offset-header-sm"
@@ -1225,7 +1215,13 @@ const GamePage = () => {
                                     icon={leftArrowIcon}
                                     variant="secondary"
                                     type="text"
-                                    onClick={() => navigate('/library')}
+                                    onClick={() => {
+                                        if (window.history.state && window.history.state.idx > 0) {
+                                            navigate(-1); // Go back to the previous page
+                                        } else {
+                                            navigate('/discover')
+                                        }
+                                    }}
                                 />
                                 <div className="fs-14 weight-600">
                                     {gameById.name}

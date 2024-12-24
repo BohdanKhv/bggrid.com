@@ -275,7 +275,13 @@ const UserPage = () => {
                                             icon={leftArrowIcon}
                                             variant="secondary"
                                             type="text"
-                                            to={user ? "/community" : "/"}
+                                            onClick={() => {
+                                                if (window.history.state && window.history.state.idx > 0) {
+                                                    navigate(-1); // Go back to the previous page
+                                                } else {
+                                                    navigate("/community")
+                                                }
+                                            }}
                                         />
                                         <div className="fs-14 weight-600">
                                             {userById?.username}
@@ -317,7 +323,13 @@ const UserPage = () => {
                                             icon={leftArrowIcon}
                                             variant="secondary"
                                             type="text"
-                                            to={user ? "/community" : "/"}
+                                            onClick={() => {
+                                                if (window.history.state && window.history.state.idx > 0) {
+                                                    navigate(-1); // Go back to the previous page
+                                                } else {
+                                                    navigate("/community")
+                                                }
+                                            }}
                                         />
                                         <div className="fs-14 weight-600">
                                             {userById?.username}
@@ -505,7 +517,9 @@ const UserPage = () => {
                         }
                         {isLoading ?
                             [1, 2, 3, 4, 5, 6, 7, 8, 9].map((item) => (
-                                <div className="flex gap-3 px-sm-3 py-3 border-bottom">
+                                <div className="flex gap-3 px-sm-3 py-3 border-bottom"
+                                    key={item}
+                                >
                                     <Skeleton key={item} height="50" width="50" animation="wave"/>
                                     <div className="flex flex-col">
                                         <Skeleton height="20" width="200" animation="wave"/>
@@ -639,6 +653,18 @@ const UserPage = () => {
                                         >
                                             <Button
                                                 borderRadius="sm"
+                                                label="Name"
+                                                className="justify-start"
+                                                variant="text"
+                                                iconRight={sortBy === 'name' ? sortOrder === 'asc' ? arrowDownShortIcon : arrowUpShortIcon : null}
+                                                onClick={() => {
+                                                    setSortBy('name')
+                                                    if (sortOrder === 'asc') setSortOrder('desc')
+                                                    else setSortOrder('asc')
+                                                }}
+                                            />
+                                            <Button
+                                                borderRadius="sm"
                                                 label="Date Added"
                                                 className="justify-start"
                                                 variant="text"
@@ -693,7 +719,9 @@ const UserPage = () => {
                                         return tags?.some((tag) => item.tags.includes(tag))
                                     })
                                     .sort((a, b) => {
-                                        if (sortBy === 'dateAdded') {
+                                        if (sortBy === 'name') {
+                                            return sortOrder === 'asc' ? a.game.name.localeCompare(b.game.name) : b.game.name.localeCompare(a.game.name)
+                                        } else if (sortBy === 'dateAdded') {
                                             return sortOrder === 'asc' ? DateTime.fromISO(a.createdAt) - DateTime.fromISO(b.createdAt) : DateTime.fromISO(b.createdAt) - DateTime.fromISO(a.createdAt)
                                         } else if (sortBy === 'rating') {
                                             return sortOrder === 'asc' ? a.rating - b.rating : b.rating - a.rating

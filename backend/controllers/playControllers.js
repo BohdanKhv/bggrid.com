@@ -64,7 +64,7 @@ const updatePlay = async (req, res) => {
             library.totalPlayTime += playTimeMinutes;
             library.totalPlays += 1;
             // Check if user is a winner
-            const winner = players.find(player => player.winner);
+            const winner = players.find(player => player.winner && player.user.toString() === req.user._id.toString());
             if (winner) {
                 library.totalWins += 1;
             }
@@ -285,7 +285,7 @@ const createPlay = async (req, res) => {
             ]);
             playData = playData[0];
 
-            const winner = players.find(player => player.winner);
+            const winner = players.find(player => player.winner && player.user.toString() === req.user._id.toString());
 
             libraryItem = new Library({
                 user: req.user._id,

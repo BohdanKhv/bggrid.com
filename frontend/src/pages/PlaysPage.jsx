@@ -363,7 +363,9 @@ const PlaysPage = () => {
                             <HorizontalScroll
                                 contentClassName="align-start gap-0"
                             >
-                                {library.map((item) => (
+                                {library
+                                .slice(0, 10)
+                                .map((item) => (
                                     <div className={`pointer h-100 w-max-75-px animation-fade-in border-radius-sm hover-opacity-100 transition-duration clickable flex-shrink-0${selectedGame ? selectedGame === item?.game?._id ? "" : " opacity-25" : " bg-tertiary-hover"}`}
                                         key={item._id}
                                         onClick={() => {
@@ -532,7 +534,9 @@ const PlaysPage = () => {
                                         />
                                     </div>
                                 : library.length > 0 && !libraryLoading && (
-                                    library.map((item) => (
+                                    library
+                                    .slice(0, 10)
+                                    .map((item) => (
                                         <div className={`pointer align-center px-4 animation-fade-in hover-opacity-100 transition-duration clickable flex-shrink-0${selectedGame ? selectedGame === item?.game?._id ? "" : " opacity-25" : " bg-tertiary-hover"}`}
                                             key={item._id}
                                             onClick={() => {

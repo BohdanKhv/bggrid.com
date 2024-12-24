@@ -51,7 +51,7 @@ const Image = ({
                 src={img} 
                 alt={alt}
                 draggable="false"
-                decoding="async"
+                // decoding="async"
                 loading="lazy"
                 onError={() => setImgErr(true)}
             />

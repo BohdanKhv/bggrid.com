@@ -250,6 +250,7 @@ const gameSlice = createSlice({
         builder.addCase(getGameById.pending, (state) => {
             state.isLoading = true;
             state.msg = '';
+            state.gameById = null;
         });
         builder.addCase(getGameById.fulfilled, (state, action) => {
             state.isLoading = false;

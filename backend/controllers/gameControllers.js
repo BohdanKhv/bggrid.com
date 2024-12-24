@@ -88,6 +88,7 @@ const getGames = async (req, res) => {
             limit: parseInt(limit) || 10,
             sort: { numRatings: -1},
             populate: 'publishers',
+            select: 'name thumbnail image year numRatings rating complexityWeight minPlayers maxPlayers minPlaytime maxPlaytime'
         };
 
         if (sort) {

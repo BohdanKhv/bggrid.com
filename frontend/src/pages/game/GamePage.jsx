@@ -511,7 +511,7 @@ const ReviewsTab = () => {
         
                 return () => {
                     promise && promise.abort();
-                    dispatch(resetFeed());
+                    dispatch(resetReview());
                     observer.current && observer.current.disconnect();
                 }
             }
@@ -521,6 +521,8 @@ const ReviewsTab = () => {
 
     useEffect(() => {
         window.scrollTo(0, 0)
+        dispatch(resetReview())
+        getData()
     }, [])
 
     return (
@@ -580,7 +582,7 @@ const PlaysTab = () => {
         
                 return () => {
                     promise && promise.abort();
-                    dispatch(resetFeed());
+                    dispatch(resetPlay());
                     observer.current && observer.current.disconnect();
                 }
             }
@@ -590,10 +592,8 @@ const PlaysTab = () => {
 
     useEffect(() => {
         window.scrollTo(0, 0)
-
-        return () => {
-            dispatch(resetPlay())
-        }
+        dispatch(resetPlay())
+        getData()
     }, [])
 
     return (

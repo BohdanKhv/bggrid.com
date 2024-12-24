@@ -125,6 +125,26 @@
     padding: 16px 12px;
 }
 
+.image-loading::before {
+    animation: 1.6s linear 0.5s infinite normal none running image-animation-wave;
+    background: linear-gradient(90deg, transparent, var(--color-border), transparent);
+    content: "";
+    position: absolute;
+    transform: translateX(-100%);
+    inset: 0px;
+    z-index: 0;
+    min-width: calc(100% * 2);
+}
+
+@keyframes image-animation-wave {
+    0% {
+        transform: translateX(-100%);
+    }
+    100% {
+        transform: translateX(100%);
+    }
+}
+
 @media (max-width: 800px) {
     .img-big-display-container-inner-img,
     .img-big-display-container img {

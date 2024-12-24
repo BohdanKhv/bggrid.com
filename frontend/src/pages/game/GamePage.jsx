@@ -1195,6 +1195,16 @@ const GamePage = () => {
         }
     }, [gameId])
 
+    const getStarIcon = (rating, index) => {
+        if (rating >= index + 1) {
+            return starFillIcon;
+        } else if (rating >= index + 0.5) {
+            return startHalfFillIcon;
+        } else {
+            return starEmptyIcon;
+        }
+    };
+
     return (
         <div
             className="h-min-100 offset-header-sm"

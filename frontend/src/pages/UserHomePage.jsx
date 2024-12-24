@@ -15,16 +15,8 @@ import { numberFormatter } from '../assets/utils'
 
 
 const PlayItem = ({ item }) => {
-    const { user } = useSelector((state) => state.auth)
-
-    const [searchParams, setSearchParams] = useSearchParams()
-
     return  (
         <Link className="flex flex-col gap-3"
-            // onClick={() => {
-            //     searchParams.set('logPlay', item.game._id)
-            //     setSearchParams(searchParams)
-            // }}
             to={`/g/${item?.game?._id || item?._id}`}
         >
         <Image img={item?.game?.image} 
@@ -35,32 +27,74 @@ const PlayItem = ({ item }) => {
                     {item?.game?.name}
                 </div>
             </div>
-            {item.lastPlayDate ?
-            <div className="flex justify-between">
-                <div className="fs-12 text-secondary">
-                    Last played: 
-                </div>
-                <div className="fs-12 text-secondary">{DateTime.now().diff(DateTime.fromISO(item.lastPlayDate), ['days']).days > 1 ? DateTime.fromISO(item.lastPlayDate).toFormat('LLL dd') :
-                    DateTime.fromISO(item.lastPlayDate).toRelative().replace(' days', 'd').replace(' day', 'd').replace(' hours', 'h').replace(' hour', 'h').replace(' minutes', 'm').replace(' minute', 'm').replace(' seconds', 's').replace(' second', 's')}
-                </div>
-            </div>
-            :
-            <div className="flex gap-2">
-                {item?.players?.find((player) => player.user === user._id && player.winner) ?
-                    <div className="tag-success fs-12 px-2 py-1 border-radius-sm">
-                        <span className="me-1">🥇</span>
-                        Winner
-                    </div>
-                : null}
-                {item?.playTimeMinutes ?
-                    <div className="tag-secondary fs-12 px-2 py-1 border-radius-sm">
-                        <span className="me-1">⌛</span>
-                        {item?.playTimeMinutes} min
-                    </div>
-                : null}
-            </div>
-            }
         </Link>
+    )
+}
+
+const RecentlyPlayedItem = ({ item }) => {
+    const { user } = useSelector((state) => state.auth)
+
+    return (
+        <Link className="flex flex-col gap-3"
+            to={`/u/${user.username}/plays/${item?._id}`}
+        >
+        <div className="flex flex-col bg-secondary border-radius overflow-hidden h-fit-content">
+            <div className="justify-between flex-shrink-0 flex gap-2 border-bottom mx-4 py-4">
+                <Avatar
+                    img={item?.game?.thumbnail}
+                    avatarColor={item?.game?.name?.length}
+                    name={item?.game?.name}
+                    bigDisplay
+                    size="lg"
+                />
+                {item.players.find(player => player.user === item?.user && player.winner) ?
+                    <div className="flex flex-col justify-between flex-1 tag-success border-radius p-3 align-center justify-center">
+                        <div className="fs-14 bold">
+                            🥇 You won!
+                        </div>
+                    </div>
+                : 
+                    <div className="flex flex-col justify-between flex-1 bg-tertiary border-radius p-3 align-center justify-center">
+                        <div className="fs-14 bold">
+                            🎲 Played
+                        </div>
+                    </div>
+                }
+            </div>
+            <div className="justify-between flex-shrink-0 flex gap-4 border-bottom mx-4 py-4">
+                <div className="fs-14 text-secondary">
+                    Game:
+                </div>
+                <div className="fs-14 bold text-end text-ellipsis-1">
+                    {item.game.name}
+                </div>
+            </div>
+            <div className="justify-between flex-shrink-0 flex gap-4 border-bottom mx-4 py-4">
+                <div className="fs-14 text-secondary">
+                    Playtime:
+                </div>
+                <div className="fs-14 bold">
+                    {item.playTimeMinutes ? `${item.playTimeMinutes} min` : '--'}
+                </div>
+            </div>
+            <div className="justify-between flex-shrink-0 flex gap-4 border-bottom mx-4 py-4">
+                <div className="fs-14 text-secondary">
+                    Players:
+                </div>
+                <div className="fs-14 bold">
+                    {item.players.length || "--"}
+                </div>
+            </div>
+            <div className="justify-between flex-shrink-0 flex gap-4 mx-4 py-4">
+                <div className="fs-14 text-secondary">
+                    Date:
+                </div>
+                <div className="fs-14 bold">
+                    {DateTime.fromISO(item.createdAt).toFormat('dd LLL, yy')}
+                </div>
+            </div>
+        </div>
+    </Link>
     )
 }
 
@@ -135,7 +169,7 @@ const HomeFeed = () => {
                         label={
                             <Skeleton animation="wave" width="150" height="22"/>
                         }
-                        maxVisibleItems={window.innerWidth < 800 ? 2 : 5}
+                        maxVisibleItems={window.innerWidth < 800 ? 1 : 3}
                         items={[1, 2, 3, 4, 5].map((i) => (
                             <Skeleton animation="wave" height="210" className="flex-shrink-0" key={i}/>
                         ))}
@@ -203,16 +237,16 @@ const HomeFeed = () => {
                                 <div>
                                     Recently played
                                 </div>
-                                    <Icon
-                                        icon={rightArrowIcon}
-                                        className="transition-slide-right-hover"
-                                        size="xs"
-                                    />
+                                <Icon
+                                    icon={rightArrowIcon}
+                                    className="transition-slide-right-hover"
+                                    size="xs"
+                                />
                             </Link>
                         }
-                        maxVisibleItems={window.innerWidth < 800 ? 2 : 5}
+                        maxVisibleItems={window.innerWidth < 800 ? 1 : 3}
                         items={home.recentlyPlayed.map((item, i) => (
-                            <PlayItem key={i} item={item}/>
+                            <RecentlyPlayedItem key={i} item={item}/>
                         ))}
                     />
                 : null}

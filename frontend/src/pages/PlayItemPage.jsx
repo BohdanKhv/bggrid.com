@@ -303,7 +303,7 @@ const PlayItemPage = () => {
                                             <div className="fs-14 text-secondary">
                                                 Game:
                                             </div>
-                                            <div className="fs-14 bold">
+                                            <div className="fs-14 bold text-end">
                                                 {playById.game.name}
                                             </div>
                                         </div>
@@ -311,7 +311,7 @@ const PlayItemPage = () => {
                                             <div className="fs-14 text-secondary">
                                                 Playtime:
                                             </div>
-                                            <div className="fs-14 bold">
+                                            <div className="fs-14 bold text-end">
                                                 {playById.playTimeMinutes ? `${playById.playTimeMinutes} min` : '--'}
                                             </div>
                                         </div>
@@ -319,7 +319,7 @@ const PlayItemPage = () => {
                                             <div className="fs-14 text-secondary">
                                                 Players:
                                             </div>
-                                            <div className="fs-14 bold">
+                                            <div className="fs-14 bold text-end">
                                                 {playById.players.length || "--"}
                                             </div>
                                         </div>
@@ -327,7 +327,7 @@ const PlayItemPage = () => {
                                             <div className="fs-14 text-secondary">
                                                 Date:
                                             </div>
-                                            <div className="fs-14 bold">
+                                            <div className="fs-14 bold text-end">
                                                 {DateTime.fromISO(playById.createdAt).toFormat('dd LLL, yy')}
                                             </div>
                                         </div>

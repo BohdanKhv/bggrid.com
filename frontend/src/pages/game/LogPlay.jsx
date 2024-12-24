@@ -101,7 +101,6 @@ const LogPlay = () => {
 
         return () => {
             promise?.abort()
-            dispatch(resetUser())
         }
     }, [searchValue])
 

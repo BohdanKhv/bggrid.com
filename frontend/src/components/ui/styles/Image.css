@@ -43,7 +43,7 @@
     color: transparent;
     object-fit: cover;
     object-position: center;
-    background-color: #fff;
+    background-color: var(--color-tertiary);
 }
 
 .image .image-loading {
@@ -98,7 +98,7 @@
 .image.image-loading {
     /* position: relative; */
     overflow: hidden;
-    background-color: #fff;
+    background-color: var(--color-tertiary);
 }
 
 .image.image-loading img {

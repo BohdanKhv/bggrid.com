@@ -92,7 +92,6 @@ const UpdateLogPlay = () => {
 
         return () => {
             promise?.abort()
-            dispatch(resetUser())
         }
     }, [searchValue])
 

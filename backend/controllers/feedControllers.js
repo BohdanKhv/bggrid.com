@@ -102,7 +102,7 @@ const getHomeFeed = async (req, res) => {
         .find({ user: req.user._id })
         .sort({ updatedAt: -1 })
         .limit(15)
-        .populate('game')
+        .populate('game', 'name thumbnail image');
 
         // My stats in the last 30 days
         const playStats = await Play.aggregate([
@@ -141,15 +141,19 @@ const getHomeFeed = async (req, res) => {
             }
         ]);
 
-        const mostPopular = await Game.aggregate(
-            [
-                { $match: {
+        const mostPopular = await Game.find(
+            // [
+                // { $match: {
+                {
                     year: { $gte: 2000 },
-                    rating: { $gte: 3 }
-                }},
-                { $sample: { size: 15 } }
-            ]
+                }
+                // }},
+                // { $sample: { size: 15 } },
+            // ]
         )
+        .sort({ numRatings: -1 })
+        .limit(10)
+        .select('name thumbnail image');
 
         // const newGames = await Game
         // .find()

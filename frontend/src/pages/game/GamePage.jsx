@@ -356,6 +356,16 @@ const GamePlayStats = () => {
 const GameReviewStats = () => {
     const { gameById } = useSelector((state) => state.game)
 
+    const getStarIcon = (rating, index) => {
+        if (rating >= index + 1) {
+            return starFillIcon;
+        } else if (rating >= index + 0.5) {
+            return startHalfFillIcon;
+        } else {
+            return starEmptyIcon;
+        }
+    };
+
     return (
         <div className="flex-1 border-radius mt-6 bg-secondary h-fit-content w-set-sm-auto order-sm-1 mb-4 pos-relative animation-slide-in">
             <div className="bg-secondary border-radius">
@@ -367,7 +377,7 @@ const GameReviewStats = () => {
                     </div>
                     <div className="flex gap-1">
                         {[...Array(5)].map((_, i) => (
-                            <Icon icon={starFillIcon} size="sm" className={`${i + 1 <= gameById?.reviewStats?.avgRating ? 'fill-warning' : 'fill-secondary'}`} key={i}/>
+                            <Icon icon={getStarIcon(gameById?.reviewStats?.avgRating || 0, i)} size="sm" className={`${!gameById?.reviewStats?.avgRating ? 'fill-secondary' : 'fill-warning'}`} key={i}/>
                         ))}
                     </div>
                 </div>
@@ -785,6 +795,15 @@ const Overview = () => {
     const [showMoreArtists, setShowMoreArtists] = useState(false)
     const [showMoreDescription, setShowMoreDescription] = useState(false)
 
+    const getStarIcon = (rating, index) => {
+        if (rating >= index + 1) {
+            return starFillIcon;
+        } else if (rating >= index + 0.5) {
+            return startHalfFillIcon;
+        } else {
+            return starEmptyIcon;
+        }
+    };
     return (
         <HelmetProvider>
             <Helmet>
@@ -943,7 +962,7 @@ const Overview = () => {
                                     </div>
                                     <div className="flex gap-1">
                                         {[...Array(5)].map((_, i) => (
-                                            <Icon icon={starFillIcon} size="sm" className={`${i + 1 <= gameById?.reviewStats?.avgRating ? 'fill-warning' : 'fill-secondary'}`} key={i}/>
+                                            <Icon icon={getStarIcon(gameById?.reviewStats?.avgRating, i)} size="sm" className={`${!gameById?.reviewStats?.avgRating ? 'fill-secondary' : 'fill-warning'}`} key={i}/>
                                         ))}
                                     </div>
                                     <div className="fs-12 text-secondary pt-4 flex justify-start w-100">

@@ -5,7 +5,7 @@ import { Link, useNavigate, useParams, useSearchParams } from 'react-router-dom'
 import { getUserProfile } from '../features/user/userSlice'
 import { followUser, unfollowUser } from '../features/follow/followSlice'
 import FollowersModal from './follow/FollowersModal'
-import { arrowDownShortIcon, arrowUpShortIcon, closeIcon, diceIcon, leftArrowIcon, libraryIcon, searchIcon, starFillIcon, userAddIcon } from '../assets/img/icons'
+import { arrowDownShortIcon, arrowUpShortIcon, closeIcon, diceIcon, leftArrowIcon, libraryIcon, searchIcon, starEmptyIcon, starFillIcon, startHalfFillIcon, userAddIcon } from '../assets/img/icons'
 import { DateTime } from 'luxon'
 import { tagsDetailedEnum, tagsEnum } from '../assets/constants'
 import { getPlaysByUsername, resetPlay } from '../features/play/playSlice'
@@ -121,6 +121,16 @@ const LibraryItem = ({ item, index, hideInfo }) => {
 
     const { user } = useSelector((state) => state.auth)
 
+    const getStarIcon = (rating, index) => {
+        if (rating >= index + 1) {
+            return starFillIcon;
+        } else if (rating >= index + 0.5) {
+            return startHalfFillIcon;
+        } else {
+            return starEmptyIcon;
+        }
+    };
+
     return (
         <div className="border-radius px-sm-3 transition-duration animation-slide-in">
             <div className="border-bottom">
@@ -152,7 +162,7 @@ const LibraryItem = ({ item, index, hideInfo }) => {
                                     <span className={`fs-14 weight-600 ${!item.rating ? "text-secondary" : "text-warning"}`}>{item.rating || 0}</span>
                                     <div className="flex gap-1 align-center">
                                         {[...Array(5)].map((_, i) => (
-                                            <Icon icon={starFillIcon} size="xs" className={`text-warning ${i + 1 <= item.rating ? 'fill-warning' : 'fill-secondary'}`}
+                                            <Icon icon={getStarIcon(item.rating, i)} size="xs" className={`text-warning ${!item.rating ? 'fill-secondary' : 'fill-warning'}`}
                                                 key={i}
                                             />
                                         ))}

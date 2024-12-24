@@ -1294,9 +1294,9 @@ const GamePage = () => {
                         </div>
                     </>
                     : null }
-                    <div className="flex sticky top-0 z-9 px-sm-3">
+                    <div className="flex sticky top-0 z-9 px-sm-3 bg-main">
                         <div className="overflow-hidden flex-1">
-                            <div className="bg-main">
+                            <div>
                                 <TabContent
                                     items={[
                                         {label: 'Overview'},

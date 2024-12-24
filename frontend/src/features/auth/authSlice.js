@@ -12,7 +12,7 @@ const initialState = {
     user: user ? user : null,
     isError: false,
     isSuccess: false,
-    isLoading: user ? true : false,
+    isLoading: false,
     msg: '',
     loadingId: '',
 };
@@ -241,16 +241,16 @@ const authSlice = createSlice({
 
 
         builder.addCase(getMe.pending, (state, action) => {
-            state.isLoading = true;
+            // state.isLoading = true;
             state.msg = '';
         });
         builder.addCase(getMe.fulfilled, (state, action) => {
-            state.isLoading = false;
+            // state.isLoading = false;
             state.user = action.payload.data.user;
             localStorage.setItem('user', JSON.stringify(state.user));
         });
         builder.addCase(getMe.rejected, (state, action) => {
-            state.isLoading = false;
+            // state.isLoading = false;
             state.msg = action.payload;
             if (action.payload === 'Token expired' || action.payload === 'User not found') {
                 localStorage.clear();

@@ -124,7 +124,7 @@ const librarySlice = createSlice({
     },
     extraReducers: (builder) => {
         builder.addCase(getMe.fulfilled, (state, action) => {
-            state.isLoading = false;
+            // state.isLoading = false;
             state.library = action.payload.data.library;
             // Save to local storage
             localStorage.setItem('library', JSON.stringify(state.library));

@@ -51,7 +51,7 @@ const getReviewsByGame = async (req, res) => {
 const getMyLibrary = async (req, res) => {
     try {
         const games = await Library.find({ user: req.user._id })
-        .populate('game');
+        .populate('game', 'name thumbnail');
 
         const sortedGames = games.sort((a, b) => {
             return a.game.name.localeCompare(b.game.name);
@@ -89,7 +89,7 @@ const addGameToLibrary = async (req, res) => {
         const gameInLibrary = await Library.findOne({
             user: req.user._id,
             game: gameId,
-        });
+        })
 
         if (gameInLibrary) {
             return res.status(400).json({ msg: 'Game already in library' });
@@ -172,7 +172,7 @@ const updateGameInLibrary = async (req, res) => {
             game: req.params.gameId,
             user: req.user._id,
         })
-        .populate('game');
+        .populate('game', 'name thumbnail');
 
         if (!game) {
             return res.status(404).json({ msg: 'Game not found' });
@@ -234,7 +234,7 @@ const removeGameFromLibrary = async (req, res) => {
             user: req.user._id,
             game: req.params.gameId,
         })
-        .populate('game');
+        .populate('game', 'name thumbnail');
 
         if (!game) {
             return res.status(404).json({ msg: 'Game not found' });
@@ -348,9 +348,8 @@ const importBggCollection = async (req, res) => {
             return res.status(404).json({ msg: 'No games found in collection' });
         }
 
-
         // get all games from the database
-        const allGames = await Game.find({bggId: { $in: gameIds }});
+        const allGames = await Game.find({bggId: { $in: gameIds }}).select('bggId');
 
         if (allGames.length == 0 ) {
             return res.status(404).json({ msg: 'No games found in our database' });
@@ -377,7 +376,7 @@ const importBggCollection = async (req, res) => {
 
         // Get the updated library
         const updatedLibrary = await Library.find({ user: req.user._id })
-        .populate('game');
+        .populate('game', 'name thumbnail');
 
         return res.status(200).json({
             data: updatedLibrary,

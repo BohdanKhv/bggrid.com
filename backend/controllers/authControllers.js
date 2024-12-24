@@ -176,7 +176,7 @@ const getMe = async (req, res) => {
         // get my library
         // get my follow
         const games = await Library.find({ user: req.user._id })
-        .populate('game');
+        .populate('game', 'name thumbnail')
 
         return res.status(200).json({
             data: {

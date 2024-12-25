@@ -86,6 +86,7 @@ const AddGame = () => {
                 searchParam.delete("addGame")
                 setSearchParam(searchParam)
             }}
+            classNameFooter="gap-4"
             minWith="600px"
             maxWith="600px"
             noAction={libraryIsLoading}

@@ -71,7 +71,7 @@ const themesEnum = [
         "icon": "🧙‍♂️"
     },
     {
-        "name": "Sci-fi",
+        "name": "Science Fiction",
         "description": "Games exploring futuristic technology, space travel, and alien worlds.",
         "examples": ["Terraforming Mars", "Star Realms", "Eclipse"],
         "icon": "🚀"
@@ -83,25 +83,13 @@ const themesEnum = [
         "icon": "👻"
     },
     {
-        "name": "Historical",
-        "description": "Games based on real-world historical events or eras.",
-        "examples": ["7 Wonders", "Twilight Struggle", "Ticket to Ride"],
-        "icon": "🏺"
-    },
-    {
         "name": "Pirates",
         "description": "Games involving high-seas adventure and treasure hunting.",
         "examples": ["Dead Men Tell No Tales", "Jamaica", "Merchants & Marauders"],
         "icon": "🏴‍☠️"
     },
     {
-        "name": "Post-apocalyptic",
-        "description": "Set in worlds after a catastrophic event, focusing on survival.",
-        "examples": ["Dead of Winter", "Wasteland Express", "Fallout"],
-        "icon": "☢️"
-    },
-    {
-        "name": "Western",
+        "name": "American West",
         "description": "Games set in the Old West with cowboys, shootouts, and gold rushes.",
         "examples": ["Great Western Trail", "Colt Express", "Bang!"],
         "icon": "🤠"
@@ -125,7 +113,7 @@ const themesEnum = [
         "icon": "🧟"
     },
     {
-        "name": "Spy/Secret Agent",
+        "name": "Spies / Secret Agents",
         "description": "Focuses on espionage, stealth, and secret missions.",
         "examples": ["Codenames", "Specter Ops", "Decrypto"],
         "icon": "🕵️‍♂️"
@@ -137,7 +125,7 @@ const themesEnum = [
         "icon": "⚙️"
     },
     {
-        "name": "Crime/Mystery",
+        "name": "Mystery",
         "description": "Involves solving crimes or uncovering mysteries.",
         "examples": ["Sherlock Holmes: Consulting Detective", "Clue", "Chronicles of Crime"],
         "icon": "🔍"
@@ -149,7 +137,7 @@ const themesEnum = [
         "icon": "🗺️"
     },
     {
-        "name": "Space Exploration",
+        "name": "Space",
         "description": "Games about exploring galaxies and colonizing planets.",
         "examples": ["Xia: Legends of a Drift System", "Gaia Project", "Cosmic Encounter"],
         "icon": "🌌"
@@ -161,19 +149,19 @@ const themesEnum = [
         "icon": "💰"
     },
     {
-        "name": "Military/War",
+        "name": "War",
         "description": "Simulates battles or conflicts, often strategic.",
         "examples": ["Risk", "Memoir '44", "Axis & Allies"],
         "icon": "⚔️"
     },
     {
-        "name": "Humor/Parody",
+        "name": "Humor",
         "description": "Games with a focus on comedy or making fun of other genres.",
         "examples": ["Munchkin", "Exploding Kittens", "Joking Hazard"],
         "icon": "🤣"
     },
     {
-        "name": "Superheroes",
+        "name": "Comic Book",
         "description": "Games featuring heroic characters with superpowers.",
         "examples": ["Marvel Champions", "Sentinels of the Multiverse", "DC Deck-Building Game"],
         "icon": "🦸‍♂️"
@@ -210,140 +198,107 @@ const themesEnum = [
     }
 ]
 
-// Mechanics: Focus on specific gameplay systems or actions.
 const mechanicsEnum = [
-    {
-        "name": "Worker Placement",
-        "description": "Players assign workers to specific actions or locations to gain resources or benefits.",
-        "examples": ["Agricola", "Viticulture", "Lords of Waterdeep"],
-        "icon": "👷‍♂️"
-    },
-    {
-        "name": "Dice Rolling",
-        "description": "Gameplay revolves around rolling dice for outcomes or resource generation.",
-        "examples": ["Catan", "King of Tokyo", "Yahtzee"],
-        "icon": "🎲"
-    },
-    {
-        "name": "Deck Building",
-        "description": "Players build a personal deck of cards as part of gameplay.",
-        "examples": ["Dominion", "Clank!", "Ascension"],
-        "icon": "🃏"
-    },
-    {
-        "name": "Tile Placement",
-        "description": "Players place tiles to create patterns, areas, or pathways.",
-        "examples": ["Carcassonne", "Azul", "Patchwork"],
-        "icon": "🧩"
-    },
-    {
-        "name": "Set Collection",
-        "description": "Players gather sets of items or cards to earn points.",
-        "examples": ["Ticket to Ride", "Sushi Go!", "7 Wonders"],
-        "icon": "🃟"
-    },
-    {
-        "name": "Area Control",
-        "description": "Players compete to control regions on the board for advantages or points.",
-        "examples": ["Risk", "Small World", "El Grande"],
-        "icon": "🌍"
-    },
-    {
-        "name": "Card Drafting",
-        "description": "Players select cards from a shared pool to build strategies.",
-        "examples": ["7 Wonders", "Terraforming Mars", "Blood Rage"],
-        "icon": "📜"
-    },
-    {
-        "name": "Social Deduction",
-        "description": "Players use bluffing and deduction to uncover hidden roles or objectives.",
-        "examples": ["Werewolf", "The Resistance", "Secret Hitler"],
-        "icon": "🤔"
-    },
-    {
-        "name": "Hand Management",
-        "description": "Players strategically manage the cards in their hand.",
-        "examples": ["Race for the Galaxy", "Gloomhaven", "Lost Cities"],
-        "icon": "✋"
-    },
-    {
-        "name": "Resource Management",
-        "description": "Players manage resources like money, goods, or time efficiently.",
-        "examples": ["Terraforming Mars", "Power Grid", "Puerto Rico"],
-        "icon": "🛠️"
-    },
-    {
-        "name": "Cooperative Play",
-        "description": "Players work together against the game or a shared threat.",
-        "examples": ["Pandemic", "Forbidden Island", "Spirit Island"],
-        "icon": "🤝"
-    },
-    {
-        "name": "Push Your Luck",
-        "description": "Players risk losing rewards by continuing actions.",
-        "examples": ["Quacks of Quedlinburg", "Can't Stop", "Incan Gold"],
-        "icon": "🎰"
-    },
-    {
-        "name": "Auction/Bidding",
-        "description": "Players bid resources or points to gain advantages.",
-        "examples": ["Power Grid", "Ra", "Keyflower"],
-        "icon": "💸"
-    },
-    {
-        "name": "Bluffing",
-        "description": "Players deceive others to achieve objectives or gain advantages.",
-        "examples": ["Coup", "Sheriff of Nottingham", "Love Letter"],
-        "icon": "😏"
-    },
-    {
-        "name": "Pattern Building",
-        "description": "Players create specific patterns to score points.",
-        "examples": ["Azul", "Sagrada", "Photosynthesis"],
-        "icon": "🖼️"
-    },
-    {
-        "name": "Pick-up and Deliver",
-        "description": "Players transport goods or items between locations for rewards.",
-        "examples": ["Merchants & Marauders", "Istanbul", "Firefly"],
-        "icon": "🚚"
-    },
-    {
-        "name": "Variable Player Powers",
-        "description": "Players have unique abilities or advantages based on their role or faction.",
-        "examples": ["Root", "Scythe", "Cosmic Encounter"],
-        "icon": "🦸‍♂️"
-    },
-    {
-        "name": "Action Points",
-        "description": "Players have a limited number of actions to take each turn.",
-        "examples": ["Scythe", "Terra Mystica", "Blood Rage"],
-        "icon": "⚡"
-    },
-    {
-        "name": "Trading",
-        "description": "Players exchange resources or goods with each other.",
-        "examples": ["Catan", "Bohnanza", "Chinatown"],
-        "icon": "🔄"
-    },
-    {
-        "name": "Route/Network Building",
-        "description": "Players create paths or connections between locations for points.",
-        "examples": ["Ticket to Ride", "Railways of the World", "Power Grid"],
-        "icon": "🚂"
-    },
-    {
-        "name": "Memory",
-        "description": "Players must remember information or patterns to succeed.",
-        "examples": ["Codenames", "Dixit", "Memoir '44"],
-        "icon": "🧠"
-    },
-    {
-        "name": "Role Playing",
-        "description": "Players assume characters and act out roles within the game.",
-        "examples": ["Dungeons & Dragons", "Fiasco", "Call of Cthulhu"],
-        "icon": "🎭"
-    }
+    { count: 40934, name: 'Dice Rolling' },
+    { count: 22413, name: 'Hand Management' },
+    { count: 17592, name: 'Roll / Spin and Move' },
+    { count: 16672, name: 'Set Collection' },
+    { count: 16583, name: 'Variable Player Powers' },       
+    { count: 12272, name: 'Cooperative Game' },
+    { count: 11235, name: 'Open Drafting' },
+    { count: 10352, name: 'Hexagon Grid' },
+    { count: 10176, name: 'Simulation' },
+    { count: 8687, name: 'Tile Placement' },
+    { count: 8676, name: 'Modular Board' },
+    { count: 8402, name: 'Grid Movement' },
+    { count: 7570, name: 'Action Points' },
+    { count: 6652, name: 'Area Majority / Influence' },     
+    { count: 6375, name: 'Simultaneous Action Selection' }, 
+    { count: 6356, name: 'Solo / Solitaire Game' },
+    { count: 6130, name: 'Memory' },
+    { count: 5930, name: 'Point to Point Movement' },       
+    { count: 5927, name: 'Take That' },
+    { count: 5461, name: 'Area Movement' },
+    { count: 5267, name: 'Player Elimination' },
+    { count: 5028, name: 'Team-Based Game' },
+    { count: 4990, name: 'Deck, Bag, and Pool Building' },  
+    { count: 4817, name: 'Push Your Luck' },
+    { count: 4522, name: 'Trading' },
+    { count: 4397, name: 'Pattern Building' },
+    { count: 4350, name: 'Role Playing' },
+    { count: 4210, name: 'Scenario / Mission / Campaign Game' },
+    { count: 4099, name: 'Auction / Bidding' },
+    { count: 4048, name: 'Paper-and-Pencil' },
+    { count: 3931, name: 'Storytelling' },
+    { count: 3666, name: 'Worker Placement' },
+    { count: 3442, name: 'Pattern Recognition' },
+    { count: 3080, name: 'Campaign / Battle Card Driven' }, 
+    { count: 2927, name: 'Betting and Bluffing' },
+    { count: 2808, name: 'Pick-up and Deliver' },
+    { count: 2610, name: 'Trick-taking' },
+    { count: 2498, name: 'Voting' },
+    { count: 2453, name: 'Race' },
+    { count: 2389, name: 'Network and Route Building' },    
+    { count: 2385, name: 'Action Queue' },
+    { count: 2342, name: 'Variable Set-up' },
+    { count: 2231, name: 'Secret Unit Deployment' },        
+    { count: 2223, name: 'Deduction' },
+    { count: 2138, name: 'Acting' },
+    { count: 2106, name: 'Measurement Movement' },
+    { count: 2099, name: 'Events' },
+    { count: 1964, name: 'Square Grid' },
+    { count: 1703, name: 'Movement Points' },
+    { count: 1703, name: 'Variable Phase Order' },
+    { count: 1541, name: 'Card Play Conflict Resolution' }, 
+    { count: 1488, name: 'End Game Bonuses' },
+    { count: 1388, name: 'Stock Holding' },
+    { count: 1338, name: 'Line of Sight' },
+    { count: 1312, name: 'Deck Construction' },
+    { count: 1255, name: 'Real-Time' },
+    { count: 1151, name: 'Track Movement' },
+    { count: 1114, name: 'Action / Event' },
+    { count: 1094, name: 'Rock-Paper-Scissors' },
+    { count: 1084, name: 'Income' },
+    { count: 1026, name: 'Auction/Bidding' },
+    { count: 1024, name: 'Chit-Pull System' },
+    { count: 996, name: 'Matching' },
+    { count: 982, name: 'Enclosure' },
+    { count: 915, name: 'Zone of Control' },
+    { count: 914, name: 'Commodity Speculation' },
+    { count: 812, name: 'Line Drawing' },
+    { count: 741, name: 'Semi-Cooperative Game' },
+    { count: 729, name: 'Contracts' },
+    { count: 725, name: 'Ratio / Combat Results Table' },   
+    { count: 721, name: 'Hidden Roles' },
+    { count: 720, name: 'Market' },
+    { count: 715, name: 'Multi-Use Cards' },
+    { count: 682, name: 'Negotiation' },
+    { count: 654, name: 'Connections' },
+    { count: 652, name: 'Communication Limits' },
+    { count: 621, name: 'Player Judge' },
+    { count: 575, name: 'Closed Drafting' },
+    { count: 572, name: 'Once-Per-Game Abilities' },        
+    { count: 526, name: 'Lose a Turn' },
+    { count: 522, name: 'Critical Hits and Failures' },     
+    { count: 521, name: 'Move Through Deck' },
+    { count: 504, name: 'Interrupts' },
+    { count: 499, name: 'Spelling' },
+    { count: 489, name: 'Victory Points as a Resource' },   
+    { count: 482, name: 'Chaining' },
+    { count: 481, name: 'Narrative Choice / Paragraph' },   
+    { count: 480, name: 'Grid Coverage' },
+    { count: 477, name: 'Die Icon Resolution' },
+    { count: 461, name: 'Turn Order: Progressive' },        
+    { count: 444, name: 'Command Cards' },
+    { count: 421, name: 'Multiple Maps' },
+    { count: 407, name: 'Re-rolling and Locking' },
+    { count: 407, name: 'Stacking and Balancing' },
+    { count: 404, name: 'Hidden Movement' },
+    { count: 399, name: 'Action Drafting' },
+    { count: 398, name: 'Map Addition' },
+    { count: 397, name: 'Speed Matching' },
+    { count: 395, name: 'Singing' },
+    { count: 388, name: 'Traitor Game' },
 ]
 
 

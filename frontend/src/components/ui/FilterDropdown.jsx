@@ -47,7 +47,7 @@ const FilterDropdown = ({ children, label, applied, onApply, onClear, mobileDrop
                 }
                 {children}
                 { onApply &&
-                <div className="flex gap-2 align-center justify-end mt-4 flex-sm-col">
+                <div className="flex gap-2 align-center justify-end mt-4">
                     <Button
                         label="Clear"
                         variant="outline"

@@ -8,6 +8,7 @@ import { getGames, getSuggestions, resetGame } from '../features/game/gameSlice'
 import GameItem from './game/GameItem'
 import { setSearchHistory } from '../features/local/localSlice'
 import GameItemCol from './game/GameItemCol'
+import { addCommaToNumber, numberFormatter } from '../assets/utils'
 
 
 const SearchPage = () => {
@@ -19,6 +20,7 @@ const SearchPage = () => {
     const { suggestions, loadingId } = useSelector((state) => state.game)
     const { searchHistory } = useSelector((state) => state.local)
     const [listView, setListView] = useState(window.innerWidth > 800 ? false : true)
+    const [mechanicsLimit, setMechanicsLimit] = useState(10)
 
     const filtersCount = useMemo(() => {
         let count = 0
@@ -478,31 +480,8 @@ const SearchPage = () => {
                                             className={`text-capitalize border-color-text flex-shrink-0 clickable`}
                                         />
                                     : null}
-                                    {/* <Button
-                                        icon={filterIcon}
-                                        variant="default"
-                                        label={filtersCount > 0 ? `Filters (${filtersCount})` : `Filters`}
-                                        className={`flex-shrink-0${filtersCount > 0 ? ' border-color-text' : ''}`}
-                                        muted={searchParams?.toString() === ''}
-                                        type="secondary"
-                                        onClick={() => setOpen(true)}
-                                    /> */}
-                                    {/* <Button
-                                        label="Hide in Library"
-                                        variant={searchParams.get('hideInLibrary') ? "filled" : "default"}
-                                        onClick={() => {
-                                            if (searchParams.get('hideInLibrary')) {
-                                                searchParams.delete('hideInLibrary')
-                                            } else {
-                                                searchParams.set('hideInLibrary', 'true')
-                                            }
-                                            setSearchParams(searchParams.toString())
-                                        }}
-                                        className="flex-shrink-0"
-                                        type="secondary"
-                                    /> */}
                                     <FilterDropdown
-                                        label="Types"
+                                        label="🎲 Types"
                                         mobileDropdown
                                         applied={searchParams.get('types') ? searchParams.get('types').split(',') : []}
                                         onClear={() => {
@@ -536,7 +515,7 @@ const SearchPage = () => {
                                         </div>
                                     </FilterDropdown>
                                     <FilterDropdown
-                                        label="Mechanics"
+                                        label="🔧 Mechanics"
                                         mobileDropdown
                                         applied={searchParams.get('mechanics') ? searchParams.get('mechanics').split(',') : []}
                                         onClear={() => {
@@ -549,9 +528,12 @@ const SearchPage = () => {
                                             setSearchParams(searchParams.toString())
                                         }}
                                     >
-                                        <div className="flex flex-wrap gap-1 w-max-400-px">
+                                        <div className="flex flex-wrap gap-1 w-max-400-px overflow-y-auto scrollbar-none"
+                                            style={{ maxHeight: '50vh'}}
+                                        >
                                             {mechanicsEnum
                                             .sort((a, b) => a.name.localeCompare(b.name))
+                                            .slice(0, mechanicsLimit)
                                             .map((m) => (
                                                 <Button
                                                     key={m.name}
@@ -563,16 +545,26 @@ const SearchPage = () => {
                                                         }
                                                     }}
                                                     borderRadius="sm"
-                                                    label={<>{m.name}</>}
+                                                    label={<>{m.name}<span className="text-secondary fs-12 ms-1">{numberFormatter(m.count)}</span></>}
                                                     variant={temp.mechanics.includes(m.name) ? "filled" : "outline"}
                                                     type="secondary"
                                                     className={`text-capitalize flex-auto clickable`}
                                                 />
                                             ))}
+                                            {mechanicsEnum.length > mechanicsLimit ?
+                                                <Button
+                                                    label="Show more"
+                                                    variant="default"
+                                                    type="secondary"
+                                                    borderRadius="sm"
+                                                    onClick={() => setMechanicsLimit(mechanicsLimit + 10)}
+                                                    className="flex-auto"
+                                                />
+                                            : null}
                                         </div>
                                     </FilterDropdown>
                                     <FilterDropdown
-                                        label="Themes"
+                                        label="🎨 Themes"
                                         mobileDropdown
                                         applied={searchParams.get('themes') ? searchParams.get('themes').split(',') : []}
                                         onClear={() => {
@@ -609,7 +601,7 @@ const SearchPage = () => {
                                         </div>
                                     </FilterDropdown>
                                     <FilterDropdown
-                                        label="Players"
+                                        label="👥 Players"
                                         mobileDropdown
                                         applied={searchParams.get('players') ? [searchParams.get('players').replaceAll('-', ' ')] : []}
                                         onClear={() => {
@@ -644,7 +636,7 @@ const SearchPage = () => {
                                         </div>
                                     </FilterDropdown>
                                     <FilterDropdown
-                                        label="Weight"
+                                        label="🏋️‍♂️ Complexity"
                                         mobileDropdown
                                         applied={searchParams.get('minWeight') || searchParams.get('maxWeight') ? [searchParams.get('minWeight'), searchParams.get('maxWeight')] : []}
                                         onClear={() => {
@@ -672,17 +664,22 @@ const SearchPage = () => {
                                                     }}
                                                     borderRadius="sm"
                                                     label={
-                                                        <>
-                                                        {p}
-                                                        <br/>
-                                                        <span>
-                                                            {p.split('-')[0] == 1 ? 'Easy' : p.split('-')[0] == 2 ? 'Medium' : p.split('-')[0] == 3 ? 'Heavy' : 'Extreme'}
+                                                        <span className="flex gap-2 align-center">
+                                                            <span className="fs-24">
+                                                                {p.split('-')[0] == 1 ? `🤓` : p.split('-')[0] == 2 ? `🤔` : p.split('-')[0] == 3 ? `🤕` : `🤯`}
+                                                            </span>
+                                                            <span className="bold">
+                                                                {p}
+                                                            <br/>
+                                                            <span className="weight-400 fs-12">
+                                                                {p.split('-')[0] == 1 ? 'Easy' : p.split('-')[0] == 2 ? 'Medium' : p.split('-')[0] == 3 ? 'Heavy' : 'Extreme'}
+                                                            </span>
+                                                            </span>
                                                         </span>
-                                                        </>
                                                     }
                                                     variant={temp.minWeight === p.split('-')[0] && temp.maxWeight === p.split('-')[1] ? "filled" : "outline"}
                                                     type="secondary"
-                                                    className="text-capitalize flex-auto clickable h-auto"
+                                                    className="text-capitalize flex-auto clickable h-auto px-2"
                                                 />
                                             ))}
                                         </div>

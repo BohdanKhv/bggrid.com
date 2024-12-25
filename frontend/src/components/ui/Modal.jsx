@@ -30,6 +30,7 @@ const Modal = ({
     type,
     classNameBody,
     classNameContent,
+    classNameFooter,
     showOverflow,
     warning,
     forbidBackdropClose,
@@ -166,7 +167,7 @@ const Modal = ({
                         </div>
                     )}
                     {!noAction && (
-                        <div className="modal-footer flex-sm-col gap-4">
+                        <div className={`${classNameFooter ? `${classNameFooter} modal-footer` : "modal-footer flex-sm-col gap-4"}`}>
                             {props.footer ? (
                                 props.footer
                             ) : 

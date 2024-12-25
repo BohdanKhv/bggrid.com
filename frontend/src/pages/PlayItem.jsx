@@ -302,8 +302,8 @@ const PlayItem = ({ item, hideUpdate }) => {
                                     type="default"
                                     onClick={() => {
                                         navigator.share({
-                                            title: "Check out my play on BGGRID",
-                                            text: item.comment || `I played ${item.game.name} for ${item.playTimeMinutes} min`,
+                                            title: "Check out play on BGGRID",
+                                            text: item.comment || `Played ${item.game.name} for ${item.playTimeMinutes} min`,
                                             url: `${window.location.origin}/u/${item.user.username}/plays/${item._id}`,
                                         })
                                     }}

@@ -336,7 +336,7 @@ const PlaysPage = () => {
             <UpdateLogPlay/>
                 <div className="animation-slide-in flex flex-1 flex-sm-col container">
                         {window.innerWidth <= 800 && user ? (
-                            <div className="flex flex-1 pt-6 pt-sm-3 justify-between px-sm-3 pb-3">
+                            <div className="flex flex-1 pt-6 pt-sm-3 justify-between px-sm-3 pb-3 sticky top-0 z-3 bg-main">
                                 <div className="title-1 bold">
                                     Plays
                                 </div>
@@ -391,25 +391,25 @@ const PlaysPage = () => {
                             </HorizontalScroll>
                         </div>
                         : null}
-                        <div className="pt-3 px-sm-3 pt-sm-0 border-bottom sticky top-0 z-3 bg-main">
-                            <div>
-                                    <TabContent
-                                        items={[
-                                            {label: 'All', icon: "🎲"},
-                                            {label: 'Wins', icon: "🏆"},
-                                            {label: 'Losses', icon: "😭"},
-                                        ]}
-                                        classNameContainer="w-100 fkex01"
-                                        classNameItem="flex-1"
-                                        activeTabName={tags || 'all'}
-                                        setActiveTabName={(e) => {
-                                            setTags(e)
-                                        }}
-                                    />
-                            </div>
-                        </div>
                         <div className="flex flex-1">
                             <div className="flex-1 flex flex-col border-bottom border-sm-none overflow-hidden">
+                            <div className="pt-3 px-sm-3 pt-sm-0 border-bottom">
+                                <div>
+                                        <TabContent
+                                            items={[
+                                                {label: 'All', icon: "🎲"},
+                                                {label: 'Wins', icon: "🏆"},
+                                                {label: 'Losses', icon: "😭"},
+                                            ]}
+                                            classNameContainer="w-100 fkex01"
+                                            classNameItem="flex-1"
+                                            activeTabName={tags || 'all'}
+                                            setActiveTabName={(e) => {
+                                                setTags(e)
+                                            }}
+                                        />
+                                </div>
+                            </div>
                             {selectedGame ?
                             <div className="px-sm-3 pt-3 pt-sm-3">
                                     <HorizontalScroll>

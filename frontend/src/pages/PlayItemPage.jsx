@@ -158,69 +158,6 @@ const PlayItemPage = () => {
                                                     </div>
                                                 </div>
                                             </div>
-                                                <Dropdown
-                                                    classNameDropdown="p-0"
-                                                    mobileDropdown
-                                                    dropdownLabel="Actions"
-                                                    customDropdown={
-                                                        <Icon
-                                                            icon={moreIcon}
-                                                            size="xs"
-                                                            className="opacity-50 py-1 hover-opacity-100"
-                                                        />
-                                                }>
-                                                    <div className="flex flex-col overflow-hidden border-radius">
-                                                        <UserIsMeGuard id={playById.user._id}>
-                                                            <Button
-                                                                smSize="xl"
-                                                                size="lg"
-                                                                borderRadius="none"
-                                                                className="justify-start"
-                                                                label="Edit"
-                                                                icon={editIcon}
-                                                                disabled={loadingId}
-                                                                variant="text"
-                                                                type="default"
-                                                                onClick={() => {
-                                                                    searchParams.set('updatePlay', playById._id)
-                                                                    setSearchParams(searchParams)
-                                                                }}
-                                                            />
-                                                            <Button
-                                                                smSize="xl"
-                                                                size="lg"
-                                                                borderRadius="none"
-                                                                className="justify-start"
-                                                                label="Delete"
-                                                                disabled={loadingId}
-                                                                icon={trashIcon}
-                                                                variant="text"
-                                                                type="default"
-                                                                onClick={() => {
-                                                                    dispatch(deletePlay(playById._id))
-                                                                }}
-                                                            />
-                                                        </UserIsMeGuard>
-                                                        <Button
-                                                            smSize="xl"
-                                                            size="lg"
-                                                            borderRadius="none"
-                                                            className="justify-start"
-                                                            label="Share"
-                                                            icon={shareIcon}
-                                                            displayTextOnLoad
-                                                            variant="text"
-                                                            type="default"
-                                                            onClick={() => {
-                                                                navigator.share({
-                                                                    title: 'Play',
-                                                                    text: `${playById?.user?.username} played ${playById.game.name} with ${playById.players.length} players`,
-                                                                    url: `${window.location.origin}/u/${playById.user.username}/plays/${playById._id}`
-                                                                })
-                                                            }}
-                                                        />
-                                                    </div>
-                                                </Dropdown>
                                         </div>
                                         {playById.comment ?
                                             <div className="fs-14 pt-3">
@@ -276,6 +213,21 @@ const PlayItemPage = () => {
                                             <span className="weight-400 text-secondary fs-14 text-wrap-nowrap">
                                                 {DateTime.fromISO(playById.createdAt).toFormat('HH:mm a')} · {DateTime.fromISO(playById.createdAt).toFormat('dd LLL, yy')}
                                             </span>
+                                            <IconButton
+                                                icon={shareIcon}
+                                                size="xs"
+                                                dataTooltipContent="Share"
+                                                muted
+                                                type="secondary"
+                                                variant="text"
+                                                onClick={() => {
+                                                    navigator.share({
+                                                        title: "Check out play on BGGRID",
+                                                        text: playById.comment || `Played ${playById.game.name} for ${playById.playTimeMinutes} min`,
+                                                        url: `${window.location.origin}/u/${playById.user.username}/plays/${playById._id}`,
+                                                    })
+                                                }}
+                                            />
                                         </div>
                                     </div>
                                 </div>

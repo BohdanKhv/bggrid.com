@@ -43,7 +43,7 @@ const Modal = ({
     onSubmitDangerDelete,
     ...props
 }) => {
-    const [open, setOpen] = useState(false); 
+    const [open, setOpen] = useState(modalIsOpen); 
 
     const closeModal = () => {
         if (forbidBackdropClose) {
@@ -88,10 +88,12 @@ const Modal = ({
         let timeOut = null;
 
         if (!modalIsOpen) {
-            timeOut = setTimeout(() => {
-                setOpen(false);
-                onClose && onClose();
-            }, 150);
+            if (open) {
+                timeOut = setTimeout(() => {
+                    setOpen(false);
+                    onClose && onClose();
+                }, 150);
+            }
         } else {
             setOpen(true);
         }

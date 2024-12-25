@@ -70,7 +70,7 @@ const UpdateLogPlay = () => {
 
     useEffect(() => {
         let promise;
-        if (searchParam.get("updatePlay")) {
+        if (searchParam.get("updatePlay") && searchParam.get("updatePlay") !== playById?._id) {
             promise = dispatch(getPlayById(searchParam.get("updatePlay")))
         }
 

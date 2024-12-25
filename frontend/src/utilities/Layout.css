@@ -609,6 +609,9 @@
 }
 
 @media (max-width: 800px) {
+    .flex-sm {
+        display: flex!important;
+    }
     .flex-sm-col {
         flex-direction: column!important;
     }

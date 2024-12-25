@@ -445,7 +445,7 @@ const SearchPage = () => {
                                                                     classNameContainer="border-none"
                                                                 />
                                                                 <span className="text-ellipsis-1">
-                                                                    {highlightText(item.name, searchValue)} ({item.year})
+                                                                    {highlightText(item.name, searchValue)} ({item.year ? item.year : '--'})
                                                                 </span>
                                                             </Link>
                                                         </div>

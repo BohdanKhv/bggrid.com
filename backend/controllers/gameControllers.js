@@ -2,6 +2,7 @@ const Game = require('../models/gameModel');
 const Play = require('../models/playModel');
 const Library = require('../models/libraryModel');
 const mongoose = require('mongoose');
+const axios = require('axios');
 
 
 // @desc    Get games by publisher id
@@ -292,13 +293,51 @@ const getGameOverview = async (req, res) => {
             comment: { $exists: true }
         }).sort({ createdAt: -1 }).limit(3).populate('user', 'username firstName lastName avatar');
 
+        const images = []
+        
+        try {
+            const response = await axios.get(`https://api.geekdo.com/api/images?ajax=1&foritempage=1&galleries%5B%5D=game&nosession=1&objecttype=thing&showcount=15&size=crop100&sort=hot&objectid=${game.bggId}`);
+
+            response.data.images
+            .map(image => {
+                images.push({
+                    image: image.imageurl_lg,
+                    caption: image.caption,
+                });
+            });
+        } catch (error) {
+            console.log('Error', error);
+        }
+
+        const videos = []
+
+        try {
+            const response = await axios.get(`https://api.geekdo.com/api/videos?ajax=1&gallery=all&languageid=2184&nosession=1&objecttype=thing&showcount=15&sort=hot&objectid=${game.bggId}`);
+
+            response.data.videos
+            .map(video => {
+                videos.push({
+                    thumbnail: video?.images?.thumb,
+                    title: video.title,
+                    postedDate: new Date(video.postdate),
+                    category: video.gallery,
+                    videoId: video.extvideoid,
+                });
+            });
+        } catch (error) {
+            console.log('Error', error);
+        }
+        
+
         res.status(200).json({
             data: {
                 ...game._doc,
                 last3Plays,
                 last3Reviews,
                 playStats: playStats[0],
-                reviewStats: reviewStats[0]
+                reviewStats: reviewStats[0],
+                images,
+                videos
             }
         });
     } catch (error) {

@@ -27,32 +27,18 @@ const YoutubeVideoItem = ({ item, thumbnail }) => {
         <div className="flex gap-3 flex-col animation-slide-in"
             onClick={() => {
                 if (thumbnail) {
-                    window.open(item.link, '_blank')
+                    window.open(`https://www.youtube.com/watch?v=${item.videoId}`, '_blank')
                 }
             }}
         >
             <div className="border-radius bg-secondary flex align-center justify-center border-radius-lg overflow-hidden h-set-200-px">
                 {/* Embed youtube video */}
-                {thumbnail ?
-                    <Image
-                        img={`https://img.youtube.com/vi/${item.link.replace('http://', 'https://').replace('https://www.youtube.com/watch?v=', '')}/0.jpg`}
-                        errIcon={plugIcon}
-                        classNameContainer="w-100 h-100 bg-hover-after"
-                        classNameImg="w-100 h-100 object-cover"
-                    />
-                :
-                    <iframe
-                        width="100%"
-                        height="100%"
-                        src={item.link.replace('http://', 'https://').replace('watch?v=', 'embed/')+"?showinfo=0"}
-                        title="YouTube video player"
-                        frameborder="0"
-                        loading="lazy"
-                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-                        referrerpolicy="strict-origin-when-cross-origin"
-                        allowfullscreen
-                    />
-                }
+                <Image
+                    img={item.thumbnail ? item.thumbnail : `https://img.youtube.com/vi/${item.videoId}/0.jpg`}
+                    errIcon={plugIcon}
+                    classNameContainer="w-100 h-100 bg-hover-after"
+                    classNameImg="w-100 h-100 object-cover"
+                />
             </div>
             <div className="flex flex-col gap-1 flex-1">
                 <Link className="fs-14 weight-500 text-ellipsis-2 text-underlined-hover"
@@ -76,6 +62,54 @@ const YoutubeVideoItem = ({ item, thumbnail }) => {
 }
 
 
+const ImagesTab = () => {
+    const { gameById } = useSelector((state) => state.game)
+
+    const [selectedCategory, setSelectedCategory] = useState('All')
+
+    return (
+        <HelmetProvider>
+            <Helmet>
+                <title>{gameById.name} - images</title>
+                <meta name="description" content="Game images"/>
+                <link rel="canonical"
+                    href={`https://bggrid.com/g/${gameById._id}/images`}
+                />
+            </Helmet>
+            <div className="flex gap-4 flex-col pt-4 pb-6 px-sm-3">
+                {gameById.images.length === 0 ?
+                    <ErrorInfo label="No images found"/>
+                :
+                <>
+                <div className="grid grid-cols-3 grid-md-cols-2 grid-sm-cols-1 gap-4">
+                    {gameById?.images
+                        ?.map((item, index) => (
+                            <div className="flex gap-3 flex-col animation-slide-in">
+                                <div className="border-radius bg-secondary flex align-center justify-center border-radius-lg overflow-hidden h-set-200-px">
+                                    {/* Embed youtube video */}
+                                    <Image
+                                        img={item.image}
+                                        errIcon={plugIcon}
+                                        classNameContainer="w-100 h-100 bg-hover-after"
+                                        classNameImg="w-100 h-100 object-cover"
+                                    />
+                                </div>
+                                {/* <div className="flex flex-col gap-1 flex-1">
+                                    <div className="fs-14 weight-500 text-ellipsis-2 text-underlined-hover">
+                                        {item.caption}
+                                    </div>
+                                </div> */}
+                            </div>
+                    ))}
+                </div>
+                </>
+                }
+            </div>
+        </HelmetProvider>
+    )
+}
+
+
 const VideosTab = () => {
     const { gameById } = useSelector((state) => state.game)
 
@@ -85,9 +119,9 @@ const VideosTab = () => {
         <HelmetProvider>
             <Helmet>
                 <title>{gameById.name} - videos</title>
-                <meta name="description" content="Game overview"/>
+                <meta name="description" content="Game videos"/>
                 <link rel="canonical"
-                    href={`https://bggrid.com/g/${gameById._id}/overview`}
+                    href={`https://bggrid.com/g/${gameById._id}/videos`}
                 />
             </Helmet>
             <div className="flex gap-4 flex-col pt-4 pb-6 px-sm-3">
@@ -124,7 +158,6 @@ const VideosTab = () => {
                         <YoutubeVideoItem
                             item={item}
                             key={index}
-                            thumbnail
                         />
                     ))}
                 </div>
@@ -791,7 +824,9 @@ const CoverImage = ({ img }) => {
 const Overview = () => {
     const navigate = useNavigate()
     const { gameById } = useSelector(state => state.game)
+    const [showMoreMechanics, setShowMoreMechanics] = useState(false)
     const [showMorePublishers, setShowMorePublishers] = useState(false)
+    const [showMoreDesigners, setShowMoreDesigners] = useState(false)
     const [showMoreArtists, setShowMoreArtists] = useState(false)
     const [showMoreDescription, setShowMoreDescription] = useState(false)
 
@@ -852,7 +887,9 @@ const Overview = () => {
                                 <span className="text-secondary fs-14 weight-500">
                                     Mechanics:
                                 </span>
-                                {gameById.mechanics.length ? gameById.mechanics.map
+                                {gameById.mechanics.length ? gameById.mechanics
+                                .slice(0, showMoreMechanics ? gameById.mechanics.length : 2)
+                                .map
                                 ((item, index, arr) => (
                                     <div key={index}>
                                         <Link 
@@ -863,13 +900,22 @@ const Overview = () => {
                                     {index < arr.length - 1 ? ', ' : ''}
                                     </div>
                                 )) : '--'}
+                                {gameById.mechanics.length > 2 ?
+                                    <div className="flex gap-1 align-center">
+                                        <span className="fs-14 weight-500 pointer hover-opacity-75 text-primary"
+                                            onClick={() => setShowMoreMechanics(!showMoreMechanics)}
+                                        >
+                                            {showMoreMechanics ? 'Show less' : gameById.mechanics.length > 2 ? `+${gameById.mechanics.length - 2} more` : ''}
+                                        </span>
+                                    </div>
+                                : null}
                             </div>
                             <div className="flex flex-wrap gap-1 align-center pt-2">
                                 <span className="text-secondary fs-14 weight-500">
                                     Publishers:
                                 </span>
                                 {gameById.publishers.length ? gameById.publishers
-                                .slice(0, showMorePublishers ? gameById.publishers.length : 3)
+                                .slice(0, showMorePublishers ? gameById.publishers.length : 2)
                                 .map
                                 ((item, index, arr) => (
                                     <div key={index}>
@@ -881,12 +927,12 @@ const Overview = () => {
                                     {index < arr.length - 1 ? ', ' : ''}
                                     </div>
                                 )) : '--'}
-                                {gameById.publishers.length > 3 ?
+                                {gameById.publishers.length > 2 ?
                                     <div className="flex gap-1 align-center">
                                         <span className="fs-14 weight-500 pointer hover-opacity-75 text-primary"
                                             onClick={() => setShowMorePublishers(!showMorePublishers)}
                                         >
-                                            {showMorePublishers ? 'Show less' : gameById.publishers.length > 3 ? `+${gameById.publishers.length - 3} more` : ''}
+                                            {showMorePublishers ? 'Show less' : gameById.publishers.length > 2 ? `+${gameById.publishers.length - 2} more` : ''}
                                         </span>
                                     </div>
                                 : null}
@@ -895,24 +941,35 @@ const Overview = () => {
                                 <span className="text-secondary fs-14 weight-500">
                                     Designers:
                                 </span>
-                                {gameById.designers.length ? gameById.designers.map
+                                {gameById.designers.length ? gameById.designers
+                                .slice(0, showMoreDesigners ? gameById.designers.length : 2)
+                                .map
                                 ((item, index, arr) => (
                                     <div key={index}>
                                         <Link 
-                                            to={`/person/${item._id}`}
+                                            to={`/publisher/${item._id}`}
                                             className="fs-14 text-underlined-hover weight-500">
                                             {item.name}
                                         </Link>
                                     {index < arr.length - 1 ? ', ' : ''}
                                     </div>
                                 )) : '--'}
+                                {gameById.designers.length > 2 ?
+                                    <div className="flex gap-1 align-center">
+                                        <span className="fs-14 weight-500 pointer hover-opacity-75 text-primary"
+                                            onClick={() => setShowMoreDesigners(!showMoreDesigners)}
+                                        >
+                                            {showMoreDesigners ? 'Show less' : gameById.designers.length > 2 ? `+${gameById.designers.length - 2} more` : ''}
+                                        </span>
+                                    </div>
+                                : null}
                             </div>
                             <div className="flex flex-wrap gap-1 align-center pt-2">
                                 <span className="text-secondary fs-14 weight-500">
                                     Artists:
                                 </span>
                                 {gameById.artists.length ? gameById.artists
-                                .slice(0, showMoreArtists ? gameById.artists.length : 3)
+                                .slice(0, showMoreArtists ? gameById.artists.length : 2)
                                 .map
                                 ((item, index, arr) => (
                                     <div key={index}>
@@ -924,30 +981,56 @@ const Overview = () => {
                                         {index < arr.length - 1 ? ', ' : ''}
                                     </div>
                                 )) : '--'}
-                                {gameById.artists.length > 3 ?
+                                {gameById.artists.length > 2 ?
                                     <div className="flex gap-1 align-center">
                                         <span className="fs-14 weight-500 pointer hover-opacity-75 text-primary"
                                             onClick={() => setShowMoreArtists(!showMoreArtists)}
                                         >
-                                            {showMoreArtists ? 'Show less' : gameById.artists.length > 3 ? `+${gameById.artists.length - 3} more` : ''}
+                                            {showMoreArtists ? 'Show less' : gameById.artists.length > 2 ? `+${gameById.artists.length - 2} more` : ''}
                                         </span>
                                     </div>
                                 : null}
                             </div>
-                                <p className="fs-14 flex-1 pt-5"
-                                > 
-                                <span
-                                    dangerouslySetInnerHTML={{__html: gameById.description.slice(0, showMoreDescription ? gameById.description.length : 500) }}
-                                />
-                                {gameById?.description?.length > 500 ?
-                                        <span className="fs-14 weight-500 pointer hover-opacity-75 text-primary ps-2"
-                                            onClick={() => setShowMoreDescription(!showMoreDescription)}    
-                                        >
-                                            {showMoreDescription ? 'Show less' : 'Show more'}
-                                        </span>
-                                : null}
-                                </p>
                         </div>
+                        {gameById?.images.length > 0 ?
+                            <div>
+                                <HorizontalScroll
+                                    contentClassName="align-start gap-5"
+                                >
+                                    {gameById
+                                    ?.images
+                                    .slice(0,
+                                        6
+                                    ).map((item, index) => (
+                                        <div
+                                            className="col-5 flex-fill col-sm-10"
+                                            key={index}
+                                        >
+                                            <Image
+                                                img={item.image}
+                                                errIcon={plugIcon}
+                                                classNameContainer="w-100 h-set-300-px h-sm-set-250-px bg-hover-after border-radius"
+                                                classNameImg="w-100 h-100 object-cover"
+                                            />
+                                        </div>
+                                    ))}
+                                </HorizontalScroll>
+                            </div>
+                        : null}
+                        {gameById?.description.length > 0 ?
+                            <p className="fs-14 flex-1"> 
+                            <span
+                                dangerouslySetInnerHTML={{__html: gameById.description.slice(0, showMoreDescription ? gameById.description.length : 500) }}
+                            />
+                            {gameById?.description?.length > 500 ?
+                                    <span className="fs-14 weight-500 pointer hover-opacity-75 text-primary ps-2"
+                                        onClick={() => setShowMoreDescription(!showMoreDescription)}    
+                                    >
+                                        {showMoreDescription ? 'Show less' : 'Show more'}
+                                    </span>
+                            : null}
+                            </p>
+                        : null}
                         <div>
                             <div className="fs-20 flex align-center gap-4 weight-500 transition-slide-right-hover-parent pointer mt-4"
                                 onClick={() => { navigate(`/g/${gameById._id}/reviews`) }}
@@ -1081,30 +1164,30 @@ const Overview = () => {
                             </div>
                         : null}
                         {gameById?.videos.length > 0 ?
-                        <div>
-                            <div className="fs-20 flex align-center gap-4 weight-500 transition-slide-right-hover-parent pointer mt-4"
-                                onClick={() => { navigate(`/g/${gameById._id}/videos`) }}
-                            >
-                                Videos
-                                <Icon icon={rightArrowIcon} size="xs" className="transition-slide-right-hover"/>
+                            <div>
+                                <div className="fs-20 flex align-center gap-4 weight-500 transition-slide-right-hover-parent pointer mt-4"
+                                    onClick={() => { navigate(`/g/${gameById._id}/videos`) }}
+                                >
+                                    Videos
+                                    <Icon icon={rightArrowIcon} size="xs" className="transition-slide-right-hover"/>
+                                </div>
+                                <HorizontalScroll
+                                    contentClassName="align-start gap-5 pt-5"
+                                >
+                                    {gameById
+                                    ?.videos
+                                    .slice(0,
+                                        6
+                                    ).map((item, index) => (
+                                        <div
+                                        className="col-5 flex-fill col-sm-8"
+                                            key={index}
+                                        >
+                                            <YoutubeVideoItem item={item}/>
+                                        </div>
+                                    ))}
+                                </HorizontalScroll>
                             </div>
-                            <HorizontalScroll
-                                contentClassName="align-start gap-5 pt-5"
-                            >
-                                {gameById
-                                ?.videos
-                                .slice(0,
-                                    6
-                                ).map((item, index) => (
-                                    <div
-                                    className="col-5 flex-fill col-sm-8"
-                                        key={index}
-                                    >
-                                        <YoutubeVideoItem item={item} thumbnail/>
-                                    </div>
-                                ))}
-                            </HorizontalScroll>
-                        </div>
                         : null}
                     </div>
             </div>
@@ -1304,13 +1387,15 @@ const GamePage = () => {
                         <div className="overflow-hidden flex-1">
                             <div>
                                 <TabContent
-                                    items={[
-                                        {label: 'Overview'},
-                                        {label: 'Videos'},
-                                        // {label: 'Rules'},
-                                        {label: 'Reviews'},
-                                        {label: 'Plays'},
-                                    ]}
+                                    items={
+                                        [
+                                        { label: 'Overview' },
+                                        ...(gameById?.images?.length ? [{ label: 'Images' }] : []),
+                                        ...(gameById?.videos?.length ? [{ label: 'Videos' }] : []),
+                                        { label: 'Reviews' },
+                                        { label: 'Plays' },
+                                    ]
+                                    }
                                     classNameContainer="w-100"
                                     classNameItem="flex-1"
                                     activeTabName={tab || 'overview'}
@@ -1427,6 +1512,8 @@ const GamePage = () => {
                                 : null}
                                 {tab === 'overview' ?
                                     <Overview/>
+                                : tab === 'images' ?
+                                    <ImagesTab/>
                                 : tab === 'videos' ?
                                     <VideosTab/>
                                 : tab === 'reviews' ?

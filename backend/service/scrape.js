@@ -1,6 +1,7 @@
 const axios = require('axios');
 const cheerio = require('cheerio');
 const Game = require('../models/gameModel');
+const Image = require('../models/imageModel');
 const Person = require('../models/personModel');
 const Publishers = require('../models/publisherModel');
 const { typeEnum, themesEnum, mechanicsEnum } = require('../components/constants');
@@ -222,43 +223,63 @@ const updateGamesInfo = async () => {
 
 
 const scrapeImages = async () => {
+    
     // images
-    const url = `https://api.geekdo.com/api/images?ajax=1&foritempage=1&galleries%5B%5D=game&nosession=1&objecttype=thing&showcount=17&size=crop100&sort=hot&objectid=316554`
+    // const url = `https://api.geekdo.com/api/images?ajax=1&foritempage=1&galleries%5B%5D=game&nosession=1&objecttype=thing&showcount=17&size=crop100&sort=hot&objectid=316554`
     // for fulebook
     // https://api.geekdo.com/api/files?ajax=1&languageid=0&nosession=1&objectid=338960&objecttype=thing&pageid=1&showcount=25&sort=hot
 
     // videos 
-    // https://api.geekdo.com/api/videos?ajax=1&gallery=all&languageid=0&nosession=1&objectid=338960&objecttype=thing&pageid=2&showcount=36&sort=recent
-    const games = await Game.find({
-        // les than 3 images
-        images: { $size: 1 }
-    })
-    .sort({ numRatings: -1 })
+    // https://api.geekdo.com/api/videos?ajax=1&gallery=all&languageid=0&nosession=1&objecttype=thing&pageid=2&showcount=36&sort=recent&objectid=338960
 
-    const bulkWriteOps = [];
+    // loop through it with 500ms delay
 
-    for (let i = 0; i < games.length; i++) {
-        const game = games[i];
-        const response = await axios.get(`https://boardgamegeek.com/boardgame/${game.bggId}`);
-        const $ = cheerio.load(response.data);
+    for (let i = 0; i < 1000; i++) {
+        // 500ms delay
+        await new Promise(resolve => setTimeout(resolve, 500));
 
-        const images = [];
-        $('#info').find('img').each((i, el) => {
-            images.push($(el).attr('src'));
-        });
+        const games = await Game.find({
+            imagesScraped: false,
+        })
+        .sort({ numRatings: -1 })
+        .limit(10);
+        console.log(games.length, 'games found');
 
-        bulkWriteOps.push({
-            updateOne: {
-                filter: { _id: game._id },
-                update: { $set: { images } },
-            },
-        });
+        const writeBulk = [];
+
+        for (let i = 0; i < games.length; i++) {
+            const game = games[i];
+
+            // 500ms delay
+            await new Promise(resolve => setTimeout(resolve, 500));
+
+            try {
+                const response = await axios.get(`https://api.geekdo.com/api/images?ajax=1&foritempage=1&galleries%5B%5D=game&nosession=1&objecttype=thing&showcount=17&size=crop100&sort=hot&objectid=${game.bggId}`);
+
+                response.data.images
+                .map(image => {
+                    writeBulk.push({
+                        image: image.imageurl_lg,
+                        thumbnail: image.imageurl,
+                        caption: image.caption,
+                        game: game._id,
+                    });
+                });
+            } catch (error) {
+                console.log('Error', error);
+            }
+        }
+
+        await Image.insertMany(writeBulk);
+        await Game.updateMany({ _id: { $in: games.map(game => game._id) } }, { imagesScraped: true });
+        console.log('Images scraped');
     }
 }
 
 const runServices = () => {
-    scrapeBggGamesBulk();
+    // scrapeBggGamesBulk();
     // updateGamesInfo();
+    scrapeImages();
 }
 
 module.exports = {

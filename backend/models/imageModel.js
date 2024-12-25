@@ -1,12 +1,12 @@
 const mongoose = require('mongoose');
 
 const imageSchema = new mongoose.Schema({
-    name: { type: String, required: true },
-    link: { type: String, required: true },
+    caption: { type: String, required: false },
+    image: { type: String, required: true },
     thumbnail: { type: String, required: false },
     tags: [{ type: String, required: false }],
-    user: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
-    game: { type: mongoose.Schema.Types.ObjectId, ref: 'Game' },
+    user: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: false },
+    game: { type: mongoose.Schema.Types.ObjectId, ref: 'Game', required: true },
     postedDate: { type: Date, required: false },
 }, { timestamps: true });
 

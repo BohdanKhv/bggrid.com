@@ -21,13 +21,6 @@ const gameSchema = new mongoose.Schema({
     verified: { type: Boolean, required: false, default: false }, // verified by admin
     thumbnail: { type: String, required: false }, // thumbnail image for the game
     image: { type: String, required: false }, // image link for the game
-    images: [{ type: String, required: false }], // image links for the game
-    videos: [{
-        title: { type: String, required: false },
-        link: { type: String, required: false },
-        category: { type: String, required: false },
-        postedDate: { type: Date, required: false },
-    }], // youtube video links
     minPlayers: { type: Number, required: false },
     maxPlayers: { type: Number, required: false },
     minPlayersRec: { type: Number, required: false },
@@ -44,7 +37,6 @@ const gameSchema = new mongoose.Schema({
     numRatings: { type: Number, required: false },
     numComments: { type: Number, required: false },
     buyUrl: { type: String, required: false },
-    bggScraped: { type: Boolean, required: false, default: false },
     bggId: { type: String, required: false }, // boardgamegeek id
     isExpansion: { type: Boolean, required: false, default: false },
 }, { timestamps: true });

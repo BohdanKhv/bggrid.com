@@ -15,6 +15,7 @@ const getGamesByPublisherId = async (req, res) => {
             limit: parseInt(limit) || 20,
             sort: { numRatings: -1},
             populate: 'publishers',
+            select: 'name thumbnail image year numRatings rating complexityWeight minPlayers maxPlayers minPlaytime maxPlaytime'
         };
 
         const games = await Game.paginate({ publishers:
@@ -48,6 +49,7 @@ const getGamesByPersonId = async (req, res) => {
             limit: parseInt(limit) || 20,
             sort: { numRatings: -1},
             populate: 'publishers',
+            select: 'name thumbnail image year numRatings rating complexityWeight minPlayers maxPlayers minPlaytime maxPlaytime'
         };
 
         const games = await Game.paginate({ 
@@ -83,6 +85,7 @@ const getGames = async (req, res) => {
         const { mechanics, types, themes, publisherId, players, minWeight, maxWeight } = req.query;
         const { sort, sortOrder } = req.query;
         console.log(`Page: ${page}`);
+
         let options = {
             page: parseInt(page) || 1,
             limit: parseInt(limit) || 10,
@@ -102,7 +105,7 @@ const getGames = async (req, res) => {
 
         const q = {}
 
-        if (s && s.length > 0) { q.name = { $regex: s, $options: 'i' } }
+        if (s && s.length > 0) { q.name = { $regex: new RegExp(s.replace(/[^a-zA-Z0-9 ]/g, '').toLowerCase().split(' ').join('.*'), 'i') } }
 
         if (types && types.length > 0) { q.types = { $in: types.split(',').map(type => new RegExp(type, 'i')) } }
         if (mechanics && mechanics.length > 0) { q.mechanics = { $in: mechanics.split(',').map(mechanic => new RegExp(mechanic, 'i')) } }
@@ -149,13 +152,14 @@ const getGames = async (req, res) => {
 const getSuggestions = async (req, res) => {
     try {
         const { s } = req.query;
-
         const games = await Game.find({
-            name: { $regex: s || '', $options: 'i' }
+            name: { 
+            $regex: new RegExp(s.replace(/[^a-zA-Z0-9 ]/g, '').toLowerCase().split(' ').join('.*'), 'i')
+            }
         })
         .sort({ rating: -1, year: -1 })
         .limit(15)
-        .select('name thumbnail year')
+        .select({ name: 1, thumbnail: 1, year: 1 });
 
         res.status(200).json({
             data: games

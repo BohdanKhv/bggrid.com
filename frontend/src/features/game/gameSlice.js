@@ -183,7 +183,6 @@ const gameSlice = createSlice({
             state.loadingId = '';
             state.page = 0;
             state.hasMore = true;
-            state.session = null;
         }
     },
     extraReducers: (builder) => {

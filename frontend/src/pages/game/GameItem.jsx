@@ -17,11 +17,7 @@ const GameItem = ({item}) => {
 
     return (
         <Link className={`flex flex-col pos-relative gap-sm-2 border-radius p-2 show-on-hover-parent bg-secondary-hover transition-duration pos-relative mb-4 m-sm-0 display-on-hover-parent transition-slide-right-hover-parent`}
-            onClick={(e) => {
-                e.preventDefault()
-                searchParams.set("addGame", item._id)
-                setSearchParams(searchParams)
-            }}
+            to={`/g/${item._id}`}
         >
             <div className={`pointer pos-relative`}>
                 { window.innerWidth > 800 ?
@@ -43,7 +39,12 @@ const GameItem = ({item}) => {
                 />
                 <div className="display-on-hover">
                     <div className="pos-absolute top-0 h-100 w-100">
-                            <div className="bg-main p-2 border-radius m-1">
+                    <div className="bg-main p-2 border-radius m-1"
+                    onClick={(e) => {
+                        e.preventDefault()
+                        searchParams.set("addGame", item._id)
+                        setSearchParams(searchParams)
+                    }}>
                             <div className="flex flex-col flex-1 flex-wrap z-1">
                                     <div className="flex fs-12 gap-2 py-2 align-center text-nowrap">
                                     <Icon size="sm" icon={weightIcon}/> <strong>{item.complexityWeight?.toFixed(1) || '--'}</strong>

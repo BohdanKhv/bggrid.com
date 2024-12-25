@@ -153,14 +153,14 @@ const PlayItem = ({ item }) => {
                     <div className="flex flex-col flex-1 py-1">
                         <div className="flex gap-2 justify-between">
                             <div className="flex flex-col flex-1">
-                                {item.user.firstName ?
+                                {item?.user?.firstName ?
                                     <>
                                         <div className="fs-14 bold text-ellipsis-1 me-1">
-                                            {item.user.firstName} {item.user.lastName}
+                                            {item?.user?.firstName} {item?.user?.lastName}
                                         </div>
                                     </>
                                 : null}
-                                <Link to={`/u/${item.user.username}`} className="text-secondary weight-400 fs-12 text-underlined-hover">@{item.user.username}</Link>
+                                <Link to={`/u/${item?.user?.username}`} className="text-secondary weight-400 fs-12 text-underlined-hover">@{item?.user?.username}</Link>
                             </div>
                             <span className="weight-400 text-secondary fs-12 text-wrap-nowrap">{
                                 // if more than 1 day, show the date
@@ -255,14 +255,14 @@ const ReviewItem = ({ item }) => {
                 <div className="flex flex-col flex-1 py-1">
                     <div className="flex gap-2 justify-between">
                         <div className="flex flex-col flex-1">
-                            {item.user.firstName ?
+                            {item?.user?.firstName ?
                                 <>
                                     <div className="fs-14 bold text-ellipsis-1 me-1">
-                                        {item.user.firstName} {item.user.lastName}
+                                        {item?.user?.firstName} {item?.user?.lastName}
                                     </div>
                                 </>
                             : null}
-                            <Link to={`/u/${item.user.username}`} className="text-secondary weight-400 fs-12 text-underlined-hover">@{item.user.username}</Link>
+                            <Link to={`/u/${item?.user?.username}`} className="text-secondary weight-400 fs-12 text-underlined-hover">@{item?.user?.username}</Link>
                         </div>
                         <span className="weight-400 text-secondary fs-12 text-wrap-nowrap">{
                             // if more than 1 day, show the date

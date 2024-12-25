@@ -107,9 +107,20 @@ const getGames = async (req, res) => {
 
         if (s && s.length > 0) { q.name = { $regex: new RegExp(s.replace(/[^a-zA-Z0-9 ]/g, '').toLowerCase().split(' ').join('.*'), 'i') } }
 
-        if (types && types.length > 0) { q.types = { $in: types.split(',').map(type => new RegExp(type, 'i')) } }
-        if (mechanics && mechanics.length > 0) { q.mechanics = { $in: mechanics.split(',').map(mechanic => new RegExp(mechanic, 'i')) } }
-        if (themes && themes.length > 0) { q.themes = { $in: themes.split(',').map(theme => new RegExp(theme, 'i')) } }
+        const cats = []
+        
+        if (types && types.length > 0) cats.push(types.split(','))
+        if (mechanics && mechanics.length > 0) cats.push(mechanics.split(','))
+        if (themes && themes.length > 0) cats.push(themes.split(','))
+
+        if (cats && cats.length > 0) {
+            q.$or = [
+                { themes: { $in: cats.map(theme => new RegExp(theme, 'i')) } },
+                { mechanics: { $in: cats.map(theme => new RegExp(theme, 'i')) } },
+                { types: { $in: cats.map(theme => new RegExp(theme, 'i')) } },
+                { categories: { $in: cats.map(theme => new RegExp(theme, 'i')) } }
+            ]
+        }
         if (players && players.length > 0) {
             const min = players.split('-')[0] || 0;
             const max = players.split('-')[1] || min || 100;

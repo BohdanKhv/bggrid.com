@@ -19,7 +19,7 @@ const Navbar = () => {
 
     const { notifications } = useSelector(state => state.notification)
 
-    const { user } = useSelector(state => state.auth)
+    const { user, serverVersion } = useSelector(state => state.auth)
     const { pathname } = useLocation()
     const [searchParams, setSearchParams] = useSearchParams()
 
@@ -210,12 +210,9 @@ const Navbar = () => {
                                     size="sm"
                                 />
                             </div>
-                            <div className="fs-12 pt-1 text-secondary">
-                                You can share your thoughts with us and make our project better.
-                            </div>
                         </div>
                     </div>
-                <div className="flex gap-2 p-4 flex-col">
+                    <div className="flex gap-2 p-4 flex-col">
                         <div className="flex gap-3 align-center">
                                 <div
                                     className="w-set-50-px flex align-center"
@@ -243,7 +240,31 @@ const Navbar = () => {
                                 © {new Date().getFullYear()} bggrid.com
                             </div>
                             <div className="fs-12 text-secondary weight-500">
-                                All rights reserved. Beta V.{pJson.version}
+                                All rights reserved.
+                            </div>
+                            <div className={`fs-12 text-secondary weight-500 mt-2${serverVersion && serverVersion !== pJson.version ? " pointer text-underlined-hover" : ""}`}
+                                onClick={() => {
+                                    if (serverVersion && serverVersion !== pJson.version) {
+                                        // Clear cached files
+                                        caches.keys().then(function(names) {
+                                            console.log(names)
+                                            for (let name of names) caches.delete(name);
+                                        });
+                                    
+                                        // Refresh service worker
+                                        navigator.serviceWorker.getRegistrations().then(function(registrations) {
+                                            for (let registration of registrations) {
+                                                registration.unregister()
+                                                .then(function() {
+                                                    // Bust cache
+                                                    window.location.reload(true)
+                                                })
+                                            }
+                                        });
+                                    }}
+                                }
+                            >
+                                <span className={`${serverVersion && serverVersion !== pJson.version ? " text-warning" : ""}`}>{serverVersion && pJson.version !== serverVersion ? `${serverVersion} - click to update` : `${pJson.version}`}</span>
                             </div>
                         </div>
                     </div>

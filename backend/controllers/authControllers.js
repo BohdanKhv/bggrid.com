@@ -13,6 +13,7 @@ const { checkPasswordStrength } = require('../utils/utils');
 const { DateTime } = require('luxon');
 const { OAuth2Client } = require('google-auth-library');
 const axios = require('axios');
+const pJson = require('../../package.json');
 
 // Email transporter
 const transporter = nodeMailer.createTransport({
@@ -185,6 +186,7 @@ const getMe = async (req, res) => {
                     token: generateToken(req.user._id)
                 },
                 library: games,
+                serverVersion: pJson.version
             }
         });
     } catch (err) {

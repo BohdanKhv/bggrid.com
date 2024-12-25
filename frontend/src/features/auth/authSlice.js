@@ -10,6 +10,7 @@ const user = JSON.parse(localStorage.getItem('user'));
 
 const initialState = {
     user: user ? user : null,
+    serverVersion: null,
     isError: false,
     isSuccess: false,
     isLoading: false,
@@ -247,6 +248,7 @@ const authSlice = createSlice({
         builder.addCase(getMe.fulfilled, (state, action) => {
             // state.isLoading = false;
             state.user = action.payload.data.user;
+            state.serverVersion = action.payload.data.serverVersion;
             localStorage.setItem('user', JSON.stringify(state.user));
         });
         builder.addCase(getMe.rejected, (state, action) => {

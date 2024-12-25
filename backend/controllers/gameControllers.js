@@ -109,11 +109,12 @@ const getGames = async (req, res) => {
 
         const cats = []
         
-        if (types && types.length > 0) cats.push(types.split(','))
-        if (mechanics && mechanics.length > 0) cats.push(mechanics.split(','))
-        if (themes && themes.length > 0) cats.push(themes.split(','))
+        if (types && types.length > 0) cats.push(...types.split(','))
+        if (mechanics && mechanics.length > 0) cats.push(...mechanics.split(','))
+        if (themes && themes.length > 0) cats.push(...themes.split(','))
 
         if (cats && cats.length > 0) {
+            console.log(cats)
             q.$or = [
                 { themes: { $in: cats.map(theme => new RegExp(theme, 'i')) } },
                 { mechanics: { $in: cats.map(theme => new RegExp(theme, 'i')) } },

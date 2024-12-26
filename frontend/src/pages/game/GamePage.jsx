@@ -1514,7 +1514,7 @@ const GamePage = () => {
                                                         size="lg"
                                                         className="w-100 mb-3"
                                                         variant="secondary"
-                                                        type="default"
+                                                        type="filled"
                                                         onClick={() => {
                                                             searchParams.set('logPlay', gameId)
                                                             setSearchParams(searchParams)

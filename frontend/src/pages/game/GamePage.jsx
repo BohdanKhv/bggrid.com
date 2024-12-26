@@ -862,187 +862,192 @@ const Overview = () => {
             </Helmet>
             <div className="my-4 animation-slide-in my-sm-4 px-sm-3">
                     <div className="flex flex-col gap-6 overflow-hidden">
-                        <div>
-                            <div className="flex flex-wrap gap-1 align-center">
-                                <span className="text-secondary fs-14 weight-500">
-                                    Types:
-                                </span>
-                                {gameById.types.length ? gameById.types.map
-                                ((item, index, arr) => (
-                                    <div key={index}>
-                                        <Link 
-                                            to={`/discover?types=${item}`}
-                                            className="fs-14 text-underlined-hover weight-500">
-                                            {item}
-                                        </Link>
-                                    {index < arr.length - 1 ? ', ' : ''}
-                                    </div>
-                                )) : '--'}
-                            </div>
-                            <div className="flex flex-wrap gap-1 align-center pt-2">
-                                <span className="text-secondary fs-14 weight-500">
-                                    Themes:
-                                </span>
-                                {gameById.themes.length ? gameById.themes.map
-                                ((item, index, arr) => (
-                                    <div key={index}>
-                                        <Link 
-                                            to={`/discover?themes=${item}`}
-                                            className="fs-14 text-underlined-hover weight-500">
-                                            {item}
-                                        </Link>
-                                    {index < arr.length - 1 ? ', ' : ''}
-                                    </div>
-                                )) : '--'}
-                            </div>
-                            <div className="flex flex-wrap gap-1 align-center pt-2">
-                                <span className="text-secondary fs-14 weight-500">
-                                    Mechanics:
-                                </span>
-                                {gameById.mechanics.length ? gameById.mechanics
-                                .slice(0, showMoreMechanics ? gameById.mechanics.length : 2)
-                                .map
-                                ((item, index, arr) => (
-                                    <div key={index}>
-                                        <Link 
-                                            to={`/discover?mechanics=${item}`}
-                                            className="fs-14 text-underlined-hover weight-500">
-                                            {item}
-                                        </Link>
-                                    {index < arr.length - 1 ? ', ' : ''}
-                                    </div>
-                                )) : '--'}
-                                {gameById.mechanics.length > 2 ?
-                                    <div className="flex gap-1 align-center">
-                                        <span className="fs-14 weight-500 pointer hover-opacity-75 text-primary"
-                                            onClick={() => setShowMoreMechanics(!showMoreMechanics)}
-                                        >
-                                            {showMoreMechanics ? 'Show less' : gameById.mechanics.length > 2 ? `+${gameById.mechanics.length - 2} more` : ''}
-                                        </span>
-                                    </div>
-                                : null}
-                            </div>
-                            <div className="flex flex-wrap gap-1 align-center pt-2">
-                                <span className="text-secondary fs-14 weight-500">
-                                    Publishers:
-                                </span>
-                                {gameById.publishers.length ? gameById.publishers
-                                .slice(0, showMorePublishers ? gameById.publishers.length : 2)
-                                .map
-                                ((item, index, arr) => (
-                                    <div key={index}>
-                                        <Link 
-                                            to={`/publisher/${item._id}`}
-                                            className="fs-14 text-underlined-hover weight-500">
-                                            {item.name}
-                                        </Link>
-                                    {index < arr.length - 1 ? ', ' : ''}
-                                    </div>
-                                )) : '--'}
-                                {gameById.publishers.length > 2 ?
-                                    <div className="flex gap-1 align-center">
-                                        <span className="fs-14 weight-500 pointer hover-opacity-75 text-primary"
-                                            onClick={() => setShowMorePublishers(!showMorePublishers)}
-                                        >
-                                            {showMorePublishers ? 'Show less' : gameById.publishers.length > 2 ? `+${gameById.publishers.length - 2} more` : ''}
-                                        </span>
-                                    </div>
-                                : null}
-                            </div>
-                            <div className="flex flex-wrap gap-1 align-center pt-2">
-                                <span className="text-secondary fs-14 weight-500">
-                                    Designers:
-                                </span>
-                                {gameById.designers.length ? gameById.designers
-                                .slice(0, showMoreDesigners ? gameById.designers.length : 2)
-                                .map
-                                ((item, index, arr) => (
-                                    <div key={index}>
-                                        <Link 
-                                            to={`/publisher/${item._id}`}
-                                            className="fs-14 text-underlined-hover weight-500">
-                                            {item.name}
-                                        </Link>
-                                    {index < arr.length - 1 ? ', ' : ''}
-                                    </div>
-                                )) : '--'}
-                                {gameById.designers.length > 2 ?
-                                    <div className="flex gap-1 align-center">
-                                        <span className="fs-14 weight-500 pointer hover-opacity-75 text-primary"
-                                            onClick={() => setShowMoreDesigners(!showMoreDesigners)}
-                                        >
-                                            {showMoreDesigners ? 'Show less' : gameById.designers.length > 2 ? `+${gameById.designers.length - 2} more` : ''}
-                                        </span>
-                                    </div>
-                                : null}
-                            </div>
-                            <div className="flex flex-wrap gap-1 align-center pt-2">
-                                <span className="text-secondary fs-14 weight-500">
-                                    Artists:
-                                </span>
-                                {gameById.artists.length ? gameById.artists
-                                .slice(0, showMoreArtists ? gameById.artists.length : 2)
-                                .map
-                                ((item, index, arr) => (
-                                    <div key={index}>
-                                        <Link 
-                                            to={`/person/${item._id}`}
-                                            className="fs-14 text-underlined-hover weight-500">
-                                            {item.name}
-                                        </Link>
-                                        {index < arr.length - 1 ? ', ' : ''}
-                                    </div>
-                                )) : '--'}
-                                {gameById.artists.length > 2 ?
-                                    <div className="flex gap-1 align-center">
-                                        <span className="fs-14 weight-500 pointer hover-opacity-75 text-primary"
-                                            onClick={() => setShowMoreArtists(!showMoreArtists)}
-                                        >
-                                            {showMoreArtists ? 'Show less' : gameById.artists.length > 2 ? `+${gameById.artists.length - 2} more` : ''}
-                                        </span>
-                                    </div>
-                                : null}
-                            </div>
-                        </div>
-                        {gameById?.images.length > 0 ?
+                        <div className="flex flex-col gap-4 overflow-hidden">
                             <div>
-                                <HorizontalScroll
-                                    contentClassName="align-start gap-5"
-                                >
-                                    {gameById
-                                    ?.images
-                                    .slice(0,
-                                        6
-                                    ).map((item, index) => (
-                                        <div
-                                            className="col-5 flex-fill col-sm-10"
-                                            key={index}
-                                        >
-                                            <Image
-                                                img={item.image}
-                                                errIcon={plugIcon}
-                                                classNameContainer="w-100 h-set-300-px h-sm-set-250-px bg-hover-after border-radius"
-                                                classNameImg="w-100 h-100 object-cover"
-                                            />
-                                        </div>
-                                    ))}
-                                </HorizontalScroll>
-                            </div>
-                        : null}
-                        {gameById?.description.length > 0 ?
-                            <p className="fs-14 flex-1"> 
-                            <span
-                                dangerouslySetInnerHTML={{__html: gameById.description.slice(0, showMoreDescription ? gameById.description.length : 500) }}
-                            />
-                            {gameById?.description?.length > 500 ?
-                                    <span className="fs-14 weight-500 pointer hover-opacity-75 text-primary ps-2"
-                                        onClick={() => setShowMoreDescription(!showMoreDescription)}    
-                                    >
-                                        {showMoreDescription ? 'Show less' : 'Show more'}
+                                <div className="flex flex-wrap gap-1 align-center">
+                                    <span className="text-secondary fs-14 weight-500">
+                                        Types:
                                     </span>
+                                    {gameById.types.length ? gameById.types.map
+                                    ((item, index, arr) => (
+                                        <div key={index}>
+                                            <Link 
+                                                to={`/discover?types=${item}`}
+                                                className="fs-14 text-underlined-hover weight-500">
+                                                {item}
+                                            </Link>
+                                        {index < arr.length - 1 ? ', ' : ''}
+                                        </div>
+                                    )) : '--'}
+                                </div>
+                                <div className="flex flex-wrap gap-1 align-center pt-2">
+                                    <span className="text-secondary fs-14 weight-500">
+                                        Themes:
+                                    </span>
+                                    {gameById.themes.length ? gameById.themes.map
+                                    ((item, index, arr) => (
+                                        <div key={index}>
+                                            <Link 
+                                                to={`/discover?themes=${item}`}
+                                                className="fs-14 text-underlined-hover weight-500">
+                                                {item}
+                                            </Link>
+                                        {index < arr.length - 1 ? ', ' : ''}
+                                        </div>
+                                    )) : '--'}
+                                </div>
+                                <div className="flex flex-wrap gap-1 align-center pt-2">
+                                    <span className="text-secondary fs-14 weight-500">
+                                        Mechanics:
+                                    </span>
+                                    {gameById.mechanics.length ? gameById.mechanics
+                                    .slice(0, showMoreMechanics ? gameById.mechanics.length : 2)
+                                    .map
+                                    ((item, index, arr) => (
+                                        <div key={index}>
+                                            <Link 
+                                                to={`/discover?mechanics=${item}`}
+                                                className="fs-14 text-underlined-hover weight-500">
+                                                {item}
+                                            </Link>
+                                        {index < arr.length - 1 ? ', ' : ''}
+                                        </div>
+                                    )) : '--'}
+                                    {gameById.mechanics.length > 2 ?
+                                        <div className="flex gap-1 align-center">
+                                            <span className="fs-14 weight-500 pointer hover-opacity-75 text-primary"
+                                                onClick={() => setShowMoreMechanics(!showMoreMechanics)}
+                                            >
+                                                {showMoreMechanics ? 'Show less' : gameById.mechanics.length > 2 ? `+${gameById.mechanics.length - 2} more` : ''}
+                                            </span>
+                                        </div>
+                                    : null}
+                                </div>
+                                <div className="flex flex-wrap gap-1 align-center pt-2">
+                                    <span className="text-secondary fs-14 weight-500">
+                                        Publishers:
+                                    </span>
+                                    {gameById.publishers.length ? gameById.publishers
+                                    .slice(0, showMorePublishers ? gameById.publishers.length : 2)
+                                    .map
+                                    ((item, index, arr) => (
+                                        <div key={index}>
+                                            <Link 
+                                                to={`/publisher/${item._id}`}
+                                                className="fs-14 text-underlined-hover weight-500">
+                                                {item.name}
+                                            </Link>
+                                        {index < arr.length - 1 ? ', ' : ''}
+                                        </div>
+                                    )) : '--'}
+                                    {gameById.publishers.length > 2 ?
+                                        <div className="flex gap-1 align-center">
+                                            <span className="fs-14 weight-500 pointer hover-opacity-75 text-primary"
+                                                onClick={() => setShowMorePublishers(!showMorePublishers)}
+                                            >
+                                                {showMorePublishers ? 'Show less' : gameById.publishers.length > 2 ? `+${gameById.publishers.length - 2} more` : ''}
+                                            </span>
+                                        </div>
+                                    : null}
+                                </div>
+                                <div className="flex flex-wrap gap-1 align-center pt-2">
+                                    <span className="text-secondary fs-14 weight-500">
+                                        Designers:
+                                    </span>
+                                    {gameById.designers.length ? gameById.designers
+                                    .slice(0, showMoreDesigners ? gameById.designers.length : 2)
+                                    .map
+                                    ((item, index, arr) => (
+                                        <div key={index}>
+                                            <Link 
+                                                to={`/publisher/${item._id}`}
+                                                className="fs-14 text-underlined-hover weight-500">
+                                                {item.name}
+                                            </Link>
+                                        {index < arr.length - 1 ? ', ' : ''}
+                                        </div>
+                                    )) : '--'}
+                                    {gameById.designers.length > 2 ?
+                                        <div className="flex gap-1 align-center">
+                                            <span className="fs-14 weight-500 pointer hover-opacity-75 text-primary"
+                                                onClick={() => setShowMoreDesigners(!showMoreDesigners)}
+                                            >
+                                                {showMoreDesigners ? 'Show less' : gameById.designers.length > 2 ? `+${gameById.designers.length - 2} more` : ''}
+                                            </span>
+                                        </div>
+                                    : null}
+                                </div>
+                                <div className="flex flex-wrap gap-1 align-center pt-2">
+                                    <span className="text-secondary fs-14 weight-500">
+                                        Artists:
+                                    </span>
+                                    {gameById.artists.length ? gameById.artists
+                                    .slice(0, showMoreArtists ? gameById.artists.length : 2)
+                                    .map
+                                    ((item, index, arr) => (
+                                        <div key={index}>
+                                            <Link 
+                                                to={`/person/${item._id}`}
+                                                className="fs-14 text-underlined-hover weight-500">
+                                                {item.name}
+                                            </Link>
+                                            {index < arr.length - 1 ? ', ' : ''}
+                                        </div>
+                                    )) : '--'}
+                                    {gameById.artists.length > 2 ?
+                                        <div className="flex gap-1 align-center">
+                                            <span className="fs-14 weight-500 pointer hover-opacity-75 text-primary"
+                                                onClick={() => setShowMoreArtists(!showMoreArtists)}
+                                            >
+                                                {showMoreArtists ? 'Show less' : gameById.artists.length > 2 ? `+${gameById.artists.length - 2} more` : ''}
+                                            </span>
+                                        </div>
+                                    : null}
+                                </div>
+                            </div>
+                            {gameById?.images.length > 0 ?
+                                <div>
+                                    <HorizontalScroll
+                                        contentClassName="align-start gap-4"
+                                    >
+                                        {gameById
+                                        ?.images
+                                        .slice(0,
+                                            6
+                                        ).map((item, index) => (
+                                            <div
+                                                className="col-5 flex-fill col-sm-10"
+                                                key={index}
+                                                onClick={() => {
+                                                    navigate(`/g/${gameById._id}/images`)
+                                                }}
+                                            >
+                                                <Image
+                                                    img={item.image}
+                                                    errIcon={plugIcon}
+                                                    classNameContainer="w-100 h-set-300-px h-sm-set-250-px bg-hover-after border-radius"
+                                                    classNameImg="w-100 h-100 object-cover"
+                                                />
+                                            </div>
+                                        ))}
+                                    </HorizontalScroll>
+                                </div>
                             : null}
-                            </p>
-                        : null}
+                            {gameById?.description.length > 0 ?
+                                <p className="fs-14 flex-1"> 
+                                <span
+                                    dangerouslySetInnerHTML={{__html: gameById.description.slice(0, showMoreDescription ? gameById.description.length : 500) }}
+                                />
+                                {gameById?.description?.length > 500 ?
+                                        <span className="fs-14 weight-500 pointer hover-opacity-75 text-primary ps-2"
+                                            onClick={() => setShowMoreDescription(!showMoreDescription)}    
+                                        >
+                                            {showMoreDescription ? 'Show less' : 'Show more'}
+                                        </span>
+                                : null}
+                                </p>
+                            : null}
+                        </div>
                         <div>
                             <div className="fs-20 flex align-center gap-4 weight-500 transition-slide-right-hover-parent pointer mt-4"
                                 onClick={() => { navigate(`/g/${gameById._id}/reviews`) }}
@@ -1184,7 +1189,7 @@ const Overview = () => {
                                     <Icon icon={rightArrowIcon} size="xs" className="transition-slide-right-hover"/>
                                 </div>
                                 <HorizontalScroll
-                                    contentClassName="align-start gap-5 pt-5"
+                                    contentClassName="align-start gap-4 pt-5"
                                 >
                                     {gameById
                                     ?.videos

@@ -334,18 +334,18 @@ const LibraryItem = ({ item, index, tags, setTags }) =>  {
                     </div>
                     <div className="flex gap-5 py-2">
                         <div className="flex flex-col">
-                            <div className="fs-12 text-shadow-hard weight-400 flex-col text-ellipsis-1 text-secondary">
+                            <div className="fs-12 text-shadow-hard text-light weight-400 flex-col text-ellipsis-1 text-secondary">
                                 PLAYS
                             </div>
-                            <div className="fs-12 text-shadow-hard text-nowrap flex-shrink-0 bold">
+                            <div className="fs-12 text-light text-shadow-hard text-nowrap flex-shrink-0 bold">
                                 {numberFormatter(item.totalPlays || 0)}
                             </div>
                         </div>
                         <div className="flex flex-col">
-                        <div className="fs-12 text-shadow-hard weight-400 flex-col text-ellipsis-1 text-secondary">
+                        <div className="fs-12 text-shadow-hard text-light weight-400 flex-col text-ellipsis-1 text-secondary">
                                 LAST PLAYED
                             </div>
-                            <div className="fs-12 text-shadow-hard text-nowrap flex-shrink-0 bold">
+                            <div className="fs-12 text-light text-shadow-hard text-nowrap flex-shrink-0 bold">
                                 {item.lastPlayDate ? DateTime.now().diff(DateTime.fromISO(item.lastPlayDate), ['days']).days > 1 ? DateTime.fromISO(item.lastPlayDate).toFormat('LLL dd') :
                                 DateTime.fromISO(item.lastPlayDate).toRelative().replace(' days', 'd').replace(' day', 'd').replace(' hours', 'h').replace(' hour', 'h').replace(' minutes', 'm').replace(' minute', 'm').replace(' seconds', 's').replace(' second', 's') : 'never'}
                             </div>
@@ -413,16 +413,6 @@ const LibraryItem = ({ item, index, tags, setTags }) =>  {
                 type="text"
                 to={`/g/${item?.game?._id}/rules`}
             /> */}
-            <Button
-                smSize="xl"
-                size="lg"
-                className="justify-start"
-                label="Download"
-                disabled
-                icon={pngIcon}
-                variant="secondary"
-                type="text"
-            />
         </div>
         </MobileModal>
         : null }

@@ -518,6 +518,7 @@ a.btn-lg {
         gap: 14px;
     }
     a.btn-sm-xl {
+        padding: 14px!important;
         height: 22px!important;
         max-height: 22px!important;
         min-height: 22px!important;

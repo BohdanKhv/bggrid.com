@@ -806,7 +806,6 @@ const CoverImage = ({ img }) => {
                             onClick={() => {
                                 navigator.share({
                                     title: gameById.name,
-                                    text: gameById.description,
                                     url: window.location.href
                                 })
                             }}

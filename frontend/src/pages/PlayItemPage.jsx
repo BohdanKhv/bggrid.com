@@ -215,7 +215,7 @@ const PlayItemPage = () => {
                                             </span>
                                             <IconButton
                                                 icon={shareIcon}
-                                                size="xs"
+                                                size="sm"
                                                 dataTooltipContent="Share"
                                                 muted
                                                 type="secondary"

@@ -2,7 +2,7 @@ import React, { memo, useCallback, useEffect, useMemo, useRef, useState } from '
 import { useDispatch, useSelector } from 'react-redux'
 import { getGameById, getGameOverview } from '../../features/game/gameSlice'
 import { Link, useNavigate, useParams, useSearchParams } from 'react-router-dom'
-import { Avatar, Button, Collapse, Dropdown, ErrorInfo, HorizontalScroll, Icon, IconButton, Image, ProgressBar, Skeleton, TabContent } from '../../components'
+import { Avatar, Button, Collapse, Dropdown, ErrorInfo, Gallery, HorizontalScroll, Icon, IconButton, Image, ProgressBar, Skeleton, TabContent } from '../../components'
 import { boxInIcon, boxOffIcon, checkIcon, clockIcon, largePlusIcon, libraryIcon, diceIcon, shareIcon, starEmptyIcon, starFillIcon, starsIcon, userIcon, usersIcon, plugIcon, rightArrowIcon, leftArrowSmIcon, leftArrowIcon, moreIcon, gamesIcon, startHalfFillIcon } from '../../assets/img/icons'
 import { addCommaToNumber, numberFormatter } from '../../assets/utils'
 import { getGameStats, getReviewsByGame, resetReview } from '../../features/review/reviewSlice'
@@ -66,6 +66,7 @@ const ImagesTab = () => {
     const { gameById } = useSelector((state) => state.game)
 
     const [selectedCategory, setSelectedCategory] = useState('All')
+    const [openGallery, setOpenGallery] = useState(false)
 
     return (
         <HelmetProvider>
@@ -76,16 +77,27 @@ const ImagesTab = () => {
                     href={`https://bggrid.com/g/${gameById._id}/images`}
                 />
             </Helmet>
+            <Gallery
+                isOpen={openGallery}
+                setIsOpen={setOpenGallery}
+                items={gameById.images}
+            />
             <div className="flex gap-4 flex-col pt-4 pb-6 px-sm-3">
                 {gameById.images.length === 0 ?
                     <ErrorInfo label="No images found"/>
                 :
                 <>
-                <div className="grid grid-cols-3 grid-md-cols-2 grid-sm-cols-1 gap-4">
+                <div className="grid grid-cols-3 grid-md-cols-2 grid-sm-cols-2 gap-4">
                     {gameById?.images
                         ?.map((item, index) => (
-                            <div className="flex gap-3 flex-col animation-slide-in">
-                                <div className="border-radius bg-secondary flex align-center justify-center border-radius-lg overflow-hidden h-set-200-px">
+                            <div className="flex gap-3 flex-col animation-slide-in"
+                                key={index}
+                            >
+                                <div className="border-radius bg-secondary flex align-center justify-center border-radius-lg overflow-hidden h-set-200-px"
+                                onClick={() => {
+                                    setOpenGallery(true)
+                                }}
+                                >
                                     {/* Embed youtube video */}
                                     <Image
                                         img={item.image}

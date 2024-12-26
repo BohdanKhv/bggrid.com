@@ -50,6 +50,7 @@ import LineButtonGroup from "./ui/LineButtonGroup";
 import PreviewImage from "./ui/PreviewImage";
 import Image from "./ui/Image";
 import ConfirmAction from "./ui/ConfirmAction";
+import Gallery from "./ui/Gallery";
 
 
 export {
@@ -105,4 +106,5 @@ export {
     PreviewImage,
     Image,
     ConfirmAction,
+    Gallery
 }

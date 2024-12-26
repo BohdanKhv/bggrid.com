@@ -790,7 +790,7 @@ const CoverImage = ({ img }) => {
                                 borderRadius="lg"
                                 size="lg"
                                 variant="secondary"
-                                type="filled"
+                                type="default"
                                 to={gameById.buyUrl}
                                 target="_blank"
                             />
@@ -1562,7 +1562,7 @@ const GamePage = () => {
                                                         size="lg"
                                                         variant="secondary"
                                                         className="mt-3"
-                                                        type="filled"
+                                                        type="default"
                                                         to={gameById.buyUrl}
                                                         target="_blank"
                                                     />

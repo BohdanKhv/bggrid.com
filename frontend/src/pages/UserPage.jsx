@@ -540,7 +540,7 @@ const UserPage = () => {
                                 {userById?.library?.length > 0 ?
                                     <div className="pb-3">
                                     {uniqueTags.length > 0 ?
-                                        <div className="sticky top-0 bg-main py-3 px-sm-3 z-3">
+                                        <div className="sticky top-0 bg-main pt-3 px-sm-3 z-3">
                                             {searchLibrary ?
                                                 <div className="flex gap-2">
                                                     <IconButton
@@ -633,7 +633,7 @@ const UserPage = () => {
                                             }
                                         </div>
                                     : null}
-                                    <div className="px-sm-3 py-sm-0 flex justify-between align-center">
+                                    <div className="px-sm-3 pt-3 flex justify-between align-center">
                                         <Dropdown
                                             label="Relevance"
                                             classNameContainer="p-0 border-none bold"

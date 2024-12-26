@@ -68,6 +68,10 @@ const ImagesTab = () => {
     const [selectedCategory, setSelectedCategory] = useState('All')
     const [openGallery, setOpenGallery] = useState(false)
 
+    useEffect(() => {
+        window.scrollTo(0, 0)
+    }, [])
+
     return (
         <HelmetProvider>
             <Helmet>
@@ -126,6 +130,10 @@ const VideosTab = () => {
     const { gameById } = useSelector((state) => state.game)
 
     const [selectedCategory, setSelectedCategory] = useState('All')
+
+    useEffect(() => {
+        window.scrollTo(0, 0)
+    }, [])
 
     return (
         <HelmetProvider>

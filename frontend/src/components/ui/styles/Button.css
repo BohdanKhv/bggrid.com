@@ -501,6 +501,13 @@ a.btn-lg {
         height: 18px!important;
         width: 18px!important;
     }
+    a.btn-lg{
+        padding: 8px 22px!important;
+        font-size: 17px!important;
+        height: 27px!important;
+        max-height: 27px!important;
+        min-height: 27px!important;
+    }
     .btn-sm-xl {
         padding: 14px 14px;
         font-size: 16px;

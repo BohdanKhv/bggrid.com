@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { getGameById, getGameOverview } from '../../features/game/gameSlice'
 import { Link, useNavigate, useParams, useSearchParams } from 'react-router-dom'
 import { Avatar, Button, Collapse, Dropdown, ErrorInfo, Gallery, HorizontalScroll, Icon, IconButton, Image, ProgressBar, Skeleton, TabContent } from '../../components'
-import { boxInIcon, boxOffIcon, checkIcon, clockIcon, largePlusIcon, libraryIcon, diceIcon, shareIcon, starEmptyIcon, starFillIcon, starsIcon, userIcon, usersIcon, plugIcon, rightArrowIcon, leftArrowSmIcon, leftArrowIcon, moreIcon, gamesIcon, startHalfFillIcon } from '../../assets/img/icons'
+import { boxInIcon, boxOffIcon, checkIcon, clockIcon, largePlusIcon, libraryIcon, diceIcon, shareIcon, starEmptyIcon, starFillIcon, starsIcon, userIcon, usersIcon, plugIcon, rightArrowIcon, leftArrowSmIcon, leftArrowIcon, moreIcon, gamesIcon, startHalfFillIcon, amazonIcon } from '../../assets/img/icons'
 import { addCommaToNumber, numberFormatter } from '../../assets/utils'
 import { getGameStats, getReviewsByGame, resetReview } from '../../features/review/reviewSlice'
 import { getPlaysByGame, resetPlay, getGamePlayStats } from '../../features/play/playSlice'
@@ -783,6 +783,18 @@ const CoverImage = ({ img }) => {
                                 />
                             }
                         </UserGuardLoginModal>
+                        {gameById.buyUrl ?
+                            <Button
+                                icon={amazonIcon}
+                                label="Buy on Amazon"
+                                borderRadius="lg"
+                                size="lg"
+                                variant="secondary"
+                                type="filled"
+                                to={gameById.buyUrl}
+                                target="_blank"
+                            />
+                        : null}
                         <Button
                             size="lg"
                             label="Share"
@@ -1388,21 +1400,33 @@ const GamePage = () => {
                                     label="Log a Play"
                                 />
                             </UserGuardLoginModal>
-                            <Button
-                                className="justify-start"
-                                icon={shareIcon}
-                                variant="secondary"
-                                borderRadius="sm"
-                                label="Share"
-                                type="text"
-                                onClick={() => {
-                                    navigator.share({
-                                        title: gameById.name,
-                                        text: `Check out ${gameById.name} on BGGRID!`,
-                                        url: window.location.href
-                                    })
-                                }}
-                            />
+                                <Button
+                                    className="justify-start"
+                                    icon={shareIcon}
+                                    variant="secondary"
+                                    borderRadius="sm"
+                                    label="Share"
+                                    type="text"
+                                    onClick={() => {
+                                        navigator.share({
+                                            title: gameById.name,
+                                            text: `Check out ${gameById.name} on BGGRID!`,
+                                            url: window.location.href
+                                        })
+                                    }}
+                                />
+                                {gameById.buyUrl ?
+                                    <Button
+                                        className="justify-start"
+                                        icon={amazonIcon}
+                                        variant="secondary"
+                                        borderRadius="sm"
+                                        label="Buy on Amazon"
+                                        type="text"
+                                        to={gameById.buyUrl}
+                                        target="_blank"
+                                    />
+                                : null}
                             </div>
                             </Dropdown>
                         </div>
@@ -1530,6 +1554,19 @@ const GamePage = () => {
                                                         />
                                                     }
                                                 </UserGuardLoginModal>
+                                                {gameById.buyUrl ?
+                                                    <Button
+                                                        icon={amazonIcon}
+                                                        label="Buy on Amazon"
+                                                        borderRadius="lg"
+                                                        size="lg"
+                                                        variant="secondary"
+                                                        className="mt-3"
+                                                        type="filled"
+                                                        to={gameById.buyUrl}
+                                                        target="_blank"
+                                                    />
+                                                : null}
                                             </div>
                                             : null}
                                         </div>

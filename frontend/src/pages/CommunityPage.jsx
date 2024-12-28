@@ -55,12 +55,6 @@ const LibraryItem = ({ item }) => {
                                                 : null}
                                                 <Link to={`/u/${item.user.username}`} className="text-secondary weight-400 fs-12 text-underlined-hover">@{item.user.username}</Link>
                                             </div>
-                                            <span className="weight-400 text-secondary fs-12 text-wrap-nowrap">{
-                                                // if more than 1 day, show the date
-                                                // if less than 1 day, show relative time
-                                                DateTime.now().diff(DateTime.fromISO(item.updatedAt), ['days']).days > 1 ? DateTime.fromISO(item.updatedAt).toFormat('LLL dd') :
-                                                DateTime.fromISO(item.updatedAt).toRelative().replace(' days', 'd').replace(' day', 'd').replace(' hours', 'h').replace(' hour', 'h').replace(' minutes', 'm').replace(' minute', 'm').replace(' seconds', 's').replace(' second', 's')}
-                                            </span>
                                         </div>
                                     </div>
                                 </div>
@@ -97,6 +91,9 @@ const LibraryItem = ({ item }) => {
                             </div>
                         : null}
                     </div>
+                    <span className="weight-400 text-secondary fs-12 text-wrap-nowrap pt-3">
+                        {DateTime.fromISO(item.createdAt).toFormat('HH:mm a')} · {DateTime.fromISO(item.createdAt).toFormat('dd LLL, yy')}
+                    </span>
                 </div>
             </div>
         </div>

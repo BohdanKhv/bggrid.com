@@ -26,10 +26,10 @@ export const getMyPlays = createAsyncThunk(
     'play/getMyPlays',
     async (payload, thunkAPI) => {
         try {
-            const {tags, selectedGame} = payload;
+            const {tags, selectedGame, tagged} = payload;
             const token = thunkAPI.getState().auth.user ? thunkAPI.getState().auth.user.token : null;
             const { page, limit } = thunkAPI.getState().play;
-            return await playService.getMyPlays(`?page=${page}&limit=${limit}${tags ? `&tags=${tags}` : ""}${selectedGame ? `&selectedGame=${selectedGame}` : ""}`, token);
+            return await playService.getMyPlays(`?page=${page}&limit=${limit}${tags ? `&tags=${tags}` : ""}${selectedGame ? `&selectedGame=${selectedGame}` : ""}${tagged ? "&tagged=true" : ""}`, token);
         } catch (error) {
             const message =
                 (error.response &&

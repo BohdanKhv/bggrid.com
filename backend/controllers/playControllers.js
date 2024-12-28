@@ -93,7 +93,7 @@ const updatePlay = async (req, res) => {
 // @access  Private
 const getMyPlays = async (req, res) => {
     try {
-        const { page, limit, selectedGame, tags } = req.query;
+        const { page, limit, selectedGame, tags, tagged } = req.query;
 
         let q = {}
 
@@ -117,7 +117,13 @@ const getMyPlays = async (req, res) => {
                 }
             }
         }
-        q.user = req.user._id
+    
+        if (!tagged) {
+            q.user = req.user._id
+        } else {
+            console.log('tagged');
+            q.user = { $ne: req.user._id }
+        }
 
         const options = {
             page: parseInt(page) || 1,

@@ -38,7 +38,7 @@ const RecentlyPlayedItem = ({ item }) => {
         <Link className="flex flex-col gap-3"
             to={`/u/${user.username}/plays/${item?._id}`}
         >
-        <div className="flex flex-col bg-secondary border-radius overflow-hidden h-fit-content">
+        <div className="flex flex-col border bg-main border-radius overflow-hidden h-fit-content">
             <div className="justify-between flex-shrink-0 flex gap-2 border-bottom mx-4 py-4">
                 <Avatar
                     img={item?.game?.thumbnail}
@@ -164,7 +164,7 @@ const HomeFeed = () => {
                         <Skeleton animation="wave" height="78" width="228" className="flex-shrink-0"/>
                     </HorizontalScroll>
                 </div>
-                <div className="flex flex-col gap-3">
+                {/* <div className="flex flex-col gap-3">
                     <HorizontalScrollControlled
                         label={
                             <Skeleton animation="wave" width="150" height="22"/>
@@ -174,7 +174,7 @@ const HomeFeed = () => {
                             <Skeleton animation="wave" height="210" className="flex-shrink-0" key={i}/>
                         ))}
                     />
-                </div>
+                </div> */}
                 <div className="flex flex-col gap-3">
                     <HorizontalScrollControlled
                         label={
@@ -228,7 +228,7 @@ const HomeFeed = () => {
                         </div>
                     </div>
                 </div>
-                {home?.recentlyPlayed?.length ?
+                {/* {home?.recentlyPlayed?.length ?
                     <HorizontalScrollControlled
                         label={
                             <Link className="fs-20 flex align-center gap-4 weight-500 transition-slide-right-hover-parent pointer"
@@ -249,7 +249,7 @@ const HomeFeed = () => {
                             <RecentlyPlayedItem key={i} item={item}/>
                         ))}
                     />
-                : null}
+                : null} */}
                 {home?.mostPlayed?.length ?
                     <HorizontalScrollControlled
                         label={

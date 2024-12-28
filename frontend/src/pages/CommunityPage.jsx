@@ -113,6 +113,7 @@ const CommunityPage = () => {
     const { follow, isLoading: followingIsLoading } = useSelector((state) => state.follow)
     const { feed, hasMore, isLoading, isError } = useSelector((state) => state.feed)
 
+    const [feedType, setFeedType] = useState(null)
     const [type, setType] = useState(null)
 
     const getData = () => {
@@ -194,82 +195,38 @@ const CommunityPage = () => {
                                 </div>
                             </div>
                         ) : null}
-                        {window.innerWidth <= 800 ?
-                        <div className="px-3">
-                        <div>
-                            <FollowSearchModal/>
-                        </div>
-                        {follow.length > 0 && !followingIsLoading ?
-                            <HorizontalScroll
-                                className="align-start gap-0 flex-1"
-                                contentClassName="gap-0"
-                            >
-                                {/* <div className={`pointer h-100 w-max-75-px animation-fade-in border-radius-sm hover-opacity-100 transition-duration clickable flex-shrink-0`}
-                                    onClick={() => {
-                                        searchParams.set('friends', 'true')
-                                        setSearchParams(searchParams.toString())
-                                    }}
-                                >
-                                    <div className="flex flex-col p-2 align-center pos-relative">
-                                        <Avatar
-                                            icon={usersIcon}
-                                            sizeSm="md"
-                                            rounded
-                                            defaultColor
-                                            size="lg"
-                                        />
-                                        <div className="fs-12 text-center text-ellipsis-1 pt-2 weight-500">
-                                            Following
-                                        </div>
-                                    </div>
-                                </div> */}
-                                {follow
-                                .filter((item) => !item.pending)
-                                .map((item) => (
-                                        <Link className={`pointer h-100 w-max-75-px w-sm-max-50-px w-100 p-2 animation-fade-in border-radius-sm hover-opacity-100 transition-duration clickable flex-shrink-0 bg-secondary-hover`}
-                                            key={item._id}
-                                            to={`/u/${item.username}`}
-                                        >
-                                            <div className="flex flex-col align-center text-ellipsis-1">
-                                                <Avatar
-                                                    img={item?.avatar}
-                                                    rounded
-                                                    sizeSm="md"
-                                                    size="lg"
-                                                    name={item.username}
-                                                    avatarColor={item.username.length}
-                                                    label={item.username}
-                                                />
-                                                <div className="text-ellipsis-1">
-                                                    <div className="fs-12 w-max-75-px w-sm-max-50-px text-center text-ellipsis pt-2 weight-500">
-                                                        {item.username}
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </Link>
-                                ))}
-                            </HorizontalScroll>
-                        : null}
-                        </div>
-                        : null}
                         <div className="flex flex-1">
                             <div className="flex-1 flex flex-col  overflow-hidden border-sm-none">
-                                <div className="pt-3 px-sm-3 px-4 pt-sm-0 border-bottom">
+                                <div className="pt-3 ps-sm-3 ps-4 pt-sm-0 border-bottom">
                                         <TabContent
                                             items={[
-                                                {label: 'All', icon: starsIcon},
-                                                {label: 'Plays', icon: diceIcon},
-                                                {label: 'Library', icon: libraryIcon}
+                                                {label: 'For you'},
+                                                {label: 'Following'},
                                             ]}
                                             classNameContainer="w-100"
                                             classNameItem="flex-1"
-                                            activeTabName={type || 'all'}
+                                            activeTabName={feedType || 'for you'}
                                             setActiveTabName={(e) => {
-                                                setType(e)
+                                                setFeedType(e)
                                             }}
                                         />
                                 </div>
                             <div>
+                                <div className="pt-3 px-sm-3">
+                                    <div className="flex gap-2">
+                                        {['All', 'Plays', 'Library'].map((item, index) => (
+                                            <Button
+                                                key={index}
+                                                label={item}
+                                                variant={(!type && item === 'All') || type === item.toLowerCase() ? "filled" : "outline"}
+                                                type="secondary"
+                                                onClick={() => {
+                                                    setType(item.toLowerCase())
+                                                }}
+                                            />
+                                        ))}
+                                    </div>
+                                </div>
                                 {feed.length > 0 ?
                                     <div className="flex flex-col">
                                         {feed

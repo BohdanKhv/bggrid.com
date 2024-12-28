@@ -286,6 +286,7 @@ const PlaysPage = () => {
     const [searchParams, setSearchParams] = useSearchParams()
     const {library, isLoading: libraryLoading} = useSelector((state) => state.library)
     const { plays, isLoading, loadingId, hasMore } = useSelector((state) => state.play)
+    const [feedType, setFeedType] = useState(null)
     const [tags, setTags] = useState(null)
     const [selectedGame, setSelectedGame] = useState(null)
     const user = useSelector((state) => state.auth.user)
@@ -305,12 +306,12 @@ const PlaysPage = () => {
     }, [])
 
     useEffect(() => {
-        const promise = dispatch(getMyPlays({ tags, selectedGame }))
+        const promise = dispatch(getMyPlays({ tags, selectedGame, tagged: feedType === 'tagged plays' ? true : false })) 
         return () => {
             promise && promise.abort()
             dispatch(resetPlay())
         }
-    }, [tags, selectedGame])
+    }, [tags, selectedGame, feedType])
 
     const observer = useRef();
     const lastElementRef = useCallback(node => {
@@ -392,22 +393,36 @@ const PlaysPage = () => {
                         </div>
                         : null}
                         <div className="flex flex-1">
-                            <div className="flex-1 flex flex-col border-bottom border-sm-none overflow-hidden">
-                            <div className="pt-3 px-sm-3 pt-sm-0 border-bottom">
+                            <div className="flex-1 flex flex-col overflow-hidden">
+                            <div className="pt-3 ps-4 ps-sm-3 pt-sm-0 border-bottom">
                                 <div>
-                                        <TabContent
-                                            items={[
-                                                {label: 'All', icon: "🎲"},
-                                                {label: 'Wins', icon: "🏆"},
-                                                {label: 'Losses', icon: "😭"},
-                                            ]}
-                                            classNameContainer="w-100 fkex01"
-                                            classNameItem="flex-1"
-                                            activeTabName={tags || 'all'}
-                                            setActiveTabName={(e) => {
-                                                setTags(e)
+                                    <TabContent
+                                        items={[
+                                            {label: 'My plays'},
+                                            {label: 'Tagged plays'},
+                                        ]}
+                                        classNameContainer="w-100 flex-1"
+                                        classNameItem="flex-1"
+                                        activeTabName={feedType || 'my plays'}
+                                        setActiveTabName={(e) => {
+                                            setFeedType(e)
+                                        }}
+                                    />
+                                </div>
+                            </div>
+                            <div className="pt-3 px-sm-3">
+                                <div className="flex gap-2">
+                                    {['All', 'Wins', 'Losses'].map((item, index) => (
+                                        <Button
+                                            key={index}
+                                            label={item}
+                                            variant={(!tags && item === 'All') || tags === item.toLowerCase() ? "filled" : "outline"}
+                                            type="secondary"
+                                            onClick={() => {
+                                                setTags(item.toLowerCase())
                                             }}
                                         />
+                                    ))}
                                 </div>
                             </div>
                             {selectedGame ?

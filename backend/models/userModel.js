@@ -43,6 +43,9 @@ const userSchema = new mongoose.Schema({
         followingUsersLibraryUpdates: { type: Boolean, required: false, default: false },
         taggedInPlays: { type: Boolean, required: false, default: false },
         newFollowers: { type: Boolean, required: false, default: false },
+        wantToPlayLibraryUpdates: { type: Boolean, required: false, default: false },
+        forTradeLibraryUpdates: { type: Boolean, required: false, default: false },
+        wantInTradeLibraryUpdates: { type: Boolean, required: false, default: false },
     }
 }, { timestamps: true });
 

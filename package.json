@@ -1,6 +1,6 @@
 {
   "name": "BGGRID",
-  "version": "Beta.0.2.7",
+  "version": "Beta.0.3.0",
   "private": true,
   "description": "BGGRID, keep track of your board game collection and plays. Discover new games and find people to play with.",
   "main": "server.js",

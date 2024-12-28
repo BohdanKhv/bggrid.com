@@ -183,70 +183,94 @@ const Account = () => {
                                 }}
                             />
                         </div>
-                        <div className="border-bottom my-6"/>
-                        <div>
-                            <div className="fs-20 bold">
-                                Integrations
-                            </div>
-                            <div className="fs-12 text-secondary">
-                                Connect your Board Game Geek account to import your collection.
-                            </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    )
+}
+const Integrations = () => {
+    const dispatch = useDispatch()
+
+    const { user, isLoading, loadingId, msg } = useSelector((state) => state.auth)
+    const { loadingId: libraryLoadingId } = useSelector((state) => state.library)
+    const { loadingId: playsLoadingId } = useSelector((state) => state.play)
+
+    const avatarRef = useRef(null)
+    const [avatar, setAvatar] = useState(user?.avatar)
+    const [username, setUsername] = useState(user?.username)
+    const [bggUsername, setBggUsername] = useState(user?.bggUsername)
+    const [firstName, setFirstName] = useState(user?.firstName)
+    const [lastName, setLastName] = useState(user?.lastName)
+    const [bio, setBio] = useState(user?.bio)
+
+
+
+    useEffect(() => {
+        if (user) {
+            setAvatar(user?.avatar ? `${user?.avatar}` : null)
+            setBggUsername(user?.bggUsername || '')
+            setUsername(user?.username || '')
+            setFirstName(user?.firstName || '')
+            setLastName(user?.lastName || '')
+            setBio(user?.bio || '')
+        }
+    }, [user])
+
+    return (
+        <div className="flex flex-col gap-5 gap-sm-3 animation-slide-in">
+            <div>
+                <div className="fs-20 bold">
+                    Integrations
+                </div>
+                <div className="fs-12 pt-1 pb-4 text-secondary">
+                    Connect your Board Game Geek account to import your collection.
+                </div>
+                <div className="flex flex-col gap-3">
+                    <div className="flex gap-3 align-center">
+                        <div className="flex-1">
+                            <Input
+                                value={bggUsername}
+                                placeholder="Your board game geek username"
+                                error={msg == 'This board game geek username already in use'}
+                                errorMsg="This board game geek username already in use"
+                                onChange={(e) => setBggUsername(e.target.value)}
+                                wrapColumn
+                                type="text"
+                            />
                         </div>
-                        <div className="flex flex-col gap-3">
-                            <div className="flex gap-3 align-center">
-                                <div className="flex-1">
-                                    <Input
-                                        value={bggUsername}
-                                        placeholder="Your board game geek username"
-                                        error={msg == 'This board game geek username already in use'}
-                                        errorMsg="This board game geek username already in use"
-                                        onChange={(e) => setBggUsername(e.target.value)}
-                                        wrapColumn
-                                        type="text"
-                                    />
-                                </div>
-                                <Button
-                                    label="Update"
-                                    variant="secondary"
-                                    displayTextOnLoad
-                                    type="filled"
-                                    className="h-max-100 h-100"
-                                    disabled={loadingId || (user?.bggUsername && user?.bggUsername === bggUsername)}
-                                    onClick={() => {
-                                        dispatch(updateUser({
-                                            bggUsername
-                                        }))
-                                    }}
+                        {user?.bggUsername ?
+                            <ConfirmAction
+                                title={`Sync Collection from Board Game Geek?`}
+                                isLoading={libraryLoadingId === 'import'}
+                                secondary="This action will import your collection from Board Game Geek. All existing games in your library will not be affected."
+                                onClick={() => dispatch(importBggCollection())}
+                                disabled={loadingId || !user?.bggUsername || user?.bggUsername !== bggUsername}
+                            >
+                                <IconButton
+                                    type="secondary"
+                                    variant="outline"
+                                    icon={uploadIcon}
+                                    isLoading={libraryLoadingId === 'import'}
+                                    disabled={loadingId || !user?.bggUsername}
                                 />
-                            </div>
-                        <ConfirmAction
-                            title={`Sync Collection from Board Game Geek?`}
-                            isLoading={libraryLoadingId === 'import'}
-                            onClick={() => dispatch(importBggCollection())}
-                            disabled={loadingId || !user?.bggUsername || user?.bggUsername !== bggUsername}
-                        >
-                            <div className={`border color-border-on-hover-text border-radius p-3 pointer bg-tertiary-hover${!user?.bggUsername || user?.bggUsername !== bggUsername ? ' opacity-50' : ''}`}>
-                                <div className="flex justify-between align-center">
-                                    <div className="flex flex-col pe-3">
-                                        <div className="fs-14 bold">
-                                            Sync {user?.bggUsername ? <span className="text-success weight-400">{user?.bggUsername} Collection</span> : <span className="text-danger weight-400">not connected</span>}
-                                        </div>
-                                        <div className="fs-12 text-secondary pt-1">
-                                            This action will import your collection from Board Game Geek. All existing games in your library will not be affected.
-                                        </div>
-                                    </div>
-                                    <IconButton
-                                        label="Import BGG Collection"
-                                        variant="secondary"
-                                        type="link"
-                                        icon={uploadIcon}
-                                        isLoading={libraryLoadingId === 'import'}
-                                        disabled={loadingId || !user?.bggUsername}
-                                    />
-                                </div>
-                            </div>
-                        </ConfirmAction>
-                        </div>
+                            </ConfirmAction>
+                        : null}
+                    </div>
+                    <div>
+                        <Button
+                            label="Save Changes"
+                            variant="secondary"
+                            displayTextOnLoad
+                            type="filled"
+                            isLoading={loadingId}
+                            disabled={loadingId || (user?.bggUsername && user?.bggUsername === bggUsername)}
+                            onClick={() => {
+                                dispatch(updateUser({
+                                    bggUsername
+                                }))
+                            }}
+                        />
                     </div>
                 </div>
             </div>
@@ -336,7 +360,38 @@ const Preferences = () => {
                     </div>
                 </div>
             </div>
-            <div className="border-bottom my-6"/>
+        </div>
+    )
+}
+
+const Notifications = () => {
+    const dispatch = useDispatch()
+
+    const { user, isLoading, loadingId, msg } = useSelector((state) => state.auth)
+
+    const [newFollowers, setNewFollowers] = useState(user?.notifications?.newFollowers || false)
+    const [followingUsersLibraryUpdates, setFollowingUsersLibraryUpdates] = useState(user?.notifications?.followingUsersLibraryUpdates || false)
+    const [taggedInPlays, setTaggedInPlays] = useState(user?.notifications?.taggedInPlays || false)
+    const [wantToPlayLibraryUpdates, setWantToPlayLibraryUpdates] = useState(user?.notifications?.wantToPlayLibraryUpdates || false)
+    const [forTradeLibraryUpdates, setForTradeLibraryUpdates] = useState(user?.notifications?.forTradeLibraryUpdates || false)
+    const [wantInTradeLibraryUpdates, setWantInTradeLibraryUpdates] = useState(user?.notifications?.wantInTradeLibraryUpdates || false)
+
+    useEffect(() => {
+        setNewFollowers(user?.notifications?.newFollowers || false)
+        setFollowingUsersLibraryUpdates(user?.notifications?.followingUsersLibraryUpdates || false)
+        setTaggedInPlays(user?.notifications?.taggedInPlays || false)
+        setWantToPlayLibraryUpdates(user?.notifications?.wantToPlayLibraryUpdates || false)
+        setForTradeLibraryUpdates(user?.notifications?.forTradeLibraryUpdates || false)
+        setWantInTradeLibraryUpdates(user?.notifications?.wantInTradeLibraryUpdates || false)
+    }, [user])
+
+    useEffect(() => {
+        window.scrollTo(0, 0)
+        document.title = 'Settings - Preferences'
+    }, [])
+
+    return (
+        <div className="flex flex-col gap-5 gap-sm-3 animation-slide-in">
             <div>
                 <div className="fs-20 bold">
                     Notifications
@@ -346,12 +401,10 @@ const Preferences = () => {
                 </div>
             </div>
             <div className="flex flex-col gap-3">
-                <div className={`border border-radius p-3 align-center flex justify-between color-border-on-hover-text pointer bg-tertiary-hover${loadingId ? ' opacity-50' : ''}`}
+                <div className={`border border-radius p-3 align-center flex justify-between color-border-on-hover-text pointer gap-2 bg-tertiary-hover${loadingId ? ' opacity-50' : ''}`}
                     onClick={(e) => {
                         if (loadingId) return
-                        dispatch(updateUser({
-                            newFollowers: !user?.notifications?.newFollowers
-                        }))
+                        setNewFollowers(!newFollowers)
                     }}
                 >
                     <div className="fs-14 weight-500">
@@ -361,33 +414,87 @@ const Preferences = () => {
                         active={user?.notifications?.newFollowers}
                     />
                 </div>
-                <div className={`border border-radius p-3 align-center flex justify-between color-border-on-hover-text pointer bg-tertiary-hover${loadingId ? ' opacity-50' : ''}`}
+                <div className={`border border-radius p-3 align-center flex justify-between color-border-on-hover-text pointer gap-2 bg-tertiary-hover${loadingId ? ' opacity-50' : ''}`}
                     onClick={(e) => {
                         if (loadingId) return
-                        dispatch(updateUser({
-                            followingUsersLibraryUpdates: !user?.notifications?.followingUsersLibraryUpdates
-                        }))
+                        setFollowingUsersLibraryUpdates(!followingUsersLibraryUpdates)
                     }}
                 >
                         <div className="fs-14 weight-500">
                             Library updates from people you follow
                         </div>
                     <Switch
-                        active={user?.notifications?.followingUsersLibraryUpdates}
+                        active={followingUsersLibraryUpdates}
                     />
                 </div>
-                <div className={`border border-radius p-3 align-center flex justify-between color-border-on-hover-text pointer bg-tertiary-hover${loadingId ? ' opacity-50' : ''}`}
+                <div className={`border border-radius p-3 align-center flex justify-between color-border-on-hover-text pointer gap-2 bg-tertiary-hover${loadingId ? ' opacity-50' : ''}`}
                 onClick={(e) => {
                     if (loadingId) return
-                    dispatch(updateUser({
-                        taggedInPlays: !user?.notifications?.taggedInPlays
-                    }))
+                    setTaggedInPlays(!taggedInPlays)
                 }}>
                         <div className="fs-14 weight-500">
                             Tagged in plays
                         </div>
                     <Switch
-                        active={user?.notifications?.taggedInPlays}
+                        active={taggedInPlays}
+                    />
+                </div>
+                <div className={`border border-radius p-3 align-center flex justify-between color-border-on-hover-text pointer gap-2 bg-tertiary-hover${loadingId ? ' opacity-50' : ''}`}
+                    onClick={(e) => {
+                        if (loadingId) return
+                        setWantToPlayLibraryUpdates(!wantToPlayLibraryUpdates)
+                    }}>
+                        <div className="fs-14 weight-500">
+                            Someone wants to play a game in your library
+                        </div>
+                    <Switch
+                        active={wantToPlayLibraryUpdates}
+                    />
+                </div>
+                <div className={`border border-radius p-3 align-center flex justify-between color-border-on-hover-text pointer gap-2 bg-tertiary-hover${loadingId ? ' opacity-50' : ''}`}
+                    onClick={(e) => {
+                        if (loadingId) return
+                        setForTradeLibraryUpdates(!forTradeLibraryUpdates)
+                    }}>
+                        <div className="fs-14 weight-500">
+                            Someone wants to trade a game in your library
+                        </div>
+                    <Switch
+                        active={forTradeLibraryUpdates}
+                    />
+                </div>
+                <div className={`border border-radius p-3 align-center flex justify-between color-border-on-hover-text pointer gap-2 bg-tertiary-hover${loadingId ? ' opacity-50' : ''}`}
+                    onClick={(e) => {
+                        if (loadingId) return
+                        setWantInTradeLibraryUpdates(!wantInTradeLibraryUpdates)
+                    }}>
+                        <div className="fs-14 weight-500">
+                            Someone wants to trade a game you want
+                        </div>
+                    <Switch
+                        active={wantInTradeLibraryUpdates}
+                    />
+                </div>
+                <div className="flex gap-2">
+                    <Button
+                        label="Save Changes"
+                        variant="secondary"
+                        displayTextOnLoad
+                        type="filled"
+                        isLoading={loadingId}
+                        disabled={loadingId}
+                        onClick={() => {
+                            dispatch(updateUser({
+                                notifications: {
+                                    newFollowers,
+                                    followingUsersLibraryUpdates,
+                                    taggedInPlays,
+                                    wantToPlayLibraryUpdates,
+                                    forTradeLibraryUpdates,
+                                    wantInTradeLibraryUpdates
+                                }
+                            }))
+                        }}
                     />
                 </div>
             </div>
@@ -431,9 +538,9 @@ const Settings = () => {
     return (
         <>
             <main className="page-body">
-                <div className="animation-slide-in container flex flex-1">
+                <div className="animation-slide-in container">
                     <div className="flex-1">
-                        <div className="flex py-3 justify-between px-sm-3 pb-6 pb-sm-0">
+                        <div className="flex py-3 justify-between px-sm-3 pb-6">
                             <div className="title-1 bold">
                                 Settings
                             </div>
@@ -454,23 +561,27 @@ const Settings = () => {
                                     </div>
                                 </div>
                             )}
-                            </div>
-                            <div>
-                                <TabContent
-                                    items={
-                                        [
-                                            {label: 'Account'},
-                                            {label: 'Preferences'},
-                                        ]
-                                    }
-                                    activeTabName={activeTab}
-                                    setActiveTabName={e => {
-                                        navigate(`/settings/${e}`)
-                                    }}
-                                />
+                        </div>
+                        <div className="overflow-hidden">
+                            <TabContent
+                                items={
+                                    [
+                                        {label: 'Account'},
+                                        {label: 'Notifications'},
+                                        {label: 'Integrations'},
+                                        {label: 'Preferences'},
+                                    ]
+                                }
+                                activeTabName={activeTab}
+                                setActiveTabName={e => {
+                                    navigate(`/settings/${e}`)
+                                }}
+                            />
                         </div>
                         <div className="pb-6 pt-5 px-sm-3 px-4">
                             {activeTab === 'account' ? <Account />
+                            : activeTab === 'notifications' ? <Notifications />
+                            : activeTab === 'integrations' ? <Integrations/>
                             : activeTab === 'preferences' ? <Preferences />
                             : <Redirect /> }
                         </div>

@@ -6,6 +6,95 @@ const Follow = require('../models/followModel');
 
 
 // @desc    Get community feed
+// @route   GET /api/feed/community-for-you
+// @access  Private
+const getCommunityFeedForYou = async (req, res) => {
+    let { page, limit, type } = req.query;
+    type = type ? type.toLowerCase() : 'all';
+    page = parseInt(page) || 1;
+    limit = parseInt(limit) || 20;
+
+    try {
+        // Get all games from user's library, only ids of the games
+        let userLibrary = await Library.find({ user: req.user._id }).select('game');
+        userLibrary = userLibrary.map(libraryItem => libraryItem.game);
+
+        if (userLibrary.length === 0) {
+            return res.status(200).json({
+                data: [],
+                hasMore: false
+            });
+        }
+
+        let recentPlays = [];
+        let libraryItems = [];
+
+        if (type === 'all' || type === 'plays') {
+            recentPlays = await Play.paginate(
+                { game: { $in: userLibrary } },
+                {
+                    page,
+                    limit,
+                    sort: { updatedAt: -1 },
+                    populate: [
+                        { path: 'game', select: 'name thumbnail' },
+                        { path: 'players.user', select: 'avatar username firstName lastName' },
+                        { path: 'user', select: 'avatar username firstName lastName' }
+                    ]
+                }
+            );
+        }
+
+        if (type === 'all' || type === 'library') {
+            libraryItems = await Library.paginate(
+                { game: { $in: userLibrary } },
+                {
+                    page,
+                    limit,
+                    sort: { updatedAt: -1 },
+                    populate: [
+                        { path: 'game', select: 'name thumbnail' },
+                        { path: 'user', select: 'avatar username firstName lastName' }
+                    ]
+                }
+            );
+        }
+
+        // Combine plays and library items
+        const feedItems = [];
+
+        if (type === 'all' || type === 'plays') {
+            feedItems.push(...recentPlays.docs.map(play => ({
+                type: 'play',
+                item: play
+            })));
+        }
+
+        if (type === 'all' || type === 'library') {
+            feedItems.push(...libraryItems.docs.map(libraryItem => ({
+                type: 'library',
+                item: libraryItem
+            })));
+        }
+
+        // Sort feed items by updatedAt
+        feedItems.sort((a, b) => (b.item.updatedAt || b.item.createdAt ) - (a.item.updatedAt || a.item.createdAt ));
+
+        // Determine if there are more items to fetch
+        const hasMore = (recentPlays.hasNextPage || libraryItems.hasNextPage);
+
+        return res.status(200).json({
+            data: feedItems,
+            hasMore
+        });
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ message: error.message });
+    }
+}
+
+
+// @desc    Get community feed
 // @route   GET /api/feed/community
 // @access  Private
 const getCommunityFeed = async (req, res) => {
@@ -357,6 +446,7 @@ const getMostFavorite = async (req, res) => {
 
 
 module.exports = {
+    getCommunityFeedForYou,
     getCommunityFeed,
     getGeneralHomeFeed,
     getHomeFeed,

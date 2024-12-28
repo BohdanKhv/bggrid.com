@@ -306,7 +306,7 @@ const PlaysPage = () => {
     }, [])
 
     useEffect(() => {
-        const promise = dispatch(getMyPlays({ tags, selectedGame, tagged: feedType === 'tagged plays' ? true : false })) 
+        const promise = dispatch(getMyPlays({ tags, selectedGame, tagged: feedType === 'tagged' ? true : false })) 
         return () => {
             promise && promise.abort()
             dispatch(resetPlay())
@@ -398,12 +398,12 @@ const PlaysPage = () => {
                                 <div>
                                     <TabContent
                                         items={[
-                                            {label: 'My plays'},
-                                            {label: 'Tagged plays'},
+                                            {label: 'Plays'},
+                                            {label: 'Tagged'},
                                         ]}
                                         classNameContainer="w-100 flex-1"
                                         classNameItem="flex-1"
-                                        activeTabName={feedType || 'my plays'}
+                                        activeTabName={feedType || 'plays'}
                                         setActiveTabName={(e) => {
                                             setFeedType(e)
                                         }}

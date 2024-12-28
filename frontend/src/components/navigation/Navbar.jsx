@@ -131,9 +131,9 @@ const Navbar = () => {
                         // muted
                         to="/community"
                         label="Community"
-                        icon={pathname === '/community' ? usersFillIcon : usersIcon}
-                        type={pathname === '/community' ? "secondary" : "secondary"}
-                        variant={pathname === '/community' ? "" : "text"}
+                        icon={pathname.startsWith('/community') ? usersFillIcon : usersIcon}
+                        type={pathname.startsWith('/community') ? "secondary" : "secondary"}
+                        variant={pathname.startsWith('/community') ? "" : "text"}
                     />
                     <Button
                         // muted={pathname !== '/notifications'}

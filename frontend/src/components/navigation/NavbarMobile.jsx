@@ -73,7 +73,7 @@ const NavbarMobile = () => {
                         className={`navbar-mob-item ${location.pathname.startsWith("/community") ? " active" : ""}`}
                     >
                         <span className="navbar-mob-item-icon">
-                            {pathname === "/community" ? usersFillIcon : usersIcon}
+                            {pathname.startsWith("/community") ? usersFillIcon : usersIcon}
                         </span>
                         {/* <span className="navbar-mob-item-label">
                             Community

@@ -151,6 +151,33 @@ const addGameToLibrary = async (req, res) => {
             Notification.insertMany(notifications);
         }
 
+        // Notify those who have this game in their want to play list or for trade list or want in trade list
+        if (tags.includes('Want to Play') || tags.includes('For Trade') || tags.includes('Want in Trade')) {
+            const notifyUsers = await Library.find({
+                game: gameId,
+                user: { $ne: req.user._id },
+            }).populate('user', 'notifications')
+            .select('user');
+
+            const notifications = [];
+            notifyUsers.forEach(u => {
+                if (
+                    (tags.includes('Want to Play') && u.user.notifications?.wantToPlayLibraryUpdates) ||
+                    (tags.includes('For Trade') && u.user.notifications?.forTradeLibraryUpdates) ||
+                    (tags.includes('Want in Trade') && u.user.notifications?.wantInTradeLibraryUpdates)
+                ) {
+                    notifications.push(new Notification({
+                        sender: req.user._id,
+                        receiver: u.user._id,
+                        type: 'library',
+                        message: `added "${gameExists.name}" to their library and wants to ${tags.includes('Want to Play') ? 'play' : tags.includes('For Trade') ? 'trade' : 'trade for'} it`,
+                    }));
+                }
+            });
+
+            Notification.insertMany(notifications);
+        }
+
         res.status(201).json({
             data: newGame,
         });
@@ -210,6 +237,34 @@ const updateGameInLibrary = async (req, res) => {
                     type: 'library',
                     message: `updated "${game.game.name}" in their library and rated it ${rating}/5`,
                 }));
+            });
+
+            Notification.insertMany(notifications);
+        }
+
+        // Notify those who have this game in their want to play list or for trade list or want in trade list
+        if (tags.includes('Want to Play') || tags.includes('For Trade') || tags.includes('Want in Trade')) {
+            const notifyUsers = await Library.find({
+                game: req.params.gameId,
+                user: { $ne: req.user._id },
+            }).populate('user', 'notifications')
+            .select('user');
+
+            const notifications = [];
+
+            notifyUsers.forEach(u => {
+                if (
+                    (tags.includes('Want to Play') && u.user.notifications?.wantToPlayLibraryUpdates) ||
+                    (tags.includes('For Trade') && u.user.notifications?.forTradeLibraryUpdates) ||
+                    (tags.includes('Want in Trade') && u.user.notifications?.wantInTradeLibraryUpdates)
+                ) {
+                    notifications.push(new Notification({
+                        sender: req.user._id,
+                        receiver: u.user._id,
+                        type: 'library',
+                        message: `updated "${game.game.name}" in their library and wants to ${tags.includes('Want to Play') ? 'play' : tags.includes('For Trade') ? 'trade' : 'trade for'} it`,
+                    }));
+                }
             });
 
             Notification.insertMany(notifications);

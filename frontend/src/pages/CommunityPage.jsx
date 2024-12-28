@@ -3,8 +3,8 @@ import { useDispatch, useSelector } from 'react-redux'
 import { Avatar, Button, ErrorInfo, HorizontalScroll, Icon, IconButton, Skeleton, TabContent } from '../components'
 import { arrowRightShortIcon, closeIcon, diceIcon, largePlusIcon, libraryIcon, linkIcon, plusIcon, rightArrowIcon, searchIcon, starEmptyIcon, starFillIcon, starsIcon, startHalfFillIcon, usersIcon } from '../assets/img/icons'
 import FollowSearchModal from './follow/FollowSearchModal'
-import { Link, useSearchParams } from 'react-router-dom'
-import { resetFeed, getCommunityFeed } from '../features/feed/feedSlice'
+import { Link, useNavigate, useSearchParams } from 'react-router-dom'
+import { resetFeed, getCommunityFeed, getCommunityFeedForYou } from '../features/feed/feedSlice'
 import PlayItem from './PlayItem'
 import FollowItem from './follow/FollowItem'
 import { DateTime } from 'luxon'
@@ -106,14 +106,17 @@ const LibraryItem = ({ item }) => {
 
 const CommunityPage = () => {
     const dispatch = useDispatch()
+    const navigate = useNavigate()
 
     const [searchParams, setSearchParams] = useSearchParams()
+
+    const [tab, setTab] = useState('for-you')
 
     const { user } = useSelector((state) => state.auth)
     const { follow, isLoading: followingIsLoading } = useSelector((state) => state.follow)
     const { feed, hasMore, isLoading, isError } = useSelector((state) => state.feed)
 
-    const [feedType, setFeedType] = useState(null)
+    const [feedType, setFeedType] = useState(tab === 'for-you' ? 'for-you' : tab === 'following' ? 'following' : 'for-you')
     const [type, setType] = useState(null)
 
     const getData = () => {
@@ -134,12 +137,17 @@ const CommunityPage = () => {
 
     useEffect(() => {
         console.log('d')
-        const promise = dispatch(getCommunityFeed(!type ? 'all' : type))
+        let promise;
+        if (feedType === 'for-you') {
+            promise = dispatch(getCommunityFeedForYou(!type ? 'all' : type))
+        } else {
+            dispatch(getCommunityFeed(!type ? 'all' : type))
+        }
         return () => {
             promise && promise.abort()
             dispatch(resetFeed())
         }
-    }, [type])
+    }, [type, feedType])
 
     const observer = useRef();
     const lastElementRef = useCallback(node => {
@@ -205,9 +213,10 @@ const CommunityPage = () => {
                                             ]}
                                             classNameContainer="w-100"
                                             classNameItem="flex-1"
-                                            activeTabName={feedType || 'for you'}
+                                            activeTabName={feedType.replace('-', ' ') || 'for-you'}
                                             setActiveTabName={(e) => {
-                                                setFeedType(e)
+                                                navigate(`/community/${e.replace(' ', '-').toLowerCase()}`)
+                                                setFeedType(e.replace(' ', '-').toLowerCase())
                                             }}
                                         />
                                 </div>

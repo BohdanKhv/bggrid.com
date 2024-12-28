@@ -99,6 +99,7 @@ function App() {
                         <Route path="/plays" element={<ErrBoundary><PlaysPage /></ErrBoundary>} />
                         <Route path="/notifications" element={<ErrBoundary><NotificationPage /></ErrBoundary>} />
                         <Route path="/community" element={<ErrBoundary><CommunityPage /></ErrBoundary>} />
+                        <Route path="/community/:tab" element={<ErrBoundary><CommunityPage /></ErrBoundary>} />
                         <Route path="/terms" element={<ErrBoundary><Terms /></ErrBoundary>} />
                         <Route path="/privacy" element={<ErrBoundary><Privacy /></ErrBoundary>} />
                         <Route path="/*" element={<ErrBoundary><NotFound /></ErrBoundary>} />

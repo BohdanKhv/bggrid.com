@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from 'react'
-import { Avatar, Button, ErrorInfo, HorizontalScroll, Icon } from '../components'
+import { Avatar, Button, ErrorInfo, HorizontalScroll, Icon, IconButton } from '../components'
 import { useSelector, useDispatch } from 'react-redux';
 import { Link, useNavigate } from 'react-router-dom';
 import { DateTime } from 'luxon';
 import PlayItem from './PlayItem';
-import { bellIcon, rightArrowIcon } from '../assets/img/icons';
+import { bellIcon, rightArrowIcon, settingsIcon } from '../assets/img/icons';
 import { readNotifications } from '../features/notification/notificationSlice';
 
 
@@ -82,6 +82,13 @@ const NotificationPage = () => {
                             </div>
                             {window.innerWidth < 800 && (
                                 <div className="justify-end flex align-center flex-no-wrap gap-3">
+                                    <IconButton
+                                        icon={settingsIcon}
+                                        size="md"
+                                        variant="secondary"
+                                        type="text"
+                                        to="/settings/notifications"
+                                    />
                                     <div
                                         onClick={() => {
                                             document.querySelector('.open-navbar-button').click()

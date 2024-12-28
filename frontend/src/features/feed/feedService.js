@@ -14,6 +14,17 @@ export const getCommunityFeed = async (payload, token) => {
     return response.data;
 }
 
+export const getCommunityFeedForYou = async (payload, token) => {
+    const config = {
+        headers: {
+            Authorization: `Bearer ${token}`
+        }
+    }
+    const response = await axios.get(API_URL + '/community-for-you' + `?limit=${payload.limit}&page=${payload.page}&type=${payload.type}`, config);
+
+    return response.data;
+}
+
 export const getHomeFeed = async (token) => {
     const config = {
         headers: {
@@ -32,6 +43,7 @@ export const getGeneralHomeFeed = async () => {
 }
 
 const feedService = {
+    getCommunityFeedForYou,
     getCommunityFeed,
     getHomeFeed,
     getGeneralHomeFeed

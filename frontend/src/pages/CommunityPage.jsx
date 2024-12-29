@@ -74,6 +74,7 @@ const LibraryItem = ({ item }) => {
                                     ))}
                                 </div>
                             </div>
+                            {item.tags.length > 0 ?
                             <div className="flex align-center gap-1 flex-sm-wrap">
                                 {item.tags.map((tag, index) => (
                                     <div key={index} className="px-2 py-1 text-nowrap bg-secondary border-radius weight-500 flex align-center fs-12 weight-500">
@@ -84,6 +85,7 @@ const LibraryItem = ({ item }) => {
                                     </div>
                                 ))}
                             </div>
+                            : null}
                         </div>
                         {item.comment ?
                             <div className="fs-14 pt-3">

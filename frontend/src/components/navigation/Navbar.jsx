@@ -115,7 +115,7 @@ const Navbar = () => {
                         // muted={pathname !== '/'}
                         to="/discover"
                         label="Games"
-                        icon={pathname.startsWith('/discover') || pathname.startsWith('/g/') || pathname.startsWith('/p/') ? searchFillIcon : searchIcon}
+                        icon={pathname.startsWith('/discover') ? searchFillIcon : searchIcon}
                         type={pathname.startsWith('/discover') ? "secondary" : "secondary"}
                         variant={pathname.startsWith('/discover') ? "" : "text"}
                     />

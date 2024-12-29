@@ -3,6 +3,7 @@ const Play = require('../models/playModel');
 const Library = require('../models/libraryModel');
 const mongoose = require('mongoose');
 const axios = require('axios');
+const cheerio = require('cheerio');
 
 
 // @desc    Get games by publisher id
@@ -83,7 +84,7 @@ const getGamesByPersonId = async (req, res) => {
 const getGames = async (req, res) => {
     try {
         const { page, limit } = req.query;
-        const { mechanics, types, themes, publisherId, players, minWeight, maxWeight } = req.query;
+        const { mechanics, types, themes, publisherId, players, minWeight, maxWeight, minYear, maxYear } = req.query;
         const { sort, sortOrder } = req.query;
         console.log(`Page: ${page}`);
 
@@ -129,6 +130,7 @@ const getGames = async (req, res) => {
             q.minPlayers = { $gte: min };
             q.maxPlayers = { $lte: max };
         }
+        if (minYear || maxYear) { q.year = { $gte: minYear || 0, $lte: maxYear || new Date().getFullYear() } }
 
         if (minWeight || maxWeight) { q.complexityWeight = { $gte: minWeight || 0, $lte: maxWeight || 5 } }
 
@@ -348,6 +350,169 @@ const getGameOverview = async (req, res) => {
 
 
 
+// @desc    Get hot games
+// @route   GET /api/games/hot
+// @access  Public
+const getHotGames = async (req, res) => {
+    try {
+        const url = 'https://api.geekdo.com/api/hotness?geeksite=boardgame&objecttype=thing&showcount=50';
+
+        const response = await axios.get(url);
+
+        const bggIds = [];
+
+        response.data.items.map(item => {
+            bggIds.push(item.objectid);
+        });
+        
+
+        const games = await Game.aggregate([
+            { $match: { bggId: { $in: bggIds } } },
+            { $addFields: { order: { $indexOfArray: [bggIds, "$bggId"] } } },
+            { $sort: { order: 1 } },
+            { $lookup: {
+                from: 'publishers', // The collection to join
+                localField: 'publishers', // The field from the input documents
+                foreignField: '_id', // The field from the documents of the "from" collection
+                as: 'publishers' // The name of the new array field to add to the input documents
+            }},
+            { $project: { name: 1, thumbnail: 1, image: 1, year: 1, rating: 1, numRatings: 1, publishers: { name: 1 } } },
+            { $limit: 50 }
+        ]);
+
+        res.status(200).json({
+            data: games
+        });
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ msg: 'Server error' });
+    }
+}
+
+
+
+// @desc    Get hot games
+// @route   GET /api/games/hot
+// @access  Public
+const getTrendingGames = async (req, res) => {
+    try {
+        const url = 'https://api.geekdo.com/api/trends/plays_delta?interval=month';
+
+        const response = await axios.get(url);
+
+        const bggIds = [];
+
+        response.data.items.map(item => {
+            bggIds.push(item?.item?.id);
+        });
+        
+
+        const games = await Game.aggregate([
+            { $match: { bggId: { $in: bggIds } } },
+            { $addFields: { order: { $indexOfArray: [bggIds, "$bggId"] } } },
+            { $sort: { order: 1 } },
+            { $lookup: {
+                from: 'publishers', // The collection to join
+                localField: 'publishers', // The field from the input documents
+                foreignField: '_id', // The field from the documents of the "from" collection
+                as: 'publishers' // The name of the new array field to add to the input documents
+            }},
+            { $project: { name: 1, thumbnail: 1, image: 1, year: 1, rating: 1, numRatings: 1, publishers: { name: 1 } } },
+            { $limit: 50 }
+        ]);
+
+        res.status(200).json({
+            data: games
+        });
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ msg: 'Server error' });
+    }
+}
+
+
+
+// @desc    Get hot games
+// @route   GET /api/games/hot
+// @access  Public
+const getMostPlayedGames = async (req, res) => {
+    try {
+        const url = 'https://api.geekdo.com/api/trends/plays?interval=month';
+
+        const response = await axios.get(url);
+
+        const bggIds = [];
+
+        response.data.items.map(item => {
+            bggIds.push(item?.item?.id);
+        });
+        
+
+        const games = await Game.aggregate([
+            { $match: { bggId: { $in: bggIds } } },
+            { $addFields: { order: { $indexOfArray: [bggIds, "$bggId"] } } },
+            { $sort: { order: 1 } },
+            { $lookup: {
+                from: 'publishers', // The collection to join
+                localField: 'publishers', // The field from the input documents
+                foreignField: '_id', // The field from the documents of the "from" collection
+                as: 'publishers' // The name of the new array field to add to the input documents
+            }},
+            { $project: { name: 1, thumbnail: 1, image: 1, year: 1, rating: 1, numRatings: 1, publishers: { name: 1 } } },
+            { $limit: 50 }
+        ]);
+
+        res.status(200).json({
+            data: games
+        });
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ msg: 'Server error' });
+    }
+}
+
+
+
+
+// @desc    Get hot games
+// @route   GET /api/games/hot
+// @access  Public
+const getBestsellerGames = async (req, res) => {
+    try {
+        const url = 'https://api.geekdo.com/api/trends/ownership?interval=week';
+
+        const response = await axios.get(url);
+
+        const bggIds = [];
+
+        response.data.items.map(item => {
+            bggIds.push(item?.item?.id);
+        });
+
+        const games = await Game.aggregate([
+            { $match: { bggId: { $in: bggIds } } },
+            { $addFields: { order: { $indexOfArray: [bggIds, "$bggId"] } } },
+            { $sort: { order: 1 } },
+            { $lookup: {
+                from: 'publishers', // The collection to join
+                localField: 'publishers', // The field from the input documents
+                foreignField: '_id', // The field from the documents of the "from" collection
+                as: 'publishers' // The name of the new array field to add to the input documents
+            }},
+            { $project: { name: 1, thumbnail: 1, image: 1, year: 1, rating: 1, numRatings: 1, publishers: { name: 1 } } },
+            { $limit: 50 }
+        ]);
+
+        res.status(200).json({
+            data: games
+        });
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ msg: 'Server error' });
+    }
+}
+
+
 module.exports = {
     getGamesByPublisherId,
     getGamesByPersonId,
@@ -355,5 +520,9 @@ module.exports = {
     getSuggestions,
     createGame,
     getGameById,
-    getGameOverview
+    getGameOverview,
+    getHotGames,
+    getTrendingGames,
+    getMostPlayedGames,
+    getBestsellerGames
 }

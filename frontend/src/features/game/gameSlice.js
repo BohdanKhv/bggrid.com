@@ -148,13 +148,97 @@ export const getGamesByPersonId = createAsyncThunk(
     }
 );
 
-
-
 export const getSuggestions = createAsyncThunk(
     'game/getSuggestions',
     async (searchValue, thunkAPI) => {
         try {
             return await gameService.getSuggestions(searchValue);
+        } catch (error) {
+            const message =
+                (error.response &&
+                    error.response.data &&
+                    error.response.data.msg) ||
+                error.message ||
+                error.toString();
+            return thunkAPI.rejectWithValue(message);
+        }
+    }
+);
+
+export const getHotGames = createAsyncThunk(
+    'game/getHotGames',
+    async (_, thunkAPI) => {
+        try {
+            return await gameService.getHotGames();
+        } catch (error) {
+            const message =
+                (error.response &&
+                    error.response.data &&
+                    error.response.data.msg) ||
+                error.message ||
+                error.toString();
+            return thunkAPI.rejectWithValue(message);
+        }
+    }
+);
+
+export const getTrendingGames = createAsyncThunk(
+    'game/getTrendingGames',
+    async (_, thunkAPI) => {
+        try {
+            return await gameService.getTrendingGames();
+        } catch (error) {
+            const message =
+                (error.response &&
+                    error.response.data &&
+                    error.response.data.msg) ||
+                error.message ||
+                error.toString();
+            return thunkAPI.rejectWithValue(message);
+        }
+    }
+);
+
+export const getMostPlayedGames = createAsyncThunk(
+    'game/getMostPlayedGames',
+    async (_, thunkAPI) => {
+        try {
+            return await gameService.getMostPlayedGames();
+        } catch (error) {
+            const message =
+                (error.response &&
+                    error.response.data &&
+                    error.response.data.msg) ||
+                error.message ||
+                error.toString();
+            return thunkAPI.rejectWithValue(message);
+        }
+    }
+);
+
+export const getBestsellerGames = createAsyncThunk(
+    'game/getBestsellerGames',
+    async (_, thunkAPI) => {
+        try {
+            return await gameService.getBestsellerGames();
+        } catch (error) {
+            const message =
+                (error.response &&
+                    error.response.data &&
+                    error.response.data.msg) ||
+                error.message ||
+                error.toString();
+            return thunkAPI.rejectWithValue(message);
+        }
+    }
+);
+
+export const getCollection = createAsyncThunk(
+    'game/getCollection',
+    async (payload, thunkAPI) => {
+        try {
+            const token = thunkAPI.getState().auth.user ? thunkAPI.getState().auth.user.token : null;
+            return await gameService.getCollection(`?page=${1}&limit=${50}${payload}`, token);
         } catch (error) {
             const message =
                 (error.response &&
@@ -296,6 +380,96 @@ const gameSlice = createSlice({
         builder.addCase(getSuggestions.fulfilled, (state, action) => {
             state.loadingId = '';
             state.suggestions = action.payload.data
+        });
+
+        builder.addCase(getHotGames.pending, (state) => {
+            state.isLoading = true;
+            state.msg = '';
+            state.games = [];
+        });
+        builder.addCase(getHotGames.fulfilled, (state, action) => {
+            state.isLoading = false;
+            state.games = action.payload.data;
+        });
+        builder.addCase(getHotGames.rejected, (state, action) => {
+            if (action.error.message !== 'Aborted') {
+                state.isLoading = false;
+                state.isError = true;
+                state.msg = action.payload;
+                toast.error(action.payload, { toastId: 'toastError', closeButton: true});
+            }
+        });
+
+        builder.addCase(getTrendingGames.pending, (state) => {
+            state.isLoading = true;
+            state.msg = '';
+            state.games = [];
+        });
+        builder.addCase(getTrendingGames.fulfilled, (state, action) => {
+            state.isLoading = false;
+            state.games = action.payload.data;
+        });
+        builder.addCase(getTrendingGames.rejected, (state, action) => {
+            if (action.error.message !== 'Aborted') {
+                state.isLoading = false;
+                state.isError = true;
+                state.msg = action.payload;
+                toast.error(action.payload, { toastId: 'toastError', closeButton: true});
+            }
+        });
+
+        builder.addCase(getMostPlayedGames.pending, (state) => {
+            state.isLoading = true;
+            state.msg = '';
+            state.games = [];
+        });
+        builder.addCase(getMostPlayedGames.fulfilled, (state, action) => {
+            state.isLoading = false;
+            state.games = action.payload.data;
+        });
+        builder.addCase(getMostPlayedGames.rejected, (state, action) => {
+            if (action.error.message !== 'Aborted') {
+                state.isLoading = false;
+                state.isError = true;
+                state.msg = action.payload;
+                toast.error(action.payload, { toastId: 'toastError', closeButton: true});
+            }
+        });
+
+        builder.addCase(getBestsellerGames.pending, (state) => {
+            state.isLoading = true;
+            state.msg = '';
+            state.games = [];
+        });
+        builder.addCase(getBestsellerGames.fulfilled, (state, action) => {
+            state.isLoading = false;
+            state.games = action.payload.data;
+        });
+        builder.addCase(getBestsellerGames.rejected, (state, action) => {
+            if (action.error.message !== 'Aborted') {
+                state.isLoading = false;
+                state.isError = true;
+                state.msg = action.payload;
+                toast.error(action.payload, { toastId: 'toastError', closeButton: true});
+            }
+        });
+
+        builder.addCase(getCollection.pending, (state) => {
+            state.isLoading = true;
+            state.msg = '';
+            state.games = [];
+        });
+        builder.addCase(getCollection.fulfilled, (state, action) => {
+            state.isLoading = false;
+            state.games = action.payload.data;
+        });
+        builder.addCase(getCollection.rejected, (state, action) => {
+            if (action.error.message !== 'Aborted') {
+                state.isLoading = false;
+                state.isError = true;
+                state.msg = action.payload;
+                toast.error(action.payload, { toastId: 'toastError', closeButton: true});
+            }
         });
     }
 });

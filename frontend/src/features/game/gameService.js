@@ -48,6 +48,45 @@ export const getSuggestions = async (payload) => {
     return response.data;
 }
 
+export const getHotGames = async () => {
+    const response = await axios.get(API_URL+`/collection/hot`);
+
+    return response.data;
+}
+
+export const getTrendingGames = async () => {
+    const response = await axios.get(API_URL+`/collection/trending`);
+
+    return response.data;
+}
+
+export const getMostPlayedGames = async () => {
+    const response = await axios.get(API_URL+`/collection/most-played`);
+
+    return response.data;
+}
+
+export const getBestsellerGames = async () => {
+    const response = await axios.get(API_URL+`/collection/bestseller`);
+
+    return response.data;
+}
+
+export const getCollection = async (payload, token) => {
+    let config = {};
+    if (token) {
+        config = {
+            headers: {
+                Authorization: `Bearer ${token}`
+            }
+        }
+    }
+
+    const response = await axios.get(API_URL+`${payload || ""}`, config);
+
+    return response.data;
+}
+
 
 const listingService = {
     getGames,
@@ -55,7 +94,12 @@ const listingService = {
     getGamesByPublisherId,
     getGamesByPersonId,
     getGameOverview,
-    getSuggestions
+    getSuggestions,
+    getHotGames,
+    getTrendingGames,
+    getMostPlayedGames,
+    getBestsellerGames,
+    getCollection
 };
 
 export default listingService;

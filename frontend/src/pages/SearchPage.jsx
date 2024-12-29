@@ -1,10 +1,10 @@
 import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { Avatar, Button, Dropdown, ErrorInfo, FilterDropdown, HorizontalScroll, Icon, IconButton, Image, InputSearch, Modal, Skeleton } from '../components'
-import { Link, useParams, useSearchParams } from 'react-router-dom'
-import { arrowLeftShortIcon, clockIcon, closeIcon, discoverIcon, filterIcon, gridIcon, leftArrowIcon, listIcon, searchIcon, toggleSortIcon } from '../assets/img/icons'
+import { Link, useNavigate, useParams, useSearchParams } from 'react-router-dom'
+import { arrowLeftShortIcon, clockIcon, closeIcon, discoverIcon, filterIcon, gamesIcon, gridIcon, leftArrowIcon, listIcon, searchIcon, starFillIcon, toggleSortIcon } from '../assets/img/icons'
 import { collectionsEnum, mechanicsEnum, themesEnum, typeEnum } from '../assets/constants'
 import { useDispatch, useSelector } from 'react-redux'
-import { getGames, getSuggestions, resetGame } from '../features/game/gameSlice'
+import { getBestsellerGames, getCollection, getGames, getHotGames, getMostPlayedGames, getSuggestions, getTrendingGames, resetGame } from '../features/game/gameSlice'
 import GameItem from './game/GameItem'
 import { setSearchHistory } from '../features/local/localSlice'
 import GameItemCol from './game/GameItemCol'
@@ -12,14 +12,151 @@ import { addCommaToNumber, numberFormatter } from '../assets/utils'
 
 
 const CollectionContent = ({ collection }) => {
+    const dispatch = useDispatch()
+    const navigate = useNavigate()
+
+    const { isLoading, isError, games, msg } = useSelector((state) => state.game)
+
+
+    useEffect(() => {
+        let promise;
+
+        if (collection.slug === 'hot') {
+            promise = dispatch(getHotGames())
+        } else if (collection.slug === 'most-played') {
+            promise = dispatch(getMostPlayedGames())
+        } else if (collection.slug === 'trending') {
+            promise = dispatch(getTrendingGames())
+        } else if (collection.slug === 'best-selling') {
+            promise = dispatch(getBestsellerGames())
+        } else if (collection.slug === 'best-for-beginners') {
+            promise = dispatch(getCollection('&sort=most-popular&sortOrder=desc&minWeight=1&maxWeight=2'))
+        }  else if (collection.slug === 'best-for-experts') {
+            promise = dispatch(getCollection('&sort=most-popular&sortOrder=desc&minWeight=3.5&maxWeight=5'))
+        } else if (collection.slug === 'new') {
+            promise = dispatch(getCollection('&sort=most-popular&sortOrder=desc&minYear=2023&maxYear=2024'))
+        } else if (collection.slug === 'top-rated') {
+            promise = dispatch(getCollection('&sort=most-popular&sortOrder=desc'))
+        } else if (collection.slug === 'best-for-2-players') {
+            promise = dispatch(getCollection('&sort=most-popular&sortOrder=desc&players=2&minYear=2000'))
+        } else if (collection.slug === 'best-for-parties') {
+            promise = dispatch(getCollection('&sort=most-popular&sortOrder=desc&types=Party&minYear=2000&players=3-10'))
+        } else if (collection.slug === 'best-for-families') {
+            promise = dispatch(getCollection('&sort=most-popular&sortOrder=desc&types=Family&minYear=2000'))
+        }
+
+        return () => {
+            promise?.abort()
+            dispatch(resetGame())
+        }
+    }, [])
+
     return (
         <>
-            <div className="title-1">
-                {collection.name}
+        <div className="bg-main py-3 pos-relative z-3 overflow-hidden flex-1">
+            <div className="gap-3 title-1 z-3 flex align-center px-sm-3">
+                <IconButton
+                    icon={leftArrowIcon}
+                    variant="secondary"
+                    type="text"
+                    onClick={() => {
+                        navigate('/discover')
+                    }}
+                />
             </div>
-            <div className="fs-20">
-                {collection.description}
+            <div className="fs-54 bold fs-sm-48 pb-3">
+                {collection.icon} {collection.name}
             </div>
+            {isLoading ?
+                <div className="flex flex-col p-sm-2">
+                    {[...Array(10)].map((i, inx) => (
+                        <div
+                            key={inx}
+                            className="border-bottom mb-4 pb-4 flex gap-3 align-center"
+                        >
+                            <div className="flex align-center justify-center w-set-50-px">
+                                <Skeleton
+                                    key={inx}
+                                    height={30}
+                                    width="30"
+                                    className="mb-3"
+                                    animation="wave"
+                                />
+                            </div>
+                            <Skeleton
+                                key={inx}
+                                height={92}
+                                className="mb-3"
+                                animation="wave"
+                            />
+                        </div>
+                    ))}
+                </div>
+            : games.length === 0 && !isLoading ?
+                <>
+                    <ErrorInfo
+                        label="No games found"
+                        secondary='Unfortunately this collection is empty.'
+                    />
+                </>
+            :
+                <div>
+                    {games.map((item, inx, arr) => (
+                    <Link className="px-sm-3 px-sm-3 py-4 border-bottom transition-duration animation-slide-in flex gap-3 display-on-hover-parent pointer bg-tertiary-hover"
+                        key={item._id}
+                        to={`/g/${item._id}`}
+                    >
+                        <div
+                            className="flex justify-center align-center opacity-50 w-set-50-px"
+                        >
+                            <div>
+                                <div className="text-center fs-20">
+                                    {inx + 1}
+                                </div>
+                            </div>
+                        </div>
+                        <div className="flex gap-3 align-center">
+                            <Avatar
+                                size="xl"
+                                bigDisplay
+                                img={item.image}
+                                errIcon={gamesIcon}
+                                classNameImg="border-radius"
+                            />
+                            <div className="flex flex-col">
+                                <Link className="fs-16 weight-600 pointer text-underlined-hover"
+                                    to={`/g/${item._id}`}
+                                >
+                                    {item.name} {item.year ? <span className="fs-14 weight-500">({item.year})</span> : null}
+                                </Link>
+                                {item.publishers
+                                .filter(pub => ['self-published', 'unknown'].indexOf(pub.name.toLowerCase()) === -1)
+                                .length ?
+                                    <div className="fs-12 weight-500 opacity-50 hover-opacity-100 mt-1 w-fit-content">
+                                        {item.publishers.slice(0, 1).map((pub, i) => (
+                                            <Link key={i}
+                                                to={`/publisher/${pub._id}`}
+                                                className="text-underlined-hover"
+                                            >
+                                                {pub.name}
+                                            </Link>
+                                        ))}
+                                    </div>
+                                : null}
+                                <div className="flex align-center gap-2 pt-2">
+                                    <div className="flex gap-1 align-center">
+                                        <span className={`fs-14 weight-500`}>{((item?.rating || 0) / 2).toFixed(1)}</span>
+                                        <Icon icon={starFillIcon} size="xs"/>
+                                    </div>
+                                    <span className={`fs-12 weight-400 text-secondary`}>{numberFormatter(item.numRatings || 0)} reviews</span>
+                                </div>
+                            </div>
+                        </div>
+                    </Link>
+                    ))}
+                </div>
+            }
+        </div>
         </>
     )
 }
@@ -37,7 +174,7 @@ const CollectionMain = () => {
                         collection={currentCollection}
                     />
                 :
-                    <div className="flex-1 flex flex-col align-center justify-center">
+                    <div className="flex-1 flex flex-col align-center justify-center flex-1">
                         <ErrorInfo
                             label="Collection not found"
                             secondary="The collection you are looking for does not exist."
@@ -1005,18 +1142,18 @@ const SearchMain = () => {
                         </div>
                             {!searchParams.get('s') && !searchParams.get('types') && !searchParams.get('mechanics') && !searchParams.get('themes') && !searchParams.get('players') && !searchParams.get('sort') && !searchParams.get('sortOrder') && !searchParams.get('minWeight') && !searchParams.get('maxWeight') ? 
                                 <div className="grid grid-cols-3 grid-sm-cols-2 gap-3 animation-slide-in px-sm-3">
-                                {collectionsEnum.map((collection) => (
+                                {collectionsEnum.map((collection, i) => (
                                     <Link
                                         key={collection.slug}
                                         to={`/discover/${collection.slug}`}
-                                        className="bg-secondary border-radius h-set-130-px bg-tertiary-hover transition-duration"
+                                        className="border-radius h-set-130-px transition-duration animation-bounce-hover-parent bg-tertiary-hover bg-secondary"
                                     >
                                         <div className="h-100 pos-relative">
                                             <div className="border-radius-lg p-4">
                                                 <div className="fs-18 weight-600 pt-2 w-max-100-px">
                                                     {collection.name}
                                                 </div>
-                                                <div className="fs-54 fs-sm-48 opacity-75 p-3 pos-absolute bottom-0 right-0">
+                                                <div className="fs-54 fs-sm-48 p-3 pos-absolute bottom-0 right-0 animation-bounce-hover text-shadow-hard">
                                                     {collection.icon}
                                                 </div>
                                             </div>

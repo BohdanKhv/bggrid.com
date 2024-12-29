@@ -357,47 +357,58 @@ const collectionsEnum = [
         slug: "hot",
         name: "Hot",
         icon: "🔥",
-        description: "Games currently trending or popular."
+        description: "Hottest games right now"
     }, {
         slug: "most-played",
         name: "Most Played",
         icon: "🎲",
-        description: "Games with the highest play counts."
+        description: "Most played games"
+    }, {
+        slug: "top-rated",
+        name: "Top Rated",
+        icon: "⭐",
+        description: "Highest rated games"
     }, {
         slug: "best-selling",
         name: "Best selling",
         icon: "💰",
-        description: "Top-selling games."
+        description: "Top-selling games"
     }, {
-        slug: "trading",
+        slug: "trending",
         name: "Trending",
         icon: "📈",
-        description: "Games gaining popularity."
-    }, {
+        description: "Trending games"
+    },
+    {
         slug: "new",
         name: "New",
         icon: "🆕",
         description: "Recently released games."
     }, {
-        slug: "best-2-player",
+        slug: "best-for-2-players",
         name: "Best 2 Player",
         icon: "👫",
-        description: "Top games for two players."
+        description: "Top games for two players"
     }, {
         slug: "best-for-families",
         name: "Best for Families",
         icon: "👨‍👩‍👧‍👦",
-        description: "Top games for families."
+        description: "Top games for families"
+    },{
+        slug: "best-for-parties",
+        name: "Best for Parties",
+        icon: "🎉",
+        description: "Top party games"
     }, {
         slug: "best-for-beginners",
         name: "Best for Beginners",
         icon: "👶",
-        description: "Top games for new players."
+        description: "Top games for beginners"
     }, {
-        slug: "best-for-parties",
-        name: "Best for Parties",
-        icon: "🎉",
-        description: "Top games for social gatherings."
+        slug: "best-for-experts",
+        name: "Best for Experts",
+        icon: "🧠",
+        description: "Top games for experienced players"
     }
 ]
 

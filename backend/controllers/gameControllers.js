@@ -527,11 +527,14 @@ const getForYouGames = async (req, res) => {
         .populate('game', 'categories');
 
         const games = await Game
-        .find({ categories: {
-            $in: myLibrary.map(item => item.game.categories),
+        .find({
+            _id: { $nin: myLibrary.map(item => item.game) },
+            categories: {
+                $in: myLibrary.map(item => item.game.categories)
+            },
             numRatings: { $gt: 100 },
             rating: { $gt: 3 }
-        } })
+        })
         .sort({ rating: -1 })
         .populate('publishers', 'name')
         .limit(50)

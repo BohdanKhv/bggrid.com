@@ -104,25 +104,22 @@ const CollectionContent = ({ collection }) => {
                 <div className="flex flex-col p-sm-2">
                     {[...Array(10)].map((i, inx) => (
                         <div
-                            key={`inx-${inx}-${i}`}
+                            key={`inx-${inx}`}
                             className="border-bottom mb-4 pb-4 flex gap-3 align-center"
                         >
                             <div className="flex align-center justify-center w-set-50-px">
                                 <Skeleton
-                                    key={inx}
                                     height={30}
                                     width="30"
                                     animation="wave"
                                 />
                             </div>
                             <Skeleton
-                                key={inx}
                                 height={73}
                                 width="80"
                                 animation="wave"
                             />
                             <Skeleton
-                                key={inx}
                                 height={92}
                                 animation="wave"
                             />
@@ -163,22 +160,19 @@ const CollectionContent = ({ collection }) => {
                                 classNameImg="border-radius"
                             />
                             <div className="flex flex-col">
-                                <Link className="fs-16 weight-600 pointer text-underlined-hover"
+                                <div className="fs-16 weight-600 pointer text-underlined-hover"
                                     to={`/g/${item._id}`}
                                 >
                                     {item.name} {item.year ? <span className="fs-14 weight-500">({item.year})</span> : null}
-                                </Link>
+                                </div>
                                 {item.publishers
                                 .filter(pub => ['self-published', 'unknown'].indexOf(pub.name.toLowerCase()) === -1)
                                 .length ?
-                                    <div className="fs-12 weight-500 opacity-50 hover-opacity-100 mt-1 w-fit-content">
+                                    <div className="fs-12 weight-500 opacity-50 mt-1 w-fit-content">
                                         {item.publishers.slice(0, 1).map((pub, i) => (
-                                            <Link key={pub._id}
-                                                to={`/publisher/${pub._id}`}
-                                                className="text-underlined-hover"
-                                            >
+                                            <div key={pub._id}>
                                                 {pub.name}
-                                            </Link>
+                                            </div>
                                         ))}
                                     </div>
                                 : null}

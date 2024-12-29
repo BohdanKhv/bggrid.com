@@ -420,6 +420,12 @@ const collectionsEnum = [
         icon: "🧠",
         description: "Top games for experienced players",
         bg: "#795548"
+    }, {
+        slug: "for-you",
+        name: "For You",
+        icon: "🎁",
+        description: "Games recommended for you",
+        bg: "#009688"
     },
 ]
 

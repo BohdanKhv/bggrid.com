@@ -505,6 +505,11 @@ margin-right: auto;
     max-height: 50px;
     height: 50px;
 }
+.h-set-75-px {
+    min-height: 75px;
+    max-height: 75px;
+    height: 75px;
+}
 .h-set-100-px {
     min-height: 100px;
     max-height: 100px;
@@ -813,7 +818,7 @@ margin-right: auto;
 .w-set-75-px {
     width: 75px!important;
     max-width: 75px!important;
-    min-width: 75px!;
+    min-width: 75px!important;
 }
 .w-set-100-px {
     width: 100px!important;

@@ -513,6 +513,35 @@ const getBestsellerGames = async (req, res) => {
 }
 
 
+
+
+// @desc    Get hot games
+// @route   GET /api/games/for-you
+// @access  Public
+const getForYouGames = async (req, res) => {
+    try {
+        const myLibrary = await Library.find({ user: req.user._id })
+        .sort({ rating: -1 })
+        .limit(10)
+        .select('game')
+        .populate('game', 'categories');
+
+        const games = await Game
+        .find({ categories: { $in: myLibrary.map(item => item.game.categories) } })
+        .sort({ rating: -1 })
+        .populate('publishers', 'name')
+        .limit(50)
+
+        res.status(200).json({
+            data: games
+        });
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ msg: 'Server error' });
+    }
+}
+
+
 module.exports = {
     getGamesByPublisherId,
     getGamesByPersonId,
@@ -524,5 +553,6 @@ module.exports = {
     getHotGames,
     getTrendingGames,
     getMostPlayedGames,
-    getBestsellerGames
+    getBestsellerGames,
+    getForYouGames
 }

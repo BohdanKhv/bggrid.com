@@ -251,6 +251,24 @@ export const getCollection = createAsyncThunk(
     }
 );
 
+export const getForYouGames = createAsyncThunk(
+    'game/getForYouGames',
+    async (_, thunkAPI) => {
+        try {
+            const token = thunkAPI.getState().auth.user ? thunkAPI.getState().auth.user.token : null;
+            return await gameService.getForYouGames(token);
+        } catch (error) {
+            const message =
+                (error.response &&
+                    error.response.data &&
+                    error.response.data.msg) ||
+                error.message ||
+                error.toString();
+            return thunkAPI.rejectWithValue(message);
+        }
+    }
+);
+
 
 
 const gameSlice = createSlice({
@@ -464,6 +482,24 @@ const gameSlice = createSlice({
             state.games = action.payload.data;
         });
         builder.addCase(getCollection.rejected, (state, action) => {
+            if (action.error.message !== 'Aborted') {
+                state.isLoading = false;
+                state.isError = true;
+                state.msg = action.payload;
+                toast.error(action.payload, { toastId: 'toastError', closeButton: true});
+            }
+        });
+
+        builder.addCase(getForYouGames.pending, (state) => {
+            state.isLoading = true;
+            state.msg = '';
+            state.games = [];
+        });
+        builder.addCase(getForYouGames.fulfilled, (state, action) => {
+            state.isLoading = false;
+            state.games = action.payload.data;
+        });
+        builder.addCase(getForYouGames.rejected, (state, action) => {
             if (action.error.message !== 'Aborted') {
                 state.isLoading = false;
                 state.isError = true;

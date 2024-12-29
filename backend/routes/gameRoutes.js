@@ -11,11 +11,13 @@ const {
     getHotGames,
     getTrendingGames,
     getMostPlayedGames,
-    getBestsellerGames
+    getBestsellerGames,
+    getForYouGames
 } = require('../controllers/gameControllers');
 
 
 router
+    .get('/collection/for-you', protect, getForYouGames)
     .get('/collection/hot', getHotGames)
     .get('/collection/trending', getTrendingGames)
     .get('/collection/most-played', getMostPlayedGames)

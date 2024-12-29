@@ -72,6 +72,21 @@ export const getBestsellerGames = async () => {
     return response.data;
 }
 
+export const getForYouGames = async (token) => {
+    let config = {};
+    if (token) {
+        config = {
+            headers: {
+                Authorization: `Bearer ${token}`
+            }
+        }
+    }
+
+    const response = await axios.get(API_URL+`/collection/for-you`, config);
+
+    return response.data;
+}
+
 export const getCollection = async (payload, token) => {
     let config = {};
     if (token) {
@@ -99,7 +114,8 @@ const listingService = {
     getTrendingGames,
     getMostPlayedGames,
     getBestsellerGames,
-    getCollection
+    getCollection,
+    getForYouGames
 };
 
 export default listingService;

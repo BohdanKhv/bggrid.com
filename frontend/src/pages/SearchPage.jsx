@@ -4,7 +4,7 @@ import { Link, useNavigate, useParams, useSearchParams } from 'react-router-dom'
 import { arrowLeftShortIcon, clockIcon, closeIcon, discoverIcon, filterIcon, gamesIcon, gridIcon, leftArrowIcon, listIcon, searchIcon, starFillIcon, toggleSortIcon } from '../assets/img/icons'
 import { collectionsEnum, mechanicsEnum, themesEnum, typeEnum } from '../assets/constants'
 import { useDispatch, useSelector } from 'react-redux'
-import { getBestsellerGames, getCollection, getGames, getHotGames, getMostPlayedGames, getSuggestions, getTrendingGames, resetGame } from '../features/game/gameSlice'
+import { getBestsellerGames, getCollection, getForYouGames, getGames, getHotGames, getMostPlayedGames, getSuggestions, getTrendingGames, resetGame } from '../features/game/gameSlice'
 import GameItem from './game/GameItem'
 import { setSearchHistory } from '../features/local/localSlice'
 import GameItemCol from './game/GameItemCol'
@@ -34,7 +34,7 @@ const CollectionContent = ({ collection }) => {
             promise = dispatch(getBestsellerGames())
         } else if (collection.slug === 'best-for-beginners') {
             promise = dispatch(getCollection('&sort=most-popular&sortOrder=desc&minWeight=1&maxWeight=2'))
-        }  else if (collection.slug === 'difficult-games') {
+        }  else if (collection.slug === 'best-for-experts') {
             promise = dispatch(getCollection('&sort=most-popular&sortOrder=desc&minWeight=4&maxWeight=5'))
         } else if (collection.slug === 'new') {
             promise = dispatch(getCollection('&sort=most-popular&sortOrder=desc&minYear=2023&maxYear=2024'))
@@ -44,6 +44,11 @@ const CollectionContent = ({ collection }) => {
             promise = dispatch(getCollection('&sort=most-popular&sortOrder=desc&players=2&minYear=2000'))
         } else if (collection.slug === 'best-for-parties') {
             promise = dispatch(getCollection('&sort=most-popular&sortOrder=desc&types=Party&minYear=2000&players=3-10'))
+        } else if (collection.slug === 'best-for-families') {
+            promise = dispatch(getCollection('&sort=most-popular&sortOrder=desc&types=Family&minYear=2000&players=3-10'))
+        } else if (collection.slug === 'for-you') {
+            if (!user) { return navigate('/discover') }
+            promise = dispatch(getForYouGames())
         }
 
         return () => {
@@ -99,7 +104,7 @@ const CollectionContent = ({ collection }) => {
                 <div className="flex flex-col p-sm-2">
                     {[...Array(10)].map((i, inx) => (
                         <div
-                            key={inx}
+                            key={`inx-${inx}-${i}`}
                             className="border-bottom mb-4 pb-4 flex gap-3 align-center"
                         >
                             <div className="flex align-center justify-center w-set-50-px">
@@ -107,14 +112,18 @@ const CollectionContent = ({ collection }) => {
                                     key={inx}
                                     height={30}
                                     width="30"
-                                    className="mb-3"
                                     animation="wave"
                                 />
                             </div>
                             <Skeleton
                                 key={inx}
+                                height={73}
+                                width="80"
+                                animation="wave"
+                            />
+                            <Skeleton
+                                key={inx}
                                 height={92}
-                                className="mb-3"
                                 animation="wave"
                             />
                         </div>
@@ -144,11 +153,13 @@ const CollectionContent = ({ collection }) => {
                             </div>
                         </div>
                         <div className="flex gap-3 align-center">
-                            <Avatar
+                            <Image
                                 size="xl"
                                 bigDisplay
                                 img={item.image}
+                                icon={gamesIcon}
                                 errIcon={gamesIcon}
+                                classNameContainer="w-set-75-px h-set-75-px border-radius"
                                 classNameImg="border-radius"
                             />
                             <div className="flex flex-col">
@@ -162,7 +173,7 @@ const CollectionContent = ({ collection }) => {
                                 .length ?
                                     <div className="fs-12 weight-500 opacity-50 hover-opacity-100 mt-1 w-fit-content">
                                         {item.publishers.slice(0, 1).map((pub, i) => (
-                                            <Link key={i}
+                                            <Link key={pub._id}
                                                 to={`/publisher/${pub._id}`}
                                                 className="text-underlined-hover"
                                             >
@@ -432,7 +443,6 @@ const SearchTab = () => {
                                 key={i._id}
                             >
                                 <GameItemCol
-                                    key={i._id}
                                     item={i}
                                 />
                             </div>
@@ -458,11 +468,10 @@ const SearchTab = () => {
                     <div className="flex flex-col p-sm-2">
                         {[...Array(5)].map((i, inx) => (
                             <div
-                                key={inx}
+                                key={i + '-' + inx}
                                 className="border-bottom mb-4 pb-4"
                             >
                                 <Skeleton
-                                    key={inx}
                                     height={92}
                                     className="mb-3"
                                     animation="wave"
@@ -1171,7 +1180,9 @@ const SearchMain = () => {
                         </div>
                             {!searchParams.get('s') && !searchParams.get('types') && !searchParams.get('mechanics') && !searchParams.get('themes') && !searchParams.get('players') && !searchParams.get('sort') && !searchParams.get('sortOrder') && !searchParams.get('minWeight') && !searchParams.get('maxWeight') ? 
                                 <div className="grid grid-cols-3 grid-sm-cols-2 gap-3 animation-slide-in px-sm-3 flex-1">
-                                {collectionsEnum.map((collection, i) => (
+                                {collectionsEnum
+                                .filter((collection) => !user && collection.slug === 'for-you' ? false : true)
+                                .map((collection, i) => (
                                     <Link
                                         key={collection.slug}
                                         to={`/discover/${collection.slug}`}

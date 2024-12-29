@@ -43,7 +43,7 @@ const NavbarMobile = () => {
                         to={`/discover`}
                         onClick={() => 
                         {
-                            if (pathname.startsWith('/discover'))
+                            if (pathname == '/discover')
                             {
                                 document.querySelector('.search-input-mobile').click()
                             }

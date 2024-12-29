@@ -118,7 +118,7 @@ function App() {
                 <div className="flex-grow-1 h-min-100 flex flex-col">
                     <Routes>
                       <Route path="/" element={<ErrBoundary><HomePage /></ErrBoundary>} />
-                      <Route path="/discover" element={<ErrBoundary><div className="mx-auto w-max-xl offset-header w-100"><SearchPage /></div></ErrBoundary>} />
+                      <Route path="/discover" element={<ErrBoundary><div className="mx-auto w-max-xl offset-header w-100 h-100 flex-1 flex flex-col"><SearchPage /></div></ErrBoundary>} />
                       <Route path="/discover/:collection" element={<ErrBoundary><div className="mx-auto w-max-xl offset-header w-100"><SearchPage /></div></ErrBoundary>} />
                       <Route path="/u/:username" element={<ErrBoundary><div className="mx-auto w-max-xl offset-header w-100"><UserPage /></div></ErrBoundary>} />
                       <Route path="/u/:username/:tab" element={<ErrBoundary><div className="mx-auto w-max-xl offset-header w-100"><UserPage /></div></ErrBoundary>} />

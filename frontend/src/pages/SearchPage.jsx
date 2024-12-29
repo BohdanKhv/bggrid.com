@@ -786,7 +786,7 @@ const SearchMain = () => {
                                                         size="sm"
                                                         className="fill-secondary"
                                                     />
-                                                    {searchValue.length ? `${searchValue}` : <span className="text-secondary">Search games</span>}
+                                                    {searchParams?.get('s') ? `${searchParams?.get('s')}` : <span className="text-secondary">Search games</span>}
                                                 </div>
                                             </>
                                         :

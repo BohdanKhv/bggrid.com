@@ -42,7 +42,7 @@ const GameItem = ({item}) => {
                     classNameImg="w-100 h-100 object-cover border-radius"
                     classNameContainer="border-radius bg-secondary bg-hover-after flex-1 h-sm-set-250-px h-set-250-px"
                 />
-                <div className="display-on-hover">
+                {/* <div className="display-on-hover">
                     <div className="pos-absolute top-0 h-100 w-100">
                     <div className="bg-main p-2 border-radius m-1"
                     onClick={(e) => {
@@ -65,7 +65,7 @@ const GameItem = ({item}) => {
                             </div>
                         </div>
                     </div>
-                </div>
+                </div> */}
             </div>
             <div
                 className="flex flex-col pointer"

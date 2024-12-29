@@ -1,14 +1,15 @@
-import { useState, useEffect, useMemo } from "react"
+import { useState, useEffect, useMemo, useRef } from "react"
 import { useDispatch, useSelector } from "react-redux"
 import { Avatar, Button, CheckBox, ErrorInfo, HorizontalScroll, Icon, IconButton, Image, Input, InputSearch, Modal, ProgressBar, Range, Skeleton } from "../../components"
 import { Link, useSearchParams } from "react-router-dom"
 import { getGameCard } from "../../features/game/gameSlice"
-import { closeIcon, linkIcon, searchIcon, trashIcon, upArrowRightIcon, userIcon } from "../../assets/img/icons"
+import { closeIcon, linkIcon, pngIcon, searchIcon, trashIcon, upArrowRightIcon, userIcon } from "../../assets/img/icons"
 import { tagsEnum } from "../../assets/constants"
 import { createPlay } from "../../features/play/playSlice"
 import { DateTime } from "luxon"
 import { resetUser, searchUsers } from "../../features/user/userSlice"
 // import { playGame } from "../../features/library/librarySlice"
+import Compressor from 'compressorjs';
 
 
 const LogPlay = () => {
@@ -25,11 +26,14 @@ const LogPlay = () => {
         username: user?.username,
         avatar: user?.avatar,
         score: 0,
-        color: '',
         winner: false
     }])
     const [playDate, setPlayDate] = useState(DateTime.now().toISO())
     const [step, setStep] = useState(1)
+
+    const inputRef = useRef(null)
+    const [image, setImage] = useState(null)
+    const [imageFile, setImageFile] = useState(null)
 
     const { users, isLoading } = useSelector(state => state.user)
     const [searchParam, setSearchParam] = useSearchParams()
@@ -63,11 +67,12 @@ const LogPlay = () => {
                 username: user?.username,
                 avatar: user?.avatar,
                 score: 0,
-                color: '',
                 winner: false
             }])
             setPlayTimeMinutes(0)
             setComment('')
+            setImage(null)
+            setImageFile(null)
         }
     }, [playMsg])
 
@@ -86,7 +91,6 @@ const LogPlay = () => {
                 username: user?.username,
                 avatar: user?.avatar,
                 score: 0,
-                color: '',
                 winner: false
             }])
         }
@@ -118,9 +122,9 @@ const LogPlay = () => {
                 user: i.user?._id,
                 name: i.name,
                 score: i.score,
-                color: i.color,
                 winner: i.winner
             })),
+            image: imageFile,
             // playDate: currentDate
         }))
     }
@@ -453,8 +457,82 @@ const LogPlay = () => {
                         onChange={(e) => setComment(e.target.value.slice(0, 500))}
                         wrapColumn
                         type="textarea"
-                        placeholder="Write a comment in less than 500 characters..."
+                        placeholder="Write a comment (optional)"
                     />
+                    {!image &&
+                        <div className="flex justify-end">
+                            <Button
+                                icon={pngIcon}
+                                variant="text"
+                                label="+"
+                                type="secondary"
+                                dataTooltipContent="Attach image"
+                                onClick={() => inputRef.current.click()}
+                            />
+                        </div>
+                    }
+                    <div className={`${image ? '' : ' d-none'}`}>
+                        <div className="pos-relative">
+                            <div className={`border border-radius w-min-100-px flex justify-center object-cover align-center bg-secondary-hover p-2 h-min-100-px bg-no-repeat bg-center h-100 bg-cover bg-secondary`}
+                                onClick={() => {
+                                    if(!image) {
+                                        inputRef.current.click()
+                                    }
+                                }}
+                                style={{
+                                    backgroundImage: `url(${image})`
+                                }}
+                            >
+                                <input type="file" ref={inputRef} style={{display: 'none'}}
+                                    accept="camera/*,image/*"
+                                    onChange={(e) => {
+                                        const validImageTypes = ['image/jpg', 'image/jpeg', 'image/png'];
+                                        if(e.target.files[0] && validImageTypes.includes(e.target.files[0].type)) {
+                                            new Compressor(e.target.files[0], {
+                                                quality: 0.3,
+                                                convertSize: 0,
+                                                success(result) {
+                                                    const originalFileName = e.target.files[0].name;
+                                                    const compressedFile = new File([result], originalFileName, {
+                                                        type: result.type,
+                                                        lastModified: Date.now()
+                                                    });
+                                            
+                                                    setImage(URL.createObjectURL(compressedFile))
+                                                    setImageFile(compressedFile)
+                                                    console.log('original size in kb', e.target.files[0].size / 1024);
+                                                    console.log('compressed size in kb', compressedFile.size / 1024);
+                                                },
+                                                error(err) {
+                                                    console.log(err.message);
+                                                },
+                                            });
+                                        } else {
+                                            setImage(null)
+                                            setImageFile(null)
+                                        }
+                                    }}
+                                />
+                                {!image ?
+                                    <div className="text-center">
+                                        <div className="text-secondary fs-12 text-primary">Click to upload</div>
+                                    </div>
+                                : null}
+                            </div>
+                            {image &&
+                            <Button
+                                label="Remove"
+                                type="danger"
+                                className="pos-absolute top-0 right-0 m-3"
+                                variant="default"
+                                onClick={() => {
+                                    setImage(null)
+                                    setImageFile(null)
+                                }}
+                            />
+                            }
+                        </div>
+                    </div>
                 </div>
                 }
             </>

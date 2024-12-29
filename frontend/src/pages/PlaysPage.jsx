@@ -514,7 +514,9 @@ const PlaysPage = () => {
                                             key={item._id}
                                             ref={arr.length === index + 1 ? lastElementRef : undefined}
                                         >
-                                            <PlayItem item={item}/>
+                                            <PlayItem item={item}
+                                            showOptions={feedType !== 'tagged'}
+                                            />
                                         </div>
                                     )}
                                     </div>

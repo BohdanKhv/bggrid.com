@@ -2,7 +2,9 @@ const { DateTime } = require('luxon');
 const User = require('../models/userModel');
 const Game = require('../models/gameModel');
 const Play = require('../models/playModel');
+const Image = require('../models/imageModel');
 const Library = require('../models/libraryModel');
+const { uploadFile, deleteFile } = require('../utils/s3');
 const Notification = require('../models/notificationModel');
 const mongoose = require('mongoose');
 
@@ -130,8 +132,8 @@ const getMyPlays = async (req, res) => {
             limit: parseInt(limit) || 40,
             sort: { playDate: -1 },
             populate: {
-                path: 'game players.user user',
-                select: 'avatar username firstName lastName name thumbnail'
+                path: 'game players.user user image',
+                select: 'avatar username firstName lastName name thumbnail image'
             }
         };
 
@@ -251,14 +253,37 @@ const createPlay = async (req, res) => {
             return res.status(404).json({ msg: 'Game not found' });
         }
 
-        const play = await Play.create({
+        let newPlayData = {
             game: gameId,
             comment,
             playTimeMinutes,
             players,
             playDate,
             user: req.user._id
-        });
+        }
+
+        if (req.file) {
+            const fileExtension = req.file.originalname.split('.').pop() || '';
+            const newKey = `games/play-${gameId}-${new Date().getTime()}.${fileExtension}`;
+            const {error, key} = await uploadFile({  bucket: 'bggrid', key: newKey, file: req.file });
+
+            if(error) {
+                return res.status(500).json({
+                    msg: 'Error uploading image',
+                });
+            }
+
+            const newImage = await Image.create({
+                image: key,
+                category: 'play',
+                caption: `Play of ${gameExists.name}`,
+                game: gameId,
+                user: req.user._id,
+            });
+            newPlayData.image = newImage._id;
+        }
+
+        const play = await Play.create(newPlayData);
 
         // Update library
         const library = await Library.findOne({ user: req.user._id, game: gameId }).populate('game');
@@ -311,7 +336,8 @@ const createPlay = async (req, res) => {
         await play.populate([
             { path: 'game', select: 'name thumbnail' },
             { path: 'players.user', select: 'avatar username firstName lastName notifications' },
-            { path: 'user', select: 'avatar username firstName lastName' }
+            { path: 'user', select: 'avatar username firstName lastName' },
+            { path: 'image', select: 'image' }
         ]);
 
         const uIds = play?.players?.filter(u => u?.user && u?.user?._id.toString() !== req.user._id.toString() && u?.user?.notifications?.taggedInPlays).map(u => u.user._id);
@@ -357,6 +383,14 @@ const deletePlay = async (req, res) => {
 
         if (play.user.toString() !== req.user._id.toString()) {
             return res.status(401).json({ msg: 'Not authorized' });
+        }
+
+        if (play.image) {
+            const image = await Image.findById(play.image);
+            if (image) {
+                await deleteFile({ bucket: 'bggrid', key: image.image });
+                await image.deleteOne();
+            }
         }
 
         await play.deleteOne();

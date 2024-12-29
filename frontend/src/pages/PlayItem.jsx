@@ -182,7 +182,7 @@ const DownloadItem = ({ item, setIsDownloading }) => {
 }
 
 
-const PlayItem = ({ item, hideUpdate }) => {
+const PlayItem = ({ item, showOptions }) => {
     const navigate = useNavigate()
     const dispatch = useDispatch()
 
@@ -234,6 +234,7 @@ const PlayItem = ({ item, hideUpdate }) => {
                                 Played <Link to={`/g/${item.game._id}`} className="fs-12 text-main bold pointer text-ellipsis-1 text-underlined-hover">{item.game.name}</Link> <span className="text-nowrap flex-shrink-0">{item?.playTimeMinutes ? `for ${item.playTimeMinutes} min` : null}</span>
                             </div>
                         </div>
+                        {showOptions &&
                         <UserIsMeGuard id={item.user._id}>
                         <Dropdown 
                             classNameDropdown="p-0"
@@ -311,10 +312,21 @@ const PlayItem = ({ item, hideUpdate }) => {
                             </div>
                         </Dropdown>
                         </UserIsMeGuard>
+                        }
                     </div>
                     {item.comment ?
                         <div className="fs-14 pt-3">
                             {item.comment}
+                        </div>
+                    : null}
+                    {item.image ?
+                        <div className="pt-3">
+                            <Image
+                                img={item?.image?.image}
+                                classNameImg="border-radius"
+                                bigDisplay
+                                classNameContainer="border h-set-200-px border-radius"
+                            />
                         </div>
                     : null}
                     <div className="flex flex flex-col border border-radius overflow-hidden mt-3">

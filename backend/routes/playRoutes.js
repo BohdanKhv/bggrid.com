@@ -1,6 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const { protect } = require('../middleware/authMiddleware');
+const { upload } = require('../middleware/uploadMiddleware');
 const {
     getMyPlays,
     getPlaysByGame,
@@ -20,7 +21,7 @@ router
     .get('/stats/:gameId', getGameStats)
     .get('/:playId', getPlayById)
     .put('/:playId', protect, updatePlay)
-    .post('/', protect, createPlay)
+    .post('/', protect, upload.single('image'), createPlay)
     .delete('/:playId', protect, deletePlay)
 
 

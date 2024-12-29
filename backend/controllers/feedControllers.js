@@ -39,7 +39,8 @@ const getCommunityFeedForYou = async (req, res) => {
                     populate: [
                         { path: 'game', select: 'name thumbnail' },
                         { path: 'players.user', select: 'avatar username firstName lastName' },
-                        { path: 'user', select: 'avatar username firstName lastName' }
+                        { path: 'user', select: 'avatar username firstName lastName' },
+                        { path: 'image', select: 'image' }
                     ]
                 }
             );
@@ -127,7 +128,8 @@ const getCommunityFeed = async (req, res) => {
                     populate: [
                         { path: 'game', select: 'name thumbnail' },
                         { path: 'players.user', select: 'avatar username firstName lastName' },
-                        { path: 'user', select: 'avatar username firstName lastName' }
+                        { path: 'user', select: 'avatar username firstName lastName' },
+                        { path: 'image', select: 'image' }
                     ]
                 }
             );

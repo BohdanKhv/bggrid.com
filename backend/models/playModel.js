@@ -14,6 +14,7 @@ const playSchema = new mongoose.Schema({
         comment: { type: String, required: false },
         winner: { type: Boolean, required: false },
     }],
+    image: { type: mongoose.Schema.Types.ObjectId, ref: 'Image', required: false },
     playDate: { type: Date, required: false, default: Date.now },
 }, { timestamps: true });
 

@@ -122,6 +122,8 @@ const UpdateLogPlay = () => {
                 </div>
                 : 'Log Play'
             }
+            minWith="500px"
+            maxWith="500px"
             noAction={!playById}
             classNameContent="p-0 scrollbar-none overflow-y-visible overflow-y-sm-auto"
             actionBtnText={step === 1 ? 'Next' : 'Save'}

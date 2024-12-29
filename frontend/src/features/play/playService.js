@@ -29,7 +29,8 @@ export const getPlaysByUsername = async (payload) => {
 export const createPlay = async (payload, token) => {
     const config = {
         headers: {
-            Authorization: `Bearer ${token}`
+            Authorization: `Bearer ${token}`,
+            'Content-Type': 'multipart/form-data'
         }
     }
     const response = await axios.post(API_URL, payload, config);
@@ -51,7 +52,8 @@ export const getPlayById = async (payload, token) => {
 export const updatePlay = async (payload, token) => {
     const config = {
         headers: {
-            Authorization: `Bearer ${token}`
+            Authorization: `Bearer ${token}`,
+            'Content-Type': 'multipart/form-data'
         }
     }
     const response = await axios.put(API_URL+`/${payload.playId}`, payload, config);

@@ -1184,7 +1184,7 @@ const SearchMain = () => {
                                                 <div className="fs-54 fs-sm-48 p-3 z-1 pos-absolute bottom-0 right-0 text-shadow-hard">
                                                     {collection.icon}
                                                 </div>
-                                                <div className="fs-24 bold pt-2 z-3 pos-relative w-max-100-px text-shadow-hard">
+                                                <div className="fs-24 bold pt-2 z-3 pos-relative w-max-100-px">
                                                     {collection.name}
                                                 </div>
                                             </div>

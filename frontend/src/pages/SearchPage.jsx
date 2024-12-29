@@ -713,6 +713,7 @@ const SearchMain = () => {
                                                                         setSearchValue(searchItem)
                                                                         searchParams.set('s', searchItem)
                                                                         if (searchItem === '') searchParams.delete('s')
+                                                                        searchParams.delete('sg')
                                                                         setSearchParams(searchParams.toString())
                                                                     }}
                                                                     className="fs-14 flex align-center px-4 py-2 gap-3 pointer flex-1 overflow-hidden weight-500"

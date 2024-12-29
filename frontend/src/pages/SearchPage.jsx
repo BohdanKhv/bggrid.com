@@ -9,6 +9,7 @@ import GameItem from './game/GameItem'
 import { setSearchHistory } from '../features/local/localSlice'
 import GameItemCol from './game/GameItemCol'
 import { addCommaToNumber, numberFormatter } from '../assets/utils'
+import { Helmet, HelmetProvider } from 'react-helmet-async';
 
 
 const CollectionContent = ({ collection }) => {
@@ -16,9 +17,11 @@ const CollectionContent = ({ collection }) => {
     const navigate = useNavigate()
 
     const { isLoading, isError, games, msg } = useSelector((state) => state.game)
+    const { user } = useSelector((state) => state.auth)
 
 
     useEffect(() => {
+        window.scrollTo(0, 0)
         let promise;
 
         if (collection.slug === 'hot') {
@@ -50,9 +53,10 @@ const CollectionContent = ({ collection }) => {
     }, [])
 
     return (
-        <>
-        <div className="bg-main py-3 pos-relative z-3 overflow-hidden flex-1">
-            <div className="gap-3 title-1 z-3 flex align-center px-sm-3">
+        <HelmetProvider>
+        <div className="pos-relative z-3 flex-1">
+        <div className="flex justify-between py-3 px-sm-3 sticky top-0 z-3 bg-main">
+            <div className="gap-2 title-1 z-3 flex align-center px-sm-3">
                 <IconButton
                     icon={leftArrowIcon}
                     variant="secondary"
@@ -61,7 +65,33 @@ const CollectionContent = ({ collection }) => {
                         navigate('/discover')
                     }}
                 />
+                <div className="fs-20 bold">
+                    Discover
+                </div>
             </div>
+                {window.innerWidth <= 800 && user ? (
+                    <div className="justify-end flex align-center flex-no-wrap gap-3">
+                        <div
+                            onClick={() => {
+                                document.querySelector('.open-navbar-button').click()
+                            }}
+                        >
+                            <Avatar
+                                img={`${user?.avatar}`}
+                                name={user ? `${user?.email}` : null}
+                                rounded
+                                avatarColor="1"
+                                size="sm"
+                            />
+                        </div>
+                    </div>
+                ) : null}
+            </div>
+            <Helmet>
+                <title>{collection.name} - {collection.description}</title>
+                <meta name="description" content={`Discover ${collection.name} games on BGGRID`} />
+                <link rel="canonical" href={`${window.location.origin}/discover/${collection.slug}`} />
+            </Helmet>
             <div className="fs-54 bold fs-sm-48 pb-3 px-sm-3">
                 {collection.icon} {collection.name}
             </div>
@@ -155,7 +185,7 @@ const CollectionContent = ({ collection }) => {
                 </div>
             }
         </div>
-        </>
+        </HelmetProvider>
     )
 }
 
@@ -925,7 +955,7 @@ const SearchMain = () => {
                                             />
                                         : null}
                                         <FilterDropdown
-                                            label="🎲 Types"
+                                            label="Types"
                                             mobileDropdown
                                             classNameParent="flex-1 flex-shrink-0"
                                             applied={searchParams.get('types') ? searchParams.get('types').split(',') : []}
@@ -961,7 +991,7 @@ const SearchMain = () => {
                                             </div>
                                         </FilterDropdown>
                                         <FilterDropdown
-                                            label="🔧 Mechanics"
+                                            label="Mechanics"
                                             mobileDropdown
                                             classNameParent="flex-1 flex-shrink-0"
                                             applied={searchParams.get('mechanics') ? searchParams.get('mechanics').split(',') : []}
@@ -1011,7 +1041,7 @@ const SearchMain = () => {
                                             </div>
                                         </FilterDropdown>
                                         <FilterDropdown
-                                            label="🎨 Themes"
+                                            label="Themes"
                                             mobileDropdown
                                             classNameParent="flex-1 flex-shrink-0"
                                             applied={searchParams.get('themes') ? searchParams.get('themes').split(',') : []}
@@ -1049,7 +1079,7 @@ const SearchMain = () => {
                                             </div>
                                         </FilterDropdown>
                                         <FilterDropdown
-                                            label="👥 Players"
+                                            label="Players"
                                             mobileDropdown
                                             classNameParent="flex-1 flex-shrink-0"
                                             applied={searchParams.get('players') ? [searchParams.get('players').replaceAll('-', ' ')] : []}
@@ -1085,7 +1115,7 @@ const SearchMain = () => {
                                             </div>
                                         </FilterDropdown>
                                         <FilterDropdown
-                                            label="🏋️‍♂️ Complexity"
+                                            label="Complexity"
                                             mobileDropdown
                                             classNameParent="flex-1 flex-shrink-0"
                                             applied={searchParams.get('minWeight') || searchParams.get('maxWeight') ? [searchParams.get('minWeight'), searchParams.get('maxWeight')] : []}
@@ -1144,15 +1174,18 @@ const SearchMain = () => {
                                     <Link
                                         key={collection.slug}
                                         to={`/discover/${collection.slug}`}
-                                        className="border-radius h-set-130-px transition-duration bg-tertiary-hover bg-secondary clickable"
+                                        className="border-radius h-set-130-px transition-duration clickable"
+                                        style={{
+                                            backgroundColor: collection.bg,
+                                        }}
                                     >
                                         <div className="h-100 pos-relative">
                                             <div className="border-radius-lg p-4">
-                                                <div className="fs-24 bold pt-2 w-max-100-px">
-                                                    {collection.name}
-                                                </div>
-                                                <div className="fs-54 fs-sm-48 p-3 pos-absolute bottom-0 right-0 text-shadow-hard">
+                                                <div className="fs-54 fs-sm-48 p-3 z-1 pos-absolute bottom-0 right-0 text-shadow-hard">
                                                     {collection.icon}
+                                                </div>
+                                                <div className="fs-24 bold pt-2 z-3 pos-relative w-max-100-px text-shadow-hard">
+                                                    {collection.name}
                                                 </div>
                                             </div>
                                         </div>

@@ -357,59 +357,70 @@ const collectionsEnum = [
         slug: "hot",
         name: "Hot",
         icon: "🔥",
-        description: "Hottest games right now"
+        description: "Hottest games right now",
+        bg: "#ff8c00"
     }, {
         slug: "most-played",
         name: "Most Played",
         icon: "🎲",
-        description: "Most played games"
+        description: "Most played games",
+        bg: "#4caf50"
     }, {
         slug: "top-rated",
         name: "Top Rated",
         icon: "⭐",
-        description: "Highest rated games"
+        description: "Highest rated games",
+        bg: "#fdd835"
     }, {
         slug: "best-selling",
         name: "Best selling",
         icon: "💰",
-        description: "Top-selling games"
+        description: "Top-selling games",
+        bg: "#f44336"
     }, {
         slug: "trending",
         name: "Trending",
         icon: "📈",
-        description: "Trending games"
+        description: "Trending games",
+        bg: "#2196f3"
     },
     {
         slug: "new",
         name: "New",
         icon: "🆕",
-        description: "Recently released games."
+        description: "Recently released games.",
+        bg: "#9c27b0"
     }, {
         slug: "best-for-2-players",
         name: "Best 2 Player",
         icon: "👫",
-        description: "Top games for two players"
+        description: "Top games for two players",
+        bg: "#e91e63"
     }, {
         slug: "best-for-families",
         name: "Best for Families",
         icon: "👨‍👩‍👧‍👦",
-        description: "Top games for families"
+        description: "Top games for families",
+        bg: "#00bcd4"
     },{
         slug: "best-for-parties",
         name: "Best for Parties",
         icon: "🎉",
-        description: "Top party games"
+        description: "Top party games",
+        bg: "#ff5722"
     }, {
         slug: "best-for-beginners",
         name: "Best for Beginners",
         icon: "👶",
-        description: "Top games for beginners"
+        description: "Top games for beginners",
+        bg: "#607d8b"
     }, {
         slug: "best-for-experts",
         name: "Best for Experts",
         icon: "🧠",
-        description: "Top games for experienced players"
-    }
+        description: "Top games for experienced players",
+        bg: "#795548"
+    },
 ]
 
 export {

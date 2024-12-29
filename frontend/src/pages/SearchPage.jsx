@@ -1174,7 +1174,7 @@ const SearchMain = () => {
                                     <Link
                                         key={collection.slug}
                                         to={`/discover/${collection.slug}`}
-                                        className="border-radius h-100 transition-duration clickable h-sm-set-150-px "
+                                        className="border-radius h-100 transition-duration clickable h-sm-set-150-px"
                                         style={{
                                             backgroundColor: collection.bg,
                                         }}
@@ -1184,7 +1184,7 @@ const SearchMain = () => {
                                                 <div className="fs-54 fs-sm-48 p-3 z-1 pos-absolute bottom-0 right-0 text-shadow-hard">
                                                     {collection.icon}
                                                 </div>
-                                                <div className="fs-24 bold pt-2 z-3 pos-relative w-max-100-px">
+                                                <div className="fs-24 bold pt-2 z-3 pos-relative w-max-100-px text-shadow-hard text-white">
                                                     {collection.name}
                                                 </div>
                                             </div>

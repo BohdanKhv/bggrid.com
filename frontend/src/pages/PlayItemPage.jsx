@@ -1,6 +1,6 @@
 import { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import {Avatar, Button, IconButton, Icon, Skeleton, Dropdown, HorizontalScroll} from '../components'
+import {Avatar, Button, IconButton, Icon, Skeleton, Dropdown, HorizontalScroll, Image} from '../components'
 import { Link, useNavigate, useParams, useSearchParams } from 'react-router-dom'
 import { editIcon, leftArrowIcon, shareIcon, moreIcon, trashIcon } from '../assets/img/icons'
 import UpdateLogPlay from './game/UpdateLogPlay'
@@ -162,6 +162,16 @@ const PlayItemPage = () => {
                                         {playById.comment ?
                                             <div className="fs-14 pt-3">
                                                 {playById.comment}
+                                            </div>
+                                        : null}
+                                        {playById.image ?
+                                            <div className="pt-3">
+                                                <Image
+                                                    img={playById?.image?.image}
+                                                    classNameImg="border-radius"
+                                                    bigDisplay
+                                                    classNameContainer="border h-set-200-px border-radius"
+                                                />
                                             </div>
                                         : null}
                                         <div className="flex flex flex-col border border-radius overflow-hidden mt-4">

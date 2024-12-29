@@ -16,8 +16,8 @@ const getPlayById = async (req, res) => {
     try {
         const play = await Play.findById(req.params.playId)
             .populate([{
-                path: 'game players.user user',
-                select: 'avatar username firstName lastName name thumbnail'
+                path: 'game players.user user image',
+                select: 'avatar username firstName lastName name thumbnail image'
             }]);
 
         if (!play) {

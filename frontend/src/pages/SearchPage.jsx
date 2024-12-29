@@ -62,7 +62,7 @@ const CollectionContent = ({ collection }) => {
                     }}
                 />
             </div>
-            <div className="fs-54 bold fs-sm-48 pb-3">
+            <div className="fs-54 bold fs-sm-48 pb-3 px-sm-3">
                 {collection.icon} {collection.name}
             </div>
             {isLoading ?

@@ -12,7 +12,7 @@ const getCommunityFeedForYou = async (req, res) => {
     let { page, limit, type } = req.query;
     type = type ? type.toLowerCase() : 'all';
     page = parseInt(page) || 1;
-    limit = parseInt(limit) || 20;
+    limit = (parseInt(limit) || 20) / (type === 'all' ? 2 : 1);
 
     try {
         // Get all games from user's library, only ids of the games

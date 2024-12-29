@@ -8,7 +8,7 @@ const initialState = {
     home: null,
     isLoading: false,
     isError: false,
-    limit: 40,
+    limit: 20,
     page: 1,
     hasMore: true,
 };

@@ -25,6 +25,7 @@ const Dropdown = ({
     dropdownButton,
     icon,
     classNameDropdown,
+    classNameParent,
     mobileDropdown,
     ...props
 }) => {
@@ -119,7 +120,7 @@ const Dropdown = ({
     }, [open2, setIsOpen]);
 
     return (
-        <div className={`dropdown flex-shrink-0${open2 ? ' dropdown-open' : ' dropdown-closed'}${disabled ? " cursor-disabled" : ""}${mobileDropdown ? ' dropdown-mobile' : ''}`}
+        <div className={`dropdown flex-shrink-0${classNameParent ? ` ${classNameParent}` : ""}${open2 ? ' dropdown-open' : ' dropdown-closed'}${disabled ? " cursor-disabled" : ""}${mobileDropdown ? ' dropdown-mobile' : ''}`}
             style={{
                 minWidth: minWidth ? `${minWidth}px` : undefined,
             }}

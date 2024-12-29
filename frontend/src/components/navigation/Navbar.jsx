@@ -115,9 +115,9 @@ const Navbar = () => {
                         // muted={pathname !== '/'}
                         to="/discover"
                         label="Games"
-                        icon={pathname === '/discover' || pathname.startsWith('/g/') || pathname.startsWith('/p/') ? searchFillIcon : searchIcon}
-                        type={pathname === '/discover' ? "secondary" : "secondary"}
-                        variant={pathname === '/discover' ? "" : "text"}
+                        icon={pathname.startsWith('/discover') || pathname.startsWith('/g/') || pathname.startsWith('/p/') ? searchFillIcon : searchIcon}
+                        type={pathname.startsWith('/discover') ? "secondary" : "secondary"}
+                        variant={pathname.startsWith('/discover') ? "" : "text"}
                     />
                     <Button
                         // muted={pathname !== '/library'}

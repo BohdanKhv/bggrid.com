@@ -82,6 +82,7 @@ function App() {
                       <Routes>
                         <Route path="/" element={<ErrBoundary><UserHomePage /></ErrBoundary>} />
                         <Route path="/discover" element={<ErrBoundary><SearchPage /></ErrBoundary>} />
+                        <Route path="/discover/:collection" element={<ErrBoundary><SearchPage /></ErrBoundary>} />
                         <Route path="/u/:username" element={<ErrBoundary><UserPage /></ErrBoundary>} />
                         <Route path="/u/:username/:tab" element={<ErrBoundary><UserPage /></ErrBoundary>} />
                         <Route path="/u/:username/plays/:playId" element={<ErrBoundary><div className="mx-auto w-max-xl offset-header w-100"><PlayItemPage /></div></ErrBoundary>} />

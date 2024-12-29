@@ -11,7 +11,6 @@ import userReducer from '../features/user/userSlice';
 import followReducer from '../features/follow/followSlice';
 import notificationReducer from '../features/notification/notificationSlice';
 import feedReducer from '../features/feed/feedSlice';
-import collectionReducer from '../features/collection/collectionSlice';
 
 
 
@@ -29,7 +28,6 @@ export const store = configureStore({
         follow: followReducer, // community, follow list
         notification: notificationReducer, // notification, follow request
         feed: feedReducer, // community page feed
-        collection: collectionReducer, // collections, (homepage, collection page)
     },
     devTools: import.meta.env.VITE_REDUX_DEV_TOOLS === 'true' ? true : false,
 });

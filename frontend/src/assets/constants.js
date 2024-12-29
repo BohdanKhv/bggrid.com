@@ -352,10 +352,60 @@ const tagsDetailedEnum = [
 //     icon: "✨"
 // }
 
+const collectionsEnum = [
+    {
+        slug: "hot",
+        name: "Hot",
+        icon: "🔥",
+        description: "Games currently trending or popular."
+    }, {
+        slug: "most-played",
+        name: "Most Played",
+        icon: "🎲",
+        description: "Games with the highest play counts."
+    }, {
+        slug: "best-selling",
+        name: "Best selling",
+        icon: "💰",
+        description: "Top-selling games."
+    }, {
+        slug: "trading",
+        name: "Trending",
+        icon: "📈",
+        description: "Games gaining popularity."
+    }, {
+        slug: "new",
+        name: "New",
+        icon: "🆕",
+        description: "Recently released games."
+    }, {
+        slug: "best-2-player",
+        name: "Best 2 Player",
+        icon: "👫",
+        description: "Top games for two players."
+    }, {
+        slug: "best-for-families",
+        name: "Best for Families",
+        icon: "👨‍👩‍👧‍👦",
+        description: "Top games for families."
+    }, {
+        slug: "best-for-beginners",
+        name: "Best for Beginners",
+        icon: "👶",
+        description: "Top games for new players."
+    }, {
+        slug: "best-for-parties",
+        name: "Best for Parties",
+        icon: "🎉",
+        description: "Top games for social gatherings."
+    }
+]
+
 export {
     mechanicsEnum,
     typeEnum,
     themesEnum,
     tagsEnum,
-    tagsDetailedEnum
+    tagsDetailedEnum,
+    collectionsEnum
 }

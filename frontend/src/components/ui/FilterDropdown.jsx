@@ -5,18 +5,19 @@ import Dropdown from "./Dropdown"
 import "./styles/FilterDropdown.css"
 import IconButton from "./IconButton"
 
-const FilterDropdown = ({ children, label, applied, onApply, onClear, mobileDropdown }) => {
+const FilterDropdown = ({ children, label, applied, onApply, onClear, mobileDropdown, classNameParent }) => {
     const [isOpen, setIsOpen] = useState(false)
 
     return (
         <Dropdown
             isOpen={isOpen}
             setIsOpen={setIsOpen}
+            classNameParent={classNameParent}
             mobileDropdown={mobileDropdown}
-            dropdownLabel={mobileDropdown ? `Filter by ${label}` : null}
+            dropdownLabel={mobileDropdown ? `${label}` : null}
             customDropdown={
                 <div className={`filter-dropdown${applied.length > 0 ? " filter-applied": ""}`}>
-                    <div className={`filter-dropdown-label`}>{ label || 'Filter' }</div>
+                    <div className={`filter-dropdown-label flex-1 flex-shrink-0 text-nowrap`}>{ label || 'Filter' }</div>
                     { applied?.length > 0 ?
                     <>
                     <div className="filter-dropdown-applied bold text-nowrap">({applied?.length})</div>
@@ -34,7 +35,7 @@ const FilterDropdown = ({ children, label, applied, onApply, onClear, mobileDrop
                 mobileDropdown && window.innerWidth < 768 ? null :
                 label &&
                 <div className="flex justify-between gap-4 overflow-hidden pb-4 align-center">
-                    <div className="fs-14 weight-600 text-ellipsis">Filter by <span className="text-lowercase">{label}</span></div>
+                    <div className="fs-14 weight-600 text-ellipsis">{label}</div>
                     <IconButton
                         icon={closeIcon}
                         size="sm"

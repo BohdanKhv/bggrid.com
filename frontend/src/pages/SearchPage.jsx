@@ -590,34 +590,34 @@ const SearchMain = () => {
     return (
         <>
                 <main className="page-body flex-1">
-                    <div className="animation-slide-in container flex-1 flex h-100">
-                        <div className="flex flex-col flex-1 overflow-x-hidden">
-                            <div className="flex py-3 justify-between px-sm-3 sticky-sm top-0 z-3 bg-main">
-                                <div className="title-1 bold">
-                                    Discover
-                                </div>
-                                {window.innerWidth < 800 ?
-                                    <>
-                                        {user ?
-                                            <div className="justify-end flex align-center flex-no-wrap gap-3">
-                                                <div
-                                                    onClick={() => {
-                                                        document.querySelector('.open-navbar-button').click()
-                                                    }}
-                                                    >
-                                                    <Avatar
-                                                        img={`${user?.avatar}`}
-                                                        name={user ? `${user?.email}` : null}
-                                                        rounded
-                                                        avatarColor="1"
-                                                        size="sm"
-                                                        />
-                                                </div>
+                    <div className="animation-slide-in container flex-1 flex-col flex h-100">
+                        <div className="flex py-3 justify-between px-sm-3 sticky-sm top-0 z-3 bg-main">
+                            <div className="title-1 bold">
+                                Discover
+                            </div>
+                            {window.innerWidth < 800 ?
+                                <>
+                                    {user ?
+                                        <div className="justify-end flex align-center flex-no-wrap gap-3">
+                                            <div
+                                                onClick={() => {
+                                                    document.querySelector('.open-navbar-button').click()
+                                                }}
+                                                >
+                                                <Avatar
+                                                    img={`${user?.avatar}`}
+                                                    name={user ? `${user?.email}` : null}
+                                                    rounded
+                                                    avatarColor="1"
+                                                    size="sm"
+                                                    />
                                             </div>
-                                        : null}
-                                        </>
+                                        </div>
                                     : null}
-                                </div>
+                                    </>
+                                : null}
+                            </div>
+                        <div className="flex flex-col flex-1 overflow-x-hidden">
                             <div className="pb-3 flex-1 flex flex-col pt-sm-0">
                                 <div className="bg-main flex flex-col px-sm-3">
                                     {window.innerWidth < 800 ?
@@ -774,7 +774,7 @@ const SearchMain = () => {
                                                         : null}
                                                 </div>
                                                 </Modal>
-                                                <div className="bg-secondary border-radius-lg py-2 px-3 flex align-center gap-2 fs-12 weight-600 flex-1 search-input-mobile"
+                                                <div className="bg-secondary border-radius-lg py-4 px-3 flex align-center gap-2 fs-16 weight-600 flex-1 search-input-mobile"
                                                     onClick={() => {
                                                         searchParams.set('sg', true)
                                                         setSearchParams(searchParams)
@@ -785,7 +785,7 @@ const SearchMain = () => {
                                                         size="sm"
                                                         className="fill-secondary"
                                                     />
-                                                    {searchValue.length ? `${searchValue}` : 'Search games'}
+                                                    {searchValue.length ? `${searchValue}` : <span className="text-secondary">Search games</span>}
                                                 </div>
                                             </>
                                         :

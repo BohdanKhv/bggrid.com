@@ -334,18 +334,18 @@ const LibraryItem = ({ item, index, tags, setTags }) =>  {
                     </div>
                     <div className="flex gap-5 py-2">
                         <div className="flex flex-col">
-                            <div className="fs-12 text-shadow-hard text-light weight-400 flex-col text-ellipsis-1 text-secondary">
+                            <div className="fs-12 text-shadow-hard text-light weight-400 flex-col text-ellipsis-1 text-secondary text-white">
                                 PLAYS
                             </div>
-                            <div className="fs-12 text-light text-shadow-hard text-nowrap flex-shrink-0 bold">
+                            <div className="fs-12 text-light text-shadow-hard text-nowrap flex-shrink-0 bold text-white">
                                 {numberFormatter(item.totalPlays || 0)}
                             </div>
                         </div>
                         <div className="flex flex-col">
-                        <div className="fs-12 text-shadow-hard text-light weight-400 flex-col text-ellipsis-1 text-secondary">
+                        <div className="fs-12 text-shadow-hard text-light weight-400 flex-col text-ellipsis-1 text-secondary text-white">
                                 LAST PLAYED
                             </div>
-                            <div className="fs-12 text-light text-shadow-hard text-nowrap flex-shrink-0 bold">
+                            <div className="fs-12 text-light text-shadow-hard text-nowrap flex-shrink-0 bold text-white">
                                 {item.lastPlayDate ? DateTime.now().diff(DateTime.fromISO(item.lastPlayDate), ['days']).days > 1 ? DateTime.fromISO(item.lastPlayDate).toFormat('LLL dd') :
                                 DateTime.fromISO(item.lastPlayDate).toRelative().replace(' days', 'd').replace(' day', 'd').replace(' hours', 'h').replace(' hour', 'h').replace(' minutes', 'm').replace(' minute', 'm').replace(' seconds', 's').replace(' second', 's') : 'never'}
                             </div>
@@ -687,25 +687,25 @@ const LibraryPage = () => {
                     <div className="flex flex-1 overflow-hidden">
                         <div className="flex-1 flex flex-col overflow-x-hidden">
                             {window.innerWidth < 800 && (
-                                <div className="px-sm-3 overflow-hidden pt-3 pt-sm-0">
-                                <HorizontalScroll>
-                                    <div className="justify-between flex-shrink-0 flex gap-2 bg-secondary border-radius px-3 py-2">
-                                        <div className="fs-12 text-secondary">
-                                        Games:
+                                <div className="px-sm-3 overflow-hidden pt-3 pt-sm-0 flex gap-3">
+                                {/* <HorizontalScroll> */}
+                                    <div className="flex-shrink-0 bg-secondary border-radius px-3 py-2 flex-1">
+                                        <div className="fs-14 text-secondary">
+                                            GAMES
                                         </div>
-                                        <div className="fs-12 text-end weight-500 text-nowrap">
+                                        <div className="fs-16 pt-2 bold text-nowrap">
                                         {library.length}
                                         </div>
                                     </div>
-                                    <div className="justify-between flex-shrink-0 flex gap-2 bg-secondary border-radius px-3 py-2">
-                                        <div className="fs-12 text-secondary">
-                                            Plays:
+                                    <div className="flex-shrink-0 bg-secondary border-radius px-3 py-2 flex-1">
+                                        <div className="fs-14 text-secondary">
+                                            PLAYS
                                         </div>
-                                        <div className="fs-12 text-end weight-500 text-nowrap">
+                                        <div className="fs-16 pt-2 bold text-nowrap">
                                         {library.reduce((acc, item) => acc + (item.totalPlays || 0), 0)}
                                         </div>
                                     </div>
-                                    <div className="justify-between flex-shrink-0 flex gap-2 bg-secondary border-radius px-3 py-2">
+                                    {/* <div className="justify-between flex-shrink-0 flex gap-2 bg-secondary border-radius px-3 py-2">
                                         <div className="fs-12 text-secondary">
                                             Playtime:
                                         </div>
@@ -721,7 +721,7 @@ const LibraryPage = () => {
                                             {library.reduce((acc, item) => acc + (item.totalWins || 0), 0)}
                                         </div>
                                     </div>
-                                </HorizontalScroll>
+                                </HorizontalScroll> */}
                             </div>
                             )}
                             {/* {window.innerWidth <= 800 && (
@@ -746,7 +746,6 @@ const LibraryPage = () => {
                                         <IconButton
                                             icon={closeIcon}
                                             variant="secondary"
-                                            size="sm"
                                             dataTooltipContent="Cancel"
                                             type="default"
                                             onClick={() => {
@@ -774,7 +773,6 @@ const LibraryPage = () => {
                                         <IconButton
                                             icon={searchIcon}
                                             variant="secondary"
-                                            size="sm"
                                             type="default"
                                             dataTooltipContent="Search Your Library"
                                             onClick={() => {
@@ -787,7 +785,6 @@ const LibraryPage = () => {
                                                     <IconButton
                                                         icon={closeIcon}
                                                         variant="secondary"
-                                                        size="sm"
                                                         type="default"
                                                         onClick={() => {
                                                             setTags([])
@@ -798,7 +795,6 @@ const LibraryPage = () => {
                                                 ) : 
                                                     <Button
                                                         label="All"
-                                                        size="sm"
                                                         borderRadius="lg"
                                                         variant="secondary"
                                                         className="animation-fade-in flex-shrink-0"
@@ -811,7 +807,6 @@ const LibraryPage = () => {
                                                         key={tag}
                                                         icon={tagsDetailedEnum.find((t) => t.label === tag)?.icon}
                                                         label={tag}
-                                                        size="sm"
                                                         borderRadius="lg"
                                                         variant="secondary"
                                                         className="animation-fade-in flex-shrink-0"

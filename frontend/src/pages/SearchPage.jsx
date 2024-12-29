@@ -31,8 +31,8 @@ const CollectionContent = ({ collection }) => {
             promise = dispatch(getBestsellerGames())
         } else if (collection.slug === 'best-for-beginners') {
             promise = dispatch(getCollection('&sort=most-popular&sortOrder=desc&minWeight=1&maxWeight=2'))
-        }  else if (collection.slug === 'best-for-experts') {
-            promise = dispatch(getCollection('&sort=most-popular&sortOrder=desc&minWeight=3.5&maxWeight=5'))
+        }  else if (collection.slug === 'difficult-games') {
+            promise = dispatch(getCollection('&sort=most-popular&sortOrder=desc&minWeight=4&maxWeight=5'))
         } else if (collection.slug === 'new') {
             promise = dispatch(getCollection('&sort=most-popular&sortOrder=desc&minYear=2023&maxYear=2024'))
         } else if (collection.slug === 'top-rated') {
@@ -41,8 +41,6 @@ const CollectionContent = ({ collection }) => {
             promise = dispatch(getCollection('&sort=most-popular&sortOrder=desc&players=2&minYear=2000'))
         } else if (collection.slug === 'best-for-parties') {
             promise = dispatch(getCollection('&sort=most-popular&sortOrder=desc&types=Party&minYear=2000&players=3-10'))
-        } else if (collection.slug === 'best-for-families') {
-            promise = dispatch(getCollection('&sort=most-popular&sortOrder=desc&types=Family&minYear=2000'))
         }
 
         return () => {
@@ -1146,14 +1144,14 @@ const SearchMain = () => {
                                     <Link
                                         key={collection.slug}
                                         to={`/discover/${collection.slug}`}
-                                        className="border-radius h-set-130-px transition-duration animation-bounce-hover-parent bg-tertiary-hover bg-secondary"
+                                        className="border-radius h-set-130-px transition-duration bg-tertiary-hover bg-secondary clickable"
                                     >
                                         <div className="h-100 pos-relative">
                                             <div className="border-radius-lg p-4">
-                                                <div className="fs-18 weight-600 pt-2 w-max-100-px">
+                                                <div className="fs-24 bold pt-2 w-max-100-px">
                                                     {collection.name}
                                                 </div>
-                                                <div className="fs-54 fs-sm-48 p-3 pos-absolute bottom-0 right-0 animation-bounce-hover text-shadow-hard">
+                                                <div className="fs-54 fs-sm-48 p-3 pos-absolute bottom-0 right-0 text-shadow-hard">
                                                     {collection.icon}
                                                 </div>
                                             </div>

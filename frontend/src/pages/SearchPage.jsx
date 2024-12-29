@@ -591,7 +591,7 @@ const SearchMain = () => {
         <>
                 <main className="page-body flex-1">
                     <div className="animation-slide-in container flex-1 flex h-100">
-                        <div className="overflow-hidden flex-1">
+                        <div className="flex flex-col flex-1 overflow-x-hidden">
                             <div className="flex py-3 justify-between px-sm-3 sticky-sm top-0 z-3 bg-main">
                                 <div className="title-1 bold">
                                     Discover
@@ -618,7 +618,7 @@ const SearchMain = () => {
                                         </>
                                     : null}
                                 </div>
-                            <div className="pb-6 pt-sm-0">
+                            <div className="pb-3 flex-1 flex flex-col pt-sm-0">
                                 <div className="bg-main flex flex-col px-sm-3">
                                     {window.innerWidth < 800 ?
                                         <>
@@ -1169,12 +1169,12 @@ const SearchMain = () => {
                             </div>
                         </div>
                             {!searchParams.get('s') && !searchParams.get('types') && !searchParams.get('mechanics') && !searchParams.get('themes') && !searchParams.get('players') && !searchParams.get('sort') && !searchParams.get('sortOrder') && !searchParams.get('minWeight') && !searchParams.get('maxWeight') ? 
-                                <div className="grid grid-cols-3 grid-sm-cols-2 gap-3 animation-slide-in px-sm-3">
+                                <div className="grid grid-cols-3 grid-sm-cols-2 gap-3 animation-slide-in px-sm-3 flex-1">
                                 {collectionsEnum.map((collection, i) => (
                                     <Link
                                         key={collection.slug}
                                         to={`/discover/${collection.slug}`}
-                                        className="border-radius h-set-130-px transition-duration clickable"
+                                        className="border-radius h-100 transition-duration clickable h-sm-set-150-px "
                                         style={{
                                             backgroundColor: collection.bg,
                                         }}

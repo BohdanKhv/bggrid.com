@@ -177,6 +177,7 @@ const CommunityPage = () => {
                                     Community
                                 </div>
                                 <div className="justify-end flex align-center flex-no-wrap gap-3">
+                                    <FollowSearchModal/>
                                     <IconButton
                                         icon={largePlusIcon}
                                         variant="text"

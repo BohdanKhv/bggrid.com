@@ -370,7 +370,7 @@ const collectionsEnum = [
         name: "Top Rated",
         icon: "⭐",
         description: "Highest rated games",
-        bg: "#fdd835"
+        bg: "#efc716"
     }, {
         slug: "best-selling",
         name: "Best selling",

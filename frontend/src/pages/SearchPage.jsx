@@ -1173,24 +1173,36 @@ const SearchMain = () => {
                             </div>
                         </div>
                             {!searchParams.get('s') && !searchParams.get('types') && !searchParams.get('mechanics') && !searchParams.get('themes') && !searchParams.get('players') && !searchParams.get('sort') && !searchParams.get('sortOrder') && !searchParams.get('minWeight') && !searchParams.get('maxWeight') ? 
-                                <div className="grid grid-cols-3 grid-sm-cols-2 gap-3 animation-slide-in px-sm-3 flex-1">
+                                <div className="grid grid-cols-3 grid-sm-cols-2 gap-3 animation-slide-in px-sm-3">
                                 {collectionsEnum
                                 .filter((collection) => !user && collection.slug === 'for-you' ? false : true)
                                 .map((collection, i) => (
                                     <Link
                                         key={collection.slug}
                                         to={`/discover/${collection.slug}`}
-                                        className="border-radius h-100 transition-duration clickable h-sm-set-150-px"
+                                        className="border-radius transition-duration clickable h-set-100-px overflow-hidden"
                                         style={{
                                             backgroundColor: collection.bg,
                                         }}
                                     >
                                         <div className="h-100 pos-relative">
                                             <div className="border-radius-lg p-4">
-                                                <div className="fs-54 fs-sm-48 p-3 z-1 pos-absolute bottom-0 right-0 text-shadow-hard">
-                                                    {collection.icon}
+                                                <div className="fs-24 flex align-center justify-center z-1 pos-absolute bottom-0 right-0 bg-white text-secondary p-sm-2 border-radius-50 p-4"
+                                                    style={{
+                                                        transform: "rotate(45deg) translate(2px, 15px)",
+                                                        right: "-20px",
+                                                    }}
+                                                >
+                                                    <div
+                                                    className="p-sm-2"
+                                                        style={{
+                                                            transform: "rotate(-45deg)",
+                                                        }}
+                                                    >
+                                                        {collection.icon}
+                                                    </div>
                                                 </div>
-                                                <div className="fs-24 bold pt-2 z-3 pos-relative w-max-100-px text-shadow-hard text-white">
+                                                <div className="fs-20 fs-sm-18 bold z-3 pos-relative w-max-100-px text-white">
                                                     {collection.name}
                                                 </div>
                                             </div>

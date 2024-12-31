@@ -116,11 +116,12 @@ const CollectionContent = ({ collection }) => {
                             </div>
                             <Skeleton
                                 height={73}
-                                width="80"
+                                width="73"
+                                className="flex-shrink-0"
                                 animation="wave"
                             />
                             <Skeleton
-                                height={92}
+                                height={80}
                                 animation="wave"
                             />
                         </div>
@@ -1183,22 +1184,16 @@ const SearchMain = () => {
                                         className="border-radius transition-duration clickable h-set-100-px overflow-hidden"
                                         style={{
                                             backgroundColor: collection.bg,
+                                            border: `1px solid ${collection.bg}`,
                                         }}
                                     >
                                         <div className="h-100 pos-relative">
                                             <div className="border-radius-lg p-4">
-                                                <div className="fs-24 flex align-center justify-center z-1 pos-absolute bottom-0 right-0 bg-white text-secondary p-sm-2 border-radius-50 p-4"
-                                                    style={{
-                                                        transform: "rotate(45deg) translate(2px, 15px)",
-                                                        right: "-20px",
-                                                    }}
+                                                <div className="fs-20 flex align-center justify-center z-1 pos-absolute bottom-0 right-0 bg-white text-secondary w-set-50-px h-set-50-px"
+                                                    style={{borderTopLeftRadius: '50%',borderBottomLeftRadius: '50%',borderTopRightRadius: '50%'}}
                                                 >
                                                     <div
-                                                    className="p-sm-2"
-                                                        style={{
-                                                            transform: "rotate(-45deg)",
-                                                        }}
-                                                    >
+                                                    className="p-sm-2">
                                                         {collection.icon}
                                                     </div>
                                                 </div>

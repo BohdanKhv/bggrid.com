@@ -12,13 +12,15 @@ const cheerio = require('cheerio');
 const getGamesByPublisherId = async (req, res) => {
     try {
         const { page, limit } = req.query;
-        const options = {
+        let options = {
             page: parseInt(page) || 1,
             limit: parseInt(limit) || 20,
             sort: { numRatings: -1},
             populate: 'publishers',
             select: 'name thumbnail image year numRatings rating complexityWeight minPlayers maxPlayers minPlaytime maxPlaytime'
         };
+
+        if (options.limit > 50) options.limit = 50;
 
         const games = await Game.paginate({ publishers:
             new mongoose.Types.ObjectId(req.params.publisherId)
@@ -46,13 +48,15 @@ const getGamesByPublisherId = async (req, res) => {
 const getGamesByPersonId = async (req, res) => {
     try {
         const { page, limit } = req.query;
-        const options = {
+        let options = {
             page: parseInt(page) || 1,
             limit: parseInt(limit) || 20,
             sort: { numRatings: -1},
             populate: 'publishers',
             select: 'name thumbnail image year numRatings rating complexityWeight minPlayers maxPlayers minPlaytime maxPlaytime'
         };
+
+        if (options.limit > 50) options.limit = 50;
 
         const games = await Game.paginate({ 
             $or: [
@@ -86,7 +90,6 @@ const getGames = async (req, res) => {
         const { page, limit } = req.query;
         const { mechanics, types, themes, publisherId, players, minWeight, maxWeight, minYear, maxYear } = req.query;
         const { sort, sortOrder } = req.query;
-        console.log(`Page: ${page}`);
 
         let options = {
             page: parseInt(page) || 1,
@@ -95,6 +98,8 @@ const getGames = async (req, res) => {
             populate: 'publishers',
             select: 'name thumbnail image year numRatings rating complexityWeight minPlayers maxPlayers minPlaytime maxPlaytime'
         };
+
+        if (options.limit > 50) options.limit = 50;
 
         if (sort) {
             if (sort === 'relevance') { options.sort = { name: sortOrder === 'asc' ? 1 : -1 } }
@@ -116,7 +121,7 @@ const getGames = async (req, res) => {
         if (themes && themes.length > 0) cats.push(...themes.split(','))
 
         if (cats && cats.length > 0) {
-            console.log(cats)
+            // console.log(cats)
             q.$or = [
                 { themes: { $in: cats.map(theme => new RegExp(theme, 'i')) } },
                 { mechanics: { $in: cats.map(theme => new RegExp(theme, 'i')) } },
@@ -146,8 +151,9 @@ const getGames = async (req, res) => {
         const currentPage = games.page;
         const totalPages = games.totalPages;
         
-        console.log(`Current Page: ${currentPage}`);
-        console.log(`Total Pages: ${totalPages}`);
+        // console.log(`Current Page: ${currentPage}`);
+        // console.log(`Total Pages: ${totalPages}`);
+        // console.log(`Total Docs: ${games.docs.length}`);
 
         res.status(200).json({
             data: games.docs,
@@ -380,6 +386,8 @@ const getHotGames = async (req, res) => {
             { $limit: 50 }
         ]);
 
+        // console.log(games.length);
+
         res.status(200).json({
             data: games
         });
@@ -421,6 +429,7 @@ const getTrendingGames = async (req, res) => {
             { $limit: 50 }
         ]);
 
+        // console.log(games.length);
         res.status(200).json({
             data: games
         });
@@ -462,6 +471,7 @@ const getMostPlayedGames = async (req, res) => {
             { $limit: 50 }
         ]);
 
+        // console.log(games.length);
         res.status(200).json({
             data: games
         });
@@ -503,6 +513,7 @@ const getBestsellerGames = async (req, res) => {
             { $limit: 50 }
         ]);
 
+        // console.log(games.length);
         res.status(200).json({
             data: games
         });
@@ -539,6 +550,7 @@ const getForYouGames = async (req, res) => {
         .populate('publishers', 'name')
         .limit(50)
 
+        // console.log(games.length);
         res.status(200).json({
             data: games
         });

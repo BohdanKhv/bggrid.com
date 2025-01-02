@@ -41,8 +41,6 @@ const gameSchema = new mongoose.Schema({
     isExpansion: { type: Boolean, required: false, default: false },
 }, { timestamps: true });
 
-gameSchema.index({ name: 'text' });
-
 gameSchema.plugin(mongoosePaginate);
 
 

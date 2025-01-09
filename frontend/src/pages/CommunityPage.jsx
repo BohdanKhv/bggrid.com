@@ -109,13 +109,13 @@ const CommunityPage = () => {
 
     const [searchParams, setSearchParams] = useSearchParams()
 
-    const [tab, setTab] = useState('for-you')
+    const [tab, setTab] = useState('following')
 
     const { user } = useSelector((state) => state.auth)
     const { follow, isLoading: followingIsLoading } = useSelector((state) => state.follow)
     const { feed, hasMore, isLoading, isError } = useSelector((state) => state.feed)
 
-    const [feedType, setFeedType] = useState(tab === 'for-you' ? 'for-you' : tab === 'following' ? 'following' : 'for-you')
+    const [feedType, setFeedType] = useState(tab === 'for-you' ? 'for-you' : tab === 'following' ? 'following' : 'following')
     const [type, setType] = useState(null)
 
     const getData = () => {
@@ -208,12 +208,12 @@ const CommunityPage = () => {
                                 <div className="pt-3 ps-sm-3 ps-4 pt-sm-0 border-bottom">
                                         <TabContent
                                             items={[
-                                                {label: 'For you'},
                                                 {label: 'Following'},
+                                                {label: 'For You'},
                                             ]}
                                             classNameContainer="w-100"
                                             classNameItem="flex-1"
-                                            activeTabName={feedType.replace('-', ' ') || 'for-you'}
+                                            activeTabName={feedType.replace('-', ' ') || 'following'}
                                             setActiveTabName={(e) => {
                                                 navigate(`/community/${e.replace(' ', '-').toLowerCase()}`)
                                                 setFeedType(e.replace(' ', '-').toLowerCase())

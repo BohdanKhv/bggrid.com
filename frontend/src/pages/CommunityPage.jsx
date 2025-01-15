@@ -13,6 +13,8 @@ import { tagsDetailedEnum } from '../assets/constants'
 
 
 const LibraryItem = ({ item }) => {
+    const navigate = useNavigate()
+
     const getStarIcon = (rating, index) => {
         if (rating >= index + 1) {
             return starFillIcon;
@@ -30,6 +32,7 @@ const LibraryItem = ({ item }) => {
                     avatarColor={item?.game?.name?.length}
                     name={item?.game?.name}
                     size="lg"
+                    onClick={() => navigate(`/g/${item.game._id}`)}
                 />
                 <div className="flex flex-col justify-between flex-1">
                     <div className="flex gap-2 justify-between">

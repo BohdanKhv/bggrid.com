@@ -24,12 +24,9 @@ const YoutubeVideoItem = ({ item, thumbnail }) => {
 
     return (
         error ? null :
-        <div className="flex gap-3 flex-col animation-slide-in"
-            onClick={() => {
-                if (thumbnail) {
-                    window.open(`https://www.youtube.com/watch?v=${item.videoId}`, '_blank')
-                }
-            }}
+        <Link className="flex gap-3 flex-col animation-slide-in"
+            target="_blank"
+            to={`https://www.youtube.com/watch?v=${item.videoId}`}
         >
             <div className="border-radius bg-secondary flex align-center justify-center border-radius-lg overflow-hidden h-set-200-px">
                 {/* Embed youtube video */}
@@ -57,7 +54,7 @@ const YoutubeVideoItem = ({ item, thumbnail }) => {
                     </div>
                 </div>
             </div>
-        </div>
+        </Link>
     )
 }
 

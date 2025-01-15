@@ -200,6 +200,7 @@ const PlayItem = ({ item, showOptions }) => {
                     avatarColor={item?.game?.name?.length}
                     name={item?.game?.name}
                     size="lg"
+                    imgClassName="pointer"
                     onClick={() => navigate(`/g/${item.game._id}`)}
                 />
                 <div className="flex flex-col justify-between flex-1">

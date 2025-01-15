@@ -193,7 +193,7 @@ const PlayItem = ({ item, showOptions }) => {
     return (
         <>
         {isDownloading ? <DownloadItem item={item} setIsDownloading={setIsDownloading} /> : null}
-        <div className={`px-sm-3 bg-main border-bottom show-on-hover-parent border-secondary transition-duration display-on-hover-parent animation-slide-in`}>
+        <div className={`px-sm-3 bg-main border-bottom show-on-hover-parent border-secondary transition-duration display-on-hover-parent`}>
             <div className="flex gap-3 pt-3 pt-sm-3 pb-2">
                 <Avatar
                     img={item?.game?.thumbnail}

@@ -38,7 +38,9 @@ const YoutubeVideoItem = ({ item, thumbnail }) => {
                 />
             </div>
             <div className="flex flex-col gap-1 flex-1">
-                <div className="fs-14 weight-500 text-ellipsis-2 text-underlined-hover">
+                <div className="fs-14 weight-500 text-ellipsis-2 text-underlined-hover"
+                    title={item.title}
+                >
                     {item.title}
                 </div>
                 <div className="flex gap-2 align-center text-secondary fs-12 pt-2">

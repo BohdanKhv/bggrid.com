@@ -11,7 +11,7 @@ const getMyNotification = async (req, res) => {
         page = parseInt(page) || 1;
 
         const notifications = await Notification
-        .paginate({ receiver: req.user._id }, { limit, page, sort: { createdAt: -1 }, populate: 'sender', select: '-receiver' });
+        .paginate({ receiver: req.user._id }, { sort: { createdAt: -1 }, limit, page, populate: 'sender', select: '-receiver' });
 
         return res.status(200).json({
             data: notifications.docs,

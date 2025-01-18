@@ -191,7 +191,7 @@ const getMe = async (req, res) => {
                     token: generateToken(req.user._id)
                 },
                 library: games,
-                unreadNotifications,
+                unreadNotifications: unreadNotifications || 0,
                 serverVersion: pJson.version
             }
         });

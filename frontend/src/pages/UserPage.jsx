@@ -223,10 +223,10 @@ const UserPage = () => {
         const promise = dispatch(getUserProfile(username))
 
         return () => {
-            promise.abort()
+            promise && promise.abort()
             // dispatch(resetPlay())
         }
-    }, [])
+    }, [username])
 
     const observer = useRef();
     const lastElementRef = useCallback(node => {

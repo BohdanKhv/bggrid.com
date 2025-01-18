@@ -120,10 +120,10 @@ const CommunityPage = () => {
     const { feed, hasMore, isLoading, isError } = useSelector((state) => state.feed)
 
     const [feedType, setFeedType] = useState(tab === 'for-you' ? 'for-you' : tab === 'following' ? 'following' : 'following')
-    const [type, setType] = useState(null)
+    const [type, setType] = useState('library')
 
     const getData = () => {
-        dispatch(getCommunityFeed(!type ? 'all' : type))
+        dispatch(getCommunityFeed(!type ? 'library' : type))
     }
 
     useEffect(() => {
@@ -142,9 +142,9 @@ const CommunityPage = () => {
         console.log('d')
         let promise;
         if (feedType === 'for-you') {
-            promise = dispatch(getCommunityFeedForYou(!type ? 'all' : type))
+            promise = dispatch(getCommunityFeedForYou(!type ? 'library' : type))
         } else {
-            dispatch(getCommunityFeed(!type ? 'all' : type))
+            dispatch(getCommunityFeed(!type ? 'library' : type))
         }
         return () => {
             promise && promise.abort()
@@ -227,7 +227,7 @@ const CommunityPage = () => {
                             <div>
                                 <div className="pt-3 px-sm-3">
                                     <div className="flex gap-2">
-                                        {['All', 'Plays', 'Library'].map((item, index) => (
+                                        {['Library', 'Plays'].map((item, index) => (
                                             <Button
                                                 key={index}
                                                 label={item}

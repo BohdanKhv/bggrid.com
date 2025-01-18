@@ -29,13 +29,13 @@ const getCommunityFeedForYou = async (req, res) => {
         let recentPlays = [];
         let libraryItems = [];
 
-        if (type === 'all' || type === 'plays') {
+        if (type === 'plays') {
             recentPlays = await Play.paginate(
                 { game: { $in: userLibrary }, user: { $ne: req.user._id } },
                 {
-                    sort: { createdAt: -1, updatedAt: -1 },
                     page,
                     limit,
+                    sort: { createdAt: -1 },
                     populate: [
                         { path: 'game', select: 'name thumbnail' },
                         { path: 'players.user', select: 'avatar username firstName lastName' },
@@ -46,13 +46,13 @@ const getCommunityFeedForYou = async (req, res) => {
             );
         }
 
-        if (type === 'all' || type === 'library') {
+        if (type === 'library') {
             libraryItems = await Library.paginate(
                 { game: { $in: userLibrary }, user: { $ne: req.user._id } },
                 {
-                    sort: { createdAt: -1, updatedAt: -1 },
                     page,
                     limit,
+                    sort: { createdAt: -1 },
                     populate: [
                         { path: 'game', select: 'name thumbnail' },
                         { path: 'user', select: 'avatar username firstName lastName' }
@@ -62,29 +62,24 @@ const getCommunityFeedForYou = async (req, res) => {
         }
 
         // Combine plays and library items
-        const feedItems = [];
+        let feedItems = [];
 
-        if (type === 'all' || type === 'plays') {
+        if (type === 'plays') {
             feedItems.push(...recentPlays.docs.map(play => ({
                 type: 'play',
                 item: play
             })));
         }
 
-        if (type === 'all' || type === 'library') {
+        if (type === 'library') {
             feedItems.push(...libraryItems.docs.map(libraryItem => ({
                 type: 'library',
                 item: libraryItem
             })));
         }
 
-        // Sort feed items by updatedAt
-        feedItems.sort((a, b) => b.item.createdAt - a.item.createdAt);
-        console.log(feedItems)
-
         // Determine if there are more items to fetch
         const hasMore = (recentPlays.hasNextPage || libraryItems.hasNextPage);
-
         return res.status(200).json({
             data: feedItems,
             hasMore
@@ -119,7 +114,7 @@ const getCommunityFeed = async (req, res) => {
         let followingRecentPlays = [];
         let followingLibraryItems = [];
 
-        if (type === 'all' || type === 'plays') {
+        if (type === 'plays') {
             followingRecentPlays = await Play.paginate(
                 { user: { $in: following } },
                 {
@@ -136,7 +131,7 @@ const getCommunityFeed = async (req, res) => {
             );
         }
 
-        if (type === 'all' || type === 'library') {
+        if (type === 'library') {
             followingLibraryItems = await Library.paginate(
                 { user: { $in: following } },
                 {
@@ -154,14 +149,14 @@ const getCommunityFeed = async (req, res) => {
         // Combine plays and library items
         const feedItems = [];
 
-        if (type === 'all' || type === 'plays') {
+        if (type === 'plays') {
             feedItems.push(...followingRecentPlays.docs.map(play => ({
                 type: 'play',
                 item: play
             })));
         }
 
-        if (type === 'all' || type === 'library') {
+        if (type === 'library') {
             feedItems.push(...followingLibraryItems.docs.map(libraryItem => ({
                 type: 'library',
                 item: libraryItem
@@ -169,7 +164,7 @@ const getCommunityFeed = async (req, res) => {
         }
 
         // Sort feed items by updatedAt
-        feedItems.sort((a, b) => (b.item.createdAt ) - ( a.item.createdAt ));
+        // feedItems.sort((a, b) => (b.item.createdAt ) - ( a.item.createdAt ));
 
         // Determine if there are more items to fetch
         const hasMore = (followingRecentPlays.hasNextPage || followingLibraryItems.hasNextPage);

@@ -15,7 +15,7 @@
     padding-bottom: env(safe-area-inset-bottom);
     z-index: 98;
     /* background-color: var(--color-main); */
-    overflow-y: auto;
+    /* overflow-y: auto; */
     /* backdrop-filter: blur(16px);
     -webkit-backdrop-filter: blur(16px); */
 }

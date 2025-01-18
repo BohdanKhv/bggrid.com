@@ -729,7 +729,7 @@ const UserHomePage = () => {
     const { follow } = useSelector((state) => state.follow)
     const { library } = useSelector((state) => state.library)
     const [searchParams, setSearchParams] = useSearchParams()
-    const { notifications } = useSelector((state) => state.notification)
+    const { unread } = useSelector((state) => state.notification)
 
     useEffect(() => {
         window.scrollTo(0, 0)
@@ -752,7 +752,7 @@ const UserHomePage = () => {
                                             type="secondary"
                                             to="/notifications"
                                             notify
-                                            notifyCount={notifications.filter(notification => !notification.read)?.length || 0}
+                                            notifyCount={unread || 0}
                                         />
                                         <div
                                             onClick={() => {

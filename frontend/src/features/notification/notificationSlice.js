@@ -1,6 +1,7 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import notificationService from './notificationService';
 import { toast } from 'react-toastify';
+import { getMe } from "../auth/authSlice";
 
 const initialState = {
     notifications: [],
@@ -8,6 +9,7 @@ const initialState = {
     page: 1,
     limit: 20,
     hasMore: true,
+    unread: 0,
 };
 
 export const getMyNotification = createAsyncThunk(
@@ -54,10 +56,11 @@ export const notificationSlice = createSlice({
     initialState,
     reducers: {
         resetNotifications: (state) => {
-            state.notifications = null;
+            state.notifications = [];
             state.isLoading = false;
             state.page = 1;
             state.limit = 20;
+            state.hasMore = true;
         },
     },
     extraReducers: (builder) => {
@@ -77,10 +80,16 @@ export const notificationSlice = createSlice({
 
         builder.addCase(readNotifications.fulfilled, (state, action) => {
             state.isSuccess = true;
-            state.notifications = state.notifications.map((notification) => {
-                notification.read = true;
-                return notification;
-            });
+            // state.notifications = state.notifications.map((notification) => {
+            //     notification.read = true;
+            //     return notification;
+            // });
+            state.unread = 0;
+        })
+
+        builder.addCase(getMe.fulfilled, (state, action) => {
+            console.log(action.payload.data.unreadNotifications);
+            state.unread = action.payload.data.unreadNotifications;
         })
     }
 });

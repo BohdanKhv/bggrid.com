@@ -17,7 +17,7 @@ const Navbar = () => {
     const [navOpen, setNavOpen] = useState(false);
     const [isOpen, setIsOpen] = useState(false);
 
-    const { notifications } = useSelector(state => state.notification)
+    const { unread } = useSelector(state => state.notification)
 
     const { user, serverVersion } = useSelector(state => state.auth)
     const { pathname } = useLocation()
@@ -141,9 +141,11 @@ const Navbar = () => {
                         label={
                         <>
                             Notifications
-                            <span className="fs-14 text-danger ps-3">
-                                {notifications.filter(notification => !notification.read).length || ""}
+                            {unread > 0 &&
+                            <span className="fs-14 text-primary ps-3">
+                                {unread}
                             </span>
+                            }
                         </>
                         }
                         icon={pathname === '/notifications' ? bellFillIcon : bellIcon}

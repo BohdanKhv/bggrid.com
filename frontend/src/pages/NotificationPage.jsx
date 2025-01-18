@@ -5,7 +5,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import { DateTime } from 'luxon';
 import PlayItem from './PlayItem';
 import { bellIcon, rightArrowIcon, settingsIcon } from '../assets/img/icons';
-import { getMyNotification, readNotifications } from '../features/notification/notificationSlice';
+import { getMyNotification, readNotifications, resetNotifications } from '../features/notification/notificationSlice';
 
 
 const NotificationItem = ({item}) => {
@@ -67,7 +67,13 @@ const NotificationPage = () => {
         window.scrollTo(0, 0);
         document.title = 'Notifications';
 
+        const promise = dispatch(getMyNotification());
         dispatch(readNotifications());
+
+        return () => {
+            promise && promise.abort();
+            dispatch(resetNotifications());
+        }
     }, []);
 
 

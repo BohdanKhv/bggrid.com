@@ -4,6 +4,7 @@ const ResetToken = require('../models/resetTokenModel');
 const nodeMailer = require('nodemailer');
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcryptjs');
+const Notification = require('../models/notificationModel');
 const crypto = require('crypto');
 const emailLoginLink = require('../components/EmailLoginLink');
 const emailResetLink = require('../components/EmailResetLink');
@@ -179,6 +180,10 @@ const getMe = async (req, res) => {
         const games = await Library.find({ user: req.user._id })
         .populate('game', 'name thumbnail')
 
+        // get unread notifications count
+        const unreadNotifications = await Notification
+        .countDocuments({ receiver: req.user._id, read: false });
+
         return res.status(200).json({
             data: {
                 user: {
@@ -186,6 +191,7 @@ const getMe = async (req, res) => {
                     token: generateToken(req.user._id)
                 },
                 library: games,
+                unreadNotifications,
                 serverVersion: pJson.version
             }
         });

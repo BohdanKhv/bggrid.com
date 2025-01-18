@@ -2,7 +2,6 @@ import { useEffect } from "react"
 import { useDispatch, useSelector } from "react-redux"
 import { ErrorInfo } from "../../components"
 import { getMe } from "../../features/auth/authSlice"
-import { getMyNotification } from "../../features/notification/notificationSlice"
 
 const UserGuard = ({children}) => {
     const dispatch = useDispatch()
@@ -15,18 +14,6 @@ const UserGuard = ({children}) => {
             promise && promise.abort()
         }
     }, [])
-
-    useEffect(() => {
-        let promise;
-
-        if (user) {
-            promise = dispatch(getMyNotification())
-        }
-
-        return () => {
-            promise && promise.abort()
-        }
-    }, [user])
 
     return (
         isLoading ?

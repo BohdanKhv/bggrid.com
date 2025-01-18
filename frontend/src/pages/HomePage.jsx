@@ -147,7 +147,7 @@ const Section5 = () => {
                 background: "radial-gradient(50% 120% at 60% 100%, rgb(51, 0, 255) 0%, rgb(0, 0, 0) 100%)"
             }}>
                 <div className="flex flex-1 p-6 pb-sm-0 text-sm-center">
-                    <div className="flex-2 d-sm-none"/>
+                    {/* <div className="flex-2 d-sm-none"/> */}
                     <div className="flex align-center gap-6 flex-1">
                         <div>
                             <div className="fs-28 bold pb-3 text-shadow-hard">

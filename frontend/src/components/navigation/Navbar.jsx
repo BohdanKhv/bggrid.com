@@ -163,7 +163,10 @@ const Navbar = () => {
                     <Button
                         label="Log Out"
                         icon={logoutIcon}
-                        onClick={() => dispatch(logout())}
+                        onClick={() => {
+                            dispatch(logout())
+                        }}
+                        to="/"
                         type="secondary"
                         className="w-100"
                         variant="text"

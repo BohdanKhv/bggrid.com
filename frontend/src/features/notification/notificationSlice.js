@@ -71,7 +71,6 @@ export const notificationSlice = createSlice({
             state.isLoading = false;
             state.notifications.push(...action.payload.data);
             state.page += 1;
-            console.log(action.payload.totalPages, action.payload.currentPage);
             state.hasMore = action.payload.totalPages > action.payload.currentPage;
         })
         builder.addCase(getMyNotification.rejected, (state, action) => {
@@ -88,7 +87,6 @@ export const notificationSlice = createSlice({
         })
 
         builder.addCase(getMe.fulfilled, (state, action) => {
-            console.log(action.payload.data.unreadNotifications);
             state.unread = action.payload.data.unreadNotifications;
         })
     }

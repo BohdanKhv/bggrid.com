@@ -72,7 +72,6 @@ const NotificationPage = () => {
 
         return () => {
             promise && promise.abort();
-            dispatch(resetNotifications());
         }
     }, []);
 
@@ -83,10 +82,11 @@ const NotificationPage = () => {
         if (observer.current) observer.current.disconnect();
         observer.current = new IntersectionObserver(entries => {
             if (entries[0].isIntersecting && hasMore && !isError) {
-                const promise = dispatch( getMyNotification())
+                const promise = dispatch(getMyNotification())
         
                 return () => {
                     promise && promise.abort();
+                    dispatch(resetNotifications());
                     observer.current && observer.current.disconnect();
                 }
             }

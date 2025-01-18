@@ -992,7 +992,7 @@ const LibraryPage = () => {
                                 Playtime:
                             </div>
                             <div className="fs-14 text-end weight-500 text-nowrap">
-                                {addCommaToNumber(library.reduce((acc, item) => acc + (Number(item.totalPlayTime || 0)), 0))} Min
+                                {addCommaToNumber(library.reduce((acc, item) => acc + (console.log(item.totalPlayTime) || 0), 0))} Min
                             </div>
                         </div>
                         <div className="justify-between flex-shrink-0 flex gap-2 mx-4 py-4">

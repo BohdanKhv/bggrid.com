@@ -54,7 +54,7 @@ const updatePlay = async (req, res) => {
         }
 
         play.comment = comment;
-        play.playTimeMinutes = playTimeMinutes;
+        play.playTimeMinutes = Number(playTimeMinutes || 0);
         play.players = players;
 
         await play.save();
@@ -63,7 +63,7 @@ const updatePlay = async (req, res) => {
         const library = await Library.findOne({ user: req.user._id, game: play.game });
 
         if (library) {
-            library.totalPlayTime += playTimeMinutes;
+            library.totalPlayTime += Number(playTimeMinutes || 0);
             library.totalPlays += 1;
             // Check if user is a winner
             const winner = players.find(player => player.winner && player.user.toString() === req.user._id.toString());
@@ -261,7 +261,7 @@ const createPlay = async (req, res) => {
         let newPlayData = {
             game: gameId,
             comment,
-            playTimeMinutes,
+            playTimeMinutes: Number(playTimeMinutes || 0),
             players,
             playDate,
             user: req.user._id
@@ -296,7 +296,7 @@ const createPlay = async (req, res) => {
 
         if (library) {
             library.totalPlays += 1;
-            library.totalPlayTime += playTimeMinutes || 0;
+            library.totalPlayTime += Number(playTimeMinutes || 0);
             // Check if user is a winner
             const winner = players.find(player => player.winner);
             if (winner) {
@@ -329,7 +329,7 @@ const createPlay = async (req, res) => {
                 tags: ["Played"],
                 rating: 0,
                 totalPlays: playData ? (playData.totalPlays + 1) : 1,
-                totalPlayTime: playData ? (playData.totalPlayTime + (playTimeMinutes || 0)) : (playTimeMinutes || 0),
+                totalPlayTime: playData ? (playData.totalPlayTime + Number(playTimeMinutes || 0)) : Number(playTimeMinutes || 0),
                 totalWins: playData ? (playData.totalWins + (winner ? 1 : 0)) : winner ? 1 : 0,
                 lastPlayDate: playData ? playData.lastPlayDate || new Date() : new Date()
             });
@@ -405,7 +405,7 @@ const deletePlay = async (req, res) => {
 
         if (library) {
             library.totalPlays -= 1;
-            library.totalPlayTime -= play.playTimeMinutes;
+            library.totalPlayTime -= Number(play.playTimeMinutes);
             // Check if user is a winner
             const winner = play.players.find(player => player.winner);
             if (winner) {

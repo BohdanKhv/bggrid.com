@@ -124,7 +124,7 @@ const getCommunityFeed = async (req, res) => {
                 {
                     page,
                     limit,
-                    sort: { updatedAt: -1 },
+                    sort: { createdAt: -1 },
                     populate: [
                         { path: 'game', select: 'name thumbnail' },
                         { path: 'players.user', select: 'avatar username firstName lastName' },
@@ -141,7 +141,7 @@ const getCommunityFeed = async (req, res) => {
                 {
                     page,
                     limit,
-                    sort: { updatedAt: -1 },
+                    sort: { createdAt: -1 },
                     populate: [
                         { path: 'game', select: 'name thumbnail' },
                         { path: 'user', select: 'avatar username firstName lastName' }
@@ -168,7 +168,7 @@ const getCommunityFeed = async (req, res) => {
         }
 
         // Sort feed items by updatedAt
-        feedItems.sort((a, b) => (b.item.updatedAt || b.item.createdAt ) - (a.item.updatedAt || a.item.createdAt ));
+        feedItems.sort((a, b) => (b.item.createdAt ) - ( a.item.createdAt ));
 
         // Determine if there are more items to fetch
         const hasMore = (followingRecentPlays.hasNextPage || followingLibraryItems.hasNextPage);

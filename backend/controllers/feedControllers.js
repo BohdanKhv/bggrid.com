@@ -31,7 +31,7 @@ const getCommunityFeedForYou = async (req, res) => {
 
         if (type === 'all' || type === 'plays') {
             recentPlays = await Play.paginate(
-                { game: { $in: userLibrary } },
+                { game: { $in: userLibrary }, user: { $ne: req.user._id } },
                 {
                     page,
                     limit,
@@ -48,7 +48,7 @@ const getCommunityFeedForYou = async (req, res) => {
 
         if (type === 'all' || type === 'library') {
             libraryItems = await Library.paginate(
-                { game: { $in: userLibrary } },
+                { game: { $in: userLibrary }, user: { $ne: req.user._id } },
                 {
                     page,
                     limit,

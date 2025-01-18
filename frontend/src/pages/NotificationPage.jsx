@@ -12,7 +12,7 @@ const NotificationItem = ({item}) => {
     const navigate = useNavigate();
 
     return (
-        <div className="flex gap-3 px-3 bg-secondary-hover border-radius pointer"
+        <div className="flex gap-3 px-3 bg-secondary-hover border-radius pointer border-radius-sm-none"
             onClick={() => {
                 if (item.link) {
                     navigate(item.link);
@@ -27,7 +27,7 @@ const NotificationItem = ({item}) => {
                     avatarColor={item.sender?.username?.length}
                 />
             </div>
-            <div className="flex justify-between gap-2 flex-1 border-bottom align-center">
+            <div className="flex justify-between gap-2 flex-1 border-bottom align-center border-secondary">
                 <div className="flex flex-col flex-1 py-4 flex-1">
                     <div className="fs-16">
                         <Link
@@ -98,7 +98,7 @@ const NotificationPage = () => {
         <>
             <main className="page-body flex-1">
                 <div className="animation-slide-in container flex flex-1">
-                    <div className="flex-1 px-4 px-sm-0">
+                    <div className="flex-1 px-4 px-sm-0 pb-4">
                         <div className="flex py-3 pt-sm-3 justify-between px-sm-3 pb-3 sticky-sm top-0 z-3 bg-main">
                             <div className="title-1 bold">
                                 Notifications

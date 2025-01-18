@@ -411,7 +411,7 @@ const Notifications = () => {
                         New followers
                     </div>
                     <Switch
-                        active={user?.notifications?.newFollowers}
+                        active={newFollowers}
                     />
                 </div>
                 <div className={`border border-radius p-3 align-center flex justify-between color-border-on-hover-text pointer gap-2 bg-tertiary-hover${loadingId ? ' opacity-50' : ''}`}

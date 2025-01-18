@@ -178,8 +178,8 @@ const getPlaysByUsername = async (req, res) => {
             limit: parseInt(limit) || 40,
             sort: { playDate: -1 },
             populate: {
-                path: 'user players.user game',
-                select: 'avatar username firstName lastName name thumbnail'
+                path: 'user players.user game image',
+                select: 'avatar username firstName lastName name thumbnail image'
             }
         };
 
@@ -218,8 +218,8 @@ const getPlaysByGame = async (req, res) => {
             limit: parseInt(limit) || 40,
             sort: { playDate: -1 },
             populate: {
-                path: 'user players.user',
-                select: 'avatar username firstName lastName'
+                path: 'user players.user image',
+                select: 'avatar username firstName lastName image'
             }
         };
 

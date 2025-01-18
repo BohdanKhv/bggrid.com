@@ -315,14 +315,14 @@ const getGameOverview = async (req, res) => {
 
         const last3Plays = await Play.find({
             game: game._id,
-            playTimeMinutes: { $gt: 0 },
+            // playTimeMinutes: { $gt: 0 },
             players: { $exists: true, $not: { $size: 0 } },
-            comment: { $exists: true }
+            // comment: { $exists: true }
         }).sort({ createdAt: -1 }).limit(3).populate('players.user user', 'username firstName lastName avatar');
         const last3Reviews = await Library.find({
             game: game._id,
             rating: { $gt: 0 },
-            comment: { $exists: true }
+            // comment: { $exists: true }
         }).sort({ createdAt: -1 }).limit(3).populate('user', 'username firstName lastName avatar');
 
         const images = []

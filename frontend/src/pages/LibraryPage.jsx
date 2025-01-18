@@ -5,7 +5,7 @@ import {Avatar, Button, ErrorInfo, HorizontalScroll, IconButton, InputSearch, Im
 import { Link, useNavigate, useSearchParams } from 'react-router-dom'
 import { closeIcon, editIcon, gamesIcon, linkIcon, diceIcon, searchIcon, starFillIcon, weightIcon, usersIcon, usersFillIcon, bellIcon, rightArrowIcon, moreIcon, upArrowRightIcon, listIcon, gridIcon, arrowUpShortIcon, arrowDownShortIcon, largePlusIcon, libraryIcon, shareIcon, uploadIcon, sendIcon, infoIcon, downloadIcon, pngIcon, trashIcon, startHalfFillIcon, starEmptyIcon } from '../assets/img/icons'
 import { tagsDetailedEnum, tagsEnum } from '../assets/constants'
-import { numberFormatter } from '../assets/utils'
+import { addCommaToNumber, numberFormatter } from '../assets/utils'
 import GameSearchModal from './game/GameSearchModal'
 import UpdateLogPlay from './game/UpdateLogPlay'
 import { DateTime } from 'luxon'
@@ -992,7 +992,7 @@ const LibraryPage = () => {
                                 Playtime:
                             </div>
                             <div className="fs-14 text-end weight-500 text-nowrap">
-                                {numberFormatter(library.reduce((acc, item) => acc + (item.totalPlayTime || 0), 0))} Min
+                                {addCommaToNumber(library.reduce((acc, item) => acc + (item.totalPlayTime || 0), 0))} Min
                             </div>
                         </div>
                         <div className="justify-between flex-shrink-0 flex gap-2 mx-4 py-4">

@@ -378,7 +378,7 @@ const GamePlayStats = () => {
                             Avg. Players
                         </span>
                         <div className="fs-14 bold flex align-center">
-                            {gameById?.playStats?.avgPlayers.toFixed(0) || '0'}
+                            {gameById?.playStats?.avgPlayers?.toFixed(0) || '0'}
                         </div>
                     </div>
                     <div className="flex-1 flex justify-between py-4 border-bottom align-center">
@@ -386,7 +386,7 @@ const GamePlayStats = () => {
                             Avg. Playtime
                         </span>
                         <div className="fs-14 bold flex align-center">
-                            {gameById?.playStats?.avgPlayTime.toFixed(0) || '0'} Min
+                            {gameById?.playStats?.avgPlayTime?.toFixed(0) || '0'} Min
                         </div>
                     </div>
                     <div className="flex-1 flex justify-between pt-4 align-center">
@@ -394,7 +394,7 @@ const GamePlayStats = () => {
                             Avg. Score
                         </span>
                         <div className="fs-14 bold flex align-center">
-                            {gameById?.playStats?.avgScore.toFixed(0) || '0'}
+                            {gameById?.playStats?.avgScore?.toFixed(0) || '0'}
                         </div>
                     </div>
                 </div>
@@ -1238,7 +1238,7 @@ const GameShortInfo = () => {
                 <div className="fs-14 bold flex align-center">
                     {gameById.complexityWeight ?
                     <>
-                    {gameById.complexityWeight?.toFixed(1)}<span className="weight-500 text-secondary">/5</span>
+                    {gameById?.complexityWeight?.toFixed(1)}<span className="weight-500 text-secondary">/5</span>
                     </>
                     : '--'}
                 </div>

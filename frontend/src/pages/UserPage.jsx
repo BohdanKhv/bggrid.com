@@ -221,11 +221,12 @@ const UserPage = () => {
         window.scrollTo(0, 0)
 
         const promise = dispatch(getUserProfile(username))
+
         return () => {
             promise.abort()
             dispatch(resetPlay())
         }
-    }, [username])
+    }, [])
 
     const observer = useRef();
     const lastElementRef = useCallback(node => {

@@ -774,7 +774,8 @@ const UserPage = () => {
             </div>
         : !userById && !isLoading && isError &&
         <div className="flex-1 flex justify-center align-center">
-            <ErrorInfo label="Oops, looks like something went wrong" info={msg} />
+            <ErrorInfo label={`Oops, looks like something went wrong while fetching ${username}'s profile`}
+            info={msg} />
         </div>}
         </HelmetProvider>
     )

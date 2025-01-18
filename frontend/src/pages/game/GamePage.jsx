@@ -230,6 +230,17 @@ const PlayItem = ({ item }) => {
                             {item.comment}
                         </div>
                     : null}
+                    {item.image ?
+                        <div className="pt-3">
+                            <Image
+                                img={item?.image?.image}
+                                classNameImg="border-radius"
+                                bigDisplay
+                                classNameContainer="border border-radius h-max-350-px h-min-200-px h-100"
+                            />
+                        </div>
+                    : null}
+                    { item.players.length > 0 ?
                     <div className="flex flex flex-col border border-radius overflow-hidden mt-3">
                         <div className="fs-12 bold py-1 text-center border-bottom bg-secondary">
                             Players
@@ -275,6 +286,7 @@ const PlayItem = ({ item }) => {
                             </div>
                         ))}
                     </div>
+                    : null}
                 </div>
             </div>
         </div>

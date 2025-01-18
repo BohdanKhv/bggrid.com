@@ -42,6 +42,11 @@ const ErrorInfo = ({icon, btnIcon, size, label, secondary, tertiary, onClick, bt
                 {label}
             </p>
             )}
+            {info && (
+                <p className="fs-12 text-center weight-400 pt-2 bg-danger border-radius-sm bold px-2 py-1 mt-2 text-danger w-max-400-px text-ellipsis-1">
+                    {info}
+                </p>
+            )}
             {secondary && (
                 <p className="fs-12 text-center text-secondary mt-1 w-max-400-px">
                     {secondary}

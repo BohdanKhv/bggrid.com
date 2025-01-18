@@ -41,6 +41,7 @@ const getUserProfile = async (req, res) => {
         });
     } catch (error) {
         res.status(404);
+        console.log(error);
         return res.json({ msg: error.message });
     }
 };

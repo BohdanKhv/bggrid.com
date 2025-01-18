@@ -8,20 +8,25 @@ const UserGuard = ({children}) => {
     const dispatch = useDispatch()
     const { isLoading, user } = useSelector(state => state.auth)
 
-
     useEffect(() => {
         const promise = dispatch(getMe())
-        let notificationPromise;
+
+        return () => {
+            promise && promise.abort()
+        }
+    }, [])
+
+    useEffect(() => {
+        let promise;
 
         if (user) {
-            notificationPromise = dispatch(getMyNotification())
+            promise = dispatch(getMyNotification())
         }
 
         return () => {
             promise && promise.abort()
-            notificationPromise && notificationPromise.abort()
         }
-    }, [])
+    }, [user])
 
     return (
         isLoading ?

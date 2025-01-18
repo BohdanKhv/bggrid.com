@@ -10,14 +10,13 @@ const getMyNotification = async (req, res) => {
         limit = parseInt(limit) || 10;
         page = parseInt(page) || 1;
 
-        const notifications = await Notification.find({ receiver: req.user._id })
-        .limit(limit)
-        .skip(limit * (page - 1))
-        .sort({ createdAt: -1 })
-        .populate('sender', 'username avatar firstName lastName')
+        const notifications = await Notification
+        .paginate({ receiver: req.user._id }, { limit, page, sort: { createdAt: -1 }, populate: 'sender', select: '-receiver' });
 
         return res.status(200).json({
-            data: notifications
+            data: notifications.docs,
+            currentPage: notifications.page,
+            totalPages: notifications.totalPages,
         });
     } catch (error) {
         return res.status(500).json({

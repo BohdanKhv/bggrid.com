@@ -1,11 +1,11 @@
-import React, { useEffect, useState } from 'react'
+import React, { useCallback, useEffect, useRef, useState } from 'react'
 import { Avatar, Button, ErrorInfo, HorizontalScroll, Icon, IconButton } from '../components'
 import { useSelector, useDispatch } from 'react-redux';
 import { Link, useNavigate } from 'react-router-dom';
 import { DateTime } from 'luxon';
 import PlayItem from './PlayItem';
 import { bellIcon, rightArrowIcon, settingsIcon } from '../assets/img/icons';
-import { readNotifications } from '../features/notification/notificationSlice';
+import { getMyNotification, readNotifications } from '../features/notification/notificationSlice';
 
 
 const NotificationItem = ({item}) => {
@@ -61,7 +61,7 @@ const NotificationPage = () => {
     const { user } = useSelector(state => state.auth);
     const [type, setType] = useState('All');
 
-    const { notifications } = useSelector(state => state.notification);
+    const { notifications, hasMore, isLoading, isError } = useSelector(state => state.notification);
 
     useEffect(() => {
         window.scrollTo(0, 0);
@@ -70,6 +70,23 @@ const NotificationPage = () => {
         dispatch(readNotifications());
     }, []);
 
+
+    const observer = useRef();
+    const lastElementRef = useCallback(node => {
+        if (isLoading) return;
+        if (observer.current) observer.current.disconnect();
+        observer.current = new IntersectionObserver(entries => {
+            if (entries[0].isIntersecting && hasMore && !isError) {
+                const promise = dispatch( getMyNotification())
+        
+                return () => {
+                    promise && promise.abort();
+                    observer.current && observer.current.disconnect();
+                }
+            }
+        });
+        if (node) observer.current.observe(node);
+    }, [isLoading, hasMore, isError]);
 
     return (
         <>
@@ -105,23 +122,29 @@ const NotificationPage = () => {
                                 </div>
                             )}
                         </div>
-                        {notifications.length === 0 ?
-                        <div>
-                            <ErrorInfo
-                                secondary="You have no new notifications."
-                            />
+                        {
+                        !isLoading &&
+                        notifications.length === 0 ?
+                            <div>
+                                <ErrorInfo
+                                    secondary="You have no new notifications."
+                                />
                             </div>
                         :
                         <div>
                             {notifications.map((notification, index) => (
                                 <div
                                     key={notification._id}
+                                    ref={notifications.length === index + 1 ? lastElementRef : null}
                                 >
                                     <NotificationItem item={notification}/>
                                 </div>
                             ))}
                         </div>
                         }
+                        {isLoading && (
+                            <ErrorInfo isLoading/>
+                        )}
                     </div>
                 </div>
             </main>

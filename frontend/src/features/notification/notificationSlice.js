@@ -7,6 +7,7 @@ const initialState = {
     isLoading: false,
     page: 1,
     limit: 20,
+    hasMore: true,
 };
 
 export const getMyNotification = createAsyncThunk(
@@ -66,6 +67,9 @@ export const notificationSlice = createSlice({
         builder.addCase(getMyNotification.fulfilled, (state, action) => {
             state.isLoading = false;
             state.notifications.push(...action.payload.data);
+            state.page += 1;
+            console.log(action.payload.totalPages, action.payload.currentPage);
+            state.hasMore = action.payload.totalPages > action.payload.currentPage;
         })
         builder.addCase(getMyNotification.rejected, (state, action) => {
             state.isLoading = false;

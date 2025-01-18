@@ -1,4 +1,5 @@
 const mongoose = require('mongoose');
+const mongoosePaginate = require('mongoose-paginate-v2');
 
 const typesEnum = ['library', 'follow', 'play', 'system'];
 
@@ -41,5 +42,7 @@ const notificationSchema = new mongoose.Schema({
     },
 }, { timestamps: true });
 
+
+notificationSchema.plugin(mongoosePaginate);
 
 module.exports = mongoose.model('Notification', notificationSchema);

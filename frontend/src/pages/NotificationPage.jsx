@@ -72,6 +72,7 @@ const NotificationPage = () => {
 
         return () => {
             promise && promise.abort();
+            dispatch(resetNotifications());
         }
     }, []);
 
@@ -86,7 +87,6 @@ const NotificationPage = () => {
         
                 return () => {
                     promise && promise.abort();
-                    dispatch(resetNotifications());
                     observer.current && observer.current.disconnect();
                 }
             }
@@ -133,7 +133,7 @@ const NotificationPage = () => {
                         notifications.length === 0 ?
                             <div>
                                 <ErrorInfo
-                                    secondary="You have no new notifications."
+                                    secondary="You have no notifications."
                                 />
                             </div>
                         :

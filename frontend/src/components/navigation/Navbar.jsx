@@ -249,7 +249,6 @@ const Navbar = () => {
                             </div>
                             <div className={`fs-12 text-secondary weight-500 mt-2${serverVersion && serverVersion !== pJson.version ? " pointer text-underlined-hover" : ""}`}
                                 onClick={() => {
-                                    if (serverVersion && serverVersion !== pJson.version) {
                                         // Clear cached files
                                         caches.keys().then(function(names) {
                                             console.log(names)
@@ -266,7 +265,7 @@ const Navbar = () => {
                                                 })
                                             }
                                         });
-                                    }}
+                                    }
                                 }
                             >
                                 <span className={`${serverVersion && serverVersion !== pJson.version ? " text-warning" : ""}`}>{serverVersion && pJson.version !== serverVersion ? `${serverVersion} - click to update` : `${pJson.version}`}</span>

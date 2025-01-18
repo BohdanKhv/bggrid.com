@@ -33,7 +33,7 @@ const getCommunityFeedForYou = async (req, res) => {
             recentPlays = await Play.paginate(
                 { game: { $in: userLibrary }, user: { $ne: req.user._id } },
                 {
-                    sort: { createdAt: -1 },
+                    sort: { createdAt: -1, updatedAt: -1 },
                     page,
                     limit,
                     populate: [
@@ -50,7 +50,7 @@ const getCommunityFeedForYou = async (req, res) => {
             libraryItems = await Library.paginate(
                 { game: { $in: userLibrary }, user: { $ne: req.user._id } },
                 {
-                    sort: { createdAt: -1 },
+                    sort: { createdAt: -1, updatedAt: -1 },
                     page,
                     limit,
                     populate: [
@@ -80,6 +80,7 @@ const getCommunityFeedForYou = async (req, res) => {
 
         // Sort feed items by updatedAt
         feedItems.sort((a, b) => b.item.createdAt - a.item.createdAt);
+        console.log(feedItems)
 
         // Determine if there are more items to fetch
         const hasMore = (recentPlays.hasNextPage || libraryItems.hasNextPage);

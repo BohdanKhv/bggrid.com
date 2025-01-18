@@ -220,7 +220,11 @@ const UserPage = () => {
     useEffect(() => {
         window.scrollTo(0, 0)
 
-        const promise = dispatch(getUserProfile(username))
+        let promise;
+
+        if (username) {
+            promise = dispatch(getUserProfile(username))
+        }
 
         return () => {
             promise && promise.abort()
@@ -773,7 +777,7 @@ const UserPage = () => {
             </div>
         : !userById && !isLoading && isError &&
         <div className="flex-1 flex justify-center align-center">
-            <ErrorInfo label={`Oops, looks like something went wrong while fetching ${username}'s profile`}
+            <ErrorInfo label={`Oops, looks like something went wrong`}
             info={msg} />
         </div>}
         </HelmetProvider>

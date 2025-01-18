@@ -168,7 +168,6 @@ const Navbar = () => {
                         }}
                         to="/"
                         type="secondary"
-                        className="w-100"
                         variant="text"
                         // muted
                     />

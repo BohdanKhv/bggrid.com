@@ -7,10 +7,10 @@ const userSchema = new mongoose.Schema({
         required: true,
         unique: true,
         trim: true,
-        match: [
-            /^[a-zA-Z0-9]+$/,
-            'Please add a valid username'
-        ],
+        // match: [
+        //     /^[a-zA-Z0-9]+$/,
+        //     'Please add a valid username'
+        // ],
     },
     email: { 
         type: String,

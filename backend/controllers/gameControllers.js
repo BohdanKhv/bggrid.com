@@ -318,7 +318,7 @@ const getGameOverview = async (req, res) => {
             // playTimeMinutes: { $gt: 0 },
             players: { $exists: true, $not: { $size: 0 } },
             // comment: { $exists: true }
-        }).sort({ createdAt: -1 }).limit(3).populate('players.user user', 'username firstName lastName avatar');
+        }).sort({ createdAt: -1 }).limit(3).populate('players.user user image', 'username firstName lastName avatar image');
         const last3Reviews = await Library.find({
             game: game._id,
             rating: { $gt: 0 },

@@ -33,9 +33,9 @@ const getCommunityFeedForYou = async (req, res) => {
             recentPlays = await Play.paginate(
                 { game: { $in: userLibrary }, user: { $ne: req.user._id } },
                 {
+                    sort: { createdAt: -1 },
                     page,
                     limit,
-                    sort: { createdAt: -1 },
                     populate: [
                         { path: 'game', select: 'name thumbnail' },
                         { path: 'players.user', select: 'avatar username firstName lastName' },
@@ -50,9 +50,9 @@ const getCommunityFeedForYou = async (req, res) => {
             libraryItems = await Library.paginate(
                 { game: { $in: userLibrary }, user: { $ne: req.user._id } },
                 {
+                    sort: { createdAt: -1 },
                     page,
                     limit,
-                    sort: { createdAt: -1 },
                     populate: [
                         { path: 'game', select: 'name thumbnail' },
                         { path: 'user', select: 'avatar username firstName lastName' }
@@ -79,7 +79,7 @@ const getCommunityFeedForYou = async (req, res) => {
         }
 
         // Sort feed items by updatedAt
-        feedItems.sort((a, b) => (b.item.createdAt ) - (a.item.createdAt ));
+        feedItems.sort((a, b) => b.item.createdAt - a.item.createdAt);
 
         // Determine if there are more items to fetch
         const hasMore = (recentPlays.hasNextPage || libraryItems.hasNextPage);
@@ -122,9 +122,9 @@ const getCommunityFeed = async (req, res) => {
             followingRecentPlays = await Play.paginate(
                 { user: { $in: following } },
                 {
+                    sort: { createdAt: -1 },
                     page,
                     limit,
-                    sort: { createdAt: -1 },
                     populate: [
                         { path: 'game', select: 'name thumbnail' },
                         { path: 'players.user', select: 'avatar username firstName lastName' },
@@ -139,9 +139,9 @@ const getCommunityFeed = async (req, res) => {
             followingLibraryItems = await Library.paginate(
                 { user: { $in: following } },
                 {
+                    sort: { createdAt: -1 },
                     page,
                     limit,
-                    sort: { createdAt: -1 },
                     populate: [
                         { path: 'game', select: 'name thumbnail' },
                         { path: 'user', select: 'avatar username firstName lastName' }

@@ -69,7 +69,7 @@ export const notificationSlice = createSlice({
         })
         builder.addCase(getMyNotification.fulfilled, (state, action) => {
             state.isLoading = false;
-            state.notifications.push(...action.payload.data);
+            state.notifications = [...state.notifications, ...action.payload.data];
             state.page += 1;
             state.hasMore = action.payload.totalPages > action.payload.currentPage;
         })

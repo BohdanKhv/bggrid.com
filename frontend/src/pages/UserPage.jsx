@@ -224,7 +224,7 @@ const UserPage = () => {
 
         return () => {
             promise.abort()
-            dispatch(resetPlay())
+            // dispatch(resetPlay())
         }
     }, [])
 

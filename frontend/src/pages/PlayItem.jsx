@@ -192,7 +192,7 @@ const PlayItem = ({ item, showOptions }) => {
 
     return (
         <>
-        {isDownloading ? <DownloadItem item={item} setIsDownloading={setIsDownloading} /> : null}
+        {/* {isDownloading ? <DownloadItem item={item} setIsDownloading={setIsDownloading} /> : null} */}
         <div className={`px-sm-3 bg-main border-bottom show-on-hover-parent border-secondary transition-duration display-on-hover-parent`}>
             <div className="flex gap-3 pt-3 pt-sm-3 pb-2">
                 <Avatar
@@ -278,7 +278,7 @@ const PlayItem = ({ item, showOptions }) => {
                                         dispatch(deletePlay(item._id))
                                     }}
                                 />
-                                <Button
+                                {/* <Button
                                     smSize="xl"
                                     size="lg"
                                     borderRadius="none"
@@ -292,7 +292,7 @@ const PlayItem = ({ item, showOptions }) => {
                                     onClick={() => {
                                         setIsDownloading(true)
                                     }}
-                                />
+                                /> */}
                                 <Button
                                     smSize="xl"
                                     size="lg"
@@ -326,10 +326,11 @@ const PlayItem = ({ item, showOptions }) => {
                                 img={item?.image?.image}
                                 classNameImg="border-radius"
                                 bigDisplay
-                                classNameContainer="border h-set-200-px border-radius"
+                                classNameContainer="border border-radius h-max-350-px h-min-200-px h-100"
                             />
                         </div>
                     : null}
+                    {item.players.length ?
                     <div className="flex flex flex-col border border-radius overflow-hidden mt-3">
                         <Link className="fs-12 bold py-1 text-center border-bottom bg-secondary"
                             to={`/u/${item.user.username}/plays/${item._id}`}
@@ -377,6 +378,7 @@ const PlayItem = ({ item, showOptions }) => {
                             </div>
                         ))}
                     </div>
+                    : null}
                     <div className="flex justify-between pt-1 align-center">
                         <span className="weight-400 text-secondary fs-12 text-wrap-nowrap">
                             {DateTime.fromISO(item.createdAt).toFormat('HH:mm a')} · {DateTime.fromISO(item.createdAt).toFormat('dd LLL, yy')}
@@ -385,14 +387,14 @@ const PlayItem = ({ item, showOptions }) => {
                             icon={shareIcon}
                             size="xs"
                             dataTooltipContent="Share"
-                            isLoading={isDownloading}
+                            // isLoading={isDownloading}
                             muted
                             type="secondary"
                             variant="text"
                             onClick={() => {
                                 navigator.share({
-                                    title: "Check out my play on BGGRID",
-                                    text: item.comment || `I played ${item.game.name} for ${item.playTimeMinutes} min`,
+                                    title: "Check out this play on BGGRID",
+                                    text: item.comment || `${item.user.username} played ${item.game.name} for ${item.playTimeMinutes || 0} min`,
                                     url: `${window.location.origin}/u/${item.user.username}/plays/${item._id}`,
                                 })
                             }}

@@ -125,6 +125,11 @@ const getMyPlays = async (req, res) => {
         } else {
             console.log('tagged');
             q.user = { $ne: req.user._id }
+            q.players = {
+                $elemMatch: {
+                    user: req.user._id
+                }
+            }
         }
 
         const options = {

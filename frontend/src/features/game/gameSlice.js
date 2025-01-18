@@ -366,6 +366,7 @@ const gameSlice = createSlice({
         builder.addCase(getGameOverview.pending, (state) => {
             state.isLoading = true;
             state.msg = '';
+            state.gameById = null;
         });
         builder.addCase(getGameOverview.fulfilled, (state, action) => {
             state.isLoading = false;

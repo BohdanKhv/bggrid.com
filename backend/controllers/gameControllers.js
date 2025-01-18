@@ -260,9 +260,33 @@ const getGameOverview = async (req, res) => {
                     _id: null,
                     totalPlays: { $sum: 1 },
                     avgPlayTime: { $avg: '$playTimeMinutes' },
-                    avgPlayers: { $avg: { $size: '$players' } },
+                    avgPlayers: {
+                        $avg: {
+                            $cond: {
+                                if: { $gt: [{ $size: { $ifNull: ['$players', []] } }, 0] },
+                                then: { $size: '$players' },
+                                else: 0
+                            }
+                        }
+                    },
                     // avgWinRate: { $avg: { $cond: { if: { $arrayElemAt: ['$players.winner', 0] }, then: 1, else: 0 } } },
-                    avgScore: { $avg: { $avg: '$players.score' } }
+                    avgScore: {
+                        $avg: {
+                            $cond: {
+                                if: { $gt: [{ $size: { $ifNull: ['$players', []] } }, 0] },
+                                then: {
+                                    $avg: {
+                                        $filter: {
+                                            input: '$players',
+                                            as: 'player',
+                                            cond: { $ne: ['$$player.score', null] }
+                                        }
+                                    }
+                                },
+                                else: 0
+                            }
+                        }
+                    }
                 }
             }
         ]);
@@ -290,13 +314,13 @@ const getGameOverview = async (req, res) => {
         ]);
 
         const last3Plays = await Play.find({
-            game: req.params.gameId,
+            game: game._id,
             playTimeMinutes: { $gt: 0 },
             players: { $exists: true, $not: { $size: 0 } },
             comment: { $exists: true }
         }).sort({ createdAt: -1 }).limit(3).populate('players.user user', 'username firstName lastName avatar');
         const last3Reviews = await Library.find({
-            game: req.params.gameId,
+            game: game._id,
             rating: { $gt: 0 },
             comment: { $exists: true }
         }).sort({ createdAt: -1 }).limit(3).populate('user', 'username firstName lastName avatar');

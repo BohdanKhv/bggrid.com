@@ -9,7 +9,7 @@ const {
 
 router
     .get('/search', protect, searchUsers)
-    .get('/:username', loggedIn, getUserProfile)
+    .get('/profile/:username', loggedIn, getUserProfile)
 
 
 module.exports = router;

@@ -10,7 +10,7 @@ export const getUserProfile = async (payload, token) => {
         }
     }
 
-    const response = await axios.get(API_URL+`/${payload || ""}`, config);
+    const response = await axios.get(API_URL+`/profile/${payload || ""}`, config);
 
     return response.data;
 }

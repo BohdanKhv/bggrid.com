@@ -988,7 +988,7 @@ const Overview = () => {
                                     ((item, index, arr) => (
                                         <div key={index}>
                                             <Link 
-                                                to={`/peron/${item._id}`}
+                                                to={`/person/${item._id}`}
                                                 className="fs-14 text-underlined-hover weight-500">
                                                 {item.name}
                                             </Link>

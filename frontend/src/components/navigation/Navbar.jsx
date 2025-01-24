@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { Link, NavLink, useLocation, useSearchParams } from 'react-router-dom'
-import { bellIcon, gamesIcon, homeIcon, largePlusIcon, libraryIcon, loginIcon, logoutIcon, diceIcon, searchIcon, settingsIcon, usersIcon, discoverIcon, linkIcon, homeFillIcon, libraryFillIcon, discoverFillIcon, diceFillIcon, bellFillIcon, usersFillIcon, settingsFillIcon, searchFillIcon } from '../../assets/img/icons'
+import { bellIcon, gamesIcon, homeIcon, largePlusIcon, libraryIcon, loginIcon, logoutIcon, diceIcon, searchIcon, settingsIcon, usersIcon, discoverIcon, linkIcon, homeFillIcon, libraryFillIcon, discoverFillIcon, diceFillIcon, bellFillIcon, usersFillIcon, settingsFillIcon, searchFillIcon, githubIcon } from '../../assets/img/icons'
 import "./styles/Navbar.css"
 import { logoNameSvg, logoSvg } from '../../assets/img/logo'
 import Icon from '../ui/Icon'
@@ -193,28 +193,46 @@ const Navbar = () => {
                 </div>
                 <div className="navbar-footer">
                     <div className="flex flex-col px-4 gap-2">
-                            <div className="fs-14 border border-radius px-3 py-2 weight-500 color-border-on-hover-text pointer transition-duration flex align-center justify-between"
-                                onClick={() => window.open("https://donate.stripe.com/28o5lK099gqzcwgaEE", "_blank")}>
-                                <span>
-                                    🧡 Support Us
-                                </span>
+                        <Link className="fs-14 border border-radius px-3 py-2 weight-500 color-border-on-hover-text pointer transition-duration flex align-center justify-between"
+                            to={"https://github.com/BohdanKhv/bggrid.com"}
+                            target="_blank"
+                        >
+                            <span className="flex align-center gap-2">
                                 <Icon
-                                    icon={linkIcon}
+                                    icon={githubIcon}
                                     size="sm"
                                 />
-                            </div>
-                        <div className="pb-2">
-                            <div className="fs-14 border border-radius px-3 py-2 weight-500 color-border-on-hover-text pointer transition-duration flex align-center justify-between"
-                                onClick={() => window.open("mailto:contact@bggrid.com", "_blank")}>
-                                <span>
-                                    contact@bggrid.com
-                                </span>
-                                <Icon
-                                    icon={linkIcon}
-                                    size="sm"
-                                />
-                            </div>
-                        </div>
+                                Open source
+                            </span>
+                            <Icon
+                                icon={linkIcon}
+                                size="sm"
+                            />
+                        </Link>
+                        <Link className="fs-14 border border-radius px-3 py-2 weight-500 color-border-on-hover-text pointer transition-duration flex align-center justify-between"
+                            to={"https://donate.stripe.com/28o5lK099gqzcwgaEE"}
+                            target="_blank"
+                            >
+                            <span>
+                                🧡 Support us
+                            </span>
+                            <Icon
+                                icon={linkIcon}
+                                size="sm"
+                            />
+                        </Link>
+                        <Link className="fs-14 border border-radius px-3 py-2 weight-500 color-border-on-hover-text pointer transition-duration flex align-center justify-between"
+                            to={"mailto:contact@bggrid.com"}
+                            target="_blank"
+                        >
+                            <span>
+                                contact@bggrid.com
+                            </span>
+                            <Icon
+                                icon={linkIcon}
+                                size="sm"
+                            />
+                        </Link>
                     </div>
                     <div className="flex gap-2 p-4 flex-col">
                         <div className="flex gap-3 align-center">

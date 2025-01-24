@@ -1,7 +1,7 @@
 import { SitemapStream, streamToPromise } from 'sitemap';
 import { createWriteStream } from 'fs';
 
-const hostname = 'https://increw.cafe';
+const hostname = 'https://bggrid.com';
 
 const urls = [
     { url: '/', changefreq: 'daily', priority: 1 },

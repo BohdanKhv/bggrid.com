@@ -203,14 +203,14 @@ const getHomeFeed = async (req, res) => {
                     totalPlays: { $sum: 1 },
                     totalPlayTime: { $sum: '$playTimeMinutes' },
                     avgPlayTime: { $avg: '$playTimeMinutes' },
-                    avgPlayers: { $avg: { $size: '$players' } },
+                    avgPlayers: { $avg: { $ifNull: [ { $size: '$players' }, 0 ] } },
                     uniqueGamesPlayed: { $addToSet: '$game' },
                     uniquePlayersPlayed: { $addToSet: '$players.user' },
                     totalWins: { 
                         $sum: { 
                             $size: { 
                                 $filter: { 
-                                    input: '$players', 
+                                    input: { $ifNull: ['$players', []] }, 
                                     as: 'player', 
                                     cond: { 
                                         $and: [

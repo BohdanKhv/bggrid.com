@@ -62,7 +62,7 @@ if(process.env.NODE_ENV === 'production') {
 // run on http://192.168.1.101:5000
 
 // Server
-// app.listen(port, '192.168.1.101', () => {
-app.listen(port, () => {
+app.listen(port, '192.168.1.99', () => {
+// app.listen(port, () => {
     console.log(`Server running on port ${port}`);
 });

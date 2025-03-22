@@ -57,6 +57,10 @@ const updatePlay = async (req, res) => {
         play.playTimeMinutes = Number(playTimeMinutes || 0);
         play.players = players;
 
+        if (play.players.length === 0) {
+            return res.status(400).json({ msg: 'Please add players' });
+        }
+
         await play.save();
 
         // Update library
@@ -265,6 +269,10 @@ const createPlay = async (req, res) => {
             players,
             playDate,
             user: req.user._id
+        }
+
+        if (players.length === 0) {
+            return res.status(400).json({ msg: 'Please add players' });
         }
 
         if (req.file) {
